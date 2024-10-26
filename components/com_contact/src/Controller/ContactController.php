@@ -171,10 +171,21 @@ class ContactController extends FormController
         // Validation succeeded, continue with custom handlers
         $results = $this->app->triggerEvent('onValidateContact', [&$contact, &$data]);
 
+        $passValidation = true;
+
         foreach ($results as $result) {
             if ($result instanceof \Exception) {
-                return false;
+                $passValidation = false;
+                $app->enqueueMessage($result->getMessage(), 'error');
             }
+        }
+
+        if (!$passValidation) {
+            $app->setUserState('com_contact.contact.data', $data);
+
+            $this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $id . '&catid=' . $contact->catid, false));
+
+            return false;
         }
 
         // Passed Validation: Process the contact plugins to integrate with other applications
@@ -260,6 +271,7 @@ class ContactController extends FormController
             $mailer->addRecipient($contact->email_to);
             $mailer->setReplyTo($templateData['email'], $templateData['name']);
             $mailer->addTemplateData($templateData);
+            $mailer->addUnsafeTags(['name', 'email', 'body']);
             $sent = $mailer->send();
 
             // If we are supposed to copy the sender, do so.
@@ -268,6 +280,7 @@ class ContactController extends FormController
                 $mailer->addRecipient($templateData['email']);
                 $mailer->setReplyTo($templateData['email'], $templateData['name']);
                 $mailer->addTemplateData($templateData);
+                $mailer->addUnsafeTags(['name', 'email', 'body']);
                 $sent = $mailer->send();
             }
         } catch (MailDisabledException | phpMailerException $exception) {

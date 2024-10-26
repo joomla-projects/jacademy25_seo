@@ -68,7 +68,7 @@ class SiteRouter extends Router
         $this->menu = $menu ?: $this->app->getMenu();
 
         // Add core rules
-        if ($this->app->get('force_ssl') === 2) {
+        if ((int) $this->app->get('force_ssl') === 2) {
             $this->attachParseRule([$this, 'parseCheckSSL'], self::PROCESS_BEFORE);
         }
 
@@ -481,10 +481,11 @@ class SiteRouter extends Router
     {
         $limitstart = $uri->getVar('limitstart');
 
-        if ($limitstart !== null) {
-            $uri->setVar('start', (int) $uri->getVar('limitstart'));
-            $uri->delVar('limitstart');
+        if ($limitstart !== null && $limitstart !== '') {
+            $uri->setVar('start', (int) $limitstart);
         }
+
+        $uri->delVar('limitstart');
     }
 
     /**

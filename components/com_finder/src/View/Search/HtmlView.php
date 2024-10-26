@@ -153,6 +153,32 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         // Flag indicates to not add limitstart=0 to URL
         $this->pagination->hideEmptyLimitstart = true;
 
+        $input = $app->getInput()->get;
+
+        // Add additional parameters
+        $queryParameterList = [
+            'f'  => 'int',
+            't'  => 'array',
+            'q'  => 'string',
+            'l'  => 'cmd',
+            'd1' => 'string',
+            'd2' => 'string',
+            'w1' => 'string',
+            'w2' => 'string',
+            'o'  => 'word',
+            'od' => 'word',
+        ];
+
+        foreach ($queryParameterList as $parameter => $filter) {
+            $value = $input->get($parameter, null, $filter);
+
+            if (is_null($value)) {
+                continue;
+            }
+
+            $this->pagination->setAdditionalUrlParam($parameter, $value);
+        }
+
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
@@ -295,13 +321,13 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         // Configure the document meta-description.
         if (!empty($this->explained)) {
             $explained = $this->escape(html_entity_decode(strip_tags($this->explained), ENT_QUOTES, 'UTF-8'));
-            $this->document->setDescription($explained);
+            $this->getDocument()->setDescription($explained);
         } elseif ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
 
         // Check for OpenSearch
@@ -310,7 +336,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
                 'opensearch_name',
                 Text::_('COM_FINDER_OPENSEARCH_NAME') . ' ' . $app->get('sitename')
             );
-            $this->document->addHeadLink(
+            $this->getDocument()->addHeadLink(
                 Uri::getInstance()->toString(['scheme', 'host', 'port']) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
                 'search',
                 'rel',
@@ -321,14 +347,14 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         // Add feed link to the document head.
         if ($this->params->get('show_feed_link', 1) == 1) {
             // Add the RSS link.
-            $props = ['type' => 'application/rss+xml', 'title' => htmlspecialchars($this->document->getTitle())];
+            $props = ['type' => 'application/rss+xml', 'title' => htmlspecialchars($this->getDocument()->getTitle())];
             $route = Route::_($this->query->toUri() . '&format=feed&type=rss');
-            $this->document->addHeadLink($route, 'alternate', 'rel', $props);
+            $this->getDocument()->addHeadLink($route, 'alternate', 'rel', $props);
 
             // Add the ATOM link.
-            $props = ['type' => 'application/atom+xml', 'title' => htmlspecialchars($this->document->getTitle())];
+            $props = ['type' => 'application/atom+xml', 'title' => htmlspecialchars($this->getDocument()->getTitle())];
             $route = Route::_($this->query->toUri() . '&format=feed&type=atom');
-            $this->document->addHeadLink($route, 'alternate', 'rel', $props);
+            $this->getDocument()->addHeadLink($route, 'alternate', 'rel', $props);
         }
     }
 }

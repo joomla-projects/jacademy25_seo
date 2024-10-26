@@ -3,13 +3,13 @@ Joomla! CMS™
 1- Overview
 	* This is a Joomla! 4.x installation/upgrade package.
 	* Joomla! Official site: https://www.joomla.org
-	* Joomla! 4.3 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_4.3_version_history
-	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/4.2-dev
+	* Joomla! 4.4 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_4.4_version_history
+	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/4.4-dev
 
 2- What is Joomla?
 	* Joomla! is a Content Management System (CMS) which enables you to build websites and powerful online applications.
 	* It's a free and Open Source software, distributed under the GNU General Public License version 2 or later.
-	* This is a simple and powerful web server application and it requires a server with PHP and either MySQL, PostgreSQL or SQL Server to run.
+	* This is a simple and powerful web server application and it requires a server with PHP and either MySQL or PostgreSQL to run.
 	You can find full technical requirements here: https://downloads.joomla.org/technical-requirements.
 
 3- Is Joomla! for you?

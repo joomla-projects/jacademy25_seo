@@ -201,7 +201,7 @@ $assoc = Associations::isEnabled();
                                     'title' => Text::_($item->stage_title),
                                     'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
                                     'id' => 'workflow-' . $item->id,
-                                    'task' => 'articles.runTransitions'
+                                    'task' => 'articles.runTransition'
                                     ];
 
                                     echo (new TransitionButton($options))
@@ -265,7 +265,7 @@ $assoc = Associations::isEnabled();
                                                     echo ' &#187; ';
                                                 endif;
                                             endif;
-                                            if (Factory::getLanguage()->isRtl()) {
+                                            if ($this->getLanguage()->isRtl()) {
                                                 if ($canEditCat || $canEditOwnCat) :
                                                     echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
                                                 endif;
