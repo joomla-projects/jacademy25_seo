@@ -97,7 +97,7 @@ document.getElementById('reference-association').addEventListener('load', ({ tar
   content.querySelector('#jform_language').setAttribute('disabled', 'disabled');
 
   // Remove modal buttons on the reference
-  content.querySelector('#associations .btn').remove();
+  content.querySelector('#associations .btn')?.remove();
 
   document.querySelectorAll('#jform_itemlanguage option').forEach((option) => {
     const parse = option.value.split(':');
@@ -143,7 +143,7 @@ document.getElementById('target-association').addEventListener('load', ({ target
     // content.querySelector('#associations .btn').forEach(btn => btn.remove());
 
     // Always show General tab first if associations tab is selected on the reference
-    if (content.querySelector('#associations').classList.contains('active')) {
+    if (content.querySelector('#associations')?.classList.contains('active')) {
       content.querySelector('a[href="#associations"]').parentNode.classList.remove('active');
       content.querySelector('#associations').classList.remove('active');
 
@@ -221,8 +221,10 @@ document.getElementById('target-association').addEventListener('load', ({ target
 
     // - For chosen association selectors (menus).
     let chosenField = content.querySelector(`#jform_associations_${referenceLanguageCode}`);
-    chosenField.appendChild(createOption(referenceId, referenceTitle));
-    chosenField.value = referenceId;
+    if (chosenField) {
+      chosenField.appendChild(createOption(referenceId, referenceTitle));
+      chosenField.value = referenceId;
+    }
 
     document.querySelectorAll('#jform_itemlanguage option').forEach((option) => {
       const parse = option.value.split(':');
