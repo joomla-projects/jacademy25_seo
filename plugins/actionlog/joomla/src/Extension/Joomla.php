@@ -531,11 +531,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
         $table   = $event->getItem();
         $isNew   = $event->getIsNew();
 
-        $option = $this->getApplication()->getInput()->getCmd('option');
-
-        if ($this->getApplication()->isClient('site') && ($table->module != null)) {
-            $option = 'com_modules';
-        }
+        $option = explode('.', $context)[0];
 
         if (!$this->checkLoggable($option)) {
             return;
