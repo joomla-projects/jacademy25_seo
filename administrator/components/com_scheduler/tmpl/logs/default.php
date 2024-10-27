@@ -79,10 +79,10 @@ $canChange = $user->authorise('core.edit.state', 'com_scheduler');
                         <tbody>
                             <?php foreach ($this->items as $i => $item) : ?>
                                 <tr class="row<?php echo $i % 2; ?>">
-                                    <td class="w1 text-center">
+                                    <td class="text-center">
                                         <?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
                                     </td>
-                                    <th scope="row" class="w1 text-center">
+                                    <th scope="row">
                                         <?php if ($canEdit) : ?>
                                             <a href="<?php echo Route::_('index.php?option=com_scheduler&task=task.edit&id=' . $item->jobid); ?>"
                                                 title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->taskname); ?>"> <?php echo $this->escape($item->taskname); ?>
@@ -92,7 +92,7 @@ $canChange = $user->authorise('core.edit.state', 'com_scheduler');
                                         <?php endif; ?>
                                     </th>
                                     <!-- Item type -->
-                                    <td class="w1 text-center">
+                                    <td class="small">
                                         <?php echo $this->escape($item->tasktype); ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
