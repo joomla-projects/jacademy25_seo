@@ -116,7 +116,6 @@ class PasswordStrength {
         label.innerText = Joomla.Text._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
       }
       meter.value = score;
-  
       if (!element.value.length) {
         label.innerText = '';
         element.setAttribute('required', '');
