@@ -53,7 +53,7 @@ $canChange = $user->authorise('core.edit.state', 'com_scheduler');
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.taskname', $listDirn, $listOrder); ?>
                                 </th>
                                 <!-- Task type header -->
-                                <th scope="col" class="w-1 text-center">
+                                <th scope="col" class="w-1">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_TASK_TYPE', 'a.tasktype', $listDirn, $listOrder) ?>
                                 </th>
                                 <th scope="col" class="w-5 d-none d-md-table-cell">
