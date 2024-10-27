@@ -13,10 +13,11 @@
           ".input-password-toggle"
         );
 
-        const hasClickListener = toggleButton.getAttribute('clickListener') === 'true';
+        const hasClickListener =
+          toggleButton.getAttribute("clickListener") === "true";
 
         if (toggleButton && !hasClickListener) {
-          toggleButton.setAttribute('clickListener', 'true');
+          toggleButton.setAttribute("clickListener", "true");
           toggleButton.addEventListener("click", () => {
             const icon = toggleButton.firstElementChild;
             const srText = toggleButton.lastElementChild;
@@ -89,7 +90,20 @@
       });
   }
 
-  document.addEventListener("change", (e) => {
+  
+  const observer = new MutationObserver((mutationsList) => {
+    document.dispatchEvent(
+      new CustomEvent("domChanged", { detail: mutationsList })
+    );
+  });
+  
+  observer.observe(document, {
+    attributes: true,
+    childList: true,
+    subtree: true,
+  });
+
+  document.addEventListener("domChanged", (e) => {
     togglePassword();
   });
   document.addEventListener("DOMContentLoaded", (e) => {
