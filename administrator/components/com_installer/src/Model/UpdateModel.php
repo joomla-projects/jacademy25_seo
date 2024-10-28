@@ -21,9 +21,9 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
@@ -41,13 +41,13 @@ class UpdateModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\ListModel
      * @since   1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -76,11 +76,6 @@ class UpdateModel extends ListModel
      */
     protected function populateState($ordering = 'u.name', $direction = 'asc')
     {
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-        $this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
-        $this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
-        $this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
-
         $app = Factory::getApplication();
         $this->setState('message', $app->getUserState('com_installer.message'));
         $this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
@@ -93,7 +88,7 @@ class UpdateModel extends ListModel
     /**
      * Method to get the database query
      *
-     * @return  \Joomla\Database\DatabaseQuery  The database query
+     * @return  QueryInterface  The database query
      *
      * @since   1.6
      */
@@ -201,9 +196,9 @@ class UpdateModel extends ListModel
     /**
      * Returns an object list
      *
-     * @param   DatabaseQuery  $query       The query
-     * @param   int            $limitstart  Offset
-     * @param   int            $limit       The number of records
+     * @param   QueryInterface  $query       The query
+     * @param   int             $limitstart  Offset
+     * @param   int             $limit       The number of records
      *
      * @return  object[]
      *
@@ -627,7 +622,7 @@ class UpdateModel extends ListModel
     /**
      * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
      *
-     * @return DatabaseQuery
+     * @return QueryInterface
      *
      * @since 4.0.0
      */
