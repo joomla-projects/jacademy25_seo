@@ -364,9 +364,7 @@ class UpdateModel extends ListModel
 
                 // Install sets state and enqueues messages
                 $res = $this->install($update);
-            }
-            catch (\Throwable $t)
-            {
+            } catch (\Throwable $t) {
                 $res = false;
 
                 Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_UPDATE_ERROR',
