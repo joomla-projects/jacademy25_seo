@@ -85,10 +85,6 @@
       });
   }
 
-  document.addEventListener('joomla:updated', () => {
-    togglePassword();
-  });
-  document.addEventListener('DOMContentLoaded', () => {
-    togglePassword();
-  });
+  document.addEventListener('joomla:updated', togglePassword);
+  document.addEventListener('DOMContentLoaded', togglePassword);
 })(document);
