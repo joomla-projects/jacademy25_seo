@@ -84,15 +84,8 @@
         }
       });
   }
-  new MutationObserver((mutationsList) => {
-    document.dispatchEvent(new CustomEvent('domChanged', { detail: mutationsList }));
-  }).observe(document, {
-    attributes: true,
-    childList: true,
-    subtree: true,
-  });
 
-  document.addEventListener('domChanged', () => {
+  document.addEventListener('joomla:updated', () => {
     togglePassword();
   });
   document.addEventListener('DOMContentLoaded', () => {
