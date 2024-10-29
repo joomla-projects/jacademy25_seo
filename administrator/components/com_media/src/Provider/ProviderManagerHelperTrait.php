@@ -150,11 +150,10 @@ trait ProviderManagerHelperTrait
         }
 
         try {
-            // Check for default path in Media config, and whether associated account exists,
-            // and use it as default adapter.
-            // @TODO: Need a proper configuration for default adapter.
+            // Check for default path in Media config, and whether associated account exists, and use it as default adapter.
             $defaultFilePath = ComponentHelper::getParams('com_media')->get('file_path', 'images');
             $defaultAdapter  = $this->getAdapter('local-' . $defaultFilePath);
+            // @TODO: Need a proper configuration for default adapter.
         } catch (ProviderAccountNotFoundException $e) {
             $defaultAdapter = null;
         }
