@@ -44,7 +44,7 @@ class Multilanguage
      *
      * @since   2.5.4
      */
-    public static function isEnabled(CMSApplication $app = null, DatabaseInterface $db = null)
+    public static function isEnabled(?CMSApplication $app = null, ?DatabaseInterface $db = null)
     {
         // Flag to avoid doing multiple database queries.
         static $tested = false;
@@ -96,7 +96,7 @@ class Multilanguage
      *
      * @since   3.5
      */
-    public static function getSiteHomePages(DatabaseInterface $db = null)
+    public static function getSiteHomePages(?DatabaseInterface $db = null)
     {
         // To avoid doing duplicate discover.
         static $multilangSiteHomePages;
