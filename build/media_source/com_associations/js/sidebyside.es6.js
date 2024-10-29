@@ -97,7 +97,10 @@ document.getElementById('reference-association').addEventListener('load', ({ tar
   content.querySelector('#jform_language').setAttribute('disabled', 'disabled');
 
   // Remove modal buttons on the reference
-  content.querySelector('#associations .btn')?.remove();
+  const associationBtn = content.querySelector('#associations .btn');
+  if (associationBtn) {
+    associationBtn.remove();
+  }
 
   document.querySelectorAll('#jform_itemlanguage option').forEach((option) => {
     const parse = option.value.split(':');
@@ -143,9 +146,10 @@ document.getElementById('target-association').addEventListener('load', ({ target
     // content.querySelector('#associations .btn').forEach(btn => btn.remove());
 
     // Always show General tab first if associations tab is selected on the reference
-    if (content.querySelector('#associations')?.classList.contains('active')) {
+    const associations = content.querySelector('#associations');
+    if (associations && associations.classList.contains('active')) {
       content.querySelector('a[href="#associations"]').parentNode.classList.remove('active');
-      content.querySelector('#associations').classList.remove('active');
+      associations.classList.remove('active');
 
       content.querySelector('.nav-tabs li').classList.add('active');
       content.querySelector('.tab-content .tab-pane').classList.add('active');
