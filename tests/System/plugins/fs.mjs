@@ -1,5 +1,5 @@
 import {
-  chmodSync, existsSync, writeFileSync, mkdirSync, rmSync, copyFile
+  chmodSync, existsSync, writeFileSync, mkdirSync, rmSync, copyFileSync
 } from 'fs';
 import { dirname, join } from 'path';
 import { umask } from 'node:process';
@@ -71,7 +71,7 @@ function copyRelativeFile(source, destination, config) {
   const fullSource = join(config.env.cmsPath, source);
   const fullDestination = join(config.env.cmsPath, destination);
 
-  copyFile(fullSource, fullDestination);
+  copyFileSync(fullSource, fullDestination);
 
   return null;
 }
