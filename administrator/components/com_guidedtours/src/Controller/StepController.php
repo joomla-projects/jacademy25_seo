@@ -35,8 +35,8 @@ class StepController extends FormController
         $append = parent::getRedirectToListAppend();
         $tourId = $this->app->getUserState('com_guidedtours.tour_id');
         if (!empty($tourId)) {
-			$append .= '&tour_id=' . $tourId;
-		}
+            $append .= '&tour_id=' . $tourId;
+        }
 
         return $append;
     }
