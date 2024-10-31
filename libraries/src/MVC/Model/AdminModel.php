@@ -325,13 +325,7 @@ abstract class AdminModel extends FormModel
 
         foreach ($this->batch_commands as $identifier => $command) {
             if (!empty($commands[$identifier])) {
-                if ($command === 'batchTag') {
-                    $removeTags = ArrayHelper::getValue($commands, 'tag_addremove', 'a') === 'r';
-
-                    if (!$this->batchTags($commands[$identifier], $pks, $contexts, $removeTags)) {
-                        return false;
-                    }
-                } elseif (!$this->$command($commands[$identifier], $pks, $contexts)) {
+                if (!$this->$command($commands[$identifier], $pks, $contexts)) {
                     return false;
                 }
 
@@ -701,26 +695,8 @@ abstract class AdminModel extends FormModel
      * @since   3.1
      *
      * @deprecated  5.3 will be removed in 7.0
-     *              Please use batchTags
      */
     protected function batchTag($value, $pks, $contexts)
-    {
-        return $this->batchTags($value, $pks, $contexts);
-    }
-
-    /**
-     * Batch tag a list of item.
-     *
-     * @param   integer  $value       The value of the new tag.
-     * @param   array    $pks         An array of row IDs.
-     * @param   array    $contexts    An array of item contexts.
-     * @param   boolean  $removeTags  Flag indicating whether the tags in $value have to be removed.
-     *
-     * @return  boolean  True if successful, false otherwise and internal error is set.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function batchTags($value, $pks, $contexts, $removeTags = false)
     {
         // Initialize re-usable member properties, and re-usable local variables
         $this->initBatch();
@@ -737,7 +713,6 @@ abstract class AdminModel extends FormModel
                         'subject'     => $this->table,
                         'newTags'     => $tags,
                         'replaceTags' => false,
-                        'removeTags'  => $removeTags,
                     ]
                 );
 
