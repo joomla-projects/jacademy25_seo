@@ -236,8 +236,12 @@ document.getElementById('target-association').addEventListener('load', ({ target
       if (typeof parse[1] !== 'undefined' && parse[1] !== '0') {
         // - For modal association selectors.
         const langAssociation = parse[0].replace(/-/, '_');
-        // eslint-disable-next-line prefer-destructuring
-        content.querySelector(`#jform_associations_${langAssociation}_id`).value = parse[1];
+
+        const formAssociationId = content.querySelector(`#jform_associations_${langAssociation}_id`);
+        if (formAssociationId) {
+          // eslint-disable-next-line prefer-destructuring
+          content.querySelector(`#jform_associations_${langAssociation}_id`).value = parse[1];
+        }
 
         // - For chosen association selectors (menus).
         chosenField = content.querySelector(`#jform_associations_${langAssociation}`);
@@ -303,10 +307,17 @@ Joomla.submitbutton = (task) => {
       if (lang) {
         lang = lang.replace(/-/, '_');
 
-        // - For modal association selectors.
-        target.querySelector(`#jform_associations_${lang}_id`).value = '';
-        // - For chosen association selectors (menus).
-        target.querySelector(`#jform_associations_${lang}`).value = '';
+        const formAssociationId = target.querySelector(`#jform_associations_${lang}_id`);
+        if (formAssociationId) {
+          // - For modal association selectors.
+          formAssociationId.value = '';
+        }
+
+        const formAssociation = target.querySelector(`#jform_associations_${lang}`);
+        if (formAssociation) {
+          // - For chosen association selectors (menus).
+          formAssociation.value = '';
+        }
       }
     });
 
