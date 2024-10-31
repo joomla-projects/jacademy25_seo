@@ -412,11 +412,11 @@ class MenutypesModel extends BaseDatabaseModel
             }
 
             $o->request = array_filter($request, function ($value) {
-                if (is_array($value)) {
+                if (\is_array($value)) {
                     return !empty($value);
                 }
 
-                return strlen($value);
+                return \strlen($value);
             });
 
             $options[]  = new CMSObject($o);
