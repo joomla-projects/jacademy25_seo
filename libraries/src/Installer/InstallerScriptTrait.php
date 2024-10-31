@@ -218,7 +218,7 @@ trait InstallerScriptTrait
 
         $pathname = 'extension_' . ($client ? $client->name : 'root');
 
-        $manifestPath = $this->getPath($pathname) . '/' . $this->getPath('manifest');
+        $manifestPath = $adapter->getParent()->getPath($pathname) . '/' . $adapter->getParent()->getPath('manifest');
 
         return is_file($manifestPath) ? $adapter->getParent()->isManifest($manifestPath) : null;
     }
