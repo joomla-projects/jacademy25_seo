@@ -63,7 +63,7 @@ describe('Test in frontend that the articles module', () => {
             bootstrap_size: '0',
             header_tag: 'h3',
             header_class: '',
-            style: '0'
+            style: '0',
           })
         });
       })
