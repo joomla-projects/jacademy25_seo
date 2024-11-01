@@ -92,7 +92,7 @@ $canChange = $user->authorise('core.edit.state', 'com_scheduler');
                                         <?php endif; ?>
                                     </th>
                                     <!-- Item type -->
-                                    <td class="small">
+                                    <td class="small d-none d-md-table-cell">
                                         <?php echo $this->escape($item->tasktype); ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
