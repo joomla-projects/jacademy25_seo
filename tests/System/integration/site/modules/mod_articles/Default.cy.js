@@ -64,7 +64,7 @@ describe('Test in frontend that the articles module', () => {
             header_tag: 'h3',
             header_class: '',
             style: '0',
-          })
+          }),
         });
       })
       .then(() => {
