@@ -3181,7 +3181,7 @@ class JoomlaInstallerScript
         // First check tmp folder if it has mode 777
         if (decoct(fileperms(JPATH_ROOT . '/tmp') & 0777) === '777') {
             // We are either on Windows where folders always have 777, or we have to fix permissions
-            @chmod(JPATH_ROOT . $folder, 0755);
+            @chmod(JPATH_ROOT . '/tmp', 0755);
         }
 
         // Check tmp folder again if it still has mode 777
