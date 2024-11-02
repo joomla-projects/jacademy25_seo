@@ -8,7 +8,7 @@ describe('Test in frontend that the articles module', () => {
           params: JSON.stringify({
             catid: categoryId,
             item_title: 1,
-            show_introtext: 0,            
+            show_introtext: 0,
           }),
         });
       })
