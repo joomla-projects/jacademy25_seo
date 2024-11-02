@@ -3273,7 +3273,6 @@ class JoomlaInstallerScript
             '/modules',
             '/plugins',
             '/templates',
-            '/tmp',
         ];
 
         $foldersRecursive = [
