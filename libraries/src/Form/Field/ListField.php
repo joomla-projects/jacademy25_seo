@@ -255,8 +255,10 @@ class ListField extends FormField
         switch ($name) {
             case 'options':
                 return $this->getOptions();
+
             case 'emptyValueWhenUnselected':
                 return $this->emptyValueWhenUnselected;
+
             default:
                 return parent::__get($name);
         }
