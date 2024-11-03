@@ -43,7 +43,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
- * @var   bool     $emptyValueWhenUnselected  Submit an empty value when nothing is selected.
+ * @var   boolean  $emptyValueWhenUnselected  Submit an empty value when nothing is selected.
  */
 
 /**

@@ -59,7 +59,7 @@ class CheckboxesField extends ListField
      * Whether the field should submit an empty value when nothing is selected.
      * Because browser does not submit anything when <input type="checkbox"> is unchecked.
      *
-     * @var    bool
+     * @var    boolean
      *
      * @since  __DEPLOY_VERSION__
      */

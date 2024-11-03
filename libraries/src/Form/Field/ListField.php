@@ -61,7 +61,7 @@ class ListField extends FormField
      * Whether the field should submit an empty value when nothing is selected in the <select multiple>.
      * Because browser does not submit anything when <select multiple> is empty.
      *
-     * @var    bool
+     * @var    boolean
      *
      * @since  __DEPLOY_VERSION__
      */

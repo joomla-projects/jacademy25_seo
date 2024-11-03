@@ -45,7 +45,7 @@ extract($displayData);
  * @var   boolean        $checked         Whether the checkbox should be checked.
  * @var   string         $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array          $dataAttributes  Miscellaneous data attribute for eg, data-*.
- * @var   bool           $emptyValueWhenUnselected  Submit an empty value when nothing is selected.
+ * @var   boolean        $emptyValueWhenUnselected  Submit an empty value when nothing is selected.
  */
 
 // Initialize some field attributes.
