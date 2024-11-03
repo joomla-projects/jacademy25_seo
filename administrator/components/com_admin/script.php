@@ -3192,7 +3192,8 @@ class JoomlaInstallerScript
         }
 
         try {
-            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_FIX_PERMISSIONS'), Log::INFO, 'Update');
+            // Using hard-coded string because a new language string would not be available in all cases
+            Log::add('Fixing permissions for files and folders.', Log::INFO, 'Update');
         } catch (\RuntimeException $exception) {
             // Informational log only
         }
