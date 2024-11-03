@@ -3199,33 +3199,30 @@ class JoomlaInstallerScript
         }
 
         $files = [
-            '/administrator/logs/index.html',
-            '/images/banners/banner.jpg',
-            '/images/banners/osmbanner1.png',
-            '/images/banners/osmbanner2.png',
-            '/images/banners/shop-ad-books.jpg',
-            '/images/banners/shop-ad.jpg',
-            '/images/banners/white.png',
-            '/images/headers/blue-flower.jpg',
-            '/images/headers/maple.jpg',
-            '/images/headers/raindrops.jpg',
-            '/images/headers/walden-pond.jpg',
-            '/images/headers/windows.jpg',
-            '/images/joomla_black.png',
-            '/images/powered_by.png',
-            '/images/sampledata/cassiopeia/nasa1-1200.jpg',
-            '/images/sampledata/cassiopeia/nasa1-400.jpg',
-            '/images/sampledata/cassiopeia/nasa1-640.jpg',
-            '/images/sampledata/cassiopeia/nasa2-1200.jpg',
-            '/images/sampledata/cassiopeia/nasa2-400.jpg',
-            '/images/sampledata/cassiopeia/nasa2-640.jpg',
-            '/images/sampledata/cassiopeia/nasa3-1200.jpg',
-            '/images/sampledata/cassiopeia/nasa3-400.jpg',
-            '/images/sampledata/cassiopeia/nasa3-640.jpg',
-            '/images/sampledata/cassiopeia/nasa4-1200.jpg',
-            '/images/sampledata/cassiopeia/nasa4-400.jpg',
-            '/images/sampledata/cassiopeia/nasa5-400.jpg',
+            '/htaccess.txt',
+            '/index.php',
+            '/libraries/.htaccess',
+            '/libraries/vendor/jfcherng/php-diff/.phpstorm.meta.php',
+            '/libraries/vendor/joomla/http/.drone.jsonnet',
+            '/libraries/vendor/joomla/http/.drone.yml',
+            '/libraries/vendor/joomla/oauth1/.drone.jsonnet',
+            '/libraries/vendor/joomla/oauth1/.drone.yml',
+            '/libraries/vendor/joomla/oauth2/.drone.jsonnet',
+            '/libraries/vendor/joomla/oauth2/.drone.yml',
+            '/libraries/vendor/joomla/router/.drone.jsonnet',
+            '/libraries/vendor/joomla/router/.drone.yml',
+            '/libraries/vendor/joomla/string/.drone.jsonnet',
+            '/libraries/vendor/joomla/string/.drone.yml',
+            '/libraries/vendor/joomla/uri/.drone.jsonnet',
+            '/libraries/vendor/joomla/uri/.drone.yml',
+            '/libraries/vendor/joomla/utilities/.drone.jsonnet',
+            '/libraries/vendor/joomla/utilities/.drone.yml',
+            '/LICENSE.txt',
+            '/README.txt',
             '/robots.txt',
+            '/robots.txt.dist',
+            '/tmp/index.html',
+            '/web.config.txt',
         ];
 
         $folders = [
@@ -3550,6 +3547,12 @@ class JoomlaInstallerScript
             if (is_dir(JPATH_ROOT . $folder) && decoct(fileperms(JPATH_ROOT . $folder) & 0777) === '777') {
                 @chmod(JPATH_ROOT . $folder, 0755);
             }
+
+            foreach (Folder::files(JPATH_ROOT . $folder, '.', false, true) as $file) {
+                if (decoct(fileperms($file) & 0777) === '777') {
+                    @chmod($file, 0644);
+                }
+            }
         }
 
         foreach ($foldersRecursive as $parentFolder) {
@@ -3561,6 +3564,12 @@ class JoomlaInstallerScript
                 foreach (Folder::folders(JPATH_ROOT . $parentFolder, '.', true, true) as $folder) {
                     if (decoct(fileperms($folder) & 0777) === '777') {
                         @chmod($folder, 0755);
+                    }
+                }
+
+                foreach (Folder::files(JPATH_ROOT . $parentFolder, '.', true, true) as $file) {
+                    if (decoct(fileperms($file) & 0777) === '777') {
+                        @chmod($file, 0644);
                     }
                 }
             }
