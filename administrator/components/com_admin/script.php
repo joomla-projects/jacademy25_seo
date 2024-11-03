@@ -3191,6 +3191,12 @@ class JoomlaInstallerScript
             return;
         }
 
+        try {
+            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_FIX_PERMISSIONS'), Log::INFO, 'Update');
+        } catch (\RuntimeException $exception) {
+            // Informational log only
+        }
+
         $files = [
             '/administrator/logs/index.html',
             '/images/banners/banner.jpg',
