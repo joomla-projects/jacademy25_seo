@@ -64,24 +64,6 @@ class ExtensionEnableCommand extends AbstractCommand
     public const ENABLE_FAILED = 1;
 
     /**
-     * Exit Code for disable parent template with child failure
-     * @since __DEPLOY_VERSION__
-     */
-    public const ENABLE_WITHCHILD_NOT_PERMITTED = 5;
-
-    /**
-     * Exit Code for disable home template failure
-     * @since __DEPLOY_VERSION__
-     */
-    public const ENABLE_HOME_NOT_PERMITTED = 6;
-
-    /**
-     * Exit Code for extensions protected enable\disable failure
-     * @since __DEPLOY_VERSION__
-     */
-    public const ENABLE_PROTECTED = 4;
-
-    /**
      * Exit Code for extensions not found
      * @since __DEPLOY_VERSION__
      */
