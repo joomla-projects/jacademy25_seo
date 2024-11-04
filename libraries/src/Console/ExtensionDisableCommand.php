@@ -137,7 +137,7 @@ class ExtensionDisableCommand extends AbstractCommand
         $this->addArgument(
             'extensionId',
             InputArgument::REQUIRED,
-            'ID of extension to be published (run extension:list command to check)'
+            'ID of extension to be disabled (run extension:list command to check)'
         );
 
         $help = "<info>%command.name%</info> is used to disable an extension.
