@@ -380,7 +380,7 @@ class JoomlaInstallerScript
             if (!$installer->refreshManifestCache($extension->extension_id)) {
                 $this->collectError(
                     __METHOD__,
-                    new \Exception(sprintf(
+                    new \Exception(\sprintf(
                         'Error on updating manifest cache: (type, element, folder, client) = (%s, %s, %s, %s)',
                         $extension->type,
                         $extension->element,
@@ -435,6 +435,11 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/mysql/5.1.0-2024-03-08.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.1.0-2024-03-28.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.1.1-2024-04-18.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.2.0-2024-07-02.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.2.0-2024-07-19.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.2.0-2024-08-22.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.2.0-2024-09-17.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.3.0-2024-10-13.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-03-11.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-03-17.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-07-12.sql',
@@ -456,6 +461,10 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/5.1.0-2024-03-08.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.1.0-2024-03-28.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.1.1-2024-04-18.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.2.0-2024-07-02.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.2.0-2024-07-19.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.2.0-2024-08-22.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.2.0-2024-09-17.sql',
             '/libraries/src/Application/BaseApplication.php',
             '/libraries/src/Application/CLI/CliInput.php',
             '/libraries/src/Application/CLI/CliOutput.php',
@@ -489,7 +498,7 @@ class JoomlaInstallerScript
                     if (File::delete(JPATH_ROOT . $file)) {
                         $status['files_deleted'][] = $file;
                     } else {
-                        $status['files_errors'][] = sprintf('Error on deleting file or folder %s', $file);
+                        $status['files_errors'][] = \sprintf('Error on deleting file or folder %s', $file);
                     }
                 }
             }
@@ -503,7 +512,7 @@ class JoomlaInstallerScript
                     if (Folder::delete(JPATH_ROOT . $folder)) {
                         $status['folders_deleted'][] = $folder;
                     } else {
-                        $status['folders_errors'][] = sprintf('Error on deleting file or folder %s', $folder);
+                        $status['folders_errors'][] = \sprintf('Error on deleting file or folder %s', $folder);
                     }
                 }
             }
