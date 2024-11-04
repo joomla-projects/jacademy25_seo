@@ -139,7 +139,6 @@ class ExtensionEnableCommand extends AbstractCommand
             'ID of extension to be enabled (run extension:list command to check)'
         );
 
-
         $help = "<info>%command.name%</info> is used to enable an extension.
 		\nThe command requires one argument, the ID of the extension to enable.
 		\nYou may find this ID by running the <info>extension:list</info> command.
