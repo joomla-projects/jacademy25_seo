@@ -175,7 +175,7 @@ class ExtensionDisableCommand extends AbstractCommand
             return self::DISABLE_NOT_FOUND;
         }
 
-        if ($table->type == 'template') {
+        if ($table->type === 'template') {
             $style = new StyleTable($this->getDatabase());
 
             if ($style->load(['template' => $table->element, 'client_id' => $table->client_id, 'home' => 1])) {
@@ -192,7 +192,7 @@ class ExtensionDisableCommand extends AbstractCommand
 
         $type = ucfirst($table->type);
 
-        if ($table->protected == 1) {
+        if ($table->protected === 1) {
             $this->ioStyle->error("$type with ID of $extensionId $table->name is protectd.");
             return self::DISABLE_PROTECTED;
         }
