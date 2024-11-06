@@ -43,20 +43,20 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
     ->useStyle('template.active.language')
     ->useStyle('template.user')
     ->addInlineStyle(':root {
-		--hue: ' . $matches[1] . ';
-		--template-bg-light: ' . $this->params->get('bg-light', 'var(--template-bg-light)') . ';
-		--template-text-dark: ' . $this->params->get('text-dark', 'var(--template-text-dark)') . ';
-		--template-text-light: ' . $this->params->get('text-light', 'var(--template-text-light)') . ';
-		--link-color: ' . $linkColor . ';
+        --hue: ' . $matches[1] . ';
+        --template-bg-light: ' . $this->params->get('bg-light', 'var(--template-bg-light)') . ';
+        --template-text-dark: ' . $this->params->get('text-dark', 'var(--template-text-dark)') . ';
+        --template-text-light: ' . $this->params->get('text-light', 'var(--template-text-light)') . ';
+        --link-color: ' . $linkColor . ';
         --link-color-rgb: ' . $r . ',' . $g . ',' . $b . ';
-		--template-special-color: ' . $this->params->get('special-color', 'var(--template-special-color)') . ';
-	}')
+        --template-special-color: ' . $this->params->get('special-color', 'var(--template-special-color)') . ';
+    }')
     ->addInlineStyle(':root[data-color-scheme="dark"] {
-		--link-color: ' . $linkColorDark . ';
-		--link-color-rgb: ' . $rd . ',' . $gd . ',' . $bd . ';
+        --link-color: ' . $linkColorDark . ';
+        --link-color-rgb: ' . $rd . ',' . $gd . ',' . $bd . ';
         --link-color-rgb-hvr: ' . $linkColorDarkHvr . ';
-		--template-special-color: #6fbfdb;
-	}');
+        --template-special-color: #6fbfdb;
+    }');
 
 // No template.js for modals
 $wa->disableScript('template.atum');
