@@ -435,12 +435,22 @@ class Image
 
         if ($this->isTransparent()) {
             // Get the transparent color values for the current image.
-            $rgba  = imagecolorsforindex($this->getHandle(), imagecolortransparent($this->getHandle()));
-            $color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
-
-            // Set the transparent color values for the new image.
-            imagecolortransparent($handle, $color);
-            imagefill($handle, 0, 0, $color);
+            $ict = imagecolortransparent($this->getHandle());
+            if ($ict >= 0 && $ict < imagecolorstotal($this->getHandle())) {
+                $rgba = imagecolorsforindex($this->getHandle(), $ict);
+                if (!empty($rgba)) {
+                    $color = imagecolorallocatealpha(
+                        $handle,
+                        $rgba['red'],
+                        $rgba['green'],
+                        $rgba['blue'],
+                        $rgba['alpha']
+                    );
+                    // Set the transparent color values for the new image.
+                    imagecolortransparent($handle, $color);
+                    imagefill($handle, 0, 0, $color);
+                }
+            }
         }
 
         if (!$this->generateBestQuality) {
@@ -714,12 +724,22 @@ class Image
 
         if ($this->isTransparent()) {
             // Get the transparent color values for the current image.
-            $rgba  = imagecolorsforindex($this->getHandle(), imagecolortransparent($this->getHandle()));
-            $color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
-
-            // Set the transparent color values for the new image.
-            imagecolortransparent($handle, $color);
-            imagefill($handle, 0, 0, $color);
+            $ict = imagecolortransparent($this->getHandle());
+            if ($ict >= 0 && $ict < imagecolorstotal($this->getHandle())) {
+                $rgba = imagecolorsforindex($this->getHandle(), $ict);
+                if (!empty($rgba)) {
+                    $color = imagecolorallocatealpha(
+                        $handle,
+                        $rgba['red'],
+                        $rgba['green'],
+                        $rgba['blue'],
+                        $rgba['alpha']
+                    );
+                    // Set the transparent color values for the new image.
+                    imagecolortransparent($handle, $color);
+                    imagefill($handle, 0, 0, $color);
+                }
+            }
         }
 
         if (!$this->generateBestQuality) {
