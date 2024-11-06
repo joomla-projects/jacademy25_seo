@@ -31,7 +31,7 @@ $wa->useScript('table.columns');
  * but they have not the usual access checks.
 */
 $groupId = $this->state->get('group_id');
-$isSuperUserGroup = Access::checkGroup($groupId, 'core.admin'); 
+$isSuperUserGroup = Access::checkGroup($groupId, 'core.admin');
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $this->state->get('group_id')); ?>" method="post" name="adminForm" id="adminForm">
