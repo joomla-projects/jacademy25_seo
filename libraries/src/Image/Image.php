@@ -732,7 +732,7 @@ class Image
 
         if ($this->isTransparent()) {
             // Get the transparent color values for the current image.
-            $ict = imagecolortransparent($this->getHandle());
+            $ict  = imagecolortransparent($this->getHandle());
             $ctot = imagecolorstotal($this->getHandle());
             // Sanitize imagecolortransparent & imagecolorstotal
             if ($ctot == 255 && $ict == 255) {
