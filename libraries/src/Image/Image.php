@@ -436,7 +436,15 @@ class Image
         if ($this->isTransparent()) {
             // Get the transparent color values for the current image.
             $ict = imagecolortransparent($this->getHandle());
-            if ($ict >= 0 && $ict < imagecolorstotal($this->getHandle())) {
+            $ctot = imagecolorstotal($this->getHandle());
+            // Sanitize imagecolortransparent & imagecolorstotal
+            if ($ctot == 255 && $ict == 255) {
+                $ict = 254;
+            }
+            if ($ctot == 0 && $ict == 0) {
+                $ctot = 1;
+            }
+            if ($ict >= 0 && $ict < $ctot) {
                 $rgba = imagecolorsforindex($this->getHandle(), $ict);
                 if (!empty($rgba)) {
                     $color = imagecolorallocatealpha(
@@ -725,7 +733,15 @@ class Image
         if ($this->isTransparent()) {
             // Get the transparent color values for the current image.
             $ict = imagecolortransparent($this->getHandle());
-            if ($ict >= 0 && $ict < imagecolorstotal($this->getHandle())) {
+            $ctot = imagecolorstotal($this->getHandle());
+            // Sanitize imagecolortransparent & imagecolorstotal
+            if ($ctot == 255 && $ict == 255) {
+                $ict = 254;
+            }
+            if ($ctot == 0 && $ict == 0) {
+                $ctot = 1;
+            }
+            if ($ict >= 0 && $ict < $ctot) {
                 $rgba = imagecolorsforindex($this->getHandle(), $ict);
                 if (!empty($rgba)) {
                     $color = imagecolorallocatealpha(
