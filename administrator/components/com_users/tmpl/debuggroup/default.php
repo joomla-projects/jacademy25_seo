@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -23,6 +24,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns');
+
+/**
+ * Get the group ID and check if the group is a super user group
+ * Super user groups have the core.admin action allowed by default,
+ * but they have not the usual access checks.
+*/
+$groupId = $this->state->get('group_id');
+$isSuperUserGroup = Access::checkGroup($groupId, 'core.admin'); 
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $this->state->get('group_id')); ?>" method="post" name="adminForm" id="adminForm">
@@ -49,7 +58,7 @@ $wa->useScript('table.columns');
                 <?php foreach ($loginActions as $action) :
                     $name  = $action[0];
                     $check = $this->items[0]->checks[$name];
-                    if ($check === true) :
+                    if ($check === true || $isSuperUserGroup) :
                         $class  = 'text-success icon-check';
                         $button = 'btn-success';
                         $text   = Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');
@@ -109,7 +118,7 @@ $wa->useScript('table.columns');
                                 <?php
                                 $name  = $action[0];
                                 $check = $item->checks[$name];
-                                if ($check === true) :
+                                if ($check === true || $isSuperUserGroup) :
                                     $class  = 'text-success icon-check';
                                     $button = 'btn-success';
                                     $text   = Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');
