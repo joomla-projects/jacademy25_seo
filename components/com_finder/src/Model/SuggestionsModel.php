@@ -109,7 +109,7 @@ class SuggestionsModel extends ListModel
             ->where('l.access IN (' . implode(',', $groups) . ')')
             ->where('l.state = 1')
             ->where('l.published = 1');
-        $aQuery->select('DISTINCT o.term FROM (' . $termQuery . ') AS o');
+        $aQuery->select('DISTINCT(o.term)')->from('(' . $termQuery . ') AS o');
         return $aQuery;
     }
 
