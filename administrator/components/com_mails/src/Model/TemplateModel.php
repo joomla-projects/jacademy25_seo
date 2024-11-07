@@ -315,6 +315,7 @@ class TemplateModel extends AdminModel
         $template_id = (!empty($data['template_id'])) ? $data['template_id'] : $this->getState($this->getName() . '.template_id');
         $language    = (!empty($data['language'])) ? $data['language'] : $this->getState($this->getName() . '.language');
         $isNew       = true;
+        $oldData     = [];
 
         // Include the plugins for the save events.
         \Joomla\CMS\Plugin\PluginHelper::importPlugin($this->events_map['save']);
@@ -326,6 +327,7 @@ class TemplateModel extends AdminModel
 
             if ($table->subject) {
                 $isNew = false;
+                $oldData = get_object_vars($table);
             }
 
             // Load the default row
@@ -349,7 +351,7 @@ class TemplateModel extends AdminModel
             }
 
             // Trigger the before save event.
-            $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
+            $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data, $oldData]);
 
             if (\in_array(false, $result, true)) {
                 $this->setError($table->getError());
@@ -368,7 +370,7 @@ class TemplateModel extends AdminModel
             $this->cleanCache();
 
             // Trigger the after save event.
-            Factory::getApplication()->triggerEvent($this->event_after_save, [$context, $table, $isNew, $data]);
+            Factory::getApplication()->triggerEvent($this->event_after_save, [$context, $table, $isNew, $data, $oldData]);
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
 

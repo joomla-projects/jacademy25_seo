@@ -186,8 +186,9 @@ class LanguageModel extends AdminModel
      */
     public function save($data)
     {
-        $langId = (!empty($data['lang_id'])) ? $data['lang_id'] : (int) $this->getState('language.id');
-        $isNew  = true;
+        $langId  = (!empty($data['lang_id'])) ? $data['lang_id'] : (int) $this->getState('language.id');
+        $isNew   = true;
+        $oldData = [];
 
         PluginHelper::importPlugin($this->events_map['save']);
 
@@ -198,6 +199,7 @@ class LanguageModel extends AdminModel
         if ($langId > 0) {
             $table->load($langId);
             $isNew = false;
+            $oldData = get_object_vars($table);
         }
 
         // Prevent white spaces, including East Asian double bytes.
@@ -237,7 +239,7 @@ class LanguageModel extends AdminModel
         }
 
         // Trigger the before save event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew]);
+        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew, $oldData]);
 
         // Check the event responses.
         if (\in_array(false, $result, true)) {
@@ -254,7 +256,7 @@ class LanguageModel extends AdminModel
         }
 
         // Trigger the after save event.
-        Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew]);
+        Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew, $oldData]);
 
         $this->setState('language.id', $table->lang_id);
 

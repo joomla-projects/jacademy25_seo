@@ -194,6 +194,9 @@ class StyleModel extends AdminModel
 
         foreach ($pks as $pk) {
             if ($table->load($pk, true)) {
+                // Preserve original data
+                $oldData = get_object_vars($table);
+
                 // Reset the id to create a new record.
                 $table->id = 0;
 
@@ -209,14 +212,14 @@ class StyleModel extends AdminModel
                 }
 
                 // Trigger the before save event.
-                $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, true]);
+                $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, true, $oldData]);
 
                 if (\in_array(false, $result, true) || !$table->store()) {
                     throw new \Exception($table->getError());
                 }
 
                 // Trigger the after save event.
-                Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, true]);
+                Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, true, $oldData]);
             } else {
                 throw new \Exception($table->getError());
             }
@@ -466,6 +469,7 @@ class StyleModel extends AdminModel
         $table      = $this->getTable();
         $pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('style.id');
         $isNew      = true;
+        $oldData    = [];
 
         // Include the extension plugins for the save events.
         PluginHelper::importPlugin($this->events_map['save']);
@@ -474,6 +478,7 @@ class StyleModel extends AdminModel
         if ($pk > 0) {
             $table->load($pk);
             $isNew = false;
+            $oldData = get_object_vars($table);
         }
 
         if ($app->getInput()->get('task') == 'save2copy') {
@@ -500,7 +505,7 @@ class StyleModel extends AdminModel
         }
 
         // Trigger the before save event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_save, ['com_templates.style', &$table, $isNew]);
+        $result = Factory::getApplication()->triggerEvent($this->event_before_save, ['com_templates.style', &$table, $isNew, $oldData]);
 
         // Store the data.
         if (\in_array(false, $result, true) || !$table->store()) {
@@ -564,7 +569,7 @@ class StyleModel extends AdminModel
         $this->cleanCache();
 
         // Trigger the after save event.
-        Factory::getApplication()->triggerEvent($this->event_after_save, ['com_templates.style', &$table, $isNew]);
+        Factory::getApplication()->triggerEvent($this->event_after_save, ['com_templates.style', &$table, $isNew, $oldData]);
 
         $this->setState('style.id', $table->id);
 

@@ -512,6 +512,7 @@ class CategoryModel extends AdminModel
         $input      = Factory::getApplication()->getInput();
         $pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
         $isNew      = true;
+        $oldData    = [];
         $context    = $this->option . '.' . $this->name;
 
         if (!empty($data['tags']) && $data['tags'][0] != '') {
@@ -525,6 +526,7 @@ class CategoryModel extends AdminModel
         if ($pk > 0) {
             $table->load($pk);
             $isNew = false;
+            $oldData = get_object_vars($table);
         }
 
         // Set the new parent id if parent id not matched OR while New/Save as Copy .
@@ -571,7 +573,7 @@ class CategoryModel extends AdminModel
         }
 
         // Trigger the before save event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew, $data]);
+        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew, $data, $oldData]);
 
         if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
@@ -697,7 +699,7 @@ class CategoryModel extends AdminModel
         }
 
         // Trigger the after save event.
-        Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew, $data]);
+        Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew, $data, $oldData]);
 
         // Rebuild the path for the category:
         if (!$table->rebuildPath($table->id)) {
