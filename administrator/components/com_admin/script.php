@@ -3166,14 +3166,11 @@ class JoomlaInstallerScript
      */
     protected function fixFilesystemPermissions()
     {
-        // Don't do anything when not updating from a 5.2.0 which was a new installation
+        // Don't do anything if not updating from a 5.2.0 or 5.2.1
         if (
             empty($this->fromVersion)
-            || version_compare($this->fromVersion, '5.2.0', 'ne')
-            || (
-                is_file(JPATH_ROOT . '/administrator/logs/joomla_update.php')
-                && (time() - filectime(JPATH_ROOT . '/administrator/logs/joomla_update.php') > 3600)
-            )
+            || version_compare($this->fromVersion, '5.2.0', 'lt')
+            || version_compare($this->fromVersion, '5.2.1', 'gt')
         ) {
             return;
         }
