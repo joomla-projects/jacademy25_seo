@@ -438,10 +438,10 @@ class Image
             $ict  = imagecolortransparent($this->getHandle());
             $ctot = imagecolorstotal($this->getHandle());
             // Sanitize imagecolortransparent & imagecolorstotal
-            if ($ctot == 255 && $ict == 255) {
+            if ($ctot === 255 && $ict === 255) {
                 $ict = 254;
             }
-            if ($ctot == 0 && $ict == 0) {
+            if ($ctot === 0 && $ict === 0) {
                 $ctot = 1;
             }
             if ($ict >= 0 && $ict < $ctot) {
@@ -735,10 +735,10 @@ class Image
             $ict  = imagecolortransparent($this->getHandle());
             $ctot = imagecolorstotal($this->getHandle());
             // Sanitize imagecolortransparent & imagecolorstotal
-            if ($ctot == 255 && $ict == 255) {
+            if ($ctot === 255 && $ict === 255) {
                 $ict = 254;
             }
-            if ($ctot == 0 && $ict == 0) {
+            if ($ctot === 0 && $ict === 0) {
                 $ctot = 1;
             }
             if ($ict >= 0 && $ict < $ctot) {
