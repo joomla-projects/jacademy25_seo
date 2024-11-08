@@ -326,7 +326,7 @@ class TemplateModel extends AdminModel
             $table->load(['template_id' => $template_id, 'language' => $language]);
 
             if ($table->subject) {
-                $isNew = false;
+                $isNew   = false;
                 $oldData = get_object_vars($table);
             }
 

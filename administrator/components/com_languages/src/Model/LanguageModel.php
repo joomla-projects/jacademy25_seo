@@ -198,7 +198,7 @@ class LanguageModel extends AdminModel
         // Load the row if saving an existing item.
         if ($langId > 0) {
             $table->load($langId);
-            $isNew = false;
+            $isNew   = false;
             $oldData = get_object_vars($table);
         }
 

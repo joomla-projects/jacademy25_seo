@@ -477,7 +477,7 @@ class StyleModel extends AdminModel
         // Load the row if saving an existing record.
         if ($pk > 0) {
             $table->load($pk);
-            $isNew = false;
+            $isNew   = false;
             $oldData = get_object_vars($table);
         }
 

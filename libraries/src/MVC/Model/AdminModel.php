@@ -1251,9 +1251,9 @@ abstract class AdminModel extends FormModel
             $table->newTags = $data['tags'];
         }
 
-        $key   = $table->getKeyName();
-        $pk    = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
-        $isNew = true;
+        $key     = $table->getKeyName();
+        $pk      = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+        $isNew   = true;
         $oldData = [];
 
         // Include the plugins for the save events.
