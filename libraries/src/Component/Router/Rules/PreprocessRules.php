@@ -108,18 +108,23 @@ class PreprocessRules implements RulesInterface
         }
 
         $dbquery = $this->getDatabase()->getQuery(true);
+        $id      = (int) $query[$key];
 
         $dbquery->select($dbquery->quoteName('alias'))
             ->from($this->table)
             ->where($dbquery->quoteName($this->key) . ' = :key')
-            ->bind(':key', $query[$key], ParameterType::INTEGER);
+            ->bind(':key', $id, ParameterType::INTEGER);
 
         // Do we have a parent key?
         if ($parent_key && $this->parent_key) {
             $dbquery->select($dbquery->quoteName($this->parent_key));
         }
 
-        $obj = $this->getDatabase()->setQuery($dbquery)->loadObject();
+        try {
+            $obj = $this->getDatabase()->setQuery($dbquery)->loadObject();
+        } catch (\RuntimeException $e) {
+            return;
+        }
 
         // We haven't found the item in the database. Abort.
         if (!$obj) {
@@ -133,7 +138,7 @@ class PreprocessRules implements RulesInterface
 
         // If we have a parent key and it is missing, lets add it
         if ($parent_key && $this->parent_key && !isset($query[$parent_key])) {
-            $query[$parent_key] = $obj->{$this->parent_key};
+            $query[$parent_key] = (string) $obj->{$this->parent_key};
         }
     }
 
