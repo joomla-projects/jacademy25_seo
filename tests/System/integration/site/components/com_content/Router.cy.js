@@ -74,6 +74,14 @@ describe('Test in frontend that the content site router', () => {
         path: 'test-menu-category-router',
         link: `index.php?option=com_content&view=category&id=${article.catid}`,
       });
+      cy.request({ url: `/index.php?option=com_content&view=article&id=${article.id}`, followRedirect: false }).then((response) => {
+        expect(response.status).to.eq(301);
+        expect(response.redirectedToUrl).to.match(/\/index\.php\/test-menu-category-router\/test-content-router$/);
+      });
+      cy.request({ url: `/index.php?option=com_content&view=article&id=${article.id}-${article.alias}`, followRedirect: false }).then((response) => {
+        expect(response.status).to.eq(301);
+        expect(response.redirectedToUrl).to.match(/\/index\.php\/test-menu-category-router\/test-content-router$/);
+      });
       cy.request({ url: `/index.php?option=com_content&view=article&id=${article.id}&catid=${article.catid}`, followRedirect: false }).then((response) => {
         expect(response.status).to.eq(301);
         expect(response.redirectedToUrl).to.match(new RegExp(`${url}$`));
@@ -81,6 +89,10 @@ describe('Test in frontend that the content site router', () => {
       cy.request({ url: `/index.php?option=com_content&view=article&id=${article.id}-${article.alias}&catid=${article.catid}`, followRedirect: false }).then((response) => {
         expect(response.status).to.eq(301);
         expect(response.redirectedToUrl).to.match(new RegExp(`${url}$`));
+      });
+      cy.request({ url: `/index.php?option=com_content&view=article&id=${article.id}-${article.alias}&catid=${article.catid}`, followRedirect: false }).then((response) => {
+        expect(response.status).to.eq(301);
+        expect(response.redirectedToUrl).to.match(/\/index\.php\/test-menu-category-router\/test-content-router$/);
       });
 
       cy.visit(url.split('/').slice(0, -1).join('/'));
@@ -114,6 +126,10 @@ describe('Test in frontend that the content site router', () => {
         alias: 'test-menu-categories-router',
         path: 'test-menu-categories-router',
         link: 'index.php?option=com_content&view=categories&id=0',
+      });
+      cy.request({ url: `/index.php?option=com_content&view=article&id=${article.id}`, followRedirect: false }).then((response) => {
+        expect(response.status).to.eq(301);
+        expect(response.redirectedToUrl).to.match(/\/index\.php\/test-menu-categories-router\/uncategorised\/test-content-router$/);
       });
       cy.request({ url: `/index.php?option=com_content&view=article&id=${article.id}&catid=${article.catid}`, followRedirect: false }).then((response) => {
         expect(response.status).to.eq(301);
