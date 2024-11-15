@@ -142,19 +142,19 @@ abstract class Bootstrap
         }
 
         if ($selector !== '') {
-			$opt['interval'] = 5000;
+            $opt['interval'] = 5000;
 
-			if (isset($params['interval']) && ($params['interval'] === false || is_int($params['interval']))) {
-				$opt['interval'] = $params['interval'];
-			}
+            if (isset($params['interval']) && ($params['interval'] === false || is_int($params['interval']))) {
+                $opt['interval'] = $params['interval'];
+            }
 
             $opt['keyboard'] = true;
 
-			if (isset($params['keyboard']) && in_array($params['keyboard'], [true, false], true)) {
-				$opt['keyboard'] = $params['keyboard'];
-			}
+            if (isset($params['keyboard']) && in_array($params['keyboard'], [true, false], true)) {
+                $opt['keyboard'] = $params['keyboard'];
+            }
 
-			$opt['pause'] = 'hover';
+            $opt['pause'] = 'hover';
 
 			if (isset($params['pause']) && in_array($params['pause'], ['hover', false], true)) {
 				$opt['pause'] = $params['pause'];
