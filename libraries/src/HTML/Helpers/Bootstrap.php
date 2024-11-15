@@ -156,27 +156,27 @@ abstract class Bootstrap
 
             $opt['pause'] = 'hover';
 
-			if (isset($params['pause']) && in_array($params['pause'], ['hover', false], true)) {
-				$opt['pause'] = $params['pause'];
-			}
+            if (isset($params['pause']) && in_array($params['pause'], ['hover', false], true)) {
+                $opt['pause'] = $params['pause'];
+            }
 
-			$opt['ride'] = 'carousel';
+            $opt['ride'] = 'carousel';
 
-			if (isset($params['ride']) && in_array($params['ride'], ['carousel', false], true)) {
-				$opt['ride'] = $params['ride'];
-			}
+            if (isset($params['ride']) && in_array($params['ride'], ['carousel', false], true)) {
+                $opt['ride'] = $params['ride'];
+            }
 
             $opt['wrap'] = true;
 
-			if (isset($params['wrap']) && in_array($params['wrap'], [true, false], true)) {
-				$opt['wrap'] = $params['wrap'];
-			}
+            if (isset($params['wrap']) && in_array($params['wrap'], [true, false], true)) {
+                $opt['wrap'] = $params['wrap'];
+            }
 
             $opt['touch'] = true;
 
-			if (isset($params['touch']) && in_array($params['touch'], [true, false], true)) {
-				$opt['touch'] = $params['touch'];
-			}
+            if (isset($params['touch']) && in_array($params['touch'], [true, false], true)) {
+                $opt['touch'] = $params['touch'];
+            }
 
             Factory::getApplication()->getDocument()->addScriptOptions(
                 'bootstrap.carousel', [$selector => (object) $opt]
