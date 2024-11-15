@@ -102,6 +102,11 @@ final class Sef extends CMSPlugin implements SubscriberInterface
 
         $router = $this->getSiteRouter();
 
+        /**
+         * The URL was successfully parsed, but is "tainted", e.g. parts of
+         * it were recoverably wrong. So we take the parsed variables, build
+         * a new URL and redirect to that.
+         */
         if ($router->isTainted()) {
             $parsedVars = $router->getVars();
 
