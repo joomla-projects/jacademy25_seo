@@ -133,7 +133,7 @@ abstract class Bootstrap
      *             boolean         If "carousel", autoplays the carousel on load.
      * - wrap      boolean  true   Whether the carousel should cycle continuously or have hard stops.
      * - touch     boolean  true   Whether the carousel should support left/right swipe interactions on
-	 *                             touchscreen devices.
+     *                             touchscreen devices.
      */
     public static function carousel($selector = '', $params = []): void
     {
