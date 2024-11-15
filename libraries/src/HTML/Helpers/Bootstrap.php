@@ -168,18 +168,19 @@ abstract class Bootstrap
 
             $opt['wrap'] = true;
 
-            if (isset($params['wrap']) && in_array($params['wrap'], [true, false], true)) {
+            if (isset($params['wrap']) && \in_array($params['wrap'], [true, false], true)) {
                 $opt['wrap'] = $params['wrap'];
             }
 
             $opt['touch'] = true;
 
-            if (isset($params['touch']) && in_array($params['touch'], [true, false], true)) {
+            if (isset($params['touch']) && \in_array($params['touch'], [true, false], true)) {
                 $opt['touch'] = $params['touch'];
             }
 
             Factory::getApplication()->getDocument()->addScriptOptions(
-                'bootstrap.carousel', [$selector => (object) $opt]
+                'bootstrap.carousel',
+                [$selector => (object) $opt]
             );
         }
 
