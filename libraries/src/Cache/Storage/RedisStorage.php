@@ -31,7 +31,7 @@ class RedisStorage extends CacheStorage
      * This constant is used as a prefix for all cache keys to ensure they are easily identifiable
      * and to avoid potential conflicts with other keys in the Redis store.
      *
-     * @since  4.4
+     * @since  __DEPLOY_VERSION__
      */
     protected const CACHE_KEY = '-cache-';
 
