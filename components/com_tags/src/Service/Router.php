@@ -53,8 +53,8 @@ class Router extends RouterBase
      * System - SEF Plugin parameters
      *
      * @var   Registry
-     * @since __DEPLOY_VERSION__
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 6.0
+     * @since 5.2.0
+     * @deprecated  5.2.0 will be removed in 6.0
      *              without replacement
      */
     private $sefparams;
@@ -76,7 +76,12 @@ class Router extends RouterBase
         parent::__construct($app, $menu);
 
         $sefPlugin       = PluginHelper::getPlugin('system', 'sef');
-        $this->sefparams = new Registry($sefPlugin->params);
+
+        if ($sefPlugin) {
+            $this->sefparams = new Registry($sefPlugin->params);
+        } else {
+            $this->sefparams = new Registry();
+        }
 
         $this->buildLookup();
     }
