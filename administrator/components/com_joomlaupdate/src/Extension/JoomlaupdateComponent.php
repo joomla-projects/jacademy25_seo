@@ -10,7 +10,13 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Extension;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Config\ConfigServiceInterface;
+use Joomla\CMS\Config\ConfigServiceTrait;
 use Joomla\CMS\Extension\MVCComponent;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\User\UserHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -21,6 +27,7 @@ use Joomla\CMS\Extension\MVCComponent;
  *
  * @since  __DEPLOY_VERSION__
  */
-class JoomlaupdateComponent extends MVCComponent
+class JoomlaupdateComponent extends MVCComponent implements ConfigServiceInterface
 {
+    use ConfigServiceTrait;
 }
