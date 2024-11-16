@@ -120,11 +120,7 @@ class PreprocessRules implements RulesInterface
             $dbquery->select($dbquery->quoteName($this->parent_key));
         }
 
-        try {
-            $obj = $this->getDatabase()->setQuery($dbquery)->loadObject();
-        } catch (\RuntimeException $e) {
-            return;
-        }
+        $obj = $this->getDatabase()->setQuery($dbquery)->loadObject();
 
         // We haven't found the item in the database. Abort.
         if (!$obj) {
