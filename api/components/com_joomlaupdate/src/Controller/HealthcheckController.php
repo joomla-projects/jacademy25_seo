@@ -13,6 +13,7 @@ namespace Joomla\Component\Joomlaupdate\Api\Controller;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -71,7 +72,7 @@ class HealthcheckController extends ApiController
 
         $modelName = $this->input->get('model', $this->contentType);
 
-        /** @var ListModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update', 'Administrator', ['ignore_request' => true, 'state' => $this->modelState]);
 
         if (!$model) {
