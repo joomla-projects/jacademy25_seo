@@ -30,4 +30,75 @@ use Joomla\CMS\User\UserHelper;
 class JoomlaupdateComponent extends MVCComponent implements ConfigServiceInterface
 {
     use ConfigServiceTrait;
+
+    /**
+     * Prepares the config form
+     *
+     * @param   Form          $form  The form to change
+     * @param   array|object  $data  The form data
+     *
+     * @return void
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function prepareForm(Form $form, $data) : void
+    {
+        if ($form->getName() !== 'com_config.component')
+        {
+            return;
+        }
+
+        // We remove the token field, if no auto update is selected
+        if (empty($data['autoupdate']) || !in_array($data['autoupdate'], ['minor', 'patch']))
+        {
+            $form->removeField('update_token');
+        }
+        // If we want automated updates, check if we have an old key to use otherwise generate a new one (don't use the submited one, if could be manipulated)
+        else {
+            $config = ComponentHelper::getParams('com_joomlaupdate');
+
+            $token = $config->get('update_token');
+
+            if (empty($token))
+            {
+                $token = UserHelper::genRandomPassword(40);
+            }
+
+            $form->setFieldAttribute('update_token', 'default', $token);
+        }
+
+        // Handle automated updates when form is submitted (but before it's saved)
+        $input = Factory::getApplication()->getInput();
+
+        if ($input->getMethod() === 'POST')
+        {
+            $this->manageAutoUpdate($data);
+        }
+    }
+
+    /**
+     * Decide if we subscribe or unsubscribe from automated updates
+     *
+     * @param array|object $data
+     *
+     * @return void
+     */
+    protected function manageAutoUpdate($data) {
+        if (empty($data['autoupdate']) || !in_array($data['autoupdate'], ['minor', 'patch']))
+        {
+            $config = ComponentHelper::getParams('com_joomlaupdate');
+
+            $token = $config->get('update_token');
+
+            if ($token) {
+                // @todo implement
+                // $this->autoUpdateUnsubscribe($token);
+            }
+
+            return;
+        }
+
+        // @todo implement
+        // $this->autoUpdateSubscribe($data);
+    }
 }
