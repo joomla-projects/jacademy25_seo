@@ -42,6 +42,13 @@ class HealthcheckController extends ApiController
      */
     protected $default_view = 'healthcheck';
 
+    /**
+     * Show the healthcheck information
+     *
+     * @return HealthcheckController
+     *
+     * @since __DEPLOY_VERSION__
+     */
     public function show()
     {
         $this->validateUpdateToken();
