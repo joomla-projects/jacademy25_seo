@@ -53,7 +53,7 @@ class JoomlaupdateComponent extends MVCComponent implements ConfigServiceInterfa
         {
             $form->removeField('update_token');
         }
-        // If we want automated updates, check if we have an old key to use otherwise generate a new one (don't use the submited one, if could be manipulated)
+        // If we want automated updates, check if we have an old key to use otherwise generate a new one
         else {
             $config = ComponentHelper::getParams('com_joomlaupdate');
 
