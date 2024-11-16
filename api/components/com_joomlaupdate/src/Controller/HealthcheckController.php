@@ -78,6 +78,9 @@ class HealthcheckController extends ApiController
 
         $view->healthCheck();
 
+        // If we reach this point, healthcheck was successful, so update the date in the config
+        $model->updateLastHealthCheck();
+
         return $this;
     }
 

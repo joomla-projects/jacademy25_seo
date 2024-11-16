@@ -25,6 +25,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Tuf as TufMetadata;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
@@ -455,6 +456,28 @@ class UpdateModel extends BaseDatabaseModel
         $response['check'] = $this->isChecksumValid($target, $updateInfo['object']);
 
         return $response;
+    }
+
+    /**
+     * Update the datetime for the last health check run
+     *
+     * @return void
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function updateLastHealthCheck() {
+        $extension = new Extension($this->getDatabase());
+
+        $extensionId = $extension->find(['element' => 'com_joomlaupdate']);
+
+        $extension->load($extensionId);
+
+        $params = new Registry($extension->params);
+        $params->set('update_last_check', Factory::getDate()->toSql());
+
+        $extension->params = (string) $params;
+
+        $extension->store();
     }
 
     /**
