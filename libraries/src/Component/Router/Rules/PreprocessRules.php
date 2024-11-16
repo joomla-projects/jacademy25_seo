@@ -134,7 +134,7 @@ class PreprocessRules implements RulesInterface
 
         // If we have a parent key and it is missing, lets add it
         if ($parent_key && $this->parent_key && !isset($query[$parent_key])) {
-            $query[$parent_key] = (string) $obj->{$this->parent_key};
+            $query[$parent_key] = $obj->{$this->parent_key};
         }
     }
 
