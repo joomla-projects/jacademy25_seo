@@ -47,7 +47,7 @@ final class Joomlaupdate extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
      */
     public function onBeforeApiRoute(BeforeApiRouteEvent $event): void
     {
