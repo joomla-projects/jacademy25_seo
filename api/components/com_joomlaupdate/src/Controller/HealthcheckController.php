@@ -155,7 +155,7 @@ class HealthcheckController extends ApiController
     }
 
     protected function validateUpdateToken() : void {
-        $token = $this->input->get('token', $this->input->get->get('token'), 'STRING');
+        $token = $this->input->server->get('HTTP_X_JUPDATE_TOKEN', '', 'STRING');
 
         if (empty($token)) {
             throw new InvalidParameterException('Token is required', 403, null, 'token');
