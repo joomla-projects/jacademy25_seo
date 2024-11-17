@@ -28,6 +28,25 @@ use Tobscure\JsonApi\Resource;
 class JsonapiView extends BaseApiView
 {
     /**
+     * Generates the health check output
+     *
+     * @return string  The rendered data
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function healthCheck() {
+        $data = $this->getStatsData();
+
+        $element = (new Resource($data, $this->serializer))
+            ->fields(['healthcheck' => ['php_version', 'db_type', 'db_version', 'cms_version', 'server_os']]);
+
+        $this->getDocument()->setData($element);
+        $this->getDocument()->addLink('self', Uri::current());
+
+        return $this->getDocument()->render();
+    }
+
+    /**
      * Get the data that will be sent to the update server.
      *
      * @return  array
@@ -52,22 +71,5 @@ class JsonapiView extends BaseApiView
         }
 
         return $data;
-    }
-
-    /**
-     * Generates the health check output
-     *
-     * @return void
-     */
-    public function healthCheck() {
-        $data = $this->getStatsData();
-
-        $element = (new Resource($data, $this->serializer))
-            ->fields(['healthcheck' => ['php_version', 'db_type', 'db_version', 'cms_version', 'server_os']]);
-
-        $this->getDocument()->setData($element);
-        $this->getDocument()->addLink('self', Uri::current());
-
-        return $this->getDocument()->render();
     }
 }
