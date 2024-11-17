@@ -13,6 +13,7 @@ namespace Joomla\Component\Joomlaupdate\Api\Controller;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\Component\Joomlaupdate\Api\View\Updates\JsonapiView;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -37,24 +38,32 @@ class UpdatesController extends ApiController
     /**
      * The default view for the display method.
      *
-     * @var    string
+     * @var string
      * @since  __DEPLOY_VERSION__
      */
     protected $default_view = 'updates';
 
+    /**
+     * Get the latest update version for the auto updater
+     *
+     * @return UpdateController Self for chaining
+     */
     public function getUpdate() {
         $this->validateUpdateToken();
 
-        $this->displayOutput('getUpdate');
+        $view = $this->prepareView();
+
+        $view->getUpdate();
+
+        return $this;
     }
 
     /**
-     * Generic method to call the different views
+     * Generic method to prepare the view
      *
-     * @param [type] $method
-     * @return void
+     * @return JsonapiView  The prepared view
      */
-    protected function displayOutput($method) {
+    protected function prepareView() {
 
         $viewType   = $this->app->getDocument()->getType();
         $viewName   = $this->input->get('view', $this->default_view);
@@ -86,7 +95,7 @@ class UpdatesController extends ApiController
 
         $view->setDocument($this->app->getDocument());
 
-        $view->$method();
+        return $view;
     }
 
     /**
