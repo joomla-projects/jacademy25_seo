@@ -41,10 +41,9 @@ class JoomlaupdateComponent extends MVCComponent implements ConfigServiceInterfa
      *
      * @since __DEPLOY_VERSION__
      */
-    public function prepareForm(Form $form, $data) : void
+    public function prepareForm(Form $form, $data): void
     {
-        if ($form->getName() !== 'com_config.component')
-        {
+        if ($form->getName() !== 'com_config.component') {
             return;
         }
 
@@ -53,8 +52,7 @@ class JoomlaupdateComponent extends MVCComponent implements ConfigServiceInterfa
 
         $token = $config->get('update_token');
 
-        if (empty($token))
-        {
+        if (empty($token)) {
             $token = UserHelper::genRandomPassword(40);
         }
 
@@ -65,8 +63,7 @@ class JoomlaupdateComponent extends MVCComponent implements ConfigServiceInterfa
         // Handle automated updates when form is submitted (but before it's saved)
         $input = Factory::getApplication()->getInput();
 
-        if ($input->getMethod() === 'POST')
-        {
+        if ($input->getMethod() === 'POST') {
             $this->manageAutoUpdate($data);
         }
     }
@@ -78,9 +75,9 @@ class JoomlaupdateComponent extends MVCComponent implements ConfigServiceInterfa
      *
      * @return void
      */
-    protected function manageAutoUpdate($data) {
-        if (empty($data['autoupdate']) || $data['updatesource'] !== 'default' || $data['minimum_stability'] !== 'stable')
-        {
+    protected function manageAutoUpdate($data)
+    {
+        if (empty($data['autoupdate']) || $data['updatesource'] !== 'default' || $data['minimum_stability'] !== 'stable') {
             if (!empty($data['update_token'])) {
                 // @todo implement
                 // $this->autoUpdateUnsubscribe($data['update_token']);
