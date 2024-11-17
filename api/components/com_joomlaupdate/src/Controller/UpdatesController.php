@@ -91,6 +91,22 @@ class UpdatesController extends ApiController
     }
 
     /**
+     * Finalize the update
+     *
+     * @return UpdateController For chaining
+     */
+    public function finalizeUpdate()
+    {
+        $this->validateUpdateToken();
+
+        $view = $this->prepareView();
+
+        $view->finalizeUpdate();
+
+        return $this;
+    }
+
+    /**
      * Generic method to prepare the view
      *
      * @return JsonapiView  The prepared view

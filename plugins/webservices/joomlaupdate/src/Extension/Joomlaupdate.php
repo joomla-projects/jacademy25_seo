@@ -59,6 +59,7 @@ final class Joomlaupdate extends CMSPlugin implements SubscriberInterface
             new Route(['GET'], 'v1/joomlaupdate/healthcheck', 'healthcheck.show', [], $defaults),
             new Route(['GET'], 'v1/joomlaupdate/getUpdate', 'updates.getUpdate', [], $defaults),
             new Route(['GET'], 'v1/joomlaupdate/prepareUpdate', 'updates.prepareUpdate', [], $defaults),
+            new Route(['GET'], 'v1/joomlaupdate/finalizeUpdate', 'updates.finalizeUpdate', [], $defaults),
         ];
 
         $router->addRoutes($routes);

@@ -85,4 +85,34 @@ class JsonapiView extends BaseApiView
 
         return $this->getDocument()->render();
     }
+
+    public function finalizeUpdate()
+    {
+        /**
+         * @var UpdateModel $model
+         */
+        $model = $this->getModel();
+
+        try {
+            $model->finaliseUpgrade();
+        } catch (\Throwable $e) {
+            $model->collectError('finaliseUpgrade', $e);
+        }
+
+        $model->resetUpdateSource();
+
+        $success = true;
+
+        if ($model->getErrors()) {
+            $success = false;
+        }
+
+        $element = (new Resource((object) ['success' => $success, 'id' => 'finalizeUpdate'], $this->serializer))
+            ->fields(['updates' => ['success']]);
+
+        $this->getDocument()->setData($element);
+        $this->getDocument()->addLink('self', Uri::current());
+
+        return $this->getDocument()->render();
+    }
 }
