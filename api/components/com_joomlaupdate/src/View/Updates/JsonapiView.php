@@ -34,7 +34,8 @@ class JsonapiView extends BaseApiView
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getUpdate() {
+    public function getUpdate()
+    {
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
         /**
@@ -66,7 +67,7 @@ class JsonapiView extends BaseApiView
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function prepareUpdate(string $targetVersion) : string
+    public function prepareUpdate(string $targetVersion): string
     {
         /**
          * @var UpdateModel $model

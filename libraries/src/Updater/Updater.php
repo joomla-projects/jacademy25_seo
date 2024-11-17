@@ -189,7 +189,7 @@ class Updater extends Adapter
      *
      * @return array
      */
-    public function getAvailableUpdates(int $eid, string $minimumStability = self::STABILITY_STABLE) : array
+    public function getAvailableUpdates(int $eid, string $minimumStability = self::STABILITY_STABLE): array
     {
         $results = $this->getUpdateSites($eid);
 
@@ -200,7 +200,6 @@ class Updater extends Adapter
         $updateObjects = [];
 
         foreach ($results as $result) {
-
             $updateElements = $this->getUpdateObjectsForSite($result, $minimumStability);
 
             foreach ($updateElements as $updateElement) {

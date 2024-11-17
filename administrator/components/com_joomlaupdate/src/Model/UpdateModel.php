@@ -485,6 +485,8 @@ class UpdateModel extends BaseDatabaseModel
      * Get the latest version for the auto update
      *
      * @return string|null
+     *
+     * @since __DEPLOY_VERSION__
      */
     public function getAutoUpdateVersion(): ?string
     {
@@ -501,6 +503,8 @@ class UpdateModel extends BaseDatabaseModel
      * @param string $targetVersion
      *
      * @return array
+     *
+     * @since __DEPLOY_VERSION__
      */
     public function prepareAutoUpdate(string $targetVersion): array
     {

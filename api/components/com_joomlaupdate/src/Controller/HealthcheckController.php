@@ -165,8 +165,17 @@ class HealthcheckController extends ApiController
         return false;
     }
 
-    protected function validateUpdateToken() : void {
-
+    /**
+     * Validate if the update token is correct and auto update is enabled
+     *
+     * @return void
+     *
+     * @since __DEPLOY_VERSION__
+     *
+     * @throws Exception
+     */
+    protected function validateUpdateToken(): void
+    {
         $config = ComponentHelper::getParams('com_joomlaupdate');
 
         if ($config->get('updatesource') !== 'default' || (int) $config->get('minimum_stability') !== 4 || !$config->get('autoupdate')) {

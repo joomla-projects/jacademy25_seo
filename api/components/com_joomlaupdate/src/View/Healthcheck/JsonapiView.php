@@ -34,7 +34,8 @@ class JsonapiView extends BaseApiView
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function healthCheck() {
+    public function healthCheck()
+    {
         $data = $this->getStatsData();
 
         $data['id'] = 'healthcheck';
