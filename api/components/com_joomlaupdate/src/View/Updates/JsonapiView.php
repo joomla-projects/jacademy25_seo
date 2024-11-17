@@ -50,8 +50,8 @@ class JsonapiView extends BaseApiView
             $latestVersion = null;
         }
 
-        $element = (new Resource((object) ['id' => 'getUpdate', 'availableUpdate' => $latestVersion], $this->serializer))
-            ->fields(['getUpdate' => ['availableUpdate']]);
+        $element = (new Resource((object) ['availableUpdate' => $latestVersion, 'id' => 'getUpdate'], $this->serializer))
+            ->fields(['updates' => ['availableUpdate']]);
 
         $this->getDocument()->setData($element);
         $this->getDocument()->addLink('self', Uri::current());
