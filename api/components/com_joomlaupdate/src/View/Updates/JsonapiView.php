@@ -50,7 +50,7 @@ class JsonapiView extends BaseApiView
             $latestVersion = null;
         }
 
-        $element = (new Resource(['availableUpdate' => $latestVersion], $this->serializer))
+        $element = (new Resource((object) ['id' => 'getUpdate', 'availableUpdate' => $latestVersion], $this->serializer))
             ->fields(['getUpdate' => ['availableUpdate']]);
 
         $this->getDocument()->setData($element);
