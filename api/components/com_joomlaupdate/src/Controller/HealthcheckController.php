@@ -166,13 +166,18 @@ class HealthcheckController extends ApiController
     }
 
     protected function validateUpdateToken() : void {
+
+        $config = ComponentHelper::getParams('com_joomlaupdate');
+
+        if (!in_array($config->get('autoupdate', 'none'), ['patch', 'minor'])) {
+            throw new \RuntimeException('Auto update is disabled', 404);
+        }
+
         $token = $this->input->server->get('HTTP_X_JUPDATE_TOKEN', '', 'STRING');
 
         if (empty($token)) {
             throw new InvalidParameterException('Token is required', 403, null, 'token');
         }
-
-        $config = ComponentHelper::getParams('com_joomlaupdate');
 
         if ($config->get('update_token') !== $token) {
             throw new InvalidParameterException('Invalid token', 403, null, 'token');
