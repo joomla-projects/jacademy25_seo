@@ -75,27 +75,28 @@
 	<fieldset
 		name="automated-updates"
 		label="COM_JOOMLAUPDATE_CONFIG_AUTOMATED_UPDATES_LABEL"
-		description="COM_JOOMLAUPDATE_CONFIG_AUTOMATED_UPDATES_DESC"
 	>
 		<field
 			name="autoupdate"
-			type="list"
+			type="radio"
 			label="COM_JOOMLAUPDATE_CONFIG_AUTOUPDATE_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_AUTOUPDATE_DESC"
-			default="patch"
+			default="1"
+			layout="joomla.form.field.radio.switcher"
+			showon="updatesource:default"
 			validate="options"
 		>
-			<option value="none">COM_JOOMLAUPDATE_CONFIG_AUTOUPDATE_NONE</option>
-			<option value="patch">COM_JOOMLAUPDATE_CONFIG_AUTOUPDATE_PATCH</option>
-			<option value="minor">COM_JOOMLAUPDATE_CONFIG_AUTOUPDATE_MINOR</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
+
 		<field
 			name="update_token"
 			type="text"
 			label="COM_JOOMLAUPDATE_CONFIG_UPDATE_TOKEN_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_UPDATE_TOKEN_DESC"
 			readonly="true"
-			showon="autoupdate:patch[OR]autoupdate:minor"
+			showon="updatesource:default[AND]autoupdate:1"
 		/>
 		<field
 			name="update_last_check"
@@ -103,7 +104,14 @@
 			label="COM_JOOMLAUPDATE_CONFIG_UPDATE_LAST_CHECK_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_UPDATE_LAST_CHECK_DESC"
 			readonly="true"
-			showon="autoupdate:patch[OR]autoupdate:minor"
+			showon="updatesource:default[AND]autoupdate:1"
+		/>
+		<field
+			name="auto_update_disabled"
+			type="note"
+			label="COM_JOOMLAUPDATE_CONFIG_AUTO_UPDATE_DISABLED_LABEL"
+			class="alert alert-info w-100"
+			showon="updatesource:next[OR]updatesource:custom"
 		/>
 	</fieldset>
 </config>
