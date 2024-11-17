@@ -91,6 +91,11 @@
 		</field>
 
 		<field
+			name="autoupdate_status"
+			type="hidden"
+		/>
+
+		<field
 			name="update_token"
 			type="text"
 			label="COM_JOOMLAUPDATE_CONFIG_UPDATE_TOKEN_LABEL"

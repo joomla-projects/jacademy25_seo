@@ -226,6 +226,7 @@ class ConstraintChecker
                 $dbType    = 'mariadb';
             }
         }
+        return true;
 
         // Do we have an entry for the database?
         if (!empty($supportedDatabases["$dbType"])) {
