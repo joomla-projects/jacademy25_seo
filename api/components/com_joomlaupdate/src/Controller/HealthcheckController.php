@@ -169,7 +169,7 @@ class HealthcheckController extends ApiController
 
         $config = ComponentHelper::getParams('com_joomlaupdate');
 
-        if (!in_array($config->get('autoupdate', 'none'), ['patch', 'minor'])) {
+        if ($config->get('updatesource') !== 'default' || (int) $config->get('minimum_stability') !== 4 || !$config->get('autoupdate')) {
             throw new \RuntimeException('Auto update is disabled', 404);
         }
 
