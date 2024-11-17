@@ -481,6 +481,22 @@ class UpdateModel extends BaseDatabaseModel
     }
 
     /**
+     * Get the latest version for the auto update
+     *
+     * @return string|null
+     */
+    public function getAutoUpdateVersion() : ?string
+    {
+        $this->refreshUpdates(true);
+
+        $updateInfo = $this->getUpdateInformation();
+
+        return $updateInfo['latest'] ?? null;
+
+        print_r($updateInfo);exit;
+    }
+
+    /**
      * Return the result of the checksum of a package with the SHA256/SHA384/SHA512 tags in the update server manifest
      *
      * @param   string  $packagefile   Location of the package to be installed

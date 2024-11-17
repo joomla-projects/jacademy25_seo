@@ -23,14 +23,14 @@ use Tobscure\JsonApi\Resource;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * The healthcheck view
+ * The updates view
  *
  * @since  __DEPLOY_VERSION__
  */
 class JsonapiView extends BaseApiView
 {
     /**
-     * Generates the health check output
+     * Generates the update output
      *
      * @return string  The rendered data
      *
@@ -44,7 +44,11 @@ class JsonapiView extends BaseApiView
          */
         $model = $this->getModel();
 
-        $latestVersion = $model->getAvailableAutoUpdates();
+        $latestVersion = $model->getAutoUpdateVersion();
+
+        if (!$latestVersion || version_compare(JVERSION, $latestVersion) >= 0) {
+            $latestVersion = null;
+        }
 
         $element = (new Resource(['availableUpdate' => $latestVersion], $this->serializer))
             ->fields(['getUpdate' => ['availableUpdate']]);
