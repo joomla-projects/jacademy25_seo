@@ -39,33 +39,6 @@ class JsonapiView extends BaseApiView
     public function getUpdate() {
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
-        $updater = Updater::getInstance();
-
-        // Here be dragons, crazy stuff to overcome some Joomla! restrictions
-
-        // For automated updates, we stay in the current major version, so make sure we don't look for "next"
-        // @todo remove this restriction to also update to the next major version
-        // We also check if we want only patch level updates
-        switch ($params->get('autoupdate')) {
-            case 'patch':
-                $params->set('patchOnly', true);
-            case 'minor':
-            case 'major':
-            default:
-                $params->set('updatesource', 'default');
-                break;
-        }
-
-        $updates = $updater->getAvailableUpdates(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id, Updater::STABILITY_STABLE);
-
-        $latestVersion = null;
-
-        foreach ($updates as $update) {
-            if (!$latestVersion || version_compare($update['version'], $latestVersion) > 0) {
-                $latestVersion = $update['version'];
-            }
-        }
-
         /**
          * @var UpdateModel $model
          */
