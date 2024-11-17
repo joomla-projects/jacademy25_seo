@@ -79,7 +79,7 @@ class JoomlaupdateComponent extends MVCComponent implements ConfigServiceInterfa
      * @return void
      */
     protected function manageAutoUpdate($data) {
-        if (empty($data['autoupdate']) || $data['updatesource'] !== 'default')
+        if (empty($data['autoupdate']) || $data['updatesource'] !== 'default' || $data['minimum_stability'] !== 'stable') {
         {
             if (!empty($data['update_token'])) {
                 // @todo implement
