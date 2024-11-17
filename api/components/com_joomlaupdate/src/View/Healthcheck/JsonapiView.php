@@ -37,7 +37,9 @@ class JsonapiView extends BaseApiView
     public function healthCheck() {
         $data = $this->getStatsData();
 
-        $element = (new Resource($data, $this->serializer))
+        $data['id'] = 'healthcheck';
+
+        $element = (new Resource((object) $data, $this->serializer))
             ->fields(['healthcheck' => ['php_version', 'db_type', 'db_version', 'cms_version', 'server_os']]);
 
         $this->getDocument()->setData($element);
