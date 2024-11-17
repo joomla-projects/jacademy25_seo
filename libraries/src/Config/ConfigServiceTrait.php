@@ -30,7 +30,7 @@ trait ConfigServiceTrait
      *
      * @return void
      */
-    public function prepareForm(Form $form, $data) : void
+    public function prepareForm(Form $form, $data): void
     {
     }
 }

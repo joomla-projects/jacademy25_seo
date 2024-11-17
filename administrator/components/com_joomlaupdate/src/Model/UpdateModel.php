@@ -485,8 +485,10 @@ class UpdateModel extends BaseDatabaseModel
      * Get the latest version for the auto update
      *
      * @return string|null
+     *
+     * @since __DEPLOY_VERSION__
      */
-    public function getAutoUpdateVersion() : ?string
+    public function getAutoUpdateVersion(): ?string
     {
         $this->refreshUpdates(true);
 
@@ -501,8 +503,10 @@ class UpdateModel extends BaseDatabaseModel
      * @param string $targetVersion
      *
      * @return array
+     *
+     * @since __DEPLOY_VERSION__
      */
-    public function prepareAutoUpdate(string $targetVersion) : array
+    public function prepareAutoUpdate(string $targetVersion): array
     {
         $fileInformation = $this->download();
 

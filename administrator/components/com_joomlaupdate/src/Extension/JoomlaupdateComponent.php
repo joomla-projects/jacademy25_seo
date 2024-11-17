@@ -42,8 +42,8 @@ class JoomlaupdateComponent extends MVCComponent implements ConfigServiceInterfa
     /**
      * Prepares the config form
      *
-     * @param Form $form The form to change
-     * @param array|object $data The form data
+     * @param   Form          $form  The form to change
+     * @param   array|object  $data  The form data
      *
      * @return void
      *
