@@ -47,7 +47,7 @@ class JsonapiView extends BaseApiView
         $latestVersion = $model->getAvailableAutoUpdates();
 
         $element = (new Resource(['availableUpdate' => $latestVersion], $this->serializer))
-            ->fields(['checkUpdate' => ['availableUpdate']]);
+            ->fields(['getUpdate' => ['availableUpdate']]);
 
         $this->getDocument()->setData($element);
         $this->getDocument()->addLink('self', Uri::current());
