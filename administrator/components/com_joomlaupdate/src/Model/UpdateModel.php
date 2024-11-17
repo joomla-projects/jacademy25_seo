@@ -465,7 +465,8 @@ class UpdateModel extends BaseDatabaseModel
      *
      * @since __DEPLOY_VERSION__
      */
-    public function updateLastHealthCheck() {
+    public function updateLastHealthCheck()
+    {
         $extension = new Extension($this->getDatabase());
 
         $extensionId = $extension->find(['element' => 'com_joomlaupdate']);
@@ -492,8 +493,37 @@ class UpdateModel extends BaseDatabaseModel
         $updateInfo = $this->getUpdateInformation();
 
         return $updateInfo['latest'] ?? null;
+    }
 
-        print_r($updateInfo);exit;
+    /**
+     * Download file and request password/filesize information
+     *
+     * @param string $targetVersion
+     *
+     * @return array
+     */
+    public function prepareAutoUpdate(string $targetVersion) : array
+    {
+        $fileInformation = $this->download();
+
+        if ($fileInformation['version'] !== $targetVersion) {
+            throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_VERSION_WRONG'), 410);
+        }
+
+        if ($fileInformation['check'] === false) {
+            throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG'), 410);
+        }
+
+        if (!$this->createUpdateFile($fileInformation['basename'])) {
+            throw new \Exception('Could not write update file', 410);
+        }
+
+        $app = Factory::getApplication();
+
+        return [
+            'password' => $app->getUserState('com_joomlaupdate.password'),
+            'filesize' => $app->getUserState('com_joomlaupdate.filesize'),
+        ];
     }
 
     /**
@@ -1045,45 +1075,6 @@ ENDDATA;
         }
 
         Factory::getApplication()->setUserState('com_joomlaupdate.temp_file', $tmp_dest);
-    }
-
-    /**
-     * Get a specific update based on the configuration of Joomla
-     *
-     * @return string|null  The version of the available update or null if not found
-     */
-    public function getAvailableAutoUpdates() : ?string
-    {
-        $params = ComponentHelper::getParams('com_joomlaupdate');
-
-        $updater = Updater::getInstance();
-
-        // Here be dragons, crazy stuff to overcome some Joomla! restrictions
-
-        // For automated updates, we stay in the current major version, so make sure we don't look for "next"
-        // @todo remove this restriction to also update to the next major version
-        // We also check if we want only patch level updates
-        switch ($params->get('autoupdate')) {
-            case 'patch':
-                $params->set('patchOnly', true);
-            case 'minor':
-            case 'major':
-            default:
-                $params->set('updatesource', 'default');
-                break;
-        }
-
-        $updates = $updater->getAvailableUpdates(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id, Updater::STABILITY_STABLE);
-
-        $latestVersion = null;
-
-        foreach ($updates as $update) {
-            if (!$latestVersion || version_compare($update['version'], $latestVersion) > 0) {
-                $latestVersion = $update['version'];
-            }
-        }
-
-        return $latestVersion;
     }
 
     /**

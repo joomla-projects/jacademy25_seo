@@ -11,9 +11,7 @@
 namespace Joomla\Component\Joomlaupdate\Api\View\Updates;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
-use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 use Tobscure\JsonApi\Resource;
@@ -52,6 +50,35 @@ class JsonapiView extends BaseApiView
 
         $element = (new Resource((object) ['availableUpdate' => $latestVersion, 'id' => 'getUpdate'], $this->serializer))
             ->fields(['updates' => ['availableUpdate']]);
+
+        $this->getDocument()->setData($element);
+        $this->getDocument()->addLink('self', Uri::current());
+
+        return $this->getDocument()->render();
+    }
+
+    /**
+     * Prepares the update by setting up the update.php and returns password and file size
+     *
+     * @param string $targetVersion The target version to prepare
+     *
+     * @return string  The rendered data
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function prepareUpdate(string $targetVersion) : string
+    {
+        /**
+         * @var UpdateModel $model
+         */
+        $model = $this->getModel();
+
+        $fileinformation = $model->prepareAutoUpdate($targetVersion);
+
+        $fileinformation['id'] = 'prepareUpdate';
+
+        $element = (new Resource((object) $fileinformation, $this->serializer))
+            ->fields(['updates' => ['password', 'filesize']]);
 
         $this->getDocument()->setData($element);
         $this->getDocument()->addLink('self', Uri::current());

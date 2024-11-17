@@ -46,14 +46,46 @@ class UpdatesController extends ApiController
     /**
      * Get the latest update version for the auto updater
      *
-     * @return UpdateController Self for chaining
+     * @return UpdateController For chaining
      */
-    public function getUpdate() {
+    public function getUpdate()
+    {
         $this->validateUpdateToken();
 
         $view = $this->prepareView();
 
         $view->getUpdate();
+
+        return $this;
+    }
+
+    /**
+     * Prepare the update and output the update information
+     *
+     * @return UpdatesController
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function prepareUpdate()
+    {
+        $this->validateUpdateToken();
+
+        /**
+         * @var UpdateModel $model
+         */
+        $model = $this->getModel('Update');
+
+        $latestVersion = $model->getAutoUpdateVersion();
+
+        $targetVersion = $this->input->getString('targetVersion');
+
+        if (!$latestVersion || $latestVersion !== $targetVersion) {
+            throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_VERSION_WRONG'), 410);
+        }
+
+        $view = $this->prepareView();
+
+        $view->prepareUpdate($targetVersion);
 
         return $this;
     }
@@ -174,7 +206,7 @@ class UpdatesController extends ApiController
     protected function validateUpdateToken() : void {
         $config = ComponentHelper::getParams('com_joomlaupdate');
 
-        if (!in_array($config->get('autoupdate', 'none'), ['patch', 'minor'])) {
+        if ($config->get('updatesource') !== 'default' || (int) $config->get('minimum_stability') !== 4 || !$config->get('autoupdate')) {
             throw new \RuntimeException('Auto update is disabled', 404);
         }
 
