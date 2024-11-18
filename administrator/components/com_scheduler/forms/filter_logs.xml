@@ -21,7 +21,7 @@
 			name="exitcode"
 			type="exitCode"
 			label="COM_SCHEDULER_EXITCODE"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_SCHEDULER_FILTER_SELECT_OPTION_EXITCODE</option>
 		</field>
