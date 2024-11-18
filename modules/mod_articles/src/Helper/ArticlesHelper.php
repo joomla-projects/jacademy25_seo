@@ -383,7 +383,7 @@ class ArticlesHelper implements DatabaseAwareInterface
 
                 // Remove any images belongs to the text
                 if (!$params->get('image')) {
-                    // Remove any images and empty anchor tags from the intro text
+                    // Remove any images and empty links from the intro text
                     $item->displayIntrotext = preg_replace(['/\\<img[^>]*>/', '/<a[^>]*><\\/a>/'], '', $item->displayIntrotext);
                 }
                 if ($introtext_limit != 0) {
