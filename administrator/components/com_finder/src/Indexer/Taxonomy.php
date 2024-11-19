@@ -439,7 +439,7 @@ class Taxonomy
             $db->setQuery($query);
             $nodes = $db->loadColumn();
 
-            if (!count($nodes)) {
+            if (!\count($nodes)) {
                 break;
             }
 
