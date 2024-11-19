@@ -177,11 +177,30 @@ class SiteRouter extends Router
     {
         $route = $uri->getPath();
 
-        // Identify format
-        if (!(substr($route, -9) === 'index.php' || substr($route, -1) === '/') && $suffix = pathinfo($route, PATHINFO_EXTENSION)) {
+        if (substr($route, -9) === 'index.php' || substr($route, -1) === '/') {
+            // We don't want suffixes when the URL ends in index.php or with a /
+            return;
+        }
+
+        $suffix       = pathinfo($route, PATHINFO_EXTENSION);
+        $nonSEFSuffix = $uri->getVar('format');
+
+        if ($suffix) {
             $uri->setVar('format', $suffix);
             $route = str_replace('.' . $suffix, '', $route);
             $uri->setPath($route);
+        }
+
+        if ($nonSEFSuffix) {
+            // There is a URL query parameter named "format"
+            $uri->setVar('format', $nonSEFSuffix);
+            $router->setTainted();
+        }
+
+        if (!$suffix) {
+            // We don't have a suffix, so we default to .html at the end
+            $uri->setPath($route . '.html');
+            $router->setTainted();
         }
     }
 
