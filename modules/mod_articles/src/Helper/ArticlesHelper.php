@@ -386,6 +386,7 @@ class ArticlesHelper implements DatabaseAwareInterface
                     // Remove any images and empty links from the intro text
                     $item->displayIntrotext = preg_replace(['/\\<img[^>]*>/', '/<a[^>]*><\\/a>/'], '', $item->displayIntrotext);
                 }
+
                 if ($introtext_limit != 0) {
                     $item->displayIntrotext = HTMLHelper::_('string.truncateComplex', $item->displayIntrotext, $introtext_limit);
                 }
