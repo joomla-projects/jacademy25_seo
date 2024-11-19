@@ -741,7 +741,7 @@ class Indexer
         $db->execute();
 
         // Delete all orphaned terms.
-        $query      = $db->getQuery(true);
+        $query = $db->getQuery(true);
         $query->delete($db->quoteName('#__finder_terms'))
             ->where($db->quoteName('links') . ' <= 0');
         $db->setQuery($query);
