@@ -6,7 +6,7 @@ clone:
 
 steps:
   - name: setup
-    image: joomlaprojects/docker-images:php8.3
+    image: joomlaprojects/docker-images:php8.4
     volumes:
       - name: certificates
         path: /certificates
@@ -14,7 +14,7 @@ steps:
       - cp -v tests/certs/* /certificates/
 
   - name: composer
-    image: joomlaprojects/docker-images:php8.3
+    image: joomlaprojects/docker-images:php8.4
     volumes:
       - name: composer-cache
         path: /tmp/composer-cache
@@ -70,6 +70,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
+  - name: php84-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php8.4
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
   - name: php81-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.1
@@ -91,6 +98,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
 
+  - name: php84-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.4
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
   - name: php81-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.1
@@ -108,6 +122,13 @@ steps:
   - name: php83-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: php84-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.4
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
@@ -154,7 +175,7 @@ steps:
   - name: phpmax-system-mysql
     depends_on:
       - phpmin-system-mysql
-    image: joomlaprojects/docker-images:cypress8.2
+    image: joomlaprojects/docker-images:cypress8.3
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -162,15 +183,15 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
-    when:
-      event:
-        exclude:
-          - pull_request
+#    when:
+#      event:
+#        exclude:
+#          - pull_request
 
   - name: phpnext-system-mysql
     depends_on:
       - phpmax-system-mysql
-    image: joomlaprojects/docker-images:cypress8.3
+    image: joomlaprojects/docker-images:cypress8.4
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -179,12 +200,12 @@ steps:
     failure: ignore
     commands:
       - echo "This test is disabled because php next is not stable yet"
-      - exit 1
+      - echo "exit 1; not disabled"
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlnext mysqli mysql
-    when:
-      event:
-        exclude:
-          - pull_request
+#    when:
+#      event:
+#        exclude:
+#          - pull_request
 
   - name: phpmin-system-postgres
     depends_on:
@@ -205,7 +226,7 @@ steps:
   - name: phpmax-system-postgres
     depends_on:
       - phpmin-system-postgres
-    image: joomlaprojects/docker-images:cypress8.2
+    image: joomlaprojects/docker-images:cypress8.3
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -217,7 +238,7 @@ steps:
   - name: phpnext-system-postgres
     depends_on:
       - phpmax-system-postgres
-    image: joomlaprojects/docker-images:cypress8.3
+    image: joomlaprojects/docker-images:cypress8.4
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -226,12 +247,12 @@ steps:
     failure: ignore
     commands:
       - echo "This test is disabled because php next is not stable yet"
-      - exit 1
+      - echo "exit 1; not disabled"
       - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresnext pgsql postgres
-    when:
-      event:
-        exclude:
-          - pull_request
+#    when:
+#      event:
+#        exclude:
+#          - pull_request
 
   - name: artifacts-system-tests
     image: joomlaprojects/docker-images:packager
