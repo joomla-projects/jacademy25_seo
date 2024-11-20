@@ -700,8 +700,7 @@ abstract class AdminModel extends FormModel
      *
      * @since   3.1
      *
-     * @deprecated  6.0 will be removed in 7.0
-     *              Please use batchTags
+     * @deprecated  5.3 will be removed in 7.0
      */
     protected function batchTag($value, $pks, $contexts)
     {
@@ -1133,8 +1132,6 @@ abstract class AdminModel extends FormModel
 
                     // Prune items that you can't change.
                     unset($pks[$i]);
-
-                    return false;
                 }
 
                 /**
