@@ -822,8 +822,7 @@ class TagsHelper extends CMSHelper
      *
      * @since   3.1
      *
-     * @deprecated  6.0 will be removed in 7.0
-     *              Please use postStore
+     * @deprecated  5.3 will be removed in 7.0
      */
     public function postStoreProcess(TableInterface $table, $newTags = [], $replace = true)
     {
