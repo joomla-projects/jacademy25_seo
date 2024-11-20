@@ -169,7 +169,7 @@ abstract class Bootstrap
 
             $opt['touch'] = true;
 
-            if (isset(touch['touch']) && \is_bool($params['touch'])) {
+            if (isset($params['touch']) && \is_bool($params['touch'])) {
                 $opt['touch'] = $params['touch'];
             }
 
