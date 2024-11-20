@@ -175,7 +175,7 @@ steps:
   - name: phpmax-system-mysql
     depends_on:
       - phpmin-system-mysql
-    image: joomlaprojects/docker-images:cypress8.3
+    image: joomlaprojects/docker-images:cypress8.4
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -188,24 +188,6 @@ steps:
 #        exclude:
 #          - pull_request
 
-  - name: phpnext-system-mysql
-    depends_on:
-      - phpmax-system-mysql
-    image: joomlaprojects/docker-images:cypress8.4
-    volumes:
-      - name: cypress-cache
-        path: /root/.cache/Cypress
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-#    failure: ignore
-    commands:
-      - echo "This test is disabled because php next is not stable yet"
-      - echo "exit 1; not disabled"
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlnext mysqli mysql
-#    when:
-#      event:
-#        exclude:
-#          - pull_request
 
   - name: phpmin-system-postgres
     depends_on:
@@ -226,7 +208,7 @@ steps:
   - name: phpmax-system-postgres
     depends_on:
       - phpmin-system-postgres
-    image: joomlaprojects/docker-images:cypress8.3
+    image: joomlaprojects/docker-images:cypress8.4
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -235,30 +217,9 @@ steps:
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres
 
-  - name: phpnext-system-postgres
-    depends_on:
-      - phpmax-system-postgres
-    image: joomlaprojects/docker-images:cypress8.4
-    volumes:
-      - name: cypress-cache
-        path: /root/.cache/Cypress
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-#    failure: ignore
-    commands:
-      - echo "This test is disabled because php next is not stable yet"
-      - echo "exit 1; not disabled"
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresnext pgsql postgres
-#    when:
-#      event:
-#        exclude:
-#          - pull_request
-
   - name: artifacts-system-tests
     image: joomlaprojects/docker-images:packager
     depends_on:
-      - phpnext-system-mysql
-      - phpnext-system-postgres
       - phpmax-system-mysql
       - phpmax-system-postgres
       - phpmin-system-mysql
