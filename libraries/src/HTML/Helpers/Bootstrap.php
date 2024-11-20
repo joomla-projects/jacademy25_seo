@@ -145,7 +145,7 @@ abstract class Bootstrap
         if ($selector !== '') {
             $opt['interval'] = 5000;
 
-            if (isset($params['interval']) && \is_numeric($params['interval'])) {
+            if (isset($params['interval']) && is_numeric($params['interval'])) {
                 $opt['interval'] = (int) $params['interval'];
             }
 
