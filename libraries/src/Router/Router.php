@@ -83,7 +83,7 @@ class Router
     /**
      * Flag to mark the last parsed URL as tainted
      * If a URL could be read, but has errors, this
-     * flag can be set to true to mark the URL as errornous.
+     * flag can be set to true to mark the URL as erroneous.
      *
      * @var    bool
      * @since  __DEPLOY_VERSION__
