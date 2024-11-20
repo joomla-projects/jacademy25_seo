@@ -163,7 +163,7 @@ abstract class Bootstrap
 
             $opt['ride'] = false;
 
-            if (isset($params['ride']) && \in_array($params['ride'], ['carousel', false], true)) {
+            if (isset($params['ride']) && \in_array($params['ride'], ['carousel', true, false], true)) {
                 $opt['ride'] = $params['ride'];
             }
 
