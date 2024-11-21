@@ -574,7 +574,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             case 'readonly':
             case 'autofocus':
             case 'hidden':
-            case 'showonlocal':
+            case 'showonLocal':
                 $value       = (string) $value;
                 $this->$name = ($value === 'true' || $value === $name || $value === '1');
                 break;
