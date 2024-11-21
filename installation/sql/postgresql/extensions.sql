@@ -102,6 +102,8 @@ CREATE TABLE IF NOT EXISTS "#__contact_details" (
   "fax" varchar(255),
   "misc" text,
   "image" varchar(255),
+  "image_alt" varchar(255),
+  "image_alt_empty" smallint NOT NULL DEFAULT 0,
   "email_to" varchar(255),
   "default_con" smallint NOT NULL DEFAULT 0,
   "published" smallint NOT NULL DEFAULT 0,
