@@ -28,12 +28,11 @@ Factory::getApplication()->getDocument()->getWebAssetManager()
 
 ?>
 
- <?php if (!empty($attributes)) : ?>
+<?php if (!empty($attributes)) : ?>
     <joomla-columns-toggle
         <?php foreach ($attributes as $key => $value) : ?>
             <?php echo $key . '="' . $value . '" '; ?>
-        <?php endforeach; ?>
-        >
+        <?php endforeach; ?>>
 
         <div class="dropdown float-end pb-2">
             <button type="button"
