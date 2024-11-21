@@ -668,7 +668,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         $attributes = [
             'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
             'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', ];
+            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', 'showonLocal', ];
 
         $this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
