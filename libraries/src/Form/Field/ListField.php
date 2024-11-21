@@ -192,7 +192,7 @@ class ListField extends FormField
                     if ($option->value === $value) {
                         $value           = $option->text;
 
-                        if (!$this->showonlocal) {
+                        if (!$this->showonLocal) {
                             $tmp->optionattr = ['data-global-value' => $option->value];
                         }
 
