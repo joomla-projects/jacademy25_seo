@@ -283,7 +283,7 @@ class Router extends RouterView
             $dbquery->select($this->db->quoteName('alias'))
                 ->from($this->db->quoteName('#__contact_details'))
                 ->where($this->db->quoteName('id') . ' = :id')
-                ->bind(':id', $id);
+                ->bind(':id', $id, ParameterType::INTEGER);
             $this->db->setQuery($dbquery);
             $alias = $this->db->loadResult();
 
