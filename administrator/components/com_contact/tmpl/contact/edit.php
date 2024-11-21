@@ -53,6 +53,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
                     <div class="col-md-6">
                         <?php echo $this->form->renderField('user_id'); ?>
                         <?php echo $this->form->renderField('image'); ?>
+                        <?php echo $this->form->renderField('image_alt'); ?>
+                        <?php echo $this->form->renderField('image_alt_empty'); ?>
                         <?php echo $this->form->renderField('con_position'); ?>
                         <?php echo $this->form->renderField('email_to'); ?>
                         <?php echo $this->form->renderField('address'); ?>

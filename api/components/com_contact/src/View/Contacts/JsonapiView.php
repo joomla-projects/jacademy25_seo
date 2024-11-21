@@ -44,6 +44,8 @@ class JsonapiView extends BaseApiView
         'modified',
         'modified_by',
         'image',
+        'image_alt',
+        'image_alt_empty',
         'tags',
         'featured',
         'publish_up',

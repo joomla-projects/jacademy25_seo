@@ -219,6 +219,19 @@
 		/>
 
 		<field
+			name="image_alt"
+			type="text"
+			label="COM_CONTACT_FIELD_PARAMS_IMAGE_ALT_LABEL"
+		/>
+
+		<field
+			name="image_alt_empty"
+			type="checkbox"
+			label="COM_CONTACT_FIELD_PARAMS_IMAGE_ALT_EMPTY_LABEL"
+			description="COM_CONTACT_FIELD_PARAMS_IMAGE_ALT_EMPTY_DESC"
+		/>
+
+		<field
 			name="con_position"
 			type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_POSITION_LABEL"

@@ -16,6 +16,8 @@ CREATE TABLE IF NOT EXISTS `#__contact_details` (
   `fax` varchar(255),
   `misc` mediumtext,
   `image` varchar(255),
+  `image_alt` varchar(255),
+  `image_alt_empty` tinyint unsigned NOT NULL DEFAULT 0,
   `email_to` varchar(255),
   `default_con` tinyint unsigned NOT NULL DEFAULT 0,
   `published` tinyint NOT NULL DEFAULT 0,

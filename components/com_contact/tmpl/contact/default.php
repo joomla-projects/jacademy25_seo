@@ -108,7 +108,7 @@ $htag2   = ($tparams->get('show_page_heading') && $tparams->get('show_name')) ? 
                         'joomla.html.image',
                         [
                             'src'      => $this->item->image,
-                            'alt'      => $this->item->name,
+                            'alt'      => empty($this->item->image_alt) && empty($this->item->image_alt_empty) ? false : $this->item->image_alt,
                         ]
                     ); ?>
                 </div>
