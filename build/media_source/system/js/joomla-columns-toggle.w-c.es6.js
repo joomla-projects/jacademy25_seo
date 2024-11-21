@@ -67,7 +67,6 @@ class JoomlaColumnsToggle extends HTMLElement {
    */
   // tableName = '';
 
-
   /**
    * The storage key for local storage
    * @type {String}
@@ -89,16 +88,20 @@ class JoomlaColumnsToggle extends HTMLElement {
     this.hideClass = this.getAttribute('class-to-hide') || 'd-none';
 
     // Set the "media query" class list to remove, which may prevent toggling from working
-    const removeClass = this.getAttribute('classlist-remove');
-    this.classlistToRemove = removeClass ? removeClass.split(',').map((removeClasses) => removeClass.trim()) : ['d-none', 'd-xs-table-cell', 'd-sm-table-cell', 'd-md-table-cell', 'd-lg-table-cell', 'd-xl-table-cell', 'd-xxl-table-cell'];
+    // eslint-disable-next-line prefer-const
+    let removeClass = this.getAttribute('classlist-remove');
+    // eslint-disable-next-line no-shadow
+    this.classlistToRemove = removeClass ? removeClass.split(',').map((removeClass) => removeClass.trim()) : ['d-none', 'd-xs-table-cell', 'd-sm-table-cell', 'd-md-table-cell', 'd-lg-table-cell', 'd-xl-table-cell', 'd-xxl-table-cell'];
 
     // Set the table element
     this.table = document.querySelector(this.tableSelector);
     if (!this.table) return;
 
     // Set the protected columns
-    const protectCol = this.getAttribute('protect-col') || 'th, .toggle-ignore';
-    this.protectedCols = protectCol.split(',').map((protectCols) => protectCol.trim());
+    // eslint-disable-next-line prefer-const
+    let protectCol = this.getAttribute('protect-col') || 'th, .toggle-ignore';
+    // eslint-disable-next-line no-shadow
+    this.protectedCols = protectCol.split(',').map((protectCol) => protectCol.trim());
 
     // Set the inital total number of columns to 0
     this.colsTotal = 0;
