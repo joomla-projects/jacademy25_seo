@@ -348,7 +348,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      * Use the global (inherited) field value or local set field value on showon.
      *
      * @var    boolean
-     * @since  3.2
+     * @since  __DEPLOY_VERSION__
      */
     protected $showonlocal = false;
 
