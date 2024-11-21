@@ -183,10 +183,10 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
-#    when:
-#      event:
-#        exclude:
-#          - pull_request
+    when:
+      event:
+        exclude:
+          - pull_request
 
 
   - name: phpmin-system-postgres
@@ -413,6 +413,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 8587cef2227502ec33fa0434dadf0a3178d6fa7cbbfbe4e962b3c8784c3a2c6f
+hmac: 30eba55fa6dc380b38852a3c4969b68ef3e0d55e8eb36a0a38c5c739cea10aa1
 
 ...
