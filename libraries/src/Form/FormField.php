@@ -350,7 +350,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      * @var    boolean
      * @since  __DEPLOY_VERSION__
      */
-    protected $showonlocal = false;
+    protected $showonLocal = false;
 
     /**
      * The parent class of the field
