@@ -135,12 +135,12 @@ class ListField extends FormField
             $selected = ($selected === 'true' || $selected === 'selected' || $selected === '1');
 
             $tmp = [
-                    'value'    => $value,
-                    'text'     => Text::alt($text, $fieldname),
-                    'disable'  => $disabled,
-                    'class'    => (string) $option['class'],
-                    'selected' => ($checked || $selected),
-                    'checked'  => ($checked || $selected),
+                'value'    => $value,
+                'text'     => Text::alt($text, $fieldname),
+                'disable'  => $disabled,
+                'class'    => (string) $option['class'],
+                'selected' => ($checked || $selected),
+                'checked'  => ($checked || $selected),
             ];
 
             // Set some event handler attributes. But really, should be using unobtrusive js.
@@ -191,7 +191,10 @@ class ListField extends FormField
                 foreach ($options as $option) {
                     if ($option->value === $value) {
                         $value           = $option->text;
-                        $tmp->optionattr = ['data-global-value' => $option->value];
+
+                        if (!$this->showonlocal) {
+                            $tmp->optionattr = ['data-global-value' => $option->value];
+                        }
 
                         break;
                     }
