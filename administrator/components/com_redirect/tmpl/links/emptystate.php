@@ -51,7 +51,7 @@ if ($pluginEnabled && $collectUrlsEnabled) {
     $app->enqueueMessage(Text::sprintf('COM_REDIRECT_COLLECT_URLS_ENABLED', Text::_('COM_REDIRECT_PLUGIN_ENABLED')), 'notice');
 } else {
     /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-    $wa = $this->document->getWebAssetManager();
+    $wa = $this->getDocument()->getWebAssetManager();
     $wa->useScript('joomla.dialog-autocreate');
 
     $popupOptions = [
@@ -65,7 +65,7 @@ if ($pluginEnabled && $collectUrlsEnabled) {
         Text::_('COM_REDIRECT_SYSTEM_PLUGIN'),
         [
             'class'                 => 'alert-link',
-            'data-joomla-dialog'    => $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)),
+            'data-joomla-dialog'    => $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)),
             'data-checkin-url'      => Route::_('index.php?option=com_plugins&task=plugins.checkin&format=json&cid[]=' . $redirectPluginId),
             'data-close-on-message' => '',
             'data-reload-on-close'  => '',
