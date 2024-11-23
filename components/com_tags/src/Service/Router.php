@@ -222,10 +222,6 @@ class Router extends RouterBase
                 if (isset($query['id'])) {
                     $ids = $query['id'];
 
-                    if (!\is_array($ids)) {
-                        $ids = [$ids];
-                    }
-
                     foreach ($ids as $id) {
                         $segments[] = $id;
                     }
