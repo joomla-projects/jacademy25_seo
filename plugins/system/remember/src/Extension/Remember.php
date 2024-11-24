@@ -140,7 +140,7 @@ final class Remember extends CMSPlugin implements SubscriberInterface
         } catch (\RuntimeException $e) {
             // Log an alert for the site admin
             Log::add(
-                sprintf('Failed to delete cookie token for user %s with the following error: %s', $user['username'], $e->getMessage()),
+                \sprintf('Failed to delete cookie token for user %s with the following error: %s', $user['username'], $e->getMessage()),
                 Log::WARNING,
                 'security'
             );

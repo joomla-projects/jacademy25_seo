@@ -16,6 +16,7 @@ use Joomla\CMS\Event\Finder\ResultEvent;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
+use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -142,7 +143,9 @@ final class Highlight extends CMSPlugin implements SubscriberInterface
             && empty($item->mime)
             && $params->get('highlight_terms', 1)
         ) {
-            $item->route .= '&highlight=' . base64_encode(json_encode(\array_slice($query->highlight, 0, 10)));
+            $uri = new Uri($item->route);
+            $uri->setVar('highlight', base64_encode(json_encode(\array_slice($query->highlight, 0, 10))));
+            $item->route = $uri->toString();
         }
     }
 }

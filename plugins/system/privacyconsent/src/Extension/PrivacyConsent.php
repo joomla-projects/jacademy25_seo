@@ -102,6 +102,8 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
         // Push the privacy article ID into the privacy field.
         $form->setFieldAttribute('privacy', $privacyType, $privacyId, 'privacyconsent');
         $form->setFieldAttribute('privacy', 'note', $privacynote, 'privacyconsent');
+
+        return true;
     }
 
     /**
