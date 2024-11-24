@@ -131,7 +131,6 @@ class LogsModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $user  = Factory::getApplication()->getIdentity();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
@@ -196,9 +195,7 @@ class LogsModel extends ListModel
      */
     public function delete($pks)
     {
-        $user = Factory::getUser();
-
-        if ($user->authorise('core.delete', 'com_scheduler')) {
+        if ($this->canDelete($pks)) {
             // Delete logs from list
             $db    = $this->getDbo();
             $query = $db->getQuery(true)
@@ -220,5 +217,26 @@ class LogsModel extends ListModel
         }
 
         return true;
+    }
+
+    /**
+     * Determine whether a record may be deleted taking into consideration
+     * the user's permissions over the record.
+     *
+     * @param   object  $record  The database row/record in question
+     *
+     * @return  boolean  True if the record may be deleted
+     *
+     * @since  __DEPLOY_VERSION__
+     * @throws \Exception
+     */
+    protected function canDelete($record): bool
+    {
+        // Record doesn't exist, can't delete
+        if (empty($record)) {
+            return false;
+        }
+
+        return Factory::getApplication()->getIdentity()->authorise('core.delete', 'com_scheduler');
     }
 }
