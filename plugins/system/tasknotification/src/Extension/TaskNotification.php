@@ -340,5 +340,5 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         if (!$mailSent) {
             Log::add($this->getApplication()->getLanguage()->_('PLG_SYSTEM_TASK_NOTIFICATION_NO_MAIL_SENT'), Log::WARNING);
         }
-    }  
+    }
 }
