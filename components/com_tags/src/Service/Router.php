@@ -101,7 +101,7 @@ class Router extends RouterBase
     {
         // Make sure the alias for the tags is correct
         if (isset($query['id'])) {
-            if (!is_array($query['id'])) {
+            if (!\is_array($query['id'])) {
                 $query['id'] = [$query['id']];
             }
 
