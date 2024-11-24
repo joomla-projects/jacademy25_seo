@@ -2357,6 +2357,11 @@ class JoomlaInstallerScript
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts/fontawesome-webfont.ttf',
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts/fontawesome-webfont.woff',
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/font-awesome/fonts/fontawesome-webfont.woff2',
+            // From 5.2.1 to 5.3.0-alpha1
+            '/media/system/css/joomla-core-loader.css',
+            '/media/system/css/joomla-core-loader.min.css',
+            '/media/system/css/joomla-core-loader.min.css.gz',
+            '/media/system/scss/joomla-core-loader.scss',
         ];
 
         $folders = [
@@ -3158,11 +3163,11 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.2
      *
      * @todo    6.0 Remove this method
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 6.0 without replacement
+     * @deprecated  5.2.2 will be removed in 6.0 without replacement
      */
     protected function fixFilesystemPermissions()
     {
@@ -3541,13 +3546,15 @@ class JoomlaInstallerScript
         }
 
         foreach ($folders as $folder) {
-            if (is_dir(JPATH_ROOT . $folder) && decoct(fileperms(JPATH_ROOT . $folder) & 0777) === '777') {
-                @chmod(JPATH_ROOT . $folder, 0755);
-            }
+            if (is_dir(JPATH_ROOT . $folder)) {
+                if (decoct(fileperms(JPATH_ROOT . $folder) & 0777) === '777') {
+                    @chmod(JPATH_ROOT . $folder, 0755);
+                }
 
-            foreach (Folder::files(JPATH_ROOT . $folder, '.', false, true) as $file) {
-                if (decoct(fileperms($file) & 0777) === '777') {
-                    @chmod($file, 0644);
+                foreach (Folder::files(JPATH_ROOT . $folder, '.', false, true) as $file) {
+                    if (decoct(fileperms($file) & 0777) === '777') {
+                        @chmod($file, 0644);
+                    }
                 }
             }
         }
