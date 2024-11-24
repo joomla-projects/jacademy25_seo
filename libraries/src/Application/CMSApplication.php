@@ -361,12 +361,13 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @param   string  $view    The view that manage the password reset
      * @param   string  $layout  The layout of the view that manage the password reset
      * @param   string  $tasks   Permitted tasks
+     * @param   array   $urls    Multi-dimensional array of permitted urls. Ex: [['option' => 'com_users', 'view' => 'profile'],...]
      *
      * @return  void
      *
      * @throws  \Exception
      */
-    protected function checkUserRequireReset($option, $view, $layout, $tasks)
+    protected function checkUserRequireReset($option, $view, $layout, $tasks, $urls = [])
     {
         if ($this->getIdentity()->requireReset) {
             $redirect = false;
@@ -388,25 +389,52 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
             $task = $this->input->getCmd('task', '');
 
-            // Check task or option/view/layout
-            if (!empty($task)) {
-                $tasks = explode(',', $tasks);
+            // If the current URL matches an entry in $urls, we do not redirect
+            if (count($urls)) {
+                $found = false;
 
-                // Check full task version "option/task"
-                if (array_search($this->input->getCmd('option', '') . '/' . $task, $tasks) === false) {
-                    // Check short task version, must be on the same option of the view
-                    if ($this->input->getCmd('option', '') !== $option || array_search($task, $tasks) === false) {
-                        // Not permitted task
-                        $redirect = true;
+                foreach ($urls as $url) {
+                    $found2 = false;
+
+                    foreach ($url as $key => $value) {
+                        if ($this->input->getCmd($key) !== $value) {
+                            $found2 = false;
+                            break;
+                        }
+
+                        $found2 = true;
+                    }
+
+                    if ($found2) {
+                        $found = true;
+                        break;
                     }
                 }
-            } else {
-                if (
-                    $this->input->getCmd('option', '') !== $option || $this->input->getCmd('view', '') !== $view
-                    || $this->input->getCmd('layout', '') !== $layout
-                ) {
-                    // Requested a different option/view/layout
+
+                if (!$found) {
                     $redirect = true;
+                }
+            } else {
+                // Check task or option/view/layout
+                if (!empty($task)) {
+                    $tasks = explode(',', $tasks);
+
+                    // Check full task version "option/task"
+                    if (array_search($this->input->getCmd('option', '') . '/' . $task, $tasks) === false) {
+                        // Check short task version, must be on the same option of the view
+                        if ($this->input->getCmd('option', '') !== $option || array_search($task, $tasks) === false) {
+                            // Not permitted task
+                            $redirect = true;
+                        }
+                    }
+                } else {
+                    if (
+                        $this->input->getCmd('option', '') !== $option || $this->input->getCmd('view', '') !== $view
+                        || $this->input->getCmd('layout', '') !== $layout
+                    ) {
+                        // Requested a different option/view/layout
+                        $redirect = true;
+                    }
                 }
             }
 

@@ -254,7 +254,15 @@ final class SiteApplication extends CMSApplication
              * $this->input->getCmd('option'); or $this->input->getCmd('view');
              * ex: due of the sef urls
              */
-            $this->checkUserRequireReset('com_users', 'profile', 'edit', 'com_users/profile.save,com_users/profile.apply,com_users/user.logout');
+            $this->checkUserRequireReset('com_users', 'profile', 'edit', '', [
+                ['option' => 'com_users', 'task' => 'profile.save'],
+                ['option' => 'com_users', 'task' => 'profile.apply'],
+                ['option' => 'com_users', 'task' => 'user.logout'],
+                ['option' => 'com_users', 'task' => 'user.menulogout'],
+                ['option' => 'com_users', 'task' => 'captive.validate'],
+                ['option' => 'com_users', 'view' => 'captive'],
+                ['option' => 'com_users', 'view' => 'profile', 'layout' => 'edit'],
+            ]);
         }
 
         // Dispatch the application
