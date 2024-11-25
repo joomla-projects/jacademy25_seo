@@ -240,65 +240,79 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         switch ($item->params->get('contact_icons')) {
             case 1:
                 // Text
+                $item->params->set('marker_address', Text::_('COM_CONTACT_ADDRESS') . ': ');
+                $item->params->set('marker_email', Text::_('JGLOBAL_EMAIL') . ': ');
+                $item->params->set('marker_telephone', Text::_('COM_CONTACT_TELEPHONE') . ': ');
+                $item->params->set('marker_fax', Text::_('COM_CONTACT_FAX') . ': ');
+                $item->params->set('marker_mobile', Text::_('COM_CONTACT_MOBILE') . ': ');
+                $item->params->set('marker_webpage', Text::_('COM_CONTACT_WEBPAGE') . ': ');
+                $item->params->set('marker_misc', Text::_('COM_CONTACT_OTHER_INFORMATION') . ': ');
                 $item->params->set('marker_class', 'jicons-text');
                 break;
 
             case 2:
                 // None
-                $item->params->set('marker_class', 'jicons-none visually-hidden');
+                $item->params->set('marker_address', '');
+                $item->params->set('marker_email', '');
+                $item->params->set('marker_telephone', '');
+                $item->params->set('marker_mobile', '');
+                $item->params->set('marker_fax', '');
+                $item->params->set('marker_misc', '');
+                $item->params->set('marker_webpage', '');
+                $item->params->set('marker_class', 'jicons-none');
                 break;
 
             default:
                 if ($item->params->get('icon_address')) {
                     $item->params->set(
                         'marker_address',
-                        HTMLHelper::_('image', $item->params->get('icon_address', ''), '', false)
+                        HTMLHelper::_('image', $item->params->get('icon_address', ''), Text::_('COM_CONTACT_ADDRESS'), false)
                     );
                 }
 
                 if ($item->params->get('icon_email')) {
                     $item->params->set(
                         'marker_email',
-                        HTMLHelper::_('image', $item->params->get('icon_email', ''), '', false)
+                        HTMLHelper::_('image', $item->params->get('icon_email', ''), Text::_('COM_CONTACT_EMAIL'), false)
                     );
                 }
 
                 if ($item->params->get('icon_telephone')) {
                     $item->params->set(
                         'marker_telephone',
-                        HTMLHelper::_('image', $item->params->get('icon_telephone', ''), '', false)
+                        HTMLHelper::_('image', $item->params->get('icon_telephone', ''), Text::_('COM_CONTACT_TELEPHONE'), false)
                     );
                 }
 
-                if ($item->params->get('icon_fax')) {
+                if ($item->params->get('icon_fax', '')) {
                     $item->params->set(
                         'marker_fax',
-                        HTMLHelper::_('image', $item->params->get('icon_fax', ''), '', false)
+                        HTMLHelper::_('image', $item->params->get('icon_fax', ''), Text::_('COM_CONTACT_FAX'), false)
                     );
                 }
 
                 if ($item->params->get('icon_misc')) {
                     $item->params->set(
                         'marker_misc',
-                        HTMLHelper::_('image', $item->params->get('icon_misc', ''), '', false)
+                        HTMLHelper::_('image', $item->params->get('icon_misc', ''), Text::_('COM_CONTACT_OTHER_INFORMATION'), false)
                     );
                 }
 
                 if ($item->params->get('icon_mobile')) {
                     $item->params->set(
                         'marker_mobile',
-                        HTMLHelper::_('image', $item->params->get('icon_mobile', ''), '', false)
+                        HTMLHelper::_('image', $item->params->get('icon_mobile', ''), Text::_('COM_CONTACT_MOBILE'), false)
                     );
                 }
 
                 if ($item->params->get('icon_webpage')) {
                     $item->params->set(
                         'marker_webpage',
-                        HTMLHelper::_('image', $item->params->get('icon_webpage', ''), '', false)
+                        HTMLHelper::_('image', $item->params->get('icon_webpage', ''), Text::_('COM_CONTACT_WEBPAGE'), false)
                     );
                 }
 
-                $item->params->set('marker_class', 'jicons-icons visually-hidden');
+                $item->params->set('marker_class', 'jicons-icons');
                 break;
         }
 
