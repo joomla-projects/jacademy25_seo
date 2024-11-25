@@ -93,16 +93,17 @@ class LogsController extends AdminController
 
         if (empty($ids)) {
             $this->setMessage(Text::_('COM_SCHEDULER_NO_LOGS_SELECTED'), 'warning');
-        } else {
-            // Get the model.
-            $model = $this->getModel();
+            $this->setRedirect('index.php?option=com_scheduler&view=logs');
+            return;
+        }
 
-            $ids = ArrayHelper::toInteger($ids);
+        // Get the model.
+        $model = $this->getModel();
+        $ids   = ArrayHelper::toInteger($ids);
 
-            // Remove the items.
-            if ($model->delete($ids)) {
-                $this->setMessage(Text::plural('COM_SCHEDULER_N_ITEMS_DELETED', \count($ids)));
-            }
+        // Remove the items.
+        if ($model->delete($ids)) {
+            $this->setMessage(Text::plural('COM_SCHEDULER_N_ITEMS_DELETED', \count($ids)));
         }
 
         $this->setRedirect('index.php?option=com_scheduler&view=logs');
