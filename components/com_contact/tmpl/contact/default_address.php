@@ -103,7 +103,7 @@ $icon = $this->params->get('contact_icons') == 0;
                 <?php echo $this->params->get('marker_telephone'); ?>
             </span>
         <?php endif; ?>
-        <span class="<?php echo $this->params->get('marker_class'); ?>"><?php echo Text::_('COM_CONTACT_TELEPHONE'); ?></span>
+        <span class="<?php echo $this->params->get('marker_class'); ?>"><?php echo Text::_('COM_CONTACT_TELEPHONE'); ?>: </span>
     </dt>
     <dd>
         <span class="contact-telephone">
@@ -120,7 +120,7 @@ $icon = $this->params->get('contact_icons') == 0;
                 <?php echo $this->params->get('marker_fax'); ?>
             </span>
         <?php endif; ?>
-        <span class="<?php echo $this->params->get('marker_class'); ?>"><?php echo Text::_('COM_CONTACT_FAX'); ?></span>
+        <span class="<?php echo $this->params->get('marker_class'); ?>"><?php echo Text::_('COM_CONTACT_FAX'); ?>: </span>
     </dt>
     <dd>
         <span class="contact-fax">
@@ -137,7 +137,7 @@ $icon = $this->params->get('contact_icons') == 0;
                 <?php echo $this->params->get('marker_mobile'); ?>
             </span>
         <?php endif; ?>
-        <span class="<?php echo $this->params->get('marker_class'); ?>"><?php echo Text::_('COM_CONTACT_MOBILE'); ?></span>
+        <span class="<?php echo $this->params->get('marker_class'); ?>"><?php echo Text::_('COM_CONTACT_MOBILE'); ?>: </span>
     </dt>
     <dd>
         <span class="contact-mobile">
@@ -154,7 +154,7 @@ $icon = $this->params->get('contact_icons') == 0;
                 <?php echo $this->params->get('marker_webpage'); ?>
             </span>
         <?php endif; ?>
-        <span class="<?php echo $this->params->get('marker_class'); ?>"><?php echo Text::_('COM_CONTACT_WEBPAGE'); ?></span>
+        <span class="<?php echo $this->params->get('marker_class'); ?>"><?php echo Text::_('COM_CONTACT_WEBPAGE'); ?>: </span>
     </dt>
     <dd>
         <span class="contact-webpage">
