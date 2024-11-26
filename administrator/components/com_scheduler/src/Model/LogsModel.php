@@ -66,7 +66,7 @@ class LogsModel extends ListModel
     public function purge()
     {
         try {
-            $this->getDbo()->truncateTable('#__scheduler_logs');
+            $this->getDatabase()->truncateTable('#__scheduler_logs');
         } catch (\Exception $e) {
             return false;
         }
@@ -197,7 +197,7 @@ class LogsModel extends ListModel
     {
         if ($this->canDelete($pks)) {
             // Delete logs from list
-            $db    = $this->getDbo();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__scheduler_logs'))
                 ->whereIn($db->quoteName('id'), $pks);
