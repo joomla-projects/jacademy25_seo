@@ -153,7 +153,7 @@ Joomla.extend = (destination, source) => {
     newDestination = {};
   }
 
-  [].slice.call(Object.keys(source)).forEach((key) => {
+  Object.keys(source).forEach((key) => {
     newDestination[key] = source[key];
   });
 
@@ -199,7 +199,6 @@ Joomla.getOptions = (key, def) => {
 Joomla.loadOptions = (options) => {
   // Load form the script container
   if (!options) {
-    const elements = [].slice.call(document.querySelectorAll('.joomla-script-options.new'));
     let counter = 0;
 
     document.querySelectorAll('.joomla-script-options.new').forEach((element) => {
@@ -224,7 +223,7 @@ Joomla.loadOptions = (options) => {
     Joomla.optionsStorage = options || {};
   } else if (options) {
     // Merge with existing
-    [].slice.call(Object.keys(options)).forEach((key) => {
+    Object.keys(options).forEach((key) => {
       /**
        * If both existing and new options are objects, merge them with Joomla.extend().
        * But test for new option being null, as null is an object, but we want to allow
@@ -285,7 +284,7 @@ Joomla.Text = {
    * @returns {Joomla.Text}
    */
   load: (object) => {
-    [].slice.call(Object.keys(object)).forEach((key) => {
+    Object.keys(object).forEach((key) => {
       Joomla.Text.strings[key.toUpperCase()] = object[key];
     });
 
