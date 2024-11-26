@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Installer\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
@@ -322,13 +323,16 @@ class ModuleAdapter extends InstallerAdapter
             }
         }
 
-        $element = parent::getElement($element);
-
-        if (strpos($element, 'mod_') !== 0) {
-            $element = 'mod_' . $element;
+        if (!$element) {
+            // Ensure the element is a string
+            $element = (string) $this->getManifest()->element;
         }
 
-        return $element;
+        if (!$element) {
+            $element = $this->getName();
+        }
+
+        return InputFilter::getInstance()->clean($element);
     }
 
     /**
