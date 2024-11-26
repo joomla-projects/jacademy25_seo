@@ -190,7 +190,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
         $data    = $this->getDataFromTask($event->getArgument('subject'));
         $model   = $this->getApplication()->bootComponent('com_scheduler')
-            ->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+            ->getMVCFactory()->createModel('Logs', 'Administrator', ['ignore_request' => true]);
         $model->logTask($data);
 
         if (!(int) $task->get('params.notifications.success_mail', 0)) {
@@ -216,7 +216,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
     {
         $data  = $this->getDataFromTask($event->getArgument('subject'));
         $model = $this->getApplication()->bootComponent('com_scheduler')
-            ->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+            ->getMVCFactory()->createModel('Logs', 'Administrator', ['ignore_request' => true]);
         $model->logTask($data);
     }
 
