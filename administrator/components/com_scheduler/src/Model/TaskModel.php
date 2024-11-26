@@ -864,5 +864,4 @@ class TaskModel extends AdminModel
         // Let the parent method take over
         parent::preprocessForm($form, $data, $group);
     }
-
 }
