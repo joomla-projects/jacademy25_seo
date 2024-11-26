@@ -35,7 +35,7 @@ $icon = $this->params->get('contact_icons') == 0;
                     <?php echo $this->params->get('marker_address'); ?>
                 </span>
             <?php endif; ?>
-            <span class="<?php echo $this->params->get('marker_class'); ?>"><?php echo Text::_('COM_CONTACT_ADDRESS'); ?></span>
+            <span class="<?php echo $this->params->get('marker_class'); ?>"><?php echo Text::_('COM_CONTACT_ADDRESS'); ?>: </span>
         </dt>
 
         <?php if ($this->item->address && $this->params->get('show_street_address')) : ?>
@@ -85,7 +85,7 @@ $icon = $this->params->get('contact_icons') == 0;
                 <?php echo $this->params->get('marker_email'); ?>
             </span>
         <?php endif; ?>
-        <span class="<?php echo $this->params->get('marker_class'); ?>"><?php echo Text::_('COM_CONTACT_EMAIL_LABEL'); ?></span>
+        <span class="<?php echo $this->params->get('marker_class'); ?>"><?php echo Text::_('COM_CONTACT_EMAIL_LABEL'); ?>: </span>
     </dt>
     <dd>
         <span class="contact-emailto">
