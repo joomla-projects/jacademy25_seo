@@ -250,54 +250,26 @@ class LogsModel extends ListModel
      */
     public function logTask(array $data): void
     {
-        $db            = $this->getDatabase();
         $model         = Factory::getApplication()->bootComponent('com_scheduler')
             ->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $taskInfo      = $model->getItem($data['TASK_ID']);
         $taskOptions   = SchedulerHelper::getTaskOptions();
         $safeTypeTitle = $taskOptions->findOption($taskInfo->type)->title ?? '';
+        $duration      = ($data['TASK_DURATION'] ?? 0);
+        $created       = Factory::getDate()->toSql();
+
+        /** @var \Joomla\Component\Schduler\Administrator\Table\LogsTable $table */
+        $logsTable           = $this->getTable();
+        $logsTable->tasktype = $safeTypeTitle;
+        $logsTable->taskname = $data['TASK_TITLE'];
+        $logsTable->duration = $duration;
+        $logsTable->jobid    = $data['TASK_ID'];
+        $logsTable->exitcode = $data['EXIT_CODE'];
+        $logsTable->taskid   = $data['TASK_TIMES'];
+        $logsTable->lastdate = $created;
+        $logsTable->nextdate = $taskInfo->next_execution;
 
         // Log the execution of the task.
-        $query = $db->getQuery(true);
-
-        $created = Factory::getDate()->toSql();
-
-        $columns = [
-            'tasktype',
-            'taskname',
-            'duration',
-            'jobid',
-            'taskid',
-            'exitcode',
-            'lastdate',
-            'nextdate',
-        ];
-
-        $values = [
-            ':tasktype',
-            ':taskname',
-            ':duration',
-            ':jobid',
-            ':taskid',
-            ':exitcode',
-            ':lastdate',
-            ':nextdate',
-        ];
-        $duration = ($data['TASK_DURATION'] ?? 0);
-        $query
-            ->insert($db->quoteName('#__scheduler_logs'), false)
-            ->columns($db->quoteName($columns))
-            ->values(implode(', ', $values))
-            ->bind(':tasktype', $safeTypeTitle)
-            ->bind(':taskname', $data['TASK_TITLE'])
-            ->bind(':duration', $duration)
-            ->bind(':jobid', $data['TASK_ID'], ParameterType::INTEGER)
-            ->bind(':taskid', $data['TASK_TIMES'], ParameterType::INTEGER)
-            ->bind(':exitcode', $data['EXIT_CODE'], ParameterType::INTEGER)
-            ->bind(':lastdate', $created)
-            ->bind(':nextdate', $taskInfo->next_execution);
-
-        $db->setQuery($query);
-        $db->execute();
+        $logsTable->store();
     }
 }
