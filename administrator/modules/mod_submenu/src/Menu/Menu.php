@@ -214,7 +214,6 @@ abstract class Menu
                         $iconImage = '<span class="home-image icon-home" aria-hidden="true"></span>';
                         $iconImage .= '<span class="visually-hidden">' . Text::_('JDEFAULT') . '</span>';
                     } elseif (substr($iconImage, 0, 6) === 'image:') {
-
                         if ($languageCodeParams) {
                             $new_code = $languageCodeParams->get(strtolower(substr($iconImage, 6)));
                             $text     = $new_code ?: substr($iconImage, 6);
