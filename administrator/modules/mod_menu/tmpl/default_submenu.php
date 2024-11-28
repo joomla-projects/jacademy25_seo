@@ -12,8 +12,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Registry\Registry;
 
 /**
  * =========================================================================================================
@@ -94,7 +96,13 @@ if ($iconImage) {
         $iconImage = '<span class="home-image icon-home" aria-hidden="true"></span>';
         $iconImage .= '<span class="visually-hidden">' . Text::_('JDEFAULT') . '</span>';
     } elseif (substr($iconImage, 0, 6) == 'image:') {
-        $iconImage = '&nbsp;<span class="badge">' . substr($iconImage, 6) . '</span>';
+        if (PluginHelper::isEnabled('system', 'languagecode')) {
+            $pluginEnabled = PluginHelper::getPlugin('system', 'languagecode');
+            $params        = new Registry($pluginEnabled->params);
+            $new_code      = $params->get(strtolower(substr($iconImage, 6)));
+            $text          = $new_code ?: substr($iconImage, 6);
+        }
+        $iconImage = '&nbsp;<span class="badge">' . $text . '</span>';
     } else {
         $iconImage = '';
     }
