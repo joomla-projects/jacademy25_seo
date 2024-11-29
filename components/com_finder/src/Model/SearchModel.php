@@ -192,7 +192,7 @@ class SearchModel extends ListModel
         if (!empty($this->searchquery->filters)) {
             // Convert the associative array to a numerically indexed array.
             $groups     = array_values($this->searchquery->filters);
-            $taxonomies = array_merge(...array_map(fn($group) => array_keys($group), $groups));
+            $taxonomies = array_merge(...array_map(fn ($group) => array_keys($group), $groups));
 
             $query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t ON t.link_id = l.link_id')
                 ->where('t.node_id IN (' . implode(',', array_unique($taxonomies)) . ')');
