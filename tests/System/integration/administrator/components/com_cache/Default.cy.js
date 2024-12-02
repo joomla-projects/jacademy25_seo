@@ -4,7 +4,7 @@ describe('Test in backend that the cache', () => {
     cy.visit('/administrator/index.php?option=com_cache&view=cache');
   });
 
-  it('have a title', () => {
+  it('has a title', () => {
     cy.get('h1.page-title').should('contain.text', 'Maintenance: Clear Cache');
   });
 
@@ -12,13 +12,17 @@ describe('Test in backend that the cache', () => {
     cy.get('div.alert.alert-info').should('contain.text', 'Select the Clear Expired Cache button');
   });
 
-  it('can display a list of chached items', () => {
+  it('can display a list of cached items', () => {
     cy.get('tr.row0').should('contain.text', '_media_version');
   });
 
   it('can clear expired cache', () => {
     cy.get('#toolbar-delete2').click();
-    cy.on('window:confirm', () => true);
+    cy.get('body').then(($body) => {
+      if ($body.find('div.buttons-holder button[data-button-ok]').length > 0) {
+        cy.get('div.buttons-holder button[data-button-ok]').click();
+      }
+    });
     cy.get('#system-message-container').contains('Expired cached items have been cleared').should('exist');
   });
 

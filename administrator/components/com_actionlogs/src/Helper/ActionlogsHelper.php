@@ -12,10 +12,10 @@ namespace Joomla\Component\Actionlogs\Administrator\Helper;
 
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
+use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -53,10 +53,10 @@ class ActionlogsHelper
     {
         if (!is_iterable($data)) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     '%s() requires an array or object implementing the Traversable interface, a %s was given.',
                     __METHOD__,
-                    \gettype($data) === 'object' ? \get_class($data) : \gettype($data)
+                    \is_object($data) ? \get_class($data) : \gettype($data)
                 )
             );
         }
@@ -198,6 +198,12 @@ class ActionlogsHelper
             $messageData['type'] = Text::_($messageData['type']);
         }
 
+        // Remove links from the message template, if we should not generate links.
+        if (!$generateLinks) {
+            $message = preg_replace('/<a href=["\'].+?["\']>/', '', $message);
+            $message = str_replace('</a>', '', $message);
+        }
+
         $linkMode = Factory::getApplication()->get('force_ssl', 0) >= 1 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
         foreach ($messageData as $key => $value) {
@@ -268,6 +274,12 @@ class ActionlogsHelper
      */
     public static function loadActionLogPluginsLanguage()
     {
+        static $loaded;
+        if ($loaded) {
+            return;
+        }
+        $loaded = true;
+
         $lang = Factory::getLanguage();
         $db   = Factory::getDbo();
 
