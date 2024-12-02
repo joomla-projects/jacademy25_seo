@@ -42,7 +42,8 @@ class JsonapiView extends BaseApiView
         'typeAlias',
         'asset_id',
         'title',
-        'text',
+        'introtext',
+        'fulltext',
         'tags',
         'language',
         'state',
@@ -80,7 +81,8 @@ class JsonapiView extends BaseApiView
         'typeAlias',
         'asset_id',
         'title',
-        'text',
+        'introtext',
+        'fulltext',
         'tags',
         'language',
         'state',
@@ -192,8 +194,6 @@ class JsonapiView extends BaseApiView
         if (!$item) {
             return $item;
         }
-
-        $item->text = $item->introtext . ' ' . $item->fulltext;
 
         // Process the content plugins.
         PluginHelper::importPlugin('content');
