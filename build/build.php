@@ -240,7 +240,7 @@ $fullpath = $tmp . '/' . $time;
 $options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'include-bzip2', 'exclude-zstd', 'debug-build', 'disable-patch-packages']);
 
 $remote             = $options['remote'] ?? false;
-$debugBuild           = isset($options['debug-build']);
+$debugBuild         = isset($options['debug-build']);
 $excludeZip         = isset($options['exclude-zip']);
 $excludeGzip        = isset($options['exclude-gzip']);
 $excludeBzip2       = !isset($options['include-bzip2']);
