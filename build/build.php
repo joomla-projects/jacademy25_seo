@@ -648,10 +648,10 @@ if (!$debugBuild) {
     system('rm images/joomla_black.png');
     system('rm images/powered_by.png');
 
-// Move the search manifest back
+    // Move the search manifest back
     system('mv ../pkg_search.xml administrator/manifests/packages/pkg_search.xml');
 
-// Move the restore_finalisation.php back
+    // Move the restore_finalisation.php back
     system('mv ../restore_finalisation.php administrator/components/com_joomlaupdate/restore_finalisation.php');
 
     if (!$excludeBzip2) {
