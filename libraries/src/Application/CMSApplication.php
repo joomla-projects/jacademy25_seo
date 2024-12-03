@@ -425,7 +425,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             }
 
             // If the current URL matches an entry in $urls, we do not redirect
-            if (count($urls)) {
+            if (\count($urls)) {
                 $found = false;
 
                 foreach ($urls as $url) {
