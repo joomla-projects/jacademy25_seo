@@ -41,6 +41,7 @@ function usage(string $command)
     echo PHP_TAB . PHP_TAB . '--include-bzip2:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .tar.bz2 packages' . PHP_EOL;
     echo PHP_TAB . PHP_TAB . '--exclude-zstd:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Include the generation of .tar.zst packages' . PHP_EOL;
     echo PHP_TAB . PHP_TAB . '--disable-patch-packages:' . PHP_TAB . 'Disable the generation of patch packages' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--dev-build:' . PHP_TAB . 'Include development packages and build folder' . PHP_EOL;
     echo PHP_TAB . PHP_TAB . '--help:' . PHP_TAB . PHP_TAB . PHP_TAB . PHP_TAB . 'Show this help output' . PHP_EOL;
     echo PHP_EOL;
 }
@@ -236,9 +237,10 @@ $tmp      = $here . '/tmp';
 $fullpath = $tmp . '/' . $time;
 
 // Parse input options
-$options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'include-bzip2', 'exclude-zstd', 'disable-patch-packages']);
+$options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'include-bzip2', 'exclude-zstd', 'dev-build', 'disable-patch-packages']);
 
 $remote             = $options['remote'] ?? false;
+$devBuild           = $options['dev-build'] ?? false;
 $excludeZip         = isset($options['exclude-zip']);
 $excludeGzip        = isset($options['exclude-gzip']);
 $excludeBzip2       = !isset($options['include-bzip2']);
@@ -265,6 +267,12 @@ if (!$remote) {
     $includeExtraTextfiles = true;
 }
 
+$composerOptions = ' ';
+if (!$devBuild) {
+    $composerOptions .= '--no-dev';
+}
+
+
 echo "Start build for remote $remote.\n";
 echo "Delete old release folder.\n";
 system('rm -rf ' . $tmp);
@@ -277,7 +285,7 @@ system($systemGit . ' archive ' . $remote . ' | tar -x -C ' . $fullpath);
 system('cp build/fido.jwt ' . $fullpath . '/plugins/system/webauthn/fido.jwt');
 // Install PHP and NPM dependencies and compile required media assets, skip Composer autoloader until post-cleanup
 chdir($fullpath);
-system('composer install --no-dev --no-autoloader --ignore-platform-reqs', $composerReturnCode);
+system('composer install --no-autoloader --ignore-platform-reqs' . $composerOptions, $composerReturnCode);
 
 if ($composerReturnCode !== 0) {
     echo "`composer install` did not complete as expected.\n";
@@ -318,16 +326,22 @@ if ($verReturnCode !== 0) {
 }
 
 // Clean the checkout of extra resources
-clean_checkout($fullpath);
+if (!$devBuild) {
+    clean_checkout($fullpath);
+}
 
 // Regenerate the Composer autoloader without deleted files
-system('composer dump-autoload --no-dev --optimize --no-scripts');
+system('composer dump-autoload --optimize --no-scripts' . $composerOptions);
 
 // Clean the Composer manifests now
-clean_composer($fullpath);
+if (!$devBuild) {
+    clean_composer($fullpath);
+}
 
 // And cleanup the Node installation
-system('rm -rf node_modules');
+if (!$devBuild) {
+    system('rm -rf node_modules');
+}
 
 echo "Workspace built.\n";
 
@@ -452,8 +466,10 @@ $packageStability = str_replace(' ', '_', Version::DEV_STATUS);
 // Delete the files and folders we exclude from the packages (tests, docs, build, etc.).
 echo "Delete folders not included in packages.\n";
 
-foreach ($doNotPackage as $removeFile) {
-    system('rm -rf ' . $time . '/' . $removeFile);
+if (!$devBuild) {
+    foreach ($doNotPackage as $removeFile) {
+        system('rm -rf ' . $time . '/' . $removeFile);
+    }
 }
 
 // Count down starting with the latest release and add diff files to this array
@@ -498,7 +514,8 @@ for ($num = $release - 1; $num >= 0; $num--) {
             $dirtyHackForMediaCheck = \in_array('administrator/components/com_media/resources', $fullPath);
         }
 
-        if ($dirtyHackForMediaCheck || $doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder) {
+
+        if (!$devBuild && ($dirtyHackForMediaCheck || $doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder)) {
             continue;
         }
 
