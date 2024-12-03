@@ -463,6 +463,10 @@ $checksums = [];
 // For the packages, replace spaces in stability (RC) with underscores
 $packageStability = str_replace(' ', '_', Version::DEV_STATUS);
 
+if ($debugBuild) {
+    $packageStability .= '-Debug';
+}
+
 // Delete the files and folders we exclude from the packages (tests, docs, build, etc.).
 echo "Delete folders not included in packages.\n";
 
