@@ -1004,7 +1004,7 @@ abstract class AdminModel extends FormModel
 
         // Convert to \stdClass before adding other data
         $properties = get_object_vars($table);
-        $item       = ArrayHelper::toObject($properties, \stdClass::class);
+        $item       = ArrayHelper::toObject($properties);
 
         if (property_exists($item, 'params')) {
             $registry     = new Registry($item->params);
