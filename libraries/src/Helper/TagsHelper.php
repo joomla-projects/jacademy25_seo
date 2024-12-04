@@ -109,7 +109,7 @@ class TagsHelper extends CMSHelper
 
         // Insert the new tag maps
         if (strpos(implode(',', $tags), '#') !== false) {
-            $tags = self::createTagsFromField($tags);
+            $tags = $this->createTagsFromField($tags);
         }
 
         // Prevent saving duplicate tags
@@ -297,7 +297,7 @@ class TagsHelper extends CMSHelper
     }
 
     /**
-     * Method to delete the tag mappings and #__ucm_content record for for an item
+     * Method to delete the tag mappings and #__ucm_content record for an item
      *
      * @param   TableInterface  $table          Table object of content table where delete occurred
      * @param   integer|array   $contentItemId  ID of the content item. Or an array of key/value pairs with array key
@@ -338,7 +338,7 @@ class TagsHelper extends CMSHelper
      * @param   integer  $id           Id of the item to retrieve tags for.
      * @param   boolean  $getTagData   If true, data from the tags table will be included, defaults to true.
      *
-     * @return  array    Array of of tag objects
+     * @return  array    Array of tag objects
      *
      * @since   3.1
      */
@@ -397,7 +397,7 @@ class TagsHelper extends CMSHelper
      * @param   array    $ids          Id of the item to retrieve tags for.
      * @param   boolean  $getTagData   If true, data from the tags table will be included, defaults to true.
      *
-     * @return  array    Array of of tag objects grouped by Id.
+     * @return  array    Array of tag objects grouped by Id.
      *
      * @since   4.2.0
      */
@@ -766,7 +766,7 @@ class TagsHelper extends CMSHelper
      * @param   array    $selectTypes  Optional array of type ids or aliases to limit the results to. Often from a request.
      * @param   boolean  $useAlias     If true, the alias is used to match, if false the type_id is used.
      *
-     * @return  array   Array of of types
+     * @return  array   Array of types
      *
      * @since   3.1
      */
@@ -821,8 +821,28 @@ class TagsHelper extends CMSHelper
      * @return  boolean
      *
      * @since   3.1
+     *
+     * @deprecated  5.3 will be removed in 7.0
      */
     public function postStoreProcess(TableInterface $table, $newTags = [], $replace = true)
+    {
+        $this->postStore($table, $newTags, $replace);
+    }
+
+    /**
+     * Function that handles saving tags used in a table class after a store().
+     *
+     * @param   TableInterface  $table    Table being processed.
+     * @param   array           $newTags  Array of new tags.
+     * @param   boolean         $replace  Flag indicating if all existing tags should be replaced.
+     *                                    This flag takes precedence before $remove.
+     * @param   boolean         $remove   Flag indicating if the tags in $newTags should be removed.
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function postStore(TableInterface $table, $newTags = [], $replace = true, $remove = false)
     {
         if (!empty($table->newTags) && empty($newTags)) {
             $newTags = $table->newTags;
@@ -856,7 +876,11 @@ class TagsHelper extends CMSHelper
                 $ucmId     = $ucmContentTable->core_content_id;
 
                 // Store the tag data if the article data was saved and run related methods.
-                $result = $result && $this->tagItem($ucmId, $table, $newTags, $replace);
+                if ($remove) {
+                    $result = $result && $this->unTagItem($ucmId, $table, $newTags);
+                } else {
+                    $result = $result && $this->tagItem($ucmId, $table, $newTags, $replace);
+                }
             }
         }
 

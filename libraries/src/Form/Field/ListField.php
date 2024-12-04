@@ -53,7 +53,7 @@ class ListField extends FormField
      * The header.
      *
      * @var    mixed
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     protected $header;
 
@@ -118,6 +118,11 @@ class ListField extends FormField
 
             // Requires record hits
             if (\in_array('hits', $requires) && !ComponentHelper::getParams('com_content')->get('record_hits', 1)) {
+                continue;
+            }
+
+            // Requires workflow
+            if (\in_array('workflow', $requires) && !ComponentHelper::getParams('com_content')->get('workflow_enabled')) {
                 continue;
             }
 
@@ -190,7 +195,8 @@ class ListField extends FormField
 
                 foreach ($options as $option) {
                     if ($option->value === $value) {
-                        $value = $option->text;
+                        $value           = $option->text;
+                        $tmp->optionattr = ['data-global-value' => $option->value];
 
                         break;
                     }
@@ -260,7 +266,7 @@ class ListField extends FormField
      * @return  boolean  True on success.
      *
      * @see     FormField::setup()
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
