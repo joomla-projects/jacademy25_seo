@@ -130,7 +130,7 @@ class HtmlView extends BaseHtmlView
             $currentLink = $active->link;
 
             // If the current view is the active item and a newsfeed view for this feed, then the menu item params take priority
-            if (strpos($currentLink, 'view=newsfeed') && strpos($currentLink, '&id=' . (string) $item->id)) {
+            if (strpos($currentLink, 'view=newsfeed') && strpos($currentLink, '&id=' . $item->id)) {
                 // $item->params are the newsfeed params, $temp are the menu item params
                 // Merge so that the menu item params take priority
                 $newsfeed_params->merge($temp);

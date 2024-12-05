@@ -32,7 +32,7 @@ $saveOrder = $listOrder == 'w.ordering';
 $orderingColumn = 'created';
 $saveOrderingUrl = '';
 
-if (strpos($listOrder, 'modified') !== false) {
+if (str_contains($listOrder, 'modified')) {
     $orderingColumn = 'modified';
 }
 

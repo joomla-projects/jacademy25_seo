@@ -389,7 +389,7 @@ class ItemsModel extends ListModel
                 'AND',
                 [
                     $db->quoteName('a.parent_id') . ' = :parentId2',
-                    $db->quoteName('a.parent_id') . ' IN (' . (string) $subQuery . ')',
+                    $db->quoteName('a.parent_id') . ' IN (' . $subQuery . ')',
                 ],
                 'OR'
             )
@@ -497,7 +497,7 @@ class ItemsModel extends ListModel
         if ($name == 'com_menus.items.filter') {
             $clientId = $this->getState('filter.client_id');
             $form->setFieldAttribute('menutype', 'clientid', $clientId);
-        } elseif (false !== strpos($name, 'com_menus.items.modal.')) {
+        } elseif (str_contains($name, 'com_menus.items.modal.')) {
             $form->removeField('client_id');
 
             $clientId = $this->getState('filter.client_id');

@@ -574,7 +574,7 @@ class TemplateModel extends FormModel
      */
     private function getSafeName($name)
     {
-        if (strpos($name, '-') !== false && preg_match('/[0-9]/', $name)) {
+        if (str_contains($name, '-') && preg_match('/[0-9]/', $name)) {
             // Get the extension
             $extension = File::getExt($name);
 
@@ -1101,7 +1101,7 @@ class TemplateModel extends FormModel
                         $path = $folder . '/' . $view . '/tmpl';
 
                         // The new scheme, the views are directly in the component/tmpl folder
-                        if (!is_dir($path) && substr($folder, -4) == 'tmpl') {
+                        if (!is_dir($path) && str_ends_with($folder, 'tmpl')) {
                             $path = $folder . '/' . $view;
                         }
 
@@ -1177,9 +1177,9 @@ class TemplateModel extends FormModel
             $name         = end($explodeArray);
             $client       = ApplicationHelper::getClientInfo($template->client_id);
 
-            if (stristr($name, 'mod_') != false) {
+            if (stristr($name, 'mod_')) {
                 $htmlPath   = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $name);
-            } elseif (stristr($override, 'com_') != false) {
+            } elseif (stristr($override, 'com_')) {
                 $size = \count($explodeArray);
 
                 $url = Path::clean($explodeArray[$size - 3] . '/' . $explodeArray[$size - 1]);
@@ -1205,9 +1205,9 @@ class TemplateModel extends FormModel
                 return false;
             }
 
-            if (stristr($name, 'mod_') != false) {
+            if (stristr($name, 'mod_')) {
                 $return = $this->createTemplateOverride(Path::clean($override . '/tmpl'), $htmlPath);
-            } elseif (stristr($override, 'com_') != false && stristr($override, 'layouts') == false) {
+            } elseif (stristr($override, 'com_') && !stristr($override, 'layouts')) {
                 $path = $override . '/tmpl';
 
                 // View can also be in the top level folder
@@ -1706,7 +1706,7 @@ class TemplateModel extends FormModel
             $fileName     = end($explodeArray);
             $path         = $this->getBasePath() . base64_decode($app->getInput()->get('file'));
 
-            if (stristr($client->path, 'administrator') == false) {
+            if (!stristr($client->path, 'administrator')) {
                 $folder = '/templates/';
             } else {
                 $folder = '/administrator/templates/';

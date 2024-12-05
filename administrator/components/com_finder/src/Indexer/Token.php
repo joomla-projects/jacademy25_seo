@@ -164,8 +164,8 @@ class Token
             // Populate the token instance.
             $this->term    = $term;
             $this->stem    = Helper::stem($this->term, $lang);
-            $this->numeric = (is_numeric($this->term) || (bool) preg_match('#^[0-9,.\-\+]+$#', $this->term));
-            $this->common  = $this->numeric ? false : Helper::isCommon($this->term, $lang);
+            $this->numeric = (is_numeric($this->term) || preg_match('#^[0-9,.\-\+]+$#', $this->term));
+            $this->common  = !$this->numeric && Helper::isCommon($this->term, $lang);
             $this->phrase  = false;
             $this->length  = StringHelper::strlen($this->term);
 

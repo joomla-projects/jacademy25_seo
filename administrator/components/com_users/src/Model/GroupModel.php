@@ -179,7 +179,7 @@ class GroupModel extends AdminModel
             $groupSuperAdmin = false;
         } elseif ($parentSuperAdmin === true) {
             // If parent is true (allowed), group is true unless explicitly set to false
-            $groupSuperAdmin = ($groupSuperAdmin === false) ? false : true;
+            $groupSuperAdmin = $groupSuperAdmin !== false;
         }
 
         // Check for non-super admin trying to save with super admin group

@@ -265,7 +265,7 @@ class InputFilter extends BaseInputFilter
 
                 // 1. Null byte check
                 if ($options['null_byte']) {
-                    if (strstr($intendedName, "\x00")) {
+                    if (str_contains($intendedName, "\x00")) {
                         return false;
                     }
                 }
@@ -335,7 +335,7 @@ class InputFilter extends BaseInputFilter
 
                                 if ($collide) {
                                     // These are suspicious text files which may have the short tag (<?) in them
-                                    if (strstr($data, '<?')) {
+                                    if (str_contains($data, '<?')) {
                                         return false;
                                     }
                                 }
@@ -370,7 +370,7 @@ class InputFilter extends BaseInputFilter
                                      * file extension in them
                                      */
                                     foreach ($options['forbidden_extensions'] as $ext) {
-                                        if (strstr($data, '.' . $ext)) {
+                                        if (str_contains($data, '.' . $ext)) {
                                             return false;
                                         }
                                     }

@@ -187,7 +187,7 @@ class Taxonomy
         $result = $db->loadObject();
 
         // Check if the database matches the input data.
-        if ((bool) $result && $result->access == $node->access) {
+        if ($result && $result->access == $node->access) {
             // The data matches, add the item to the cache.
             static::$nodes[$parentId . ':' . $node->title] = $result;
 

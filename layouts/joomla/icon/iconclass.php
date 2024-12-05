@@ -36,7 +36,7 @@ $html       = $displayData['html'] ?? true;
 $icon       = str_replace('icon-icon-', 'icon-', $icon);
 
 switch ($icon) {
-    case (strpos($icon, 'icon-') !== false):
+    case (str_contains($icon, 'icon-')):
         $iconPrefix = $displayData['prefix'] ?? null;
         break;
 

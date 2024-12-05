@@ -275,7 +275,7 @@ class InstallModel extends BaseDatabaseModel
         $userfile = $input->files->get('install_package', null, 'raw');
 
         // Make sure that file uploads are enabled in php.
-        if (!(bool) \ini_get('file_uploads')) {
+        if (!\ini_get('file_uploads')) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 'error');
 
             return false;
@@ -329,7 +329,7 @@ class InstallModel extends BaseDatabaseModel
 
         // Move uploaded file.
         try {
-            File::upload($tmp_src, $tmp_dest, false, true);
+            File::upload($tmp_src, $tmp_dest);
         } catch (FilesystemException $exception) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 'error');
 

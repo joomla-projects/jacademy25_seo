@@ -12,9 +12,11 @@ namespace Joomla\CMS\Form;
 use Joomla\Filesystem\Path;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
+use function defined;
+use function in_array;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -67,9 +69,9 @@ class FormHelper
      * Method to load a form field object given a type.
      *
      * @param   string   $type  The field type.
-     * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
+     * @param bool $new   Flag to toggle whether we should get a new instance of the object.
      *
-     * @return  FormField|boolean  FormField object on success, false otherwise.
+     * @return  FormField|bool  FormField object on success, false otherwise.
      *
      * @since   1.7.0
      */
@@ -82,9 +84,9 @@ class FormHelper
      * Method to load a form rule object given a type.
      *
      * @param   string   $type  The rule type.
-     * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
+     * @param bool $new   Flag to toggle whether we should get a new instance of the object.
      *
-     * @return  FormRule|boolean  FormRule object on success, false otherwise.
+     * @return  FormRule|bool  FormRule object on success, false otherwise.
      *
      * @since   1.7.0
      */
@@ -97,9 +99,9 @@ class FormHelper
      * Method to load a form filter object given a type.
      *
      * @param   string   $type  The rule type.
-     * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
+     * @param bool $new   Flag to toggle whether we should get a new instance of the object.
      *
-     * @return  FormFilterInterface|boolean  FormRule object on success, false otherwise.
+     * @return  FormFilterInterface|bool  FormRule object on success, false otherwise.
      *
      * @since   4.0.0
      */
@@ -115,7 +117,7 @@ class FormHelper
      *
      * @param   string   $entity  The entity.
      * @param   string   $type    The entity type.
-     * @param   boolean  $new     Flag to toggle whether we should get a new instance of the object.
+     * @param bool $new     Flag to toggle whether we should get a new instance of the object.
      *
      * @return  mixed  Entity object on success, false otherwise.
      *
@@ -151,7 +153,7 @@ class FormHelper
      *
      * @param   string  $type  Type of a field whose class should be loaded.
      *
-     * @return  string|boolean  Class name on success or false otherwise.
+     * @return  string|bool  Class name on success or false otherwise.
      *
      * @since   1.7.0
      */
@@ -166,7 +168,7 @@ class FormHelper
      *
      * @param   string  $type  Type of a rule whose class should be loaded.
      *
-     * @return  string|boolean  Class name on success or false otherwise.
+     * @return  string|bool  Class name on success or false otherwise.
      *
      * @since   1.7.0
      */
@@ -181,7 +183,7 @@ class FormHelper
      *
      * @param   string  $type  Type of a filter whose class should be loaded.
      *
-     * @return  string|boolean  Class name on success or false otherwise.
+     * @return  string|bool  Class name on success or false otherwise.
      *
      * @since   4.0.0
      */
@@ -198,7 +200,7 @@ class FormHelper
      * @param   string  $entity  One of the form entities (field or rule).
      * @param   string  $type    Type of an entity.
      *
-     * @return  string|boolean  Class name on success or false otherwise.
+     * @return  string|bool  Class name on success or false otherwise.
      *
      * @since   1.7.0
      */
@@ -249,7 +251,7 @@ class FormHelper
                 $path = $value . '/' . strtolower(substr($type, 0, $pos));
 
                 // If the path does not exist, add it.
-                if (!\in_array($path, $paths)) {
+                if (!in_array($path, $paths)) {
                     $paths[] = $path;
                 }
             }
@@ -362,7 +364,7 @@ class FormHelper
         foreach ($new as $path) {
             $path = trim($path);
 
-            if (!\in_array($path, $paths)) {
+            if (!in_array($path, $paths)) {
                 array_unshift($paths, $path);
             }
         }
@@ -454,7 +456,7 @@ class FormHelper
         foreach ($new as $prefix) {
             $prefix = trim($prefix);
 
-            if (\in_array($prefix, $prefixes)) {
+            if (in_array($prefix, $prefixes)) {
                 continue;
             }
 
@@ -509,25 +511,21 @@ class FormHelper
                 continue;
             }
 
-            $compareEqual     = strpos($showOnPart, '!:') === false;
+            $compareEqual     = !str_contains($showOnPart, '!:');
             $showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
 
             $dotPos = strpos($showOnPartBlocks[0], '.');
 
             if ($dotPos === false) {
                 $field = $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0];
+            } elseif ($dotPos === 0) {
+                $fieldName = substr($showOnPartBlocks[0], 1);
+                $field     = $formControl ? $formControl . '[' . $fieldName . ']' : $fieldName;
+            } elseif ($formControl) {
+                $field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
             } else {
-                if ($dotPos === 0) {
-                    $fieldName = substr($showOnPartBlocks[0], 1);
-                    $field     = $formControl ? $formControl . '[' . $fieldName . ']' : $fieldName;
-                } else {
-                    if ($formControl) {
-                        $field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
-                    } else {
-                        $groupParts = explode('.', $showOnPartBlocks[0]);
-                        $field      = array_shift($groupParts) . '[' . implode('][', $groupParts) . ']';
-                    }
-                }
+                $groupParts = explode('.', $showOnPartBlocks[0]);
+                $field      = array_shift($groupParts) . '[' . implode('][', $groupParts) . ']';
             }
 
             $showOnData[] = [

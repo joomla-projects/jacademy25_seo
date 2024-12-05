@@ -162,7 +162,7 @@ class HtmlView extends BaseHtmlView
 
         $this->setDocumentTitle($title);
 
-        $pathway = $app->getPathWay();
+        $pathway = $app->getPathway();
         $pathway->addItem($title, '');
 
         if ($this->params->get('menu-meta_description')) {

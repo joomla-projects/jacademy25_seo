@@ -110,7 +110,7 @@ class MailtemplateLayoutField extends FormField
 
         // Compute attributes for the grouped list
         $attr = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-        $attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+        $attr .= $this->element['class'] ? ' class="' . $this->element['class'] . '"' : '';
 
         // Prepare HTML code
         $html = [];

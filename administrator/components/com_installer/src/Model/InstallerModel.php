@@ -215,7 +215,7 @@ class InstallerModel extends ListModel
 
             settype($item->description, 'string');
 
-            if (!\in_array($item->type, ['language'])) {
+            if ($item->type != 'language') {
                 $item->description = Text::_($item->description);
             }
         }

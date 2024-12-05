@@ -341,18 +341,18 @@ class Filter
                         $node->title = str_repeat('-', $node->level - 2) . $title;
                     } else {
                         $node->title = $title;
-                        $root[]      = $branches[$bk]->nodes[$node_id];
+                        $root[]      = $bv->nodes[$node_id];
                     }
 
-                    if ($node->parent_id && isset($branches[$bk]->nodes[$node->parent_id])) {
-                        if (!isset($branches[$bk]->nodes[$node->parent_id]->children)) {
-                            $branches[$bk]->nodes[$node->parent_id]->children = [];
+                    if ($node->parent_id && isset($bv->nodes[$node->parent_id])) {
+                        if (!isset($bv->nodes[$node->parent_id]->children)) {
+                            $bv->nodes[$node->parent_id]->children = [];
                         }
-                        $branches[$bk]->nodes[$node->parent_id]->children[] = $node;
+                        $bv->nodes[$node->parent_id]->children[] = $node;
                     }
                 }
 
-                $branches[$bk]->nodes = $this->reduce($root);
+                $bv->nodes = $this->reduce($root);
 
                 // Add the Search All option to the branch.
                 array_unshift($bv->nodes, ['id' => null, 'title' => Text::_('COM_FINDER_FILTER_SELECT_ALL_LABEL')]);

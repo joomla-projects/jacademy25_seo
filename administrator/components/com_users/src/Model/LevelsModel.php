@@ -193,7 +193,6 @@ class LevelsModel extends ListModel
     {
         $table      = Table::getInstance('viewlevel', 'Joomla\\CMS\Table\\');
         $user       = $this->getCurrentUser();
-        $conditions = [];
 
         if (empty($pks)) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_ERROR_LEVELS_NOLEVELS_SELECTED'), 'error');
@@ -221,12 +220,6 @@ class LevelsModel extends ListModel
                     return false;
                 }
             }
-        }
-
-        // Execute reorder for each category.
-        foreach ($conditions as $cond) {
-            $table->load($cond[0]);
-            $table->reorder($cond[1]);
         }
 
         return true;

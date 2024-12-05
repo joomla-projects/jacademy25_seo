@@ -208,7 +208,7 @@ class Query
     public function __construct($options, ?DatabaseInterface $db = null)
     {
         if ($db === null) {
-            @trigger_error(\sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
+            @trigger_error('Database will be mandatory in 5.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
@@ -315,7 +315,7 @@ class Query
         $uri = Uri::getInstance($base);
 
         // Add the static taxonomy filter if present.
-        if ((bool) $this->filter) {
+        if ($this->filter) {
             $uri->setVar('f', $this->filter);
         }
 
@@ -323,7 +323,7 @@ class Query
         $t = Factory::getApplication()->getInput()->request->get('t', [], 'array');
 
         // Add the dynamic taxonomy filters if present.
-        if ((bool) $this->filters) {
+        if ($this->filters) {
             foreach ($this->filters as $nodes) {
                 foreach ($nodes as $node) {
                     if (!\in_array($node, $t)) {
@@ -925,7 +925,7 @@ class Query
         }
 
         // Add the remaining terms if present.
-        if ((bool) $input) {
+        if ($input) {
             $terms = array_merge($terms, explode(' ', $input));
         }
 
@@ -1022,7 +1022,7 @@ class Query
                     $token->required = false;
 
                     // Add the current token to the stack.
-                    if ((bool) $token->matches) {
+                    if ($token->matches) {
                         $this->included[] = $token;
                         $this->highlight  = array_merge($this->highlight, array_keys($token->matches));
                     } else {
@@ -1040,7 +1040,7 @@ class Query
                     $other->required = false;
 
                     // Add the token after the next token to the stack.
-                    if ((bool) $other->matches) {
+                    if ($other->matches) {
                         $this->included[] = $other;
                         $this->highlight  = array_merge($this->highlight, array_keys($other->matches));
                     } else {
@@ -1083,7 +1083,7 @@ class Query
                 $other->required = false;
 
                 // Add the token after the next token to the stack.
-                if ((bool) $other->matches) {
+                if ($other->matches) {
                     $this->included[] = $other;
                     $this->highlight  = array_merge($this->highlight, array_keys($other->matches));
                 } else {
@@ -1121,7 +1121,7 @@ class Query
                 $other->required = false;
 
                 // Add the next token to the stack.
-                if ((bool) $other->matches) {
+                if ($other->matches) {
                     $this->excluded[] = $other;
                 } else {
                     $this->ignored[] = $other;
@@ -1182,7 +1182,7 @@ class Query
         /*
          * Handle any remaining tokens using the standard processing mechanism.
          */
-        if ((bool) $terms) {
+        if ($terms) {
             // Tokenize the terms.
             $terms  = implode(' ', $terms);
             $tokens = Helper::tokenize($terms, $lang, false);
@@ -1204,10 +1204,10 @@ class Query
                 }
 
                 // Set the required flag for the token.
-                $token->required = $mode === 'AND' ? (!$token->phrase) : false;
+                $token->required = $mode === 'AND' && !$token->phrase;
 
                 // Add the token to the appropriate stack.
-                if ($token->required || (bool) $token->matches) {
+                if ($token->required || $token->matches) {
                     $this->included[] = $token;
                     $this->highlight  = array_merge($this->highlight, array_keys($token->matches));
                 } else {
@@ -1280,7 +1280,7 @@ class Query
         $matches = $db->loadObjectList();
 
         // Check the matching terms.
-        if ((bool) $matches) {
+        if ($matches) {
             // Add the matches to the token.
             foreach ($matches as $item) {
                 if (!isset($token->matches[$item->term])) {
