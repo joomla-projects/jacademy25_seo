@@ -23,7 +23,7 @@ use Joomla\Event\DispatcherInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-class LogsTable extends Table
+class LogTable extends Table
 {
     /**
      * Constructor
