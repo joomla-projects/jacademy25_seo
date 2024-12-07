@@ -697,6 +697,19 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 
         $this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
 
+        if (!empty($this->element['layoutPaths'])) {
+            $layoutPaths = \explode(',', (string) $this->element['layoutPaths']);
+
+            foreach ($layoutPaths as $layoutPath) {
+                $path = JPATH_ROOT . '/' . ltrim($layoutPath, '/');
+
+                if (is_dir($path)) {
+                    // Use unshift to have lower priority than external added paths (e.g. via plugins)
+                    array_unshift($this->layoutPaths, $path);
+                }
+            }
+        }
+
         $this->parentclass = isset($this->element['parentclass']) ? (string) $this->element['parentclass'] : $this->parentclass;
 
         // Add required to class list if field is required.
@@ -1380,11 +1393,22 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      *
      * @param   string  $path  The path to a layout folder
      *
-     * @return  void
+     * @return  boolean true on success otherwise false
      */
-    public function addLayoutPath(string $path) : void
+    public function addLayoutPath(string $path) : bool
     {
-        $this->layoutPaths[] = $path;
+        // Try to add absolute path
+        if (!is_dir($path)) {
+            $path = JPATH_ROOT . '/' . ltrim($path, '/');
+        }
+
+        if (is_dir($path)) {
+            $this->layoutPaths[] = $path;
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
