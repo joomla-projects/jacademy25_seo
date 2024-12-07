@@ -337,12 +337,12 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
     /**
      * @param   array  $data  The form data
      *
-     * @return  boolean  True on success, false on failure
+     * @return  void
      *
      * @since  __DEPLOY_VERSION__
      * @throws \Exception
      */
-    private function saveLog($data): void
+    private function saveLog(array $data): void
     {
         $model         = $this->getApplication()->bootComponent('com_scheduler')->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $taskInfo      = $model->getItem($data['TASK_ID']);
