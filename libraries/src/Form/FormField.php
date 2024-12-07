@@ -598,6 +598,13 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 $this->$name = (int) $value;
                 break;
 
+            case 'layoutIncludePath':
+                if (is_dir(JPATH_ROOT . '/' . ltrim((string) $value, '/'))) {
+                    // Use unshift to use a lower priority
+                    array_unshift($this->layoutPaths, JPATH_ROOT . '/' . ltrim((string) $value, '/'));
+                }
+                break;
+
             default:
                 // Detect data attribute(s)
                 if (strpos($name, 'data-') === 0) {
@@ -696,19 +703,6 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         $this->hidden = ($this->hidden || strtolower((string) $this->element['type']) === 'hidden');
 
         $this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
-
-        if (!empty($this->element['layoutPaths'])) {
-            $layoutPaths = \explode(',', (string) $this->element['layoutPaths']);
-
-            foreach ($layoutPaths as $layoutPath) {
-                $path = JPATH_ROOT . '/' . ltrim($layoutPath, '/');
-
-                if (is_dir($path)) {
-                    // Use unshift to have lower priority than external added paths (e.g. via plugins)
-                    array_unshift($this->layoutPaths, $path);
-                }
-            }
-        }
 
         $this->parentclass = isset($this->element['parentclass']) ? (string) $this->element['parentclass'] : $this->parentclass;
 
