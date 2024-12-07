@@ -1215,7 +1215,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             if (!($translate === 'false' || $translate === 'off' || $translate === '0')) {
                 $fieldLabel = Text::_($fieldLabel);
             }
-        } else {1.0.0
+        } else {
             $fieldLabel = Text::_($this->element['name']);
         }
 
