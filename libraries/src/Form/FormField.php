@@ -402,7 +402,8 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     /**
      * Additional layout paths to look for layout files
      *
-     * @var array
+     * @var   array
+     * @since __DEPLOY_VERSION__
      */
     protected $layoutPaths = [];
 
@@ -1214,7 +1215,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             if (!($translate === 'false' || $translate === 'off' || $translate === '0')) {
                 $fieldLabel = Text::_($fieldLabel);
             }
-        } else {
+        } else {1.0.0
             $fieldLabel = Text::_($this->element['name']);
         }
 
@@ -1389,8 +1390,10 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      * @param   string  $path  The path to a layout folder
      *
      * @return  boolean true on success otherwise false
+     *
+     * @since __DEPLOY_VERSION__
      */
-    public function addLayoutPath(string $path) : bool
+    public function addLayoutPath(string $path): bool
     {
         // Try to add absolute path
         if (!is_dir($path)) {
