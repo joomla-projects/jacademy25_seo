@@ -21,6 +21,7 @@ use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\DatabaseNotFoundException;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
@@ -599,7 +600,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 break;
 
             case 'layoutIncludePath':
-                if (is_dir(JPATH_ROOT . '/' . ltrim((string) $value, '/'))) {
+                if ($value && is_dir(Path::check(JPATH_ROOT . '/' . ltrim((string) $value, '/')))) {
                     // Use unshift to use a lower priority
                     array_unshift($this->layoutPaths, JPATH_ROOT . '/' . ltrim((string) $value, '/'));
                 }
@@ -672,7 +673,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         $attributes = [
             'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
             'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', ];
+            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', 'layoutIncludePath'];
 
         $this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
