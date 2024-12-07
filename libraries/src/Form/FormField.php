@@ -1077,8 +1077,8 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 
         $renderer = $this->getRenderer($this->renderLayout);
 
-        if (isset($options['layoutPaths']) && \is_array($options['layoutPaths'])) {
-            $renderer->addIncludePaths($options['layoutPaths']);
+        if (isset($options['layoutIncludePath']) && is_dir(Path::check($options['layoutIncludePath']))) {
+            $renderer->addIncludePaths($options['layoutIncludePath']);
         }
 
         return $renderer->render($data);
