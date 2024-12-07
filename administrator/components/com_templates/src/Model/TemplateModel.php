@@ -503,12 +503,12 @@ class TemplateModel extends FormModel
 
         // For plugins
         if (stristr($type, 'plg_') !== false) {
-            $pluginFolder    = explode('_', $explodeArray['2']);
-            $folder          = $pluginFolder['1'];
-            $subFolder       = $pluginFolder['2'];
-            $htmlPath        = Path::clean($pluginPath . $folder . '/' . $subFolder . '/tmpl/');
-            $fileName        = $this->getSafeName($fileName);
-            $coreFile        = Path::find($htmlPath, $fileName);
+            $pluginFolder = explode('_', $explodeArray['2']);
+            $folder       = $pluginFolder['1'];
+            $subFolder    = $pluginFolder['2'];
+            $htmlPath     = Path::clean($pluginPath . $folder . '/' . $subFolder . '/tmpl/');
+            $fileName     = $this->getSafeName($fileName);
+            $coreFile     = Path::find($htmlPath, $fileName);
 
             return $coreFile;
         }
