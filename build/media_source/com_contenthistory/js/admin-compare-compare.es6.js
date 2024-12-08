@@ -12,6 +12,8 @@
     return textarea.value;
   };
 
+  const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
   const compare = (original, changed) => {
     const display = changed.nextElementSibling;
     const diff = window.Diff.diffWords(original.innerHTML, changed.innerHTML);
@@ -21,11 +23,11 @@
       let color = '';
 
       if (part.added) {
-        color = '#a6f3a6';
+        color = isDarkMode ? '#4cfa4c' : '#a6f3a6'; // Green shades for dark mode and light mode
       }
 
       if (part.removed) {
-        color = '#f8cbcb';
+        color = isDarkMode ? '#e85c5c' : '#f8cbcb'; // Red shades for dark mode and light mode
       }
 
       // @todo use the tag MARK here not SPAN
