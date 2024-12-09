@@ -476,5 +476,4 @@ class ContactController extends FormController implements UserFactoryAwareInterf
 
         $this->app->triggerEvent('onContentAfterSave', ['com_contact.form', (object) $validData, false, $validData]);
     }
-
 }
