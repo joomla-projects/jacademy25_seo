@@ -457,23 +457,4 @@ class ContactController extends FormController implements UserFactoryAwareInterf
 
         return base64_decode($return);
     }
-
-    /**
-     * Method to trigger the onContentAfterSave event.
-     *
-     * @param   BaseDatabaseModel  $model      The data model object.
-     * @param   array              $validData  The validated data.
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
-    {
-        if ($model === null || $validData === null) {
-            throw new \InvalidArgumentException('Model and validData cannot be null');
-        }
-
-        $this->app->triggerEvent('onContentAfterSave', ['com_contact.form', (object) $validData, false, $validData]);
-    }
 }
