@@ -23,7 +23,7 @@ if (is_array($value)) {
 }
 
 if ($fieldParams->get('prepare_content', 0)) {
-    $value = HTMLHelper::_('content.prepare', ($value));
+    $value = HTMLHelper::_('content.prepare', htmlentities($value));
     echo $value;
     return;
 }
