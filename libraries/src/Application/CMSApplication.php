@@ -374,7 +374,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $urls = [];
 
         if ($this->get($name . '_reset_password_override', 0)) {
-            $tasks  = $this->get($name . '_reset_password_tasks', '');
+            $tasks = $this->get($name . '_reset_password_tasks', '');
         }
 
         // Check task
