@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 $value = $field->value;
 
 if ($value == '') {
@@ -18,6 +20,12 @@ if ($value == '') {
 
 if (is_array($value)) {
     $value = implode(', ', $value);
+}
+
+if ($fieldParams->get('prepare_content', 0)) {
+    $value = HTMLHelper::_('content.prepare', ($value));
+    echo $value;
+    return;
 }
 
 echo htmlentities($value);
