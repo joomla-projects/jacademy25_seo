@@ -383,7 +383,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
             foreach ($tasks as $task) {
                 list($option, $t) = explode('/', $task);
-                $urls[] = ['option' => $option, 'task' => $t];
+                $urls[]           = ['option' => $option, 'task' => $t];
             }
         }
 
