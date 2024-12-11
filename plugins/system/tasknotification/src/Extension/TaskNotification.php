@@ -16,6 +16,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
+use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Database\DatabaseAwareTrait;
@@ -63,11 +64,12 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onContentPrepareForm'  => 'injectTaskNotificationFieldset',
-            'onTaskExecuteSuccess'  => 'notifySuccess',
-            'onTaskExecuteFailure'  => 'notifyFailure',
-            'onTaskRoutineNotFound' => 'notifyOrphan',
-            'onTaskRecoverFailure'  => 'notifyFatalRecovery',
+            'onContentPrepareForm'    => 'injectTaskNotificationFieldset',
+            'onTaskExecuteSuccess'    => 'notifySuccess',
+            'onTaskRoutineWillResume' => 'notifyWillResume',
+            'onTaskExecuteFailure'    => 'notifyFailure',
+            'onTaskRoutineNotFound'   => 'notifyOrphan',
+            'onTaskRecoverFailure'    => 'notifyFatalRecovery',
         ];
     }
 
@@ -124,17 +126,20 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         /** @var Task $task */
         $task = $event->getArgument('subject');
 
+        $data = $this->getDataFromTask($event->getArgument('subject'));
+        $this->saveLog($data);
+
         if (!(int) $task->get('params.notifications.failure_mail', 1)) {
             return;
         }
 
         // Load translations
         $this->loadLanguage();
+        $groups = $task->get('params.notifications.notification_failure_groups');
 
         // @todo safety checks, multiple files [?]
         $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
-        $data    = $this->getDataFromTask($event->getArgument('subject'));
-        $this->sendMail('plg_system_tasknotification.failure_mail', $data, $outFile);
+        $this->sendMail('plg_system_tasknotification.failure_mail', $data, $outFile, $groups);
     }
 
     /**
@@ -160,9 +165,10 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Load translations
         $this->loadLanguage();
+        $groups = $task->get('params.notifications.notification_orphan_groups');
 
         $data = $this->getDataFromTask($event->getArgument('subject'));
-        $this->sendMail('plg_system_tasknotification.orphan_mail', $data);
+        $this->sendMail('plg_system_tasknotification.orphan_mail', $data, '', $groups);
     }
 
     /**
@@ -179,6 +185,8 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
     {
         /** @var Task $task */
         $task = $event->getArgument('subject');
+        $data = $this->getDataFromTask($event->getArgument('subject'));
+        $this->saveLog($data);
 
         if (!(int) $task->get('params.notifications.success_mail', 0)) {
             return;
@@ -186,11 +194,26 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Load translations
         $this->loadLanguage();
+        $groups = $task->get('params.notifications.notification_success_groups');
 
         // @todo safety checks, multiple files [?]
         $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
-        $data    = $this->getDataFromTask($event->getArgument('subject'));
-        $this->sendMail('plg_system_tasknotification.success_mail', $data, $outFile);
+        $this->sendMail('plg_system_tasknotification.success_mail', $data, $outFile, $groups);
+    }
+
+    /**
+     * Log Task execution will resume.
+     *
+     * @param   Event  $event  The onTaskRoutineWillResume event.
+     *
+     * @return void
+     *
+     * @since __DEPLOY_VERSION__
+     * @throws \Exception
+     */
+    public function notifyWillResume(Event $event): void
+    {
+        $this->saveLog($this->getDataFromTask($event->getArgument('subject')));
     }
 
     /**
@@ -219,9 +242,10 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Load translations
         $this->loadLanguage();
+        $groups = $task->get('params.notifications.notification_success_groups');
 
         $data = $this->getDataFromTask($event->getArgument('subject'));
-        $this->sendMail('plg_system_tasknotification.fatal_recovery_mail', $data);
+        $this->sendMail('plg_system_tasknotification.fatal_recovery_mail', $data, '', $groups);
     }
 
     /**
@@ -238,9 +262,12 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         return [
             'TASK_ID'        => $task->get('id'),
             'TASK_TITLE'     => $task->get('title'),
+            'TASK_TYPE'      => $task->get('type'),
             'EXIT_CODE'      => $task->getContent()['status'] ?? Status::NO_EXIT,
             'EXEC_DATE_TIME' => $lockOrExecTime,
             'TASK_OUTPUT'    => $task->getContent()['output_body'] ?? '',
+            'TASK_TIMES'     => $task->get('times_executed'),
+            'TASK_DURATION'  => $task->getContent()['duration'],
         ];
     }
 
@@ -254,7 +281,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
      * @since 4.1.0
      * @throws \Exception
      */
-    private function sendMail(string $template, array $data, string $attachment = ''): void
+    private function sendMail(string $template, array $data, string $attachment = '', array $groups = []): void
     {
         $app = $this->getApplication();
         $db  = $this->getDatabase();
@@ -263,9 +290,11 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         $query = $db->getQuery(true);
 
         $query->select($db->quoteName(['name', 'email', 'sendEmail', 'id']))
-            ->from($db->quoteName('#__users'))
-            ->where($db->quoteName('sendEmail') . ' = 1')
-            ->where($db->quoteName('block') . ' = 0');
+            ->from($db->quoteName('#__users', 'u'))
+            ->join('LEFT', $db->quoteName('#__user_usergroup_map', 'g') . ' ON ' . $db->quoteName('g.user_id') . ' = ' . $db->quoteName('u.id'))
+            ->where($db->quoteName('u.sendEmail') . ' = 1')
+            ->where($db->quoteName('u.block') . ' = 0')
+            ->whereIn($db->quoteName('g.group_id'), $groups);
 
         $db->setQuery($query);
 
@@ -313,5 +342,33 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         if (!$mailSent) {
             Log::add($this->getApplication()->getLanguage()->_('PLG_SYSTEM_TASK_NOTIFICATION_NO_MAIL_SENT'), Log::WARNING);
         }
+    }
+
+    /**
+     * @param   array  $data  The form data
+     *
+     * @return  boolean  True on success, false on failure
+     *
+     * @since  __DEPLOY_VERSION__
+     * @throws \Exception
+     */
+    private function saveLog($data): void
+    {
+        $model         = $this->getApplication()->bootComponent('com_scheduler')->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+        $taskInfo      = $model->getItem($data['TASK_ID']);
+
+        $obj           = new \stdClass();
+        $obj->tasktype = SchedulerHelper::getTaskOptions()->findOption($taskInfo->type)->title ?? '';
+        $obj->taskname = $data['TASK_TITLE'];
+        $obj->duration = $data['TASK_DURATION'] ?? 0;
+        $obj->jobid    = $data['TASK_ID'];
+        $obj->exitcode = $data['EXIT_CODE'];
+        $obj->taskid   = $data['TASK_TIMES'];
+        $obj->lastdate = Factory::getDate()->toSql();
+        $obj->nextdate = $taskInfo->next_execution;
+
+        $model = $this->getApplication()->bootComponent('com_scheduler')
+            ->getMVCFactory()->createModel('Log', 'Administrator', ['ignore_request' => true]);
+        $model->save((array)$obj);
     }
 }
