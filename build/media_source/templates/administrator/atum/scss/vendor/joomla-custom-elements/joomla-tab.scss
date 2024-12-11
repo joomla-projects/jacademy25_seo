@@ -285,8 +285,8 @@ joomla-tab[view=accordion] {
 
       .respTable thead {
         position: absolute;
-        top: -1111px;
-        left: -1111px;
+        inset-block-start: -1111px;
+        inset-inline-start: -1111px;
       }
 
       .respTable td::before {
@@ -294,7 +294,6 @@ joomla-tab[view=accordion] {
         content: attr(data-label) ":";
         float: inline-start;
         padding-inline-end: 2em;
-        }
       }
 
       .respTable td:nth-child(1) {
