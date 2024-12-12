@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Router;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\UserFactoryAwareTrait;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\Version;
 use Joomla\Console\Application;
 use Joomla\Database\DatabaseAwareTrait;
@@ -48,6 +50,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
     use ExtensionManagerTrait;
     use ExtensionNamespaceMapper;
     use DatabaseAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * The input.
@@ -136,6 +139,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
 
         $this->setContainer($container);
         $this->setDispatcher($dispatcher);
+        $this->setUserFactory($container->get(UserFactoryInterface::class));
 
         // Set the execution datetime and timestamp;
         $this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
@@ -246,6 +250,17 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
          * a RuntimeException if the populateHttpHost() method has not already executed.
          */
         $this->populateHttpHost();
+
+        // Load the user when specified
+        $user = $this->getConsoleInput()->getParameterOption(['--user'], null);
+
+        if ($user !== null && is_numeric($user)) {
+            $this->loadIdentity($this->getUserFactory()->loadUserById((int)$user));
+        }
+
+        if ($user !== null && !is_numeric($user)) {
+            $this->loadIdentity($this->getUserFactory()->loadUserByUsername($user));
+        }
 
         // Import CMS plugin groups to be able to subscribe to events
         PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
@@ -549,12 +564,22 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
     protected function getDefaultInputDefinition(): InputDefinition
     {
         $inputDefinition = parent::getDefaultInputDefinition();
+
         $inputDefinition->addOption(
             new InputOption(
                 '--live-site',
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'The URL to your site, e.g. https://www.example.com'
+            )
+        );
+
+        $inputDefinition->addOption(
+            new InputOption(
+                '--user',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'The user to use, can be the id or username'
             )
         );
 
