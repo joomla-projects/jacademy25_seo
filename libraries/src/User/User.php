@@ -10,6 +10,7 @@
 namespace Joomla\CMS\User;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Event\User\AfterDeleteEvent;
 use Joomla\CMS\Event\User\AfterSaveEvent;
 use Joomla\CMS\Event\User\BeforeDeleteEvent;
@@ -743,15 +744,8 @@ class User
                 $iAmRehashingSuperadmin = true;
             }
 
-            // Check if we are using a CLI application
-            $isCli = false;
-
-            if (Factory::getApplication()->isCli()) {
-                $isCli = true;
-            }
-
             // We are only worried about edits to this account if I am not a Super Admin.
-            if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true && $isCli != true) {
+            if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true && !Factory::getApplication() instanceof ConsoleApplication) {
                 // I am not a Super Admin, and this one is, so fail.
                 if (!$isNew && Access::check($this->id, 'core.admin')) {
                     throw new \RuntimeException('User not Super Administrator');
