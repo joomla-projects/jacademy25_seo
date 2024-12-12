@@ -42,6 +42,11 @@ class JsonapiView extends BaseApiView
         'typeAlias',
         'asset_id',
         'title',
+    /**
+     * @deprecated  5.2 will be removed in 7.0
+     *              Will be removed without replacement.
+     */
+        'text',
         'introtext',
         'fulltext',
         'tags',
@@ -81,6 +86,11 @@ class JsonapiView extends BaseApiView
         'typeAlias',
         'asset_id',
         'title',
+    /**
+     * @deprecated  5.2 will be removed in 7.0
+     *              Will be removed without replacement.
+     */
+        'text',
         'introtext',
         'fulltext',
         'tags',
@@ -194,6 +204,8 @@ class JsonapiView extends BaseApiView
         if (!$item) {
             return $item;
         }
+
+        $item->text = $item->introtext . ' ' . $item->fulltext;
 
         // Process the content plugins.
         PluginHelper::importPlugin('content');
