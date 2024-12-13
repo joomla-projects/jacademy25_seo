@@ -26,7 +26,7 @@ class Microdata
      * @var    array
      * @since  3.2
      */
-    protected static $types = null;
+    protected static $types;
 
     /**
      * The Type
@@ -34,7 +34,7 @@ class Microdata
      * @var    string
      * @since  3.2
      */
-    protected $type = null;
+    protected $type;
 
     /**
      * The Property
@@ -42,7 +42,7 @@ class Microdata
      * @var    string
      * @since  3.2
      */
-    protected $property = null;
+    protected $property;
 
     /**
      * The Human content
@@ -50,7 +50,7 @@ class Microdata
      * @var    string
      * @since  3.2
      */
-    protected $content = null;
+    protected $content;
 
     /**
      * The Machine content
@@ -58,7 +58,7 @@ class Microdata
      * @var    string
      * @since  3.2
      */
-    protected $machineContent = null;
+    protected $machineContent;
 
     /**
      * The Fallback Type
@@ -66,7 +66,7 @@ class Microdata
      * @var    string
      * @since  3.2
      */
-    protected $fallbackType = null;
+    protected $fallbackType;
 
     /**
      * The Fallback Property
@@ -74,7 +74,7 @@ class Microdata
      * @var    string
      * @since  3.2
      */
-    protected $fallbackProperty = null;
+    protected $fallbackProperty;
 
     /**
      * Used for checking if the library output is enabled or disabled

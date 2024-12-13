@@ -130,7 +130,7 @@ final class Version
      * @var string
      * @since   4.2.0
      */
-    private static $mediaVersion = null;
+    private static $mediaVersion;
 
     /**
      * Check if we are in development mode
@@ -182,11 +182,7 @@ final class Version
     {
         $version = self::MAJOR_VERSION . '.' . self::MINOR_VERSION . '.' . self::PATCH_VERSION;
 
-        if (self::EXTRA_VERSION !== '' && self::EXTRA_VERSION !== '0') {
-            $version .= '-' . self::EXTRA_VERSION;
-        }
-
-        return $version;
+        return $version . ('-' . self::EXTRA_VERSION);
     }
 
     /**

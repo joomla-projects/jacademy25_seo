@@ -622,7 +622,7 @@ class WebAssetManager implements WebAssetManagerInterface
         $inlineRelation = [];
 
         // Find an inline assets and their relations to non inline
-        foreach ($assets as $k => $asset) {
+        foreach ($assets as $asset) {
             if (!$asset->getOption('inline')) {
                 continue;
             }

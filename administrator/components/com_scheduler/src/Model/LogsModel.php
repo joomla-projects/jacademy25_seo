@@ -258,7 +258,6 @@ class LogsModel extends ListModel
         $duration      = ($data['TASK_DURATION'] ?? 0);
         $created       = Factory::getDate()->toSql();
 
-        /** @var \Joomla\Component\Schduler\Administrator\Table\LogsTable $table */
         $logsTable           = $this->getTable();
         $logsTable->tasktype = $safeTypeTitle;
         $logsTable->taskname = $data['TASK_TITLE'];

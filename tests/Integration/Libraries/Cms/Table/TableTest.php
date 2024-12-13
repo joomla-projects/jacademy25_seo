@@ -265,7 +265,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
      */
     public function testReset()
     {
-        $nullDate = $this->getDBDriver()->getNullDate();
+        $this->getDBDriver()->getNullDate();
 
         $this->object->id         = 25;
         $this->object->title      = 'My Title';

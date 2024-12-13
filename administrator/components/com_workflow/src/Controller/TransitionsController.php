@@ -128,9 +128,6 @@ class TransitionsController extends AdminController
     {
         $append = parent::getRedirectToListAppend();
 
-        $append .= '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '')
-            . '&workflow_id=' . $this->workflowId;
-
-        return $append;
+        return $append . ('&extension=' . $this->extension . $this->section !== '' ? '.' . $this->section : '&workflow_id=' . $this->workflowId);
     }
 }

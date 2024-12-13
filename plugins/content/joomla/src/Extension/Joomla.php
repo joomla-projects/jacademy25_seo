@@ -58,7 +58,7 @@ final class Joomla extends CMSPlugin
     public function onContentBeforeSave($context, $table, $isNew, $data)
     {
         if ($context === 'com_menus.item') {
-            return $this->checkMenuItemBeforeSave($context, $table, $isNew, $data);
+            return $this->checkMenuItemBeforeSave($table);
         }
 
         // Check we are handling the frontend edit form.
@@ -476,7 +476,7 @@ final class Joomla extends CMSPlugin
     private function injectContactSchema(string $context, Registry $schema)
     {
         $app = $this->getApplication();
-        $db  = $this->getDatabase();
+        $this->getDatabase();
 
         [$extension, $view, $id] = explode('.', $context);
 
@@ -678,7 +678,7 @@ final class Joomla extends CMSPlugin
 
                 // Check for items in any child categories (if it is a leaf, there are no child categories)
                 if (!$data->isLeaf()) {
-                    $count = $this->countItemsInChildren($table, $data->get('id'), $data);
+                    $count = $this->countItemsInChildren($table, $data);
 
                     if ($count === false) {
                         $result = false;
@@ -897,14 +897,12 @@ final class Joomla extends CMSPlugin
      * Get count of items in a category's child categories
      *
      * @param   string   $table  table name of component table (column is catid)
-     * @param   integer  $catid  id of the category to check
      * @param   object   $data   The data relating to the content that was deleted.
      *
      * @return  mixed  count of items found or false if db error
-     *
      * @since   1.6
      */
-    private function countItemsInChildren($table, $catid, $data)
+    private function countItemsInChildren($table, $data)
     {
         $db = $this->getDatabase();
 
@@ -987,16 +985,13 @@ final class Joomla extends CMSPlugin
     /**
      * The save event.
      *
-     * @param   string   $context  The context
      * @param   object   $table    The item
-     * @param   boolean  $isNew    Is new item
-     * @param   array    $data     The validated data
      *
      * @return  boolean
      *
      * @since   3.9.12
      */
-    private function checkMenuItemBeforeSave($context, $table, $isNew, $data)
+    private function checkMenuItemBeforeSave($table)
     {
         // Special case for Create article menu item
         if ($table->link !== 'index.php?option=com_content&view=form&layout=edit') {

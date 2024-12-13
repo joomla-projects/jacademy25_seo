@@ -144,7 +144,6 @@ class ApiController extends BaseController
      *      index.php?option=com_media&task=api.files&path=/sampledata/cassiopeia/test.jpg
      *      /api/files/sampledata/cassiopeia/test.jpg
      *
-     * @return  null
      *
      * @since   4.0.0
      * @throws  \Exception

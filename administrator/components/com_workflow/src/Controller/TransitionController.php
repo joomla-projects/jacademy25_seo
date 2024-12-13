@@ -156,9 +156,8 @@ class TransitionController extends FormController
     protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
     {
         $append = parent::getRedirectToItemAppend($recordId);
-        $append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension;
 
-        return $append;
+        return $append . ('&workflow_id=' . $this->workflowId . '&extension=' . $this->extension);
     }
 
     /**
@@ -171,8 +170,7 @@ class TransitionController extends FormController
     protected function getRedirectToListAppend()
     {
         $append = parent::getRedirectToListAppend();
-        $append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension;
 
-        return $append;
+        return $append . ('&workflow_id=' . $this->workflowId . '&extension=' . $this->extension);
     }
 }

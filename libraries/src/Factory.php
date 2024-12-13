@@ -45,7 +45,7 @@ abstract class Factory
      * @var    CMSApplicationInterface
      * @since  1.7.0
      */
-    public static $application = null;
+    public static $application;
 
     /**
      * Global cache object
@@ -53,7 +53,7 @@ abstract class Factory
      * @var    Cache
      * @since  1.7.0
      */
-    public static $cache = null;
+    public static $cache;
 
     /**
      * Global configuration object
@@ -66,7 +66,7 @@ abstract class Factory
      *              Example:
      *              Factory::getApplication()->getConfig();
      */
-    public static $config = null;
+    public static $config;
 
     /**
      * Global container object
@@ -74,7 +74,7 @@ abstract class Factory
      * @var    Container
      * @since  4.0.0
      */
-    public static $container = null;
+    public static $container;
 
     /**
      * Container for Date instances
@@ -95,7 +95,7 @@ abstract class Factory
      *              Example:
      *              Factory::getApplication()->getSession();
      */
-    public static $session = null;
+    public static $session;
 
     /**
      * Global language object
@@ -108,7 +108,7 @@ abstract class Factory
      *              Example:
      *              Factory::getApplication()->getLanguage();
      */
-    public static $language = null;
+    public static $language;
 
     /**
      * Global document object
@@ -121,7 +121,7 @@ abstract class Factory
      *               Example:
      *               Factory::getApplication()->getDocument();
      */
-    public static $document = null;
+    public static $document;
 
     /**
      * Global database object
@@ -134,7 +134,7 @@ abstract class Factory
      *              Example:
      *              Factory::getContainer()->get(DatabaseInterface::class);
      */
-    public static $database = null;
+    public static $database;
 
     /**
      * Global mailer object
@@ -142,7 +142,7 @@ abstract class Factory
      * @var    Mail
      * @since  1.7.0
      */
-    public static $mailer = null;
+    public static $mailer;
 
     /**
      * Get the global application object. When the global application doesn't exist, an exception is thrown.
@@ -490,9 +490,7 @@ abstract class Factory
             self::$mailer = self::createMailer();
         }
 
-        $copy = clone self::$mailer;
-
-        return $copy;
+        return clone self::$mailer;
     }
 
     /**
@@ -537,9 +535,7 @@ abstract class Factory
             self::$dates[$classname][$key] = new $classname($time, $tzOffset);
         }
 
-        $date = clone self::$dates[$classname][$key];
-
-        return $date;
+        return clone self::$dates[$classname][$key];
     }
 
     /**
@@ -602,7 +598,7 @@ abstract class Factory
      */
     protected static function createContainer(): Container
     {
-        $container = (new Container())
+        return (new Container())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\CacheController())
@@ -626,8 +622,6 @@ abstract class Factory
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\WebAssetRegistry())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Router())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\User());
-
-        return $container;
     }
 
     /**
@@ -742,9 +736,8 @@ abstract class Factory
         $conf   = self::getConfig();
         $locale = $conf->get('language');
         $debug  = $conf->get('debug_lang');
-        $lang   = self::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
 
-        return $lang;
+        return self::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
     }
 
     /**

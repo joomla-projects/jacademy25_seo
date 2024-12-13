@@ -18,7 +18,7 @@ use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 /** @var \Joomla\Component\Newsfeeds\Site\View\Categories\HtmlView $this */
 ?>
 <?php if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) : ?>
-    <?php foreach ($this->items[$this->parent->id] as $id => $item) : ?>
+    <?php foreach ($this->items[$this->parent->id] as $item) : ?>
         <?php if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) : ?>
             <div class="com-newsfeeds-categories__items">
                 <h3 class="page-header item-title">

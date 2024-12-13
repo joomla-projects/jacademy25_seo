@@ -222,10 +222,9 @@ abstract class FieldsPlugin extends CMSPlugin
         // Render the layout
         ob_start();
         include $path;
-        $output = ob_get_clean();
 
         // Return the output
-        return $output;
+        return ob_get_clean();
     }
 
     /**

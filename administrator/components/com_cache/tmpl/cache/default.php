@@ -68,7 +68,7 @@ $wa->useScript('keepalive')
                         </thead>
                         <tbody>
                             <?php $i = 0; ?>
-                            <?php foreach ($this->data as $folder => $item) : ?>
+                            <?php foreach ($this->data as $item) : ?>
                                 <tr class="row<?php echo $i % 2; ?>">
                                     <td>
                                         <?php echo HTMLHelper::_('grid.id', $i, $item->group, false, 'cid', 'cb', $item->group); ?>

@@ -366,7 +366,7 @@ class ArticlesModel extends ListModel
             $categoryTable    = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
             $subCatItemsWhere = [];
 
-            foreach ($categoryId as $key => $filter_catid) {
+            foreach ($categoryId as $filter_catid) {
                 $categoryTable->load($filter_catid);
 
                 // Because values to $query->bind() are passed by reference, using $query->bindArray() here instead to prevent overwriting.
@@ -389,7 +389,7 @@ class ArticlesModel extends ListModel
             }
 
             $query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
-        } elseif ($level = (int) $level !== 0) {
+        } elseif ($level = $level !== 0) {
             // Case: Using only the by level filter
             $query->where($db->quoteName('c.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);

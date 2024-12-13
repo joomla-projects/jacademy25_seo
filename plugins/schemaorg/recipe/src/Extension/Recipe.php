@@ -100,9 +100,9 @@ final class Recipe extends CMSPlugin implements SubscriberInterface
             if (isset($entry['recipeIngredient']) && \is_array($entry['recipeIngredient'])) {
                 $result = [];
 
-                foreach ($entry['recipeIngredient'] as $key => $value) {
+                foreach ($entry['recipeIngredient'] as $value) {
                     if (\is_array($value)) {
-                        foreach ($value as $k => $v) {
+                        foreach ($value as $v) {
                             $result[] = $v;
                         }
 

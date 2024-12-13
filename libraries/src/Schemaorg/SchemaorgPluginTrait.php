@@ -51,7 +51,7 @@ trait SchemaorgPluginTrait
         $form = $event->getForm();
         $name = $this->pluginName;
 
-        if (!$form || !$name) {
+        if (!$name) {
             return;
         }
 
@@ -109,9 +109,9 @@ trait SchemaorgPluginTrait
 
             $result = [];
 
-            foreach ($field as $key => $value) {
+            foreach ($field as $value) {
                 if (\is_array($value)) {
-                    foreach ($value as $k => $v) {
+                    foreach ($value as $v) {
                         $result[] = $v;
                     }
 

@@ -64,7 +64,7 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
     {
         $filteredExtensions = [];
 
-        foreach ($extensions as $key => $extension) {
+        foreach ($extensions as $extension) {
             if ($extension['state'] === $state) {
                 $filteredExtensions[] = $extension;
             }

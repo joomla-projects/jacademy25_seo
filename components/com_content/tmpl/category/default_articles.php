@@ -47,12 +47,10 @@ if (($this->params->get('filter_field') === 'tag') && (Multilanguage::isEnabled(
 // Check for at least one editable article
 $isEditable = false;
 
-if (!empty($this->items)) {
-    foreach ($this->items as $article) {
-        if ($article->params->get('access-edit')) {
-            $isEditable = true;
-            break;
-        }
+foreach ($this->items as $article) {
+    if ($article->params->get('access-edit')) {
+        $isEditable = true;
+        break;
     }
 }
 

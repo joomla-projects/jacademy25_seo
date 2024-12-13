@@ -56,7 +56,7 @@ class HtmlView extends BaseHtmlView
      * @var   string
      * @since 4.2.0
      */
-    public $returnURL = null;
+    public $returnURL;
 
     /**
      * Are there any active MFA Methods at all?
@@ -80,7 +80,7 @@ class HtmlView extends BaseHtmlView
      * @var   User
      * @since 4.2.0
      */
-    public $user = null;
+    public $user;
 
     /**
      * Is this page part of the mandatory Multi-factor Authentication setup?

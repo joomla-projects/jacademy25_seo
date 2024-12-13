@@ -93,9 +93,7 @@ class MessagesModel extends BaseDatabaseModel
 
         $db->setQuery($query);
 
-        $result = $db->loadObject();
-
-        return $result;
+        return $db->loadObject();
     }
 
     /**
@@ -435,10 +433,8 @@ class MessagesModel extends BaseDatabaseModel
             }
         }
 
-        if ($unset_keys !== []) {
-            foreach ($unset_keys as $key) {
-                unset($resultArray[$key]);
-            }
+        foreach ($unset_keys as $key) {
+            unset($resultArray[$key]);
         }
     }
 
@@ -571,10 +567,8 @@ class MessagesModel extends BaseDatabaseModel
         $allKeys     = array_keys($options);
         $extraKeys   = array_diff($allKeys, $defaultKeys);
 
-        if ($extraKeys !== []) {
-            foreach ($extraKeys as $key) {
-                unset($options[$key]);
-            }
+        foreach ($extraKeys as $key) {
+            unset($options[$key]);
         }
 
         // Normalisation of integer values
@@ -588,7 +582,7 @@ class MessagesModel extends BaseDatabaseModel
         }
 
         // Make sure there's an extension_id
-        if ((int) $options['extension_id'] === 0) {
+        if ($options['extension_id'] === 0) {
             throw new \Exception('Post-installation message definitions need an extension_id', 500);
         }
 
@@ -664,7 +658,7 @@ class MessagesModel extends BaseDatabaseModel
         // Check if the definition exists
         $table       = $this->getTable();
         $tableName   = $table->getTableName();
-        $extensionId = (int) $options['extension_id'];
+        $extensionId = $options['extension_id'];
 
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)

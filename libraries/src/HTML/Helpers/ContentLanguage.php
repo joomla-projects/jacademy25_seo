@@ -30,7 +30,7 @@ abstract class ContentLanguage
      * @var    array
      * @since  1.6
      */
-    protected static $items = null;
+    protected static $items;
 
     /**
      * Get a list of the available content language items.

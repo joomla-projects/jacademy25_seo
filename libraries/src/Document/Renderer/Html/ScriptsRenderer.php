@@ -206,9 +206,7 @@ class ScriptsRenderer extends DocumentRenderer
             $buffer .= '<![endif]-->';
         }
 
-        $buffer .= $lnEnd;
-
-        return $buffer;
+        return $buffer . $lnEnd;
     }
 
     /**
@@ -262,9 +260,7 @@ class ScriptsRenderer extends DocumentRenderer
             $buffer .= $tab . $tab . '//]]>' . $lnEnd;
         }
 
-        $buffer .= '</script>' . $lnEnd;
-
-        return $buffer;
+        return $buffer . ('</script>' . $lnEnd);
     }
 
     /**

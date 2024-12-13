@@ -55,7 +55,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
      * @var    Input
      * @since  4.0.0
      */
-    protected $input = null;
+    protected $input;
 
     /**
      * The name of the application.
@@ -63,7 +63,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
      * @var    string
      * @since  4.0.0
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * The application language object.

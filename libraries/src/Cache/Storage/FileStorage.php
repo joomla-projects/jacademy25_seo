@@ -325,7 +325,7 @@ class FileStorage extends CacheStorage
             return $returning;
         }
 
-        $data_lock = (bool) @flock($_fileopen, LOCK_EX | LOCK_NB);
+        $data_lock = @flock($_fileopen, LOCK_EX | LOCK_NB);
 
         if ($data_lock === false) {
             $lock_counter = 0;
@@ -338,7 +338,7 @@ class FileStorage extends CacheStorage
                 }
 
                 usleep(100);
-                $data_lock = (bool) @flock($_fileopen, LOCK_EX | LOCK_NB);
+                $data_lock = @flock($_fileopen, LOCK_EX | LOCK_NB);
                 $lock_counter++;
             }
 
@@ -370,7 +370,7 @@ class FileStorage extends CacheStorage
         $path = $this->_getFilePath($id, $group);
 
         if (isset($this->_locked_files[$path])) {
-            $ret = (bool) @flock($this->_locked_files[$path], LOCK_UN);
+            $ret = @flock($this->_locked_files[$path], LOCK_UN);
             @fclose($this->_locked_files[$path]);
             unset($this->_locked_files[$path]);
 

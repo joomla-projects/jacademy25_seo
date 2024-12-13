@@ -32,7 +32,7 @@ abstract class PluginHelper
      *
      * @since  1.7
      */
-    protected static $plugins = null;
+    protected static $plugins;
 
     /**
      * Get the path to a layout from a Plugin

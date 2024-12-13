@@ -202,7 +202,7 @@ final class PhpVersionCheck extends CMSPlugin implements SubscriberInterface
             $securityWarningDate = clone $phpEndOfSupport;
             $securityWarningDate->sub(new \DateInterval('P3M'));
 
-            if (!$phpNotSupported && $today > $securityWarningDate) {
+            if ($today > $securityWarningDate) {
                 $supportStatus['status']  = self::PHP_SECURITY_ONLY;
                 $supportStatus['message'] = Text::sprintf(
                     'PLG_QUICKICON_PHPVERSIONCHECK_SECURITY_ONLY',

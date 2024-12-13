@@ -29,7 +29,7 @@ $activeRequests = 0;
     </thead>
     <tbody>
         <?php if (count($list) > 0) : ?>
-            <?php foreach ($list as $i => $item) : ?>
+            <?php foreach ($list as $item) : ?>
                 <?php if (in_array($item->status, [0, 1])) : ?>
                     <?php $activeRequests += $item->count; ?>
                 <?php endif; ?>

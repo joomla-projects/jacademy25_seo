@@ -240,7 +240,7 @@ class ContenthistoryHelper
     {
         $aliasArray = explode('.', $typeAlias);
 
-        if (\is_array($aliasArray) && \count($aliasArray) == 2) {
+        if (\count($aliasArray) == 2) {
             $component = ($aliasArray[1] === 'category') ? 'com_categories' : $aliasArray[0];
             $lang      = Factory::getLanguage();
 
@@ -322,9 +322,8 @@ class ContenthistoryHelper
         $formValues = static::getFormValues($object, $typesTable);
         $object     = static::mergeLabels($object, $formValues);
         $object     = static::hideFields($object, $typesTable);
-        $object     = static::processLookupFields($object, $typesTable);
 
-        return $object;
+        return static::processLookupFields($object, $typesTable);
     }
 
     /**

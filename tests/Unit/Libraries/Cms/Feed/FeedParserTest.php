@@ -166,7 +166,6 @@ class FeedParserTest extends UnitTestCase
      */
     public function testParseElementWithNamespaceEntry()
     {
-        $content       = 'test';
         $prefix        = 'custom';
         $xml           = sprintf("<root xmlns:%s='http://namespace'><%s:entry></%s:entry></root>", $prefix, $prefix, $prefix);
         $xmlReader     = $this->getXmlReader($xml, $prefix . ':entry');

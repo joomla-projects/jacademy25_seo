@@ -48,7 +48,7 @@ class LocalAdapter implements AdapterInterface
      *
      * @since  4.0.0
      */
-    private $rootPath = null;
+    private $rootPath;
 
     /**
      * The absolute root path in the local file system.

@@ -198,7 +198,7 @@ class TemplateAdapter extends InstallerAdapter
 
         $query->update($db->quoteName('#__menu'))
             ->set($db->quoteName('template_style_id') . ' = 0')
-            ->where($db->quoteName('template_style_id') . ' IN (' . (string) $subQuery . ')');
+            ->where($db->quoteName('template_style_id') . ' IN (' . $subQuery . ')');
 
         $db->setQuery($query);
         $db->execute();

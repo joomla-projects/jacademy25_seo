@@ -53,7 +53,7 @@ class HtmlView extends BaseHtmlView
      * @var   object
      * @since 4.2.0
      */
-    public $record = null;
+    public $record;
 
     /**
      * The title text for this page
@@ -69,7 +69,7 @@ class HtmlView extends BaseHtmlView
      * @var   string
      * @since 4.2.0
      */
-    public $returnURL = null;
+    public $returnURL;
 
     /**
      * The user object used to display this page
@@ -77,7 +77,7 @@ class HtmlView extends BaseHtmlView
      * @var   User
      * @since 4.2.0
      */
-    public $user = null;
+    public $user;
 
     /**
      * The backup codes for the current user. Only applies when the backup codes record is being "edited"

@@ -70,8 +70,7 @@ class RemindModel extends AdminModel
             return false;
         }
 
-        /** @var ConsentTable $table */
-        $table = $this->getTable();
+        $this->getTable();
 
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)

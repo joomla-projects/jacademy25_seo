@@ -140,7 +140,6 @@ abstract class JGrid
 
         $state         = ArrayHelper::getValue($states, (int) $value, $states[0]);
         $task          = \array_key_exists('task', $state) ? $state['task'] : $state[0];
-        $text          = \array_key_exists('text', $state) ? $state['text'] : (\array_key_exists(1, $state) ? $state[1] : '');
         $activeTitle   = \array_key_exists('active_title', $state) ? $state['active_title'] : (\array_key_exists(2, $state) ? $state[2] : '');
         $inactiveTitle = \array_key_exists('inactive_title', $state) ? $state['inactive_title'] : (\array_key_exists(3, $state) ? $state[3] : '');
         $tip           = \array_key_exists('tip', $state) ? $state['tip'] : (\array_key_exists(4, $state) ? $state[4] : false);

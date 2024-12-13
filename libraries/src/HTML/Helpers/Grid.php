@@ -56,10 +56,10 @@ abstract class Grid
         }
 
         if ($form) {
-            $form = ', document.getElementById(\'' . $form . '\')';
+            $form = ", document.getElementById('" . $form . "')";
         }
 
-        $html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\'' . $form . ');return false;"'
+        $html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . "','" . $direction . "','" . $task . "'" . $form . ');return false;"'
         . ' class="hasTooltip" title="' . htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-bs-placement="top">';
 
         if (isset($title['0']) && $title['0'] === '<') {
@@ -72,9 +72,7 @@ abstract class Grid
             $html .= '<span class="icon-' . $icon[$index] . '"></span>';
         }
 
-        $html .= '</a>';
-
-        return $html;
+        return $html . '</a>';
     }
 
     /**
@@ -140,7 +138,7 @@ abstract class Grid
         $user   = Factory::getUser();
         $userid = $user->id;
 
-        $result = $row instanceof Table ? $row->isCheckedOut($userid) : false;
+        $result = $row instanceof Table && $row->isCheckedOut($userid);
 
         if ($result) {
             return static::_checkedOut($row);
@@ -177,7 +175,7 @@ abstract class Grid
         $alt    = $value ? Text::_('JPUBLISHED') : Text::_('JUNPUBLISHED');
         $action = $value ? Text::_('JLIB_HTML_UNPUBLISH_ITEM') : Text::_('JLIB_HTML_PUBLISH_ITEM');
 
-        return '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $prefix . $task . '\')" title="' . $action . '">'
+        return '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . "','" . $prefix . $task . '\')" title="' . $action . '">'
             . HTMLHelper::_('image', 'admin/' . $img, $alt, null, true) . '</a>';
     }
 
@@ -233,7 +231,7 @@ abstract class Grid
     public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
     {
         return '<a href="javascript:saveorder('
-            . (\count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-sm btn-secondary float-end" title="'
+            . (\count($rows) - 1) . ", '" . $task . '\')" rel="tooltip" class="saveorder btn btn-sm btn-secondary float-end" title="'
             . Text::_('JLIB_HTML_SAVE_ORDER') . '"><span class="icon-sort"></span></a>';
     }
 

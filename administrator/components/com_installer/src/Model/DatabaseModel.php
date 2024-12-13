@@ -274,7 +274,7 @@ class DatabaseModel extends InstallerModel
     {
         $db = $this->getDatabase();
 
-        foreach ($cids as $i => $cid) {
+        foreach ($cids as $cid) {
             // Load the database issues
             $this->fetchSchemaCache($cid);
 
@@ -307,9 +307,8 @@ class DatabaseModel extends InstallerModel
         $this->fetchSchemaCache();
 
         $results = parent::getItems();
-        $results = $this->mergeSchemaCache($results);
 
-        return $results;
+        return $this->mergeSchemaCache($results);
     }
 
     /**
@@ -546,7 +545,7 @@ class DatabaseModel extends InstallerModel
     {
         $errorMessages = [];
 
-        foreach ($errors as $line => $error) {
+        foreach ($errors as $error) {
             $key             = 'COM_INSTALLER_MSG_DATABASE_' . $error->queryType;
             $messages        = $error->msgElements;
             $file            = basename($error->file);

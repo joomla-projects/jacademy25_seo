@@ -148,7 +148,7 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
 
         // Also make sure the Method really does exist
         $id     = $this->input->getInt('id');
-        $record = $this->assertValidRecordId($id, $user);
+        $this->assertValidRecordId($id, $user);
 
         if ($id <= 0) {
             throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);

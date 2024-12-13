@@ -82,7 +82,7 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                                   <pre>{$error['message']}</pre>
                                 </div>
                                 HTML;
-                    $this->prepareProcessing($report['filename'], $phpcsFile, $line, $column, $error);
+                    $this->prepareProcessing($report['filename'], $line, $column, $error);
                 }
             }
         }
@@ -96,7 +96,7 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
         return true;
     }
 
-    private function prepareProcessing($file, $phpcsFile, $line, $column, $error)
+    private function prepareProcessing($file, $line, $column, $error)
     {
         switch ($error['source']) {
             case 'PSR1.Files.SideEffects.FoundWithSymbols':

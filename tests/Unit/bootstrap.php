@@ -91,9 +91,7 @@ if (!class_exists('JLoader')) {
     require_once JPATH_LIBRARIES . '/loader.php';
 
     // If JLoader still does not exist panic.
-    if (!class_exists('JLoader')) {
-        throw new RuntimeException('Joomla Platform not loaded.');
-    }
+    throw new RuntimeException('Joomla Platform not loaded.');
 }
 
 // Setup the autoloaders.

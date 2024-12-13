@@ -22,10 +22,8 @@ Factory::getDocument()->getWebAssetManager()->usePreset('choicesjs');
 // Generate a list of styles for the child creation modal
 $options = [];
 
-if (count($this->styles) > 0) {
-    foreach ($this->styles as $style) {
-        $options[] = HTMLHelper::_('select.option', $style->id, $style->title, 'value', 'text');
-    }
+foreach ($this->styles as $style) {
+    $options[] = HTMLHelper::_('select.option', $style->id, $style->title, 'value', 'text');
 }
 
 $fancySelectData = [

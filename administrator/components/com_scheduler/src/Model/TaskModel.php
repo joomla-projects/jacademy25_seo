@@ -96,7 +96,7 @@ class TaskModel extends AdminModel
      * @var    string
      * @since  4.1.0
      */
-    protected $event_before_unlock = null;
+    protected $event_before_unlock;
 
     /**
      * The event to trigger after unlocking the data.
@@ -104,7 +104,7 @@ class TaskModel extends AdminModel
      * @var    string
      * @since  4.1.0
      */
-    protected $event_unlock = null;
+    protected $event_unlock;
 
     /**
      * TaskModel constructor. Needed just to set $app
@@ -364,11 +364,7 @@ class TaskModel extends AdminModel
         } catch (\Exception) {
         }
 
-        try {
-            $options = $resolver->resolve($options);
-        } catch (UndefinedOptionsException | InvalidOptionsException $e) {
-            throw $e;
-        }
+        $options = $resolver->resolve($options);
 
         $db           = $this->getDatabase();
         $now          = Factory::getDate()->toSql();
@@ -650,8 +646,8 @@ class TaskModel extends AdminModel
         $executionRules = array_intersect_key($executionRules, array_flip($retainKeys));
 
         // Default to current date-time in UTC/GMT as the basis
-        $executionRules['exec-day']  = $executionRules['exec-day'] ?: (string) gmdate('d');
-        $executionRules['exec-time'] = $executionRules['exec-time'] ?: (string) gmdate('H:i');
+        $executionRules['exec-day']  = $executionRules['exec-day'] ?: gmdate('d');
+        $executionRules['exec-time'] = $executionRules['exec-time'] ?: gmdate('H:i');
 
         // If custom ruleset, sort it
         // ? Is this necessary

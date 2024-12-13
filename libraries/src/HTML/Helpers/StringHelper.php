@@ -130,9 +130,8 @@ abstract class StringHelper
 
         // Clean up any internal spaces created by the processing.
         $text = str_replace(' </', '</', $text);
-        $text = str_replace(' ...', '...', $text);
 
-        return $text;
+        return str_replace(' ...', '...', $text);
     }
 
     /**

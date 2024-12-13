@@ -101,7 +101,7 @@ class InstallerModel extends ListModel
                     // Check if search string exists in any of the fields to be searched.
                     $found = 0;
 
-                    foreach ($searchFields as $key => $field) {
+                    foreach ($searchFields as $field) {
                         if (!$found && preg_match('/' . $escapedSearchString . '/i', (string) $item->{$field})) {
                             $found = 1;
                         }

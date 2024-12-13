@@ -61,7 +61,6 @@ final class Server
     /**
      * Default WebAuthn timeout in milliseconds
      *
-     * @var int
      * @since 5.0.0
      */
     public int $timeout = 60000;
@@ -69,7 +68,6 @@ final class Server
     /**
      * Random challenge size in bytes
      *
-     * @var int
      * @since 5.0.0
      */
     public int $challengeSize = 32;
@@ -77,7 +75,6 @@ final class Server
     /**
      * COSE algorithm manager factory instance
      *
-     * @var ManagerFactory
      * @since 5.0.0
      */
     private readonly ManagerFactory $coseAlgorithmManagerFactory;
@@ -85,7 +82,6 @@ final class Server
     /**
      * Token binding handler
      *
-     * @var TokenBindingHandler
      * @since 5.0.0
      * @deprecated 6.0 Will be removed when we upgrade to WebAuthn library 5.0 or later
      */
@@ -94,7 +90,6 @@ final class Server
     /**
      * Authentication extension output checker
      *
-     * @var ExtensionOutputCheckerHandler
      * @since 5.0.0
      */
     private ExtensionOutputCheckerHandler $extensionOutputCheckerHandler;

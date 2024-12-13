@@ -28,7 +28,7 @@ class JsonView extends AbstractView
      * @var    string
      * @since  4.0.0
      */
-    protected $_basePath = null;
+    protected $_basePath;
 
     /**
      * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)

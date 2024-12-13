@@ -95,10 +95,8 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         }
 
         // If there are custom headers to send add them to the request payload.
-        if (\is_array($headers)) {
-            foreach ($headers as $k => $v) {
-                $request[] = $k . ': ' . $v;
-            }
+        foreach ($headers as $k => $v) {
+            $request[] = $k . ': ' . $v;
         }
 
         // Set any custom transport options

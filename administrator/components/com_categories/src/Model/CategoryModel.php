@@ -61,7 +61,7 @@ class CategoryModel extends AdminModel
      * @var      string
      * @since    3.2
      */
-    public $typeAlias = null;
+    public $typeAlias;
 
     /**
      * The context used for the associations table

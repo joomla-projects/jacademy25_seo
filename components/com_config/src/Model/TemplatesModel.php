@@ -32,7 +32,6 @@ class TemplatesModel extends FormModel
      *
      * Note. Calling getState in this method will result in recursion.
      *
-     * @return  null
      *
      * @since   3.2
      */

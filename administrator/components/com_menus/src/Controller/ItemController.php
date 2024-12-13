@@ -88,7 +88,7 @@ class ItemController extends FormController
             }
         }
 
-        return $user->authorise('core.edit', 'com_menus.menu.' . (int) $menutypeID);
+        return $user->authorise('core.edit', 'com_menus.menu.' . $menutypeID);
     }
 
     /**

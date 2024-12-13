@@ -39,7 +39,7 @@ class HtmlView extends BaseHtmlView
      * @var    \Joomla\Registry\Registry|null
      * @since  4.0.0
      */
-    protected $params = null;
+    protected $params;
 
     /**
      * The page parameters
@@ -47,7 +47,7 @@ class HtmlView extends BaseHtmlView
      * @var    \stdClass
      * @since  4.0.0
      */
-    protected $wrapper = null;
+    protected $wrapper;
 
     /**
      * Execute and display a template script.

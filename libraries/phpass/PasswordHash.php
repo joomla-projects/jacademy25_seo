@@ -101,9 +101,8 @@ class PasswordHash {
 		$output = '$P$';
 		$output .= $this->itoa64[min($this->iteration_count_log2 +
 			((PHP_VERSION >= '5') ? 5 : 3), 30)];
-		$output .= $this->encode64($input, 6);
 
-		return $output;
+		return $output . $this->encode64($input, 6);
 	}
 
 	public function crypt_private($password, $setting)
@@ -143,9 +142,8 @@ class PasswordHash {
 		} while (--$count);
 
 		$output = substr((string) $setting, 0, 12);
-		$output .= $this->encode64($hash, 16);
 
-		return $output;
+		return $output . $this->encode64($hash, 16);
 	}
 
 	public function gensalt_blowfish($input)
@@ -193,7 +191,7 @@ class PasswordHash {
 	{
 		$random = '';
 
-		if (CRYPT_BLOWFISH === 1 && !$this->portable_hashes) {
+		if (!$this->portable_hashes) {
 			$random = $this->get_random_bytes(16);
 			$hash =
 			    crypt((string) $password, (string) $this->gensalt_blowfish($random));

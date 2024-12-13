@@ -114,18 +114,8 @@ class CacheController
                 if ($path !== false) {
                     \JLoader::register($class, $path);
                 }
-
                 // The class should now be loaded
-                if (!class_exists($class)) {
-                    throw new \RuntimeException('Unable to load Cache Controller: ' . $type, 500);
-                }
-
-                // Only trigger a deprecation notice if the file and class are found
-                @trigger_error(
-                    'Support for including cache controllers using path lookup is deprecated and will be removed in 5.0.'
-                        . ' Use a custom cache controller factory instead.',
-                    E_USER_DEPRECATED
-                );
+                throw new \RuntimeException('Unable to load Cache Controller: ' . $type, 500);
             }
 
             return new $class($options);

@@ -36,7 +36,7 @@ trait ProviderManagerHelperTrait
      *
      * @since  4.1.0
      */
-    private $providerManager = null;
+    private $providerManager;
 
     /**
      * The default adapter name.
@@ -45,7 +45,7 @@ trait ProviderManagerHelperTrait
      *
      * @since  4.1.0
      */
-    private $defaultAdapterName = null;
+    private $defaultAdapterName;
 
     /**
      * Return a provider manager.

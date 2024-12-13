@@ -44,7 +44,7 @@ class ComponentAdapter extends InstallerAdapter
      * @var    array
      * @since  3.1
      * */
-    protected $oldAdminFiles = null;
+    protected $oldAdminFiles;
 
     /**
      * The list of current files for the Joomla! CMS API that are installed and is read
@@ -55,7 +55,7 @@ class ComponentAdapter extends InstallerAdapter
      * @var    array
      * @since  4.0.0
      * */
-    protected $oldApiFiles = null;
+    protected $oldApiFiles;
 
     /**
      * The list of current files that are installed and is read
@@ -66,7 +66,7 @@ class ComponentAdapter extends InstallerAdapter
      * @var    array
      * @since  3.1
      * */
-    protected $oldFiles = null;
+    protected $oldFiles;
 
     /**
      * A path to the PHP file that the scriptfile declaration in
@@ -75,7 +75,7 @@ class ComponentAdapter extends InstallerAdapter
      * @var    string
      * @since  3.1
      * */
-    protected $manifest_script = null;
+    protected $manifest_script;
 
     /**
      * For legacy installations this is a path to the PHP file that the scriptfile declaration in the
@@ -84,7 +84,7 @@ class ComponentAdapter extends InstallerAdapter
      * @var    string
      * @since  3.1
      * */
-    protected $install_script = null;
+    protected $install_script;
 
     /**
      * Method to check if the extension is present in the filesystem
@@ -987,7 +987,7 @@ class ComponentAdapter extends InstallerAdapter
         // I have a menu element, use this information
         $data['menutype']     = 'main';
         $data['client_id']    = 1;
-        $data['title']        = (string) trim($menuElement);
+        $data['title']        = trim($menuElement);
         $data['alias']        = (string) $menuElement;
         $data['type']         = 'component';
         $data['published']    = 1;
@@ -1038,7 +1038,7 @@ class ComponentAdapter extends InstallerAdapter
             $data                 = [];
             $data['menutype']     = 'main';
             $data['client_id']    = 1;
-            $data['title']        = (string) trim($child);
+            $data['title']        = trim($child);
             $data['alias']        = ((string) $child->attributes()->alias) ?: (string) $child;
             $data['type']         = ((string) $child->attributes()->type) ?: 'component';
             $data['published']    = 1;

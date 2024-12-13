@@ -307,19 +307,15 @@ class InstallerScript
      */
     public function removeFiles()
     {
-        if ($this->deleteFiles !== []) {
-            foreach ($this->deleteFiles as $file) {
-                if (is_file(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file)) {
-                    echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br>';
-                }
+        foreach ($this->deleteFiles as $file) {
+            if (is_file(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file)) {
+                echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br>';
             }
         }
 
-        if ($this->deleteFolders !== []) {
-            foreach ($this->deleteFolders as $folder) {
-                if (is_dir(Path::clean(JPATH_ROOT . $folder)) && !Folder::delete(JPATH_ROOT . $folder)) {
-                    echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br>';
-                }
+        foreach ($this->deleteFolders as $folder) {
+            if (is_dir(Path::clean(JPATH_ROOT . $folder)) && !Folder::delete(JPATH_ROOT . $folder)) {
+                echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br>';
             }
         }
     }
@@ -333,13 +329,11 @@ class InstallerScript
      */
     public function moveCliFiles()
     {
-        if ($this->cliScriptFiles !== []) {
-            foreach ($this->cliScriptFiles as $file) {
-                $name = basename((string) $file);
+        foreach ($this->cliScriptFiles as $file) {
+            $name = basename((string) $file);
 
-                if (file_exists(JPATH_ROOT . $file) && !File::move(JPATH_ROOT . $file, JPATH_ROOT . '/cli/' . $name)) {
-                    echo Text::sprintf('JLIB_INSTALLER_FILE_ERROR_MOVE', $name);
-                }
+            if (file_exists(JPATH_ROOT . $file) && !File::move(JPATH_ROOT . $file, JPATH_ROOT . '/cli/' . $name)) {
+                echo Text::sprintf('JLIB_INSTALLER_FILE_ERROR_MOVE', $name);
             }
         }
     }

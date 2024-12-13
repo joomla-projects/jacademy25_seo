@@ -17,7 +17,7 @@ $list = $data['view']->filterForm->getGroup('list');
 ?>
 <?php if ($list) : ?>
     <div class="ordering-select">
-        <?php foreach ($list as $fieldName => $field) : ?>
+        <?php foreach ($list as $field) : ?>
             <div class="js-stools-field-list">
                 <span class="visually-hidden"><?php echo $field->label; ?></span>
                 <?php echo $field->input; ?>

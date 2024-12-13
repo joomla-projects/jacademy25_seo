@@ -87,24 +87,22 @@ final class LoadModule extends CMSPlugin
             preg_match_all($regex, $article->text, $matches, PREG_SET_ORDER);
 
             // No matches, skip this
-            if ($matches !== []) {
-                foreach ($matches as $match) {
-                    $matcheslist = explode(',', $match[1]);
+            foreach ($matches as $match) {
+                $matcheslist = explode(',', $match[1]);
 
-                    // We may not have a module style so fall back to the plugin default.
-                    if (!\array_key_exists(1, $matcheslist)) {
-                        $matcheslist[1] = $defaultStyle;
-                    }
+                // We may not have a module style so fall back to the plugin default.
+                if (!\array_key_exists(1, $matcheslist)) {
+                    $matcheslist[1] = $defaultStyle;
+                }
 
-                    $position = trim((string) $matcheslist[0]);
-                    $style    = trim((string) $matcheslist[1]);
+                $position = trim((string) $matcheslist[0]);
+                $style    = trim((string) $matcheslist[1]);
 
-                    $output = $this->load($position, $style);
+                $output = $this->load($position, $style);
 
-                    // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-                    if (($start = strpos($article->text, $match[0])) !== false) {
-                        $article->text = substr_replace($article->text, $output, $start, \strlen($match[0]));
-                    }
+                // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
+                if (($start = strpos($article->text, $match[0])) !== false) {
+                    $article->text = substr_replace($article->text, $output, $start, \strlen($match[0]));
                 }
             }
         }
@@ -114,33 +112,31 @@ final class LoadModule extends CMSPlugin
             preg_match_all($regexmod, $article->text, $matchesmod, PREG_SET_ORDER);
 
             // If no matches, skip this
-            if ($matchesmod !== []) {
-                foreach ($matchesmod as $matchmod) {
-                    $matchesmodlist = explode(',', $matchmod[1]);
+            foreach ($matchesmod as $matchmod) {
+                $matchesmodlist = explode(',', $matchmod[1]);
 
-                    // First parameter is the module, will be prefixed with mod_ later
-                    $module = trim($matchesmodlist[0]);
+                // First parameter is the module, will be prefixed with mod_ later
+                $module = trim($matchesmodlist[0]);
 
-                    // Second parameter is the title
-                    $title = '';
+                // Second parameter is the title
+                $title = '';
 
-                    if (\array_key_exists(1, $matchesmodlist)) {
-                        $title = htmlspecialchars_decode(trim($matchesmodlist[1]));
-                    }
+                if (\array_key_exists(1, $matchesmodlist)) {
+                    $title = htmlspecialchars_decode(trim($matchesmodlist[1]));
+                }
 
-                    // Third parameter is the module style, (fallback is the plugin default set earlier).
-                    $stylemod = $defaultStyle;
+                // Third parameter is the module style, (fallback is the plugin default set earlier).
+                $stylemod = $defaultStyle;
 
-                    if (\array_key_exists(2, $matchesmodlist)) {
-                        $stylemod = trim($matchesmodlist[2]);
-                    }
+                if (\array_key_exists(2, $matchesmodlist)) {
+                    $stylemod = trim($matchesmodlist[2]);
+                }
 
-                    $output = $this->loadModule($module, $title, $stylemod);
+                $output = $this->loadModule($module, $title, $stylemod);
 
-                    // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-                    if (($start = strpos($article->text, $matchmod[0])) !== false) {
-                        $article->text = substr_replace($article->text, $output, $start, \strlen($matchmod[0]));
-                    }
+                // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
+                if (($start = strpos($article->text, $matchmod[0])) !== false) {
+                    $article->text = substr_replace($article->text, $output, $start, \strlen($matchmod[0]));
                 }
             }
         }
@@ -150,15 +146,13 @@ final class LoadModule extends CMSPlugin
             preg_match_all($regexmodid, $article->text, $matchesmodid, PREG_SET_ORDER);
 
             // If no matches, skip this
-            if ($matchesmodid !== []) {
-                foreach ($matchesmodid as $match) {
-                    $id     = trim($match[1]);
-                    $output = $this->loadID($id);
+            foreach ($matchesmodid as $match) {
+                $id     = trim($match[1]);
+                $output = $this->loadID($id);
 
-                    // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-                    if (($start = strpos($article->text, $match[0])) !== false) {
-                        $article->text = substr_replace($article->text, $output, $start, \strlen($match[0]));
-                    }
+                // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
+                if (($start = strpos($article->text, $match[0])) !== false) {
+                    $article->text = substr_replace($article->text, $output, $start, \strlen($match[0]));
                 }
             }
         }

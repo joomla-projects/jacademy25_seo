@@ -41,7 +41,7 @@ class JoomlaInstallerScript
      * @var    string
      * @since  3.7
      */
-    protected $fromVersion = null;
+    protected $fromVersion;
 
     /**
      * Callback for collecting errors. Like function(string $context, \Throwable $error){};

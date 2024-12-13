@@ -36,7 +36,7 @@ class JNamespacePsr4Map
      * @var array|null
      * @since 4.0.0
      */
-    private $cachedMap = null;
+    private $cachedMap;
 
     /**
      * Check if the file exists

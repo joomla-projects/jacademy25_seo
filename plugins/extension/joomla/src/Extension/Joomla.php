@@ -45,7 +45,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
      *
      * @since  1.6
      */
-    private $installer = null;
+    private $installer;
 
     /**
      * Load the language file on instantiation.

@@ -30,14 +30,6 @@ use Joomla\Utilities\ArrayHelper;
 class ExecRuleHelper
 {
     /**
-     * The execution rule type
-     *
-     * @var string
-     * @since  4.1.0
-     */
-    private $type;
-
-    /**
      * @var array
      * @since  4.1.0
      */
@@ -61,7 +53,6 @@ class ExecRuleHelper
         $this->rule = \is_string($rule)
             ? (object) json_decode($rule)
             : (\is_array($rule) ? (object) $rule : $rule);
-        $this->type = $this->rule->type;
     }
 
     /**

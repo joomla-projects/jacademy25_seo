@@ -337,9 +337,8 @@ class ModuleController extends FormController
     protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
     {
         $append = parent::getRedirectToItemAppend($recordId);
-        $append .= '&client_id=' . $this->input->getInt('client_id');
 
-        return $append;
+        return $append . ('&client_id=' . $this->input->getInt('client_id'));
     }
 
     /**
@@ -352,8 +351,7 @@ class ModuleController extends FormController
     protected function getRedirectToListAppend()
     {
         $append = parent::getRedirectToListAppend();
-        $append .= '&client_id=' . $this->input->getInt('client_id');
 
-        return $append;
+        return $append . ('&client_id=' . $this->input->getInt('client_id'));
     }
 }

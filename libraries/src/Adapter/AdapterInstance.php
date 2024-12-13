@@ -36,7 +36,7 @@ class AdapterInstance
      * @var    Adapter
      * @since  1.6
      */
-    protected $parent = null;
+    protected $parent;
 
     /**
      * Database
@@ -44,7 +44,7 @@ class AdapterInstance
      * @var    DatabaseDriver
      * @since  1.6
      */
-    protected $db = null;
+    protected $db;
 
     /**
      * Constructor

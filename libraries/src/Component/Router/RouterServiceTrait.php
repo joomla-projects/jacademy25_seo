@@ -30,7 +30,7 @@ trait RouterServiceTrait
      *
      * @since  4.0.0
      */
-    private $routerFactory = null;
+    private $routerFactory;
 
     /**
      * Returns the router.

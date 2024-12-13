@@ -130,9 +130,8 @@ abstract class ModulesHelper
 
         // Set the query and load the templates.
         $db->setQuery($query);
-        $templates = $db->loadObjectList('element');
 
-        return $templates;
+        return $db->loadObjectList('element');
     }
 
     /**
@@ -168,9 +167,7 @@ abstract class ModulesHelper
             $module->text = Text::_($module->text);
         }
 
-        $modules = ArrayHelper::sortObjects($modules, 'text', 1, true, true);
-
-        return $modules;
+        return ArrayHelper::sortObjects($modules, 'text', 1, true, true);
     }
 
     /**

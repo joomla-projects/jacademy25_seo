@@ -48,7 +48,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      * @var    string
      * @since  4.0.0
      * */
-    protected $changelogurl = null;
+    protected $changelogurl;
 
     /**
      * ID for the currently installed extension if present
@@ -56,7 +56,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      * @var    integer
      * @since  3.4
      */
-    protected $currentExtensionId = null;
+    protected $currentExtensionId;
 
     /**
      * The unique identifier for the extension (e.g. mod_login)
@@ -64,7 +64,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      * @var    string
      * @since  3.4
      * */
-    protected $element = null;
+    protected $element;
 
     /**
      * Extension object.
@@ -72,7 +72,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      * @var    Extension
      * @since  3.4
      * */
-    protected $extension = null;
+    protected $extension;
 
     /**
      * Messages rendered by custom scripts
@@ -90,7 +90,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      * @var    \SimpleXMLElement
      * @since  3.4
      */
-    public $manifest = null;
+    public $manifest;
 
     /**
      * A path to the PHP file that the scriptfile declaration in the manifest refers to.
@@ -98,7 +98,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      * @var    string
      * @since  3.4
      */
-    protected $manifest_script = null;
+    protected $manifest_script;
 
     /**
      * Name of the extension
@@ -106,7 +106,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      * @var    string
      * @since  3.4
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * Installer used with this adapter
@@ -114,7 +114,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      * @var    Installer
      * @since  4.0.0
      */
-    protected $parent = null;
+    protected $parent;
 
     /**
      * Install function routing

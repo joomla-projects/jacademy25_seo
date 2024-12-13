@@ -24,7 +24,7 @@ use Joomla\CMS\Language\Text;
     </thead>
     <tbody>
         <?php if (count($list) > 0) : ?>
-            <?php foreach ($list as $i => $item) : ?>
+            <?php foreach ($list as $item) : ?>
         <tr>
             <td>
                 <?php echo $item->message; ?>

@@ -59,7 +59,7 @@ abstract class CliApplication extends AbstractApplication implements CMSApplicat
      * @var    \Joomla\Input\Input
      * @since  4.0.0
      */
-    protected $input = null;
+    protected $input;
 
     /**
      * CLI Input object

@@ -637,7 +637,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
         // Make sure there is a valid FormField XML element.
-        if ((string) $element->getName() !== 'field') {
+        if ($element->getName() !== 'field') {
             return false;
         }
 
@@ -798,9 +798,8 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 
         // Get the label text from the XML element, defaulting to the element name.
         $title = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-        $title = $this->translateLabel ? Text::_($title) : $title;
 
-        return $title;
+        return $this->translateLabel ? Text::_($title) : $title;
     }
 
     /**
@@ -1028,20 +1027,16 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             }
         }
 
-        $options['inlineHelp'] = $this->form !== null
-            ? ((string) $this->form->getXml()->config->inlinehelp['button'] === 'show' ?: false)
-            : false;
+        $options['inlineHelp'] = $this->form !== null && (string) $this->form->getXml()->config->inlinehelp['button'] === 'show' ?: false;
 
         // Check if the field has showon in nested option
         $hasOptionShowOn = false;
 
-        if ((array) $this->element->xpath('option') !== []) {
-            foreach ($this->element->xpath('option') as $option) {
-                if ((string) $option['showon'] !== '' && (string) $option['showon'] !== '0') {
-                    $hasOptionShowOn = true;
+        foreach ($this->element->xpath('option') as $option) {
+            if ((string) $option['showon'] !== '' && (string) $option['showon'] !== '0') {
+                $hasOptionShowOn = true;
 
-                    break;
-                }
+                break;
             }
         }
 
@@ -1311,7 +1306,8 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         $description = !empty($description) && $this->translateDescription ? Text::_($description) : $description;
 
         $alt         = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
-        $options     = [
+
+        return [
             'autocomplete'   => $this->autocomplete,
             'autofocus'      => $this->autofocus,
             'class'          => $this->class,
@@ -1341,8 +1337,6 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             'dataAttributes' => $this->dataAttributes,
             'parentclass'    => $this->parentclass,
         ];
-
-        return $options;
     }
 
     /**

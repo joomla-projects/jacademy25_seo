@@ -145,8 +145,8 @@ class InputFilter extends BaseInputFilter
 
         if (preg_match_all($pattern, $text, $matches)) {
             foreach ($matches[0] as $match) {
-                $match  = (string) str_replace(['?', '"'], '', $match);
-                $text   = (string) str_replace($match, PunycodeHelper::emailToPunycode($match), $text);
+                $match  = str_replace(['?', '"'], '', $match);
+                $text   = str_replace($match, PunycodeHelper::emailToPunycode($match), $text);
             }
         }
 
@@ -441,7 +441,7 @@ class InputFilter extends BaseInputFilter
         // Convert hex
         $source = preg_replace_callback(
             '/&#x([a-f0-9]+);/mi',
-            fn($m) => mb_convert_encoding(\chr(hexdec((string) $m[1])), 'UTF-8', 'ISO-8859-1'),
+            fn($m) => mb_convert_encoding(\chr(hexdec($m[1])), 'UTF-8', 'ISO-8859-1'),
             (string) $source
         );
 

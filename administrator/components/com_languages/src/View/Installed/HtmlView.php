@@ -37,7 +37,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var string
      */
-    protected $option = null;
+    protected $option;
 
     /**
      * The pagination object
@@ -51,7 +51,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var array
      */
-    protected $rows = null;
+    protected $rows;
 
     /**
      * The model state

@@ -46,7 +46,7 @@ class TemplateModel extends FormModel
      * @var    \stdClass
      * @since  1.6
      */
-    protected $template = null;
+    protected $template;
 
     /**
      * The path to the template
@@ -54,7 +54,7 @@ class TemplateModel extends FormModel
      * @var    string
      * @since  3.2
      */
-    protected $element = null;
+    protected $element;
 
     /**
      * The path to the static assets
@@ -62,7 +62,7 @@ class TemplateModel extends FormModel
      * @var    string
      * @since  4.1.0
      */
-    protected $mediaElement = null;
+    protected $mediaElement;
 
     /**
      * Internal method to get file properties.
@@ -107,7 +107,9 @@ class TemplateModel extends FormModel
         $temp->template     = $template->element;
         $temp->extension_id = $template->extension_id;
         $temp->coreFile = $this->getCoreFile($path . $name, $template->client_id) ? md5_file($coreFile) : null;
-        $coreFile = $this->getCoreFile($path . $name, $template->client_id) ? md5_file($coreFile) : null;
+        if ($this->getCoreFile($path . $name, $template->client_id)) {
+            md5_file($coreFile);
+        }
 
         return $temp;
     }
@@ -234,7 +236,7 @@ class TemplateModel extends FormModel
         // Initialize the array variable to store core file list.
         $this->coreFileList = [];
 
-        $app = Factory::getApplication();
+        Factory::getApplication();
 
         foreach ($templates as $template) {
             $client  = ApplicationHelper::getClientInfo($template->client_id);
@@ -270,7 +272,7 @@ class TemplateModel extends FormModel
     {
         $dirFiles = scandir($dir);
 
-        foreach ($dirFiles as $key => $value) {
+        foreach ($dirFiles as $value) {
             if (\in_array($value, ['.', '..', 'node_modules'])) {
                 continue;
             }
@@ -468,7 +470,7 @@ class TemplateModel extends FormModel
      */
     public function getCoreFile($file, $client_id)
     {
-        $app          = Factory::getApplication();
+        Factory::getApplication();
         $filePath     = Path::clean($file);
         $explodeArray = explode(DIRECTORY_SEPARATOR, $filePath);
 
@@ -491,9 +493,8 @@ class TemplateModel extends FormModel
             $folder   = $explodeArray['2'];
             $htmlPath = Path::clean($modulePath . $folder . '/tmpl/');
             $fileName = $this->getSafeName($fileName);
-            $coreFile = Path::find($htmlPath, $fileName);
 
-            return $coreFile;
+            return Path::find($htmlPath, $fileName);
         }
 
         // For plugins
@@ -503,9 +504,8 @@ class TemplateModel extends FormModel
             $subFolder    = $pluginFolder['2'];
             $htmlPath     = Path::clean($pluginPath . $folder . '/' . $subFolder . '/tmpl/');
             $fileName     = $this->getSafeName($fileName);
-            $coreFile     = Path::find($htmlPath, $fileName);
 
-            return $coreFile;
+            return Path::find($htmlPath, $fileName);
         }
 
         if (stristr($type, 'com_') !== false) {
@@ -520,9 +520,8 @@ class TemplateModel extends FormModel
             if (!$coreFile = Path::find($newHtmlPath, $fileName)) {
                 // The old scheme, the views are directly in the component/tmpl folder
                 $oldHtmlPath = Path::clean($componentPath . $folder . '/views/' . $subFolder . '/tmpl/');
-                $coreFile    = Path::find($oldHtmlPath, $fileName);
 
-                return $coreFile;
+                return Path::find($oldHtmlPath, $fileName);
             }
 
             return $coreFile;
@@ -538,9 +537,8 @@ class TemplateModel extends FormModel
                 $subFolder = implode(DIRECTORY_SEPARATOR, $subFolder);
                 $htmlPath  = Path::clean($componentPath . $folder . '/layouts/' . $subFolder);
                 $fileName  = $this->getSafeName($fileName);
-                $coreFile  = Path::find($htmlPath, $fileName);
 
-                return $coreFile;
+                return Path::find($htmlPath, $fileName);
             }
 
             if (stristr($subtype, 'joomla') || stristr($subtype, 'libraries') || stristr($subtype, 'plugins')) {
@@ -549,9 +547,8 @@ class TemplateModel extends FormModel
                 $subFolder = implode(DIRECTORY_SEPARATOR, $subFolder);
                 $htmlPath  = Path::clean($layoutPath . $subFolder);
                 $fileName  = $this->getSafeName($fileName);
-                $coreFile  = Path::find($htmlPath, $fileName);
 
-                return $coreFile;
+                return Path::find($htmlPath, $fileName);
             }
         }
 
@@ -1391,9 +1388,7 @@ class TemplateModel extends FormModel
                 return false;
             }
 
-            $url = Path::clean($location . '/' . $fileName);
-
-            return $url;
+            return Path::clean($location . '/' . $fileName);
         }
 
         return false;
@@ -2017,7 +2012,7 @@ class TemplateModel extends FormModel
         }
 
         $xml->inheritable = 0;
-        $files            = $xml->addChild('parent', $template->element);
+        $xml->addChild('parent', $template->element);
 
         $dom                     = new \DOMDocument();
         $dom->preserveWhiteSpace = false;

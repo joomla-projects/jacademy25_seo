@@ -152,10 +152,8 @@ class SelectModel extends ListModel
             }
         }
 
-        $items = ArrayHelper::sortObjects($items, 'name', 1, true, true);
-
         // @todo: Use the cached XML from the extensions table?
 
-        return $items;
+        return ArrayHelper::sortObjects($items, 'name', 1, true, true);
     }
 }

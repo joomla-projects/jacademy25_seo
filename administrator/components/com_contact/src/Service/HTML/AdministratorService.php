@@ -133,12 +133,10 @@ class AdministratorService
             $tooltipText = Text::_($state[2]);
         }
 
-        $html = '<button type="button" class="js-grid-item-action tbody-icon' . ($value == 1 ? ' active' : '') . '"'
+        return '<button type="button" class="js-grid-item-action tbody-icon' . ($value == 1 ? ' active' : '') . '"'
             . ' aria-labelledby="cb' . $i . '-desc" data-item-id="cb' . $i . '" data-item-task="' .  $state[1] . '">'
             . '<span class="icon-' . $icon . '" aria-hidden="true"></span>'
             . '</button>'
             . '<div role="tooltip" id="cb' . $i . '-desc">' . $tooltipText . '</div>';
-
-        return $html;
     }
 }

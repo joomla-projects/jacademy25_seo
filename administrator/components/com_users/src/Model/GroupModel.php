@@ -73,9 +73,7 @@ class GroupModel extends AdminModel
      */
     public function getTable($type = 'Usergroup', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
     {
-        $return = Table::getInstance($type, $prefix, $config);
-
-        return $return;
+        return Table::getInstance($type, $prefix, $config);
     }
 
     /**

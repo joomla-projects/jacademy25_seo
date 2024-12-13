@@ -51,7 +51,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since  4.0.0
      */
-    protected $params = null;
+    protected $params;
 
     /**
      * Should the print button be displayed or not?
@@ -72,7 +72,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var   \Joomla\CMS\User\User|null
      */
-    protected $user = null;
+    protected $user;
 
     /**
      * The page class suffix

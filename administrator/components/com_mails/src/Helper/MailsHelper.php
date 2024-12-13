@@ -50,9 +50,7 @@ abstract class MailsHelper
                 . '</li>';
         }
 
-        $html .= '</ul>';
-
-        return $html;
+        return $html . '</ul>';
     }
 
     /**

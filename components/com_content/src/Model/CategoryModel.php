@@ -37,35 +37,35 @@ class CategoryModel extends ListModel
      *
      * @var  array
      */
-    protected $_item = null;
+    protected $_item;
 
     /**
      * Array of articles in the category
      *
      * @var \stdClass[]
      */
-    protected $_articles = null;
+    protected $_articles;
 
     /**
      * Category left and right of this one
      *
      * @var  CategoryNode[]|null
      */
-    protected $_siblings = null;
+    protected $_siblings;
 
     /**
      * Array of child-categories
      *
      * @var  CategoryNode[]|null
      */
-    protected $_children = null;
+    protected $_children;
 
     /**
      * Parent category of the current one
      *
      * @var  CategoryNode|null
      */
-    protected $_parent = null;
+    protected $_parent;
 
     /**
      * Model context string.
@@ -79,14 +79,14 @@ class CategoryModel extends ListModel
      *
      * @var  object
      */
-    protected $_category = null;
+    protected $_category;
 
     /**
      * The list of categories.
      *
      * @var  array
      */
-    protected $_categories = null;
+    protected $_categories;
 
     /**
      * @param   array                 $config   An optional associative array of configuration settings.
@@ -304,9 +304,7 @@ class CategoryModel extends ListModel
         $secondary        = QueryHelper::orderbySecondary($articleOrderby, $articleOrderDate, $this->getDatabase()) . ', ';
         $primary          = QueryHelper::orderbyPrimary($categoryOrderby);
 
-        $orderby .= $primary . ' ' . $secondary . ' a.created ';
-
-        return $orderby;
+        return $orderby . ($primary . ' ' . $secondary . ' a.created ');
     }
 
     /**

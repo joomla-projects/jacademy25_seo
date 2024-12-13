@@ -95,7 +95,7 @@ class UpdatesitesModel extends InstallerModel
         $table = new UpdateSiteTable($this->getDatabase());
 
         // Enable the update site in the table and store it in the database
-        foreach ($eid as $i => $id) {
+        foreach ($eid as $id) {
             $table->load($id);
             $table->enabled = $value;
 
@@ -147,7 +147,7 @@ class UpdatesitesModel extends InstallerModel
         $joomlaUpdateSitesIds = $this->getJoomlaUpdateSitesIds(0);
 
         // Enable the update site in the table and store it in the database
-        foreach ($ids as $i => $id) {
+        foreach ($ids as $id) {
             // Don't allow to delete Joomla Core update sites.
             if (\in_array((int) $id, $joomlaUpdateSitesIds)) {
                 $app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_CANNOT_DELETE', $updateSitesNames[$id]->name), 'error');
@@ -351,70 +351,68 @@ class UpdatesitesModel extends InstallerModel
             // Create a unique array of files ordered by priority
             $xmlfiles = array_unique(array_merge($parentXmlfiles, $allXmlFiles));
 
-            if ($xmlfiles !== []) {
-                foreach ($xmlfiles as $file) {
-                    // Is it a valid Joomla installation manifest file?
-                    $manifest = $tmpInstaller->isManifest($file);
+            foreach ($xmlfiles as $file) {
+                // Is it a valid Joomla installation manifest file?
+                $manifest = $tmpInstaller->isManifest($file);
 
-                    if ($manifest !== null) {
-                        /**
-                         * Search if the extension exists in the extensions table. Excluding Joomla
-                         * core extensions and discovered but not yet installed extensions.
-                         */
+                if ($manifest !== null) {
+                    /**
+                     * Search if the extension exists in the extensions table. Excluding Joomla
+                     * core extensions and discovered but not yet installed extensions.
+                     */
 
-                        $name    = (string) $manifest->name;
-                        $pkgName = (string) $manifest->packagename;
-                        $type    = (string) $manifest['type'];
+                    $name    = (string) $manifest->name;
+                    $pkgName = (string) $manifest->packagename;
+                    $type    = (string) $manifest['type'];
 
-                        $query = $db->getQuery(true)
-                            ->select($db->quoteName('extension_id'))
-                            ->from($db->quoteName('#__extensions'))
-                            ->where(
-                                [
-                                    $db->quoteName('type') . ' = :type',
-                                    $db->quoteName('state') . ' != -1',
-                                ]
-                            )
-                            ->extendWhere(
-                                'AND',
-                                [
-                                    $db->quoteName('name') . ' = :name',
-                                    $db->quoteName('name') . ' = :pkgname',
-                                ],
-                                'OR'
-                            )
-                            ->whereNotIn($db->quoteName('extension_id'), $joomlaCoreExtensionIds)
-                            ->bind(':name', $name)
-                            ->bind(':pkgname', $pkgName)
-                            ->bind(':type', $type);
-                        $db->setQuery($query);
+                    $query = $db->getQuery(true)
+                        ->select($db->quoteName('extension_id'))
+                        ->from($db->quoteName('#__extensions'))
+                        ->where(
+                            [
+                                $db->quoteName('type') . ' = :type',
+                                $db->quoteName('state') . ' != -1',
+                            ]
+                        )
+                        ->extendWhere(
+                            'AND',
+                            [
+                                $db->quoteName('name') . ' = :name',
+                                $db->quoteName('name') . ' = :pkgname',
+                            ],
+                            'OR'
+                        )
+                        ->whereNotIn($db->quoteName('extension_id'), $joomlaCoreExtensionIds)
+                        ->bind(':name', $name)
+                        ->bind(':pkgname', $pkgName)
+                        ->bind(':type', $type);
+                    $db->setQuery($query);
 
-                        $eid = (int) $db->loadResult();
+                    $eid = (int) $db->loadResult();
 
-                        if ($eid && $manifest->updateservers) {
-                            // Set the manifest object and path
-                            $tmpInstaller->manifest = $manifest;
-                            $tmpInstaller->setPath('manifest', $file);
+                    if ($eid && $manifest->updateservers) {
+                        // Set the manifest object and path
+                        $tmpInstaller->manifest = $manifest;
+                        $tmpInstaller->setPath('manifest', $file);
 
-                            // Remove last extra_query as we are in a foreach
-                            $tmpInstaller->extraQuery = '';
+                        // Remove last extra_query as we are in a foreach
+                        $tmpInstaller->extraQuery = '';
 
-                            if (
-                                $tmpInstaller->manifest->updateservers
-                                && $tmpInstaller->manifest->updateservers->server
-                                && isset($backupExtraQuerys[trim((string) $tmpInstaller->manifest->updateservers->server)])
-                            ) {
-                                $tmpInstaller->extraQuery = $backupExtraQuerys[trim((string) $tmpInstaller->manifest->updateservers->server)]['extra_query'];
-                            }
-
-                            // Load the extension plugin (if not loaded yet).
-                            PluginHelper::importPlugin('extension', 'joomla');
-
-                            // Fire the onExtensionAfterUpdate
-                            $app->triggerEvent('onExtensionAfterUpdate', ['installer' => $tmpInstaller, 'eid' => $eid]);
-
-                            $count++;
+                        if (
+                            $tmpInstaller->manifest->updateservers
+                            && $tmpInstaller->manifest->updateservers->server
+                            && isset($backupExtraQuerys[trim((string) $tmpInstaller->manifest->updateservers->server)])
+                        ) {
+                            $tmpInstaller->extraQuery = $backupExtraQuerys[trim((string) $tmpInstaller->manifest->updateservers->server)]['extra_query'];
                         }
+
+                        // Load the extension plugin (if not loaded yet).
+                        PluginHelper::importPlugin('extension', 'joomla');
+
+                        // Fire the onExtensionAfterUpdate
+                        $app->triggerEvent('onExtensionAfterUpdate', ['installer' => $tmpInstaller, 'eid' => $eid]);
+
+                        $count++;
                     }
                 }
             }

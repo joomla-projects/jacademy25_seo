@@ -112,7 +112,7 @@ class FeedFactory
 
         // Register the given parser class for the tag name if nothing registered or the overwrite flag set.
         if (empty($this->parsers[$tagName]) || (bool) $overwrite) {
-            $this->parsers[(string) $tagName] = (string) $className;
+            $this->parsers[(string) $tagName] = $className;
         }
 
         return $this;

@@ -218,7 +218,7 @@ class ZIPExtraction
      * @var   null|self
      * @since 4.0.4
      */
-    private static $instance = null;
+    private static $instance;
 
     /**
      * Debug log file pointer resource
@@ -226,7 +226,7 @@ class ZIPExtraction
      * @var   null|resource|boolean
      * @since 4.0.4
      */
-    private static $logFP = null;
+    private static $logFP;
 
     /**
      * Debug log filename
@@ -234,7 +234,7 @@ class ZIPExtraction
      * @var   null|string
      * @since 4.0.4
      */
-    private static $logFilePath = null;
+    private static $logFilePath;
 
     /**
      * The total size of the ZIP archive
@@ -282,7 +282,7 @@ class ZIPExtraction
      * @var   integer
      * @since 4.0.4
      */
-    private $maxExecTime = null;
+    private $maxExecTime;
 
     /**
      * Timestamp of execution start
@@ -298,7 +298,7 @@ class ZIPExtraction
      * @var   string|null
      * @since 4.0.4
      */
-    private $lastErrorMessage = null;
+    private $lastErrorMessage;
 
     /**
      * Archive filename
@@ -306,7 +306,7 @@ class ZIPExtraction
      * @var   string
      * @since 4.0.4
      */
-    private $filename = null;
+    private $filename;
 
     /**
      * Current archive part number
@@ -338,7 +338,7 @@ class ZIPExtraction
      * @var   resource|null
      * @since 4.0.4
      */
-    private $fp = null;
+    private $fp;
 
     /**
      * Run state when processing the current archive file
@@ -354,7 +354,7 @@ class ZIPExtraction
      * @var   stdClass
      * @since 4.0.4
      */
-    private $fileHeader = null;
+    private $fileHeader;
 
     /**
      * How much of the uncompressed data we've read so far
@@ -395,7 +395,7 @@ class ZIPExtraction
      * @var   string
      * @since 4.0.4
      */
-    private $lastExtractedFilename = null;
+    private $lastExtractedFilename;
 
     /**
      * Public constructor.

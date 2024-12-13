@@ -59,7 +59,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
      *
      * @var  \Joomla\Registry\Registry|null
      */
-    protected $params = null;
+    protected $params;
 
     /**
      * The model state
@@ -73,7 +73,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
      *
      * @var  \Joomla\CMS\User\User|null
      */
-    protected $user = null;
+    protected $user;
 
     /**
      * The suggested search query
@@ -91,7 +91,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
      *
      * @since 4.0.0
      */
-    protected $explained = null;
+    protected $explained;
 
     /**
      * The page class suffix

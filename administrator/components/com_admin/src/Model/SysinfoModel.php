@@ -62,7 +62,7 @@ class SysinfoModel extends BaseDatabaseModel
      * @var    string
      * @since  1.6
      */
-    protected $php_info = null;
+    protected $php_info;
 
     /**
      * Array containing the phpinfo() data.
@@ -169,7 +169,7 @@ class SysinfoModel extends BaseDatabaseModel
      * @var    string
      * @since  1.6
      */
-    protected $editor = null;
+    protected $editor;
 
     /**
      * Remove sections of data marked as private in the privateSettings

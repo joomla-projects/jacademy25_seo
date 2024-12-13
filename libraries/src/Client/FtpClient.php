@@ -31,7 +31,6 @@ if (!\defined('CRLF')) {
     /**
      * Constant defining a line break
      *
-     * @var    string
      * @since  1.5
      */
     \define('CRLF', "\r\n");
@@ -41,7 +40,6 @@ if (!\defined('FTP_AUTOASCII')) {
     /**
      * Constant defining whether the FTP connection type will automatically determine ASCII support based on a file extension
      *
-     * @var    integer
      * @since  1.5
      */
     \define('FTP_AUTOASCII', -1);
@@ -51,7 +49,6 @@ if (!\defined('FTP_BINARY')) {
     /**
      * Stub of the native FTP_BINARY constant if PHP is running without the ftp extension enabled
      *
-     * @var    integer
      * @since  1.5
      */
     \define('FTP_BINARY', 1);
@@ -61,7 +58,6 @@ if (!\defined('FTP_ASCII')) {
     /**
      * Stub of the native FTP_ASCII constant if PHP is running without the ftp extension enabled
      *
-     * @var    integer
      * @since  1.5
      */
     \define('FTP_ASCII', 0);
@@ -71,7 +67,6 @@ if (!\defined('FTP_NATIVE')) {
     /**
      * Constant defining whether native FTP support is available on the platform
      *
-     * @var    integer
      * @since  1.5
      */
     \define('FTP_NATIVE', \function_exists('ftp_connect') ? 1 : 0);
@@ -104,25 +99,25 @@ class FtpClient
      * @var    resource  Socket resource
      * @since  1.5
      */
-    protected $_conn = null;
+    protected $_conn;
 
     /**
      * @var    resource  Data port connection resource
      * @since  1.5
      */
-    protected $_dataconn = null;
+    protected $_dataconn;
 
     /**
      * @var    array  Passive connection information
      * @since  1.5
      */
-    protected $_pasv = null;
+    protected $_pasv;
 
     /**
      * @var    string  Response Message
      * @since  1.5
      */
-    protected $_response = null;
+    protected $_response;
 
     /**
      * @var    integer  Timeout limit
@@ -134,7 +129,7 @@ class FtpClient
      * @var    integer  Transfer Type
      * @since  1.5
      */
-    protected $_type = null;
+    protected $_type;
 
     /**
      * @var    array  Array to hold ascii format file extensions
@@ -1174,9 +1169,6 @@ class FtpClient
             rewind($tmp);
 
             $size = $this->size($remote);
-
-            if ($size === false) {
-            }
 
             if (@ftp_fput($this->_conn, $remote, $tmp, $mode, $size) === false) {
                 fclose($tmp);

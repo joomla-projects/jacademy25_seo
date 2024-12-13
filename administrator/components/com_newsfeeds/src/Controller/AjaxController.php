@@ -36,7 +36,6 @@ class AjaxController extends BaseController
      * assocId: the id of the newsfeed whose associations are to be returned
      * excludeLang: the association for this language is to be excluded
      *
-     * @return  null
      *
      * @since  3.9.0
      */

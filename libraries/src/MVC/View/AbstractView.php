@@ -61,7 +61,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      * @var    string
      * @since  3.0
      */
-    protected $option = null;
+    protected $option;
 
     /**
      * The name of the view
@@ -69,7 +69,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      * @var    string
      * @since  3.0
      */
-    protected $_name = null;
+    protected $_name;
 
     /**
      * Registered models
@@ -85,7 +85,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      * @var    string
      * @since  3.0
      */
-    protected $_defaultModel = null;
+    protected $_defaultModel;
 
     /**
      * Constructor

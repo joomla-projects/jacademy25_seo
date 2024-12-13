@@ -34,7 +34,7 @@ class Totp
      *
      * @var   integer
      */
-    private $_base32 = null;
+    private $_base32;
 
     /**
      * Initialises an RFC6238-compatible TOTP generator. Please note that this
@@ -80,9 +80,7 @@ class Totp
             $time = time();
         }
 
-        $period = floor($time / $this->_timeStep);
-
-        return $period;
+        return floor($time / $this->_timeStep);
     }
 
     /**
@@ -129,9 +127,8 @@ class Totp
         $offset &= 0xF;
 
         $truncatedHash = $this->hashToInt($hash, $offset) & 0x7FFFFFFF;
-        $pinValue      = str_pad($truncatedHash % $this->_pinModulo, $this->_passCodeLength, "0", STR_PAD_LEFT);
 
-        return $pinValue;
+        return str_pad($truncatedHash % $this->_pinModulo, $this->_passCodeLength, "0", STR_PAD_LEFT);
     }
 
     /**
@@ -163,9 +160,8 @@ class Totp
     {
         $url        = \sprintf("otpauth://totp/%s@%s?secret=%s", $user, $hostname, $secret);
         $encoder    = "https://chart.googleapis.com/chart?chs=200x200&chld=Q|2&cht=qr&chl=";
-        $encoderURL = $encoder . urlencode($url);
 
-        return $encoderURL;
+        return $encoder . urlencode($url);
     }
 
     /**

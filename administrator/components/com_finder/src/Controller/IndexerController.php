@@ -172,7 +172,7 @@ class IndexerController extends BaseController
         $lang = $this->app->getLanguage();
 
         // Get the document properties.
-        $attributes = [
+        [
             'charset'   => 'utf-8',
             'lineend'   => 'unix',
             'tab'       => '  ',

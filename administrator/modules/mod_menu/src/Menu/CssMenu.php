@@ -509,9 +509,7 @@ class CssMenu
             $class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', (string) $class);
         }
 
-        $html = 'icon-' . $class . ' icon-fw';
-
-        return $html;
+        return 'icon-' . $class . ' icon-fw';
     }
 
     /**

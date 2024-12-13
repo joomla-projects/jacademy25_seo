@@ -84,7 +84,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      * @var    string
      * @since  4.0.0
      */
-    protected $event_before_change_featured = null;
+    protected $event_before_change_featured;
 
     /**
      * The event to trigger after changing featured status one or more items.
@@ -92,7 +92,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      * @var    string
      * @since  4.0.0
      */
-    protected $event_after_change_featured = null;
+    protected $event_after_change_featured;
 
     /**
      * Constructor.

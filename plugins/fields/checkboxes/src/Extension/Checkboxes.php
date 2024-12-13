@@ -69,7 +69,7 @@ final class Checkboxes extends FieldsListPlugin implements SubscriberInterface
         }
 
         if (\is_array($field->value)) {
-            foreach ($field->value as $key => $value) {
+            foreach ($field->value as $value) {
                 $field->apivalue[$value] = $options[$value];
             }
         } else {

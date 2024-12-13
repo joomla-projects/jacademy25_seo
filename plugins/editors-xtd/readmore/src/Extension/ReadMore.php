@@ -88,8 +88,7 @@ final class ReadMore extends CMSPlugin implements SubscriberInterface
         $this->loadLanguage();
 
         Text::script('PLG_READMORE_ALREADY_EXISTS');
-
-        $button = new Button(
+        return new Button(
             $this->_name,
             [
                 'action'  => 'insert-readmore',
@@ -100,6 +99,5 @@ final class ReadMore extends CMSPlugin implements SubscriberInterface
                 'name' => $this->_type . '_' . $this->_name,
             ]
         );
-        return $button;
     }
 }

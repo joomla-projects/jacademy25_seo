@@ -18,7 +18,7 @@ if (!$list) {
 
 ?>
 <ul class="mod-tagssimilar tagssimilar mod-list">
-    <?php foreach ($list as $i => $item) : ?>
+    <?php foreach ($list as $item) : ?>
     <li>
         <?php if (($item->type_alias === 'com_users.category') || ($item->type_alias === 'com_banners.category')) : ?>
             <?php if (!empty($item->core_title)) : ?>

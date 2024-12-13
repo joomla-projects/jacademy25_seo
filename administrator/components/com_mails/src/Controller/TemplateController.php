@@ -133,9 +133,8 @@ class TemplateController extends FormController
     {
         $language = array_pop($recordId);
         $return   = parent::getRedirectToItemAppend(array_pop($recordId), $urlVar);
-        $return .= '&language=' . $language;
 
-        return $return;
+        return $return . ('&language=' . $language);
     }
 
     /**

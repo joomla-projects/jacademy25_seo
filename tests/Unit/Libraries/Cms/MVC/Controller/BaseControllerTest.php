@@ -471,7 +471,7 @@ class BaseControllerTest extends UnitTestCase
         $app->method('getDocument')->willReturn(new Document());
 
         $view             = new class (['name' => 'test']) extends AbstractView {
-            public $value = null;
+            public $value;
 
             public function display($tpl = null)
             {

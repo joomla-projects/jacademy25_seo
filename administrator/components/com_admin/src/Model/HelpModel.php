@@ -34,7 +34,7 @@ class HelpModel extends BaseDatabaseModel
      * @var    string
      * @since  1.6
      */
-    protected $help_search = null;
+    protected $help_search;
 
     /**
      * The page to be viewed
@@ -42,7 +42,7 @@ class HelpModel extends BaseDatabaseModel
      * @var    string
      * @since  1.6
      */
-    protected $page = null;
+    protected $page;
 
     /**
      * The ISO language tag
@@ -50,7 +50,7 @@ class HelpModel extends BaseDatabaseModel
      * @var    string
      * @since  1.6
      */
-    protected $lang_tag = null;
+    protected $lang_tag;
 
     /**
      * Table of contents
@@ -66,7 +66,7 @@ class HelpModel extends BaseDatabaseModel
      * @var    string
      * @since  1.6
      */
-    protected $latest_version_check = null;
+    protected $latest_version_check;
 
     /**
      * Method to get the help search string

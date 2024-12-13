@@ -164,9 +164,7 @@ final class InstallationApplication extends CMSApplication
             $output .= '<pre>' . Text::_('JNONE') . '</pre>';
         }
 
-        $output .= '</pre>';
-
-        return $output;
+        return $output . '</pre>';
     }
 
     /**
@@ -355,7 +353,7 @@ final class InstallationApplication extends CMSApplication
             foreach (LanguageHelper::getInstalledLanguages(null, null, null, null, null, null, $db) as $clientId => $language) {
                 $clientName = $clientId === 0 ? 'site' : 'admin';
 
-                foreach ($language as $languageCode => $lang) {
+                foreach ($language as $lang) {
                     $langfiles[$clientName][] = $lang->element;
                 }
             }
@@ -560,7 +558,6 @@ final class InstallationApplication extends CMSApplication
      * @param   string|null  $name     The name of the application/client.
      * @param   array        $options  An optional associative array of configuration settings.
      *
-     * @return  null
      *
      * @since   3.2
      */

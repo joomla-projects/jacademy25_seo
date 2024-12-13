@@ -191,9 +191,7 @@ class Filter
             $html .= HTMLHelper::_('bootstrap.endSlide');
         }
 
-        $html .= HTMLHelper::_('bootstrap.endAccordion');
-
-        return $html;
+        return $html . HTMLHelper::_('bootstrap.endAccordion');
     }
 
     /**
@@ -412,9 +410,7 @@ class Filter
             $html .= '</div>';
         }
 
-        $html .= '</div>';
-
-        return $html;
+        return $html . '</div>';
     }
 
     /**

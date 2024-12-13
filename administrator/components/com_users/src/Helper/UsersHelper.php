@@ -87,7 +87,7 @@ class UsersHelper extends ContentHelper
      */
     public static function getRangeOptions()
     {
-        $options = [
+        return [
             HTMLHelper::_('select.option', 'today', Text::_('COM_USERS_OPTION_RANGE_TODAY')),
             HTMLHelper::_('select.option', 'past_week', Text::_('COM_USERS_OPTION_RANGE_PAST_WEEK')),
             HTMLHelper::_('select.option', 'past_1month', Text::_('COM_USERS_OPTION_RANGE_PAST_1MONTH')),
@@ -96,8 +96,6 @@ class UsersHelper extends ContentHelper
             HTMLHelper::_('select.option', 'past_year', Text::_('COM_USERS_OPTION_RANGE_PAST_YEAR')),
             HTMLHelper::_('select.option', 'post_year', Text::_('COM_USERS_OPTION_RANGE_POST_YEAR')),
         ];
-
-        return $options;
     }
 
     /**
@@ -141,9 +139,8 @@ class UsersHelper extends ContentHelper
         $db->setQuery($query);
 
         $groups = $db->loadColumn();
-        $groups = implode(', ', $groups);
 
-        return $groups;
+        return implode(', ', $groups);
     }
 
     /**

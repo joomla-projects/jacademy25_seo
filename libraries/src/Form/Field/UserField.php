@@ -39,7 +39,7 @@ class UserField extends FormField
      * @since 3.5
      * @deprecated  4.4 will be removed in 6.0 without replacement
      */
-    protected $groups = null;
+    protected $groups;
 
     /**
      * Users to exclude from the list of users
@@ -48,7 +48,7 @@ class UserField extends FormField
      * @since 3.5
      * @deprecated  4.4 will be removed in 6.0 without replacement
      */
-    protected $excluded = null;
+    protected $excluded;
 
     /**
      * Layout to render

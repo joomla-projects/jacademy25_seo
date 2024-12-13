@@ -67,11 +67,7 @@ class RulesRule extends FormRule
      */
     protected function getValueActions($value)
     {
-        $actions = [];
-
-        $actions = array_keys((array) $value);
-
-        return $actions;
+        return array_keys((array) $value);
     }
 
     /**

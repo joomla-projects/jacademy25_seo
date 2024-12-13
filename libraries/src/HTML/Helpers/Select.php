@@ -151,10 +151,9 @@ abstract class Select
         }
 
         $baseIndent = str_repeat((string) $options['format.indent'], $options['format.depth']++);
-        $html       = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '') . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol']
-            . static::options($data, $options) . $baseIndent . '</select>' . $options['format.eol'];
 
-        return $html;
+        return $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '') . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol']
+            . static::options($data, $options) . $baseIndent . '</select>' . $options['format.eol'];
     }
 
     /**
@@ -274,9 +273,7 @@ abstract class Select
             }
         }
 
-        $html .= $baseIndent . '</select>' . $options['format.eol'];
-
-        return $html;
+        return $html . ($baseIndent . '</select>' . $options['format.eol']);
     }
 
     /**
@@ -582,7 +579,7 @@ abstract class Select
                             break;
                         }
                     }
-                } elseif ((string) $key === (string) $options['list.select']) {
+                } elseif ($key === (string) $options['list.select']) {
                     $extra .= ' selected="selected"';
                 }
 
@@ -630,11 +627,8 @@ abstract class Select
         $class = '';
 
         if (\is_array($attribs)) {
-            if (\array_key_exists('class', $attribs)) {
-                $class = ' ' . $attribs['class'];
-                unset($attribs['class']);
-            }
-
+            $class = ' ' . $attribs['class'];
+            unset($attribs['class']);
             $attribs = ArrayHelper::toString($attribs);
         }
 
@@ -671,8 +665,6 @@ abstract class Select
             $html .= '</div>';
         }
 
-        $html .= '</div>';
-
-        return $html;
+        return $html . '</div>';
     }
 }

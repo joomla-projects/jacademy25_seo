@@ -45,7 +45,7 @@ class BufferStreamHandler
      * @var    string
      * @since  1.7.0
      */
-    public $name = null;
+    public $name;
 
     /**
      * Buffer hash

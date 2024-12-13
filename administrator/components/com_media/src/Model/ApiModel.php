@@ -44,7 +44,7 @@ class ApiModel extends BaseDatabaseModel
      * @var   string[]
      * @since  4.0.0
      */
-    private $allowedExtensions = null;
+    private $allowedExtensions;
 
     /**
      * Returns the requested file or folder information. More information

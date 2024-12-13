@@ -50,7 +50,7 @@ class HtmlView extends BaseHtmlView
      * @var   null|\stdClass
      * @since 4.2.0
      */
-    public $record = null;
+    public $record;
 
     /**
      * The Captive MFA page's rendering options
@@ -58,7 +58,7 @@ class HtmlView extends BaseHtmlView
      * @var   array|null
      * @since 4.2.0
      */
-    public $renderOptions = null;
+    public $renderOptions;
 
     /**
      * The title to display at the top of the page

@@ -35,7 +35,7 @@ trait WorkflowBehaviorTrait
      * @var    string
      * @since  4.0.0
      */
-    protected $extension = null;
+    protected $extension;
 
     /**
      * The section of the component.
@@ -256,7 +256,6 @@ trait WorkflowBehaviorTrait
      * @param   integer  $oldId     The ID of the item copied from
      * @param   integer  $newId     The ID of the new item
      *
-     * @return  null
      *
      * @since   4.0.0
      */

@@ -47,7 +47,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      * @var    string
      * @since  1.6
      */
-    protected $context = null;
+    protected $context;
 
     /**
      * Valid filter fields or ordering.
@@ -71,7 +71,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      * @var   null|string
      * @since 3.10.4
      */
-    protected $lastQueryStoreId = null;
+    protected $lastQueryStoreId;
 
     /**
      * Name of the filter form to load
@@ -79,7 +79,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      * @var    string
      * @since  3.2
      */
-    protected $filterFormName = null;
+    protected $filterFormName;
 
     /**
      * Associated HTML form
@@ -236,13 +236,11 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
     {
         $activeFilters = [];
 
-        if (!empty($this->filter_fields)) {
-            foreach ($this->filter_fields as $filter) {
-                $filterName = 'filter.' . $filter;
+        foreach ($this->filter_fields as $filter) {
+            $filterName = 'filter.' . $filter;
 
-                if (!empty($this->state->get($filterName)) || is_numeric($this->state->get($filterName))) {
-                    $activeFilters[$filter] = $this->state->get($filterName);
-                }
+            if (!empty($this->state->get($filterName)) || is_numeric($this->state->get($filterName))) {
+                $activeFilters[$filter] = $this->state->get($filterName);
             }
         }
 

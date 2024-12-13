@@ -32,19 +32,19 @@ class Pagination
      * @var    integer  The record number to start displaying from.
      * @since  1.5
      */
-    public $limitstart = null;
+    public $limitstart;
 
     /**
      * @var    integer  Number of rows to display per page.
      * @since  1.5
      */
-    public $limit = null;
+    public $limit;
 
     /**
      * @var    integer  Total number of rows.
      * @since  1.5
      */
-    public $total = null;
+    public $total;
 
     /**
      * @var    integer  Value pagination object begins at
@@ -120,7 +120,7 @@ class Pagination
      * @var    CMSApplication  The application object
      * @since  3.4
      */
-    protected $app = null;
+    protected $app;
 
     /**
      * Pagination data object
@@ -148,8 +148,8 @@ class Pagination
     {
         // Value/type checking.
         $this->total      = (int) $total;
-        $this->limitstart = (int) max($limitstart, 0);
-        $this->limit      = (int) max($limit, 0);
+        $this->limitstart = max($limitstart, 0);
+        $this->limit      = max($limit, 0);
         $this->app        = $app ?: Factory::getApplication();
 
         if ($this->limit > $this->total) {
@@ -653,9 +653,8 @@ class Pagination
         $html .= "\n<div class=\"counter\">" . $list['pagescounter'] . "</div>";
 
         $html .= "\n<input type=\"hidden\" name=\"" . $list['prefix'] . 'limitstart" value="' . $list['limitstart'] . '">';
-        $html .= "\n</div>";
 
-        return $html;
+        return $html . "\n</div>";
     }
 
     /**
@@ -714,10 +713,8 @@ class Pagination
         // Prepare the routes
         $params = [];
 
-        if (!empty($this->additionalUrlParams)) {
-            foreach ($this->additionalUrlParams as $key => $value) {
-                $params[$key] = $value;
-            }
+        foreach ($this->additionalUrlParams as $key => $value) {
+            $params[$key] = $value;
         }
 
         $params = http_build_query($params);

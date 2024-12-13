@@ -83,7 +83,7 @@ $wa->useScript('table.columns');
                         <th scope="col">
                             <?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_NAME', 'a.name', $listDirn, $listOrder); ?>
                         </th>
-                        <?php foreach ($actions as $key => $action) : ?>
+                        <?php foreach ($actions as $action) : ?>
                         <th scope="col" class="w-6 text-center">
                             <?php echo Text::_($action[1]); ?>
                         </th>
@@ -97,7 +97,7 @@ $wa->useScript('table.columns');
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($this->items as $i => $item) : ?>
+                    <?php foreach ($this->items as $item) : ?>
                         <tr class="row0">
                             <th scope="row">
                                 <?php echo $this->escape(Text::_($item->title)); ?>

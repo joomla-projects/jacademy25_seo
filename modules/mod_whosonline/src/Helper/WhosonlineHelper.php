@@ -53,17 +53,15 @@ class WhosonlineHelper
             $sessions = [];
         }
 
-        if ($sessions !== []) {
-            foreach ($sessions as $session) {
-                // If guest increase guest count by 1
-                if ($session->guest == 1) {
-                    $guest_array++;
-                }
+        foreach ($sessions as $session) {
+            // If guest increase guest count by 1
+            if ($session->guest == 1) {
+                $guest_array++;
+            }
 
-                // If member increase member count by 1
-                if ($session->guest == 0) {
-                    $user_array++;
-                }
+            // If member increase member count by 1
+            if ($session->guest == 0) {
+                $user_array++;
             }
         }
 

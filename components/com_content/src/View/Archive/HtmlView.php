@@ -34,7 +34,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var   \Joomla\Registry\Registry
      */
-    protected $state = null;
+    protected $state;
 
     /**
      * An array containing archived articles
@@ -48,7 +48,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var   \Joomla\CMS\Pagination\Pagination|null
      */
-    protected $pagination = null;
+    protected $pagination;
 
     /**
      * The years that are available to filter on.
@@ -66,7 +66,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since  4.0.0
      */
-    protected $form = null;
+    protected $form;
 
     /**
      * The page parameters
@@ -75,7 +75,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since  4.0.0
      */
-    protected $params = null;
+    protected $params;
 
     /**
      * The search query used on any archived articles (note this may not be displayed depending on the value of the
@@ -94,7 +94,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since  4.0.0
      */
-    protected $user = null;
+    protected $user;
 
     /**
      * The page class suffix

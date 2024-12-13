@@ -361,7 +361,7 @@ class Form implements CurrentUserInterface
                 // Must be dealing with a fieldset attribute.
                 // Only create it if it doesn't already exist.
                 // Attempt to get the fieldset element for data (throughout the entire form document).
-                $tmp = $this->xml->xpath('//fieldset[@name="' . (string) $set . '"]');
+                $tmp = $this->xml->xpath('//fieldset[@name="' . $set . '"]');
                 // If no element was found, build a very simple fieldset object.
                 if (empty($tmp)) {
                     $fieldset = (object) ['name' => (string) $set, 'label' => '', 'description' => ''];
@@ -1372,7 +1372,7 @@ class Form implements CurrentUserInterface
 
         if ($group !== []) {
             // Get any fields elements with the correct group name.
-            $elements = $this->xml->xpath('//fields[@name="' . (string) $group[0] . '" and not(ancestor::field/form/*)]');
+            $elements = $this->xml->xpath('//fields[@name="' . $group[0] . '" and not(ancestor::field/form/*)]');
 
             // Check to make sure that there are no parent groups for each element.
             foreach ($elements as $element) {
@@ -1391,7 +1391,7 @@ class Form implements CurrentUserInterface
                 // Check to make sure that there are no parent groups for each element.
                 foreach ($current as $element) {
                     // Get any fields elements with the correct group name.
-                    $children = $element->xpath('descendant::fields[@name="' . (string) $group[$i] . '"]');
+                    $children = $element->xpath('descendant::fields[@name="' . $group[$i] . '"]');
 
                     // For the found fields elements validate that they are in the correct groups.
                     foreach ($children as $fields) {

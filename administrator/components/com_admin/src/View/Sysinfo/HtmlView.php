@@ -59,7 +59,7 @@ class HtmlView extends BaseHtmlView
      * @var    string
      * @since  1.6
      */
-    protected $phpInfo = null;
+    protected $phpInfo;
 
     /**
      * Information about writable state of directories

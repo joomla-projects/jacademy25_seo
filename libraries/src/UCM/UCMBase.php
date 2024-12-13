@@ -128,12 +128,10 @@ class UCMBase implements UCM
     {
         $type = $type ?: $this->type;
 
-        $data = [
+        return [
             'ucm_type_id'     => $type->id,
             'ucm_item_id'     => $original[$type->primary_key],
             'ucm_language_id' => ContentHelper::getLanguageId($original['language']),
         ];
-
-        return $data;
     }
 }

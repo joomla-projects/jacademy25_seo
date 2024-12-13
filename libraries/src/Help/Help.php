@@ -147,9 +147,7 @@ class Help
             }
         }
 
-        $url = str_replace($search, $replace, $url);
-
-        return $url;
+        return str_replace($search, $replace, $url);
     }
 
     /**

@@ -41,7 +41,7 @@ class TagField extends ListField
      * @var    boolean
      * @since  3.1
      */
-    public $isNested = null;
+    public $isNested;
 
     /**
      * com_tags parameters
@@ -49,7 +49,7 @@ class TagField extends ListField
      * @var    \Joomla\Registry\Registry
      * @since  3.1
      */
-    protected $comParams = null;
+    protected $comParams;
 
     /**
      * Name of the layout being used to render the field

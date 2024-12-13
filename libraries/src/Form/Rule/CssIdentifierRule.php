@@ -51,7 +51,7 @@ class CssIdentifierRule extends FormRule
         // Make sure we allow multiple classes to be added
         $cssIdentifiers = explode(' ', (string) $value);
 
-        foreach ($cssIdentifiers as $i => $identifier) {
+        foreach ($cssIdentifiers as $identifier) {
             /**
              * The following regex rules are based on the Html::cleanCssIdentifier method from Drupal
              * https://github.com/drupal/drupal/blob/8.8.5/core/lib/Drupal/Component/Utility/Html.php#L116-L130

@@ -329,7 +329,7 @@ class InstallCommand extends AbstractCommand
                 str_replace('_', '-', $field->fieldname),
                 null,
                 $field->required ? InputOption::VALUE_REQUIRED : InputOption::VALUE_OPTIONAL,
-                Text::_(((string)$field->getAttribute('label')) . '_SHORT'),
+                Text::_(($field->getAttribute('label')) . '_SHORT'),
                 $default
             );
         }

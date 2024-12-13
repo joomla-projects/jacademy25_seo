@@ -92,7 +92,7 @@ class InstallerExtension
      * @var object
      * @since  3.1
      */
-    public $manifest_cache = null;
+    public $manifest_cache;
 
     /**
      * An object representation of the extension params
@@ -100,7 +100,7 @@ class InstallerExtension
      * @var    object
      * @since  3.1
      */
-    public $params = null;
+    public $params;
 
     /**
      * The namespace of the extension
@@ -108,7 +108,7 @@ class InstallerExtension
      * @var    string
      * @since  4.0.0
      */
-    public $namespace = null;
+    public $namespace;
 
     /**
      * Constructor

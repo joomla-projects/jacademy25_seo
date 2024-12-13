@@ -203,7 +203,7 @@ class Document
      * @var    object
      * @since  1.7.0
      */
-    public $_engine = null;
+    public $_engine;
 
     /**
      * The document type
@@ -211,7 +211,7 @@ class Document
      * @var    string
      * @since  1.7.0
      */
-    public $_type = null;
+    public $_type;
 
     /**
      * Array of buffered output
@@ -219,7 +219,7 @@ class Document
      * @var    mixed (depends on the renderer)
      * @since  1.7.0
      */
-    public static $_buffer = null;
+    public static $_buffer;
 
     /**
      * Document instances container.
@@ -235,7 +235,7 @@ class Document
      * @var    string
      * @since  3.2
      */
-    protected $mediaVersion = null;
+    protected $mediaVersion;
 
     /**
      * Factory for creating JDocument API objects
@@ -251,7 +251,7 @@ class Document
      * @var    PreloadManagerInterface
      * @since  4.0.0
      */
-    protected $preloadManager = null;
+    protected $preloadManager;
 
     /**
      * The supported preload types
@@ -267,7 +267,7 @@ class Document
      * @var    WebAssetManager
      * @since  4.0.0
      */
-    protected $webAssetManager = null;
+    protected $webAssetManager;
 
     /**
      * Class constructor.

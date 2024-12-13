@@ -72,7 +72,7 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($this->items as $i => $item) : ?>
+                    <?php foreach ($this->items as $item) : ?>
                         <?php
                         $itemRequestedAt = new Date($item->requested_at);
                         ?>

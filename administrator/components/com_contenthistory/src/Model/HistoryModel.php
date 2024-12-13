@@ -96,9 +96,8 @@ class HistoryModel extends ListModel
         $typeAlias        = implode('.', $typeAlias);
         $contentTypeTable->load(['type_alias' => $typeAlias]);
         $typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
-        $result        = \in_array((int) $id, $typeEditables);
 
-        return $result;
+        return \in_array((int) $id, $typeEditables);
     }
 
     /**

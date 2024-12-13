@@ -32,7 +32,7 @@ class MemcachedStorage extends CacheStorage
      * @var    \Memcached
      * @since  3.0.0
      */
-    protected static $_db = null;
+    protected static $_db;
 
     /**
      * Payload compression level

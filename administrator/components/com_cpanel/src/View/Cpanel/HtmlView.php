@@ -33,21 +33,21 @@ class HtmlView extends BaseHtmlView
      *
      * @var  array
      */
-    protected $modules = null;
+    protected $modules;
 
     /**
      * Array of cpanel modules
      *
      * @var  array
      */
-    protected $quickicons = null;
+    protected $quickicons;
 
     /**
      * Moduleposition to load
      *
      * @var  string
      */
-    protected $position = null;
+    protected $position;
 
     /**
      * Execute and display a template script.

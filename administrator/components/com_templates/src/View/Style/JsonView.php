@@ -73,8 +73,6 @@ class JsonView extends BaseHtmlView
 
         unset($paramsList['xml']);
 
-        $paramsList = json_encode($paramsList);
-
-        return $paramsList;
+        return json_encode($paramsList);
     }
 }

@@ -68,7 +68,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since  3.7.0
      */
-    public $itemType = null;
+    public $itemType;
 
     /**
      * Main Extension Name

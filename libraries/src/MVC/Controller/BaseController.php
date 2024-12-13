@@ -84,7 +84,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      * @var    string
      * @since  3.0
      */
-    protected $message = null;
+    protected $message;
 
     /**
      * Redirect message type.
@@ -132,7 +132,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      * @var    string
      * @since  3.0
      */
-    protected $redirect = null;
+    protected $redirect;
 
     /**
      * Current or most recently performed task.

@@ -55,7 +55,7 @@ final class WebInstaller extends CMSPlugin implements SubscriberInterface
      * @var    string|null
      * @since  4.0.0
      */
-    private $installfrom = null;
+    private $installfrom;
 
     /**
      * Flag if the document is in a RTL direction
@@ -63,7 +63,7 @@ final class WebInstaller extends CMSPlugin implements SubscriberInterface
      * @var    integer|null
      * @since  4.0.0
      */
-    private $rtl = null;
+    private $rtl;
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -111,9 +111,7 @@ final class WebInstaller extends CMSPlugin implements SubscriberInterface
 
         $devLevel = Version::PATCH_VERSION;
 
-        if (Version::EXTRA_VERSION !== '' && Version::EXTRA_VERSION !== '0') {
-            $devLevel .= '-' . Version::EXTRA_VERSION;
-        }
+        $devLevel .= '-' . Version::EXTRA_VERSION;
 
         $doc->addScriptOptions(
             'plg_installer_webinstaller',

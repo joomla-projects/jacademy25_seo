@@ -45,13 +45,6 @@ class UpdateCoreCommand extends AbstractCommand
     protected static $defaultName = 'core:update';
 
     /**
-     * Stores the Input Object
-     * @var CliInput
-     * @since 4.0.0
-     */
-    private $cliInput;
-
-    /**
      * SymfonyStyle Object
      * @var SymfonyStyle
      * @since 4.0.0
@@ -100,14 +93,10 @@ class UpdateCoreCommand extends AbstractCommand
     /**
      * UpdateCoreCommand constructor.
      *
-     * @param   DatabaseInterface  $db  Database Instance
      *
      * @since 4.0.0
      */
-    public function __construct(/**
-     * @since 4.0.0
-     */
-    private readonly DatabaseInterface $db)
+    public function __construct()
     {
         parent::__construct();
     }
@@ -126,8 +115,6 @@ class UpdateCoreCommand extends AbstractCommand
     private function configureIO(InputInterface $input, OutputInterface $output)
     {
         $this->progressBar = new ProgressBar($output, 9);
-
-        $this->cliInput = $input;
         $this->ioStyle  = new SymfonyStyle($input, $output);
 
         $language = Factory::getLanguage();
@@ -452,9 +439,7 @@ class UpdateCoreCommand extends AbstractCommand
      */
     public function extractFile($file)
     {
-        $package = InstallerHelper::unpack($file, true);
-
-        return $package;
+        return InstallerHelper::unpack($file, true);
     }
 
     /**

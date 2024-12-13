@@ -31,7 +31,7 @@ class RedisStorage extends CacheStorage
      * @var    \Redis
      * @since  3.4
      */
-    protected static $_redis = null;
+    protected static $_redis;
 
     /**
      * Persistent session flag

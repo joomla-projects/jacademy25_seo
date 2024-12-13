@@ -80,7 +80,7 @@ class AssociationController extends FormController
 
             $ids[] = $this->input->get('id', 0, 'int');
 
-            foreach ($ids as $key => $id) {
+            foreach ($ids as $id) {
                 AssociationsHelper::getItem($extensionName, $typeName, $id)->checkIn();
             }
         }

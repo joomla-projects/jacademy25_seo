@@ -61,7 +61,7 @@ if ($clientId == 1) {
                         $opts = [
                             'published' => $this->state->get('filter.published'),
                             'checkacl'  => (int) $this->state->get('menutypeid'),
-                            'clientid'  => (int) $clientId,
+                            'clientid'  => $clientId,
                         ];
                         echo HTMLHelper::_('select.options', HTMLHelper::_('menu.menuitems', $opts));
                         ?>

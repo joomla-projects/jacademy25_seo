@@ -380,7 +380,7 @@ class MenutypesModel extends BaseDatabaseModel
 
         // Create the root menu option.
         $ro              = new \stdClass();
-        $ro->title       = (string) trim($rootMenu);
+        $ro->title       = trim($rootMenu);
         $ro->description = '';
         $ro->request     = ['option' => $component];
 
@@ -395,7 +395,7 @@ class MenutypesModel extends BaseDatabaseModel
             $attributes = $child->attributes();
 
             $o              = new \stdClass();
-            $o->title       = (string) trim($child);
+            $o->title       = trim($child);
             $o->description = '';
 
             if ((string) $attributes->link !== '' && (string) $attributes->link !== '0') {

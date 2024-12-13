@@ -221,7 +221,7 @@ class Users
      */
     public function activateStates()
     {
-        $states = [
+        return [
             1 => [
                 'task'           => 'activate',
                 'text'           => '',
@@ -241,8 +241,6 @@ class Users
                 'inactive_class' => 'publish',
             ],
         ];
-
-        return $states;
     }
 
     /**

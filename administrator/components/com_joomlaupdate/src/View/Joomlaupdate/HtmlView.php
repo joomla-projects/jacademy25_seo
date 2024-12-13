@@ -44,7 +44,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since  3.6.0
      */
-    protected $updateInfo = null;
+    protected $updateInfo;
 
     /**
      * PHP options.
@@ -53,7 +53,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since 3.10.0
      */
-    protected $phpOptions = null;
+    protected $phpOptions;
 
     /**
      * PHP settings.
@@ -62,7 +62,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since 3.10.0
      */
-    protected $phpSettings = null;
+    protected $phpSettings;
 
     /**
      * Non Core Extensions.
@@ -71,7 +71,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since 3.10.0
      */
-    protected $nonCoreExtensions = null;
+    protected $nonCoreExtensions;
 
     /**
      * The model state

@@ -97,9 +97,8 @@ class Mcrypt extends AbstractAES implements AesInterface
         }
 
         $cipherText = mcrypt_encrypt($this->cipherType, $key, $plainText, $this->cipherMode, $iv);
-        $cipherText = $iv . $cipherText;
 
-        return $cipherText;
+        return $iv . $cipherText;
     }
 
     /**
@@ -116,9 +115,8 @@ class Mcrypt extends AbstractAES implements AesInterface
         $key        = $this->resizeKey($key, $iv_size);
         $iv         = substr($cipherText, 0, $iv_size);
         $cipherText = substr($cipherText, $iv_size);
-        $plainText  = mcrypt_decrypt($this->cipherType, $key, $cipherText, $this->cipherMode, $iv);
 
-        return $plainText;
+        return mcrypt_decrypt($this->cipherType, $key, $cipherText, $this->cipherMode, $iv);
     }
 
     /**

@@ -41,12 +41,12 @@ class FieldsHelper
     /**
      * @var    FieldsModel
      */
-    private static $fieldsCache = null;
+    private static $fieldsCache;
 
     /**
      * @var    FieldModel
      */
-    private static $fieldCache = null;
+    private static $fieldCache;
 
     /**
      * Extracts the component and section from the context string which has to

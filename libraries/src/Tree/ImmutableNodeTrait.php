@@ -26,7 +26,7 @@ trait ImmutableNodeTrait
      * @var    NodeInterface
      * @since  1.6
      */
-    protected $_parent = null;
+    protected $_parent;
 
     /**
      * Array of Children
@@ -42,7 +42,7 @@ trait ImmutableNodeTrait
      * @var    NodeInterface
      * @since  1.6
      */
-    protected $_leftSibling = null;
+    protected $_leftSibling;
 
     /**
      * Node right of this one
@@ -50,7 +50,7 @@ trait ImmutableNodeTrait
      * @var    NodeInterface
      * @since  1.6
      */
-    protected $_rightSibling = null;
+    protected $_rightSibling;
 
     /**
      * Get the children of this node

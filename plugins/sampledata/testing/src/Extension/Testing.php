@@ -1380,18 +1380,18 @@ final class Testing extends CMSPlugin
         $this->getApplication()->setUserState('sampledata.testing.menutypes', $menuTypes);
 
         // Get previously entered Data from UserStates
-        $contactIds      = $this->getApplication()->getUserState('sampledata.testing.contacts');
-        $contactCatids1  = $this->getApplication()->getUserState('sampledata.testing.contacts.catids1');
+        $this->getApplication()->getUserState('sampledata.testing.contacts');
+        $this->getApplication()->getUserState('sampledata.testing.contacts.catids1');
         $contactCatids3  = $this->getApplication()->getUserState('sampledata.testing.contacts.catids3');
         $articleIds      = $this->getApplication()->getUserState('sampledata.testing.articles');
-        $articleCatids1  = $this->getApplication()->getUserState('sampledata.testing.articles.catids1');
-        $articleCatids2  = $this->getApplication()->getUserState('sampledata.testing.articles.catids2');
+        $this->getApplication()->getUserState('sampledata.testing.articles.catids1');
+        $this->getApplication()->getUserState('sampledata.testing.articles.catids2');
         $articleCatids3  = $this->getApplication()->getUserState('sampledata.testing.articles.catids3');
         $articleCatids4  = $this->getApplication()->getUserState('sampledata.testing.articles.catids4');
         $articleCatids5  = $this->getApplication()->getUserState('sampledata.testing.articles.catids5');
-        $tagIds          = $this->getApplication()->getUserState('sampledata.testing.tags');
-        $newsfeedsIds    = $this->getApplication()->getUserState('sampledata.testing.newsfeeds');
-        $newsfeedsCatids = $this->getApplication()->getUserState('sampledata.testing.newsfeeds.catids');
+        $this->getApplication()->getUserState('sampledata.testing.tags');
+        $this->getApplication()->getUserState('sampledata.testing.newsfeeds');
+        $this->getApplication()->getUserState('sampledata.testing.newsfeeds.catids');
 
         // Unset current "Home" menuitem since we set a new one.
         $menuItemTable = $modelItem->getTable();
@@ -2297,8 +2297,8 @@ final class Testing extends CMSPlugin
         $articleCatids1  = $this->getApplication()->getUserState('sampledata.testing.articles.catids1');
         $articleCatids2  = $this->getApplication()->getUserState('sampledata.testing.articles.catids2');
         $articleCatids3  = $this->getApplication()->getUserState('sampledata.testing.articles.catids3');
-        $articleCatids4  = $this->getApplication()->getUserState('sampledata.testing.articles.catids4');
-        $articleCatids5  = $this->getApplication()->getUserState('sampledata.testing.articles.catids5');
+        $this->getApplication()->getUserState('sampledata.testing.articles.catids4');
+        $this->getApplication()->getUserState('sampledata.testing.articles.catids5');
         $tagIds          = $this->getApplication()->getUserState('sampledata.testing.tags');
         $newsfeedsIds    = $this->getApplication()->getUserState('sampledata.testing.newsfeeds');
         $newsfeedsCatids = $this->getApplication()->getUserState('sampledata.testing.newsfeeds.catids');
@@ -3115,20 +3115,20 @@ final class Testing extends CMSPlugin
 
         // Get previously entered Data from UserStates
         $menuTypes        = $this->getApplication()->getUserState('sampledata.testing.menutypes');
-        $articleCatids1   = $this->getApplication()->getUserState('sampledata.testing.articles.catids1');
+        $this->getApplication()->getUserState('sampledata.testing.articles.catids1');
         $articleCatids2   = $this->getApplication()->getUserState('sampledata.testing.articles.catids2');
         $articleCatids3   = $this->getApplication()->getUserState('sampledata.testing.articles.catids3');
         $articleCatids4   = $this->getApplication()->getUserState('sampledata.testing.articles.catids4');
-        $articleCatids5   = $this->getApplication()->getUserState('sampledata.testing.articles.catids5');
+        $this->getApplication()->getUserState('sampledata.testing.articles.catids5');
         $bannerCatids     = $this->getApplication()->getUserState('sampledata.testing.banners.catids');
         $menuMapping      = $this->getApplication()->getUserState('sampledata.testing.menu_module_mapping');
-        $userMenuIds      = $this->getApplication()->getUserState('sampledata.testing.menus.user');
+        $this->getApplication()->getUserState('sampledata.testing.menus.user');
         $parkMenuIds      = $this->getApplication()->getUserState('sampledata.testing.menus.park');
         $fruitshopMenuIds = $this->getApplication()->getUserState('sampledata.testing.menus.fruitshop');
-        $frontendMenuIds  = $this->getApplication()->getUserState('sampledata.testing.menus.frontend');
-        $aboutMenuIds     = $this->getApplication()->getUserState('sampledata.testing.menus.about');
+        $this->getApplication()->getUserState('sampledata.testing.menus.frontend');
+        $this->getApplication()->getUserState('sampledata.testing.menus.about');
         $mainMenuIds      = $this->getApplication()->getUserState('sampledata.testing.menus.main');
-        $topMenuIds       = $this->getApplication()->getUserState('sampledata.testing.menus.top');
+        $this->getApplication()->getUserState('sampledata.testing.menus.top');
 
         $modules = [
             [

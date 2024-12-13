@@ -213,9 +213,7 @@ class CategoryController extends FormController
             }
         }
 
-        $append .= '&extension=' . $this->extension;
-
-        return $append;
+        return $append . ('&extension=' . $this->extension);
     }
 
     /**
@@ -228,9 +226,8 @@ class CategoryController extends FormController
     protected function getRedirectToListAppend()
     {
         $append = parent::getRedirectToListAppend();
-        $append .= '&extension=' . $this->extension;
 
-        return $append;
+        return $append . ('&extension=' . $this->extension);
     }
 
     /**

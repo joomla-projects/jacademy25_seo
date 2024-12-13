@@ -767,7 +767,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
      */
     public function removeroot()
     {
-        $app = Factory::getApplication();
+        Factory::getApplication();
 
         // Get the previous configuration.
         $prev = new \JConfig();

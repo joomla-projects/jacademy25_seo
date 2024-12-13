@@ -46,7 +46,7 @@ class Language extends BaseLanguage
      * @var    callable
      * @since  1.7.0
      */
-    protected $transliterator = null;
+    protected $transliterator;
 
     /**
      * Name of the pluralSuffixesCallback function for this language.
@@ -54,7 +54,7 @@ class Language extends BaseLanguage
      * @var    callable
      * @since  1.7.0
      */
-    protected $pluralSuffixesCallback = null;
+    protected $pluralSuffixesCallback;
 
     /**
      * Name of the ignoredSearchWordsCallback function for this language.
@@ -64,7 +64,7 @@ class Language extends BaseLanguage
      *
      * @deprecated  4.4 will be removed in 6.0 without replacement
      */
-    protected $ignoredSearchWordsCallback = null;
+    protected $ignoredSearchWordsCallback;
 
     /**
      * Name of the lowerLimitSearchWordCallback function for this language.
@@ -74,7 +74,7 @@ class Language extends BaseLanguage
      *
      * @deprecated  4.4 will be removed in 6.0 without replacement
      */
-    protected $lowerLimitSearchWordCallback = null;
+    protected $lowerLimitSearchWordCallback;
 
     /**
      * Name of the upperLimitSearchWordCallback function for this language.
@@ -84,7 +84,7 @@ class Language extends BaseLanguage
      *
      * @deprecated  4.4 will be removed in 6.0 without replacement
      */
-    protected $upperLimitSearchWordCallback = null;
+    protected $upperLimitSearchWordCallback;
 
     /**
      * Name of the searchDisplayedCharactersNumberCallback function for this language.
@@ -94,7 +94,7 @@ class Language extends BaseLanguage
      *
      * @deprecated  4.4 will be removed in 6.0 without replacement
      */
-    protected $searchDisplayedCharactersNumberCallback = null;
+    protected $searchDisplayedCharactersNumberCallback;
 
     /**
      * Constructor activating the default information of the language.

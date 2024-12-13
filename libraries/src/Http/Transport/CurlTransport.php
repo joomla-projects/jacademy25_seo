@@ -96,15 +96,11 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 
         // Build the headers string for the request.
         $headerArray = [];
-
-        if (isset($headers)) {
-            foreach ($headers as $key => $value) {
-                $headerArray[] = $key . ': ' . $value;
-            }
-
-            // Add the headers string into the stream context options array.
-            $options[CURLOPT_HTTPHEADER] = $headerArray;
+        foreach ($headers as $key => $value) {
+            $headerArray[] = $key . ': ' . $value;
         }
+        // Add the headers string into the stream context options array.
+        $options[CURLOPT_HTTPHEADER] = $headerArray;
 
         // Curl needs the accepted encoding header as option
         if (isset($headers['Accept-Encoding'])) {

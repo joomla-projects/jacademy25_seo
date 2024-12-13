@@ -37,7 +37,7 @@ trait AdditionalLoginButtons
      * @var     boolean|null
      * @since   4.0.0
      */
-    protected $allowButtonDisplay = null;
+    protected $allowButtonDisplay;
 
     /**
      * Have I already injected CSS and JavaScript? Prevents double inclusion of the same files.

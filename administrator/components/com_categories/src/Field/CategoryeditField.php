@@ -79,7 +79,7 @@ class CategoryeditField extends ListField
         $return = parent::setup($element, $value, $group);
 
         if ($return) {
-            $this->allowAdd     = isset($this->element['allowAdd']) ? (bool) $this->element['allowAdd'] : false;
+            $this->allowAdd     = isset($this->element['allowAdd']) && (bool) $this->element['allowAdd'];
             $this->customPrefix = (string) $this->element['customPrefix'];
         }
 
@@ -120,11 +120,10 @@ class CategoryeditField extends ListField
 
         switch ($name) {
             case 'allowAdd':
-                $value       = (string) $value;
                 $this->$name = ($value === 'true' || $value === $name || $value === '1');
                 break;
             case 'customPrefix':
-                $this->$name = (string) $value;
+                $this->$name = $value;
                 break;
             default:
                 parent::__set($name, $value);

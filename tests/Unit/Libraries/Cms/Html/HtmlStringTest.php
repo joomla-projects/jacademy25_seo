@@ -148,17 +148,6 @@ class HtmlStringTest extends UnitTestCase
              */
             'Plain html over the limit splitting first word' => [
                 '<span>Plain text</span>',
-                1,
-                false,
-                true,
-                '...',
-            ],
-            /*
-             *  @todo: Check these tests: 'Plain html over the limit splitting first word'
-                (duplicate keys, only the last of the duplicates gets executed) Don't return invalid HTML
-             */
-            'Plain html over the limit splitting first word' => [
-                '<span>Plain text</span>',
                 4,
                 false,
                 true,
@@ -185,25 +174,9 @@ class HtmlStringTest extends UnitTestCase
                 false,
                 'Plain te...',
             ],
-            // @todo: Check these tests: 'HTML not allowed, no split' (duplicate keys, only the last of the duplicates gets executed)
-            'HTML not allowed, no split' => [
-                '<div><span><i>Plain</i> <b>text</b> foo</span></div>',
-                4,
-                true,
-                false,
-                '...',
-            ],
             'First character is < with a maximum length of 1' => [
                 '<div><span><i>Plain</i> <b>text</b> foo</span></div>',
                 1,
-                true,
-                false,
-                '...',
-            ],
-            // @todo: Check these tests: 'HTML not allowed, no split' (duplicate keys, only the last of the duplicates gets executed)
-            'HTML not allowed, no split' => [
-                '<div><span><i>Plain</i> <b>text</b> foo</span></div>',
-                5,
                 true,
                 false,
                 '...',
@@ -329,16 +302,6 @@ class HtmlStringTest extends UnitTestCase
                 8,
                 true,
                 '<span>Plain</span>...',
-            ],
-            /*
-             *  @todo: Check these tests: 'Plain html over the limit splitting first word'
-                (duplicate keys, only the last of the duplicates gets executed) Don't return invalid HTML
-             */
-            'Plain html over the limit splitting first word' => [
-                '<span>Plain text</span>',
-                4,
-                false,
-                '<span>P</span>...',
             ],
             /*
              *  @todo: Check these tests: 'Plain html over the limit splitting first word'

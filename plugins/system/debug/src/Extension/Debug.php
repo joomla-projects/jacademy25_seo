@@ -183,7 +183,6 @@ final class Debug extends CMSPlugin implements SubscriberInterface
         ob_start();
         ob_implicit_flush(false);
 
-        /** @var \Joomla\Database\Monitor\DebugMonitor */
         $this->queryMonitor = $this->getDatabase()->getMonitor();
 
         if (!$this->params->get('queries', 1)) {

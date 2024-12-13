@@ -93,7 +93,7 @@ final class Fields extends CMSPlugin implements SubscriberInterface
         $link = 'index.php?option=com_fields&view=fields&layout=modal&tmpl=component&context='
             . $context . '&editor=' . $name . '&' . Session::getFormToken() . '=1';
 
-        $button = new Button(
+        return new Button(
             $this->_name,
             [
                 'action'  => 'modal',
@@ -111,7 +111,5 @@ final class Fields extends CMSPlugin implements SubscriberInterface
                 'name' => $this->_type . '_' . $this->_name,
             ]
         );
-
-        return $button;
     }
 }

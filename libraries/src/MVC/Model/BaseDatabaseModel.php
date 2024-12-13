@@ -63,7 +63,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @var    string
      * @since  3.0
      */
-    protected $option = null;
+    protected $option;
 
     /**
      * The event to trigger when cleaning cache.
@@ -71,7 +71,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @var    string
      * @since  3.0
      */
-    protected $event_clean_cache = null;
+    protected $event_clean_cache;
 
     /**
      * Constructor

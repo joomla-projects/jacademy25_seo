@@ -27,7 +27,7 @@ trait AssociationServiceTrait
      *
      * @since  4.0.0
      */
-    private $associationExtension = null;
+    private $associationExtension;
 
     /**
      * Returns the associations extension helper class.

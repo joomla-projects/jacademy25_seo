@@ -44,7 +44,7 @@ class User
      * @var    boolean
      * @since  1.7.0
      */
-    protected $isRoot = null;
+    protected $isRoot;
 
     /**
      * Unique id
@@ -52,7 +52,7 @@ class User
      * @var    integer
      * @since  1.7.0
      */
-    public $id = null;
+    public $id;
 
     /**
      * The user's real name (or nickname)
@@ -60,7 +60,7 @@ class User
      * @var    string
      * @since  1.7.0
      */
-    public $name = null;
+    public $name;
 
     /**
      * The login name
@@ -68,7 +68,7 @@ class User
      * @var    string
      * @since  1.7.0
      */
-    public $username = null;
+    public $username;
 
     /**
      * The email
@@ -76,7 +76,7 @@ class User
      * @var    string
      * @since  1.7.0
      */
-    public $email = null;
+    public $email;
 
     /**
      * MD5 encrypted password
@@ -84,7 +84,7 @@ class User
      * @var    string
      * @since  1.7.0
      */
-    public $password = null;
+    public $password;
 
     /**
      * Clear password, only available when a new password is set for a user
@@ -100,7 +100,7 @@ class User
      * @var    integer
      * @since  1.7.0
      */
-    public $block = null;
+    public $block;
 
     /**
      * Should this user receive system email
@@ -108,7 +108,7 @@ class User
      * @var    integer
      * @since  1.7.0
      */
-    public $sendEmail = null;
+    public $sendEmail;
 
     /**
      * Date the user was registered
@@ -116,7 +116,7 @@ class User
      * @var    string
      * @since  1.7.0
      */
-    public $registerDate = null;
+    public $registerDate;
 
     /**
      * Date of last visit
@@ -124,7 +124,7 @@ class User
      * @var    string
      * @since  1.7.0
      */
-    public $lastvisitDate = null;
+    public $lastvisitDate;
 
     /**
      * Activation hash
@@ -132,7 +132,7 @@ class User
      * @var    string
      * @since  1.7.0
      */
-    public $activation = null;
+    public $activation;
 
     /**
      * User parameters
@@ -140,7 +140,7 @@ class User
      * @var    Registry
      * @since  1.7.0
      */
-    public $params = null;
+    public $params;
 
     /**
      * Associative array of user names => group ids
@@ -156,7 +156,7 @@ class User
      * @var    integer
      * @since  1.7.0
      */
-    public $guest = null;
+    public $guest;
 
     /**
      * Last Reset Time
@@ -164,7 +164,7 @@ class User
      * @var    string
      * @since  3.0.1
      */
-    public $lastResetTime = null;
+    public $lastResetTime;
 
     /**
      * Count since last Reset Time
@@ -172,7 +172,7 @@ class User
      * @var    integer
      * @since  3.0.1
      */
-    public $resetCount = null;
+    public $resetCount;
 
     /**
      * Flag to require the user's password be reset
@@ -180,7 +180,7 @@ class User
      * @var    integer
      * @since  3.2
      */
-    public $requireReset = null;
+    public $requireReset;
 
     /**
      * The type alias
@@ -188,7 +188,7 @@ class User
      * @var    string
      * @since  5.0.0
      */
-    public $typeAlias = null;
+    public $typeAlias;
 
     /**
      * The otp key
@@ -196,7 +196,7 @@ class User
      * @var    string
      * @since  5.0.0
      */
-    public $otpKey = null;
+    public $otpKey;
 
     /**
      * The otp
@@ -204,7 +204,7 @@ class User
      * @var    string
      * @since  5.0.0
      */
-    public $otep = null;
+    public $otep;
 
     /**
      * The authentication provider
@@ -212,7 +212,7 @@ class User
      * @var    string
      * @since  5.0.0
      */
-    public $authProvider = null;
+    public $authProvider;
 
     /**
      * User parameters
@@ -220,7 +220,7 @@ class User
      * @var    Registry
      * @since  1.7.0
      */
-    protected $_params = null;
+    protected $_params;
 
     /**
      * Authorised access groups
@@ -228,7 +228,7 @@ class User
      * @var    array
      * @since  1.7.0
      */
-    protected $_authGroups = null;
+    protected $_authGroups;
 
     /**
      * Authorised access levels
@@ -236,7 +236,7 @@ class User
      * @var    array
      * @since  1.7.0
      */
-    protected $_authLevels = null;
+    protected $_authLevels;
 
     /**
      * Authorised access actions
@@ -244,7 +244,7 @@ class User
      * @var    array
      * @since  1.7.0
      */
-    protected $_authActions = null;
+    protected $_authActions;
 
     /**
      * Error message
@@ -252,7 +252,7 @@ class User
      * @var    string
      * @since  1.7.0
      */
-    protected $_errorMsg = null;
+    protected $_errorMsg;
 
     /**
      * @var    array  User instances container.

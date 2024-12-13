@@ -39,14 +39,14 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
             </tr>
         </thead>
         <tbody>
-        <?php foreach ($this->item->data as $name => $value) : ?>
+        <?php foreach ($this->item->data as $value) : ?>
             <?php if (is_object($value->value)) : ?>
                 <tr>
                     <td colspan="2">
                         <?php echo $value->label; ?>
                     </td>
                 </tr>
-                <?php foreach ($value->value as $subName => $subValue) : ?>
+                <?php foreach ($value->value as $subValue) : ?>
                     <?php if ($subValue && isset($subValue->value)) : ?>
                         <?php $subValue->value = (\is_object($subValue->value) || \is_array($subValue->value)) ? \json_encode($subValue->value, \JSON_UNESCAPED_UNICODE) : $subValue->value; ?>
                         <tr>

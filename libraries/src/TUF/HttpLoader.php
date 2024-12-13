@@ -30,7 +30,6 @@ class HttpLoader implements LoaderInterface
     public function load(string $locator, int $maxBytes): PromiseInterface
     {
         try {
-            /** @var Http $client */
             $response = $this->http->get($this->repositoryPath . $locator);
         } catch (\Exception $exception) {
             // We convert the generic exception thrown in the Http library into a TufException

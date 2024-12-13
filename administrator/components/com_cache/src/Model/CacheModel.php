@@ -45,14 +45,14 @@ class CacheModel extends ListModel
      *
      * @var integer
      */
-    protected $_total = null;
+    protected $_total;
 
     /**
      * Pagination object
      *
      * @var object
      */
-    protected $_pagination = null;
+    protected $_pagination;
 
     /**
      * Constructor.

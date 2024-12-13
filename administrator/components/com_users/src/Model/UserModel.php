@@ -44,7 +44,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      *
      * @var    array
      */
-    protected $_item = null;
+    protected $_item;
 
     /**
      * Constructor.
@@ -84,9 +84,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      */
     public function getTable($type = 'User', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
     {
-        $table = Table::getInstance($type, $prefix, $config);
-
-        return $table;
+        return Table::getInstance($type, $prefix, $config);
     }
 
     /**

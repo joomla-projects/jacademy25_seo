@@ -318,9 +318,7 @@ class ComponentHelper
              *
              * Note this constant is application aware and is different for each application (site/admin).
              *
-             * @var    string
              * @since  1.5
-             *
              * @deprecated  4.3 will be removed in 6.0
              *              Will be removed without replacement
              */
@@ -331,9 +329,7 @@ class ComponentHelper
             /**
              * Defines the path to the site element of the active component for the request
              *
-             * @var    string
              * @since  1.5
-             *
              * @deprecated  4.3 will be removed in 6.0
              *              Will be removed without replacement
              */
@@ -344,9 +340,7 @@ class ComponentHelper
             /**
              * Defines the path to the admin element of the active component for the request
              *
-             * @var    string
              * @since  1.5
-             *
              * @deprecated  4.3 will be removed in 6.0
              *              Will be removed without replacement
              */

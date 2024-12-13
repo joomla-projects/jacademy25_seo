@@ -46,7 +46,7 @@ class PageController extends CacheController
      * @var    \stdClass
      * @since  1.7.0
      */
-    protected $_locktest = null;
+    protected $_locktest;
 
     /**
      * Get the cached page data

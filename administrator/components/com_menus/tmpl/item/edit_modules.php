@@ -16,7 +16,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\View\Item\HtmlView;
 
 /** @var HtmlView $this */
-foreach ($this->levels as $key => $value) {
+foreach ($this->levels as $value) {
     $allLevels[$value->id] = $value->title;
 }
 

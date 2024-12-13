@@ -143,9 +143,8 @@ class MenuModel extends AdminModel
         }
 
         $properties = $table->getProperties(1);
-        $value      = ArrayHelper::toObject($properties, CMSObject::class);
 
-        return $value;
+        return ArrayHelper::toObject($properties, CMSObject::class);
     }
 
     /**

@@ -116,7 +116,7 @@ class Access
      * @var    integer
      * @since  3.7.0
      */
-    protected static $rootAssetId = null;
+    protected static $rootAssetId;
 
     /**
      * Method for clearing static caches.

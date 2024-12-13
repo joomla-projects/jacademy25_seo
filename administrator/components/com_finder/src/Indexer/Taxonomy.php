@@ -408,9 +408,7 @@ class Taxonomy
         $db->setQuery($query);
         $db->execute();
 
-        $count = $db->getAffectedRows();
-
-        return $count;
+        return $db->getAffectedRows();
     }
 
     /**

@@ -96,7 +96,7 @@ class FeedItem
      * @var    FeedEnclosure
      * @since  1.7.0
      */
-    public $enclosure = null;
+    public $enclosure;
 
     /**
      * Guid element

@@ -514,7 +514,7 @@ abstract class DaemonApplication extends CliApplication
                 $this->running = true;
 
                 // Set the process id.
-                $this->processId = (int) posix_getpid();
+                $this->processId = posix_getpid();
                 $this->parentId  = $this->processId;
             }
         } catch (\RuntimeException) {
@@ -615,7 +615,7 @@ abstract class DaemonApplication extends CliApplication
 
         if ($pid === 0) {
             // Update the process id for the child.
-            $this->processId = (int) posix_getpid();
+            $this->processId = posix_getpid();
         } else {
             // Log the fork in the parent.
             // Log the fork.

@@ -180,9 +180,8 @@ class GroupController extends FormController
     protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
     {
         $append = parent::getRedirectToItemAppend($recordId);
-        $append .= '&context=' . $this->input->get('context');
 
-        return $append;
+        return $append . ('&context=' . $this->input->get('context'));
     }
 
     /**
@@ -195,8 +194,7 @@ class GroupController extends FormController
     protected function getRedirectToListAppend()
     {
         $append = parent::getRedirectToListAppend();
-        $append .= '&context=' . $this->input->get('context');
 
-        return $append;
+        return $append . ('&context=' . $this->input->get('context'));
     }
 }

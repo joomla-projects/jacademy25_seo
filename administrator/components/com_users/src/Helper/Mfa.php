@@ -45,7 +45,7 @@ abstract class Mfa
      * @var   array|null
      * @since 4.2.0
      */
-    protected static $allMFAs = null;
+    protected static $allMFAs;
 
     /**
      * Are we inside the administrator application
@@ -53,7 +53,7 @@ abstract class Mfa
      * @var   boolean
      * @since 4.2.0
      */
-    protected static $isAdmin = null;
+    protected static $isAdmin;
 
     /**
      * Get the HTML for the Multi-factor Authentication configuration interface for a user.

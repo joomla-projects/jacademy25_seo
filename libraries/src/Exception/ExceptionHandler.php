@@ -175,13 +175,9 @@ class ExceptionHandler
              * So PHP will add $error Exception as previous to $errorRendererError Exception to keep full error stack.
              */
             try {
-                try {
-                    throw $error;
-                } finally {
-                    throw $throwable;
-                }
-            } catch (\Throwable $finalError) {
-                throw $finalError;
+                throw $error;
+            } finally {
+                throw $throwable;
             }
         } else {
             throw $error;

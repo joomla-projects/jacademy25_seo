@@ -41,7 +41,7 @@ class JsonResponse implements \Stringable
      *
      * @since  3.1
      */
-    public $messages = null;
+    public $messages;
 
     /**
      * The response data
@@ -50,7 +50,7 @@ class JsonResponse implements \Stringable
      *
      * @since  3.1
      */
-    public $data = null;
+    public $data;
 
     /**
      * Constructor

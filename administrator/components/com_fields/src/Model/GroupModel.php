@@ -35,7 +35,7 @@ class GroupModel extends AdminModel
      *
      * @since   3.7.0
      */
-    public $typeAlias = null;
+    public $typeAlias;
 
     /**
      * Allowed batch commands

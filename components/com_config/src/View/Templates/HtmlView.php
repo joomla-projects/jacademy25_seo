@@ -75,7 +75,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since  4.0.0
      */
-    protected $params = null;
+    protected $params;
 
     /**
      * Method to render the view.

@@ -155,9 +155,7 @@ class StageController extends FormController
     {
         $append = parent::getRedirectToItemAppend($recordId);
 
-        $append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
-
-        return $append;
+        return $append . ('&workflow_id=' . $this->workflowId . '&extension=' . $this->extension . $this->section !== '' ? '.' . $this->section : '');
     }
 
     /**
@@ -170,8 +168,7 @@ class StageController extends FormController
     protected function getRedirectToListAppend()
     {
         $append = parent::getRedirectToListAppend();
-        $append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
 
-        return $append;
+        return $append . ('&workflow_id=' . $this->workflowId . '&extension=' . $this->extension . $this->section !== '' ? '.' . $this->section : '');
     }
 }

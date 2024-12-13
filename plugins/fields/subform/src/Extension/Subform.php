@@ -44,7 +44,7 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
      *
      * @since 4.0.0
      */
-    protected static $customFieldsCache = null;
+    protected static $customFieldsCache;
 
     /**
      * Returns an array of events this subscriber will listen to.

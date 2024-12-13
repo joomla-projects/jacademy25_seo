@@ -60,7 +60,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      * @var    boolean
      * @since  3.1
      */
-    protected $upgrade = null;
+    protected $upgrade;
 
     /**
      * The manifest trigger class
@@ -68,7 +68,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      * @var    object
      * @since  3.1
      */
-    public $manifestClass = null;
+    public $manifestClass;
 
     /**
      * True if existing files can be overwritten
@@ -93,7 +93,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      * @var    Extension
      * @since  3.1
      */
-    public $extension = null;
+    public $extension;
 
     /**
      * The output from the install/uninstall scripts
@@ -101,7 +101,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      * @var    string
      * @since  3.1
      * */
-    public $message = null;
+    public $message;
 
     /**
      * The installation manifest XML object
@@ -109,7 +109,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      * @var    object
      * @since  3.1
      */
-    public $manifest = null;
+    public $manifest;
 
     /**
      * The extension message that appears
@@ -117,7 +117,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      * @var    string
      * @since  3.1
      */
-    protected $extension_message = null;
+    protected $extension_message;
 
     /**
      * The redirect URL if this extension (can be null if no redirect)
@@ -125,7 +125,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      * @var    string
      * @since  3.1
      */
-    protected $redirect_url = null;
+    protected $redirect_url;
 
     /**
      * Flag if the uninstall process was triggered by uninstalling a package
@@ -2350,29 +2350,24 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 // Try to load the adapter object
                 \JLoader::register($class, $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName);
 
-                if (!class_exists($class)) {
-                    // Skip to next one
-                    continue;
-                }
+                continue;
             }
 
             $adapters[] = $name;
         }
 
         // Add any custom adapters if specified
-        if (\count($custom) >= 1) {
-            foreach ($custom as $adapter) {
-                // Setup the class name
-                // @todo - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
-                $class = $this->_classprefix . ucfirst(trim((string) $adapter));
+        foreach ($custom as $adapter) {
+            // Setup the class name
+            // @todo - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
+            $class = $this->_classprefix . ucfirst(trim((string) $adapter));
 
-                // If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
-                if (!class_exists($class)) {
-                    continue;
-                }
-
-                $adapters[] = str_ireplace('.php', '', $fileName);
+            // If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
+            if (!class_exists($class)) {
+                continue;
             }
+
+            $adapters[] = str_ireplace('.php', '', $fileName);
         }
 
         return $adapters;

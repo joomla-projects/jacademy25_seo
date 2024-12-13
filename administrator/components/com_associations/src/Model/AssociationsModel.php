@@ -403,7 +403,7 @@ class AssociationsModel extends ListModel
 
         // Filter on the level.
         if ($level = $this->getState('filter.level')) {
-            $queryLevel = ((int) $level + (int) $baselevel - 1);
+            $queryLevel = ((int) $level + $baselevel - 1);
             $query->where($db->quoteName('a.level') . ' <= :alevel')
                 ->bind(':alevel', $queryLevel, ParameterType::INTEGER);
         }

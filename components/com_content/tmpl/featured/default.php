@@ -41,7 +41,7 @@ defined('_JEXEC') or die;
             <?php $blogClass .= (int) $this->params->get('num_columns'); ?>
         <?php endif; ?>
         <div class="blog-items <?php echo $blogClass; ?>">
-        <?php foreach ($this->intro_items as $key => &$item) : ?>
+        <?php foreach ($this->intro_items as &$item) : ?>
             <div class="blog-item">
                     <?php
                     $this->item = & $item;

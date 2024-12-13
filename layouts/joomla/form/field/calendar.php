@@ -97,9 +97,7 @@ if (strtoupper($value) === 'NOW') {
 $readonly = isset($attributes['readonly']) && $attributes['readonly'] === 'readonly';
 $disabled = isset($attributes['disabled']) && $attributes['disabled'] === 'disabled';
 
-if (is_array($attributes)) {
-    $attributes = ArrayHelper::toString($attributes);
-}
+$attributes = ArrayHelper::toString($attributes);
 
 $calendarAttrs = [
     'data-inputfield'      => $id,

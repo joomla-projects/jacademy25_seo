@@ -30,7 +30,7 @@ abstract class AdminLanguage
      * @var    array
      * @since  3.8.0
      */
-    protected static $items = null;
+    protected static $items;
 
     /**
      * Get a list of the available administrator language items.

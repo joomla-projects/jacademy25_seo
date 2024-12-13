@@ -141,9 +141,7 @@ class ComponentModel extends FormModel
             $lang->load($option, JPATH_BASE . ('/components/' . $option));
         }
 
-        $result = ComponentHelper::getComponent($option);
-
-        return $result;
+        return ComponentHelper::getComponent($option);
     }
 
     /**

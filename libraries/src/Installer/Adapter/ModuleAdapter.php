@@ -44,7 +44,7 @@ class ModuleAdapter extends InstallerAdapter
      * @var    object
      * @since  3.1
      */
-    protected $scriptElement = null;
+    protected $scriptElement;
 
     /**
      * Method to check if the extension is already present in the database

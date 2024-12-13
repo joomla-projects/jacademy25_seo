@@ -30,7 +30,7 @@ class MediaProviderEvent extends AbstractEvent
      * @var ProviderManager
      * @since  4.0.0
      */
-    private $providerManager = null;
+    private $providerManager;
 
     /**
      * Return the ProviderManager

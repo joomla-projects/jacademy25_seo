@@ -43,7 +43,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
      * @var    array
      * @since  3.6
      */
-    protected $events_map = null;
+    protected $events_map;
 
     /**
      * Constructor

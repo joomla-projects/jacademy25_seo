@@ -71,7 +71,7 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
         </div>
     <?php else : ?>
         <ul class="com-tags-tag__category category list-group">
-            <?php foreach ($this->items as $i => $item) : ?>
+            <?php foreach ($this->items as $item) : ?>
                 <?php if ($item->core_state == 0) : ?>
                     <li class="list-group-item-danger">
                 <?php else : ?>

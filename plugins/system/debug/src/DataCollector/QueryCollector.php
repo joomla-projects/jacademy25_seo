@@ -195,7 +195,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
             if (isset($stacks[$id])) {
                 $cnt = 0;
 
-                foreach ($stacks[$id] as $i => $stack) {
+                foreach ($stacks[$id] as $stack) {
                     $class = $stack['class'] ?? '';
                     $file  = $stack['file'] ?? '';
                     $line  = $stack['line'] ?? '';

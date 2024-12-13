@@ -37,14 +37,12 @@ class QueryHelper
      */
     public static function orderbyPrimary($orderby)
     {
-        $orderby = match ($orderby) {
+        return match ($orderby) {
             'alpha' => 'c.path, ',
             'ralpha' => 'c.path DESC, ',
             'order' => 'c.lft, ',
             default => '',
         };
-
-        return $orderby;
     }
 
     /**
@@ -161,16 +159,13 @@ class QueryHelper
      */
     public static function getQueryDate($orderDate, ?DatabaseInterface $db = null)
     {
-        $db = $db ?: Factory::getDbo();
-
-        $queryDate = match ($orderDate) {
+        $db ?: Factory::getDbo();
+        return match ($orderDate) {
             'modified' => ' CASE WHEN a.modified IS NULL THEN a.created ELSE a.modified END',
             'published' => ' CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END ',
             'unpublished' => ' CASE WHEN a.publish_down IS NULL THEN a.created ELSE a.publish_down END ',
             default => ' a.created ',
         };
-
-        return $queryDate;
     }
 
     /**

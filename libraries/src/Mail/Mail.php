@@ -86,8 +86,6 @@ class Mail extends PHPMailer implements MailerInterface
          * The default used by phpmailer is `php` but this does not support dotless domains so instead we use `html5`
          *
          * @see PHPMailer::validateAddress()
-         *
-         * @var string|callable
          */
         PHPMailer::$validator = 'html5';
     }

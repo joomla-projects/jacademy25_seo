@@ -490,7 +490,7 @@ abstract class UserHelper
         }
 
         $match  = $handler->validatePassword($password, $hash);
-        $rehash = $handler instanceof CheckIfRehashNeededHandlerInterface ? $handler->checkIfRehashNeeded($hash) : false;
+        $rehash = $handler instanceof CheckIfRehashNeededHandlerInterface && $handler->checkIfRehashNeeded($hash);
 
         // If we have a match and rehash = true, rehash the password with the current algorithm.
         if ((int) $userId > 0 && $match && $rehash) {

@@ -109,7 +109,7 @@ final class PageBreak extends CMSPlugin implements SubscriberInterface
         $app->getDocument()->addScriptOptions('xtd-pagebreak', ['editor' => $name]);
         $link = 'index.php?option=com_content&view=article&layout=pagebreak&tmpl=component&e_name=' . $name;
 
-        $button = new Button(
+        return new Button(
             $this->_name,
             [
                 'action'  => 'modal',
@@ -123,7 +123,5 @@ final class PageBreak extends CMSPlugin implements SubscriberInterface
                 'name' => $this->_type . '_' . $this->_name,
             ]
         );
-
-        return $button;
     }
 }

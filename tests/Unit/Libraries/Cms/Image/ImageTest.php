@@ -812,7 +812,7 @@ class ImageTest extends UnitTestCase
     {
         $this->expectException(\LogicException::class);
 
-        $thumbs = $this->instance->generateThumbs('50x38');
+        $this->instance->generateThumbs('50x38');
     }
 
     /**
@@ -830,7 +830,7 @@ class ImageTest extends UnitTestCase
 
         $this->instance->loadFile($this->testFile);
 
-        $thumbs = $this->instance->generateThumbs('50*38');
+        $this->instance->generateThumbs('50*38');
     }
 
     /**
@@ -896,7 +896,7 @@ class ImageTest extends UnitTestCase
     {
         $this->expectException(\LogicException::class);
 
-        $thumbs = $this->instance->createThumbs('50x38');
+        $this->instance->createThumbs('50x38');
     }
 
     /**
@@ -1338,7 +1338,7 @@ class ImageTest extends UnitTestCase
 
         $image = new Image($imageHandle);
 
-        $dimensions = TestHelper::invoke($image, 'prepareDimensions', 123, 456, 42);
+        TestHelper::invoke($image, 'prepareDimensions', 123, 456, 42);
     }
 
     /**

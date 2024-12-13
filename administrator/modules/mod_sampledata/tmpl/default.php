@@ -24,7 +24,7 @@ Text::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');
 ?>
 <?php if ($items) : ?>
     <ul id="sample-data-wrapper" class="list-group list-group-flush sample-data">
-        <?php foreach ($items as $i => $item) : ?>
+        <?php foreach ($items as $item) : ?>
             <li class="list-group-item sampledata-<?php echo $item->name; ?>">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="sample-data__title">

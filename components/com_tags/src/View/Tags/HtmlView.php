@@ -60,7 +60,7 @@ class HtmlView extends BaseHtmlView
      * @var    \Joomla\Registry\Registry|null
      * @since  3.1
      */
-    protected $params = null;
+    protected $params;
 
     /**
      * The page class suffix
@@ -76,7 +76,7 @@ class HtmlView extends BaseHtmlView
      * @var    \Joomla\CMS\User\User|null
      * @since  4.0.0
      */
-    protected $user = null;
+    protected $user;
 
     /**
      * Execute and display a template script.

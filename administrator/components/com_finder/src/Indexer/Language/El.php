@@ -40,7 +40,7 @@ class El extends Language
      *
      * @since   4.0.0
      */
-    public function __construct($locale = null)
+    public function __construct()
     {
         // Override parent constructor since we don't need to load an external stemmer
     }
@@ -184,9 +184,7 @@ class El extends Language
         $exceptS2 = '/^(ΑΝ|ΑΦ|ΓΕ|ΓΙΓΑΝΤΟΑΦ|ΓΚΕ|ΔΗΜΟΚΡΑΤ|ΚΟΜ|ΓΚ|Μ|Π|ΠΟΥΚΑΜ|ΟΛΟ|ΛΑΡ)$/';
 
         if ($token == "ΙΣΑ") {
-            $token = "ΙΣ";
-
-            return $token;
+            return "ΙΣ";
         }
 
         if (preg_match($re, $token, $match)) {

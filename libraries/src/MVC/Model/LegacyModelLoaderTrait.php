@@ -94,12 +94,8 @@ trait LegacyModelLoaderTrait
             }
 
             require_once $path;
-
-            if (!class_exists($modelClass)) {
-                Log::add(Text::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), Log::WARNING, 'jerror');
-
-                return false;
-            }
+            Log::add(Text::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), Log::WARNING, 'jerror');
+            return false;
         }
 
         return new $modelClass($config);

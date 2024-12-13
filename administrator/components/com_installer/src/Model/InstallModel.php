@@ -40,12 +40,12 @@ class InstallModel extends BaseDatabaseModel
     /**
      * @var \Joomla\CMS\Table\Table Table object
      */
-    protected $_table = null;
+    protected $_table;
 
     /**
      * @var string URL
      */
-    protected $_url = null;
+    protected $_url;
 
     /**
      * Model context string.

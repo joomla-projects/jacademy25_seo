@@ -61,7 +61,6 @@ class HtmlView extends BaseHtmlView
     /**
      * UNUSED
      *
-     * @var    null
      *
      * @since  3.1
      */
@@ -70,7 +69,6 @@ class HtmlView extends BaseHtmlView
     /**
      * UNUSED
      *
-     * @var    null
      *
      * @since  3.1
      */

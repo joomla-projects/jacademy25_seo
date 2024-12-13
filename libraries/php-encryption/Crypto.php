@@ -149,9 +149,8 @@ class Crypto
         // Generate a sub-key for authentication and apply the HMAC.
         $akey = self::HKDF(self::HASH_FUNCTION, $key, self::KEY_BYTE_SIZE, self::AUTHENTICATION_INFO);
         $auth = hash_hmac(self::HASH_FUNCTION, $ciphertext, (string) $akey, true);
-        $ciphertext = $auth . $ciphertext;
 
-        return $ciphertext;
+        return $auth . $ciphertext;
     }
 
     /*
@@ -204,9 +203,7 @@ class Crypto
                 throw new CannotPerformOperationException();
             }
 
-            $plaintext = self::PlainDecrypt($ciphertext, $ekey, $iv);
-
-            return $plaintext;
+            return self::PlainDecrypt($ciphertext, $ekey, $iv);
         }
         else
         {
@@ -640,7 +637,7 @@ class Crypto
 
 class CryptoExceptionHandler
 {
-    private $rethrow = NULL;
+    private $rethrow;
 
     public function __construct()
     {

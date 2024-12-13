@@ -56,7 +56,7 @@ class Language
      * @var    Stemmer
      * @since  4.0.0
      */
-    protected $stemmer = null;
+    protected $stemmer;
 
     /**
      * Method to construct the language object.
@@ -75,7 +75,7 @@ class Language
         }
 
         try {
-            foreach (StemmerFactory::LANGS as $classname => $isoCodes) {
+            foreach (StemmerFactory::LANGS as $isoCodes) {
                 if (\in_array($this->language, $isoCodes)) {
                     $this->stemmer = StemmerFactory::create($this->language);
                     break;

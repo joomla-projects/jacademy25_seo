@@ -91,21 +91,15 @@ class Module extends Table
     protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $assetId = null;
-
-        // This is a module that needs to parent with the extension.
-        if ($assetId === null) {
-            // Build the query to get the asset id of the parent component.
-            $query = $this->_db->getQuery(true)
-                ->select($this->_db->quoteName('id'))
-                ->from($this->_db->quoteName('#__assets'))
-                ->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote('com_modules'));
-
-            // Get the asset id from the database.
-            $this->_db->setQuery($query);
-
-            if ($result = $this->_db->loadResult()) {
-                $assetId = (int) $result;
-            }
+        // Build the query to get the asset id of the parent component.
+        $query = $this->_db->getQuery(true)
+            ->select($this->_db->quoteName('id'))
+            ->from($this->_db->quoteName('#__assets'))
+            ->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote('com_modules'));
+        // Get the asset id from the database.
+        $this->_db->setQuery($query);
+        if ($result = $this->_db->loadResult()) {
+            $assetId = (int) $result;
         }
 
         // Return the asset id.

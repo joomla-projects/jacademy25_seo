@@ -41,7 +41,7 @@ class Editor implements DispatcherAwareInterface
      *
      * @deprecated  Should use Provider instance
      */
-    protected $_editor = null;
+    protected $_editor;
 
     /**
      * Captcha Provider instance
@@ -57,7 +57,7 @@ class Editor implements DispatcherAwareInterface
      * @var    string
      * @since  1.5
      */
-    protected $_name = null;
+    protected $_name;
 
     /**
      * Object asset
@@ -65,7 +65,7 @@ class Editor implements DispatcherAwareInterface
      * @var    string
      * @since  1.6
      */
-    protected $asset = null;
+    protected $asset;
 
     /**
      * Object author
@@ -73,7 +73,7 @@ class Editor implements DispatcherAwareInterface
      * @var    string
      * @since  1.6
      */
-    protected $author = null;
+    protected $author;
 
     /**
      * Editor instances container.

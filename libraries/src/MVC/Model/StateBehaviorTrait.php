@@ -26,7 +26,7 @@ trait StateBehaviorTrait
      * @var    boolean
      * @since  4.0.0
      */
-    protected $__state_set = null;
+    protected $__state_set;
 
     /**
      * A state object
@@ -34,7 +34,7 @@ trait StateBehaviorTrait
      * @var    State
      * @since  4.0.0
      */
-    protected $state = null;
+    protected $state;
 
     /**
      * Method to get state variables.

@@ -65,7 +65,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since  4.0.0
      */
-    protected $params = null;
+    protected $params;
 
     /**
      * The page class suffix
@@ -83,7 +83,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since  4.0.0
      */
-    protected $user = null;
+    protected $user;
 
     /**
      * Should we show a captcha form for the submission of the article?

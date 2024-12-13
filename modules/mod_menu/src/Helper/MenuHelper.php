@@ -118,7 +118,6 @@ class MenuHelper
                     // Reverted back for CMS version 2.5.6
                     switch ($item->type) {
                         case 'separator':
-                            break;
 
                         case 'heading':
                             // No further action needed.

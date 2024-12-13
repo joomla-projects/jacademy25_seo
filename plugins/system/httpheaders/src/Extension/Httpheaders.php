@@ -189,8 +189,8 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
             // Generate the hashes for the script-src
             $inlineScripts = \is_array($headData['script']) ? $headData['script'] : [];
 
-            foreach ($inlineScripts as $type => $scripts) {
-                foreach ($scripts as $hash => $scriptContent) {
+            foreach ($inlineScripts as $scripts) {
+                foreach ($scripts as $scriptContent) {
                     $scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', (string) $scriptContent, true)) . "'";
                 }
             }
@@ -200,8 +200,8 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
             // Generate the hashes for the style-src
             $inlineStyles = \is_array($headData['style']) ? $headData['style'] : [];
 
-            foreach ($inlineStyles as $type => $styles) {
-                foreach ($styles as $hash => $styleContent) {
+            foreach ($inlineStyles as $styles) {
+                foreach ($styles as $styleContent) {
                     $styleHashes[] = "'sha256-" . base64_encode(hash('sha256', (string) $styleContent, true)) . "'";
                 }
             }
@@ -210,7 +210,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
         // Replace the hashes in the csp header when set.
         $headers = $this->getApplication()->getHeaders();
 
-        foreach ($headers as $id => $headerConfiguration) {
+        foreach ($headers as $headerConfiguration) {
             if (
                 strtolower((string) $headerConfiguration['name']) === 'content-security-policy'
                 || strtolower((string) $headerConfiguration['name']) === 'content-security-policy-report-only'

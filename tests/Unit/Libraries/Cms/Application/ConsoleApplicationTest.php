@@ -51,8 +51,6 @@ class ConsoleApplicationTest extends UnitTestCase
         $input      = $this->createMock(InputInterface::class);
         $output     = $this->createMock(OutputInterface::class);
 
-        $object = new ConsoleApplication($config, $dispatcher, $container, $language, $input, $output);
-
-        return $object;
+        return new ConsoleApplication($config, $dispatcher, $container, $language, $input, $output);
     }
 }

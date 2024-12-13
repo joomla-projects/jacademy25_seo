@@ -34,21 +34,21 @@ class HtmlView extends BaseHtmlView
      *
      * @var  \Joomla\Registry\Registry
      */
-    protected $state = null;
+    protected $state;
 
     /**
      * The featured articles array
      *
      * @var  \stdClass[]
      */
-    protected $items = null;
+    protected $items;
 
     /**
      * The pagination object.
      *
      * @var  \Joomla\CMS\Pagination\Pagination
      */
-    protected $pagination = null;
+    protected $pagination;
 
     /**
      * The featured articles to be displayed as lead items.
@@ -87,7 +87,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var \Joomla\CMS\User\User|null
      */
-    protected $user = null;
+    protected $user;
 
     /**
      * The page class suffix
@@ -105,7 +105,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since  4.0.0
      */
-    protected $params = null;
+    protected $params;
 
     /**
      * Execute and display a template script.

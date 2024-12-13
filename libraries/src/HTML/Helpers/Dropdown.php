@@ -35,7 +35,7 @@ abstract class Dropdown
      * @var    string  HTML markup for the dropdown list
      * @since  3.0
      */
-    protected static $dropDownList = null;
+    protected static $dropDownList;
 
     /**
      * Method to inject needed script

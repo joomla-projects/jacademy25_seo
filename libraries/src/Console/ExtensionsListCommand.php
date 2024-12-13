@@ -155,9 +155,8 @@ class ExtensionsListCommand extends AbstractCommand
         $query->select('*')
             ->from('#__extensions');
         $db->setQuery($query);
-        $extensions = $db->loadAssocList('extension_id');
 
-        return $extensions;
+        return $db->loadAssocList('extension_id');
     }
 
     /**
@@ -173,7 +172,7 @@ class ExtensionsListCommand extends AbstractCommand
     {
         $extInfo = [];
 
-        foreach ($extensions as $key => $extension) {
+        foreach ($extensions as $extension) {
             $manifest  = json_decode((string) $extension['manifest_cache']);
             $extInfo[] = [
                 $extension['name'],
@@ -200,7 +199,7 @@ class ExtensionsListCommand extends AbstractCommand
     {
         $extensions = [];
 
-        foreach ($this->extensions as $key => $extension) {
+        foreach ($this->extensions as $extension) {
             if ($extension['type'] == $type) {
                 $extensions[] = $extension;
             }

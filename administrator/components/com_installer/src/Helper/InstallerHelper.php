@@ -255,15 +255,13 @@ class InstallerHelper
             $value = substr($value, 0, -\strlen($suffix));
         }
 
-        $downloadKey = [
+        return [
             'supported' => true,
             'valid'     => (bool) $value,
             'prefix'    => $prefix,
             'suffix'    => $suffix,
             'value'     => $value,
         ];
-
-        return $downloadKey;
     }
 
     /**

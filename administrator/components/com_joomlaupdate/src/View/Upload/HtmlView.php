@@ -35,7 +35,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since  4.0.0
      */
-    protected $updateInfo = null;
+    protected $updateInfo;
 
     /**
      * Flag if the update component itself has to be updated

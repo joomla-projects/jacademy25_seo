@@ -757,9 +757,7 @@ class DocumentTest extends UnitTestCase
     {
         $mergedOptions = array_merge($this->getDocumentDependencyMocks(), $options);
 
-        $object = new Document($mergedOptions);
-
-        return $object;
+        return new Document($mergedOptions);
     }
 
     /**

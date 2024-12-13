@@ -36,15 +36,6 @@ class ExtensionDiscoverCommand extends AbstractCommand
     protected static $defaultName = 'extension:discover';
 
     /**
-     * Stores the Input Object
-     *
-     * @var    InputInterface
-     *
-     * @since  4.0.0
-     */
-    private $cliInput;
-
-    /**
      * SymfonyStyle Object
      *
      * @var    SymfonyStyle
@@ -66,7 +57,6 @@ class ExtensionDiscoverCommand extends AbstractCommand
      */
     private function configureIO(InputInterface $input, OutputInterface $output): void
     {
-        $this->cliInput = $input;
         $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 

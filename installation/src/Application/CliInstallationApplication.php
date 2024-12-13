@@ -221,7 +221,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
             foreach (LanguageHelper::getInstalledLanguages(null, null, null, null, null, null, $db) as $clientId => $language) {
                 $clientName = $clientId === 0 ? 'site' : 'admin';
 
-                foreach ($language as $languageCode => $lang) {
+                foreach ($language as $lang) {
                     $langfiles[$clientName][] = $lang->element;
                 }
             }

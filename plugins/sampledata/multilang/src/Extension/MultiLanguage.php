@@ -53,7 +53,7 @@ final class MultiLanguage extends CMSPlugin
      *
      * @since   4.0.0
      */
-    protected $path = null;
+    protected $path;
 
     /**
      * @var    integer Id, author of all generated content.
@@ -760,7 +760,7 @@ final class MultiLanguage extends CMSPlugin
             $query = $db->getQuery(true)
                 ->insert($db->quoteName('#__associations'));
 
-            foreach ($associations as $language => $id) {
+            foreach ($associations as $id) {
                 $query->values(
                     implode(
                         ',',

@@ -46,7 +46,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
      * @var    string
      * @since  3.0
      */
-    protected $_basePath = null;
+    protected $_basePath;
 
     /**
      * Layout name
@@ -86,7 +86,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
      * @var    string
      * @since  3.0
      */
-    protected $_template = null;
+    protected $_template;
 
     /**
      * The output of the template script.
@@ -94,7 +94,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
      * @var    string
      * @since  3.0
      */
-    protected $_output = null;
+    protected $_output;
 
     /**
      * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)
@@ -531,12 +531,10 @@ class HtmlView extends AbstractView implements CurrentUserInterface
      */
     protected function _createFileName($type, $parts = [])
     {
-        $filename = match ($type) {
+        return match ($type) {
             'template' => strtolower((string) $parts['name']) . '.' . $this->_layoutExt,
             default => strtolower((string) $parts['name']) . '.php',
         };
-
-        return $filename;
     }
 
     /**

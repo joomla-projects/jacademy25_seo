@@ -38,7 +38,7 @@ class TagModel extends ListModel
      * @var    array
      * @since  3.1
      */
-    protected $items = null;
+    protected $items;
 
     /**
      * Array of tags

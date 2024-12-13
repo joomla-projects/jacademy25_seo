@@ -43,7 +43,7 @@ class FeedDocument extends Document
      * @var    FeedImage
      * @since  1.7.0
      */
-    public $image = null;
+    public $image;
 
     /**
      * Copyright feed element

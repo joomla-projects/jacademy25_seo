@@ -68,7 +68,7 @@ class ShowOnRule extends FormRule
             }
         }
 
-        foreach ($rules as $i => $rule) {
+        foreach ($rules as $rule) {
             if (!parent::test($element, $rule, $group, $input, $form)) {
                 return false;
             }

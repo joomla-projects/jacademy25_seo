@@ -324,7 +324,7 @@ class StageModel extends AdminModel
         $table     = $this->getTable();
         $pks       = (array) $pks;
         $app       = Factory::getApplication();
-        $extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', null, 'cmd');
+        $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', null, 'cmd');
 
         // Default item existence checks.
         if ($value != 1) {

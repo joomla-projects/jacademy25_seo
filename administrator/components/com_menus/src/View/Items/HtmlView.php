@@ -301,7 +301,7 @@ class HtmlView extends BaseHtmlView
     {
         $menutypeId = (int) $this->state->get('menutypeid');
 
-        $canDo = ContentHelper::getActions('com_menus', 'menu', (int) $menutypeId);
+        $canDo = ContentHelper::getActions('com_menus', 'menu', $menutypeId);
         $user  = $this->getCurrentUser();
 
         // Get the menu title

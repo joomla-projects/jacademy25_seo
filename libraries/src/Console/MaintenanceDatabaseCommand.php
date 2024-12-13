@@ -104,13 +104,12 @@ class MaintenanceDatabaseCommand extends AbstractCommand
         $this->ioStyle->title('Maintenance Database');
         $app->getLanguage()->load('com_installer', JPATH_ADMINISTRATOR);
 
-        /** @var DatabaseModel $DatabaseModel */
         $model      = $app->bootComponent('com_installer')->getMVCFactory($app)->createModel('Database', 'Administrator');
         $changeSet  = $model->getItems();
         $extInfo    = [];
         $errorCount = false;
 
-        foreach ($changeSet as $i => $item) {
+        foreach ($changeSet as $item) {
             $extInfo[] = [
                 $item['extension']->extension_id,
                 $item['extension']->name,

@@ -68,9 +68,8 @@ class TemplatesHelper
         }
 
         $db->setQuery($query);
-        $options = $db->loadObjectList();
 
-        return $options;
+        return $db->loadObjectList();
     }
 
     /**

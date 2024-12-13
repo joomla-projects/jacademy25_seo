@@ -46,7 +46,7 @@ class ImageFilterTest extends UnitTestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $filter = new FilterBrightness('test');
+        new FilterBrightness('test');
     }
 
     /**

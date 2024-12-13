@@ -236,8 +236,7 @@ class RssRenderer extends DocumentRenderer
         }
 
         $feed .= "	</channel>\n";
-        $feed .= "</rss>\n";
 
-        return $feed;
+        return $feed . "</rss>\n";
     }
 }

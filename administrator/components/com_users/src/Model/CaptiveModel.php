@@ -40,7 +40,7 @@ class CaptiveModel extends BaseDatabaseModel
      * @var  array|null
      * @since 4.2.0
      */
-    protected $activeMFAMethodNames = null;
+    protected $activeMFAMethodNames;
 
     /**
      * Prevents Joomla from displaying any modules.
@@ -279,10 +279,8 @@ class CaptiveModel extends BaseDatabaseModel
             $map        = [];
             $mfaMethods = MfaHelper::getMfaMethods();
 
-            if ($mfaMethods !== []) {
-                foreach ($mfaMethods as $mfaMethod) {
-                    $map[$mfaMethod['name']] = $mfaMethod['display'];
-                }
+            foreach ($mfaMethods as $mfaMethod) {
+                $map[$mfaMethod['name']] = $mfaMethod['display'];
             }
         }
 
@@ -309,10 +307,8 @@ class CaptiveModel extends BaseDatabaseModel
             $map        = [];
             $mfaMethods = MfaHelper::getMfaMethods();
 
-            if ($mfaMethods !== []) {
-                foreach ($mfaMethods as $mfaMethod) {
-                    $map[$mfaMethod['name']] = $mfaMethod['image'];
-                }
+            foreach ($mfaMethods as $mfaMethod) {
+                $map[$mfaMethod['name']] = $mfaMethod['image'];
             }
         }
 

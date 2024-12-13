@@ -46,14 +46,14 @@ class CategoriesModel extends ListModel
      *
      * @var    CategoryNode|null
      */
-    private $_parent = null;
+    private $_parent;
 
     /**
      * Array of child-categories
      *
      * @var    CategoryNode[]|null
      */
-    private $_items = null;
+    private $_items;
 
     /**
      * Method to auto-populate the model state.

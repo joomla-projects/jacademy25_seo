@@ -51,11 +51,7 @@ abstract class LoggedHelper
 
         $db->setQuery($query);
 
-        try {
-            $results = $db->loadObjectList();
-        } catch (\RuntimeException $runtimeException) {
-            throw $runtimeException;
-        }
+        $results = $db->loadObjectList();
 
         foreach ($results as $result) {
             $result->logoutLink = '';

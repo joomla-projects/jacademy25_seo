@@ -175,7 +175,7 @@ abstract class Credentials
         $session = Factory::getApplication()->getSession();
 
         $encodedPkOptions = $session->get('plg_multifactorauth_webauthn.publicKeyCredentialRequestOptions', null);
-        $userHandle       = $session->get('plg_multifactorauth_webauthn.userHandle', null);
+        $session->get('plg_multifactorauth_webauthn.userHandle', null);
         $userId           = $session->get('plg_multifactorauth_webauthn.userId', null);
 
         $session->set('plg_multifactorauth_webauthn.publicKeyCredentialRequestOptions', null);

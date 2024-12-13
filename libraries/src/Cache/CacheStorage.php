@@ -168,9 +168,7 @@ class CacheStorage
             \JLoader::register($class, $path);
 
             // The class should now be loaded
-            if (!class_exists($class)) {
-                throw new UnsupportedCacheException(\sprintf('Unable to load Cache Storage: %s', $handler));
-            }
+            throw new UnsupportedCacheException(\sprintf('Unable to load Cache Storage: %s', $handler));
         }
 
         // Validate the cache storage is supported on this platform

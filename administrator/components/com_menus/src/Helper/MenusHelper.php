@@ -51,7 +51,7 @@ class MenusHelper extends ContentHelper
      *
      * @since   4.0.0
      */
-    protected static $presets = null;
+    protected static $presets;
 
     /**
      * Gets a standard form of a link for lookups.

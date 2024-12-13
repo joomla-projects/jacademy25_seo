@@ -40,8 +40,7 @@ class Rtf extends Parser
         // Remove control characters.
         $input = str_replace(['{', '}', "\\\n"], [' ', ' ', "\n"], $input);
         $input = preg_replace('#\\\([^;]+?);#m', ' ', $input);
-        $input = preg_replace('#\\\[\'a-zA-Z0-9]+#mi', ' ', (string) $input);
 
-        return $input;
+        return preg_replace('#\\\[\'a-zA-Z0-9]+#mi', ' ', (string) $input);
     }
 }

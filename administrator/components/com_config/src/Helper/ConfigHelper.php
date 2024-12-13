@@ -42,9 +42,8 @@ class ConfigHelper extends ContentHelper
             ->where('type = ' . $db->quote('component'))
             ->where('enabled = 1');
         $db->setQuery($query);
-        $result = $db->loadColumn();
 
-        return $result;
+        return $db->loadColumn();
     }
 
     /**

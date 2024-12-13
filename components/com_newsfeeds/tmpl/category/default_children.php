@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 ?>
 <?php if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?>
     <ul>
-        <?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
+        <?php foreach ($this->children[$this->category->id] as $child) : ?>
             <?php if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) : ?>
                 <li>
                     <span class="item-title">

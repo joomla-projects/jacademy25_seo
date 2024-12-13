@@ -53,7 +53,7 @@ final class Vote extends CMSPlugin
             return '';
         }
 
-        return $this->displayVotingData($context, $row, $params, $page);
+        return $this->displayVotingData($context, $row, $params);
     }
 
     /**
@@ -74,7 +74,7 @@ final class Vote extends CMSPlugin
             return '';
         }
 
-        return $this->displayVotingData($context, $row, $params, $page);
+        return $this->displayVotingData($context, $row, $params);
     }
 
     /**
@@ -83,13 +83,11 @@ final class Vote extends CMSPlugin
      * @param   string   $context  The context of the content being passed to the plugin
      * @param   object   &$row     The article object
      * @param   object   &$params  The article params
-     * @param   integer  $page     The 'page' number
      *
      * @return  string  HTML string containing code for the votes if in com_content else empty string
-     *
      * @since   3.7.0
      */
-    private function displayVotingData($context, &$row, &$params, $page)
+    private function displayVotingData($context, &$row, &$params)
     {
         $parts = explode('.', $context);
 

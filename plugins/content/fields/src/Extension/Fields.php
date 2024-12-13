@@ -111,7 +111,7 @@ final class Fields extends CMSPlugin
             $groups[$field->group_id][] = $field;
         }
 
-        foreach ($matches as $i => $match) {
+        foreach ($matches as $match) {
             // $match[0] is the full pattern match, $match[1] is the type (field or fieldgroup) and $match[2] the ID and optional the layout
             $explode = explode(',', $match[2]);
             $id      = (int) $explode[0];

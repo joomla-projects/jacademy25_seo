@@ -27,15 +27,7 @@ if (
 
         exit;
     }
-
-    if (JPATH_ROOT === JPATH_PUBLIC) {
-        header('Location: ' . Uri::base() . 'installation/index.php');
-
-        exit;
-    }
-
-    echo "Installation from a public folder is not supported, revert your Server configuration to point at Joomla's root folder to continue.";
-
+    header('Location: ' . Uri::base() . 'installation/index.php');
     exit;
 }
 

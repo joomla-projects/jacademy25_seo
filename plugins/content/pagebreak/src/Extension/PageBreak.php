@@ -123,7 +123,7 @@ final class PageBreak extends CMSPlugin
             if ($hasToc) {
                 // Display TOC.
                 $page = 1;
-                $this->createToc($row, $matches, $page);
+                $this->createToc($row, $matches);
             } else {
                 $row->toc = '';
             }
@@ -163,7 +163,7 @@ final class PageBreak extends CMSPlugin
             if ($style === 'pages') {
                 // Display TOC.
                 if ($hasToc) {
-                    $this->createToc($row, $matches, $page);
+                    $this->createToc($row, $matches);
                 } else {
                     $row->toc = '';
                 }
@@ -227,7 +227,7 @@ final class PageBreak extends CMSPlugin
                             $t[] = (string) HTMLHelper::_('bootstrap.addSlide', 'myAccordion', $title, $index);
                         }
 
-                        $t[] = (string) $subtext;
+                        $t[] = $subtext;
 
                         if ($style === 'tabs') {
                             $t[] = (string) HTMLHelper::_('uitab.endTab');
@@ -253,13 +253,11 @@ final class PageBreak extends CMSPlugin
      *
      * @param   object   &$row      The article object.  Note $article->text is also available
      * @param   array    &$matches  Array of matches of a regex in onContentPrepare
-     * @param   integer  &$page     The 'page' number
      *
      * @return  void
-     *
      * @since  1.6
      */
-    private function createToc(&$row, &$matches, &$page)
+    private function createToc(&$row, &$matches)
     {
         $heading     = $row->title ?? $this->getApplication()->getLanguage()->_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
         $input       = $this->getApplication()->getInput();

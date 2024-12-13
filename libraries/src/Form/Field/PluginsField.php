@@ -159,7 +159,7 @@ class PluginsField extends ListField
             $globalValue = Factory::getApplication()->get($this->fieldname);
         }
 
-        foreach ($options as $i => $item) {
+        foreach ($options as $item) {
             $source    = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;
             $extension = 'plg_' . $folder . '_' . $item->value;
             if (!$lang->load($extension . '.sys', JPATH_ADMINISTRATOR)) {

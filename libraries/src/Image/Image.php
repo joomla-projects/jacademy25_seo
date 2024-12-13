@@ -84,7 +84,7 @@ class Image
      * @var    string  The source image path.
      * @since  2.5.0
      */
-    protected $path = null;
+    protected $path;
 
     /**
      * @var    array  Whether or not different image formats are supported.
@@ -190,7 +190,7 @@ class Image
             'channels'    => $info['channels'] ?? null,
             'mime'        => $info['mime'],
             'filesize'    => filesize($path),
-            'orientation' => self::getOrientationString((int) $info[0], (int) $info[1]),
+            'orientation' => self::getOrientationString($info[0], $info[1]),
         ];
     }
 
@@ -258,27 +258,25 @@ class Image
         // Process thumbs
         $generated = [];
 
-        if ($thumbSizes !== []) {
-            foreach ($thumbSizes as $thumbSize) {
-                // Desired thumbnail size
-                $size = explode('x', strtolower((string) $thumbSize));
+        foreach ($thumbSizes as $thumbSize) {
+            // Desired thumbnail size
+            $size = explode('x', strtolower((string) $thumbSize));
 
-                if (\count($size) != 2) {
-                    throw new \InvalidArgumentException('Invalid thumb size received: ' . $thumbSize);
-                }
-
-                $thumbWidth  = $size[0];
-                $thumbHeight = $size[1];
-
-                $thumb = match ($creationMethod) {
-                    self::CROP => $this->crop($thumbWidth, $thumbHeight, null, null, true),
-                    self::CROP_RESIZE => $this->cropResize($thumbWidth, $thumbHeight, true),
-                    default => $this->resize($thumbWidth, $thumbHeight, true, $creationMethod),
-                };
-
-                // Store the thumb in the results array
-                $generated[] = $thumb;
+            if (\count($size) != 2) {
+                throw new \InvalidArgumentException('Invalid thumb size received: ' . $thumbSize);
             }
+
+            $thumbWidth  = $size[0];
+            $thumbHeight = $size[1];
+
+            $thumb = match ($creationMethod) {
+                self::CROP => $this->crop($thumbWidth, $thumbHeight, null, null, true),
+                self::CROP_RESIZE => $this->cropResize($thumbWidth, $thumbHeight, true),
+                default => $this->resize($thumbWidth, $thumbHeight, true, $creationMethod),
+            };
+
+            // Store the thumb in the results array
+            $generated[] = $thumb;
         }
 
         return $generated;
@@ -433,18 +431,16 @@ class Image
             }
             if ($ict >= 0 && $ict < $ctot) {
                 $rgba = imagecolorsforindex($this->getHandle(), $ict);
-                if ($rgba !== []) {
-                    $color = imagecolorallocatealpha(
-                        $handle,
-                        $rgba['red'],
-                        $rgba['green'],
-                        $rgba['blue'],
-                        $rgba['alpha']
-                    );
-                    // Set the transparent color values for the new image.
-                    imagecolortransparent($handle, $color);
-                    imagefill($handle, 0, 0, $color);
-                }
+                $color = imagecolorallocatealpha(
+                    $handle,
+                    $rgba['red'],
+                    $rgba['green'],
+                    $rgba['blue'],
+                    $rgba['alpha']
+                );
+                // Set the transparent color values for the new image.
+                imagecolortransparent($handle, $color);
+                imagefill($handle, 0, 0, $color);
             }
         }
 
@@ -726,18 +722,16 @@ class Image
             }
             if ($ict >= 0 && $ict < $ctot) {
                 $rgba = imagecolorsforindex($this->getHandle(), $ict);
-                if ($rgba !== []) {
-                    $color = imagecolorallocatealpha(
-                        $handle,
-                        $rgba['red'],
-                        $rgba['green'],
-                        $rgba['blue'],
-                        $rgba['alpha']
-                    );
-                    // Set the transparent color values for the new image.
-                    imagecolortransparent($handle, $color);
-                    imagefill($handle, 0, 0, $color);
-                }
+                $color = imagecolorallocatealpha(
+                    $handle,
+                    $rgba['red'],
+                    $rgba['green'],
+                    $rgba['blue'],
+                    $rgba['alpha']
+                );
+                // Set the transparent color values for the new image.
+                imagecolortransparent($handle, $color);
+                imagefill($handle, 0, 0, $color);
             }
         }
 

@@ -1205,7 +1205,7 @@ class Query
                 }
 
                 // Set the required flag for the token.
-                $token->required = $mode === 'AND' ? (!$token->phrase) : false;
+                $token->required = $mode === 'AND' && !$token->phrase;
 
                 // Add the token to the appropriate stack.
                 if ($token->required || (bool) $token->matches) {

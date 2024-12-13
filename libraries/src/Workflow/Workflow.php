@@ -37,7 +37,7 @@ class Workflow
      *
      * @var ComponentInterface
      */
-    protected $component = null;
+    protected $component;
 
     /**
      * Name of the extension the workflow belong to
@@ -45,7 +45,7 @@ class Workflow
      * @var    string
      * @since  4.0.0
      */
-    protected $extension = null;
+    protected $extension;
 
     /**
      * Application Object

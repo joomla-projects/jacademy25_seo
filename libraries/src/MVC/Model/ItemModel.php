@@ -26,7 +26,7 @@ abstract class ItemModel extends BaseDatabaseModel implements ItemModelInterface
      * @var    array
      * @since  1.6
      */
-    protected $_item = null;
+    protected $_item;
 
     /**
      * Model context string.

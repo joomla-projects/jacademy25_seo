@@ -28,7 +28,7 @@ abstract class DocumentRenderer implements RendererInterface
      * @var    Document
      * @since  1.7.0
      */
-    protected $_doc = null;
+    protected $_doc;
 
     /**
      * Renderer mime type
@@ -74,8 +74,7 @@ abstract class DocumentRenderer implements RendererInterface
     protected function _relToAbs($text)
     {
         $base = Uri::base();
-        $text = preg_replace("/(href|src)=\"(?!http|ftp|https|mailto|data|\/\/)([^\"]*)\"/", sprintf('$1="%s$2"', $base), $text);
 
-        return $text;
+        return preg_replace("/(href|src)=\"(?!http|ftp|https|mailto|data|\/\/)([^\"]*)\"/", sprintf('$1="%s$2"', $base), $text);
     }
 }

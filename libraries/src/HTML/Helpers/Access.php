@@ -33,7 +33,7 @@ abstract class Access
      * @var    array
      * @since  1.6
      */
-    protected static $asset_groups = null;
+    protected static $asset_groups;
 
     /**
      * Displays a list of the available access view levels

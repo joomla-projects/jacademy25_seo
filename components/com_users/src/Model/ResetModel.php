@@ -208,7 +208,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
         $app->getDispatcher()->dispatch($event->getName(), $event);
 
         // Check for a user and that the tokens match.
-        if (empty($user) || $user->activation !== $token) {
+        if ($user->activation !== $token) {
             $this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
             return false;

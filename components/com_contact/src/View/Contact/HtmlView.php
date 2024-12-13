@@ -94,7 +94,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
      *
      * @since  4.0.0
      */
-    protected $params = null;
+    protected $params;
 
     /**
      * The user object

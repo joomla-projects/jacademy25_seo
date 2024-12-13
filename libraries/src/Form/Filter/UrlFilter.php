@@ -81,8 +81,6 @@ class UrlFilter implements FormFilterInterface
             }
         }
 
-        $value = PunycodeHelper::urlToPunycode($value);
-
-        return $value;
+        return PunycodeHelper::urlToPunycode($value);
     }
 }

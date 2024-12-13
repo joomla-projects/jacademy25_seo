@@ -164,9 +164,7 @@ class RouteHelper extends CMSRouteHelper
      */
     public static function getComponentTagsRoute(string $language = '*'): string
     {
-        $link = 'index.php?option=com_tags&view=tags';
-
-        return $link;
+        return 'index.php?option=com_tags&view=tags';
     }
 
     /**
@@ -174,7 +172,6 @@ class RouteHelper extends CMSRouteHelper
      *
      * @param   array  $needles  Array used to get the language value
      *
-     * @return null
      *
      * @throws \Exception
      */

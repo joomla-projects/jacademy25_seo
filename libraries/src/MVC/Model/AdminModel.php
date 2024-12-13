@@ -55,7 +55,7 @@ abstract class AdminModel extends FormModel
      * @var    string
      * @since  1.6
      */
-    protected $text_prefix = null;
+    protected $text_prefix;
 
     /**
      * The event to trigger after deleting the data.
@@ -63,7 +63,7 @@ abstract class AdminModel extends FormModel
      * @var    string
      * @since  1.6
      */
-    protected $event_after_delete = null;
+    protected $event_after_delete;
 
     /**
      * The event to trigger after saving the data.
@@ -71,7 +71,7 @@ abstract class AdminModel extends FormModel
      * @var    string
      * @since  1.6
      */
-    protected $event_after_save = null;
+    protected $event_after_save;
 
     /**
      * The event to trigger before deleting the data.
@@ -79,7 +79,7 @@ abstract class AdminModel extends FormModel
      * @var    string
      * @since  1.6
      */
-    protected $event_before_delete = null;
+    protected $event_before_delete;
 
     /**
      * The event to trigger before saving the data.
@@ -87,7 +87,7 @@ abstract class AdminModel extends FormModel
      * @var    string
      * @since  1.6
      */
-    protected $event_before_save = null;
+    protected $event_before_save;
 
     /**
      * The event to trigger before changing the published state of the data.
@@ -95,7 +95,7 @@ abstract class AdminModel extends FormModel
      * @var    string
      * @since  4.0.0
      */
-    protected $event_before_change_state = null;
+    protected $event_before_change_state;
 
     /**
      * The event to trigger after changing the published state of the data.
@@ -103,7 +103,7 @@ abstract class AdminModel extends FormModel
      * @var    string
      * @since  1.6
      */
-    protected $event_change_state = null;
+    protected $event_change_state;
 
     /**
      * The event to trigger before batch.
@@ -111,7 +111,7 @@ abstract class AdminModel extends FormModel
      * @var    string
      * @since  4.0.0
      */
-    protected $event_before_batch = null;
+    protected $event_before_batch;
 
     /**
      * Batch copy/move command. If set to false,
@@ -140,7 +140,7 @@ abstract class AdminModel extends FormModel
      * @var     string
      * @since   3.4.4
      */
-    protected $associationsContext = null;
+    protected $associationsContext;
 
     /**
      * A flag to indicate if member variables for batch actions (and saveorder) have been initialized
@@ -148,7 +148,7 @@ abstract class AdminModel extends FormModel
      * @var     ?bool
      * @since   3.8.2
      */
-    protected $batchSet = null;
+    protected $batchSet;
 
     /**
      * The user performing the actions (re-usable in batch methods & saveorder(), initialized via initBatch())
@@ -156,7 +156,7 @@ abstract class AdminModel extends FormModel
      * @var     object
      * @since   3.8.2
      */
-    protected $user = null;
+    protected $user;
 
     /**
      * A \Joomla\CMS\Table\Table instance (of appropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
@@ -164,7 +164,7 @@ abstract class AdminModel extends FormModel
      * @var     Table
      * @since   3.8.2
      */
-    protected $table = null;
+    protected $table;
 
     /**
      * The class name of the \Joomla\CMS\Table\Table instance managing the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
@@ -172,7 +172,7 @@ abstract class AdminModel extends FormModel
      * @var     string
      * @since   3.8.2
      */
-    protected $tableClassName = null;
+    protected $tableClassName;
 
     /**
      * UCM Type corresponding to the current model class (re-usable in batch action methods, initialized via initBatch())
@@ -180,7 +180,7 @@ abstract class AdminModel extends FormModel
      * @var     object
      * @since   3.8.2
      */
-    protected $contentType = null;
+    protected $contentType;
 
     /**
      * DB data of UCM Type corresponding to the current model class (re-usable in batch action methods, initialized via initBatch())
@@ -188,7 +188,7 @@ abstract class AdminModel extends FormModel
      * @var     object
      * @since   3.8.2
      */
-    protected $type = null;
+    protected $type;
 
     /**
      * Constructor.

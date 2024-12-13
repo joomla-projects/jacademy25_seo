@@ -168,7 +168,7 @@ class GetConfigurationCommand extends AbstractCommand
 
         $foundGroup = false;
 
-        foreach ($groups as $key => $value) {
+        foreach ($groups as $value) {
             if ($value['name'] === $group) {
                 $foundGroup = true;
                 $options    = [];
@@ -302,7 +302,7 @@ class GetConfigurationCommand extends AbstractCommand
     {
         $groups = $this->getGroups();
 
-        foreach ($groups as $key => $group) {
+        foreach ($groups as $group) {
             $groupNames[] = $group['name'];
         }
 
@@ -349,23 +349,15 @@ Available group names: ' . $groupNames;
         if ($option) {
             return $this->processSingleOption($option);
         }
-
-        if (!$option && !$group) {
-            $options = [];
-
-            array_walk(
-                $configs,
-                function ($value, $key) use (&$options) {
-                    $options[] = [$key, $this->formatConfigValue($value)];
-                }
-            );
-
-            $this->ioStyle->title("Current options in Configuration");
-            $this->ioStyle->table(['Option', 'Value'], $options);
-
-            return self::CONFIG_GET_SUCCESSFUL;
-        }
-
-        return self::CONFIG_GET_OPTION_NOT_FOUND;
+        $options = [];
+        array_walk(
+            $configs,
+            function ($value, $key) use (&$options) {
+                $options[] = [$key, $this->formatConfigValue($value)];
+            }
+        );
+        $this->ioStyle->title("Current options in Configuration");
+        $this->ioStyle->table(['Option', 'Value'], $options);
+        return self::CONFIG_GET_SUCCESSFUL;
     }
 }

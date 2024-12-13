@@ -79,9 +79,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
      */
     private function getPattern($link, $text)
     {
-        $pattern = '~(?:<a ([^>]*)href\s*=\s*"mailto:' . $link . '"([^>]*))>' . $text . '</a>~i';
-
-        return $pattern;
+        return '~(?:<a ([^>]*)href\s*=\s*"mailto:' . $link . '"([^>]*))>' . $text . '</a>~i';
     }
 
     /**

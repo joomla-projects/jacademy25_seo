@@ -61,14 +61,12 @@ class MethodsModel extends BaseDatabaseModel
         // Put the user MFA records into the Methods array
         $userMfaRecords = MfaHelper::getUserMfaRecords($user->id);
 
-        if ($userMfaRecords !== []) {
-            foreach ($userMfaRecords as $record) {
-                if (!isset($methods[$record->method])) {
-                    continue;
-                }
-
-                $methods[$record->method]->addActiveMethod($record);
+        foreach ($userMfaRecords as $record) {
+            if (!isset($methods[$record->method])) {
+                continue;
             }
+
+            $methods[$record->method]->addActiveMethod($record);
         }
 
         return $methods;

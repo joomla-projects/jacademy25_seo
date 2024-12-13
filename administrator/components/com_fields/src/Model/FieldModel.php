@@ -49,7 +49,7 @@ class FieldModel extends AdminModel
      *
      * @since   3.7.0
      */
-    public $typeAlias = null;
+    public $typeAlias;
 
     /**
      * @var string
@@ -483,7 +483,6 @@ class FieldModel extends AdminModel
         $success = parent::delete($pks);
 
         if ($success) {
-            $pks = (array) $pks;
             $pks = ArrayHelper::toInteger($pks);
             $pks = array_filter($pks);
 

@@ -164,7 +164,7 @@ class TagsPopularHelper implements DatabaseAwareInterface
                             ]
                         )
                     )
-                    ->from('(' . (string) $query . ') AS ' . $db->quoteName('a'))
+                    ->from('(' . $query . ') AS ' . $db->quoteName('a'))
                     ->order($db->quoteName('a.title') . ' ' . $order_direction);
 
                 $query = $equery;

@@ -231,7 +231,7 @@ class SqlField extends ListField
             $html_filters = $this->context ? Factory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', [], 'array') : false;
             $form         = $this->form;
 
-            foreach ($filters as $k => $value) {
+            foreach ($filters as $value) {
                 // Get the filter value from the linked filter field
                 $filterFieldValue = $form->getValue($value, $this->group);
 
@@ -274,7 +274,6 @@ class SqlField extends ListField
         // Initialize some field attributes.
         $key    = $this->keyField;
         $value  = $this->valueField;
-        $header = $this->header;
 
         if ($this->query) {
             // Get the database object.

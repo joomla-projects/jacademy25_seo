@@ -170,8 +170,7 @@ class FiltersField extends FormField
         $query->order('a.lft ASC');
 
         $db->setQuery($query);
-        $options = $db->loadObjectList();
 
-        return $options;
+        return $db->loadObjectList();
     }
 }

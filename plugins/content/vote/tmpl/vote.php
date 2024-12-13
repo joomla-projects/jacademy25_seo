@@ -17,14 +17,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Layout variables
  * -----------------
- * @var   string   $context  The context of the content being passed to the plugin
- * @var   object   &$row     The article object
- * @var   object   &$params  The article params
- * @var   integer  $page     The 'page' number
- * @var   array    $parts    The context segments
- * @var   string   $path     Path to this file
  */
-
 $uri = clone Uri::getInstance();
 
 // Create option list for voting select box

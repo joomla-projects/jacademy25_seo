@@ -300,7 +300,7 @@ final class Ldap extends CMSPlugin implements SubscriberInterface
         $dn = $this->params->get('base_dn', '');
 
         // We return the first entry from the first search result which contains data
-        foreach (explode(';', $search) as $key => $result) {
+        foreach (explode(';', $search) as $result) {
             $results = $ldap->query($dn, '(' . str_replace('\3b', ';', $result) . ')')->execute();
 
             if (\count($results) > 0) {

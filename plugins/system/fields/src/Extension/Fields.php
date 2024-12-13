@@ -450,7 +450,7 @@ final class Fields extends CMSPlugin
         // Adding the fields to the object
         $item->jcfields = [];
 
-        foreach ($fields as $key => $field) {
+        foreach ($fields as $field) {
             $item->jcfields[$field->id] = $field;
         }
     }

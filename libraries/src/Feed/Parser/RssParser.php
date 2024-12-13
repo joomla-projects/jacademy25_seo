@@ -335,7 +335,7 @@ class RssParser extends FeedParser
         }
 
         $email = trim(
-            filter_var((string) $tmp[0], FILTER_VALIDATE_EMAIL)
+            filter_var($tmp[0], FILTER_VALIDATE_EMAIL)
         );
 
         $feed->addContributor($name, $email, null, 'webmaster');
@@ -433,7 +433,7 @@ class RssParser extends FeedParser
 
         // Set the email for the person.
         $person->email = trim(
-            filter_var((string) $data[0], FILTER_VALIDATE_EMAIL)
+            filter_var($data[0], FILTER_VALIDATE_EMAIL)
         );
 
         return $person;

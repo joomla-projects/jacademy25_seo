@@ -234,7 +234,7 @@ foreach ($list as $pr) {
         }
     }
 
-    if (!$createPullRequest && $pr['maintainerCanModify'] === true) {
+    if ($pr['maintainerCanModify'] === true) {
         echo "Push directly to PR branch\n";
 
         $cmd    = $git . ' push git@github.com:' . $pr['headRepositoryOwner']['login'] . '/' . $pr['headRepository']['name'] . '.git '

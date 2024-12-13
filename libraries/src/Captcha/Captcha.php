@@ -91,7 +91,7 @@ class Captcha implements DispatcherAwareInterface
                 $this->setDispatcher(Factory::getApplication()->getDispatcher());
             }
 
-            $this->_load($options);
+            $this->_load();
         }
     }
 
@@ -180,9 +180,7 @@ class Captcha implements DispatcherAwareInterface
             'class' => $class,
         ];
 
-        $result = $this->update('onDisplay', $arg);
-
-        return $result;
+        return $this->update('onDisplay', $arg);
     }
 
     /**
@@ -208,9 +206,7 @@ class Captcha implements DispatcherAwareInterface
 
         $arg = ['code' => $code];
 
-        $result = $this->update('onCheckAnswer', $arg);
-
-        return $result;
+        return $this->update('onCheckAnswer', $arg);
     }
 
     /**
@@ -262,23 +258,19 @@ class Captcha implements DispatcherAwareInterface
     /**
      * Load the Captcha plugin.
      *
-     * @param   array  $options  Associative array of options.
      *
      * @return  void
      *
      * @since   2.5
      * @throws  \RuntimeException
-     *
      * @deprecated  Should use CaptchaRegistry
      */
-    private function _load(array $options = [])
+    private function _load()
     {
         // Build the path to the needed captcha plugin
         $name = InputFilter::getInstance()->clean($this->name, 'cmd');
-
         // Boot the captcha plugin
         $this->captcha = Factory::getApplication()->bootPlugin($name, 'captcha');
-
         // Check if the captcha can be loaded
         if (!$this->captcha) {
             throw new \RuntimeException(Text::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));

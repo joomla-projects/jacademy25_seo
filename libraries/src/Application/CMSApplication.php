@@ -89,7 +89,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @var    string
      * @since  3.2
      */
-    public $scope = null;
+    public $scope;
 
     /**
      * The client identifier.
@@ -97,7 +97,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @var    integer
      * @since  4.0.0
      */
-    protected $clientId = null;
+    protected $clientId;
 
     /**
      * The application message queue.
@@ -113,7 +113,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @var    string
      * @since  4.0.0
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * The profiler instance
@@ -121,7 +121,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @var    Profiler
      * @since  3.2
      */
-    protected $profiler = null;
+    protected $profiler;
 
     /**
      * Currently active template
@@ -129,7 +129,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @var    object
      * @since  3.2
      */
-    protected $template = null;
+    protected $template;
 
     /**
      * The pathway object
@@ -137,7 +137,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @var    Pathway
      * @since  4.0.0
      */
-    protected $pathway = null;
+    protected $pathway;
 
     /**
      * The authentication plugin type
@@ -250,7 +250,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         ];
 
         // For empty queue, if messages exists in the session, enqueue them first.
-        $messages = $this->getMessageQueue();
+        $this->getMessageQueue();
 
         if (!\in_array($message, $this->messageQueue)) {
             // Enqueue the message.

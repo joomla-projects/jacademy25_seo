@@ -53,7 +53,7 @@ class UpdateModel extends BaseDatabaseModel
      *
      * @since 3.10.0
      */
-    private $updateInformation = null;
+    private $updateInformation;
 
     /**
      * Constructor

@@ -326,12 +326,10 @@ final class Cache extends CMSPlugin implements SubscriberInterface
             $externalUrl = Uri::getInstance()->toString();
 
             // Loop through each pattern.
-            if ($exclusions !== []) {
-                foreach ($exclusions as $exclusion) {
-                    // Test both external and internal URI
-                    if (preg_match('#' . $exclusion . '#i', $externalUrl . ' ' . $internalUrl, $match)) {
-                        return true;
-                    }
+            foreach ($exclusions as $exclusion) {
+                // Test both external and internal URI
+                if (preg_match('#' . $exclusion . '#i', $externalUrl . ' ' . $internalUrl, $match)) {
+                    return true;
                 }
             }
         }

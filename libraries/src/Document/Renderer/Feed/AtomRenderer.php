@@ -185,8 +185,6 @@ class AtomRenderer extends DocumentRenderer
             $feed .= "	</entry>\n";
         }
 
-        $feed .= "</feed>\n";
-
-        return $feed;
+        return $feed . "</feed>\n";
     }
 }

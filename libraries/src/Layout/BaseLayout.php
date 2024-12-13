@@ -29,7 +29,7 @@ class BaseLayout implements LayoutInterface
      * @var    Registry
      * @since  3.2
      */
-    protected $options = null;
+    protected $options;
 
     /**
      * Data for the layout

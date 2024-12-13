@@ -25,7 +25,7 @@ if ($tagId = $params->get('tag_id', '')) {
 // The menu class is deprecated. Use mod-menu instead
 ?>
 <ul<?php echo $id; ?> class="mod-menu mod-list nav <?php echo $class_sfx; ?>">
-<?php foreach ($list as $i => &$item) {
+<?php foreach ($list as &$item) {
     $itemParams = $item->getParams();
     $class      = 'nav-item item-' . $item->id;
 

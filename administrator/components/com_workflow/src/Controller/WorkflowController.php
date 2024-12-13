@@ -139,9 +139,8 @@ class WorkflowController extends FormController
     protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
     {
         $append = parent::getRedirectToItemAppend($recordId);
-        $append .= '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
 
-        return $append;
+        return $append . ('&extension=' . $this->extension . $this->section !== '' ? '.' . $this->section : '');
     }
 
     /**
@@ -154,9 +153,8 @@ class WorkflowController extends FormController
     protected function getRedirectToListAppend()
     {
         $append = parent::getRedirectToListAppend();
-        $append .= '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
 
-        return $append;
+        return $append . ('&extension=' . $this->extension . $this->section !== '' ? '.' . $this->section : '');
     }
 
     /**

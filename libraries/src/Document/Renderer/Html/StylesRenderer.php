@@ -205,9 +205,7 @@ class StylesRenderer extends DocumentRenderer
             $buffer .= '<![endif]-->';
         }
 
-        $buffer .= $lnEnd;
-
-        return $buffer;
+        return $buffer . $lnEnd;
     }
 
     /**
@@ -261,9 +259,7 @@ class StylesRenderer extends DocumentRenderer
             $buffer .= $tab . $tab . '/*]]>*/' . $lnEnd;
         }
 
-        $buffer .= '</style>' . $lnEnd;
-
-        return $buffer;
+        return $buffer . ('</style>' . $lnEnd);
     }
 
     /**

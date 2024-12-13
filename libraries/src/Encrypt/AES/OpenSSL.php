@@ -125,9 +125,8 @@ class OpenSSL extends AbstractAES implements AesInterface
 
         $plainText .= $this->getZeroPadding($plainText, $iv_size);
         $cipherText = openssl_encrypt($plainText, $this->method, $key, $this->openSSLOptions, $iv);
-        $cipherText = $iv . $cipherText;
 
-        return $cipherText;
+        return $iv . $cipherText;
     }
 
     /**

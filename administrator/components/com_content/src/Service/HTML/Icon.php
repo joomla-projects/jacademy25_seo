@@ -64,9 +64,7 @@ class Icon
             $attribs['class'] = 'btn btn-primary';
         }
 
-        $button = HTMLHelper::_('link', Route::_($url), $text, $attribs);
-
-        return $button;
+        return HTMLHelper::_('link', Route::_($url), $text, $attribs);
     }
 
     /**
@@ -114,9 +112,8 @@ class Icon
             $text = LayoutHelper::render('joomla.content.icons.edit_lock', ['article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy]);
 
             $attribs['aria-describedby'] = 'editarticle-' . (int) $article->id;
-            $output                      = HTMLHelper::_('link', '#', $text, $attribs);
 
-            return $output;
+            return HTMLHelper::_('link', '#', $text, $attribs);
         }
 
         $contentUrl = RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language);
@@ -131,9 +128,8 @@ class Icon
         $text = LayoutHelper::render('joomla.content.icons.edit', ['article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy]);
 
         $attribs['aria-describedby'] = 'editarticle-' . (int) $article->id;
-        $output                      = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
-        return $output;
+        return HTMLHelper::_('link', Route::_($url), $text, $attribs);
     }
 
     /**

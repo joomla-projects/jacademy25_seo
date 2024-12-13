@@ -46,8 +46,8 @@ abstract class ListHelper
         }
 
         if (!$javascript) {
-            $javascript = "onchange=\"if (document.forms.adminForm." . $name
-                . ".options[selectedIndex].value!='') {document.imagelib.src='..$directory' + document.forms.adminForm." . $name
+            $javascript = 'onchange="if (document.forms.adminForm.' . $name
+                . sprintf(".options[selectedIndex].value!='') {document.imagelib.src='..%s' + document.forms.adminForm.", $directory) . $name
                 . ".options[selectedIndex].value} else {document.imagelib.src='media/system/images/blank.png'}\"";
         }
 
@@ -66,7 +66,7 @@ abstract class ListHelper
             }
         }
 
-        $images = HTMLHelper::_(
+        return HTMLHelper::_(
             'select.genericlist',
             $images,
             $name,
@@ -75,8 +75,6 @@ abstract class ListHelper
                 'list.select' => $active,
             ]
         );
-
-        return $images;
     }
 
     /**
@@ -200,7 +198,7 @@ abstract class ListHelper
             $users = $db->loadObjectList();
         }
 
-        $users = HTMLHelper::_(
+        return HTMLHelper::_(
             'select.genericlist',
             $users,
             $name,
@@ -209,8 +207,6 @@ abstract class ListHelper
                 'list.select' => $active,
             ]
         );
-
-        return $users;
     }
 
     /**
@@ -257,7 +253,7 @@ abstract class ListHelper
             $pos['right'] = Text::_('JGLOBAL_RIGHT');
         }
 
-        $positions = HTMLHelper::_(
+        return HTMLHelper::_(
             'select.genericlist',
             $pos,
             $name,
@@ -268,7 +264,5 @@ abstract class ListHelper
                 'option.key'  => null,
             ]
         );
-
-        return $positions;
     }
 }

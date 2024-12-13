@@ -235,7 +235,7 @@ class TagsHelper extends CMSHelper
         $newTags   = [];
         $canCreate = Factory::getUser()->authorise('core.create', 'com_tags');
 
-        foreach ($tags as $key => $tag) {
+        foreach ($tags as $tag) {
             // User is not allowed to create tags, so don't create.
             if (!$canCreate && str_contains((string) $tag, '#new#')) {
                 continue;
@@ -282,9 +282,8 @@ class TagsHelper extends CMSHelper
 
         // At this point $tags is an array of all tag ids
         $this->tags = $newTags;
-        $result     = $newTags;
 
-        return $result;
+        return $newTags;
     }
 
     /**
@@ -785,13 +784,11 @@ class TagsHelper extends CMSHelper
 
         $db->setQuery($query);
 
-        $types = match ($arrayType) {
+        return match ($arrayType) {
             'assocList' => $db->loadAssocList(),
             'rowList' => $db->loadRowList(),
             default => $db->loadObjectList(),
         };
-
-        return $types;
     }
 
     /**
@@ -854,7 +851,6 @@ class TagsHelper extends CMSHelper
      * @param   TableInterface  $table    Table being processed
      * @param   array           $newTags  Array of new tags
      *
-     * @return  null
      *
      * @since   3.1
      */
@@ -1003,9 +999,6 @@ class TagsHelper extends CMSHelper
      */
     public function tagDeleteInstances($tagId)
     {
-        // Cast as integer until method is typehinted.
-        $tag_id = (int) $tagId;
-
         // Delete the old tag maps.
         $db    = Factory::getDbo();
         $query = $db->getQuery(true)

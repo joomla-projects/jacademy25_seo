@@ -100,8 +100,6 @@ class CategoriesHelper
             ->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
         $categoryModel->save($data);
 
-        $catid = $categoryModel->getState('category.id');
-
-        return $catid;
+        return $categoryModel->getState('category.id');
     }
 }

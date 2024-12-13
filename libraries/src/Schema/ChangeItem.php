@@ -41,7 +41,7 @@ abstract class ChangeItem
      * @var    string
      * @since  2.5
      */
-    public $checkQuery = null;
+    public $checkQuery;
 
     /**
      * Check query result: expected result of check query if database is up to date
@@ -59,7 +59,7 @@ abstract class ChangeItem
      * @var    string
      * @since  2.5
      */
-    public $queryType = null;
+    public $queryType;
 
     /**
      * Array with values for use in a Text::sprintf statement indicating what was checked

@@ -108,8 +108,7 @@ class ModulesController extends AdminController
     protected function getRedirectToListAppend()
     {
         $append = parent::getRedirectToListAppend();
-        $append .= '&client_id=' . $this->input->getInt('client_id');
 
-        return $append;
+        return $append . ('&client_id=' . $this->input->getInt('client_id'));
     }
 }

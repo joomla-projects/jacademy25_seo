@@ -31,15 +31,11 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
-                $plugin     = new NamespaceMap(
-                    $container->get(DispatcherInterface::class),
-                    new JNamespacePsr4Map(),
-                    (array) PluginHelper::getPlugin('extension', 'namespacemap')
-                );
-
-                return $plugin;
-            }
+            fn(Container $container) => new NamespaceMap(
+                $container->get(DispatcherInterface::class),
+                new JNamespacePsr4Map(),
+                (array) PluginHelper::getPlugin('extension', 'namespacemap')
+            )
         );
     }
 };

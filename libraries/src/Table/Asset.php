@@ -30,7 +30,7 @@ class Asset extends Nested
      * @var    integer
      * @since  1.7.0
      */
-    public $id = null;
+    public $id;
 
     /**
      * The unique name of the asset.
@@ -38,7 +38,7 @@ class Asset extends Nested
      * @var    string
      * @since  1.7.0
      */
-    public $name = null;
+    public $name;
 
     /**
      * The human readable title of the asset.
@@ -46,7 +46,7 @@ class Asset extends Nested
      * @var    string
      * @since  1.7.0
      */
-    public $title = null;
+    public $title;
 
     /**
      * The rules for the asset stored in a JSON string
@@ -54,7 +54,7 @@ class Asset extends Nested
      * @var    string
      * @since  1.7.0
      */
-    public $rules = null;
+    public $rules;
 
     /**
      * Constructor

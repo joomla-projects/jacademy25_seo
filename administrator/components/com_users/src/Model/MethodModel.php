@@ -36,7 +36,7 @@ class MethodModel extends BaseDatabaseModel
      * @var   array
      * @since 4.2.0
      */
-    protected $mfaMethods = null;
+    protected $mfaMethods;
 
     /**
      * Get the specified MFA Method's record

@@ -35,27 +35,27 @@ class InstalledModel extends ListModel
     /**
      * @var object user object
      */
-    protected $user = null;
+    protected $user;
 
     /**
      * @var string option name
      */
-    protected $option = null;
+    protected $option;
 
     /**
      * @var array languages description
      */
-    protected $data = null;
+    protected $data;
 
     /**
      * @var integer total number of languages
      */
-    protected $total = null;
+    protected $total;
 
     /**
      * @var string language path
      */
-    protected $path = null;
+    protected $path;
 
     /**
      * Constructor.
@@ -157,9 +157,7 @@ class InstalledModel extends ListModel
      */
     public function getOption()
     {
-        $option = $this->getState('option');
-
-        return $option;
+        return $this->getState('option');
     }
 
     /**

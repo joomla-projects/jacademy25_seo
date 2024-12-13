@@ -509,7 +509,7 @@ abstract class ModuleHelper
         $clean  = [];
         $dupes  = [];
 
-        foreach ($modules as $i => $module) {
+        foreach ($modules as $module) {
             // The module is excluded if there is an explicit prohibition
             $negHit = ($negId === (int) $module->menuid);
 

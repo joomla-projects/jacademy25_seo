@@ -101,7 +101,6 @@ final class Blog extends CMSPlugin
         $language   = Multilanguage::isEnabled() ? $this->getApplication()->getLanguage()->getTag() : '*';
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
-        /** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
         $modelTag = $this->getApplication()->bootComponent('com_tags')->getMVCFactory()
             ->createModel('Tag', 'Administrator', ['ignore_request' => true]);
 

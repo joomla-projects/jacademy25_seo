@@ -192,7 +192,7 @@ class BannersModel extends ListModel
                     $query->join('LEFT', $db->quoteName('#__categories', 'cat'), $db->quoteName('a.catid') . ' = ' . $db->quoteName('cat.id'));
                 }
 
-                foreach ($keywords as $key => $keyword) {
+                foreach ($keywords as $keyword) {
                     $regexp       = '[[:<:]]' . $keyword . '[[:>:]]';
                     $valuesToBind = [$keyword, $keyword, $regexp];
 

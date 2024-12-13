@@ -202,7 +202,7 @@ class TourModel extends AdminModel
 
         $table = $this->getTable();
 
-        $result = \is_int($pk) ? $table->load((int) $pk) : $table->load([ 'uid' => $pk ]);
+        $result = \is_int($pk) ? $table->load($pk) : $table->load([ 'uid' => $pk ]);
 
         // Check for a table object error.
         if ($result === false) {

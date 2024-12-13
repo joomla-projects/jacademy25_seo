@@ -32,7 +32,7 @@ class HtmlView extends BaseHtmlView
      * @var    string
      * @since  1.6
      */
-    protected $helpSearch = null;
+    protected $helpSearch;
 
     /**
      * The page to be viewed
@@ -40,7 +40,7 @@ class HtmlView extends BaseHtmlView
      * @var    string
      * @since  1.6
      */
-    protected $page = null;
+    protected $page;
 
     /**
      * The iso language tag
@@ -48,7 +48,7 @@ class HtmlView extends BaseHtmlView
      * @var    string
      * @since  1.6
      */
-    protected $languageTag = null;
+    protected $languageTag;
 
     /**
      * Table of contents

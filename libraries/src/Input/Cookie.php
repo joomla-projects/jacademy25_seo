@@ -95,51 +95,12 @@ class Cookie extends Input
         }
 
         // Set the cookie
-        if (PHP_VERSION_ID >= 70300) {
-            if (\is_array($value)) {
-                foreach ($value as $key => $val) {
-                    setcookie($name . sprintf('[%s]', $key), (string) $val, $options);
-                }
-            } else {
-                setcookie($name, (string) $value, $options);
+        if (\is_array($value)) {
+            foreach ($value as $key => $val) {
+                setcookie($name . sprintf('[%s]', $key), (string) $val, $options);
             }
         } else {
-            // Using the setcookie function before php 7.3, make sure we have default values.
-            if (\array_key_exists('expires', $options) === false) {
-                $options['expires'] = 0;
-            }
-
-            if (\array_key_exists('path', $options) === false) {
-                $options['path'] = '';
-            }
-
-            if (\array_key_exists('domain', $options) === false) {
-                $options['domain'] = '';
-            }
-
-            if (\array_key_exists('secure', $options) === false) {
-                $options['secure'] = false;
-            }
-
-            if (\array_key_exists('httponly', $options) === false) {
-                $options['httponly'] = false;
-            }
-
-            if (\is_array($value)) {
-                foreach ($value as $key => $val) {
-                    setcookie(
-                        $name . sprintf('[%s]', $key),
-                        (string) $val,
-                        ['expires' => $options['expires'], 'path' => (string) $options['path'], 'domain' => (string) $options['domain'], 'secure' => $options['secure'], 'httponly' => $options['httponly']]
-                    );
-                }
-            } else {
-                setcookie(
-                    $name,
-                    (string) $value,
-                    ['expires' => $options['expires'], 'path' => (string) $options['path'], 'domain' => (string) $options['domain'], 'secure' => $options['secure'], 'httponly' => $options['httponly']]
-                );
-            }
+            setcookie($name, (string) $value, $options);
         }
 
         $this->data[$name] = $value;

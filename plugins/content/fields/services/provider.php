@@ -31,14 +31,10 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
-                $plugin     = new Fields(
-                    $container->get(DispatcherInterface::class),
-                    (array) PluginHelper::getPlugin('content', 'fields')
-                );
-
-                return $plugin;
-            }
+            fn(Container $container) => new Fields(
+                $container->get(DispatcherInterface::class),
+                (array) PluginHelper::getPlugin('content', 'fields')
+            )
         );
     }
 };

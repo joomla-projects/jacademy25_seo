@@ -178,12 +178,10 @@ class ContentComponent extends MVCComponent implements
     {
         Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
-        $contexts = [
+        return [
             'com_content.article'    => Text::_('COM_CONTENT'),
             'com_content.categories' => Text::_('JCATEGORY'),
         ];
-
-        return $contexts;
     }
 
     /**
@@ -197,11 +195,9 @@ class ContentComponent extends MVCComponent implements
     {
         Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
-        $contexts = [
+        return [
             'com_content.article' => Text::_('COM_CONTENT'),
         ];
-
-        return $contexts;
     }
 
     /**
@@ -215,11 +211,9 @@ class ContentComponent extends MVCComponent implements
     {
         Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
-        $contexts = [
+        return [
             'com_content.article' => Text::_('COM_CONTENT'),
         ];
-
-        return $contexts;
     }
 
     /**

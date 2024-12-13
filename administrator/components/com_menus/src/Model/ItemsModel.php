@@ -392,7 +392,7 @@ class ItemsModel extends ListModel
                 'AND',
                 [
                     $db->quoteName('a.parent_id') . ' = :parentId2',
-                    $db->quoteName('a.parent_id') . ' IN (' . (string) $subQuery . ')',
+                    $db->quoteName('a.parent_id') . ' IN (' . $subQuery . ')',
                 ],
                 'OR'
             )

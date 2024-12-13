@@ -36,7 +36,7 @@ class FileAdapter extends InstallerAdapter
      * @var    object
      * @since  3.1
      */
-    protected $scriptElement = null;
+    protected $scriptElement;
 
     /**
      * Flag if the adapter supports discover installs

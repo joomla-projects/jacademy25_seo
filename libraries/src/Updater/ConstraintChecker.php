@@ -31,7 +31,6 @@ class ConstraintChecker
      * This property holds information about failed environment constraints.
      * It b/c reasons to make sure the TUF implementation mirrors the XML update behaviors
      *
-     * @var \stdClass
      *
      * @since   5.1.0
      */

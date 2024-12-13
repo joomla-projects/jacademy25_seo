@@ -258,11 +258,9 @@ class TaskTable extends Table implements CurrentUserInterface
         $this->getDispatcher()->dispatch('onTaskBeforeUnlock', $event);
 
         // Some pre-processing before we can work with the keys.
-        if ($pks !== []) {
-            foreach ($pks as $key => $pk) {
-                if (!\is_array($pk)) {
-                    $pks[$key] = [$this->_tbl_key => $pk];
-                }
+        foreach ($pks as $key => $pk) {
+            if (!\is_array($pk)) {
+                $pks[$key] = [$this->_tbl_key => $pk];
             }
         }
 

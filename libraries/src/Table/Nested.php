@@ -867,7 +867,7 @@ class Nested extends Table
         $table      = $this->_db->quoteName($this->_tbl);
         $published  = $this->_db->quoteName($this->getColumnAlias('published'));
         $checkedOut = $this->_db->quoteName($this->getColumnAlias('checked_out'));
-        $key        = $this->_db->quoteName($k);
+        $this->_db->quoteName($k);
 
         // Sanitize input.
         $pks    = ArrayHelper::toInteger($pks);
@@ -909,7 +909,7 @@ class Nested extends Table
                     ->select('COUNT(' . $k . ')')
                     ->from($this->_tbl)
                     ->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt)
-                    ->where('(' . $checkedOut . ' <> 0 AND ' . $checkedOut . ' <> ' . (int) $userId . ')');
+                    ->where('(' . $checkedOut . ' <> 0 AND ' . $checkedOut . ' <> ' . $userId . ')');
                 $this->_db->setQuery($query);
 
                 // Check for checked out children.
@@ -932,7 +932,7 @@ class Nested extends Table
                     ->where('lft < ' . (int) $node->lft)
                     ->where('rgt > ' . (int) $node->rgt)
                     ->where('parent_id > 0')
-                    ->where($published . ' < ' . (int) $compareState);
+                    ->where($published . ' < ' . $compareState);
 
                 // Just fetch one row (one is one too many).
                 $query->setLimit(1);

@@ -100,15 +100,11 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 
         // Build the headers string for the request.
         $headerEntries = [];
-
-        if (isset($headers)) {
-            foreach ($headers as $key => $value) {
-                $headerEntries[] = $key . ': ' . $value;
-            }
-
-            // Add the headers string into the stream context options array.
-            $options['header'] = implode("\r\n", $headerEntries);
+        foreach ($headers as $key => $value) {
+            $headerEntries[] = $key . ': ' . $value;
         }
+        // Add the headers string into the stream context options array.
+        $options['header'] = implode("\r\n", $headerEntries);
 
         // Get the current context options.
         $contextOptions = stream_context_get_options(stream_context_get_default());

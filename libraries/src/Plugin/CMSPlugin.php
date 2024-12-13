@@ -44,7 +44,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      * @var    Registry
      * @since  1.5
      */
-    public $params = null;
+    public $params;
 
     /**
      * The name of the plugin
@@ -52,7 +52,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      * @var    string
      * @since  1.5
      */
-    protected $_name = null;
+    protected $_name;
 
     /**
      * The plugin type
@@ -60,7 +60,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      * @var    string
      * @since  1.5
      */
-    protected $_type = null;
+    protected $_type;
 
     /**
      * Affects constructor behavior. If true, language files will be loaded automatically.

@@ -38,7 +38,7 @@ class AssociationsHelper extends ContentHelper
      * @var    array
      * @since  3.7.0
      */
-    public static $extensionsSupport = null;
+    public static $extensionsSupport;
 
     /**
      * List of extensions name with support

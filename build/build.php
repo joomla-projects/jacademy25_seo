@@ -354,12 +354,7 @@ $majorVersion = Version::MAJOR_VERSION;
 $version      = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
 $release      = Version::PATCH_VERSION;
 $fullVersion  = (new Version())->getShortVersion();
-
-$previousRelease = Version::PATCH_VERSION - 1;
-
-if ($previousRelease < 0) {
-    $previousRelease = false;
-}
+$previousRelease = false;
 
 chdir($tmp);
 system('mkdir diffdocs');
@@ -477,130 +472,8 @@ if (!$debugBuild) {
 }
 
 // Count down starting with the latest release and add diff files to this array
-for ($num = $release - 1; $num >= 0; $num--) {
-    if (!$buildPatchPackages) {
-        echo "Disabled creating patch package for {$num} per flag.\n";
-        continue;
-    }
-
-    echo "Create version {$num} update packages.\n";
-
-    // Here we get a list of all files that have changed between the two references ($previousTag and $remote) and save in diffdocs
-    $previousTag = $version . '.' . $num;
-    $command     = $systemGit . ' diff tags/' . $previousTag . ' ' . $remote . ' --name-status > diffdocs/' . $version . '.' . $num;
-
-    system($command);
-
-    // $filesArray will hold the array of files to include in diff package
-    $deletedFiles = [];
-    $files        = file('diffdocs/' . $version . '.' . $num);
-
-    // Loop through and add all files except: tests, installation, build, .git, .travis, travis, phpunit, .md, or images
-    foreach ($files as $file) {
-        if (str_starts_with((string) $file, 'R')) {
-            $fileName = substr((string) $file, strrpos((string) $file, "\t") + 1);
-        } else {
-            $fileName = substr((string) $file, 2);
-        }
-
-        $folderPath             = explode('/', $fileName);
-        $baseFolderName         = $folderPath[0];
-        $doNotPackageFile       = \in_array(trim($fileName), $doNotPackage);
-        $doNotPatchFile         = \in_array(trim($fileName), $doNotPatch);
-        $doNotPackageBaseFolder = \in_array($baseFolderName, $doNotPackage);
-        $doNotPatchBaseFolder   = \in_array($baseFolderName, $doNotPatch);
-        $dirtyHackForMediaCheck = false;
-
-        // The raw files for the vue files are not packaged but are not a top level directory so aren't handled by the
-        // above checks. This is dirty but a fairly performant fix for now until we can come up with something better.
-        if (\count($folderPath) >= 4) {
-            $fullPath               = [$folderPath[0] . '/' . $folderPath[1] . '/' . $folderPath[2] . '/' . $folderPath[3]];
-            $dirtyHackForMediaCheck = \in_array('administrator/components/com_media/resources', $fullPath);
-        }
-
-
-        if (!$debugBuild && ($dirtyHackForMediaCheck || $doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder)) {
-            continue;
-        }
-
-        // Act on the file based on the action
-        switch (substr((string) $file, 0, 1)) {
-            // This is a new case with git 2.9 to handle renamed files
-            case 'R':
-                // Explode the file on the tab character; key 0 is the action (rename), key 1 is the old filename, and key 2 is the new filename
-                $renamedFileData = explode("\t", (string) $file);
-
-                // Add the new file for packaging
-                $filesArray[$renamedFileData[2]] = true;
-
-                // And flag the old file as deleted
-                $deletedFiles[] = $renamedFileData[1];
-
-                break;
-
-            case 'D':
-                // Deleted files
-                $deletedFiles[] = $fileName;
-
-                break;
-
-            default:
-                // Regular additions and modifications
-                $filesArray[$fileName] = true;
-
-                break;
-        }
-    }
-
-    // Write the file list to a text file.
-    $filePut = array_keys($filesArray);
-    sort($filePut);
-    file_put_contents('diffconvert/' . $version . '.' . $num, implode('', $filePut));
-    file_put_contents('diffconvert/' . $version . '.' . $num . '-deleted', $deletedFiles);
-
-    // Only create archives for 0 and most recent versions. Skip other update versions.
-    if ($num != 0 && ($num != $release - 1)) {
-        echo sprintf('Skipping patch archive for version %s.%s%s', $version, $num, PHP_EOL);
-
-        continue;
-    }
-
-    $fromName = $num == 0 ? 'x' : $num;
-
-    // Create the diff archive packages using the file name list.
-    if (!$excludeZip) {
-        $packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.zip';
-        echo "Building " . $packageName . "... ";
-        chdir($time);
-        system('zip ../packages/' . $packageName . ' -@ < ../diffconvert/' . $version . '.' . $num . '> /dev/null');
-        chdir('..');
-        echo "done.\n";
-        $checksums[$packageName] = [];
-    }
-
-    if (!$excludeGzip) {
-        $packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.gz';
-        echo "Building " . $packageName . "... ";
-        system('tar --create --gzip  --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
-        echo "done.\n";
-        $checksums[$packageName] = [];
-    }
-
-    if (!$excludeBzip2) {
-        $packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.bz2';
-        echo "Building " . $packageName . "... ";
-        system('tar --create --bzip2 --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
-        echo "done.\n";
-        $checksums[$packageName] = [];
-    }
-
-    if (!$excludeZstd) {
-        $packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.zst';
-        echo "Building " . $packageName . "... ";
-        system('tar "-I zstd --ultra -22" --create --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
-        echo "done.\n";
-        $checksums[$packageName] = [];
-    }
+for ($num = -1; $num >= 0; $num--) {
+    echo "Disabled creating patch package for {$num} per flag.\n";
 }
 
 echo "Build full package files.\n";

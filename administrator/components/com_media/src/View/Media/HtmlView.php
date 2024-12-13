@@ -37,7 +37,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since   4.0.0
      */
-    protected $providers = null;
+    protected $providers;
 
     /**
      * The current path of the media manager

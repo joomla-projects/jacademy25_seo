@@ -152,7 +152,8 @@ class StreamString
     {
         $now    = time();
         $string = &(new StringController())->getRef(str_replace('string://', '', $path));
-        $stat   = [
+
+        return [
             'dev'     => 0,
             'ino'     => 0,
             'mode'    => 0,
@@ -167,8 +168,6 @@ class StreamString
             'blksize' => '512',
             'blocks'  => ceil(\strlen((string) $string) / 512),
         ];
-
-        return $stat;
     }
 
     /**

@@ -160,21 +160,13 @@ abstract class HTMLHelper
             }
 
             \JLoader::register($className, $path);
-
-            if (!class_exists($className)) {
-                if ($prefix !== \Joomla\CMS\HTML\HTMLHelper::class) {
-                    throw new \InvalidArgumentException(\sprintf('%s not found.', $className), 500);
-                }
-
-                // @deprecated with 5.0 remove with 6.0 or 7.0 (depends on other relevant code)
-                $className = 'JHtml' . ucfirst((string) $file);
-
-                \JLoader::register($className, $path);
-
-                if (!class_exists($className)) {
-                    throw new \InvalidArgumentException(\sprintf('%s not found.', $className), 500);
-                }
+            if ($prefix !== \Joomla\CMS\HTML\HTMLHelper::class) {
+                throw new \InvalidArgumentException(\sprintf('%s not found.', $className), 500);
             }
+            // @deprecated with 5.0 remove with 6.0 or 7.0 (depends on other relevant code)
+            $className = 'JHtml' . ucfirst((string) $file);
+            \JLoader::register($className, $path);
+            throw new \InvalidArgumentException(\sprintf('%s not found.', $className), 500);
         }
 
         // If calling a method from this class, do not allow access to internal methods
@@ -992,7 +984,7 @@ abstract class HTMLHelper
         // Don't process empty strings
         if ($content !== '' || $title !== '') {
             // Split title into title and content if the title contains '::' (old Mootools format).
-            if ($content === '' && (bool) str_contains($title, '::')) {
+            if ($content === '' && str_contains($title, '::')) {
                 [$title, $content] = explode('::', $title, 2);
             }
 

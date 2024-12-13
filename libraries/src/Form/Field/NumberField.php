@@ -42,7 +42,7 @@ class NumberField extends FormField
      * @var    float
      * @since  3.2
      */
-    protected $max = null;
+    protected $max;
 
     /**
      * The allowable minimum value of the field.
@@ -50,7 +50,7 @@ class NumberField extends FormField
      * @var    float
      * @since  3.2
      */
-    protected $min = null;
+    protected $min;
 
     /**
      * The step by which value of the field increased or decreased.

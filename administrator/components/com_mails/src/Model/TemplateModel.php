@@ -311,7 +311,7 @@ class TemplateModel extends AdminModel
         $table      = $this->getTable();
         $context    = $this->option . '.' . $this->name;
 
-        $key         = $table->getKeyName();
+        $table->getKeyName();
         $template_id = (empty($data['template_id'])) ? $this->getState($this->getName() . '.template_id') : $data['template_id'];
         $language    = (empty($data['language'])) ? $this->getState($this->getName() . '.language') : $data['language'];
         $isNew       = true;

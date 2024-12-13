@@ -450,8 +450,7 @@ class ManageModel extends InstallerModel
         }
 
         $layout = new FileLayout('joomla.installer.changelog');
-        $output = $layout->render($entries);
 
-        return $output;
+        return $layout->render($entries);
     }
 }

@@ -338,11 +338,9 @@ class Text
         }
 
         if (\is_array($jsSafe)) {
-            if (\array_key_exists('interpretBackSlashes', $jsSafe)) {
-                $interpretBackSlashes = (bool) $jsSafe['interpretBackSlashes'];
-            }
+            $interpretBackSlashes = (bool) $jsSafe['interpretBackSlashes'];
 
-            $jsSafe = \array_key_exists('jsSafe', $jsSafe) ? (bool) $jsSafe['jsSafe'] : false;
+            $jsSafe = \array_key_exists('jsSafe', $jsSafe) && (bool) $jsSafe['jsSafe'];
         }
 
         // Add the string to the array if not null.

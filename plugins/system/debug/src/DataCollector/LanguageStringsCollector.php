@@ -134,7 +134,7 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
 
                     array_shift($occurrence['trace']);
 
-                    foreach ($occurrence['trace'] as $i => $stack) {
+                    foreach ($occurrence['trace'] as $stack) {
                         $class = $stack['class'] ?? '';
                         $file  = $stack['file'] ?? '';
                         $line  = $stack['line'] ?? '';

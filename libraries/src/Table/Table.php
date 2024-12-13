@@ -145,7 +145,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      * @var    string
      * @since  4.0.0
      */
-    public $typeAlias = null;
+    public $typeAlias;
 
     /**
      * Object constructor to set table and key fields.  In most cases this will
@@ -355,16 +355,14 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         $path = (array) $path;
 
         // If we have new paths to add, do so.
-        if ($path !== []) {
-            // Check and add each individual new path.
-            foreach ($path as $dir) {
-                // Sanitize path.
-                $dir = trim((string) $dir);
+        // Check and add each individual new path.
+        foreach ($path as $dir) {
+            // Sanitize path.
+            $dir = trim((string) $dir);
 
-                // Add to the front of the list so that custom paths are searched first.
-                if (!\in_array($dir, self::$_includePaths)) {
-                    array_unshift(self::$_includePaths, $dir);
-                }
+            // Add to the front of the list so that custom paths are searched first.
+            if (!\in_array($dir, self::$_includePaths)) {
+                array_unshift(self::$_includePaths, $dir);
             }
         }
 
@@ -653,11 +651,9 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         }
 
         // JSON encode any fields required
-        if (!empty($this->_jsonEncode)) {
-            foreach ($this->_jsonEncode as $field) {
-                if (isset($src[$field]) && \is_array($src[$field])) {
-                    $src[$field] = json_encode($src[$field]);
-                }
+        foreach ($this->_jsonEncode as $field) {
+            if (isset($src[$field]) && \is_array($src[$field])) {
+                $src[$field] = json_encode($src[$field]);
             }
         }
 
@@ -1349,7 +1345,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     public function isCheckedOut($with = 0, $against = null)
     {
         // Handle the non-static case.
-        if (isset($this) && ($this instanceof Table) && \is_null($against)) {
+        if (\is_null($against)) {
             $checkedOutField = $this->getColumnAlias('checked_out');
             $against         = $this->$checkedOutField;
         }
@@ -1367,10 +1363,9 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
                 ->from($db->quoteName('#__session'))
                 ->where($db->quoteName('userid') . ' = ' . (int) $against);
             $db->setQuery($query);
-            $checkedOut = (bool) $db->loadResult();
 
             // If a session exists for the user then it is checked out.
-            return $checkedOut;
+            return (bool) $db->loadResult();
         }
 
         // Assume if we got here that there is a value in the checked out column but it doesn't match the given user
@@ -1475,7 +1470,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
 
         $subquery->where($quotedOrderingField . ' >= 0');
         $query->where($quotedOrderingField . ' >= 0');
-        $query->innerJoin('(' . (string) $subquery . ') AS sq ');
+        $query->innerJoin('(' . $subquery . ') AS sq ');
 
         foreach ($innerOn as $key) {
             $query->where($key);
@@ -1688,7 +1683,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             // Update the publishing state for rows with the given primary keys.
             $query = $this->_db->getQuery(true)
                 ->update($this->_db->quoteName($this->_tbl))
-                ->set($this->_db->quoteName($publishedField) . ' = ' . (int) $state);
+                ->set($this->_db->quoteName($publishedField) . ' = ' . $state);
 
             // If publishing, set published date/time if not previously set
             if ($state && $this->hasField('publish_up') && (int) $this->publish_up == 0) {
@@ -1701,7 +1696,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
                 $query->where(
                     '('
                         . $this->_db->quoteName($checkedOutField) . ' = 0'
-                        . ' OR ' . $this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId
+                        . ' OR ' . $this->_db->quoteName($checkedOutField) . ' = ' . $userId
                         . ' OR ' . $this->_db->quoteName($checkedOutField) . ' IS NULL'
                         . ')'
                 );
