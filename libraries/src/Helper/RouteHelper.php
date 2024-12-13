@@ -100,6 +100,11 @@ class RouteHelper
                 if ($category) {
                     $needles['category']   = array_reverse($category->getPath());
                     $needles['categories'] = $needles['category'];
+
+                    // Add route category
+                    $needles['category'][]   = '0';
+                    $needles['categories'][] = '0';
+
                     $link .= '&catid=' . $catid;
                 }
             }
@@ -116,6 +121,22 @@ class RouteHelper
         }
 
         return $link;
+    }
+
+    /**
+     * Method to set the extension into the helper
+     *
+     * @param   ?string  $extension  Extension name like com_content
+     *
+     * @return  self
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setExtension($extension)
+    {
+        $this->extension = $extension;
+
+        return $this;
     }
 
     /**
@@ -252,9 +273,13 @@ class RouteHelper
                 $catids                = array_reverse($category->getPath());
                 $needles['category']   = $catids;
                 $needles['categories'] = $catids;
+
+                // Add route category
+                $needles['category'][]   = '0';
+                $needles['categories'][] = '0';
             }
 
-            if ($item = static::lookupItem($needles)) {
+            if ($item = static::lookupItem($needles, $extension)) {
                 $link .= '&Itemid=' . $item;
             }
         }
@@ -265,16 +290,17 @@ class RouteHelper
     /**
      * Static alias to findItem() used to find the item in the menu structure
      *
-     * @param   array  $needles  Array of lookup values
+     * @param   array    $needles    Array of lookup values
+     * @param   ?string  $extension  Extension name like com_content
      *
      * @return  mixed
      *
      * @since   3.2
      */
-    protected static function lookupItem($needles = [])
+    protected static function lookupItem($needles = [], $extension = null)
     {
         $instance = new static();
 
-        return $instance->findItem($needles);
+        return $instance->setExtension($extension)->findItem($needles);
     }
 }
