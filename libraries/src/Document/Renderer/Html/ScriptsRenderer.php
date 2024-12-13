@@ -159,7 +159,7 @@ class ScriptsRenderer extends DocumentRenderer
             if (JDEBUG) {
                 $attribs['data-asset-name'] = $asset->getName();
 
-                if ($asset->getDependencies()) {
+                if ($asset->getDependencies() !== []) {
                     $attribs['data-asset-dependencies'] = implode(',', $asset->getDependencies());
                 }
 

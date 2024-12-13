@@ -43,7 +43,7 @@ abstract class CliOutput
      */
     public function __construct(?ProcessorInterface $processor = null)
     {
-        $this->setProcessor($processor ?: new ColorProcessor());
+        $this->setProcessor($processor instanceof ProcessorInterface ? $processor : new ColorProcessor());
     }
 
     /**

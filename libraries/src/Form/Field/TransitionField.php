@@ -156,7 +156,7 @@ class TransitionField extends GroupedlistField
             $groups[Text::_('COM_CONTENT_RUN_TRANSITION')] = $items;
         }
 
-        if (\count($groups)) {
+        if (\count($groups) !== 0) {
             $default[][] = HTMLHelper::_('select.option', '-1', '--------', ['disable' => true]);
         }
 

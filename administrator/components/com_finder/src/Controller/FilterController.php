@@ -79,7 +79,7 @@ class FilterController extends FormController
             // Check-in the original row.
             if ($checkin && $model->checkin($data[$key]) === false) {
                 // Check-in failed. Go back to the item and display a notice.
-                if (!\count($this->app->getMessageQueue())) {
+                if (\count($this->app->getMessageQueue()) === 0) {
                     $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
                 }
 

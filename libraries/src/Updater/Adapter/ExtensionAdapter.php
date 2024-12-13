@@ -155,7 +155,7 @@ class ExtensionAdapter extends UpdateAdapter
                             $minimumVersion = $supportedDbs[$dbTypeUcase];
                             $dbMatch        = version_compare($dbVersion, $minimumVersion, '>=');
 
-                            if (!$dbMatch) {
+                            if ($dbMatch === 0 || $dbMatch === false) {
                                 // Notify the user of the potential update
                                 $dbMsg = Text::sprintf(
                                     'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_MINIMUM',

@@ -159,7 +159,7 @@ class ComponentDispatcher extends Dispatcher
     public function getController(string $name, string $client = '', array $config = []): BaseController
     {
         // Set up the client
-        $client = $client ?: ucfirst($this->app->getName());
+        $client = $client !== '' && $client !== '0' ? $client : ucfirst($this->app->getName());
 
         // Get the controller instance
         $controller = $this->mvcFactory->createController(

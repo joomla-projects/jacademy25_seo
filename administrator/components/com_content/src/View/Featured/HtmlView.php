@@ -111,7 +111,7 @@ class HtmlView extends BaseHtmlView
         $this->vote          = PluginHelper::isEnabled('content', 'vote');
         $this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1);
 
-        if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
+        if (\count($this->items) === 0 && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         }
 
@@ -122,7 +122,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (\count($errors = $model->getErrors())) {
+        if (\count($errors = $model->getErrors()) !== 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -166,7 +166,7 @@ class HtmlView extends BaseHtmlView
 
             $childBar = $dropdown->getChildToolbar();
 
-            if (\count($this->transitions)) {
+            if (\count($this->transitions) !== 0) {
                 $childBar->separatorButton('transition-headline', 'COM_CONTENT_RUN_TRANSITIONS')
                     ->buttonClass('text-center py-2 h3');
 

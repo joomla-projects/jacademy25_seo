@@ -39,7 +39,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
     {
         $displayData = $this->getLayoutData();
 
-        if (!\count($displayData['list']) && !$displayData['params']->get('no_results_text')) {
+        if (\count($displayData['list']) === 0 && !$displayData['params']->get('no_results_text')) {
             return;
         }
 

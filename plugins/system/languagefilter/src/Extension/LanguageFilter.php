@@ -155,7 +155,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             }
         }
 
-        if (!\count($this->sefs)) {
+        if (\count($this->sefs) === 0) {
             $this->loadLanguage();
             $app->enqueueMessage(Text::_('PLG_SYSTEM_LANGUAGEFILTER_ERROR_NO_CONTENT_LANGUAGE'), 'error');
         }

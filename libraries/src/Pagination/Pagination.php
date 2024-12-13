@@ -151,7 +151,7 @@ class Pagination
         $this->total      = (int) $total;
         $this->limitstart = max($limitstart, 0);
         $this->limit      = max($limit, 0);
-        $this->app        = $app ?: Factory::getApplication();
+        $this->app        = $app instanceof CMSApplication ? $app : Factory::getApplication();
 
         if ($this->limit > $this->total) {
             $this->limitstart = 0;

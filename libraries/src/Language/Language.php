@@ -297,7 +297,7 @@ class Language extends BaseLanguage
             $string = \call_user_func($this->transliterator, $string);
 
             // Check if all symbols were transliterated (contains only ASCII), otherwise continue
-            if (!preg_match('/[\\x80-\\xff]/', (string) $string)) {
+            if (in_array(preg_match('/[\\x80-\\xff]/', (string) $string), [0, false], true)) {
                 return $string;
             }
         }
@@ -705,7 +705,7 @@ class Language extends BaseLanguage
             $strings = [];
 
             // Debug the ini file if needed.
-            if ($this->debug && is_file($fileName) && !$this->debugFile($fileName)) {
+            if ($this->debug && is_file($fileName) && $this->debugFile($fileName) === 0) {
                 // We didn't find any errors but there's a parser warning.
                 $this->errorfiles[$fileName] = 'PHP parser errors :' . $runtimeException->getMessage();
             }
@@ -749,7 +749,7 @@ class Language extends BaseLanguage
             $line = trim($line);
 
             // Ignore comment lines.
-            if (!\strlen($line) || $line['0'] == ';') {
+            if ($line === '' || $line['0'] == ';') {
                 continue;
             }
 
@@ -770,7 +770,7 @@ class Language extends BaseLanguage
             }
 
             // Check that the line passes the necessary format.
-            if (!preg_match('#^[A-Z][A-Z0-9_:\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line)) {
+            if (in_array(preg_match('#^[A-Z][A-Z0-9_:\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line), [0, false], true)) {
                 $errors[] = $realNumber;
                 continue;
             }

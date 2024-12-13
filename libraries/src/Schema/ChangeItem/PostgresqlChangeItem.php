@@ -259,8 +259,8 @@ class PostgresqlChangeItem extends ChangeItem
             $this->msgElements        = [$table];
         }
         // Set fields based on results
-        $this->checkStatus = $result ? 0 : -1;
-        $this->checkQuery = $result ? 0 : -1;
+        $this->checkStatus = $result !== null && $result !== '' && $result !== '0' ? 0 : -1;
+        $this->checkQuery = $result !== null && $result !== '' && $result !== '0' ? 0 : -1;
     }
 
     /**

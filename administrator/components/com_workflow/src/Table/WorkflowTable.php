@@ -310,7 +310,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
         }
 
         // Return the asset id.
-        if ($assetId) {
+        if ($assetId !== null && $assetId !== 0) {
             return $assetId;
         }
 

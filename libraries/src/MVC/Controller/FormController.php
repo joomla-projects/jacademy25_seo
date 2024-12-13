@@ -131,7 +131,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
                 $match .= '\\\\';
             }
 
-            if (!preg_match('/(.*)' . $match . '(.*)/i', static::class, $r)) {
+            if (in_array(preg_match('/(.*)' . $match . '(.*)/i', static::class, $r), [0, false], true)) {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
             }
 
@@ -391,7 +391,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         }
 
         // Get the previous record id (if any) and the current record id.
-        $recordId = (int) (\count($cid) ? $cid[0] : $this->input->getInt($urlVar));
+        $recordId = (int) ($cid !== [] ? $cid[0] : $this->input->getInt($urlVar));
         $checkin  = $table->hasField('checked_out');
 
         // Access check.

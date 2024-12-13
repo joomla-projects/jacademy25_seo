@@ -111,7 +111,7 @@ class SiteCreatePublicFolderCommand extends AbstractCommand
      */
     public function getStringFromOption($option, $question, $required = true): string
     {
-        while (!$answer && $required) {
+        while (($answer === '' || $answer === '0') && $required) {
             $answer = (string) $this->ioStyle->ask($question);
         }
 

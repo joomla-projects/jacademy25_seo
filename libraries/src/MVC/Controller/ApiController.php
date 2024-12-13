@@ -129,7 +129,7 @@ class ApiController extends BaseController
         if (empty($this->context)) {
             $r = null;
 
-            if (!preg_match('/(.*)Controller(.*)/i', static::class, $r)) {
+            if (in_array(preg_match('/(.*)Controller(.*)/i', static::class, $r), [0, false], true)) {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
             }
 

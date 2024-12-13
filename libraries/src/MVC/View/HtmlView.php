@@ -306,7 +306,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
     {
         $previous = $this->_layoutExt;
 
-        if ($value = preg_replace('#[^A-Za-z0-9]#', '', trim($value))) {
+        if ($value = preg_replace('#[^A-Za-z0-9]#', '', trim((string) $value)) !== '' && $value = preg_replace('#[^A-Za-z0-9]#', '', trim((string) $value)) !== '0' && $value = preg_replace('#[^A-Za-z0-9]#', '', trim((string) $value)) !== []) {
             $this->_layoutExt = $value;
         }
 

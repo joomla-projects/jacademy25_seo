@@ -116,7 +116,7 @@ class HtmlView extends BaseHtmlView
 
         // Check for errors.
         // @TODO: Maybe this could go into ComponentHelper::raiseErrors($this->get('Errors'))
-        if (\count($errors = $model->getErrors())) {
+        if (\count($errors = $model->getErrors()) !== 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

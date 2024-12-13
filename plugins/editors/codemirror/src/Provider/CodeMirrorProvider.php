@@ -121,7 +121,7 @@ final class CodeMirrorProvider extends AbstractEditorProvider
             foreach ($customExtensions as $item) {
                 $methods = array_filter(array_map('trim', explode(',', $item->methods ?? '')));
 
-                if (empty($item->module) || !$methods) {
+                if (empty($item->module) || $methods === []) {
                     continue;
                 }
 

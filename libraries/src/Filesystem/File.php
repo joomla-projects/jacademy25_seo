@@ -224,7 +224,7 @@ class File
         if (
             \ini_get('opcache.enable')
             && \function_exists('opcache_invalidate')
-            && (!\ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), \ini_get('opcache.restrict_api')) === 0)
+            && (in_array(\ini_get('opcache.restrict_api'), ['', '0'], true) || \ini_get('opcache.restrict_api') === false || stripos(realpath($_SERVER['SCRIPT_FILENAME']), \ini_get('opcache.restrict_api')) === 0)
         ) {
             static::$canFlushFileCache = true;
         } else {

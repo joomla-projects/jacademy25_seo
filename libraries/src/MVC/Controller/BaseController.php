@@ -360,8 +360,8 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      */
     public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSApplicationInterface $app = null, ?Input $input = null)
     {
-        $this->app   = $app ?: Factory::getApplication();
-        $this->input = $input ?: $this->app->getInput();
+        $this->app   = $app instanceof CMSApplicationInterface ? $app : Factory::getApplication();
+        $this->input = $input instanceof Input ? $input : $this->app->getInput();
 
         /**
          * @deprecated This is to maintain b/c with the J4.0 implementation of BaseController. In Joomla 6.0 this will be
@@ -443,7 +443,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
             $this->default_view = $this->getName();
         }
 
-        $this->factory = $factory ?: new LegacyFactory();
+        $this->factory = $factory instanceof MVCFactoryInterface ? $factory : new LegacyFactory();
     }
 
     /**
@@ -777,7 +777,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         if (empty($this->name)) {
             $r = null;
 
-            if (!preg_match('/(.*)Controller/i', static::class, $r)) {
+            if (in_array(preg_match('/(.*)Controller/i', static::class, $r), [0, false], true)) {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
             }
 

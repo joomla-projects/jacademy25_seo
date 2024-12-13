@@ -137,8 +137,8 @@ class MediumModel extends BaseModel
         if ($path && !$oldPath) {
             // com_media expects separate directory and file name.
             // If we moved the file before, we must use the new path.
-            $basename = basename((string)($resultPath ?: $path));
-            $dirname  = \dirname((string)($resultPath ?: $path));
+            $basename = basename((string)($resultPath !== '' && $resultPath !== '0' ? $resultPath : $path));
+            $dirname  = \dirname((string)($resultPath !== '' && $resultPath !== '0' ? $resultPath : $path));
 
             try {
                 // If there is content, com_media's assumes the new item is a file.
@@ -191,8 +191,8 @@ class MediumModel extends BaseModel
         if ($oldPath && $content) {
             // com_media expects separate directory and file name.
             // If we moved the file before, we must use the new path.
-            $basename = basename((string) ($resultPath ?: $oldPath));
-            $dirname  = \dirname((string) ($resultPath ?: $oldPath));
+            $basename = basename((string) ($resultPath !== '' && $resultPath !== '0' ? $resultPath : $oldPath));
+            $dirname  = \dirname((string) ($resultPath !== '' && $resultPath !== '0' ? $resultPath : $oldPath));
 
             try {
                 $this->mediaApiModel->updateFile(
@@ -219,7 +219,7 @@ class MediumModel extends BaseModel
                 );
             }
 
-            $resultPath = $resultPath ?: $oldPath;
+            $resultPath = $resultPath !== '' && $resultPath !== '0' ? $resultPath : $oldPath;
         }
 
         // If we still have no result path, something fishy is going on.

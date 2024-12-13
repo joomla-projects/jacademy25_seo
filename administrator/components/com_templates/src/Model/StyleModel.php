@@ -432,8 +432,8 @@ class StyleModel extends AdminModel
             $helpKey = trim((string) $help[0]['key']);
             $helpURL = trim((string) $help[0]['url']);
 
-            $this->helpKey = $helpKey ?: $this->helpKey;
-            $this->helpURL = $helpURL ?: $this->helpURL;
+            $this->helpKey = $helpKey !== '' && $helpKey !== '0' ? $helpKey : $this->helpKey;
+            $this->helpURL = $helpURL !== '' && $helpURL !== '0' ? $helpURL : $this->helpURL;
         }
 
         // Trigger the default form events.

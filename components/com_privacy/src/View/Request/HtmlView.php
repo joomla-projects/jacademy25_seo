@@ -90,7 +90,7 @@ class HtmlView extends BaseHtmlView
         $this->sendMailEnabled = (bool) Factory::getApplication()->get('mailonline', 1);
 
         // Check for errors.
-        if (\count($errors = $model->getErrors())) {
+        if (\count($errors = $model->getErrors()) !== 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

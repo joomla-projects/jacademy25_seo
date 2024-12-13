@@ -51,7 +51,7 @@ $rulesetLines     = file($rulesetFile, FILE_IGNORE_NEW_LINES);
 $obsoleteLineIdxs = [];
 
 foreach ($rulesetLines as $line => $text) {
-    if (!preg_match('/^(?:\s*<exclude-pattern type="relative">)(.*)(?:<\/exclude-pattern>\s*)$/', $text, $matches)) {
+    if (in_array(preg_match('/^(?:\s*<exclude-pattern type="relative">)(.*)(?:<\/exclude-pattern>\s*)$/', $text, $matches), [0, false], true)) {
         continue;
     }
 

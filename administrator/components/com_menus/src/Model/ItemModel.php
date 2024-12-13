@@ -1169,8 +1169,8 @@ class ItemModel extends AdminModel
             $helpURL = trim((string) $help[0]['url']);
             $helpLoc = trim((string) $help[0]['local']);
 
-            $this->helpKey   = $helpKey ?: $this->helpKey;
-            $this->helpURL   = $helpURL ?: $this->helpURL;
+            $this->helpKey   = $helpKey !== '' && $helpKey !== '0' ? $helpKey : $this->helpKey;
+            $this->helpURL   = $helpURL !== '' && $helpURL !== '0' ? $helpURL : $this->helpURL;
             $this->helpLocal = (($helpLoc === 'true') || ($helpLoc === '1') || ($helpLoc === 'local'));
         }
 

@@ -82,13 +82,13 @@ final class MetadataRepository implements MetadataStatementRepository
         $this->load();
 
         $mapKeys = (fn(MetadataStatement $meta) => $meta->getAaguid());
-        $mapvalues = (fn(MetadataStatement $meta) => $meta->getAaguid() ? (object) [
+        $mapvalues = (fn(MetadataStatement $meta) => in_array($meta->getAaguid(), [null, '', '0'], true) ? null : (object) [
             'description' => $meta->getDescription(),
             'icon'        => $meta->getIcon(),
-        ] : null);
+        ]);
         $keys    = array_map($mapKeys, $this->mdsCache);
         $values  = array_map($mapvalues, $this->mdsCache);
-        $return  = array_combine($keys, $values) ?: [];
+        $return  = array_combine($keys, $values);
 
         $filter = (fn($x) => !empty($x));
 

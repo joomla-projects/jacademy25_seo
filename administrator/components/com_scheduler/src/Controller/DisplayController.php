@@ -83,7 +83,7 @@ class DisplayController extends BaseController
                     $isValid = false;
                 } elseif (!$inEditList) {
                     // For existing item, entry is invalid if TaskController has not granted access
-                    if (!\count($this->app->getMessageQueue())) {
+                    if (\count($this->app->getMessageQueue()) === 0) {
                         $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
                     }
 

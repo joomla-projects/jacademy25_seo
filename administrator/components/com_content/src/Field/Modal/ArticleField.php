@@ -134,23 +134,21 @@ class ArticleField extends ModalSelectField
      */
     protected function getValueTitle()
     {
-        $value = (int) $this->value ?: '';
+        $value = (int) $this->value !== 0 ? (int) $this->value : '';
         $title = '';
 
-        if ($value) {
-            try {
-                $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
-                    ->select($db->quoteName('title'))
-                    ->from($db->quoteName('#__content'))
-                    ->where($db->quoteName('id') . ' = :value')
-                    ->bind(':value', $value, ParameterType::INTEGER);
-                $db->setQuery($query);
+        try {
+            $db    = $this->getDatabase();
+            $query = $db->getQuery(true)
+                ->select($db->quoteName('title'))
+                ->from($db->quoteName('#__content'))
+                ->where($db->quoteName('id') . ' = :value')
+                ->bind(':value', $value, ParameterType::INTEGER);
+            $db->setQuery($query);
 
-                $title = $db->loadResult();
-            } catch (\Throwable $e) {
-                Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-            }
+            $title = $db->loadResult();
+        } catch (\Throwable $throwable) {
+            Factory::getApplication()->enqueueMessage($throwable->getMessage(), 'error');
         }
 
         return $title ?: $value;

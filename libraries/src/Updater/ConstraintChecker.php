@@ -151,7 +151,7 @@ class ConstraintChecker
         // Check if PHP version supported via <php_minimum> tag
         $result = version_compare(PHP_VERSION, $phpMinimum, '>=');
 
-        if (!$result) {
+        if ($result === 0 || $result === false) {
             $this->failedEnvironmentConstraints->php           = new \stdClass();
             $this->failedEnvironmentConstraints->php->required = $phpMinimum;
             $this->failedEnvironmentConstraints->php->used     = PHP_VERSION;
@@ -191,7 +191,7 @@ class ConstraintChecker
 
             $result = version_compare($dbVersion, $minimumVersion, '>=');
 
-            if (!$result) {
+            if ($result === 0 || $result === false) {
                 $this->failedEnvironmentConstraints->db           = new \stdClass();
                 $this->failedEnvironmentConstraints->db->type     = $dbType;
                 $this->failedEnvironmentConstraints->db->required = $minimumVersion;

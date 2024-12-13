@@ -333,7 +333,7 @@ class MenusHelper extends ContentHelper
                 'OR'
             );
 
-        if (\count($exclude)) {
+        if (\count($exclude) !== 0) {
             $exId = array_map('intval', array_filter($exclude, 'is_numeric'));
             $exEl = array_filter($exclude, 'is_string');
 
@@ -873,7 +873,7 @@ class MenusHelper extends ContentHelper
         $item->class      = (string) $node['class'];
         $item->icon       = (string) $node['icon'];
         $item->access     = (int) $node['access'];
-        $item->scope      = (string) $node['scope'] ?: 'default';
+        $item->scope      = (string) $node['scope'] !== '' && (string) $node['scope'] !== '0' ? (string) $node['scope'] : 'default';
         $item->ajaxbadge  = (string) $node['ajax-badge'];
         $item->dashboard  = (string) $node['dashboard'];
 

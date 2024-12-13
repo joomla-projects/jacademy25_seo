@@ -1020,7 +1020,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function parseSQLFiles($element)
     {
-        if (!$element || !\count($element->children())) {
+        if (!$element || \count($element->children()) === 0) {
             // The tag does not exist.
             return 0;
         }
@@ -1843,7 +1843,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function removeFiles($element, $cid = 0)
     {
-        if (!$element || !\count($element->children())) {
+        if (!$element || \count($element->children()) === 0) {
             // Either the tag does not exist or has no children therefore we return zero files processed.
             return true;
         }
@@ -1869,7 +1869,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
          */
         switch ($element->getName()) {
             case 'media':
-                $folder = (string) $element->attributes()->destination ?: '';
+                $folder = (string) $element->attributes()->destination !== '' && (string) $element->attributes()->destination !== '0' ? (string) $element->attributes()->destination : '';
 
                 $source = $client->path . '/media/' . $folder;
 
@@ -2272,8 +2272,8 @@ class Installer extends Adapter implements DatabaseAwareInterface
         // Check if we're a language. If so use metafile.
         $data['type'] = $xml->getName() === 'metafile' ? 'language' : (string) $xml->attributes()->type;
 
-        $data['creationDate'] = ((string) $xml->creationDate) ?: Text::_('JLIB_UNKNOWN');
-        $data['author']       = ((string) $xml->author) ?: Text::_('JLIB_UNKNOWN');
+        $data['creationDate'] = ((string) $xml->creationDate !== '' && (string) $xml->creationDate !== '0') ? (string) $xml->creationDate : Text::_('JLIB_UNKNOWN');
+        $data['author']       = ((string) $xml->author !== '' && (string) $xml->author !== '0') ? (string) $xml->author : Text::_('JLIB_UNKNOWN');
 
         $data['copyright']   = (string) $xml->copyright;
         $data['authorEmail'] = (string) $xml->authorEmail;

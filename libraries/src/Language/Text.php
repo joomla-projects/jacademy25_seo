@@ -110,7 +110,7 @@ class Text
         $first_part = preg_replace('/\[\[%(\d+):[^\]]*\]\]/', '%\1$s', $first_part);
 
         // Check if string contains sprintf placeholders
-        if (!preg_match('/%(\d+\$)?s/', (string) $first_part)) {
+        if (in_array(preg_match('/%(\d+\$)?s/', (string) $first_part), [0, false], true)) {
             return false;
         }
 

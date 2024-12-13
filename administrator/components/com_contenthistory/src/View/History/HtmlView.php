@@ -80,7 +80,7 @@ class HtmlView extends BaseHtmlView
         $this->pagination = $model->getPagination();
 
         // Check for errors.
-        if (\count($errors = $model->getErrors())) {
+        if (\count($errors = $model->getErrors()) !== 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

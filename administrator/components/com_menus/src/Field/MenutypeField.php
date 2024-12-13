@@ -57,7 +57,7 @@ class MenutypeField extends ModalSelectField
         }
 
         $recordId = (int) $this->form->getValue('id');
-        $clientId = (int) $this->element['clientid'] ?: 0;
+        $clientId = (int) $this->element['clientid'];
 
         $url = 'index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId;
 
@@ -79,7 +79,7 @@ class MenutypeField extends ModalSelectField
     protected function getValueTitle()
     {
         $title    = '';
-        $clientId = (int) $this->element['clientid'] ?: 0;
+        $clientId = (int) $this->element['clientid'];
 
         // Get a reverse lookup of the base link URL to Title
         switch ($this->value) {

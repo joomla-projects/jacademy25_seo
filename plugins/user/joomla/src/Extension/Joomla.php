@@ -442,9 +442,9 @@ final class Joomla extends CMSPlugin
 
         $silentResponseTypes = array_map(
             'trim',
-            explode(',', (string) $userParams->get('silentresponses', '') ?: '')
+            explode(',', (string) $userParams->get('silentresponses', '') !== '' && (string) $userParams->get('silentresponses', '') !== '0' ? (string) $userParams->get('silentresponses', '') : '')
         );
-        $silentResponseTypes = $silentResponseTypes ?: ['cookie', 'passwordless'];
+        $silentResponseTypes = $silentResponseTypes !== [] ? $silentResponseTypes : ['cookie', 'passwordless'];
 
         // Only proceed if this is not a silent login
         if (!\in_array(strtolower($options['responseType'] ?? ''), $silentResponseTypes)) {

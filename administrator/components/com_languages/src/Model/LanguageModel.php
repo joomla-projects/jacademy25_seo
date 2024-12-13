@@ -206,7 +206,7 @@ class LanguageModel extends AdminModel
         $data['lang_code'] = str_replace($spaces, '', $data['lang_code']);
 
         // Prevent saving an incorrect language tag
-        if (!preg_match('#\b([a-z]{2,3})[-]([A-Z]{2})\b#', $data['lang_code'])) {
+        if (in_array(preg_match('#\b([a-z]{2,3})[-]([A-Z]{2})\b#', $data['lang_code']), [0, false], true)) {
             $this->setError(Text::_('COM_LANGUAGES_ERROR_LANG_TAG'));
 
             return false;

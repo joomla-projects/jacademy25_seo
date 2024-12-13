@@ -43,7 +43,7 @@ final class Contact extends PrivacyPlugin
      */
     public function onPrivacyExportRequest(RequestTable $request, ?User $user = null)
     {
-        if (!$user && !$request->email) {
+        if (!$user instanceof User && !$request->email) {
             return [];
         }
 

@@ -257,7 +257,7 @@ if ($showHelp) {
 }
 
 // If not given a remote, assume we are looking for the latest local tag
-if (!$remote) {
+if ($remote === '' || $remote === '0' || $remote === [] || $remote === false) {
     chdir($repo);
     $tagVersion = system($systemGit . ' describe --tags `' . $systemGit . ' rev-list --tags --max-count=1`', $tagVersion);
     $remote     = 'tags/' . $tagVersion;

@@ -127,9 +127,9 @@ abstract class CliApplication extends AbstractApplication implements CMSApplicat
             $this->close();
         }
 
-        $container = $container ?: Factory::getContainer();
+        $container = $container instanceof Container ? $container : Factory::getContainer();
         $this->setContainer($container);
-        $this->setDispatcher($dispatcher ?: $container->get(DispatcherInterface::class));
+        $this->setDispatcher($dispatcher instanceof DispatcherInterface ? $dispatcher : $container->get(DispatcherInterface::class));
 
         if (!$container->has('session')) {
             $container->alias('session', 'session.cli')
@@ -141,8 +141,8 @@ abstract class CliApplication extends AbstractApplication implements CMSApplicat
 
         $this->input    = new Cli();
         $this->language = Factory::getLanguage();
-        $this->output   = $output ?: new Stdout();
-        $this->cliInput = $cliInput ?: new CliInput();
+        $this->output   = $output instanceof CliOutput ? $output : new Stdout();
+        $this->cliInput = $cliInput instanceof CliInput ? $cliInput : new CliInput();
 
         parent::__construct($config);
 

@@ -41,7 +41,7 @@ class ExtensionManagerInterface extends NamespaceBased
         $type = \count($methodCall->getArgs()) > 1 ? str_replace("'", '', $methodCall->getArgs()[1]->value->getAttribute('rawValue')) : '';
 
         // Component class
-        if (!$type && $namespace = $this->findNamespace('\\Component\\' . $name . '\\Administrator')) {
+        if (($type === '' || $type === '0' || $type === []) && $namespace = $this->findNamespace('\\Component\\' . $name . '\\Administrator')) {
             $class = $namespace . 'Extension\\' . ucfirst($name) . 'Component';
             if (!class_exists($class)) {
                 // Try to determine the real name

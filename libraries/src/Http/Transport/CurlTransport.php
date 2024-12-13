@@ -244,7 +244,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         // Get the response code from the first offset of the response headers.
         preg_match('/\d{3}/', array_shift($headers), $matches);
 
-        $code = \count($matches) ? $matches[0] : null;
+        $code = $matches !== [] ? $matches[0] : null;
 
         if (!is_numeric($code)) {
             // No valid response code was detected.
@@ -283,6 +283,6 @@ class CurlTransport extends AbstractTransport implements TransportInterface
     {
         $curlVersion = curl_version();
         // If open_basedir is enabled we also need to check if libcurl version is 7.19.4 or higher
-        return !\ini_get('open_basedir') || version_compare($curlVersion['version'], '7.19.4', '>=');
+        return in_array(\ini_get('open_basedir'), ['', '0'], true) || \ini_get('open_basedir') === false || version_compare($curlVersion['version'], '7.19.4', '>=');
     }
 }

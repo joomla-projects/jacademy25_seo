@@ -221,7 +221,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
         /** @var MfaTable $mfaTable */
         $mfaTable = $factory->createTable('Mfa', 'Administrator');
 
-        if ($recordId) {
+        if ($recordId !== 0 && ($recordId !== '' && $recordId !== '0')) {
             $mfaTable->load($recordId);
 
             $options = $mfaTable->options;

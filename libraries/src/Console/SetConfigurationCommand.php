@@ -286,7 +286,7 @@ class SetConfigurationCommand extends AbstractCommand
         }
 
         // Validate database table prefix.
-        if (isset($options['dbprefix']) && !preg_match('#^[a-zA-Z]+\w*$#', (string) $options['dbprefix'])) {
+        if (isset($options['dbprefix']) && in_array(preg_match('#^[a-zA-Z]+\w*$#', (string) $options['dbprefix']), [0, false], true)) {
             $this->ioStyle->error(Text::_('INSTL_DATABASE_PREFIX_MSG'));
 
             return false;
@@ -307,7 +307,7 @@ class SetConfigurationCommand extends AbstractCommand
         }
 
         // Validate database name.
-        if (\in_array($options['dbtype'], ['pgsql', 'postgresql'], true) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', (string) $options['db'])) {
+        if (\in_array($options['dbtype'], ['pgsql', 'postgresql'], true) && in_array(preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', (string) $options['db']), [0, false], true)) {
             $this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRES'));
 
             return false;

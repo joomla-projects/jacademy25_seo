@@ -112,7 +112,7 @@ class MailTemplate
      */
     protected $language, ?Mail $mailer = null)
     {
-        $this->mailer = $mailer ?: Factory::getMailer();
+        $this->mailer = $mailer instanceof Mail ? $mailer : Factory::getMailer();
     }
 
     /**

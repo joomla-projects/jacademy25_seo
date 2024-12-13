@@ -586,10 +586,10 @@ class FileStorage extends CacheStorage
             return $arr;
         }
 
-        $excludefilter = \count($excludefilter) ? '/(' . implode('|', $excludefilter) . ')/' : '';
+        $excludefilter = \count($excludefilter) !== 0 ? '/(' . implode('|', $excludefilter) . ')/' : '';
 
         while (($file = readdir($handle)) !== false) {
-            if (($file !== '.') && ($file !== '..') && (!\in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file))) {
+            if (($file !== '.') && ($file !== '..') && (!\in_array($file, $exclude)) && ($excludefilter === '' || $excludefilter === '0' || in_array(preg_match($excludefilter, $file), [0, false], true))) {
                 $dir   = $path . '/' . $file;
                 $isDir = is_dir($dir);
 
@@ -653,13 +653,13 @@ class FileStorage extends CacheStorage
             return $arr;
         }
 
-        $excludefilter_string = \count($excludefilter) ? '/(' . implode('|', $excludefilter) . ')/' : '';
+        $excludefilter_string = \count($excludefilter) !== 0 ? '/(' . implode('|', $excludefilter) . ')/' : '';
 
         while (($file = readdir($handle)) !== false) {
             if (
                 ($file !== '.') && ($file !== '..')
                 && (!\in_array($file, $exclude))
-                && ($excludefilter_string === '' || $excludefilter_string === '0' || !preg_match($excludefilter_string, $file))
+                && ($excludefilter_string === '' || $excludefilter_string === '0' || in_array(preg_match($excludefilter_string, $file), [0, false], true))
             ) {
                 $dir   = $path . '/' . $file;
                 $isDir = is_dir($dir);

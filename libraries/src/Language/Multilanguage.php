@@ -54,7 +54,7 @@ class Multilanguage
         }
 
         // Get application object.
-        $app = $app ?: Factory::getApplication();
+        $app = $app instanceof CMSApplication ? $app : Factory::getApplication();
 
         // If being called from the frontend, we can avoid the database query.
         if ($app->isClient('site')) {
@@ -66,7 +66,7 @@ class Multilanguage
         // If already tested, don't test again.
         if (!$tested) {
             // Determine status of language filter plugin.
-            $db    = $db ?: Factory::getDbo();
+            $db    = $db instanceof DatabaseInterface ? $db : Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select($db->quoteName('enabled'))
                 ->from($db->quoteName('#__extensions'))
@@ -102,7 +102,7 @@ class Multilanguage
 
         if (!isset($multilangSiteHomePages)) {
             // Check for Home pages languages.
-            $db    = $db ?: Factory::getDbo();
+            $db    = $db instanceof DatabaseInterface ? $db : Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select(
                     [

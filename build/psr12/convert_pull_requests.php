@@ -76,7 +76,7 @@ foreach ($argv as $arg) {
     }
 }
 
-if (!$repoRoot) {
+if ($repoRoot === '' || $repoRoot === '0' || $repoRoot === false) {
     die('You have to set the repository root! (--repo)');
 }
 

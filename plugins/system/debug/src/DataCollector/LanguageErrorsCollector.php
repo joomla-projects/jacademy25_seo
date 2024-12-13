@@ -127,7 +127,7 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
         $errorFiles = Factory::getLanguage()->getErrorFiles();
         $errors     = [];
 
-        if (\count($errorFiles)) {
+        if (\count($errorFiles) !== 0) {
             foreach ($errorFiles as $file => $lines) {
                 foreach ($lines as $line) {
                     $errors[] = [$file, $line];

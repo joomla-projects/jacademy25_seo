@@ -125,7 +125,7 @@ class CronField extends ListField
     {
         $parentResult = parent::setup($element, $value, $group);
 
-        $subtype           = ((string) $element['subtype'] ?? '') ?: null;
+        $subtype           = (((string) $element['subtype'] ?? '') !== '' && ((string) $element['subtype'] ?? '') !== '0') ? (string) $element['subtype'] ?? '' : null;
         $wildcard          = ((string) $element['wildcard'] ?? '') === 'true';
         $onlyNumericLabels = ((string) $element['onlyNumericLabels']) === 'true';
 

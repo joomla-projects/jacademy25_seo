@@ -327,7 +327,7 @@ abstract class ModuleHelper
             $temp          = explode(':', $layout);
             $template      = $temp[0] === '_' ? $template : $temp[0];
             $layout        = $temp[1];
-            $defaultLayout = $temp[1] ?: 'default';
+            $defaultLayout = $temp[1] !== '' && $temp[1] !== '0' ? $temp[1] : 'default';
         }
 
         $dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';

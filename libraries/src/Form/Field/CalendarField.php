@@ -220,16 +220,16 @@ class CalendarField extends FormField
         $return = parent::setup($element, $value, $group);
 
         if ($return) {
-            $this->maxlength    = (int) $this->element['maxlength'] ?: 45;
-            $this->format       = (string) $this->element['format'] ?: '%Y-%m-%d';
-            $this->filterFormat = (string) $this->element['filterformat'] ?: '';
-            $this->filter       = (string) $this->element['filter'] ?: 'USER_UTC';
-            $this->todaybutton  = (string) $this->element['todaybutton'] ?: 'true';
-            $this->weeknumbers  = (string) $this->element['weeknumbers'] ?: 'true';
-            $this->showtime     = (string) $this->element['showtime'] ?: 'false';
-            $this->filltable    = (string) $this->element['filltable'] ?: 'true';
-            $this->timeformat   = (int) $this->element['timeformat'] ?: 24;
-            $this->singleheader = (string) $this->element['singleheader'] ?: 'false';
+            $this->maxlength    = (int) $this->element['maxlength'] !== 0 ? (int) $this->element['maxlength'] : 45;
+            $this->format       = (string) $this->element['format'] !== '' && (string) $this->element['format'] !== '0' ? (string) $this->element['format'] : '%Y-%m-%d';
+            $this->filterFormat = (string) $this->element['filterformat'] !== '' && (string) $this->element['filterformat'] !== '0' ? (string) $this->element['filterformat'] : '';
+            $this->filter       = (string) $this->element['filter'] !== '' && (string) $this->element['filter'] !== '0' ? (string) $this->element['filter'] : 'USER_UTC';
+            $this->todaybutton  = (string) $this->element['todaybutton'] !== '' && (string) $this->element['todaybutton'] !== '0' ? (string) $this->element['todaybutton'] : 'true';
+            $this->weeknumbers  = (string) $this->element['weeknumbers'] !== '' && (string) $this->element['weeknumbers'] !== '0' ? (string) $this->element['weeknumbers'] : 'true';
+            $this->showtime     = (string) $this->element['showtime'] !== '' && (string) $this->element['showtime'] !== '0' ? (string) $this->element['showtime'] : 'false';
+            $this->filltable    = (string) $this->element['filltable'] !== '' && (string) $this->element['filltable'] !== '0' ? (string) $this->element['filltable'] : 'true';
+            $this->timeformat   = (int) $this->element['timeformat'] !== 0 ? (int) $this->element['timeformat'] : 24;
+            $this->singleheader = (string) $this->element['singleheader'] !== '' && (string) $this->element['singleheader'] !== '0' ? (string) $this->element['singleheader'] : 'false';
             $this->minyear      = \strlen((string) $this->element['minyear']) !== 0 ? (int) $this->element['minyear'] : null;
             $this->maxyear      = \strlen((string) $this->element['maxyear']) !== 0 ? (int) $this->element['maxyear'] : null;
 

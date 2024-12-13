@@ -252,7 +252,7 @@ abstract class JGrid
                 }
             }
 
-            return static::state($states, $value, $i, ['prefix' => $prefix, 'translate' => !$tip], $enabled, true, $checkbox, $formId);
+            return static::state($states, $value, $i, ['prefix' => $prefix, 'translate' => $tip === '' || $tip === '0' || $tip === false], $enabled, true, $checkbox, $formId);
         }
 
         return static::state($states, $value, $i, $prefix, $enabled, true, $checkbox, $formId);

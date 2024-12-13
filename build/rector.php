@@ -42,12 +42,12 @@ $rectorConfig->withSets([
     SetList::CODE_QUALITY,
     SetList::CODING_STYLE,
     SetList::DEAD_CODE,
-    SetList::EARLY_RETURN,
-    SetList::INSTANCEOF,
+    SetList::STRICT_BOOLEANS,
     //SetList::NAMING,
     SetList::PRIVATIZATION,
-    //SetList::STRICT_BOOLEANS,
     //SetList::TYPE_DECLARATION,
+    SetList::EARLY_RETURN,
+    SetList::INSTANCEOF,
 ]);
 
 // Skip some rules and folders/files

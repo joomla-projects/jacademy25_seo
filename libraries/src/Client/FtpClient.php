@@ -1299,7 +1299,7 @@ class FtpClient
 
             $list = preg_replace('#^' . preg_quote((string) $path, '#') . '[/\\\\]?#', '', $list);
 
-            if ($keys = array_merge(array_keys($list, '.'), array_keys($list, '..'))) {
+            if ($keys = array_merge(array_keys($list, '.'), array_keys($list, '..')) !== []) {
                 foreach ($keys as $key) {
                     unset($list[$key]);
                 }
@@ -1350,7 +1350,7 @@ class FtpClient
         $data = preg_split('/[' . CRLF . ']+/', (string) $data, -1, PREG_SPLIT_NO_EMPTY);
         $data = preg_replace('#^' . preg_quote(substr((string) $path, 1), '#') . '[/\\\\]?#', '', $data);
 
-        if ($keys = array_merge(array_keys($data, '.'), array_keys($data, '..'))) {
+        if ($keys = array_merge(array_keys($data, '.'), array_keys($data, '..')) !== []) {
             foreach ($keys as $key) {
                 unset($data[$key]);
             }
@@ -1472,7 +1472,7 @@ class FtpClient
             }
         }
 
-        if (!$osType) {
+        if ($osType === null) {
             Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_UNRECOGNISED_FOLDER_LISTING_FORMATJLIB_CLIENT_ERROR_JFTP_LISTDETAILS_UNRECOGNISED', __METHOD__), Log::WARNING, 'jerror');
 
             return false;
@@ -1573,7 +1573,7 @@ class FtpClient
         }
 
         // Send the command to the server
-        if (!fwrite($this->_conn, $cmd . "\r\n")) {
+        if (in_array(fwrite($this->_conn, $cmd . "\r\n"), [0, false], true)) {
             Log::add(Text::sprintf('DDD', Text::sprintf('JLIB_CLIENT_ERROR_FTP_PUTCMD_SEND', __METHOD__, $cmd)), Log::WARNING, 'jerror');
         }
 
@@ -1599,7 +1599,7 @@ class FtpClient
 
         do {
             $this->_response .= fgets($this->_conn, 4096);
-        } while (!preg_match('/^([0-9]{3})(-(.*' . CRLF . ')+\1)? [^' . CRLF . ']+' . CRLF . "$/", $this->_response, $parts) && time() < $endTime);
+        } while (in_array(preg_match('/^([0-9]{3})(-(.*' . CRLF . ')+\1)? [^' . CRLF . ']+' . CRLF . "$/", $this->_response, $parts), [0, false], true) && time() < $endTime);
 
         // Catch a timeout or bad response
         if (!isset($parts[1])) {
@@ -1654,7 +1654,7 @@ class FtpClient
 
         do {
             $this->_response .= fgets($this->_conn, 4096);
-        } while (!preg_match('/^([0-9]{3})(-(.*' . CRLF . ')+\1)? [^' . CRLF . ']+' . CRLF . "$/", $this->_response, $parts) && time() < $endTime);
+        } while (in_array(preg_match('/^([0-9]{3})(-(.*' . CRLF . ')+\1)? [^' . CRLF . ']+' . CRLF . "$/", $this->_response, $parts), [0, false], true) && time() < $endTime);
 
         // Catch a timeout or bad response
         if (!isset($parts[1])) {

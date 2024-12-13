@@ -36,7 +36,7 @@ unset($tmp);
 ?>
 <?php foreach ($fieldsets as $group => $fieldset) : ?>
     <?php $fields = $this->form->getFieldset($group); ?>
-    <?php if (count($fields)) : ?>
+    <?php if (count($fields) !== 0) : ?>
         <fieldset id="users-profile-custom-<?php echo $group; ?>" class="com-users-profile__custom users-profile-custom-<?php echo $group; ?>">
             <?php if (isset($fieldset->label) && ($legend = trim(Text::_($fieldset->label))) !== '') : ?>
                 <legend><?php echo $legend; ?></legend>

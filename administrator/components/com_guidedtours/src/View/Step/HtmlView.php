@@ -78,7 +78,7 @@ class HtmlView extends BaseHtmlView
         $this->item  = $model->getItem();
         $this->state = $model->getState();
 
-        if (\count($errors = $model->getErrors())) {
+        if (\count($errors = $model->getErrors()) !== 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -152,7 +152,7 @@ class HtmlView extends BaseHtmlView
 
         ToolbarHelper::divider();
         $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] === 'show';
-        $targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] ?: 'hide-aware-inline-help';
+        $targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] !== '' && (string) $this->form->getXml()->config->inlinehelp['targetclass'] !== '0' ? (string) $this->form->getXml()->config->inlinehelp['targetclass'] : 'hide-aware-inline-help';
 
         if ($inlinehelp) {
             ToolbarHelper::inlinehelp($targetClass);

@@ -338,10 +338,10 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             return $this;
         }
 
-        $this->title = (isset($data['title']) && !empty($data['title']) && !stristr($this->title, (string) $data['title']))
+        $this->title = (isset($data['title']) && !empty($data['title']) && (in_array(stristr($this->title, (string) $data['title']), ['', '0'], true) || stristr($this->title, (string) $data['title']) === false))
             ? $this->title . $data['title']
             : $this->title;
-        $this->description = (isset($data['description']) && !empty($data['description']) && !stristr($this->description, (string) $data['description']))
+        $this->description = (isset($data['description']) && !empty($data['description']) && (in_array(stristr($this->description, (string) $data['description']), ['', '0'], true) || stristr($this->description, (string) $data['description']) === false))
             ? $this->description . $data['description']
             : $this->description;
         $this->link = $data['link'] ?? $this->link;

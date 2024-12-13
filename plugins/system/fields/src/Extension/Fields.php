@@ -145,7 +145,7 @@ final class Fields extends CMSPlugin
             }
 
             // If no value set (empty) remove value from database
-            if (\is_array($value) ? $value === [] : !\strlen($value)) {
+            if (\is_array($value) ? $value === [] : (string) $value === '') {
                 $value = null;
             }
 

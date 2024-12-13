@@ -108,7 +108,7 @@ class FeedFactory
         }
 
         // Validate that the tag name is valid.
-        if (!preg_match('/\A(?!XML)[a-z][\w0-9-]*/i', $tagName)) {
+        if (in_array(preg_match('/\A(?!XML)[a-z][\w0-9-]*/i', $tagName), [0, false], true)) {
             throw new \InvalidArgumentException('The tag name ' . $tagName . ' is not valid.');
         }
 

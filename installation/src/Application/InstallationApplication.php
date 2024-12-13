@@ -119,7 +119,7 @@ final class InstallationApplication extends CMSApplication
 
         $errorfiles = $lang->getErrorFiles();
 
-        if (\count($errorfiles)) {
+        if (\count($errorfiles) !== 0) {
             $output .= '<ul>';
 
             foreach ($errorfiles as $error) {
@@ -135,7 +135,7 @@ final class InstallationApplication extends CMSApplication
         $output .= '<pre>';
         $orphans = $lang->getOrphans();
 
-        if (\count($orphans)) {
+        if (\count($orphans) !== 0) {
             ksort($orphans, SORT_STRING);
 
             $guesses = [];
@@ -247,7 +247,7 @@ final class InstallationApplication extends CMSApplication
             }
 
             // If gzip compression is enabled in configuration and the server is compliant, compress the output.
-            if ($this->get('gzip') && !\ini_get('zlib.output_compression') && (\ini_get('output_handler') != 'ob_gzhandler')) {
+            if ($this->get('gzip') && (in_array(\ini_get('zlib.output_compression'), ['', '0'], true) || \ini_get('zlib.output_compression') === false) && (\ini_get('output_handler') != 'ob_gzhandler')) {
                 $this->compress();
             }
         } catch (\Throwable $throwable) {

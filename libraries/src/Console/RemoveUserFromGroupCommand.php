@@ -267,7 +267,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
     {
         $answer = (string) $this->getApplication()->getConsoleInput()->getOption($option);
 
-        while (!$answer) {
+        while ($answer === '' || $answer === '0') {
             $answer = (string) $this->ioStyle->ask($question);
         }
 

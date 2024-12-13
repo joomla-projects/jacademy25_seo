@@ -338,7 +338,7 @@ final class ApiApplication extends CMSApplication
          * If not an OPTIONS request or CORS is not enabled,
          * there's nothing useful to do here.
          */
-        if ($method !== 'OPTIONS' || !(int) $this->get('cors')) {
+        if ($method !== 'OPTIONS' || (int) $this->get('cors') === 0) {
             return;
         }
 

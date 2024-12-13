@@ -240,7 +240,7 @@ abstract class InstallerHelper
         // Search the install dir for an XML file
         $files = Folder::files($packageDirectory, '\.xml$', 1, true);
 
-        if (!$files || !\count($files)) {
+        if (!$files || \count($files) === 0) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), Log::WARNING, 'jerror');
 
             return false;
@@ -299,7 +299,7 @@ abstract class InstallerHelper
         $filename = preg_replace('/__+/', '_', trim((string) $filename, '_'));
 
         // Return the cleaned filename or, if it is empty, a unique id.
-        return $filename ?: $default;
+        return $filename !== '' && $filename !== '0' && $filename !== [] ? $filename : $default;
     }
 
     /**

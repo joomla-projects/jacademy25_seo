@@ -1743,7 +1743,7 @@ ENDDATA;
 
         $menu = false;
 
-        if (\count($ids)) {
+        if (\count($ids) !== 0) {
             $query = $db->getQuery(true);
 
             $query->select(
@@ -1941,7 +1941,7 @@ ENDDATA;
         }
 
         // If no central directory file header found for the manifest XML file it's not a valid Joomla package
-        if (!$headerInfo) {
+        if ($headerInfo === [] || $headerInfo === false) {
             @fclose($fp);
 
             throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE', $packageName), 500);
@@ -1986,7 +1986,7 @@ ENDDATA;
                 break;
         }
 
-        if (!$manifestFile) {
+        if ($manifestFile === '' || $manifestFile === '0' || $manifestFile === false) {
             throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE', $packageName), 500);
         }
 
@@ -2012,7 +2012,7 @@ ENDDATA;
             throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_VERSION_FOUND', $packageName), 500);
         }
 
-        $versionPackage = (string) $manifestXml->version ?: '';
+        $versionPackage = (string) $manifestXml->version !== '' && (string) $manifestXml->version !== '0' ? (string) $manifestXml->version : '';
 
         if ($versionPackage === '' || $versionPackage === '0') {
             throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_VERSION_FOUND', $packageName), 500);

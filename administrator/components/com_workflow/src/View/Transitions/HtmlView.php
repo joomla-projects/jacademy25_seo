@@ -136,7 +136,7 @@ class HtmlView extends BaseHtmlView
         $this->workflow      = $model->getWorkflow();
 
         // Check for errors.
-        if (\count($errors = $model->getErrors())) {
+        if (\count($errors = $model->getErrors()) !== 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

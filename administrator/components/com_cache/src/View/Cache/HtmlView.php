@@ -101,11 +101,11 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters = $model->getActiveFilters();
 
         // Check for errors.
-        if (\count($errors = $model->getErrors())) {
+        if (\count($errors = $model->getErrors()) !== 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        if (!\count($this->data) && ($this->state->get('filter.search') === null || $this->state->get('filter.search') === '')) {
+        if (\count($this->data) === 0 && ($this->state->get('filter.search') === null || $this->state->get('filter.search') === '')) {
             $this->setLayout('emptystate');
         }
 
@@ -128,7 +128,7 @@ class HtmlView extends BaseHtmlView
         // Get the toolbar object instance
         $toolbar = $this->getDocument()->getToolbar();
 
-        if (\count($this->data)) {
+        if (\count($this->data) !== 0) {
             $toolbar->delete('delete')
                 ->listCheck(true);
 

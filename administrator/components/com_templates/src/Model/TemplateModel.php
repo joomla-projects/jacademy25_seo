@@ -1909,7 +1909,7 @@ class TemplateModel extends FormModel
         $app      = Factory::getApplication();
         $template = $this->getTemplate();
 
-        if (!(array) $template) {
+        if ((array) $template === []) {
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
 
             return false;

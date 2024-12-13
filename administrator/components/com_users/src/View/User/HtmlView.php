@@ -115,7 +115,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         $this->state = $model->getState();
 
         // Check for errors.
-        if (\count($errors = $model->getErrors())) {
+        if (\count($errors = $model->getErrors()) !== 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

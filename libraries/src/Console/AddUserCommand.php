@@ -208,7 +208,7 @@ class AddUserCommand extends AbstractCommand
     {
         $answer = (string) $this->cliInput->getOption($option);
 
-        while (!$answer) {
+        while ($answer === '' || $answer === '0') {
             if ($option === 'password') {
                 $answer = (string) $this->ioStyle->askHidden($question);
             } else {

@@ -60,7 +60,7 @@ final class Contact extends CMSPlugin
         }
 
         // Return if we don't have a valid article id
-        if (!isset($row->id) || !(int) $row->id) {
+        if (!isset($row->id) || (int) $row->id === 0) {
             return;
         }
 

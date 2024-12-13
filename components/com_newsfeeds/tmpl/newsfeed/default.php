@@ -127,7 +127,7 @@ use Joomla\Filter\OutputFilter;
                         <?php break; ?>
                     <?php endif; ?>
                     <?php $uri  = $this->rssDoc[$i]->uri || !$this->rssDoc[$i]->isPermaLink ? trim($this->rssDoc[$i]->uri) : trim($this->rssDoc[$i]->guid); ?>
-                    <?php $uri  = !$uri || stripos($uri, 'http') !== 0 ? $this->item->link : $uri; ?>
+                    <?php $uri  = $uri === '' || $uri === '0' || stripos($uri, 'http') !== 0 ? $this->item->link : $uri; ?>
                     <?php $text = $this->rssDoc[$i]->content !== '' ? trim($this->rssDoc[$i]->content) : ''; ?>
                     <li>
                         <?php if (!empty($uri)) : ?>

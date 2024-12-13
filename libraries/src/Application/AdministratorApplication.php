@@ -352,7 +352,7 @@ class AdministratorApplication extends CMSApplication
             $lang = $this->input->getCmd('lang', '');
             $lang = preg_replace('/[^A-Z-]/i', '', $lang);
 
-            if ($lang) {
+            if ($lang !== '' && $lang !== '0' && $lang !== []) {
                 $this->setUserState('application.lang', $lang);
             }
 

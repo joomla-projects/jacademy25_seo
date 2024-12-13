@@ -297,7 +297,7 @@ class SearchModel extends ListModel
             ->where('m.term_id IN (' . implode(',', $included) . ')');
 
         // Check if there are any excluded terms to deal with.
-        if (\count($this->excludedTerms)) {
+        if (\count($this->excludedTerms) !== 0) {
             $query2 = $db->getQuery(true);
             $query2->select('e.link_id')
                 ->from($db->quoteName('#__finder_links_terms', 'e'))
@@ -308,7 +308,7 @@ class SearchModel extends ListModel
         /*
          * The query contains required search terms.
          */
-        if (\count($this->requiredTerms)) {
+        if (\count($this->requiredTerms) !== 0) {
             foreach ($this->requiredTerms as $terms) {
                 if (\count($terms) > 0) {
                     $query->having('SUM(CASE WHEN m.term_id IN (' . implode(',', $terms) . ') THEN 1 ELSE 0 END) > 0');

@@ -462,7 +462,7 @@ abstract class Folder
         }
 
         // Compute the excludefilter string
-        $excludeFilterString = \count($excludeFilter) ? '/(' . implode('|', $excludeFilter) . ')/' : '';
+        $excludeFilterString = \count($excludeFilter) !== 0 ? '/(' . implode('|', $excludeFilter) . ')/' : '';
 
         // Get the files
         $arr = self::_items($path, $filter, $recurse, $full, $exclude, $excludeFilterString, true);
@@ -513,7 +513,7 @@ abstract class Folder
         }
 
         // Compute the excludefilter string
-        $excludeFilterString = \count($excludeFilter) ? '/(' . implode('|', $excludeFilter) . ')/' : '';
+        $excludeFilterString = \count($excludeFilter) !== 0 ? '/(' . implode('|', $excludeFilter) . ')/' : '';
 
         // Get the folders
         $arr = self::_items($path, $filter, $recurse, $full, $exclude, $excludeFilterString, false);
@@ -557,7 +557,7 @@ abstract class Folder
         while (($file = readdir($handle)) !== false) {
             if (
                 $file !== '.' && $file !== '..' && !\in_array($file, $exclude)
-                && (empty($excludeFilterString) || !preg_match($excludeFilterString, $file))
+                && (empty($excludeFilterString) || in_array(preg_match($excludeFilterString, $file), [0, false], true))
             ) {
                 // Compute the fullpath
                 $fullpath = $path . '/' . $file;

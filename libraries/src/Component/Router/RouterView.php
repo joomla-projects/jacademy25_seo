@@ -265,7 +265,7 @@ abstract class RouterView extends RouterBase
         if (empty($this->name)) {
             $r = null;
 
-            if (!preg_match('/(.*)Router/i', static::class, $r)) {
+            if (in_array(preg_match('/(.*)Router/i', static::class, $r), [0, false], true)) {
                 throw new \Exception('JLIB_APPLICATION_ERROR_ROUTER_GET_NAME', 500);
             }
 

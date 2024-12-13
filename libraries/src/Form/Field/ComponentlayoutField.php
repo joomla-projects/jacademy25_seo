@@ -110,7 +110,7 @@ class ComponentlayoutField extends FormField
                 )
                 ->bind(':clientId', $clientId, ParameterType::INTEGER);
 
-            if ($template) {
+            if ($template !== '' && $template !== '0' && $template !== []) {
                 $query->where($db->quoteName('e.element') . ' = :template')
                     ->bind(':template', $template);
             }
@@ -204,7 +204,7 @@ class ComponentlayoutField extends FormField
                             }
                         }
 
-                        if (\count($files)) {
+                        if (\count($files) !== 0) {
                             // Create the group for the template
                             $groups[$template->name]          = [];
                             $groups[$template->name]['id']    = $this->id . '_' . $template->element;

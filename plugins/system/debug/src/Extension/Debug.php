@@ -417,7 +417,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
         if ($filterGroups !== []) {
             $userGroups = $this->getApplication()->getIdentity()->get('groups');
 
-            if (!array_intersect($filterGroups, $userGroups)) {
+            if (array_intersect($filterGroups, $userGroups) === []) {
                 $result = false;
 
                 return false;

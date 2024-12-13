@@ -237,7 +237,7 @@ class ColorField extends FormField
         $lang  = Factory::getApplication()->getLanguage();
         $data  = parent::getLayoutData();
         $color = strtolower((string) $this->value);
-        $color = !$color && $color !== '0' ? '' : $color;
+        $color = ($color === '' || $color === '0') && $color !== '0' ? '' : $color;
 
         // Position of the panel can be: right (default), left, top or bottom (default RTL is left)
         $position = ' data-position="' . (($lang->isRtl() && $this->position === 'default') ? 'left' : $this->position) . '"';

@@ -609,7 +609,7 @@ abstract class HTMLHelper
             $url = '';
         }
 
-        if (!strpos($url, '?')) {
+        if (in_array(strpos($url, '?'), [0, false], true)) {
             $obj->url = $url;
 
             return $obj;
@@ -691,7 +691,7 @@ abstract class HTMLHelper
             $includes = static::includeRelativeFiles('images', $path, $relative, false, false);
 
             // Grab the first found path and if none exists default to null
-            $path = \count($includes) ? $includes[0] : null;
+            $path = \count($includes) !== 0 ? $includes[0] : null;
         }
 
         // Compile the file name

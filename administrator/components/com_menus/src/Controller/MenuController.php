@@ -117,7 +117,7 @@ class MenuController extends FormController
         }
 
         if (isset($validData['preset'])) {
-            $preset = trim((string) $validData['preset']) ?: null;
+            $preset = in_array(trim((string) $validData['preset']), ['', '0'], true) ? null : trim((string) $validData['preset']);
 
             unset($validData['preset']);
         }

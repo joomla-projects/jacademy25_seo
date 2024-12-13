@@ -274,7 +274,7 @@ class ListField extends FormField
 
         if ($return) {
             // Check if it's using the old way
-            $this->header = (string) $this->element['header'] ?: false;
+            $this->header = (string) $this->element['header'] !== '' && (string) $this->element['header'] !== '0' ? (string) $this->element['header'] : false;
         }
 
         return $return;

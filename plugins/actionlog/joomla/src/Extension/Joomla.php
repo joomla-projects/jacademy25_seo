@@ -1101,7 +1101,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      */
     public function onAfterPurge(AfterPurgeEvent $event): void
     {
-        $group   = $event->getGroup() ?: 'all';
+        $group   = in_array($event->getGroup(), ['', '0'], true) ? 'all' : $event->getGroup();
         $context = $this->getApplication()->getInput()->get('option');
         $user    = $this->getApplication()->getIdentity();
 

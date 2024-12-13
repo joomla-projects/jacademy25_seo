@@ -300,7 +300,7 @@ class User extends Table
             $xid = (int) $this->_db->loadResult();
 
             if (
-                $rootUser == $this->username && (!$xid || $xid && $xid != (int) $this->id)
+                $rootUser == $this->username && ($xid === 0 || $xid && $xid != (int) $this->id)
                 || $xid && $xid == (int) $this->id && $rootUser != $this->username
             ) {
                 $this->setError(Text::_('JLIB_DATABASE_ERROR_USERNAME_CANNOT_CHANGE'));
@@ -393,7 +393,7 @@ class User extends Table
             }
 
             // If there is anything left in this->groups it needs to be inserted
-            if (\count($groups)) {
+            if (\count($groups) !== 0) {
                 // Set the new user group maps.
                 $query->clear()
                     ->insert($this->_db->quoteName('#__user_usergroup_map'))

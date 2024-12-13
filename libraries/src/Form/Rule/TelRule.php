@@ -68,7 +68,7 @@ class TelRule extends FormRule
 
             if ($plan === 'northamerica' || $plan === 'us') {
                 $plan = 'NANP';
-            } elseif ($plan === 'International' || $plan === 'int' || $plan === 'missdn' || !$plan) {
+            } elseif ($plan === 'International' || $plan === 'int' || $plan === 'missdn' || ($plan === '' || $plan === '0')) {
                 $plan = 'ITU-T';
             } elseif ($plan === 'IETF') {
                 $plan = 'EPP';

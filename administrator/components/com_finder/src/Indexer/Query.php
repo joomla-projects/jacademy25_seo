@@ -1150,7 +1150,7 @@ class Query
             // Tokenize the phrase.
             $token = Helper::tokenize($phrases[$i], $lang, true);
 
-            if (!\count($token)) {
+            if (\count($token) === 0) {
                 continue;
             }
 

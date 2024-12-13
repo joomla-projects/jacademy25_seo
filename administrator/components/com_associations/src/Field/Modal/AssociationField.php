@@ -46,7 +46,7 @@ class AssociationField extends FormField
     {
         // @todo USE Layouts here!!!
         // The active item id field.
-        $value = (int) $this->value ?: '';
+        $value = (int) $this->value !== 0 ? (int) $this->value : '';
 
         $doc = Factory::getApplication()->getDocument();
         $wa  = $doc->getWebAssetManager();
@@ -68,7 +68,7 @@ class AssociationField extends FormField
         $html[] = '<button'
             . ' type="button"'
             . ' id="select-change"'
-            . ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
+            . ' class="btn btn-secondary' . ($value !== 0 && $value !== '0' ? '' : ' hidden') . '"'
             . ' data-bs-toggle="modal"'
             . ' data-select="' . Text::_('COM_ASSOCIATIONS_SELECT_TARGET') . '"'
             . ' data-change="' . Text::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
@@ -80,7 +80,7 @@ class AssociationField extends FormField
         // Clear association button
         $html[] = '<button'
             . ' type="button"'
-            . ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
+            . ' class="btn btn-secondary' . ($value !== 0 && $value !== '0' ? '' : ' hidden') . '"'
             . ' onclick="return Joomla.submitbutton(\'undo-association\');"'
             . ' id="remove-assoc">'
             . '<span class="icon-times" aria-hidden="true"></span> ' . Text::_('JCLEAR')

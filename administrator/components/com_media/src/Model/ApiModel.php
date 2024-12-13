@@ -445,7 +445,7 @@ class ApiModel extends BaseDatabaseModel
     private function isMediaFile($path)
     {
         // Check if there is an extension available
-        if (!strrpos($path, '.')) {
+        if (in_array(strrpos($path, '.'), [0, false], true)) {
             return false;
         }
 

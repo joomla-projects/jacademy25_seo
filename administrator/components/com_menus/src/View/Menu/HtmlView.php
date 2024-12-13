@@ -81,7 +81,7 @@ class HtmlView extends BaseHtmlView
         $this->canDo = ContentHelper::getActions('com_menus', 'menu', $this->item->id);
 
         // Check for errors.
-        if (\count($errors = $model->getErrors())) {
+        if (\count($errors = $model->getErrors()) !== 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

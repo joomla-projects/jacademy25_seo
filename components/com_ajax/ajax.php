@@ -72,7 +72,7 @@ if ($format === '' || $format === '0') {
             $parts = explode('-', (string) $module);
         }
 
-        if ($parts) {
+        if ($parts !== null && $parts !== []) {
             $class = 'Mod';
 
             foreach ($parts as $part) {
@@ -164,7 +164,7 @@ if ($format === '' || $format === '0') {
             $parts = explode('-', (string) $template);
         }
 
-        if ($parts) {
+        if ($parts !== null && $parts !== []) {
             $class = 'Tpl';
 
             foreach ($parts as $part) {

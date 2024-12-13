@@ -199,7 +199,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        if (!\strlen((string) $hash) || $hash !== $this->getApplication()->getInput()->get('hash')) {
+        if ((string) $hash === '' || $hash !== $this->getApplication()->getInput()->get('hash')) {
             throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 

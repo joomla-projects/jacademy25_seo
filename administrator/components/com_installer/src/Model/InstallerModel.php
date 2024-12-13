@@ -102,7 +102,7 @@ class InstallerModel extends ListModel
                     $found = 0;
 
                     foreach ($searchFields as $field) {
-                        if (!$found && preg_match('/' . $escapedSearchString . '/i', (string) $item->{$field})) {
+                        if ($found === 0 && preg_match('/' . $escapedSearchString . '/i', (string) $item->{$field})) {
                             $found = 1;
                         }
                     }
@@ -184,10 +184,10 @@ class InstallerModel extends ListModel
                 case 'library':
                     $parts     = explode('/', $item->element);
                     $vendor    = (isset($parts[1]) ? $parts[0] : null);
-                    $extension = 'lib_' . ($vendor ? implode('_', $parts) : $item->element);
+                    $extension = 'lib_' . ($vendor !== null && $vendor !== '' && $vendor !== '0' ? implode('_', $parts) : $item->element);
 
                     if (!$lang->load($extension . '.sys', $path)) {
-                        $source = $path . '/libraries/' . ($vendor ? $vendor . '/' . $parts[1] : $item->element);
+                        $source = $path . '/libraries/' . ($vendor !== null && $vendor !== '' && $vendor !== '0' ? $vendor . '/' . $parts[1] : $item->element);
                         $lang->load($extension . '.sys', $source);
                     }
                     break;

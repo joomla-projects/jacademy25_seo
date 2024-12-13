@@ -231,7 +231,7 @@ class MediaHelper
         $executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
 
         // Remove allowed executables from array
-        if (\count($allowedExecutables)) {
+        if (\count($allowedExecutables) !== 0) {
             $executables = array_diff($executables, $allowedExecutables);
         }
 

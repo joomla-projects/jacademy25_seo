@@ -96,7 +96,7 @@ class LanguageController extends JSONController
         $admin_lang = $this->input->getString('administratorlang', false);
 
         // Check that the string is an ISO Language Code avoiding any injection.
-        if (!preg_match('/^[a-z]{2}(\-[A-Z]{2})?$/', $admin_lang)) {
+        if (in_array(preg_match('/^[a-z]{2}(\-[A-Z]{2})?$/', $admin_lang), [0, false], true)) {
             $admin_lang = 'en-GB';
         }
 
@@ -113,7 +113,7 @@ class LanguageController extends JSONController
         $frontend_lang = $this->input->getString('frontendlang', false);
 
         // Check that the string is an ISO Language Code avoiding any injection.
-        if (!preg_match('/^[a-z]{2}(\-[A-Z]{2})?$/', $frontend_lang)) {
+        if (in_array(preg_match('/^[a-z]{2}(\-[A-Z]{2})?$/', $frontend_lang), [0, false], true)) {
             $frontend_lang = 'en-GB';
         }
 

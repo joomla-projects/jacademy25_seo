@@ -21,7 +21,7 @@ abstract class NamespaceBased implements DynamicMethodReturnTypeExtension
      */
     protected function getNamespaces(): array
     {
-        if (!$this->namespaces) {
+        if ($this->namespaces === []) {
             $this->namespaces = require \dirname(__DIR__, 4) . '/administrator/cache/autoload_psr4.php';
         }
 
@@ -36,7 +36,7 @@ abstract class NamespaceBased implements DynamicMethodReturnTypeExtension
         $result = [];
 
         foreach ($this->getNamespaces() as $ns => $path) {
-            if (!stripos($ns, $name)) {
+            if (in_array(stripos($ns, $name), [0, false], true)) {
                 continue;
             }
 
@@ -52,7 +52,7 @@ abstract class NamespaceBased implements DynamicMethodReturnTypeExtension
     protected function findNamespace(string $name): string
     {
         foreach (array_keys($this->getNamespaces()) as $ns) {
-            if (!stripos($ns, $name)) {
+            if (in_array(stripos($ns, $name), [0, false], true)) {
                 continue;
             }
 

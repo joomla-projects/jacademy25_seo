@@ -297,7 +297,7 @@ class BannersModel extends ListModel
         $db        = $this->getDatabase();
         $bid       = [];
 
-        if (!\count($items)) {
+        if (\count($items) === 0) {
             return;
         }
 

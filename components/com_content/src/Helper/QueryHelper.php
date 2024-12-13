@@ -59,7 +59,7 @@ class QueryHelper
      */
     public static function orderbySecondary($orderby, $orderDate = 'created', ?DatabaseInterface $db = null)
     {
-        $db = $db ?: Factory::getDbo();
+        $db = $db instanceof DatabaseInterface ? $db : Factory::getDbo();
 
         $queryDate = self::getQueryDate($orderDate, $db);
 
@@ -160,7 +160,7 @@ class QueryHelper
      */
     public static function getQueryDate($orderDate, ?DatabaseInterface $db = null)
     {
-        $db ?: Factory::getDbo();
+        $db instanceof DatabaseInterface ? $db : Factory::getDbo();
         return match ($orderDate) {
             'modified' => ' CASE WHEN a.modified IS NULL THEN a.created ELSE a.modified END',
             'published' => ' CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END ',

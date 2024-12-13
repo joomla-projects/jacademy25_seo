@@ -108,7 +108,7 @@ $this->getDocument()->addScriptOptions('com_mails', ['templateData' => $this->te
 
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-        <?php if (count($this->form->getFieldset('basic'))) : ?>
+        <?php if (count($this->form->getFieldset('basic')) !== 0) : ?>
             <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
         <?php endif; ?>
 

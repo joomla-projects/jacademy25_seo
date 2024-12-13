@@ -37,7 +37,7 @@ abstract class MailsHelper
     {
         Factory::getApplication()->triggerEvent('onMailBeforeTagsRendering', [$mail->template_id, &$mail]);
 
-        if (!isset($mail->params['tags']) || !\count($mail->params['tags'])) {
+        if (!isset($mail->params['tags']) || \count($mail->params['tags']) === 0) {
             return '';
         }
 

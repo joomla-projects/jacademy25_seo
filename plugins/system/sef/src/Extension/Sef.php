@@ -450,7 +450,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         $app     = $this->getApplication();
         $origUri = clone Uri::getInstance();
 
-        if (\count($origUri->getQuery(true))) {
+        if (\count($origUri->getQuery(true)) !== 0) {
             $parsedVars = $app->getInput()->getArray();
 
             if ($app->getLanguageFilter()) {
@@ -462,7 +462,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             $newRoute = Route::_($parsedVars, false);
             $newUri   = new Uri($newRoute);
 
-            if (!\count($newUri->getQuery(true)) && $route !== $newRoute) {
+            if (\count($newUri->getQuery(true)) === 0 && $route !== $newRoute) {
                 $app->redirect($newRoute, 301);
             }
         }

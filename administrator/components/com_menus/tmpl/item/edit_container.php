@@ -51,7 +51,7 @@ $wa->useScript('joomla.treeselectmenu')
             <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
             <?php echo Text::_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC'); ?>
         </div>
-            <?php if (count($menuLinks)) : ?>
+            <?php if (count($menuLinks) !== 0) : ?>
                 <ul class="treeselect">
                     <?php $prevlevel = 0; ?>
                     <li>

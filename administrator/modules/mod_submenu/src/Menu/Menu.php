@@ -112,7 +112,7 @@ abstract class Menu
 
             // Populate automatic children for container items
             if ($item->type === 'container') {
-                $exclude    = (array) $itemParams->get('hideitems') ?: [];
+                $exclude    = (array) $itemParams->get('hideitems');
                 $components = MenusHelper::getMenuItems('main', false, $exclude);
 
                 // We are adding the nodes first to preprocess them, then sort them and add them again.
@@ -173,7 +173,7 @@ abstract class Menu
                     $workflow = ComponentHelper::getParams($parts[0])->get('workflow_enabled') && $user->authorise('core.manage.workflow', $parts[0]);
                 }
 
-                if (!$workflow) {
+                if ($workflow !== true) {
                     $parent->removeChild($item);
                     continue;
                 }

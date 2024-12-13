@@ -29,7 +29,7 @@ $lang->load('com_privacy', JPATH_ADMINISTRATOR)
 
 $list = PrivacyDashboardHelper::getData();
 
-if (\count($list)) {
+if (\count($list) !== 0) {
     require ModuleHelper::getLayoutPath('mod_privacy_dashboard', $params->get('layout', 'default'));
 } else {
     echo LayoutHelper::render('joomla.content.emptystate_module', [

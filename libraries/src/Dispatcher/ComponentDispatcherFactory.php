@@ -76,6 +76,6 @@ class ComponentDispatcherFactory implements ComponentDispatcherFactoryInterface
             }
         }
 
-        return new $className($application, $input ?: $application->getInput(), $this->mvcFactory);
+        return new $className($application, $input instanceof Input ? $input : $application->getInput(), $this->mvcFactory);
     }
 }

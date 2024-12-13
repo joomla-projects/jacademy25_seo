@@ -126,7 +126,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         }
 
         // Return the asset id.
-        if ($assetId) {
+        if ($assetId !== null && $assetId !== 0) {
             return $assetId;
         }
 

@@ -1285,7 +1285,7 @@ class CategoryModel extends AdminModel
         $component            = array_shift($extension);
         $cname                = str_replace('com_', '', $component);
 
-        if (!$this->hasAssociation || !$component || !$cname) {
+        if (!$this->hasAssociation || !$component || ($cname === '' || $cname === '0' || $cname === [])) {
             $this->hasAssociation = false;
 
             return $this->hasAssociation;

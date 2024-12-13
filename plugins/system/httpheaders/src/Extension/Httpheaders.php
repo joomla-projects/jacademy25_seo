@@ -177,7 +177,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
         $styleHashesEnabled  = (int) $this->params->get('style_hashes_enabled', 0);
 
         // Early exit when both options are disabled
-        if (!$scriptHashesEnabled && !$styleHashesEnabled) {
+        if ($scriptHashesEnabled === 0 && $styleHashesEnabled === 0) {
             return;
         }
 

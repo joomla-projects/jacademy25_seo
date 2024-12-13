@@ -176,10 +176,10 @@ class SqlField extends ListField
                 }
             }
 
-            $this->keyField   = (string) $this->element['key_field'] ?: 'value';
-            $this->valueField = (string) $this->element['value_field'] ?: (string) $this->element['name'];
-            $this->translate  = (string) $this->element['translate'] ?: false;
-            $this->header     = (string) $this->element['header'] ?: false;
+            $this->keyField   = (string) $this->element['key_field'] !== '' && (string) $this->element['key_field'] !== '0' ? (string) $this->element['key_field'] : 'value';
+            $this->valueField = (string) $this->element['value_field'] !== '' && (string) $this->element['value_field'] !== '0' ? (string) $this->element['value_field'] : (string) $this->element['name'];
+            $this->translate  = (string) $this->element['translate'] !== '' && (string) $this->element['translate'] !== '0' ? (string) $this->element['translate'] : false;
+            $this->header     = (string) $this->element['header'] !== '' && (string) $this->element['header'] !== '0' ? (string) $this->element['header'] : false;
         }
 
         return $return;

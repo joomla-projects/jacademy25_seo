@@ -212,7 +212,7 @@ class BackupcodesModel extends BaseDatabaseModel
     public function isBackupCode($code, ?User $user = null): bool
     {
         // Load the backup codes
-        $codes = $this->getBackupCodes($user) ?: array_fill(0, 10, '');
+        $codes = in_array($this->getBackupCodes($user), [null, []], true) ? array_fill(0, 10, '') : $this->getBackupCodes($user);
 
         // Keep only the numbers in the provided $code
         $code = filter_var($code, FILTER_SANITIZE_NUMBER_INT);

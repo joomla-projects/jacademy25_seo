@@ -107,12 +107,12 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters = $model->getActiveFilters();
         $this->hasDueTasks   = $model->getHasDueTasks();
 
-        if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
+        if (\count($this->items) === 0 && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('empty_state');
         }
 
         // Check for errors.
-        if (\count($errors = $model->getErrors())) {
+        if (\count($errors = $model->getErrors()) !== 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

@@ -398,7 +398,7 @@ class DatabaseModel extends BaseInstallationModel
         $return = true;
 
         // Get the contents of the schema file.
-        if (!($buffer = file_get_contents($schema))) {
+        if ($buffer = file_get_contents($schema) === '' || $buffer = file_get_contents($schema) === '0' || $buffer = file_get_contents($schema) === false) {
             Factory::getApplication()->enqueueMessage(Text::_('INSTL_SAMPLE_DATA_NOT_FOUND'), 'error');
 
             return false;
@@ -461,7 +461,7 @@ class DatabaseModel extends BaseInstallationModel
 
         // Parse the schema file to break up queries.
         for ($i = 0; $i < \strlen($query) - 1; $i++) {
-            if ($query[$i] === ';' && !$in_string) {
+            if ($query[$i] === ';' && ($in_string === false || ($in_string === '' || $in_string === '0'))) {
                 $queries[] = substr($query, 0, $i);
                 $query     = substr($query, $i + 1);
                 $i         = 0;
@@ -469,7 +469,7 @@ class DatabaseModel extends BaseInstallationModel
 
             if ($in_string && ($query[$i] === $in_string) && $buffer[1] !== "\\") {
                 $in_string = false;
-            } elseif (!$in_string && ($query[$i] === '"' || $query[$i] === "'") && (!isset($buffer[0]) || $buffer[0] !== "\\")) {
+            } elseif (($in_string === false || ($in_string === '' || $in_string === '0')) && ($query[$i] === '"' || $query[$i] === "'") && (!isset($buffer[0]) || $buffer[0] !== "\\")) {
                 $in_string = $query[$i];
             }
 

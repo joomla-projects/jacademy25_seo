@@ -103,7 +103,7 @@ class Module extends Table
         }
 
         // Return the asset id.
-        if ($assetId) {
+        if ($assetId !== null && $assetId !== 0) {
             return $assetId;
         }
 

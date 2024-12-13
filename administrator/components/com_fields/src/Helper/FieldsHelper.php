@@ -329,7 +329,7 @@ class FieldsHelper
             ? (int) reset($assignedCatids)
             : (int) $assignedCatids;
 
-        if (!$assignedCatids && $formField = $form->getField('catid')) {
+        if ($assignedCatids === 0 && $formField = $form->getField('catid')) {
             $assignedCatids = $formField->getAttribute('default', null);
 
             if (!$assignedCatids) {

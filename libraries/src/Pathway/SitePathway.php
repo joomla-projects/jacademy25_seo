@@ -35,7 +35,7 @@ class SitePathway extends Pathway
     {
         $this->pathway = [];
 
-        $app  = $app ?: Factory::getContainer()->get(SiteApplication::class);
+        $app  = $app instanceof SiteApplication ? $app : Factory::getContainer()->get(SiteApplication::class);
         $menu = $app->getMenu();
         $lang = Factory::getLanguage();
 

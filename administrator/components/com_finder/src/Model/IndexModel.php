@@ -228,7 +228,7 @@ class IndexModel extends ListModel
             $orSearchSql = $db->quoteName('l.title') . ' LIKE ' . $search . ' OR ' . $db->quoteName('l.url') . ' LIKE ' . $search;
 
             // Filter by indexdate only if $search doesn't contains non-ascii characters
-            if (!preg_match('/[^\x00-\x7F]/', $search)) {
+            if (in_array(preg_match('/[^\x00-\x7F]/', $search), [0, false], true)) {
                 $orSearchSql .= ' OR ' . $query->castAsChar($db->quoteName('l.indexdate')) . ' LIKE ' . $search;
             }
 

@@ -378,7 +378,7 @@ class WebAssetManager implements WebAssetManagerInterface
                 $depName = substr((string) $dependency, 0, $pos);
             }
 
-            $depType = $depType ?: 'preset';
+            $depType = $depType !== '' && $depType !== '0' ? $depType : 'preset';
 
             // Make sure dependency exists
             if (!$this->registry->exists($depType, $depName)) {
@@ -421,7 +421,7 @@ class WebAssetManager implements WebAssetManagerInterface
                 $depName = substr((string) $dependency, 0, $pos);
             }
 
-            $depType = $depType ?: 'preset';
+            $depType = $depType !== '' && $depType !== '0' ? $depType : 'preset';
 
             // Make sure dependency exists
             if (!$this->registry->exists($depType, $depName)) {

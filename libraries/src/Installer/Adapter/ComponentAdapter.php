@@ -994,7 +994,7 @@ class ComponentAdapter extends InstallerAdapter
         $data['published']    = 1;
         $data['parent_id']    = 1;
         $data['component_id'] = $componentId;
-        $data['img']          = ((string) $menuElement->attributes()->img) ?: 'class:component';
+        $data['img']          = ((string) $menuElement->attributes()->img !== '' && (string) $menuElement->attributes()->img !== '0') ? (string) $menuElement->attributes()->img : 'class:component';
         $data['home']         = 0;
         $data['path']         = '';
         $data['params']       = '';
@@ -1016,7 +1016,7 @@ class ComponentAdapter extends InstallerAdapter
             $request[] = 'view=' . $menuElement->attributes()->view;
         }
 
-        $qstring      = \count($request) ? '&' . implode('&', $request) : '';
+        $qstring      = $request !== [] ? '&' . implode('&', $request) : '';
         $data['link'] = 'index.php?option=' . $option . $qstring;
 
         // Try to create the menu item in the database
@@ -1040,12 +1040,12 @@ class ComponentAdapter extends InstallerAdapter
             $data['menutype']     = 'main';
             $data['client_id']    = 1;
             $data['title']        = trim($child);
-            $data['alias']        = ((string) $child->attributes()->alias) ?: (string) $child;
-            $data['type']         = ((string) $child->attributes()->type) ?: 'component';
+            $data['alias']        = ((string) $child->attributes()->alias !== '' && (string) $child->attributes()->alias !== '0') ? (string) $child->attributes()->alias : (string) $child;
+            $data['type']         = ((string) $child->attributes()->type !== '' && (string) $child->attributes()->type !== '0') ? (string) $child->attributes()->type : 'component';
             $data['published']    = 1;
             $data['parent_id']    = $parent_id;
             $data['component_id'] = $componentId;
-            $data['img']          = ((string) $child->attributes()->img) ?: 'class:component';
+            $data['img']          = ((string) $child->attributes()->img !== '' && (string) $child->attributes()->img !== '0') ? (string) $child->attributes()->img : 'class:component';
             $data['home']         = 0;
             $data['params']       = '';
 
@@ -1085,7 +1085,7 @@ class ComponentAdapter extends InstallerAdapter
                     $request[] = 'sub=' . $child->attributes()->sub;
                 }
 
-                $qstring      = \count($request) ? '&' . implode('&', $request) : '';
+                $qstring      = $request !== [] ? '&' . implode('&', $request) : '';
                 $data['link'] = 'index.php?option=' . $option . $qstring;
             }
 

@@ -41,7 +41,7 @@ $wa->useScript('keepalive')
         <?php // Iterate through the form fieldsets and display each one. ?>
         <?php foreach ($this->form->getFieldsets() as $group => $fieldset) : ?>
             <?php $fields = $this->form->getFieldset($group); ?>
-            <?php if (count($fields)) : ?>
+            <?php if (count($fields) !== 0) : ?>
                 <fieldset>
                     <?php // If the fieldset has a label set, display it as the legend. ?>
                     <?php if (isset($fieldset->label)) : ?>

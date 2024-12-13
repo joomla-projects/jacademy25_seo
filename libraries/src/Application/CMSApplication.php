@@ -183,7 +183,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      */
     public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?Container $container = null)
     {
-        $container = $container ?: new Container();
+        $container = $container instanceof Container ? $container : new Container();
         $this->setContainer($container);
 
         parent::__construct($input, $config, $client);
@@ -311,7 +311,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             }
 
             // If gzip compression is enabled in configuration and the server is compliant, compress the output.
-            if ($this->get('gzip') && !\ini_get('zlib.output_compression') && \ini_get('output_handler') !== 'ob_gzhandler') {
+            if ($this->get('gzip') && (in_array(\ini_get('zlib.output_compression'), ['', '0'], true) || \ini_get('zlib.output_compression') === false) && \ini_get('output_handler') !== 'ob_gzhandler') {
                 $this->compress();
 
                 // Trigger the onAfterCompress event.
@@ -552,7 +552,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     public function getMessageQueue($clear = false)
     {
         // For empty queue, if messages exists in the session, enqueue them.
-        if (!\count($this->messageQueue)) {
+        if (\count($this->messageQueue) === 0) {
             $sessionQueue = $this->getSession()->get('application.queue', []);
 
             if ($sessionQueue) {
@@ -1007,7 +1007,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     public function redirect($url, $status = 303)
     {
         // Persist messages if they exist.
-        if (\count($this->messageQueue)) {
+        if (\count($this->messageQueue) !== 0) {
             $this->getSession()->set('application.queue', $this->messageQueue);
         }
 
@@ -1178,7 +1178,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     public function toString($compress = false)
     {
         // Don't compress something if the server is going to do it anyway. Waste of time.
-        if ($compress && !\ini_get('zlib.output_compression') && \ini_get('output_handler') !== 'ob_gzhandler') {
+        if ($compress && (in_array(\ini_get('zlib.output_compression'), ['', '0'], true) || \ini_get('zlib.output_compression') === false) && \ini_get('output_handler') !== 'ob_gzhandler') {
             $this->compress();
         }
 
@@ -1326,7 +1326,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $categories = preg_split('/[^\w.-]+/', (string) $this->get('log_categories', ''), -1, PREG_SPLIT_NO_EMPTY);
             $mode       = (bool) $this->get('log_category_mode', false);
 
-            if (!$categories) {
+            if ($categories === [] || $categories === false) {
                 return;
             }
 

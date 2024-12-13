@@ -53,7 +53,7 @@ class ModelTableLoader extends NamespaceBased
             $prefix = str_replace("'", '', $methodCall->getArgs()[1]->value->getAttribute('rawValue'));
         }
 
-        if (!$name || !$prefix) {
+        if ($name === '' || $name === '0' || $name === [] || ($prefix === '' || $prefix === '0' || $prefix === [])) {
             return null;
         }
 

@@ -81,7 +81,7 @@ if (!empty($feed) && is_string($feed)) {
                     break;
                 endif;
                 $uri  = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
-                $uri  = !$uri || stripos($uri, 'http') !== 0 ? $rssurl : $uri;
+                $uri  = $uri === '' || $uri === '0' || stripos($uri, 'http') !== 0 ? $rssurl : $uri;
                 $text = $feed[$i]->content !== '' ? trim($feed[$i]->content) : '';
                 ?>
                 <li class="list-group-item mb-2">

@@ -139,7 +139,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         $name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
         $prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
-        if (!$prefix) {
+        if ($prefix === '' || $prefix === '0' || $prefix === [] || $prefix === null) {
             @trigger_error(
                 \sprintf(
                     'Calling %s() without a prefix is deprecated.',
@@ -197,7 +197,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         $prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
         $type   = preg_replace('/[^A-Z0-9_]/i', '', $type);
 
-        if (!$prefix) {
+        if ($prefix === '' || $prefix === '0' || $prefix === [] || $prefix === null) {
             @trigger_error(
                 \sprintf(
                     'Calling %s() without a prefix is deprecated.',
@@ -243,7 +243,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         $name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
         $prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
-        if (!$prefix) {
+        if ($prefix === '' || $prefix === '0' || $prefix === [] || $prefix === null) {
             @trigger_error(
                 \sprintf(
                     'Calling %s() without a prefix is deprecated.',

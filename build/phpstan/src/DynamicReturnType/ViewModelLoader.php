@@ -50,7 +50,7 @@ class ViewModelLoader extends NamespaceBased
             $prefix = str_replace("'", '', $methodCall->getArgs()[1]->value->getAttribute('rawValue'));
         }
 
-        if (!$name || !$prefix) {
+        if (!$name || ($prefix === '' || $prefix === '0' || $prefix === [])) {
             return null;
         }
 

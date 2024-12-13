@@ -390,7 +390,7 @@ final class Stats extends CMSPlugin
         }
 
         // Never updated or debug enabled
-        if (!$last || $this->isDebugEnabled()) {
+        if ($last === 0 || $this->isDebugEnabled()) {
             return true;
         }
 
@@ -440,7 +440,7 @@ final class Stats extends CMSPlugin
         $this->params->set('unique_id', $this->getUniqueId());
 
         $interval = (int) $this->params->get('interval', 12);
-        $this->params->set('interval', $interval ?: 12);
+        $this->params->set('interval', $interval !== 0 ? $interval : 12);
 
         $paramsJson = $this->params->toString('JSON');
         $db         = $this->getDatabase();

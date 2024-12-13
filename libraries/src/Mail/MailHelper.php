@@ -136,7 +136,7 @@ abstract class MailHelper
         $allowed = "a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-";
         $regex   = sprintf('/^[%s][\.%s]{0,63}$/', $allowed, $allowed);
 
-        if (!preg_match($regex, $local) || str_ends_with($local, '.') || $local[0] === '.' || preg_match('/\.\./', $local)) {
+        if (in_array(preg_match($regex, $local), [0, false], true) || str_ends_with($local, '.') || $local[0] === '.' || preg_match('/\.\./', $local)) {
             return false;
         }
 
@@ -168,7 +168,7 @@ abstract class MailHelper
             }
 
             // Check for invalid characters
-            if (!preg_match($regex, $domain)) {
+            if (in_array(preg_match($regex, $domain), [0, false], true)) {
                 return false;
             }
 

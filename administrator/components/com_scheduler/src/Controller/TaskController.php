@@ -49,7 +49,7 @@ class TaskController extends FormController
         }
 
         $taskType   = $input->get('type');
-        $taskOption = $validTaskOptions->findOption($taskType) ?: null;
+        $taskOption = $validTaskOptions->findOption($taskType) instanceof TaskOption ? $validTaskOptions->findOption($taskType) : null;
 
         if (!$taskOption instanceof TaskOption) {
             // ? : Is this the right redirect [review]

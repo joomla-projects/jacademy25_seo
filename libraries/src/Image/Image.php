@@ -178,7 +178,7 @@ class Image
         // Get the image file information.
         $info = getimagesize($path);
 
-        if (!$info) {
+        if ($info === false) {
             throw new UnparsableImageException('Unable to get properties for the image.');
         }
 

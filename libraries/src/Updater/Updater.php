@@ -284,7 +284,7 @@ class Updater extends Adapter
 
                     $extraUpdates = $this->getUpdateObjectsForSite($extraUpdateSite, $minimumStability);
 
-                    if (\count($extraUpdates)) {
+                    if (\count($extraUpdates) !== 0) {
                         $retVal = array_merge($retVal, $extraUpdates);
                     }
                 }

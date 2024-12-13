@@ -61,14 +61,14 @@ class UrlFilter implements FormFilterInterface
         // If there is no protocol and the relative option is not specified,
         // we assume that it is an external URL and prepend http://
         if (
-            ((string) $element['type'] === 'url' && !$protocol && !$element['relative'])
-            || ((string) $element['type'] !== 'url' && !$protocol)
+            ((string) $element['type'] === 'url' && ($protocol === 0 || ($protocol === '' || $protocol === '0') || $protocol === [] || $protocol === false || $protocol === null) && !$element['relative'])
+            || ((string) $element['type'] !== 'url' && ($protocol === 0 || ($protocol === '' || $protocol === '0') || $protocol === [] || $protocol === false || $protocol === null))
         ) {
             $protocol = 'http';
 
             // If it looks like an internal link, then add the root.
             $value = str_starts_with($value, 'index.php') ? Uri::root() . $value : $protocol . '://' . $value;
-        } elseif (!$protocol && $element['relative'] instanceof \SimpleXMLElement) {
+        } elseif (($protocol === 0 || ($protocol === '' || $protocol === '0') || $protocol === [] || $protocol === false || $protocol === null) && $element['relative'] instanceof \SimpleXMLElement) {
             // If relative URLS are allowed we assume that URLs without protocols are internal.
             $host = Uri::getInstance('SERVER')->getHost();
 

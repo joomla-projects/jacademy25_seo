@@ -41,7 +41,7 @@ class HtmlView extends InstallerViewDefault
 
         $this->messages = $model->getItems();
 
-        if (!\count($this->messages)) {
+        if (\count($this->messages) === 0) {
             $this->setLayout('emptystate');
         }
 

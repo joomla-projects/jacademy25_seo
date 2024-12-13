@@ -288,7 +288,7 @@ class Patcher
         $line = current($lines);
 
         // Search for the header
-        while ($line !== false && !preg_match(self::SRC_FILE, (string) $line, $m)) {
+        while ($line !== false && in_array(preg_match(self::SRC_FILE, (string) $line, $m), [0, false], true)) {
             $line = next($lines);
         }
 
@@ -308,7 +308,7 @@ class Patcher
         }
 
         // Search the destination file
-        if (!preg_match(self::DST_FILE, (string) $line, $m)) {
+        if (in_array(preg_match(self::DST_FILE, (string) $line, $m), [0, false], true)) {
             throw new \RuntimeException('Invalid Diff file');
         }
 

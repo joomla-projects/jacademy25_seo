@@ -295,7 +295,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         $children = $updateservers ? $updateservers->children() : [];
 
-        if (\count($children)) {
+        if (\count($children) !== 0) {
             foreach ($children as $child) {
                 $attrs = $child->attributes();
                 $this->addUpdateSite((string) $attrs['name'], (string) $attrs['type'], trim($child), true, $this->installer->extraQuery);

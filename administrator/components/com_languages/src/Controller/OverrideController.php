@@ -45,7 +45,7 @@ class OverrideController extends FormController
         $context = sprintf('%s.edit.%s', $this->option, $this->context);
 
         // Get the constant name.
-        $recordId = (\count($cid) ? $cid[0] : $this->input->get('id'));
+        $recordId = ($cid !== [] ? $cid[0] : $this->input->get('id'));
 
         // Access check.
         if (!$this->allowEdit()) {

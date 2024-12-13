@@ -293,7 +293,7 @@ class FileAdapter extends InstallerAdapter
             foreach ($folderList as $folder) {
                 $files = Folder::files($folder);
 
-                if ($files !== false && !\count($files)) {
+                if ($files !== false && \count($files) === 0) {
                     Folder::delete($folder);
                 }
             }

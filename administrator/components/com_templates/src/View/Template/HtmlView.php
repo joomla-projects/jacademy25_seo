@@ -219,7 +219,7 @@ class HtmlView extends BaseHtmlView
         $this->id            = $this->state->get('extension.id');
 
         // Check for errors.
-        if (\count($errors = $model->getErrors())) {
+        if (\count($errors = $model->getErrors()) !== 0) {
             $app->enqueueMessage(implode("\n", $errors));
 
             return false;

@@ -97,7 +97,7 @@ class Router extends RouterBase
             }
 
             foreach ($query['id'] as &$item) {
-                if (!strpos((string) $item, ':')) {
+                if (in_array(strpos((string) $item, ':'), [0, false], true)) {
                     $dbquery = $this->db->getQuery(true);
                     $id      = (int) $item;
 

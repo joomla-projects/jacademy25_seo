@@ -260,7 +260,7 @@ class TagModel extends ListModel
      */
     public function getItem($pk = null)
     {
-        if (!\count($this->item)) {
+        if (\count($this->item) === 0) {
             if (empty($pk)) {
                 $pk = $this->getState('tag.id');
             }

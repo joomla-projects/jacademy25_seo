@@ -92,7 +92,7 @@ class WarningsModel extends ListModel
 
         $file_uploads = \ini_get('file_uploads');
 
-        if (!$file_uploads) {
+        if ($file_uploads === '' || $file_uploads === '0' || $file_uploads === false) {
             $messages[] = [
                 'message'     => Text::_('COM_INSTALLER_MSG_WARNINGS_FILEUPLOADSDISABLED'),
                 'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_FILEUPLOADISDISABLEDDESC'),
@@ -101,7 +101,7 @@ class WarningsModel extends ListModel
 
         $upload_dir = \ini_get('upload_tmp_dir');
 
-        if (!$upload_dir) {
+        if ($upload_dir === '' || $upload_dir === '0' || $upload_dir === false) {
             $messages[] = [
                 'message'     => Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
                 'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSETDESC'),

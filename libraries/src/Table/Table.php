@@ -484,7 +484,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     public function getKeyName($multiple = false)
     {
         // Count the number of keys
-        if (\count($this->_tbl_keys)) {
+        if (\count($this->_tbl_keys) !== 0) {
             if ($multiple) {
                 // If we want multiple keys, return the raw array.
                 return $this->_tbl_keys;

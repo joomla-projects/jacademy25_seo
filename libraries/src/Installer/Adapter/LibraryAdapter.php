@@ -283,7 +283,7 @@ class LibraryAdapter extends InstallerAdapter
         // If the folder is empty, let's delete it
         if (is_dir(Path::clean($this->parent->getPath('extension_root'))) && is_dir($this->parent->getPath('extension_root'))) {
             $files = Folder::files($this->parent->getPath('extension_root'));
-            if (!\count($files)) {
+            if (\count($files) === 0) {
                 Folder::delete($this->parent->getPath('extension_root'));
             }
         }

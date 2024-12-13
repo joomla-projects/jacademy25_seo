@@ -64,8 +64,8 @@ class SiteRouter extends Router
      */
     public function __construct(?CMSApplication $app = null, ?AbstractMenu $menu = null)
     {
-        $this->app  = $app ?: Factory::getContainer()->get(SiteApplication::class);
-        $this->menu = $menu ?: $this->app->getMenu();
+        $this->app  = $app instanceof CMSApplication ? $app : Factory::getContainer()->get(SiteApplication::class);
+        $this->menu = $menu instanceof AbstractMenu ? $menu : $this->app->getMenu();
 
         // Add core rules
         if ((int) $this->app->get('force_ssl') === 2) {

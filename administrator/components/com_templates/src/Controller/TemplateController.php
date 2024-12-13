@@ -487,7 +487,7 @@ class TemplateController extends BaseController
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_TYPE'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
-        } elseif (!preg_match('/^(?!\.)(?!.*\.$)(?!.*\.\.)[a-zA-Z0-9_.-]+$/', $name)) {
+        } elseif (in_array(preg_match('/^(?!\.)(?!.*\.$)(?!.*\.\.)[a-zA-Z0-9_.-]+$/', $name), [0, false], true)) {
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
@@ -579,7 +579,7 @@ class TemplateController extends BaseController
             return;
         }
 
-        if (!preg_match('/^[a-zA-Z0-9-_.]+$/', (string) $name)) {
+        if (in_array(preg_match('/^[a-zA-Z0-9-_.]+$/', (string) $name), [0, false], true)) {
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FOLDER_NAME'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
@@ -680,7 +680,7 @@ class TemplateController extends BaseController
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_RENAME_ASSET_FILE'), 'warning');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $isMedia;
             $this->setRedirect(Route::_($url, false));
-        } elseif (!preg_match('/^(?!\.)(?!.*\.$)(?!.*\.\.)[a-zA-Z0-9_.-]+$/', (string) $newName)) {
+        } elseif (in_array(preg_match('/^(?!\.)(?!.*\.$)(?!.*\.\.)[a-zA-Z0-9_.-]+$/', (string) $newName), [0, false], true)) {
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $isMedia;
             $this->setRedirect(Route::_($url, false));
@@ -810,7 +810,7 @@ class TemplateController extends BaseController
             return;
         }
 
-        if (!preg_match('/^[a-zA-Z0-9-_]+$/', (string) $newName)) {
+        if (in_array(preg_match('/^[a-zA-Z0-9-_]+$/', (string) $newName), [0, false], true)) {
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file  . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));

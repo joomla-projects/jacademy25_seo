@@ -112,7 +112,7 @@ abstract class WebApplication extends AbstractWebApplication
     public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?ResponseInterface $response = null)
     {
         // Ensure we have a CMS Input object otherwise the DI for \Joomla\CMS\Session\Storage\JoomlaStorage fails
-        $input = $input ?: new Input();
+        $input = $input instanceof Input ? $input : new Input();
 
         parent::__construct($input, $config, $client, $response);
 
@@ -197,7 +197,7 @@ abstract class WebApplication extends AbstractWebApplication
         }
 
         // If gzip compression is enabled in configuration and the server is compliant, compress the output.
-        if ($this->get('gzip') && !\ini_get('zlib.output_compression') && (\ini_get('output_handler') !== 'ob_gzhandler')) {
+        if ($this->get('gzip') && (in_array(\ini_get('zlib.output_compression'), ['', '0'], true) || \ini_get('zlib.output_compression') === false) && (\ini_get('output_handler') !== 'ob_gzhandler')) {
             $this->compress();
         }
 
@@ -408,7 +408,7 @@ abstract class WebApplication extends AbstractWebApplication
             $uri = Uri::getInstance($this->get('uri.request'));
 
             // If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
-            if (str_contains(PHP_SAPI, 'cgi') && !\ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI'])) {
+            if (str_contains(PHP_SAPI, 'cgi') && (in_array(\ini_get('cgi.fix_pathinfo'), ['', '0'], true) || \ini_get('cgi.fix_pathinfo') === false) && !empty($_SERVER['REQUEST_URI'])) {
                 // We aren't expecting PATH_INFO within PHP_SELF so this should work.
                 $path = \dirname((string) $_SERVER['PHP_SELF']);
             } else {

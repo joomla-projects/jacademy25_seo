@@ -628,7 +628,7 @@ class FieldModel extends AdminModel
         } elseif (\count($value) === 1 && \count((array) $oldValue) === 1) {
             // Only a single row value update can be done when not empty
             $needsUpdate = \is_array($value[0]) ? \count($value[0]) : \strlen($value[0]);
-            $needsDelete = !$needsUpdate;
+            $needsDelete = $needsUpdate === 0;
         } else {
             // Multiple values, we need to purge the data and do a new
             // insert

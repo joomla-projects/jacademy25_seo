@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Plugin;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
@@ -70,7 +71,7 @@ abstract class ActionLogPlugin extends CMSPlugin
      */
     protected function addLog($messages, $messageLanguageKey, $context, $userId = null)
     {
-        $app  = $this->getApplication() ?: $this->app;
+        $app  = $this->getApplication() instanceof CMSApplicationInterface ? $this->getApplication() : $this->app;
         $user = $app->getIdentity();
 
         foreach ($messages as $index => $message) {

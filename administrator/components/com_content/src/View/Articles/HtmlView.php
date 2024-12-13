@@ -123,7 +123,7 @@ class HtmlView extends BaseHtmlView
         $this->vote          = PluginHelper::isEnabled('content', 'vote');
         $this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1;
 
-        if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
+        if (\count($this->items) === 0 && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         }
 

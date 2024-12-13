@@ -73,7 +73,7 @@ abstract class ModuleListEvent extends ModuleEvent
     protected function onSetModules(array $value): array
     {
         // Filter out Module elements. Non empty result means invalid data
-        $valid = !array_filter($value, fn($item) => !\is_object($item));
+        $valid = array_filter($value, fn($item) => !\is_object($item)) === [];
 
         if (!$valid) {
             throw new \UnexpectedValueException(sprintf("Argument 'modules' of event %s is not of the expected type", $this->name));

@@ -116,7 +116,7 @@ class PreprocessRules implements RulesInterface
         }
 
         // Lets fix the slug (id:alias)
-        if (!strpos((string) $query[$key], ':')) {
+        if (in_array(strpos((string) $query[$key], ':'), [0, false], true)) {
             $query[$key] .= ':' . $obj->alias;
         }
 

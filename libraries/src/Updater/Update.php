@@ -437,7 +437,7 @@ class Update
                             $minimumVersion = $supportedDbs->$dbType;
                             $dbMatch        = version_compare($dbVersion, $minimumVersion, '>=');
 
-                            if (!$dbMatch) {
+                            if ($dbMatch === 0 || $dbMatch === false) {
                                 $otherUpdateInfo->db           = new \stdClass();
                                 $otherUpdateInfo->db->type     = $dbType;
                                 $otherUpdateInfo->db->required = $minimumVersion;

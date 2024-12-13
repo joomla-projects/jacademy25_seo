@@ -120,7 +120,7 @@ class TagField extends ListField
      */
     protected function getOptions()
     {
-        $published = (string) $this->element['published'] ?: [0, 1];
+        $published = (string) $this->element['published'] !== '' && (string) $this->element['published'] !== '0' ? (string) $this->element['published'] : [0, 1];
         $app       = Factory::getApplication();
         $language  = null;
         $options   = [];
@@ -157,7 +157,7 @@ class TagField extends ListField
             }
         }
 
-        if ($language) {
+        if ($language !== null && $language !== []) {
             $query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
         }
 

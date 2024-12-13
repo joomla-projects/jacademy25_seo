@@ -92,7 +92,7 @@ class TufAdapter extends UpdateAdapter
         foreach ($metaData['signed']['targets'] as $filename => $target) {
             $version = $this->processTufTarget($filename, $target);
 
-            if (!$version) {
+            if ($version === false || $version === []) {
                 continue;
             }
 

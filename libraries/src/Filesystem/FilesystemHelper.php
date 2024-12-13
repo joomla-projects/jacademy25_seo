@@ -58,16 +58,16 @@ class FilesystemHelper
         $path   = parse_url($url, PHP_URL_PATH);
         $user   = parse_url($url, PHP_URL_USER);
         $pass   = parse_url($url, PHP_URL_PASS);
-        if ((!$server) || (!$path)) {
+        if (($server === 0 || ($server === '' || $server === '0') || $server === [] || $server === false || $server === null) || ($path === 0 || ($path === '' || $path === '0') || $path === [] || $path === false || $path === null)) {
             return false;
         }
-        if (!$port) {
+        if ($port === 0 || ($port === '' || $port === '0') || $port === [] || $port === false || $port === null) {
             $port = 21;
         }
-        if (!$user) {
+        if ($user === 0 || ($user === '' || $user === '0') || $user === [] || $user === false || $user === null) {
             $user = 'anonymous';
         }
-        if (!$pass) {
+        if ($pass === 0 || ($pass === '' || $pass === '0') || $pass === [] || $pass === false || $pass === null) {
             $pass = '';
         }
         switch ($sch) {
@@ -121,19 +121,19 @@ class FilesystemHelper
         $user   = parse_url($url, PHP_URL_USER);
         $pass   = parse_url($url, PHP_URL_PASS);
 
-        if ((!$server) || (!$path)) {
+        if (($server === 0 || ($server === '' || $server === '0') || $server === [] || $server === false || $server === null) || ($path === 0 || ($path === '' || $path === '0') || $path === [] || $path === false || $path === null)) {
             return false;
         }
 
-        if (!$port) {
+        if ($port === 0 || ($port === '' || $port === '0') || $port === [] || $port === false || $port === null) {
             $port = 21;
         }
 
-        if (!$user) {
+        if ($user === 0 || ($user === '' || $user === '0') || $user === [] || $user === false || $user === null) {
             $user = 'anonymous';
         }
 
-        if (!$pass) {
+        if ($pass === 0 || ($pass === '' || $pass === '0') || $pass === [] || $pass === false || $pass === null) {
             $pass = '';
         }
 
@@ -325,7 +325,7 @@ class FilesystemHelper
     {
         $unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
         $size = preg_replace('/[^0-9\.]/', '', $size);
-        if ($unit) {
+        if ($unit !== '' && $unit !== '0' && $unit !== []) {
             return round($size * 1024 ** stripos('bkmgtpezy', $unit[0]));
         }
 

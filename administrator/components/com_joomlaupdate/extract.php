@@ -869,10 +869,10 @@ class ZIPExtraction
         }
 
         if (\function_exists('mb_strlen')) {
-            return mb_strlen($string, '8bit') ?: 0;
+            return mb_strlen($string, '8bit');
         }
 
-        return \strlen($string) ?: 0;
+        return \strlen($string);
     }
 
     /**
@@ -1605,7 +1605,7 @@ class ZIPExtraction
         }
 
         $phpMaxTime = @\ini_get("maximum_execution_time");
-        $phpMaxTime = (is_numeric($phpMaxTime) ? @\intval($phpMaxTime) : 10) ?: 10;
+        $phpMaxTime = (is_numeric($phpMaxTime) ? @\intval($phpMaxTime) : 10 !== 0) ? is_numeric($phpMaxTime) ? @\intval($phpMaxTime) : 10 : 10;
 
         return max(1, $phpMaxTime);
     }
@@ -1668,7 +1668,7 @@ class ZIPExtraction
             return;
         }
 
-        $logPath = $logPath ?: \dirname($this->filename);
+        $logPath = $logPath !== '' && $logPath !== '0' ? $logPath : \dirname($this->filename);
         $logFile = rtrim($logPath, '/' . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'joomla_update.txt';
 
         self::$logFilePath = $logFile;
@@ -1697,7 +1697,7 @@ function clearFileInOPCache(string $file): bool
     if (\is_null($hasOpCache)) {
         $hasOpCache = \ini_get('opcache.enable')
             && \function_exists('opcache_invalidate')
-            && (!\ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), \ini_get('opcache.restrict_api')) === 0);
+            && (in_array(\ini_get('opcache.restrict_api'), ['', '0'], true) || \ini_get('opcache.restrict_api') === false || stripos(realpath($_SERVER['SCRIPT_FILENAME']), \ini_get('opcache.restrict_api')) === 0);
     }
 
     if ($hasOpCache && (strtolower(substr($file, -4)) === '.php')) {

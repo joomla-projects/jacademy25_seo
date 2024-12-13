@@ -331,7 +331,7 @@ abstract class Menu
         // First pass - collect children
         foreach ($mitems as $v) {
             $pt            = $v->parent_id;
-            $list          = @$children[$pt] ? $children[$pt] : [];
+            $list          = @$children[$pt] !== [] ? $children[$pt] : [];
             $list[]        = $v;
             $children[$pt] = $list;
         }

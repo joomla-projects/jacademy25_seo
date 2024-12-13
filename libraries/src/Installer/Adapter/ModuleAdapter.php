@@ -363,7 +363,7 @@ class ModuleAdapter extends InstallerAdapter
                     $source = $path . '/' . $folder;
                 }
 
-                $client = (string) $this->getManifest()->attributes()->client ?: 'site';
+                $client = (string) $this->getManifest()->attributes()->client !== '' && (string) $this->getManifest()->attributes()->client !== '0' ? (string) $this->getManifest()->attributes()->client : 'site';
                 $this->doLoadLanguage($extension, $source, \constant('JPATH_' . strtoupper($client)));
             }
         }

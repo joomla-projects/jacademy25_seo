@@ -128,7 +128,7 @@ class HelpModel extends BaseDatabaseModel
      */
     public function &getToc()
     {
-        if (\count($this->toc)) {
+        if (\count($this->toc) !== 0) {
             return $this->toc;
         }
 
@@ -157,7 +157,7 @@ class HelpModel extends BaseDatabaseModel
         foreach ($files as $file) {
             $buffer = file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/' . $file);
 
-            if (!preg_match('#<title>(.*?)</title>#', $buffer, $m)) {
+            if (in_array(preg_match('#<title>(.*?)</title>#', $buffer, $m), [0, false], true)) {
                 continue;
             }
 

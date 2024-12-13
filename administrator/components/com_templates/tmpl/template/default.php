@@ -87,7 +87,7 @@ if ($this->type == 'font') {
                         <?php echo $this->loadTemplate('tree'); ?>
                     </li>
                 </ul>
-                <?php if (count($this->mediaFiles)) : ?>
+                <?php if (count($this->mediaFiles) !== 0) : ?>
                     <ul class="directory-tree treeselect">
                         <li class="folder-select">
                             <a class="folder-url" data-id="" href="">

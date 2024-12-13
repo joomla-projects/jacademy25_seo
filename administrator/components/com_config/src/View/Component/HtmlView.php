@@ -160,7 +160,7 @@ class HtmlView extends BaseHtmlView
         $toolbar->divider();
 
         $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] === 'show';
-        $targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] ?: 'hide-aware-inline-help';
+        $targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] !== '' && (string) $this->form->getXml()->config->inlinehelp['targetclass'] !== '0' ? (string) $this->form->getXml()->config->inlinehelp['targetclass'] : 'hide-aware-inline-help';
 
         if ($inlinehelp) {
             $toolbar->inlinehelp($targetClass);

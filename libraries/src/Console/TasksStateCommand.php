@@ -96,7 +96,7 @@ class TasksStateCommand extends AbstractCommand
                 $state = (string) ArrayHelper::arraySearch($state, Task::STATE_MAP);
             }
 
-            if (!\strlen($state) || !Task::isValidState($state)) {
+            if ($state === '' || !Task::isValidState($state)) {
                 $this->ioStyle->error('Invalid state passed!');
 
                 return 2;

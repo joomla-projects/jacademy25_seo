@@ -75,7 +75,7 @@ class HttpFactory
         }
 
         // Check if there is at least one available http transport adapter
-        if (!\count($availableAdapters)) {
+        if (\count($availableAdapters) === 0) {
             return false;
         }
 

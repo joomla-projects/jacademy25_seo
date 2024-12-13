@@ -762,7 +762,7 @@ abstract class DaemonApplication extends CliApplication
         }
 
         // Write the process id file out to disk.
-        if (!file_put_contents($file, $this->processId)) {
+        if (in_array(file_put_contents($file, $this->processId), [0, false], true)) {
             Log::add('Unable to write process id file: ' . $file, Log::ERROR);
 
             return false;

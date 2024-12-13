@@ -133,12 +133,12 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters        = $model->getActiveFilters();
         $this->params               = ComponentHelper::getParams('com_redirect');
 
-        if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
+        if (\count($this->items) === 0 && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         }
 
         // Check for errors.
-        if (\count($errors = $model->getErrors())) {
+        if (\count($errors = $model->getErrors()) !== 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

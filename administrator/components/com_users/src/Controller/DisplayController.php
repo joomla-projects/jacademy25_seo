@@ -80,7 +80,7 @@ class DisplayController extends BaseController
         // Check for edit form.
         if ($view === 'user' && $layout === 'edit' && !$this->checkEditId('com_users.edit.user', $id)) {
             // Somehow the person just went to the form - we don't allow that.
-            if (!\count($this->app->getMessageQueue())) {
+            if (\count($this->app->getMessageQueue()) === 0) {
                 $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
             }
 
@@ -91,7 +91,7 @@ class DisplayController extends BaseController
 
         if ($view === 'group' && $layout === 'edit' && !$this->checkEditId('com_users.edit.group', $id)) {
             // Somehow the person just went to the form - we don't allow that.
-            if (!\count($this->app->getMessageQueue())) {
+            if (\count($this->app->getMessageQueue()) === 0) {
                 $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
             }
 
@@ -102,7 +102,7 @@ class DisplayController extends BaseController
 
         if ($view === 'level' && $layout === 'edit' && !$this->checkEditId('com_users.edit.level', $id)) {
             // Somehow the person just went to the form - we don't allow that.
-            if (!\count($this->app->getMessageQueue())) {
+            if (\count($this->app->getMessageQueue()) === 0) {
                 $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
             }
 
@@ -113,7 +113,7 @@ class DisplayController extends BaseController
 
         if ($view === 'note' && $layout === 'edit' && !$this->checkEditId('com_users.edit.note', $id)) {
             // Somehow the person just went to the form - we don't allow that.
-            if (!\count($this->app->getMessageQueue())) {
+            if (\count($this->app->getMessageQueue()) === 0) {
                 $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
             }
 

@@ -76,7 +76,7 @@ class TimeRule extends FormRule
         }
 
         // If the are other symbols except of numbers and ':' return error message
-        if (!preg_match('#^[0-9:]+$#', $stringValue)) {
+        if (in_array(preg_match('#^[0-9:]+$#', $stringValue), [0, false], true)) {
             Factory::getApplication()->enqueueMessage(
                 Text::_('JLIB_FORM_FIELD_INVALID_TIME_INPUT'),
                 'warning'

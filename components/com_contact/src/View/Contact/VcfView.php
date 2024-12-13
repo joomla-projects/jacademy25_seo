@@ -49,7 +49,7 @@ class VcfView extends AbstractView
         $item  = $model->getItem();
 
         // Check for errors.
-        if (\count($errors = $model->getErrors())) {
+        if (\count($errors = $model->getErrors()) !== 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -82,7 +82,7 @@ class VcfView extends AbstractView
 
             $middlename = (\count($namearray) > 2) ? $namearray[1] : '';
             $firstname  = array_shift($namearray);
-            $lastname   = \count($namearray) ? end($namearray) : '';
+            $lastname   = $namearray !== [] ? end($namearray) : '';
             $card_name  = $firstname . ($middlename !== '' && $middlename !== '0' ? ' ' . $middlename : '') . ($lastname ? ' ' . $lastname : '');
         }
 

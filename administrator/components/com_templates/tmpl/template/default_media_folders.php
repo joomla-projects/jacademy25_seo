@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /** @var \Joomla\Component\Templates\Administrator\View\Template\HtmlView $this */
 
 // Legacy is the default
-if (!count($this->mediaFiles)) {
+if (count($this->mediaFiles) === 0) {
     return;
 }
 
