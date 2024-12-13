@@ -167,7 +167,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      */
     public function add()
     {
-        $context = "$this->option.edit.$this->context";
+        $context = sprintf('%s.edit.%s', $this->option, $this->context);
 
         // Access check.
         if (!$this->allowAdd()) {
@@ -312,7 +312,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
         $model   = $this->getModel();
         $table   = $model->getTable();
-        $context = "$this->option.edit.$this->context";
+        $context = sprintf('%s.edit.%s', $this->option, $this->context);
 
         if (empty($key)) {
             $key = $table->getKeyName();
@@ -375,7 +375,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         $model   = $this->getModel();
         $table   = $model->getTable();
         $cid     = (array) $this->input->post->get('cid', [], 'int');
-        $context = "$this->option.edit.$this->context";
+        $context = sprintf('%s.edit.%s', $this->option, $this->context);
 
         // Determine the name of the primary key for the data.
         if (empty($key)) {
@@ -554,7 +554,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         $table   = $model->getTable();
         $data    = $this->input->post->get('jform', [], 'array');
         $checkin = $table->hasField('checked_out');
-        $context = "$this->option.edit.$this->context";
+        $context = sprintf('%s.edit.%s', $this->option, $this->context);
         $task    = $this->getTask();
 
         // Determine the name of the primary key for the data.

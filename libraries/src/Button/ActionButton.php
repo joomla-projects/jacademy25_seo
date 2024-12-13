@@ -208,8 +208,8 @@ class ActionButton implements \Stringable
     {
         try {
             return $this->render();
-        } catch (\Throwable $e) {
-            return (string) $e;
+        } catch (\Throwable $throwable) {
+            return (string) $throwable;
         }
     }
 

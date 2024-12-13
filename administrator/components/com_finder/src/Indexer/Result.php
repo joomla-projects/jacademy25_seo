@@ -351,7 +351,7 @@ class Result implements \Serializable
         // Check if the group exists. We can't remove instructions for unknown groups.
         if (\array_key_exists($group, $this->instructions)) {
             // Search for the property in the group.
-            $key = array_search($property, $this->instructions[$group]);
+            $key = array_search($property, $this->instructions[$group], true);
 
             // If the property was found, remove it.
             if ($key !== false) {

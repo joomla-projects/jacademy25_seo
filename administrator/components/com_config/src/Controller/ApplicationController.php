@@ -219,9 +219,9 @@ class ApplicationController extends BaseController
         // Attempt to save the configuration and remove root.
         try {
             $model->removeroot();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Save failed, go back to the screen and display a notice.
-            $this->setRedirect('index.php', Text::_('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
+            $this->setRedirect('index.php', Text::_('JERROR_SAVE_FAILED', $runtimeException->getMessage()), 'error');
 
             return false;
         }

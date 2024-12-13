@@ -27,9 +27,9 @@ if (!$lang->load($component, JPATH_BASE)) {
 }
 
 // If a component categories title string is present, let's use it.
-if ($lang->hasKey($component_title_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_TITLE')) {
+if ($lang->hasKey($component_title_key = strtoupper($component . ($section ? '_' . $section : '')) . '_CATEGORIES_TITLE')) {
     $title = Text::_($component_title_key);
-} elseif ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : '')))) {
+} elseif ($lang->hasKey($component_section_key = strtoupper($component . ($section ? '_' . $section : '')))) {
     // Else if the component section string exists, let's use it
     $title = Text::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', $this->escape(Text::_($component_section_key)));
 } else // Else use the base title

@@ -119,12 +119,12 @@ class Database implements ServiceProviderInterface
 
                     try {
                         $db = DatabaseDriver::getInstance($options);
-                    } catch (\RuntimeException $e) {
+                    } catch (\RuntimeException $runtimeException) {
                         if (!headers_sent()) {
                             header('HTTP/1.1 500 Internal Server Error');
                         }
 
-                        jexit('Database Error: ' . $e->getMessage());
+                        jexit('Database Error: ' . $runtimeException->getMessage());
                     }
 
                     $db->setDispatcher($container->get(DispatcherInterface::class));

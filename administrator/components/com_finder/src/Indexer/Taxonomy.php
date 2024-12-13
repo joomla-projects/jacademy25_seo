@@ -284,6 +284,7 @@ class Taxonomy
             ->where($db->quoteName('node_id') . ' = ' . (int) $nodeId);
         $db->setQuery($query);
         $db->execute();
+
         $id = (int) $db->loadResult();
 
         if ($id === 0) {
@@ -357,6 +358,7 @@ class Taxonomy
 
         // Get the node.
         $query->setLimit(1);
+
         $db->setQuery($query);
 
         return $db->loadObject();
@@ -405,6 +407,7 @@ class Taxonomy
             ->where($db->quoteName('link_id') . ' NOT IN (' . $query2 . ')');
         $db->setQuery($query);
         $db->execute();
+
         $count = $db->getAffectedRows();
 
         return $count;

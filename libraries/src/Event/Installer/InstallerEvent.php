@@ -57,11 +57,11 @@ abstract class InstallerEvent extends AbstractImmutableEvent
         }
 
         if (!\array_key_exists('subject', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'subject' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'subject' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('package', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'package' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'package' of event %s is required but has not been provided", $name));
         }
 
         // For backward compatibility make sure the package is referenced

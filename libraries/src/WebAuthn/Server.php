@@ -146,6 +146,7 @@ final class Server
         $this->coseAlgorithmManagerFactory->add('ES384', new ECDSA\ES384());
         $this->coseAlgorithmManagerFactory->add('ES512', new ECDSA\ES512());
         $this->coseAlgorithmManagerFactory->add('Ed25519', new EdDSA\Ed25519());
+
         $this->tokenBindingHandler                 = new IgnoreTokenBindingHandler();
         $this->extensionOutputCheckerHandler       = new ExtensionOutputCheckerHandler();
     }

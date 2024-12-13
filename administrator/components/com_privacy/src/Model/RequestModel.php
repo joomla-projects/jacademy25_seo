@@ -303,8 +303,8 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface
 
         try {
             $table->store();
-        } catch (ExecutionFailureException $exception) {
-            $this->setError($exception->getMessage());
+        } catch (ExecutionFailureException $executionFailureException) {
+            $this->setError($executionFailureException->getMessage());
 
             return false;
         }

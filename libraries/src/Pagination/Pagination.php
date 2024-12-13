@@ -553,7 +553,7 @@ class Pagination
 
         // Make the option list.
         for ($i = 5; $i <= 30; $i += 5) {
-            $limits[] = HTMLHelper::_('select.option', "$i");
+            $limits[] = HTMLHelper::_('select.option', $i);
         }
 
         $limits[] = HTMLHelper::_('select.option', '50', Text::_('J50'));
@@ -652,7 +652,7 @@ class Pagination
         $html .= $list['pageslinks'];
         $html .= "\n<div class=\"counter\">" . $list['pagescounter'] . "</div>";
 
-        $html .= "\n<input type=\"hidden\" name=\"" . $list['prefix'] . "limitstart\" value=\"" . $list['limitstart'] . "\">";
+        $html .= "\n<input type=\"hidden\" name=\"" . $list['prefix'] . 'limitstart" value="' . $list['limitstart'] . '">';
         $html .= "\n</div>";
 
         return $html;

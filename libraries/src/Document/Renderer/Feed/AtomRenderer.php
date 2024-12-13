@@ -78,10 +78,10 @@ class AtomRenderer extends DocumentRenderer
 
         $feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
 
-        $feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\"";
+        $feed = '<feed xmlns="http://www.w3.org/2005/Atom"';
 
         if ($data->getLanguage() != '') {
-            $feed .= " xml:lang=\"" . $data->getLanguage() . "\"";
+            $feed .= ' xml:lang="' . $data->getLanguage() . '"';
         }
 
         $feed .= ">\n";
@@ -178,8 +178,8 @@ class AtomRenderer extends DocumentRenderer
             }
 
             if ($item->enclosure != null) {
-                $feed .= "		<link rel=\"enclosure\" href=\"" . $item->enclosure->url . "\" type=\""
-                    . $item->enclosure->type . "\"  length=\"" . $item->enclosure->length . "\"/>\n";
+                $feed .= "		<link rel=\"enclosure\" href=\"" . $item->enclosure->url . '" type="'
+                    . $item->enclosure->type . '"  length="' . $item->enclosure->length . "\"/>\n";
             }
 
             $feed .= "	</entry>\n";

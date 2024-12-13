@@ -95,6 +95,7 @@ final class Highlight extends CMSPlugin
         // Adjust the component buffer.
         $buf = $doc->getBuffer('component');
         $buf = '<div class="js-highlight">' . $buf . '</div>';
+
         $doc->setBuffer($buf, 'component');
     }
 

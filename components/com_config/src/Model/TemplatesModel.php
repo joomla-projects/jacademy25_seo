@@ -64,8 +64,8 @@ class TemplatesModel extends FormModel
 
             // Load the data into the form
             $form->bind($data);
-        } catch (\Exception $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage());
+        } catch (\Exception $exception) {
+            Factory::getApplication()->enqueueMessage($exception->getMessage());
 
             return false;
         }

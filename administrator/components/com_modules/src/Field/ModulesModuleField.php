@@ -111,7 +111,7 @@ class ModulesModuleField extends ListField
      *
      * @since   3.4.2
      */
-    public function getOptions()
+    protected function getOptions()
     {
         $clientId = $this->client === 'administrator' ? 1 : 0;
         $options  = ModulesHelper::getModules($clientId);

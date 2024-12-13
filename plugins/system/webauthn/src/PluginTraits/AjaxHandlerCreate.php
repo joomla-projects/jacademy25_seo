@@ -87,8 +87,8 @@ trait AjaxHandlerCreate
             }
 
             $credentialRepository->saveCredentialSource($publicKeyCredentialSource);
-        } catch (\Exception $e) {
-            $error                     = $e->getMessage();
+        } catch (\Exception $exception) {
+            $error                     = $exception->getMessage();
             $publicKeyCredentialSource = null;
         }
 

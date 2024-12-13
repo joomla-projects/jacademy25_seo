@@ -106,7 +106,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                endif; ?>>
                         <?php
                         foreach ($this->items as $i => $item) :
-                            $orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
+                            $orderkey = array_search($item->id, $this->ordering[$item->parent_id], true);
                             $canCreate = $user->authorise('core.create', 'com_menus.menu.' . $item->menutype_id);
                             $canEdit = $user->authorise('core.edit', 'com_menus.menu.' . $item->menutype_id);
                             $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);

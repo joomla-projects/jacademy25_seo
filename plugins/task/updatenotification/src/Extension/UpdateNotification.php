@@ -109,6 +109,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
             ->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
 
         $model->setState('filter.extension_id', $eid);
+
         $updates = $model->getItems();
 
         // If there are no updates we don't have to notify anyone about anything. This is NOT a duplicate check.

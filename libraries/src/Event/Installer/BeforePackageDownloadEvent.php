@@ -56,11 +56,11 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
         }
 
         if (!\array_key_exists('url', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'url' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'url' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('headers', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'headers' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'headers' of event %s is required but has not been provided", $name));
         }
 
         // For backward compatibility make sure the value is referenced

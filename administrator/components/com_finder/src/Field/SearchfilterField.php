@@ -40,7 +40,7 @@ class SearchfilterField extends ListField
      *
      * @since   2.5
      */
-    public function getOptions()
+    protected function getOptions()
     {
         // Build the query.
         $db    = $this->getDatabase();

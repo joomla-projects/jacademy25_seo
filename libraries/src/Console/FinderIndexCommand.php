@@ -431,15 +431,15 @@ EOF;
                     // End of Pausing Section
                 }
             }
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             // Display the error
-            $this->ioStyle->error($e->getMessage());
+            $this->ioStyle->error($exception->getMessage());
 
             // Reset the indexer state.
             Indexer::resetState();
 
             // Close the app
-            $app->close($e->getCode());
+            $app->close($exception->getCode());
         }
 
         // Reset the indexer state.

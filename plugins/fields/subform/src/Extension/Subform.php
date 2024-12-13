@@ -197,8 +197,8 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
             // For each row, iterate over all the subfields
             foreach ($this->getSubfieldsFromField($field) as $subfield) {
                 // Fill value (and rawvalue) if we have data for this subfield in the current row, otherwise set them to empty
-                $subfield->rawvalue = $subfield->value = $row[$subfield->name] ?? '';
-
+                $subfield->rawvalue = $row[$subfield->name] ?? '';
+                $subfield->value = $row[$subfield->name] ?? '';
                 // Do we want to render the value of this field, and is the value non-empty?
                 if ($subfield->value !== '' && $subfield->render_values == '1') {
                     /**

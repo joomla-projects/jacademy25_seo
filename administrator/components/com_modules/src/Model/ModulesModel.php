@@ -223,9 +223,9 @@ class ModulesModel extends ListModel
 
         foreach ($items as $item) {
             $extension = $item->module;
-            $source    = $clientPath . "/modules/$extension";
-            if (!$lang->load("$extension.sys", $clientPath)) {
-                $lang->load("$extension.sys", $source);
+            $source    = $clientPath . ('/modules/' . $extension);
+            if (!$lang->load($extension . '.sys', $clientPath)) {
+                $lang->load($extension . '.sys', $source);
             }
             $item->name = Text::_($item->name);
 

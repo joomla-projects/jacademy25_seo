@@ -248,8 +248,8 @@ class ClientsModel extends ListModel
         try {
             $state          = 1;
             $countPublished = $db->loadAssocList('cid', 'count_published');
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }
@@ -258,8 +258,8 @@ class ClientsModel extends ListModel
         try {
             $state            = 0;
             $countUnpublished = $db->loadAssocList('cid', 'count_published');
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }
@@ -268,8 +268,8 @@ class ClientsModel extends ListModel
         try {
             $state        = -2;
             $countTrashed = $db->loadAssocList('cid', 'count_published');
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }
@@ -278,8 +278,8 @@ class ClientsModel extends ListModel
         try {
             $state         = 2;
             $countArchived = $db->loadAssocList('cid', 'count_published');
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }

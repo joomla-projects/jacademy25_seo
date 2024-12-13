@@ -100,7 +100,7 @@ class RequestModel extends AdminModel
 
         try {
             $result = (int) $db->setQuery($query)->loadResult();
-        } catch (ExecutionFailureException $exception) {
+        } catch (ExecutionFailureException) {
             // Can't check for existing requests, so don't create a new one
             $this->setError(Text::_('COM_PRIVACY_ERROR_CHECKING_FOR_EXISTING_REQUESTS'));
 

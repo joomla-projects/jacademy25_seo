@@ -448,7 +448,7 @@ class FtpClient
         preg_match('/"[^"\r\n]*"/', $this->_response, $match);
 
         // Return the cleaned path
-        return preg_replace("/\"/", '', $match[0]);
+        return preg_replace('/"/', '', $match[0]);
     }
 
     /**
@@ -1527,7 +1527,7 @@ class FtpClient
 
                 if (@preg_match($regexp, $file, $regs)) {
                     $fType     = (int) ($regs[7] === '<DIR>');
-                    $timestamp = strtotime("$regs[3]-$regs[1]-$regs[2] $regs[4]:$regs[5]$regs[6]");
+                    $timestamp = strtotime(sprintf('%s-%s-%s %s:%s%s', $regs[3], $regs[1], $regs[2], $regs[4], $regs[5], $regs[6]));
 
                     // $tmp_array['line'] = $regs[0];
                     $tmp_array['type']   = $fType;

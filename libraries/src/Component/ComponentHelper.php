@@ -289,7 +289,7 @@ class ComponentHelper
             // Load template language files.
             $template = $app->getTemplate(true)->template;
             if (!$lang->load('tpl_' . $template, JPATH_BASE)) {
-                $lang->load('tpl_' . $template, JPATH_THEMES . "/$template");
+                $lang->load('tpl_' . $template, JPATH_THEMES . ('/' . $template));
             }
         }
 

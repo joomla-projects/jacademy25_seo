@@ -53,8 +53,8 @@ abstract class LoggedHelper
 
         try {
             $results = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            throw $e;
+        } catch (\RuntimeException $runtimeException) {
+            throw $runtimeException;
         }
 
         foreach ($results as $result) {

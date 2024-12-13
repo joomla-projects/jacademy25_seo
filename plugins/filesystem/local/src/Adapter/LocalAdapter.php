@@ -889,8 +889,8 @@ class LocalAdapter implements AdapterInterface
     {
         try {
             return Path::check($this->rootPath . '/' . $path);
-        } catch (\Exception $e) {
-            throw new InvalidPathException($e->getMessage());
+        } catch (\Exception $exception) {
+            throw new InvalidPathException($exception->getMessage());
         }
     }
 
@@ -919,8 +919,8 @@ class LocalAdapter implements AdapterInterface
                 'fs'  => $fs,
                 'url' => $url,
             ];
-        } catch (\Exception $e) {
-            throw new InvalidPathException($e->getMessage());
+        } catch (\Exception $exception) {
+            throw new InvalidPathException($exception->getMessage());
         }
     }
 

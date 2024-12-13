@@ -195,9 +195,9 @@ class HtmlView extends BaseHtmlView
         }
 
         // If a component categories title string is present, let's use it.
-        if ($lang->hasKey($component_title_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_TITLE')) {
+        if ($lang->hasKey($component_title_key = strtoupper($component . ($section ? '_' . $section : '')) . '_CATEGORIES_TITLE')) {
             $title = Text::_($component_title_key);
-        } elseif ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : '')))) {
+        } elseif ($lang->hasKey($component_section_key = strtoupper($component . ($section ? '_' . $section : '')))) {
             // Else if the component section string exists, let's use it.
             $title = Text::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', $this->escape(Text::_($component_section_key)));
         } else { // Else use the base title
@@ -216,7 +216,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Prepare the toolbar.
-        ToolbarHelper::title($title, 'folder categories ' . substr((string) $component, 4) . ($section ? "-$section" : '') . '-categories');
+        ToolbarHelper::title($title, 'folder categories ' . substr((string) $component, 4) . ($section ? '-' . $section : '') . '-categories');
 
         if ($canDo->get('core.create') || \count($user->getAuthorisedCategories($component, 'core.create')) > 0) {
             $toolbar->addNew('category.add');
@@ -283,11 +283,11 @@ class HtmlView extends BaseHtmlView
         $name = 'category' . ($section ? ('.' . $section) : '');
 
         // Looking first in the component forms folder
-        $path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/forms/$name.xml");
+        $path = Path::clean(JPATH_ADMINISTRATOR . sprintf('/components/%s/forms/%s.xml', $component, $name));
 
         // Looking in the component models/forms folder (J! 3)
         if (!file_exists($path)) {
-            $path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/models/forms/$name.xml");
+            $path = Path::clean(JPATH_ADMINISTRATOR . sprintf('/components/%s/models/forms/%s.xml', $component, $name));
         }
 
         $ref_key = '';
@@ -305,12 +305,12 @@ class HtmlView extends BaseHtmlView
 
         if ($ref_key === '' || $ref_key === '0') {
             // Compute the ref_key if it does exist in the component
-            $languageKey = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_HELP_KEY';
+            $languageKey = strtoupper($component . ($section ? '_' . $section : '')) . '_CATEGORIES_HELP_KEY';
 
             if ($lang->hasKey($languageKey)) {
                 $ref_key = $languageKey;
             } else {
-                $languageKey = 'JHELP_COMPONENTS_' . strtoupper(substr((string) $component, 4) . ($section ? "_$section" : '')) . '_CATEGORIES';
+                $languageKey = 'JHELP_COMPONENTS_' . strtoupper(substr((string) $component, 4) . ($section ? '_' . $section : '')) . '_CATEGORIES';
 
                 if ($lang->hasKey($languageKey)) {
                     $ref_key = $languageKey;

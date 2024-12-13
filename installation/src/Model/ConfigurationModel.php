@@ -67,8 +67,8 @@ class ConfigurationModel extends BaseInstallationModel
                 true,
                 DatabaseHelper::getEncryptionSettings($options)
             );
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_ERROR_CONNECT_DB', $runtimeException->getMessage()), 'error');
 
             return false;
         }
@@ -119,8 +119,8 @@ class ConfigurationModel extends BaseInstallationModel
 
         try {
             $db->execute();
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
 
             return false;
         }
@@ -135,8 +135,8 @@ class ConfigurationModel extends BaseInstallationModel
 
         try {
             $extensions = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
             $return = false;
         }
 
@@ -507,8 +507,8 @@ class ConfigurationModel extends BaseInstallationModel
 
         try {
             $result = $db->loadResult();
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
 
             return false;
         }
@@ -568,8 +568,8 @@ class ConfigurationModel extends BaseInstallationModel
                 $db->setQuery('SELECT setval(' . $db->quote('#__users_id_seq') . ', ' .  $result . ', false)')
                     ->execute();
             }
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
 
             return false;
         }
@@ -598,8 +598,8 @@ class ConfigurationModel extends BaseInstallationModel
 
         try {
             $db->execute();
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
 
             return false;
         }

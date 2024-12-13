@@ -112,7 +112,7 @@ class TasksRunCommand extends AbstractCommand
 
         $netTime = round(microtime(true) - $status['startTime'], 2);
         $this->ioStyle->newLine();
-        $this->ioStyle->writeln("<info>Finished running $taskCount tasks in $netTime seconds.</info>");
+        $this->ioStyle->writeln(sprintf('<info>Finished running %d tasks in %s seconds.</info>', $taskCount, $netTime));
 
         return $taskCount === 1 ? $exit : Status::OK;
     }

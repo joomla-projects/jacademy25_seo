@@ -194,7 +194,7 @@ class FeedTest extends UnitTestCase
     public function testSetCategoriesWithInvalidProperty()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->feed->categories = 'Can\'t touch this';
+        $this->feed->categories = "Can't touch this";
     }
 
     /**
@@ -207,7 +207,7 @@ class FeedTest extends UnitTestCase
     public function testSetContributorsWithInvalidProperty()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->feed->contributors = 'Can\'t touch this';
+        $this->feed->contributors = "Can't touch this";
     }
 
     /**

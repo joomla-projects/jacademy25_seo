@@ -105,14 +105,14 @@ trait AjaxHandlerLogin
             // Login the user
             Log::add("Logging in the user", Log::INFO, 'webauthn.system');
             $this->loginUser((int) $userId);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $session->set('plg_system_webauthn.publicKeyCredentialRequestOptions', null);
 
             $response                = $this->getAuthenticationResponseObject();
             $response->status        = Authentication::STATUS_UNKNOWN;
-            $response->error_message = $e->getMessage();
+            $response->error_message = $throwable->getMessage();
 
-            Log::add(\sprintf("Received login failure. Message: %s", $e->getMessage()), Log::ERROR, 'webauthn.system');
+            Log::add(\sprintf("Received login failure. Message: %s", $throwable->getMessage()), Log::ERROR, 'webauthn.system');
 
             // This also enqueues the login failure message for display after redirection. Look for JLog in that method.
             $this->processLoginFailure($response);
@@ -290,7 +290,7 @@ trait AjaxHandlerLogin
         $expectedStatus = Authentication::STATUS_SUCCESS;
 
         if ($response->status !== $expectedStatus) {
-            Log::add('The login failure has been logged in Joomla\'s error log', Log::INFO, 'webauthn.system');
+            Log::add("The login failure has been logged in Joomla's error log", Log::INFO, 'webauthn.system');
 
             // Everything logged in the 'jerror' category ends up being enqueued in the application message queue.
             Log::add($response->error_message, Log::WARNING, 'jerror');

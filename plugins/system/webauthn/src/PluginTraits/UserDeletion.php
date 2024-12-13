@@ -54,7 +54,7 @@ trait UserDeletion
         $userId = ArrayHelper::getValue($user, 'id', 0, 'int');
 
         if ($userId) {
-            Log::add("Removing WebAuthn Passwordless Login information for deleted user #{$userId}", Log::DEBUG, 'webauthn.system');
+            Log::add('Removing WebAuthn Passwordless Login information for deleted user #' . $userId, Log::DEBUG, 'webauthn.system');
 
             /** @var DatabaseInterface $db */
             $db = Factory::getContainer()->get(DatabaseInterface::class);

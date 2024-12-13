@@ -324,6 +324,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
         $model  = $this->bootComponent('com_messages')
             ->getMVCFactory()->createModel('Config', 'Administrator', ['ignore_request' => true]);
         $model->setState('user.id', $table->user_id_to);
+
         $config = $model->getItem();
 
         if (empty($config)) {

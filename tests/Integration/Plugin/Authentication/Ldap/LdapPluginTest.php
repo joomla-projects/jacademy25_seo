@@ -92,7 +92,7 @@ class LdapPluginTest extends IntegrationTestCase
      *
      * @since   4.3.0
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         // tests are executed in parallel as root
         // setUp is executed before every test
@@ -133,7 +133,7 @@ class LdapPluginTest extends IntegrationTestCase
      *
      * @since   4.3.0
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
     }
 

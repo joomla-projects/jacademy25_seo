@@ -127,8 +127,8 @@ class PostgresqlChangeItem extends ChangeItem
                     if ($pos = stripos($type, ' USING ')) {
                         $type = substr($type, 0, $pos);
                     }
-
-                    $datatype = $pos = strpos($type, '(') ? substr($type, 0, $pos) : $type;
+                    $datatype = strpos($type, '(') ? substr($type, 0, $pos) : $type;
+                    $pos = strpos($type, '(') ? substr($type, 0, $pos) : $type;
 
                     if ($datatype === 'varchar') {
                         $datatype = 'character varying';
@@ -258,9 +258,9 @@ class PostgresqlChangeItem extends ChangeItem
             $this->checkQueryExpected = 1;
             $this->msgElements        = [$table];
         }
-
         // Set fields based on results
-        $this->checkStatus = $this->checkQuery = $result ? 0 : -1;
+        $this->checkStatus = $result ? 0 : -1;
+        $this->checkQuery = $result ? 0 : -1;
     }
 
     /**

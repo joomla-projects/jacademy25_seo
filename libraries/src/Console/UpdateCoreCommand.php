@@ -147,12 +147,13 @@ class UpdateCoreCommand extends AbstractCommand
      * @since   4.0.0
      * @throws \Exception
      */
-    public function doExecute(InputInterface $input, OutputInterface $output): int
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
         $this->ioStyle->title('Updating Joomla');
 
         $this->ioStyle->writeln("Starting up ...");
+
         $this->progressBar->start();
 
         $model = $this->getUpdateModel();
@@ -160,8 +161,8 @@ class UpdateCoreCommand extends AbstractCommand
         // Make sure logging is working before continue
         try {
             Log::add('Test logging', Log::INFO, 'Update');
-        } catch (\Throwable $e) {
-            $message = Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOGGING_TEST_FAIL', $e->getMessage());
+        } catch (\Throwable $throwable) {
+            $message = Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOGGING_TEST_FAIL', $throwable->getMessage());
             $this->ioStyle->error($message);
             return self::ERR_UPDATE_FAILED;
         }

@@ -170,7 +170,7 @@ class WorkflowController extends FormController
      *
      * @since  4.0.0
      */
-    public function postSaveHook(BaseDatabaseModel $model, $validData = [])
+    protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
     {
         $task = $this->getTask();
 

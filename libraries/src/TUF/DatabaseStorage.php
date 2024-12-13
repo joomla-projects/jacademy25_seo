@@ -56,12 +56,12 @@ class DatabaseStorage extends StorageBase
     }
 
 
-    public function read(string $name): ?string
+    protected function read(string $name): ?string
     {
         return $this->container[$name] ?? null;
     }
 
-    public function write(string $name, string $data): void
+    protected function write(string $name, string $data): void
     {
         $this->container[$name] = $data;
     }

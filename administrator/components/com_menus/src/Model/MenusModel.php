@@ -103,8 +103,8 @@ class MenusModel extends ListModel
         try {
             $published      = 1;
             $countPublished = $db->loadAssocList('menutype', 'count_published');
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }
@@ -113,8 +113,8 @@ class MenusModel extends ListModel
         try {
             $published        = 0;
             $countUnpublished = $db->loadAssocList('menutype', 'count_published');
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }
@@ -123,8 +123,8 @@ class MenusModel extends ListModel
         try {
             $published    = -2;
             $countTrashed = $db->loadAssocList('menutype', 'count_published');
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }

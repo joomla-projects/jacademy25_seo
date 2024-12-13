@@ -38,7 +38,7 @@ abstract class ApplicationConfigurationEvent extends AbstractImmutableEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('subject', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'subject' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'subject' of event %s is required but has not been provided", $name));
         }
     }
 

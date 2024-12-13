@@ -507,6 +507,7 @@ class ItemController extends FormController
         $type = $data['type'];
 
         $type     = json_decode(base64_decode((string) $type));
+
         $title    = $type->title ?? null;
         $recordId = $type->id ?? 0;
 

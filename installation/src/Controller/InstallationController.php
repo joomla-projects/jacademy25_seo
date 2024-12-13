@@ -120,8 +120,8 @@ class InstallationController extends JSONController
         // Create Db
         try {
             $dbCreated = $databaseModel->createDatabase($options);
-        } catch (\RuntimeException $e) {
-            $this->app->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            $this->app->enqueueMessage($runtimeException->getMessage(), 'error');
 
             $dbCreated = false;
         }

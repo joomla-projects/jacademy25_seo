@@ -59,7 +59,7 @@ class FeedParserTest extends UnitTestCase
     public function testParseCustomElement()
     {
         $content   = 'test';
-        $xml       = "<root><custom>$content</custom></root>";
+        $xml       = sprintf('<root><custom>%s</custom></root>', $content);
         $xmlReader = $this->getXmlReader($xml, 'custom');
         $parser    = new FeedParserStub($xmlReader);
 
@@ -85,7 +85,7 @@ class FeedParserTest extends UnitTestCase
     {
         $content       = 'test';
         $prefix        = 'custom';
-        $xml           = "<root xmlns:$prefix='http://namespace'><$prefix:content>$content</$prefix:content></root>";
+        $xml           = sprintf("<root xmlns:%s='http://namespace'><%s:content>%s</%s:content></root>", $prefix, $prefix, $content, $prefix);
         $xmlReader     = $this->getXmlReader($xml, $prefix . ':content');
         $namespaceMock = $this->createMock(NamespaceParserInterface::class);
         $namespaceMock
@@ -117,8 +117,8 @@ class FeedParserTest extends UnitTestCase
     {
         $content   = 'test';
         $prefix    = 'unregistered';
-        $xml       = "<root xmlns:$prefix='http://namespace'><$prefix:content>$content</$prefix:content></root>";
-        $xmlReader = $this->getXmlReader($xml, "$prefix:content");
+        $xml       = sprintf("<root xmlns:%s='http://namespace'><%s:content>%s</%s:content></root>", $prefix, $prefix, $content, $prefix);
+        $xmlReader = $this->getXmlReader($xml, $prefix . ':content');
 
         $parser = new FeedParserStub($xmlReader);
         $parser->parse();
@@ -168,7 +168,7 @@ class FeedParserTest extends UnitTestCase
     {
         $content       = 'test';
         $prefix        = 'custom';
-        $xml           = "<root xmlns:$prefix='http://namespace'><$prefix:entry></$prefix:entry></root>";
+        $xml           = sprintf("<root xmlns:%s='http://namespace'><%s:entry></%s:entry></root>", $prefix, $prefix, $prefix);
         $xmlReader     = $this->getXmlReader($xml, $prefix . ':entry');
         $namespaceMock = $this->createMock(NamespaceParserInterface::class);
         $namespaceMock

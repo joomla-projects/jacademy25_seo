@@ -80,8 +80,8 @@ class CoreContent extends Table implements CurrentUserInterface
     {
         try {
             parent::check();
-        } catch (\Exception $e) {
-            $this->setError($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->setError($exception->getMessage());
 
             return false;
         }
@@ -130,7 +130,7 @@ class CoreContent extends Table implements CurrentUserInterface
             // Only process if not empty
 
             // Array of characters to remove
-            $bad_characters = ["\n", "\r", "\"", '<', '>'];
+            $bad_characters = ["\n", "\r", '"', '<', '>'];
 
             // Remove bad characters
             $after_clean = StringHelper::str_ireplace($bad_characters, '', $this->core_metakey);

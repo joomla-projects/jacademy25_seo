@@ -209,8 +209,8 @@ class MenusHelper extends ContentHelper
             // Get the options.
             $db->setQuery($query);
             $links = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
 
             return false;
         }
@@ -506,7 +506,7 @@ class MenusHelper extends ContentHelper
             if ($item->type == 'container' && \count($hideitems = (array) $item->getParams()->get('hideitems'))) {
                 foreach ($hideitems as &$hel) {
                     if (!is_numeric($hel)) {
-                        $hel = array_search($hel, $components);
+                        $hel = array_search($hel, $components, true);
                     }
                 }
 
@@ -528,7 +528,7 @@ class MenusHelper extends ContentHelper
                 'browserNav'   => $item->browserNav,
                 'img'          => $item->class,
                 'access'       => $item->access,
-                'component_id' => array_search($item->element, $components) ?: 0,
+                'component_id' => array_search($item->element, $components, true) ?: 0,
                 'parent_id'    => (int) $item->getParent()->id,
                 'client_id'    => 1,
                 'published'    => 1,
@@ -904,12 +904,12 @@ class MenusHelper extends ContentHelper
 
         // Translate attributes for iterator values
         foreach ($replace as $var => $val) {
-            $item->title   = str_replace("{sql:$var}", $val, $item->title);
-            $item->element = str_replace("{sql:$var}", $val, $item->element);
-            $item->link    = str_replace("{sql:$var}", $val, $item->link);
-            $item->class   = str_replace("{sql:$var}", $val, $item->class);
-            $item->icon    = str_replace("{sql:$var}", $val, $item->icon);
-            $params->set('menu-quicktask', str_replace("{sql:$var}", $val, $params->get('menu-quicktask', '')));
+            $item->title   = str_replace(sprintf('{sql:%s}', $var), $val, $item->title);
+            $item->element = str_replace(sprintf('{sql:%s}', $var), $val, $item->element);
+            $item->link    = str_replace(sprintf('{sql:%s}', $var), $val, $item->link);
+            $item->class   = str_replace(sprintf('{sql:%s}', $var), $val, $item->class);
+            $item->icon    = str_replace(sprintf('{sql:%s}', $var), $val, $item->icon);
+            $params->set('menu-quicktask', str_replace(sprintf('{sql:%s}', $var), $val, $params->get('menu-quicktask', '')));
         }
 
         $item->setParams($params);

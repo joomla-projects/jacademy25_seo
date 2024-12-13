@@ -142,6 +142,7 @@ class CaptiveController extends BaseController implements UserFactoryAwareInterf
 
         // Validate the MFA record
         $model->setState('record_id', $recordId);
+
         $record = $model->getRecord();
 
         if (empty($record)) {

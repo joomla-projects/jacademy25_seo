@@ -152,7 +152,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
         $model     = $component->getMVCFactory()->createModel($modelName, $this->getApplication()->getName(), ['ignore_request' => true]);
 
         // Don't send the notification to the active user
-        $key = array_search($user->id, $userIds);
+        $key = array_search($user->id, $userIds, true);
 
         if (\is_int($key)) {
             unset($userIds[$key]);

@@ -62,7 +62,7 @@ class Base32
         }
 
         if (!preg_match('/^[01]+$/', $str)) {
-            throw new \Exception('Only 0\'s and 1\'s are permitted');
+            throw new \Exception("Only 0's and 1's are permitted");
         }
 
         preg_match_all('/.{8}/', $str, $chrs);
@@ -71,7 +71,7 @@ class Base32
         // I'm just being slack here
         array_unshift($chrs, 'C*');
 
-        return \call_user_func_array('pack', $chrs);
+        return pack(...$chrs);
     }
 
     /**
@@ -92,7 +92,7 @@ class Base32
         }
 
         if (!preg_match('/^[01]+$/', $str)) {
-            throw new \Exception('Only 0\'s and 1\'s are permitted');
+            throw new \Exception("Only 0's and 1's are permitted");
         }
 
         // Base32 works on the first 5 bits of a byte, so we insert blanks to pad it out
@@ -106,7 +106,7 @@ class Base32
             // Excessive bits need to be padded
             $ebits = substr((string) $str, $length - $rbits);
             $str   = substr((string) $str, 0, $length - $rbits);
-            $str .= "000$ebits" . str_repeat('0', 5 - \strlen($ebits));
+            $str .= '000' . $ebits . str_repeat('0', 5 - \strlen($ebits));
         }
 
         preg_match_all('/.{8}/', (string) $str, $chrs);

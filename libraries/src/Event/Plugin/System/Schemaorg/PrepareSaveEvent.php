@@ -38,23 +38,23 @@ class PrepareSaveEvent extends AbstractImmutableEvent
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('subject', $arguments)) {
-            throw new \BadMethodCallException("Argument 'subject' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'subject' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('context', $arguments)) {
-            throw new \BadMethodCallException("Argument 'context' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'context' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('item', $arguments)) {
-            throw new \BadMethodCallException("Argument 'item' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'item' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('isNew', $arguments)) {
-            throw new \BadMethodCallException("Argument 'isNew' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'isNew' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('schema', $arguments)) {
-            throw new \BadMethodCallException("Argument 'schema' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'schema' of event %s is required but has not been provided", $name));
         }
 
         parent::__construct($name, $arguments);

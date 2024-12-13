@@ -58,16 +58,16 @@ class TemplateAdapter extends InstallerAdapter
                     'client_id' => $this->clientId,
                 ]
             );
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
             throw new \RuntimeException(
                 Text::sprintf(
                     'JLIB_INSTALLER_ABORT_ROLLBACK',
                     Text::_('JLIB_INSTALLER_' . $this->route),
-                    $e->getMessage()
+                    $runtimeException->getMessage()
                 ),
-                $e->getCode(),
-                $e
+                $runtimeException->getCode(),
+                $runtimeException
             );
         }
     }
@@ -507,6 +507,7 @@ class TemplateAdapter extends InstallerAdapter
 
         // We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file
         $this->parent->findManifest();
+
         $manifest = $this->parent->getManifest();
 
         if (!($manifest instanceof \SimpleXMLElement)) {
@@ -611,13 +612,13 @@ class TemplateAdapter extends InstallerAdapter
         $admin_info = ApplicationHelper::getClientInfo('administrator', true);
 
         foreach ($site_list as $template) {
-            if (file_exists(JPATH_SITE . "/templates/$template/templateDetails.xml")) {
+            if (file_exists(JPATH_SITE . sprintf('/templates/%s/templateDetails.xml', $template))) {
                 if ($template === 'system') {
                     // Ignore special system template
                     continue;
                 }
 
-                $manifest_details          = Installer::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_SITE . sprintf('/templates/%s/templateDetails.xml', $template));
                 $extension                 = Table::getInstance('extension');
                 $extension->type           = 'template';
                 $extension->client_id      = $site_info->id;
@@ -632,13 +633,13 @@ class TemplateAdapter extends InstallerAdapter
         }
 
         foreach ($admin_list as $template) {
-            if (file_exists(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml")) {
+            if (file_exists(JPATH_ADMINISTRATOR . sprintf('/templates/%s/templateDetails.xml', $template))) {
                 if ($template === 'system') {
                     // Ignore special system template
                     continue;
                 }
 
-                $manifest_details          = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . sprintf('/templates/%s/templateDetails.xml', $template));
                 $extension                 = Table::getInstance('extension');
                 $extension->type           = 'template';
                 $extension->client_id      = $admin_info->id;

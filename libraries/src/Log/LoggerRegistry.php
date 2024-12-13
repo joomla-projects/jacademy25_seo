@@ -50,7 +50,7 @@ final class LoggerRegistry
     public function getLoggerClass(string $key): string
     {
         if (!$this->hasLogger($key)) {
-            throw new \InvalidArgumentException("The '$key' key is not registered.");
+            throw new \InvalidArgumentException(sprintf("The '%s' key is not registered.", $key));
         }
 
         return $this->loggerMap[$key];
@@ -85,12 +85,12 @@ final class LoggerRegistry
     {
         // If the key exists already and we aren't instructed to replace existing services, bail early
         if (isset($this->loggerMap[$key]) && !$replace) {
-            throw new \RuntimeException("The '$key' key is already registered.");
+            throw new \RuntimeException(sprintf("The '%s' key is already registered.", $key));
         }
 
         // The class must exist
         if (!class_exists($class)) {
-            throw new \RuntimeException("The '$class' class for key '$key' does not exist.");
+            throw new \RuntimeException(sprintf("The '%s' class for key '%s' does not exist.", $class, $key));
         }
 
         $this->loggerMap[$key] = $class;

@@ -110,6 +110,7 @@ abstract class Mfa
         /** @noinspection PhpParamsInspection */
         $view->setModel($backupCodesModel);
         $view->setDocument($app->getDocument());
+
         $view->returnURL = base64_encode(Uri::getInstance()->toString());
         $view->user      = $user;
         $view->forHMVC   = true;
@@ -119,7 +120,7 @@ abstract class Mfa
 
         try {
             $view->display();
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             @ob_end_clean();
 
             /**
@@ -130,7 +131,7 @@ abstract class Mfa
              * your problem.
              */
             if (\defined('JDEBUG') && JDEBUG) {
-                throw $e;
+                throw $throwable;
             }
 
             return null;

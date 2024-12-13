@@ -171,6 +171,7 @@ abstract class ModuleHelper
 
         // Set scope to component name
         $app->scope = $module->module;
+
         $dispatcher = $app->getDispatcher();
 
         // Get the template
@@ -481,9 +482,9 @@ abstract class ModuleHelper
                 ->createCacheController('callback', ['defaultgroup' => 'com_modules']);
 
             $modules = $cache->get($db->loadObjectList(...), [], md5($cacheId), false);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             $app->getLogger()->warning(
-                Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
+                Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $runtimeException->getMessage()),
                 ['category' => 'jerror']
             );
 

@@ -39,7 +39,7 @@ class ExtensionstatusField extends ListField
      *
      * @since   3.5
      */
-    public function getOptions()
+    protected function getOptions()
     {
         $options = InstallerHelper::getStateOptions();
 

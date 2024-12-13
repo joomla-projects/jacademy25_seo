@@ -1314,7 +1314,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $priority = 0;
 
             foreach ($this->get('log_priorities', ['all']) as $p) {
-                $const = '\\Joomla\\CMS\\Log\\Log::' . strtoupper((string) $p);
+                $const = \Joomla\CMS\Log\Log::class . '::' . strtoupper((string) $p);
 
                 if (\defined($const)) {
                     $priority |= \constant($const);

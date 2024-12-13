@@ -35,7 +35,7 @@ abstract class ApplicationDocumentEvent extends ApplicationEvent
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('document', $arguments)) {
-            throw new \BadMethodCallException("Argument 'document' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'document' of event %s is required but has not been provided", $name));
         }
 
         parent::__construct($name, $arguments);

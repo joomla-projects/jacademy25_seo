@@ -47,7 +47,7 @@ class AfterSaveEvent extends AbstractSaveEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('savingResult', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'savingResult' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'savingResult' of event %s is required but has not been provided", $name));
         }
     }
 

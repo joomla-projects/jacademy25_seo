@@ -67,16 +67,16 @@ class RequestsController extends ApiController
                 '',
                 ['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
             );
-        } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
+        } catch (\Exception $exception) {
+            throw new \RuntimeException($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         $model = $this->getModel('export');
 
         try {
             $modelName = $model->getName();
-        } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
+        } catch (\Exception $exception) {
+            throw new \RuntimeException($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         $model->setState($modelName . '.request_id', $id);

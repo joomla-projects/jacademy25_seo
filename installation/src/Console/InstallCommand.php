@@ -98,6 +98,7 @@ class InstallCommand extends AbstractCommand
 
         // Collect the configuration
         $this->ioStyle->write('Collecting configuration...');
+
         $cfg                         = $this->getCLIOptions();
         $cfg['db_pass_plain']        = $cfg['db_pass'];
         $cfg['admin_password_plain'] = $cfg['admin_password'];
@@ -113,8 +114,8 @@ class InstallCommand extends AbstractCommand
 
         try {
             $setupModel->validateDbConnection($cfg);
-        } catch (\Exception $e) {
-            $this->ioStyle->error($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->ioStyle->error($exception->getMessage());
 
             return Command::FAILURE;
         }
@@ -131,7 +132,7 @@ class InstallCommand extends AbstractCommand
         // Set the character set to UTF-8 for pre-existing databases.
         try {
             $db->alterDbCharacterSet($cfg['db_name']);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Continue Anyhow
         }
 
@@ -188,8 +189,8 @@ class InstallCommand extends AbstractCommand
 
             try {
                 (new PublicFolderGeneratorHelper())->createPublicFolder($cfg['public_folder']);
-            } catch (\Exception $e) {
-                $this->ioStyle->error($e->getMessage());
+            } catch (\Exception $runtimeException) {
+                $this->ioStyle->error($runtimeException->getMessage());
 
                 return Command::FAILURE;
             }

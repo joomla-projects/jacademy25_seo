@@ -152,7 +152,7 @@ class Language
         $input = preg_replace('#([\pL\pM]+)[+.,]+([\pL\pM]+)#muiU', '$1 $2', (string) $input);
         $input = preg_replace('#(^|\s)[\'+-.,]+(\s|$)#mui', ' ', (string) $input);
         $input = preg_replace('#(^|\s)[\p{Pi}\p{Pf}]+(\s|$)#mui', ' ', (string) $input);
-        $input = preg_replace('#[' . $quotes . ']+#mui', '\'', (string) $input);
+        $input = preg_replace('#[' . $quotes . ']+#mui', "'", (string) $input);
         $input = preg_replace('#\s+#mui', ' ', (string) $input);
         $input = trim((string) $input);
 

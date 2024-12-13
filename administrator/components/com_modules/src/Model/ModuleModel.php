@@ -965,8 +965,8 @@ class ModuleModel extends AdminModel
 
         try {
             $db->execute();
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }
@@ -1041,8 +1041,8 @@ class ModuleModel extends AdminModel
 
         try {
             $extensionId = $db->loadResult();
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
 
             return false;
         }

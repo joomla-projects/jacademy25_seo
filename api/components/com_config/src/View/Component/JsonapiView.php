@@ -49,8 +49,8 @@ class JsonapiView extends BaseApiView
             }
 
             $data = $component->getParams()->toObject();
-        } catch (\Exception $e) {
-            throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SERVER'), 500, $e);
+        } catch (\Exception $exception) {
+            throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SERVER'), 500, $exception);
         }
 
         $items = [];

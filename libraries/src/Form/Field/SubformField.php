@@ -229,8 +229,8 @@ class SubformField extends FormField
         try {
             $tmpl  = $this->loadSubForm();
             $forms = $this->loadSubFormData($tmpl);
-        } catch (\Exception $e) {
-            return $e->getMessage();
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
         }
 
         $data['tmpl']            = $tmpl;

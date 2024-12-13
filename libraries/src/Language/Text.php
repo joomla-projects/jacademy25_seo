@@ -221,7 +221,7 @@ class Text
             );
 
             if (\array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script']) {
-                static::$strings[$key] = \call_user_func_array('sprintf', $args);
+                static::$strings[$key] = sprintf(...$args);
 
                 return $key;
             }
@@ -229,7 +229,7 @@ class Text
             $args[0] = $lang->_($key);
         }
 
-        return \call_user_func_array('sprintf', $args);
+        return sprintf(...$args);
     }
 
     /**
@@ -267,7 +267,7 @@ class Text
             );
 
             if (\array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script']) {
-                static::$strings[$string] = \call_user_func_array('sprintf', $args);
+                static::$strings[$string] = sprintf(...$args);
 
                 return $string;
             }
@@ -278,7 +278,7 @@ class Text
         // Replace custom named placeholders with sprintf style placeholders
         $args[0] = preg_replace('/\[\[%(\d+):[^\]]*\]\]/', '%\1$s', $args[0]);
 
-        return \call_user_func_array('sprintf', $args);
+        return sprintf(...$args);
     }
 
     /**
@@ -308,7 +308,7 @@ class Text
             $args[0] = $lang->_($string);
         }
 
-        return \call_user_func_array('printf', $args);
+        return printf(...$args);
     }
 
     /**

@@ -572,6 +572,7 @@ class DatabaseModel extends InstallerModel
     {
         $table = new Extension($this->getDatabase());
         $table->load($extensionId);
+
         $cache         = new Registry($table->manifest_cache);
         $updateVersion = $cache->get('version');
 

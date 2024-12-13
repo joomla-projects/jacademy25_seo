@@ -36,11 +36,11 @@ class BeforeCheckoutEvent extends AbstractEvent
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('userId', $arguments)) {
-            throw new \BadMethodCallException("Argument 'userId' is required for event $name");
+            throw new \BadMethodCallException("Argument 'userId' is required for event " . $name);
         }
 
         if (!\array_key_exists('pk', $arguments)) {
-            throw new \BadMethodCallException("Argument 'pk' is required for event $name");
+            throw new \BadMethodCallException("Argument 'pk' is required for event " . $name);
         }
 
         parent::__construct($name, $arguments);
@@ -61,7 +61,7 @@ class BeforeCheckoutEvent extends AbstractEvent
     protected function setUserId($value)
     {
         if (!is_numeric($value) || empty($value)) {
-            throw new \BadMethodCallException("Argument 'userId' of event {$this->name} must be an integer");
+            throw new \BadMethodCallException(sprintf("Argument 'userId' of event %s must be an integer", $this->name));
         }
 
         return (int) $value;

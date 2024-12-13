@@ -64,16 +64,16 @@ class ModuleAdapter extends InstallerAdapter
                     'client_id' => $this->clientId,
                 ]
             );
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
             throw new \RuntimeException(
                 Text::sprintf(
                     'JLIB_INSTALLER_ABORT_ROLLBACK',
                     Text::_('JLIB_INSTALLER_' . $this->route),
-                    $e->getMessage()
+                    $runtimeException->getMessage()
                 ),
-                $e->getCode(),
-                $e
+                $runtimeException->getCode(),
+                $runtimeException
             );
         }
     }
@@ -127,8 +127,8 @@ class ModuleAdapter extends InstallerAdapter
         $admin_info = ApplicationHelper::getClientInfo('administrator', true);
 
         foreach ($site_list as $module) {
-            if (file_exists(JPATH_SITE . "/modules/$module/$module.xml")) {
-                $manifest_details          = Installer::parseXMLInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
+            if (file_exists(JPATH_SITE . sprintf('/modules/%s/%s.xml', $module, $module))) {
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_SITE . sprintf('/modules/%s/%s.xml', $module, $module));
                 $extension                 = Table::getInstance('extension');
                 $extension->type           = 'module';
                 $extension->client_id      = $site_info->id;
@@ -143,8 +143,8 @@ class ModuleAdapter extends InstallerAdapter
         }
 
         foreach ($admin_list as $module) {
-            if (file_exists(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml")) {
-                $manifest_details          = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
+            if (file_exists(JPATH_ADMINISTRATOR . sprintf('/modules/%s/%s.xml', $module, $module))) {
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . sprintf('/modules/%s/%s.xml', $module, $module));
                 $extension                 = Table::getInstance('extension');
                 $extension->type           = 'module';
                 $extension->client_id      = $admin_info->id;
@@ -235,7 +235,7 @@ class ModuleAdapter extends InstallerAdapter
 
         try {
             $modules = $db->loadColumn();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $modules = [];
         }
 

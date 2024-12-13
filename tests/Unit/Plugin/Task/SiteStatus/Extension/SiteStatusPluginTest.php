@@ -48,7 +48,7 @@ class SiteStatusPluginTest extends UnitTestCase
      *
      * @since   4.2.0
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         // Dir must be random for parallel automated tests
         $this->tmpFolder = JPATH_ROOT . '/tmp/' . random_int(0, mt_getrandmax());
@@ -67,7 +67,7 @@ class SiteStatusPluginTest extends UnitTestCase
      *
      * @since   4.2.0
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         if (is_dir($this->tmpFolder)) {
             Folder::delete($this->tmpFolder);

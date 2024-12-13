@@ -48,8 +48,8 @@ class UpdateController extends BaseController
         // Make sure logging is working before continue
         try {
             Log::add('Test logging', Log::INFO, 'Update');
-        } catch (\Throwable $e) {
-            $message = Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOGGING_TEST_FAIL', $e->getMessage());
+        } catch (\Throwable $throwable) {
+            $message = Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOGGING_TEST_FAIL', $throwable->getMessage());
             $this->setRedirect('index.php?option=com_joomlaupdate', $message, 'error');
             return;
         }
@@ -152,8 +152,8 @@ class UpdateController extends BaseController
 
         try {
             $model->finaliseUpgrade();
-        } catch (\Throwable $e) {
-            $model->collectError('finaliseUpgrade', $e);
+        } catch (\Throwable $throwable) {
+            $model->collectError('finaliseUpgrade', $throwable);
         }
 
         // Reset update source from "Joomla Next" to "Default"
@@ -206,8 +206,8 @@ class UpdateController extends BaseController
 
         try {
             $model->cleanUp();
-        } catch (\Throwable $e) {
-            $model->collectError('cleanUp', $e);
+        } catch (\Throwable $throwable) {
+            $model->collectError('cleanUp', $throwable);
         }
 
         // Check for update errors
@@ -275,8 +275,8 @@ class UpdateController extends BaseController
         // Make sure logging is working before continue
         try {
             Log::add('Test logging', Log::INFO, 'Update');
-        } catch (\Throwable $e) {
-            $message = Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOGGING_TEST_FAIL', $e->getMessage());
+        } catch (\Throwable $throwable) {
+            $message = Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOGGING_TEST_FAIL', $throwable->getMessage());
             $this->setRedirect('index.php?option=com_joomlaupdate', $message, 'error');
             return;
         }
@@ -285,7 +285,7 @@ class UpdateController extends BaseController
 
         try {
             $model->upload();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $url = 'index.php?option=com_joomlaupdate';
             $this->setRedirect($url, $e->getMessage(), 'error');
 
@@ -553,8 +553,8 @@ class UpdateController extends BaseController
 
         try {
             echo new JsonResponse($combinedCompatibilityStatus);
-        } catch (\Exception $e) {
-            echo $e;
+        } catch (\Exception $exception) {
+            echo $exception;
         }
 
         $this->app->close();
@@ -666,8 +666,8 @@ class UpdateController extends BaseController
             ];
 
             echo new JsonResponse($return);
-        } catch (\Exception $e) {
-            echo $e;
+        } catch (\Exception $exception) {
+            echo $exception;
         }
 
         $this->app->close();

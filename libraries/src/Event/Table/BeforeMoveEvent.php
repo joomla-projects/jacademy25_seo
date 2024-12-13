@@ -39,15 +39,15 @@ class BeforeMoveEvent extends AbstractEvent
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('query', $arguments)) {
-            throw new \BadMethodCallException("Argument 'query' is required for event $name");
+            throw new \BadMethodCallException("Argument 'query' is required for event " . $name);
         }
 
         if (!\array_key_exists('delta', $arguments)) {
-            throw new \BadMethodCallException("Argument 'delta' is required for event $name");
+            throw new \BadMethodCallException("Argument 'delta' is required for event " . $name);
         }
 
         if (!\array_key_exists('where', $arguments)) {
-            throw new \BadMethodCallException("Argument 'where' is required for event $name");
+            throw new \BadMethodCallException("Argument 'where' is required for event " . $name);
         }
 
         parent::__construct($name, $arguments);
@@ -68,7 +68,7 @@ class BeforeMoveEvent extends AbstractEvent
     protected function setQuery($value)
     {
         if (!($value instanceof DatabaseQuery)) {
-            throw new \BadMethodCallException("Argument 'query' of event {$this->name} must be of DatabaseQuery type");
+            throw new \BadMethodCallException(sprintf("Argument 'query' of event %s must be of DatabaseQuery type", $this->name));
         }
 
         return $value;
@@ -89,7 +89,7 @@ class BeforeMoveEvent extends AbstractEvent
     protected function setDelta($value)
     {
         if (!is_numeric($value)) {
-            throw new \BadMethodCallException("Argument 'delta' of event {$this->name} must be an integer");
+            throw new \BadMethodCallException(sprintf("Argument 'delta' of event %s must be an integer", $this->name));
         }
 
         return (int) $value;
@@ -110,7 +110,7 @@ class BeforeMoveEvent extends AbstractEvent
     protected function setWhere($value)
     {
         if (!empty($value) && !\is_string($value)) {
-            throw new \BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string");
+            throw new \BadMethodCallException(sprintf("Argument 'where' of event %s must be empty or string", $this->name));
         }
 
         return $value;

@@ -105,7 +105,7 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
      */
     private function getSessionService(string $application): SessionInterface
     {
-        if (!$this->getContainer()->has("session.web.$application")) {
+        if (!$this->getContainer()->has('session.web.' . $application)) {
             throw new \InvalidArgumentException(
                 \sprintf(
                     'The `%s` application is not a valid option.',
@@ -114,6 +114,6 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
             );
         }
 
-        return $this->getContainer()->get("session.web.$application");
+        return $this->getContainer()->get('session.web.' . $application);
     }
 }

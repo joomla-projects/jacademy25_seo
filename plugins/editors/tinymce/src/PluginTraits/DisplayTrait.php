@@ -65,6 +65,7 @@ trait DisplayTrait
         $height          = $attributes['height'] ?? '';
         $id              = $attributes['id'] ?? $name;
         $id              = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', (string) $id);
+
         $nameGroup       = explode('[', (string) preg_replace('/\[\]|\]/', '', $name));
         $fieldName       = end($nameGroup);
         $buttons         = $params['buttons'] ?? true;

@@ -47,7 +47,7 @@ class FilterController extends FormController
         $table   = $model->getTable();
         $data    = $this->input->post->get('jform', [], 'array');
         $checkin = $table->hasField('checked_out');
-        $context = "$this->option.edit.$this->context";
+        $context = sprintf('%s.edit.%s', $this->option, $this->context);
         $task    = $this->getTask();
 
         // Determine the name of the primary key for the data.

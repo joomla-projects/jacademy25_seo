@@ -78,8 +78,8 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
     {
         try {
             parent::check();
-        } catch (\Exception $e) {
-            $this->setError($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->setError($exception->getMessage());
 
             return false;
         }
@@ -107,7 +107,7 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
         // Clean up description -- eliminate quotes and <> brackets
         if (!empty($this->metadesc)) {
             // Only process if not empty
-            $bad_characters = ["\"", '<', '>'];
+            $bad_characters = ['"', '<', '>'];
             $this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
         }
 

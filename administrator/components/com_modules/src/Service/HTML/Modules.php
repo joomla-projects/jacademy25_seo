@@ -235,8 +235,8 @@ class Modules
 
         try {
             $options = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
         }
 
         // Pop the first item off the array if it's blank

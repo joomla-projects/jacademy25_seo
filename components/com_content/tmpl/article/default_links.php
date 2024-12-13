@@ -58,7 +58,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
                     case 2:
                         // Open in a popup window
                         $attribs = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600';
-                        echo "<a href=\"" . htmlspecialchars((string) $link, ENT_COMPAT, 'UTF-8') . "\" onclick=\"window.open(this.href, 'targetWindow', '" . $attribs . "'); return false;\" rel=\"noopener noreferrer\">" .
+                        echo '<a href="' . htmlspecialchars((string) $link, ENT_COMPAT, 'UTF-8') . "\" onclick=\"window.open(this.href, 'targetWindow', '" . $attribs . "'); return false;\" rel=\"noopener noreferrer\">" .
                             htmlspecialchars((string) $label, ENT_COMPAT, 'UTF-8') . '</a>';
                         break;
                     case 3:

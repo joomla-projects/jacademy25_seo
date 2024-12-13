@@ -50,8 +50,8 @@ class ModulesController extends AdminController
             $model = $this->getModel();
             $model->duplicate($pks);
             $this->setMessage(Text::plural('COM_MODULES_N_MODULES_DUPLICATED', \count($pks)));
-        } catch (\Exception $e) {
-            $this->app->enqueueMessage($e->getMessage(), 'warning');
+        } catch (\Exception $exception) {
+            $this->app->enqueueMessage($exception->getMessage(), 'warning');
         }
 
         $this->setRedirect('index.php?option=com_modules&view=modules' . $this->getRedirectToListAppend());

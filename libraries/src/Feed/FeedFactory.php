@@ -76,8 +76,8 @@ class FeedFactory
                     break;
                 }
             }
-        } catch (\Exception $e) {
-            throw new \RuntimeException('Error reading feed.', $e->getCode(), $e);
+        } catch (\Exception $exception) {
+            throw new \RuntimeException('Error reading feed.', $exception->getCode(), $exception);
         }
 
         // Setup the appropriate feed parser for the feed.

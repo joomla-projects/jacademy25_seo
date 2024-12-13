@@ -89,8 +89,8 @@ class SetupModel extends BaseInstallationModel
 
         try {
             $form = Form::getInstance('jform', $view, ['control' => 'jform']);
-        } catch (\Exception $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\Exception $exception) {
+            Factory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
 
             return false;
         }
@@ -251,16 +251,16 @@ class SetupModel extends BaseInstallationModel
             );
 
             $db->connect();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             if (
-                $options->db_type === 'mysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42
-                || $options->db_type === 'pgsql' && strpos($e->getMessage(), 'database "' . $options->db_name . '" does not exist')
+                $options->db_type === 'mysql' && strpos($runtimeException->getMessage(), '[1049] Unknown database') === 42
+                || $options->db_type === 'pgsql' && strpos($runtimeException->getMessage(), 'database "' . $options->db_name . '" does not exist')
             ) {
                 // Database doesn't exist: Skip the below checks, they will be done later at database creation
                 return true;
             }
 
-            Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
+            Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $runtimeException->getMessage()), 'error');
 
             return false;
         }

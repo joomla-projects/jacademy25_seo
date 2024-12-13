@@ -631,7 +631,7 @@ class ComponentAdapter extends InstallerAdapter
         try {
             $this->extension->store();
             $stored = true;
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             $name    = $this->extension->name;
             $type    = $this->extension->type;
             $element = $this->extension->element;
@@ -673,8 +673,8 @@ class ComponentAdapter extends InstallerAdapter
         if (!$stored) {
             try {
                 $this->extension->store();
-            } catch (\RuntimeException $e) {
-                throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'), $e->getCode(), $e);
+            } catch (\RuntimeException $runtimeException) {
+                throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'), $runtimeException->getCode(), $runtimeException);
             }
         }
     }
@@ -1367,8 +1367,8 @@ class ComponentAdapter extends InstallerAdapter
 
         try {
             $table->setLocation($parentId, 'last-child');
-        } catch (\InvalidArgumentException $e) {
-            Log::add($e->getMessage(), Log::WARNING, 'jerror');
+        } catch (\InvalidArgumentException $invalidArgumentException) {
+            Log::add($invalidArgumentException->getMessage(), Log::WARNING, 'jerror');
 
             return false;
         }

@@ -71,8 +71,8 @@ abstract class ModulesHelper
         try {
             $positions = $db->loadColumn();
             $positions = \is_array($positions) ? $positions : [];
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
 
             return null;
         }
@@ -161,9 +161,9 @@ abstract class ModulesHelper
         foreach ($modules as $module) {
             $extension = $module->value;
             $path      = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
-            $source    = $path . "/modules/$extension";
-            if (!$lang->load("$extension.sys", $path)) {
-                $lang->load("$extension.sys", $source);
+            $source    = $path . ('/modules/' . $extension);
+            if (!$lang->load($extension . '.sys', $path)) {
+                $lang->load($extension . '.sys', $source);
             }
             $module->text = Text::_($module->text);
         }

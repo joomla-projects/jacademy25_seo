@@ -74,11 +74,11 @@ class DisplayController extends BaseController
         switch ($layout) {
             case 'edit':
                 // True if controller was called and verified permissions
-                $inEditList = $this->checkEditId("$context.edit.task", $id);
+                $inEditList = $this->checkEditId($context . '.edit.task', $id);
                 $isNew      = ($id == 0);
 
                 // For new item, entry is invalid if task type was not selected through SelectView
-                if ($isNew && !$this->app->getUserState("$context.add.task.task_type")) {
+                if ($isNew && !$this->app->getUserState($context . '.add.task.task_type')) {
                     $this->setMessage((Text::_('COM_SCHEDULER_ERROR_FORBIDDEN_JUMP_TO_ADD_VIEW')), 'error');
                     $isValid = false;
                 } elseif (!$inEditList) {

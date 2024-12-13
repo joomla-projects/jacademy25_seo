@@ -713,13 +713,13 @@ abstract class Bootstrap
         $ariaExpanded = $in === 'show';
 
         return <<<HTMLSTR
-<div class="accordion-item $class">
-  <h2 class="accordion-header" id="$id-heading">
-    <button class="accordion-button $collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#$id" aria-expanded="$ariaExpanded" aria-controls="$id" role="tab">
-		$text
+<div class="accordion-item {$class}">
+  <h2 class="accordion-header" id="{$id}-heading">
+    <button class="accordion-button {$collapsed}" type="button" data-bs-toggle="collapse" data-bs-target="#{$id}" aria-expanded="{$ariaExpanded}" aria-controls="{$id}" role="tab">
+		{$text}
     </button>
   </h2>
-  <div id="$id" class="accordion-collapse collapse $in" aria-labelledby="$id-heading" $parent role="tabpanel">
+  <div id="{$id}" class="accordion-collapse collapse {$in}" aria-labelledby="{$id}-heading" {$parent} role="tabpanel">
     <div class="accordion-body">
 HTMLSTR;
     }

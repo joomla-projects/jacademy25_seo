@@ -87,8 +87,8 @@ abstract class InstallerHelper
 
         try {
             $response = HttpFactory::getHttp()->get($url, $headers);
-        } catch (\RuntimeException $exception) {
-            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), Log::WARNING, 'jerror');
+        } catch (\RuntimeException $runtimeException) {
+            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $runtimeException->getMessage()), Log::WARNING, 'jerror');
 
             return false;
         }

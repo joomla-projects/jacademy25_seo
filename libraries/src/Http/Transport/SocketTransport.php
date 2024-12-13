@@ -247,8 +247,8 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 
                 throw new \Exception($err);
             }
-        } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
+        } catch (\Exception $exception) {
+            throw new \RuntimeException($exception->getMessage(), $exception->getCode(), $exception);
         } finally {
             restore_error_handler();
         }

@@ -47,11 +47,11 @@ class PrepareDomEvent extends CustomFieldsEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('fieldset', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'fieldset' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'fieldset' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('form', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'form' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'form' of event %s is required but has not been provided", $name));
         }
     }
 

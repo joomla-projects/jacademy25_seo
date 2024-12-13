@@ -35,11 +35,11 @@ class BeforeBatchEvent extends AbstractImmutableEvent
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('src', $arguments)) {
-            throw new \BadMethodCallException("Argument 'src' is required for event $name");
+            throw new \BadMethodCallException("Argument 'src' is required for event " . $name);
         }
 
         if (!\array_key_exists('type', $arguments)) {
-            throw new \BadMethodCallException("Argument 'type' is required for event $name");
+            throw new \BadMethodCallException("Argument 'type' is required for event " . $name);
         }
 
         parent::__construct($name, $arguments);

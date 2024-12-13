@@ -125,9 +125,9 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
         }
 
         if ($this->useRequireJs) {
-            return "<script type=\"module\"$nonce>\nrequire(['debugbar'], function(PhpDebugBar){ $js });\n</script>\n";
+            return "<script type=\"module\"{$nonce}>\nrequire(['debugbar'], function(PhpDebugBar){ {$js} });\n</script>\n";
         }
 
-        return "<script type=\"module\"$nonce>\n$js\n</script>\n";
+        return "<script type=\"module\"{$nonce}>\n{$js}\n</script>\n";
     }
 }

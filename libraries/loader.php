@@ -249,7 +249,7 @@ abstract class JLoader
             // If the class doesn't exists, we probably have a class alias available
             if (!class_exists($class, false)) {
                 // Search the alias class, first none namespaced and then namespaced
-                $original = array_search($class, self::$classAliases) ?: array_search('\\' . $class, self::$classAliases);
+                $original = array_search($class, self::$classAliases, true) ?: array_search('\\' . $class, self::$classAliases, true);
 
                 // When we have an original and the class exists an alias should be created
                 if ($original && class_exists($original, false)) {
@@ -490,7 +490,7 @@ abstract class JLoader
 
         // Loop through registered namespaces until we find a match.
         foreach (self::$namespaces as $ns => $paths) {
-            if (str_starts_with($class, "{$ns}\\")) {
+            if (str_starts_with($class, $ns . '\\')) {
                 $nsPath = trim(str_replace('\\', DIRECTORY_SEPARATOR, $ns), DIRECTORY_SEPARATOR);
 
                 // Loop through paths registered to this namespace until we find a match.

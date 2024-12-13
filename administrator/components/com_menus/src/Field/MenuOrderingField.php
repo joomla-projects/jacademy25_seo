@@ -82,8 +82,8 @@ class MenuOrderingField extends ListField
 
         try {
             $options = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
         }
 
         // Allow translation of custom admin menus

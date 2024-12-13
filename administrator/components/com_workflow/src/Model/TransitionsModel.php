@@ -128,7 +128,7 @@ class TransitionsModel extends ListModel
      *
      * @since  4.0.0
      */
-    public function getListQuery()
+    protected function getListQuery()
     {
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);

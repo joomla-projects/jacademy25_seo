@@ -152,9 +152,9 @@ class CaptchaField extends FormField
              * when using invisible captchas.
              */
             $this->_captcha->setupField($this, $element);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             $this->_captcha = null;
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
 
             return false;
         }
@@ -177,8 +177,8 @@ class CaptchaField extends FormField
 
         try {
             return $this->_captcha->display($this->name, $this->id, $this->class);
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
         }
 
         return '';

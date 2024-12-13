@@ -45,7 +45,7 @@ class WebauthnField extends FormField
      *
      * @since   4.0.0
      */
-    public function getInput()
+    protected function getInput()
     {
         $userId = $this->form->getData()->get('id', null);
 

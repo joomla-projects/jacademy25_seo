@@ -103,9 +103,9 @@ class IndexerController extends BaseController
 
             // Send the response.
             static::sendResponse($state);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             // Catch an exception and return the response.
-            static::sendResponse($e);
+            static::sendResponse($exception);
         }
     }
 
@@ -209,10 +209,10 @@ class IndexerController extends BaseController
 
             // Send the response.
             static::sendResponse($state);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             // Catch an exception and return the response.
             // Send the response.
-            static::sendResponse($e);
+            static::sendResponse($exception);
         }
     }
 
@@ -260,9 +260,9 @@ class IndexerController extends BaseController
 
             // Send the response.
             static::sendResponse($state);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             // Catch an exception and return the response.
-            static::sendResponse($e);
+            static::sendResponse($exception);
         }
     }
 
@@ -415,10 +415,10 @@ class IndexerController extends BaseController
             $state->rendered = $output;
 
             echo json_encode($state);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             // Catch an exception and return the response.
             // Send the response.
-            static::sendResponse($e);
+            static::sendResponse($exception);
         }
     }
 }

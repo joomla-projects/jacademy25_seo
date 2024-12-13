@@ -94,8 +94,8 @@ class MenuParentField extends ListField
 
         try {
             $options = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
         }
 
         // Pad the option text with spaces using depth level as a multiplier.

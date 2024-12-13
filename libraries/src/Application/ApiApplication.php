@@ -247,7 +247,7 @@ final class ApiApplication extends CMSApplication
             $this->handlePreflight($method, $router);
 
             $route = $router->parseApiRoute($method);
-        } catch (RouteNotFoundException $e) {
+        } catch (RouteNotFoundException) {
             $caught404 = true;
         }
 
@@ -265,7 +265,7 @@ final class ApiApplication extends CMSApplication
 
         try {
             $mediaType = $negotiator->getBest($this->input->server->getString('HTTP_ACCEPT'), $priorities);
-        } catch (InvalidArgument $e) {
+        } catch (InvalidArgument) {
             $mediaType = null;
         }
 

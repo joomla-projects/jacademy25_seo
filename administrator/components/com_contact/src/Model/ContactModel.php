@@ -486,8 +486,8 @@ class ContactModel extends AdminModel
             $db->setQuery($query);
 
             $db->execute();
-        } catch (\Exception $e) {
-            $this->setError($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->setError($exception->getMessage());
 
             return false;
         }

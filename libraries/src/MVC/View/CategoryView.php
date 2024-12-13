@@ -152,6 +152,7 @@ class CategoryView extends HtmlView
         $paramsModel = $model->getState('params');
 
         $paramsModel->set('check_access_rights', 0);
+
         $model->setState('params', $paramsModel);
 
         $state       = $this->get('State');

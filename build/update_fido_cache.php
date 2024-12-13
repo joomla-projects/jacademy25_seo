@@ -23,7 +23,7 @@ if (!isset($fullPath)) {
 $filePath = rtrim((string) $fullPath, '\\/') . '/plugins/system/webauthn/fido.jwt';
 
 if (is_file($filePath) && filemtime($filePath) > (time() - 864000)) {
-    echo "The file $filePath already exists and is current; nothing to do.\n";
+    echo "The file {$filePath} already exists and is current; nothing to do.\n";
 
     exit(0);
 }
@@ -50,4 +50,4 @@ echo "Saving JWT file in the plugin directory...\n";
 
 file_put_contents($filePath, $rawJwt);
 
-echo "File saved: $filePath\n";
+echo sprintf('File saved: %s%s', $filePath, PHP_EOL);

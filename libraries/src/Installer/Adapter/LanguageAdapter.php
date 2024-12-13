@@ -692,6 +692,7 @@ class LanguageAdapter extends InstallerAdapter
         $this->parent->setPath('manifest', $manifestPath);
         $this->parent->setPath('source', $client->path . '/language/' . $short_element);
         $this->parent->setPath('extension_root', $this->parent->getPath('source'));
+
         $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
         $this->parent->extension->state          = 0;

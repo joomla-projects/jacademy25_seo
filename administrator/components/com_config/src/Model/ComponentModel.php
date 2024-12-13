@@ -96,7 +96,7 @@ class ComponentModel extends FormModel
 
         $lang = Factory::getLanguage();
         if (!$lang->load($option, JPATH_BASE)) {
-            $lang->load($option, JPATH_BASE . "/components/$option");
+            $lang->load($option, JPATH_BASE . ('/components/' . $option));
         }
 
         return $form;
@@ -138,7 +138,7 @@ class ComponentModel extends FormModel
         // Load common and local language files.
         $lang = Factory::getLanguage();
         if (!$lang->load($option, JPATH_BASE)) {
-            $lang->load($option, JPATH_BASE . "/components/$option");
+            $lang->load($option, JPATH_BASE . ('/components/' . $option));
         }
 
         $result = ComponentHelper::getComponent($option);

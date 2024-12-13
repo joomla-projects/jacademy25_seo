@@ -437,6 +437,7 @@ final class Stats extends CMSPlugin
         // Update params
         $this->params->set('lastrun', time());
         $this->params->set('unique_id', $this->getUniqueId());
+
         $interval = (int) $this->params->get('interval', 12);
         $this->params->set('interval', $interval ?: 12);
 

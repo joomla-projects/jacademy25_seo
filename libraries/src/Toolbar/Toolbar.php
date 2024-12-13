@@ -375,8 +375,8 @@ class Toolbar
         // For B/C, catch the exceptions thrown by the factory
         try {
             return $this->factory->createButton($this, $type);
-        } catch (\InvalidArgumentException $e) {
-            Log::add($e->getMessage(), Log::WARNING, 'jerror');
+        } catch (\InvalidArgumentException $invalidArgumentException) {
+            Log::add($invalidArgumentException->getMessage(), Log::WARNING, 'jerror');
 
             return false;
         }

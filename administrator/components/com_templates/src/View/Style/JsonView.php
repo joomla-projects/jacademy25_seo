@@ -62,9 +62,9 @@ class JsonView extends BaseHtmlView
 
         try {
             $this->item = $model->getItem();
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $app = Factory::getApplication();
-            $app->enqueueMessage($e->getMessage(), 'error');
+            $app->enqueueMessage($exception->getMessage(), 'error');
 
             return false;
         }

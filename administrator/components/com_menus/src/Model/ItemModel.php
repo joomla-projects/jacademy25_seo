@@ -200,8 +200,8 @@ class ItemModel extends AdminModel
 
         try {
             $count = $db->loadResult();
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }
@@ -831,8 +831,8 @@ class ItemModel extends AdminModel
 
         try {
             $result = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }
@@ -862,8 +862,8 @@ class ItemModel extends AdminModel
 
         try {
             $result = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }
@@ -1227,8 +1227,8 @@ class ItemModel extends AdminModel
 
         try {
             $rebuildResult = $table->rebuild();
-        } catch (\Exception $e) {
-            $this->setError($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->setError($exception->getMessage());
 
             return false;
         }
@@ -1256,8 +1256,8 @@ class ItemModel extends AdminModel
 
         try {
             $items = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
 
             return false;
         }

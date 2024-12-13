@@ -269,8 +269,8 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
         try {
             // Load the list items and add the items to the internal cache.
             $this->cache[$store] = $this->_getList($this->_getListQuery(), $this->getStart(), $this->getState('list.limit'));
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }
@@ -359,8 +359,8 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
         try {
             // Load the total and add the total to the internal cache.
             $this->cache[$store] = (int) $this->_getListCount($this->_getListQuery());
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }

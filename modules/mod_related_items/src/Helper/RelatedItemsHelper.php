@@ -70,6 +70,7 @@ class RelatedItemsHelper implements DatabaseAwareInterface
 
         $temp = $input->getString('id');
         $temp = explode(':', $temp);
+
         $id   = (int) $temp[0];
 
         $now      = Factory::getDate()->toSql();

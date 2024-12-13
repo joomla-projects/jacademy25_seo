@@ -800,8 +800,8 @@ class User
                 'savingResult' => $result,
                 'errorMessage' => $this->getError() ?? '',
             ]));
-        } catch (\Exception $e) {
-            $this->setError($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->setError($exception->getMessage());
 
             return false;
         }

@@ -307,7 +307,7 @@ class CategoryNode implements NodeInterface
     public function setParent(NodeInterface $parent)
     {
         if (!\is_null($this->_parent)) {
-            $key = array_search($this, $this->_parent->_children);
+            $key = array_search($this, $this->_parent->_children, true);
             unset($this->_parent->_children[$key]);
         }
 

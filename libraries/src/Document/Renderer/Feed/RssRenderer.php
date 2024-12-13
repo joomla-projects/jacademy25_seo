@@ -225,9 +225,9 @@ class RssRenderer extends DocumentRenderer
             if ($item->enclosure != null) {
                 $feed .= "			<enclosure url=\"";
                 $feed .= $item->enclosure->url;
-                $feed .= "\" length=\"";
+                $feed .= '" length="';
                 $feed .= $item->enclosure->length;
-                $feed .= "\" type=\"";
+                $feed .= '" type="';
                 $feed .= $item->enclosure->type;
                 $feed .= "\"/>\n";
             }

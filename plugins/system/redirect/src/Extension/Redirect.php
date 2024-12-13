@@ -151,8 +151,8 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
 
         try {
             $redirects = $this->getDatabase()->loadAssocList();
-        } catch (\Exception $e) {
-            $event->setError(new \Exception($this->getApplication()->getLanguage()->_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+        } catch (\Exception $exception) {
+            $event->setError(new \Exception($this->getApplication()->getLanguage()->_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $exception));
 
             return;
         }
@@ -175,7 +175,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
         );
 
         foreach ($possibleMatches as $match) {
-            if (($index = array_search($match, array_column($redirects, 'old_url'))) !== false) {
+            if (($index = array_search($match, array_column($redirects, 'old_url'), true)) !== false) {
                 $redirect = (object) $redirects[$index];
 
                 if ((int) $redirect->published === 1) {

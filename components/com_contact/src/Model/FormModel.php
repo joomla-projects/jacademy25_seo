@@ -99,8 +99,8 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
             if (!$table->load($itemId)) {
                 return false;
             }
-        } catch (\Exception $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage());
+        } catch (\Exception $exception) {
+            Factory::getApplication()->enqueueMessage($exception->getMessage());
 
             return false;
         }

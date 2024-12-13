@@ -93,6 +93,7 @@ class TemplatesController extends BaseController
 
         // Set backend required params
         $document->setType('json');
+
         $this->input->set('id', $app->getTemplate(true)->id);
 
         // Execute backend controller

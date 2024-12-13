@@ -193,9 +193,9 @@ class HtmlView extends BaseHtmlView
         $canDo = $this->canDo;
 
         // If a component categories title string is present, let's use it.
-        if ($lang->hasKey($component_title_key = $component . ($section ? "_$section" : '') . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE')) {
+        if ($lang->hasKey($component_title_key = $component . ($section ? '_' . $section : '') . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE')) {
             $title = Text::_($component_title_key);
-        } elseif ($lang->hasKey($component_section_key = $component . ($section ? "_$section" : ''))) {
+        } elseif ($lang->hasKey($component_section_key = $component . ($section ? '_' . $section : ''))) {
             // Else if the component section string exists, let's use it.
             $title = Text::sprintf('COM_CATEGORIES_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT')
                 . '_TITLE', $this->escape(Text::_($component_section_key)));
@@ -219,7 +219,7 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::title(
             $title,
             'folder category-' . ($isNew ? 'add' : 'edit')
-                . ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-category-' . ($isNew ? 'add' : 'edit')
+                . ' ' . substr($component, 4) . ($section ? '-' . $section : '') . '-category-' . ($isNew ? 'add' : 'edit')
         );
 
         if ($isNew) {
@@ -300,13 +300,13 @@ class HtmlView extends BaseHtmlView
         // Try with a language string
         if ($ref_key === '' || $ref_key === '0') {
             // Compute the ref_key if it does exist in the component
-            $languageKey = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY';
+            $languageKey = strtoupper($component . ($section ? '_' . $section : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY';
 
             if ($lang->hasKey($languageKey)) {
                 $ref_key = $languageKey;
             } else {
                 $languageKey = 'JHELP_COMPONENTS_'
-                    . strtoupper(substr($component, 4) . ($section ? "_$section" : ''))
+                    . strtoupper(substr($component, 4) . ($section ? '_' . $section : ''))
                     . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT');
 
                 if ($lang->hasKey($languageKey)) {

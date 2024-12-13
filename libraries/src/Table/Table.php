@@ -853,8 +853,8 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             } else {
                 $this->_db->insertObject($this->_tbl, $this, $this->_tbl_keys[0]);
             }
-        } catch (\Exception $e) {
-            $this->setError($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->setError($exception->getMessage());
             $result = false;
         }
 

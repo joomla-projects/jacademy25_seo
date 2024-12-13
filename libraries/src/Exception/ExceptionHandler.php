@@ -43,7 +43,7 @@ class ExceptionHandler
         // We only want to handle user deprecation messages, these will be triggered in code
         if ($errorNumber === E_USER_DEPRECATED) {
             try {
-                Log::add("$errorMessage - $errorFile - Line $errorLine", Log::WARNING, 'deprecated');
+                Log::add(sprintf('%s - %s - Line %d', $errorMessage, $errorFile, $errorLine), Log::WARNING, 'deprecated');
             } catch (\Exception) {
                 // Silence
             }
@@ -153,7 +153,7 @@ class ExceptionHandler
 
             // This return is needed to ensure the test suite does not trigger the non-Exception handling below
             return;
-        } catch (\Throwable $errorRendererError) {
+        } catch (\Throwable $throwable) {
             // Pass the error down
         }
 
@@ -162,7 +162,7 @@ class ExceptionHandler
          *
          * Let global handler to handle the error, @see bootstrap.php
          */
-        if (isset($errorRendererError)) {
+        if (isset($throwable)) {
             /*
              * Here the thing, at this point we have 2 exceptions:
              * $errorRendererError  - the error caused by error renderer
@@ -178,7 +178,7 @@ class ExceptionHandler
                 try {
                     throw $error;
                 } finally {
-                    throw $errorRendererError;
+                    throw $throwable;
                 }
             } catch (\Throwable $finalError) {
                 throw $finalError;

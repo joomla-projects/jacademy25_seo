@@ -174,7 +174,7 @@ class HtmlView extends BaseHtmlView
             $button = (new BasicButton('user-mfa-edit-save'))
                 ->text($this->renderOptions['submit_text'])
                 ->icon($this->renderOptions['submit_icon'])
-                ->onclick('document.getElementById(\'user-mfa-edit-save\').click()');
+                ->onclick("document.getElementById('user-mfa-edit-save').click()");
 
             if ($this->renderOptions['show_submit'] || $this->isEditExisting) {
                 $toolbar->appendButton($button);

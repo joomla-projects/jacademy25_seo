@@ -56,8 +56,8 @@ class MapTable extends Nested
     {
         try {
             parent::check();
-        } catch (\Exception $e) {
-            $this->setError($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->setError($exception->getMessage());
 
             return false;
         }

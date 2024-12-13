@@ -74,8 +74,8 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
 
                     $this->html .= <<<HTML
                                 <div class="highlight highlight-text-html-basic">
-                                  Line: <b>$line</b>
-                                  Column: <b>$column</b>
+                                  Line: <b>{$line}</b>
+                                  Column: <b>{$column}</b>
                                   Fixable: <b>{$error['fixable']}</b>
                                   Severity: <b>{$error['severity']}</b>
                                   Rule: <b>{$error['source']}</b>

@@ -159,8 +159,8 @@ class ApiController extends BaseController
                 '',
                 ['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
             );
-        } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
+        } catch (\Exception $exception) {
+            throw new \RuntimeException($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         $modelName = $this->input->get('model', Inflector::singularize($this->contentType));
@@ -174,8 +174,8 @@ class ApiController extends BaseController
 
         try {
             $modelName = $model->getName();
-        } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
+        } catch (\Exception $exception) {
+            throw new \RuntimeException($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         $model->setState($modelName . '.id', $id);
@@ -227,8 +227,8 @@ class ApiController extends BaseController
                 '',
                 ['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
             );
-        } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
+        } catch (\Exception $exception) {
+            throw new \RuntimeException($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         $modelName = $this->input->get('model', $this->contentType);
@@ -347,8 +347,8 @@ class ApiController extends BaseController
 
         try {
             $table = $model->getTable();
-        } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
+        } catch (\Exception $exception) {
+            throw new \RuntimeException($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         $recordId = $this->input->getInt('id');
@@ -396,8 +396,8 @@ class ApiController extends BaseController
 
         try {
             $table = $model->getTable();
-        } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
+        } catch (\Exception $exception) {
+            throw new \RuntimeException($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         $key        = $table->getKeyName();
@@ -441,7 +441,7 @@ class ApiController extends BaseController
 
             // Push up to three validation messages out to the user.
             for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
-                $messages[] = $errors[$i] instanceof \Exception ? "{$errors[$i]->getMessage()}" : "{$errors[$i]}";
+                $messages[] = $errors[$i] instanceof \Exception ? $errors[$i]->getMessage() : $errors[$i];
             }
 
             throw new InvalidParameterException(implode("\n", $messages));
@@ -458,8 +458,8 @@ class ApiController extends BaseController
 
         try {
             $modelName = $model->getName();
-        } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
+        } catch (\Exception $exception) {
+            throw new \RuntimeException($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         // Ensure we have the record ID in case we created a new article

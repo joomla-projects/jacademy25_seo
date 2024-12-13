@@ -343,8 +343,8 @@ abstract class MultilangstatusHelper
 
         try {
             $modules = $db->loadObject();
-        } catch (\RuntimeException $e) {
-            Log::add(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), Log::WARNING, 'jerror');
+        } catch (\RuntimeException $runtimeException) {
+            Log::add(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $runtimeException->getMessage()), Log::WARNING, 'jerror');
         }
 
         return $modules;

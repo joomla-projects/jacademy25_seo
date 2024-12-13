@@ -67,8 +67,8 @@ class BannersHelper extends ContentHelper
 
         try {
             $rows = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            $app->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            $app->enqueueMessage($runtimeException->getMessage(), 'error');
 
             return false;
         }
@@ -164,8 +164,8 @@ class BannersHelper extends ContentHelper
 
         try {
             $options = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
         }
 
         array_unshift($options, HTMLHelper::_('select.option', '0', Text::_('COM_BANNERS_NO_CLIENT')));

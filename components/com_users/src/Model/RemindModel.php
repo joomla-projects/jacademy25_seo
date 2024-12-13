@@ -144,8 +144,8 @@ class RemindModel extends FormModel
 
         try {
             $user = $db->loadObject();
-        } catch (\RuntimeException $e) {
-            $this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $runtimeException->getMessage()));
 
             return false;
         }

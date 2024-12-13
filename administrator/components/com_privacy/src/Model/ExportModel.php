@@ -231,8 +231,8 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
             }
 
             return true;
-        } catch (phpmailerException $exception) {
-            $this->setError($exception->getMessage());
+        } catch (phpmailerException $phpmailerException) {
+            $this->setError($phpmailerException->getMessage());
 
             return false;
         }

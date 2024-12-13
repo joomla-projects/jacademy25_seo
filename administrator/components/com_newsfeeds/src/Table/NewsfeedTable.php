@@ -78,8 +78,8 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
     {
         try {
             parent::check();
-        } catch (\Exception $e) {
-            $this->setError($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->setError($exception->getMessage());
 
             return false;
         }
@@ -118,7 +118,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
         // Clean up description -- eliminate quotes and <> brackets
         if (!empty($this->metadesc)) {
             // Only process if not empty
-            $bad_characters = ["\"", '<', '>'];
+            $bad_characters = ['"', '<', '>'];
             $this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
         }
 

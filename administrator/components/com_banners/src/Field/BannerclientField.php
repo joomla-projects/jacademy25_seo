@@ -39,7 +39,7 @@ class BannerclientField extends ListField
      *
      * @since   1.6
      */
-    public function getOptions()
+    protected function getOptions()
     {
         return array_merge(parent::getOptions(), BannersHelper::getClientOptions());
     }

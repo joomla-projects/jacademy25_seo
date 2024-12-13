@@ -246,6 +246,7 @@ class AdministratorApplication extends CMSApplication
             ->createModel('Style', 'Administrator')->getAdminTemplate($adminStyle);
 
         $template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
+
         $template->params   = new Registry($template->params);
 
         // Fallback template

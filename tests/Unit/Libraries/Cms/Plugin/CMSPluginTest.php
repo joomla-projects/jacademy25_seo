@@ -410,6 +410,7 @@ class CMSPluginTest extends UnitTestCase
             }
         };
         $plugin->registerTestListener();
+
         $event = $dispatcher->dispatch('onTest');
 
         $this->assertEquals(['unit'], $event->getArgument('result'));
@@ -437,6 +438,7 @@ class CMSPluginTest extends UnitTestCase
             }
         };
         $plugin->registerTestListener();
+
         $event = $dispatcher->dispatch('onTest');
 
         $this->assertEquals(null, $event->getArgument('result'));
@@ -465,6 +467,7 @@ class CMSPluginTest extends UnitTestCase
             }
         };
         $plugin->registerTestListener();
+
         $event = $dispatcher->dispatch('onTest', new Event('onTest', ['result' => ['test']]));
 
         $this->assertEquals(['test', 'unit'], $event->getArgument('result'));

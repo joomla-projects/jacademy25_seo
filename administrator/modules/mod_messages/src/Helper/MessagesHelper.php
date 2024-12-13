@@ -48,9 +48,9 @@ class MessagesHelper
             $messages = $messagesModel->getItems();
 
             return \count($messages);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Still render the error message from the Exception object
-            $app->enqueueMessage($e->getMessage(), 'error');
+            $app->enqueueMessage($runtimeException->getMessage(), 'error');
 
             return 0;
         }

@@ -174,7 +174,7 @@ class FeedEntryTest extends UnitTestCase
     public function testSetCategoriesWithInvalidProperty()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->feedEntry->categories = 'Can\'t touch this';
+        $this->feedEntry->categories = "Can't touch this";
     }
 
     /**

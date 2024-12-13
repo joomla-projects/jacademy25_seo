@@ -48,7 +48,7 @@ abstract class ModuleListEvent extends ModuleEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('modules', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'modules' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'modules' of event %s is required but has not been provided", $name));
         }
 
         // For backward compatibility make sure the content is referenced
@@ -76,7 +76,7 @@ abstract class ModuleListEvent extends ModuleEvent
         $valid = !array_filter($value, fn($item) => !\is_object($item));
 
         if (!$valid) {
-            throw new \UnexpectedValueException("Argument 'modules' of event {$this->name} is not of the expected type");
+            throw new \UnexpectedValueException(sprintf("Argument 'modules' of event %s is not of the expected type", $this->name));
         }
 
         return $value;

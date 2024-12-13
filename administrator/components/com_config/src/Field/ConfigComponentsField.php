@@ -61,8 +61,8 @@ class ConfigComponentsField extends ListField
 
                 if (is_file(JPATH_ADMINISTRATOR . '/components/' . $extension . '/config.xml')) {
                     $source = JPATH_ADMINISTRATOR . '/components/' . $extension;
-                    if (!$lang->load("$extension.sys", JPATH_ADMINISTRATOR)) {
-                        $lang->load("$extension.sys", $source);
+                    if (!$lang->load($extension . '.sys', JPATH_ADMINISTRATOR)) {
+                        $lang->load($extension . '.sys', $source);
                     }
 
                     // Translate component name

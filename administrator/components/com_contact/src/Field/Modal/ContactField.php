@@ -83,6 +83,7 @@ class ContactField extends ModalSelectField
         ]);
         $linkItem = clone $linkItems;
         $linkItem->setVar('view', 'contact');
+
         $linkCheckin = (new Uri())->setPath(Uri::base(true) . '/index.php');
         $linkCheckin->setQuery([
             'option'                => 'com_contact',
@@ -105,6 +106,7 @@ class ContactField extends ModalSelectField
         $urlSelect = $linkItems;
         $urlEdit   = clone $linkItem;
         $urlEdit->setVar('task', 'contact.edit');
+
         $urlNew    = clone $linkItem;
         $urlNew->setVar('task', 'contact.add');
 

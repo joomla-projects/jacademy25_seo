@@ -52,13 +52,13 @@ trait ResolveFiles
             : JPATH_ROOT . '/templates';
 
         if (isset($template->parent) && $template->parent !== '') {
-            $found = static::resolveFileUrl("$templaPath/$template->template/$folder/$file");
+            $found = static::resolveFileUrl(sprintf('%s/%s/%s/%s', $templaPath, $template->template, $folder, $file));
 
             if (empty($found)) {
-                $found = static::resolveFileUrl("$templaPath/$template->parent/$folder/$file");
+                $found = static::resolveFileUrl(sprintf('%s/%s/%s/%s', $templaPath, $template->parent, $folder, $file));
             }
         } else {
-            $found = static::resolveFileUrl("$templaPath/$template->template/$folder/$file");
+            $found = static::resolveFileUrl(sprintf('%s/%s/%s/%s', $templaPath, $template->template, $folder, $file));
         }
 
         if (empty($found)) {

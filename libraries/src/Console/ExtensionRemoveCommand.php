@@ -183,7 +183,7 @@ class ExtensionRemoveCommand extends AbstractCommand
             $row       = new Extension($this->getDatabase());
 
             if ((int) $extensionId === 0 || !$row->load($extensionId)) {
-                $this->ioStyle->error("Extension with ID of $extensionId not found.");
+                $this->ioStyle->error(sprintf('Extension with ID of %s not found.', $extensionId));
 
                 return self::REMOVE_NOT_FOUND;
             }

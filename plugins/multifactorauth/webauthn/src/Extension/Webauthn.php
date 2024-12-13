@@ -238,8 +238,8 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         // In any other case try to authorize the registration
         try {
             $publicKeyCredentialSource = Credentials::verifyAttestation($code);
-        } catch (\Exception $err) {
-            throw new \RuntimeException($err->getMessage(), 403, $err);
+        } catch (\Exception $exception) {
+            throw new \RuntimeException($exception->getMessage(), 403, $exception);
         } finally {
             // Unset the request data from the session.
             $session->set('plg_multifactorauth_webauthn.publicKeyCredentialCreationOptions', null);
@@ -330,7 +330,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
             }
 
             $pkRequest = json_encode($pkOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $pkRequest = Credentials::requestAssertion($record->user_id);
         }
 
@@ -419,9 +419,9 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 
         try {
             Credentials::verifyAssertion($code);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             try {
-                $this->getApplication()->enqueueMessage($e->getMessage(), 'error');
+                $this->getApplication()->enqueueMessage($exception->getMessage(), 'error');
             } catch (\Exception) {
             }
 

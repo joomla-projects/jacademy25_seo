@@ -43,7 +43,7 @@ class ContenttypesField extends ListField
      *
      * @since   3.6.0
      */
-    public function getOptions()
+    protected function getOptions()
     {
         $lang    = Factory::getLanguage();
         $options = [];
@@ -59,8 +59,8 @@ class ContenttypesField extends ListField
 
         try {
             $contentTypes = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
         }
 
         // Translate.

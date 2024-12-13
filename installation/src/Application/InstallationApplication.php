@@ -122,7 +122,7 @@ final class InstallationApplication extends CMSApplication
             $output .= '<ul>';
 
             foreach ($errorfiles as $error) {
-                $output .= "<li>$error</li>";
+                $output .= sprintf('<li>%s</li>', $error);
             }
 
             $output .= '</ul>';
@@ -513,7 +513,7 @@ final class InstallationApplication extends CMSApplication
      *
      * @since   3.1
      */
-    public function render()
+    protected function render()
     {
         $options = [];
 

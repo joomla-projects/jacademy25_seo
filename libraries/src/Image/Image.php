@@ -689,7 +689,8 @@ class Image
 
         // Instantiate offset.
         $offset    = new \stdClass();
-        $offset->x = $offset->y = 0;
+        $offset->x = 0;
+        $offset->y = 0;
 
         // Center image if needed and create the new truecolor image handle.
         if ($scaleMethod == self::SCALE_FIT) {

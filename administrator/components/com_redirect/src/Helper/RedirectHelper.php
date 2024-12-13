@@ -64,8 +64,8 @@ class RedirectHelper
 
         try {
             $result = (int) $db->loadResult();
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
         }
 
         return $result;

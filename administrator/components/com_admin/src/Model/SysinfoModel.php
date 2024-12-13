@@ -419,6 +419,7 @@ class SysinfoModel extends BaseDatabaseModel
         $output         = preg_replace('#<tr class="h">(.*)</tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', (string) $output);
         $output         = str_replace('</table>', '</tbody></table>', $output);
         $output         = str_replace('</div>', '', $output);
+
         $this->php_info = $output;
 
         return $this->php_info;
@@ -463,12 +464,12 @@ class SysinfoModel extends BaseDatabaseModel
 
         try {
             $extensions = $db->loadObjectList();
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             try {
-                Log::add(Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), Log::WARNING, 'jerror');
+                Log::add(Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $exception->getCode(), $exception->getMessage()), Log::WARNING, 'jerror');
             } catch (\RuntimeException) {
                 Factory::getApplication()->enqueueMessage(
-                    Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
+                    Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $exception->getCode(), $exception->getMessage()),
                     'warning'
                 );
             }
@@ -724,6 +725,7 @@ class SysinfoModel extends BaseDatabaseModel
         $html  = strip_tags($html, '<h2><th><td>');
         $html  = preg_replace('/<th[^>]*>([^<]+)<\/th>/', '<info>\1</info>', $html);
         $html  = preg_replace('/<td[^>]*>([^<]+)<\/td>/', '<info>\1</info>', (string) $html);
+
         $t     = preg_split('/(<h2[^>]*>[^<]+<\/h2>)/', (string) $html, -1, PREG_SPLIT_DELIM_CAPTURE);
         $r     = [];
         $count = \count($t);

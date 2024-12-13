@@ -133,7 +133,7 @@ if ($saveOrder && !empty($this->items)) {
                        endif; ?>>
                 <?php
                 foreach ($this->items as $i => $item) :
-                    $orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
+                    $orderkey   = array_search($item->id, $this->ordering[$item->parent_id], true);
                     $canCreate  = $user->authorise('core.create', 'com_tags');
                     $canEdit    = $user->authorise('core.edit', 'com_tags');
                     $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);

@@ -312,8 +312,8 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
 
         try {
             $user = $db->loadObject();
-        } catch (\RuntimeException $e) {
-            return new \Exception(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+        } catch (\RuntimeException $runtimeException) {
+            return new \Exception(Text::sprintf('COM_USERS_DATABASE_ERROR', $runtimeException->getMessage()), 500);
         }
 
         // Check for a user.
@@ -407,8 +407,8 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
 
         try {
             $userId = $db->loadResult();
-        } catch (\RuntimeException $e) {
-            $this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $runtimeException->getMessage()));
 
             return false;
         }

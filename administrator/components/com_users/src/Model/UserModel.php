@@ -663,8 +663,8 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
 
         try {
             $db->execute();
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }
@@ -912,7 +912,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     {
         @trigger_error(
             \sprintf(
-                '%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getUserMfaRecords() instead.',
+                '%s() is deprecated. Use ' . \Joomla\Component\Users\Administrator\Helper\Mfa::class . '::getUserMfaRecords() instead.',
                 __METHOD__
             ),
             E_USER_DEPRECATED
@@ -966,7 +966,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     {
         @trigger_error(
             \sprintf(
-                '%s() is deprecated. Use \Joomla\CMS\Factory::getApplication()->get(\'secret\') instead',
+                '%s() is deprecated. Use ' . \Joomla\CMS\Factory::class . "::getApplication()->get('secret') instead",
                 __METHOD__
             ),
             E_USER_DEPRECATED
@@ -992,7 +992,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     {
         @trigger_error(
             \sprintf(
-                '%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getConfigurationInterface()',
+                '%s() is deprecated. Use ' . \Joomla\Component\Users\Administrator\Helper\Mfa::class . '::getConfigurationInterface()',
                 __METHOD__
             ),
             E_USER_DEPRECATED
@@ -1018,7 +1018,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     {
         @trigger_error(
             \sprintf(
-                '%s() is deprecated. See \Joomla\Component\Users\Administrator\Model\BackupcodesModel::saveBackupCodes()',
+                '%s() is deprecated. See ' . \Joomla\Component\Users\Administrator\Model\BackupcodesModel::class . '::saveBackupCodes()',
                 __METHOD__
             ),
             E_USER_DEPRECATED

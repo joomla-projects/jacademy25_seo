@@ -288,12 +288,12 @@ class Cache
 
         try {
             return $this->_getStorage()->remove($id, $group);
-        } catch (CacheExceptionInterface $e) {
+        } catch (CacheExceptionInterface $cacheException) {
             if (!$this->getCaching()) {
                 return false;
             }
 
-            throw $e;
+            throw $cacheException;
         }
     }
 
@@ -317,12 +317,12 @@ class Cache
 
         try {
             return $this->_getStorage()->clean($group, $mode);
-        } catch (CacheExceptionInterface $e) {
+        } catch (CacheExceptionInterface $cacheException) {
             if (!$this->getCaching()) {
                 return false;
             }
 
-            throw $e;
+            throw $cacheException;
         }
     }
 
@@ -337,12 +337,12 @@ class Cache
     {
         try {
             return $this->_getStorage()->gc();
-        } catch (CacheExceptionInterface $e) {
+        } catch (CacheExceptionInterface $cacheException) {
             if (!$this->getCaching()) {
                 return false;
             }
 
-            throw $e;
+            throw $cacheException;
         }
     }
 

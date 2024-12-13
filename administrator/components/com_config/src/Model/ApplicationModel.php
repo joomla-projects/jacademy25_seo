@@ -314,8 +314,8 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         try {
             $revisedDbo = DatabaseDriver::getInstance($options);
             $revisedDbo->getVersion();
-        } catch (\Exception $e) {
-            $app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_DATABASE_NOT_AVAILABLE', $e->getCode(), $e->getMessage()), 'error');
+        } catch (\Exception $exception) {
+            $app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_DATABASE_NOT_AVAILABLE', $exception->getCode(), $exception->getMessage()), 'error');
 
             return false;
         }
@@ -999,8 +999,8 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 
                 return false;
             }
-        } catch (\Exception $e) {
-            $app->enqueueMessage($e->getMessage(), 'error');
+        } catch (\Exception $exception) {
+            $app->enqueueMessage($exception->getMessage(), 'error');
 
             return false;
         }
@@ -1075,8 +1075,8 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             $db->setQuery($query);
 
             $totalChildGroups = (int) $db->loadResult();
-        } catch (\Exception $e) {
-            $app->enqueueMessage($e->getMessage(), 'error');
+        } catch (\Exception $exception) {
+            $app->enqueueMessage($exception->getMessage(), 'error');
 
             return false;
         }

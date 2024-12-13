@@ -83,6 +83,7 @@ class ArticleField extends ModalSelectField
         ]);
         $linkArticle = clone $linkArticles;
         $linkArticle->setVar('view', 'article');
+
         $linkCheckin = (new Uri())->setPath(Uri::base(true) . '/index.php');
         $linkCheckin->setQuery([
             'option'                => 'com_content',
@@ -105,6 +106,7 @@ class ArticleField extends ModalSelectField
         $urlSelect = $linkArticles;
         $urlEdit   = clone $linkArticle;
         $urlEdit->setVar('task', 'article.edit');
+
         $urlNew    = clone $linkArticle;
         $urlNew->setVar('task', 'article.add');
 

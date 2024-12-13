@@ -352,7 +352,7 @@ class Browser
         'um-LN',
         'ToutiaoSpider',
         'MuckRack',
-        'Jamie\'s Spider',
+        "Jamie's Spider",
         'AHC\/',
         'NetcraftSurveyAgent',
         'Laserlikebot',

@@ -565,8 +565,8 @@ class ItemsModel extends ListModel
 
             if ($items) {
                 foreach ($items as $item) {
-                    if (($extension = $item->componentname) && !$lang->load("$extension.sys", JPATH_ADMINISTRATOR)) {
-                        $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension);
+                    if (($extension = $item->componentname) && !$lang->load($extension . '.sys', JPATH_ADMINISTRATOR)) {
+                        $lang->load($extension . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extension);
                     }
 
                     // Translate component name

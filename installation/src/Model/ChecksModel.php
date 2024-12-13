@@ -237,8 +237,8 @@ class ChecksModel extends BaseInstallationModel
 
         try {
             $form = Form::getInstance('jform', $view, ['control' => 'jform']);
-        } catch (\Exception $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\Exception $exception) {
+            Factory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
 
             return false;
         }

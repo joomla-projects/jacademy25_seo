@@ -118,8 +118,8 @@ class HtmlView extends BaseHtmlView
             $this->form = $model->getForm();
             $this->data = $model->getData();
             $this->user = $this->getCurrentUser();
-        } catch (\Exception $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\Exception $exception) {
+            Factory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
 
             return;
         }

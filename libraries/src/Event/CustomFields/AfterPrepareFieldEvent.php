@@ -45,7 +45,7 @@ class AfterPrepareFieldEvent extends AbstractPrepareFieldEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('value', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'value' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'value' of event %s is required but has not been provided", $name));
         }
 
         // For backward compatibility make sure the value is referenced

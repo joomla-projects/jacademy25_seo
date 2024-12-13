@@ -128,8 +128,8 @@ final class OverrideCheck extends CMSPlugin implements SubscriberInterface
 
         try {
             $result = (int) $db->loadResult();
-        } catch (\RuntimeException $e) {
-            $this->getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            $this->getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
         }
 
         return $result;

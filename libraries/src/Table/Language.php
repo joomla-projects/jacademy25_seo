@@ -48,8 +48,8 @@ class Language extends Table
     {
         try {
             parent::check();
-        } catch (\Exception $e) {
-            $this->setError($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->setError($exception->getMessage());
 
             return false;
         }

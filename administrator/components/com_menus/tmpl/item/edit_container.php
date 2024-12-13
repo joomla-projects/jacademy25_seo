@@ -62,8 +62,8 @@ $wa->useScript('joomla.treeselectmenu')
                     foreach ($menuLinks as $i => $link) : ?>
                         <?php
                         if ($extension = $link->element) :
-                            $lang->load("$extension.sys", JPATH_ADMINISTRATOR)
-                            || $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension);
+                            $lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
+                            || $lang->load($extension . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extension);
                         endif;
 
                         if ($prevlevel < $link->level) {

@@ -48,15 +48,15 @@ final class OnGetApiRelation extends AbstractImmutableEvent
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('model', $arguments)) {
-            throw new \BadMethodCallException("Argument 'model' is required for event $name");
+            throw new \BadMethodCallException("Argument 'model' is required for event " . $name);
         }
 
         if (!\array_key_exists('field', $arguments)) {
-            throw new \BadMethodCallException("Argument 'field' is required for event $name");
+            throw new \BadMethodCallException("Argument 'field' is required for event " . $name);
         }
 
         if (!\array_key_exists('context', $arguments)) {
-            throw new \BadMethodCallException("Argument 'context' is required for event $name");
+            throw new \BadMethodCallException("Argument 'context' is required for event " . $name);
         }
 
         parent::__construct($name, $arguments);

@@ -36,7 +36,7 @@ trait NodeTrait
     public function setParent(NodeInterface $parent)
     {
         if (!\is_null($this->_parent)) {
-            $key = array_search($this, $this->_parent->_children);
+            $key = array_search($this, $this->_parent->_children, true);
             unset($this->_parent->_children[$key]);
         }
 
@@ -78,7 +78,7 @@ trait NodeTrait
      */
     public function removeChild(NodeInterface $child)
     {
-        $key = array_search($child, $this->_children);
+        $key = array_search($child, $this->_children, true);
         unset($this->_children[$key]);
     }
 

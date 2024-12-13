@@ -56,7 +56,7 @@ class MediaHelper
     {
         static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp|webp|avif';
 
-        return preg_match("/\.(?:$imageTypes)$/i", $fileName);
+        return preg_match(sprintf('/\.(?:%s)$/i', $imageTypes), $fileName);
     }
 
     /**
@@ -492,10 +492,10 @@ class MediaHelper
          */
         foreach ($svgErrors as $i => $error) {
             if (
-                ($error['message'] === 'Suspicious node \'#comment\'')
-                || ($error['message'] === 'Suspicious attribute \'space\'')
-                || ($error['message'] === 'Suspicious attribute \'enable-background\'')
-                || ($error['message'] === 'Suspicious node \'svg\'')
+                ($error['message'] === "Suspicious node '#comment'")
+                || ($error['message'] === "Suspicious attribute 'space'")
+                || ($error['message'] === "Suspicious attribute 'enable-background'")
+                || ($error['message'] === "Suspicious node 'svg'")
             ) {
                 unset($svgErrors[$i]);
             }

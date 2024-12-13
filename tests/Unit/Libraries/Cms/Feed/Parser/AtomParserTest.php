@@ -327,6 +327,7 @@ class AtomParserTest extends UnitTestCase
 <feed xmlns="http://www.w3.org/2005/Atom" />';
         $reader = new \XMLReader();
         $reader->xml($dummyXml);
+
         $atomParser = new AtomParser($reader);
         $atomParser->parse();
 
@@ -354,6 +355,7 @@ class AtomParserTest extends UnitTestCase
 </feed>';
         $reader   = new \XMLReader();
         $reader->xml($dummyXml);
+
         $atomParser = new AtomParser($reader);
 
         // same logic as FeedFactory.php : skip head record
@@ -364,8 +366,8 @@ class AtomParserTest extends UnitTestCase
                     break;
                 }
             }
-        } catch (\Exception $e) {
-            throw new \RuntimeException('Error reading feed.', $e->getCode(), $e);
+        } catch (\Exception $exception) {
+            throw new \RuntimeException('Error reading feed.', $exception->getCode(), $exception);
         }
 
         $atomParser->parse();
@@ -394,6 +396,7 @@ class AtomParserTest extends UnitTestCase
 </feed>';
         $reader   = new \XMLReader();
         $reader->xml($dummyXml);
+
         $atomParser = new AtomParser($reader);
 
         // same logic as FeedFactory.php : skip head record
@@ -404,8 +407,8 @@ class AtomParserTest extends UnitTestCase
                     break;
                 }
             }
-        } catch (\Exception $e) {
-            throw new \RuntimeException('Error reading feed.', $e->getCode(), $e);
+        } catch (\Exception $exception) {
+            throw new \RuntimeException('Error reading feed.', $exception->getCode(), $exception);
         }
 
         $atomParser->parse();

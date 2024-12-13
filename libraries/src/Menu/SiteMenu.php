@@ -232,7 +232,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
 
         if ($this->app->isClient('site')) {
             // Filter by language if not set
-            if (($key = array_search('language', $attributes)) === false) {
+            if (($key = array_search('language', $attributes, true)) === false) {
                 if (Multilanguage::isEnabled()) {
                     $attributes[] = 'language';
                     $values[]     = [Factory::getLanguage()->getTag(), '*'];
@@ -242,7 +242,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
             }
 
             // Filter by access level if not set
-            if (($key = array_search('access', $attributes)) === false) {
+            if (($key = array_search('access', $attributes, true)) === false) {
                 $attributes[] = 'access';
                 $values[]     = $this->user->getAuthorisedViewLevels();
             } elseif ($values[$key] === null) {

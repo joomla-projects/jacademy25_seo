@@ -46,7 +46,7 @@ class Dispatcher extends AbstractModuleDispatcher
      *
      * @since   5.1.0
      */
-    public function getLayoutData()
+    protected function getLayoutData()
     {
         $data = parent::getLayoutData();
 
@@ -58,11 +58,11 @@ class Dispatcher extends AbstractModuleDispatcher
             $messagesModel = $app->bootComponent('com_postinstall')->getMVCFactory()
                 ->createModel('Messages', 'Administrator', ['ignore_request' => true]);
             $data['messagesCount'] = $messagesModel->getItemsCount();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             $data['messagesCount'] = 0;
 
             // Still render the error message from the Exception object
-            $app->enqueueMessage($e->getMessage(), 'error');
+            $app->enqueueMessage($runtimeException->getMessage(), 'error');
         }
 
         $data['joomlaFilesExtensionId'] = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;

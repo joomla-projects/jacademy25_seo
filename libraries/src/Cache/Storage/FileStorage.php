@@ -603,7 +603,7 @@ class FileStorage extends CacheStorage
 
                         $arr = array_merge($arr, $arr2);
                     }
-                } elseif (preg_match("/$filter/", $file)) {
+                } elseif (preg_match(sprintf('/%s/', $filter), $file)) {
                     $arr[] = $fullpath ? $path . '/' . $file : $file;
                 }
             }
@@ -666,7 +666,7 @@ class FileStorage extends CacheStorage
 
                 if ($isDir) {
                     // Removes filtered directories
-                    if (preg_match("/$filter/", $file)) {
+                    if (preg_match(sprintf('/%s/', $filter), $file)) {
                         $arr[] = $fullpath ? $dir : $file;
                     }
 

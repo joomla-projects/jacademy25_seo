@@ -47,15 +47,15 @@ class AfterUninstallEvent extends AbstractExtensionEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('installer', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'method' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'method' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('eid', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'eid' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'eid' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('removed', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'removed' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'removed' of event %s is required but has not been provided", $name));
         }
     }
 

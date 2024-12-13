@@ -243,8 +243,8 @@ class OverridesModel extends ListModel
         // This may or may not mean depending on your database
         try {
             $db->truncateTable('#__overrider');
-        } catch (\RuntimeException $e) {
-            return $e;
+        } catch (\RuntimeException $runtimeException) {
+            return $runtimeException;
         }
 
         Factory::getApplication()->enqueueMessage(Text::_('COM_LANGUAGES_VIEW_OVERRIDES_PURGE_SUCCESS'));

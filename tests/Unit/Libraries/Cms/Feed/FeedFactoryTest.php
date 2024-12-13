@@ -146,6 +146,7 @@ class FeedFactoryTest extends UnitTestCase
         $reflectionClass = new \ReflectionClass($this->feedFactory);
         $method          = $reflectionClass->getMethod('_fetchFeedParser');
         $method->setAccessible(true);
+
         $parser = $method->invoke($this->feedFactory, $tagName, new \XMLReader());
 
         $this->assertInstanceOf(FeedParser::class, $parser);

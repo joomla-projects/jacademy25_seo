@@ -38,9 +38,9 @@ class CaptiveController extends AdminCaptiveController
     {
         try {
             return parent::execute($task);
-        } catch (\Exception $e) {
-            if ($e->getCode() !== 403) {
-                throw $e;
+        } catch (\Exception $exception) {
+            if ($exception->getCode() !== 403) {
+                throw $exception;
             }
 
             if ($this->app->getIdentity()->guest) {

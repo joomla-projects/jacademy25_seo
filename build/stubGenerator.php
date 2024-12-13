@@ -59,7 +59,7 @@ class StubGenerator extends CliApplication
      *
      * @since   3.0
      */
-    public function doExecute()
+    protected function doExecute()
     {
         $this->createExtensionNamespaceMap();
         $contentsByNamespace = [];
@@ -86,13 +86,13 @@ class StubGenerator extends CliApplication
             if ($deprecatedVersion !== false) {
                 $fileContents = <<<PHP
 	/**
-	 * @deprecated $deprecatedVersion Use $newName instead.
+	 * @deprecated {$deprecatedVersion} Use {$newName} instead.
 	 */
 
 PHP;
             }
 
-            $fileContents .= "\t$modifier$type $className extends \\$newName {}\n\n";
+            $fileContents .= "\t{$modifier}{$type} {$className} extends \\{$newName} {}\n\n";
 
             if (!\array_key_exists($targetNamespace, $contentsByNamespace)) {
                 $contentsByNamespace[$targetNamespace] = '';
@@ -102,7 +102,7 @@ PHP;
         }
 
         foreach ($contentsByNamespace as $namespace => $contents) {
-            $file .= "namespace $namespace {\n";
+            $file .= "namespace {$namespace} {\n";
             $file .= $contents;
             $file .= "}\n\n";
         }

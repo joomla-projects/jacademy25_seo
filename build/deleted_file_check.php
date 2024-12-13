@@ -207,7 +207,7 @@ $foldersToKeep = [
 
 // Remove folders from the results which we want to keep on upgrade
 foreach ($foldersToKeep as $folder) {
-    if (($key = array_search($folder, $foldersDifference)) !== false) {
+    if (($key = array_search($folder, $foldersDifference, true)) !== false) {
         unset($foldersDifference[$key]);
     }
 }

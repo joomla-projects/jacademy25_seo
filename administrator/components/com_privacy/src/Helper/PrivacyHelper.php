@@ -58,6 +58,7 @@ class PrivacyHelper extends ContentHelper
 
         $dom = new \DOMDocument();
         $dom->loadXML($export->asXML());
+
         $dom->formatOutput = true;
 
         return $dom->saveXML();

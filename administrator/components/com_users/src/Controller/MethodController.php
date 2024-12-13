@@ -113,6 +113,7 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
         $viewLayout = $this->input->get('layout', 'default', 'string');
         $view       = $this->getView('Method', 'html');
         $view->setLayout($viewLayout);
+
         $view->returnURL = $returnURL;
         $view->user      = $user;
         $view->document  = $this->app->getDocument();
@@ -162,6 +163,7 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
         $viewLayout = $this->input->get('layout', 'default', 'string');
         $view       = $this->getView('Method', 'html');
         $view->setLayout($viewLayout);
+
         $view->returnURL = $returnURL;
         $view->user      = $user;
         $view->document  = $this->app->getDocument();
@@ -251,8 +253,8 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
 
         try {
             $record->delete();
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
+        } catch (\Exception $exception) {
+            $message = $exception->getMessage();
             $type    = 'error';
         }
 
@@ -326,7 +328,7 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
             foreach ($pluginResults as $pluginResult) {
                 $result = array_merge($result, $pluginResult);
             }
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Go back to the edit page
             $nonSefUrl = 'index.php?option=com_users&task=method.';
 
@@ -343,7 +345,7 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
             }
 
             $url = Route::_($nonSefUrl, false);
-            $this->setRedirect($url, $e->getMessage(), 'error');
+            $this->setRedirect($url, $runtimeException->getMessage(), 'error');
 
             return;
         }

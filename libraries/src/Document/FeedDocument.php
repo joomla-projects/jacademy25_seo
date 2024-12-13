@@ -216,12 +216,12 @@ class FeedDocument extends Document
 
         // Output
         // Generate prolog
-        $data = "<?xml version=\"1.0\" encoding=\"" . $this->_charset . "\"?>\n";
-        $data .= "<!-- generator=\"" . $this->getGenerator() . "\" -->\n";
+        $data = '<?xml version="1.0" encoding="' . $this->_charset . "\"?>\n";
+        $data .= '<!-- generator="' . $this->getGenerator() . "\" -->\n";
 
         // Generate stylesheet links
         foreach ($this->_styleSheets as $src => $attr) {
-            $data .= "<?xml-stylesheet href=\"$src\" type=\"" . $attr['type'] . "\"?>\n";
+            $data .= sprintf('<?xml-stylesheet href="%s" type="', $src) . $attr['type'] . "\"?>\n";
         }
 
         // Render the feed

@@ -185,7 +185,7 @@ class TasksModel extends ListModel
                 ->bind(':id', $id, ParameterType::INTEGER);
         } elseif ($title = $this->getState('filter.title')) {
             $filterCount++;
-            $match = "%$title%";
+            $match = sprintf('%%%s%%', $title);
             $query->where($db->quoteName('a.title') . ' LIKE :match')
                 ->bind(':match', $match);
         }
@@ -308,7 +308,7 @@ class TasksModel extends ListModel
                     ->bind(':id', $id, ParameterType::INTEGER);
             } elseif (stripos((string) $searchStr, 'type:') !== 0) {
                 // Search by type is handled exceptionally in _getList() [@todo: remove refs]
-                $searchStr = "%$searchStr%";
+                $searchStr = sprintf('%%%s%%', $searchStr);
 
                 // Bind keys to query
                 $query->bind(':title', $searchStr)

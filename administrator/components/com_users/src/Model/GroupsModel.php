@@ -208,8 +208,8 @@ class GroupsModel extends ListModel
 
         try {
             $countEnabled = $db->loadAssocList('group_id', 'count_enabled');
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }
@@ -226,8 +226,8 @@ class GroupsModel extends ListModel
 
         try {
             $countDisabled = $db->loadAssocList('group_id', 'count_disabled');
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }

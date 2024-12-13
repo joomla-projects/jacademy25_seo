@@ -96,16 +96,16 @@ PHP;
     {
         $destinationPath     = rtrim($destinationPath, '/\\') . '/';
         $fullDestinationPath = $destinationPath;
-        $definePublic        = '\'' . rtrim($destinationPath, '/') . '\'';
+        $definePublic        = "'" . rtrim($destinationPath, '/') . "'";
         $root                = JPATH_ROOT . '/';
-        $defineRoot          = '\'' . JPATH_ROOT . '\'';
+        $defineRoot          = "'" . JPATH_ROOT . "'";
 
         if (!str_starts_with($destinationPath, '/')) {
             $fullDestinationPath = JPATH_ROOT . '/' . $destinationPath;
             $root                = '';
             $dirsToRoot          = substr_count($destinationPath, '/');
             $defineRoot          = str_repeat('dirname(', $dirsToRoot) . '__DIR__' . str_repeat(')', $dirsToRoot);
-            $definePublic        = 'JPATH_ROOT . \'/' . rtrim($destinationPath, '/') . '\'';
+            $definePublic        = "JPATH_ROOT . '/" . rtrim($destinationPath, '/') . "'";
         }
 
         if (file_exists($fullDestinationPath . '/index.php')) {
@@ -153,13 +153,13 @@ PHP;
         $this->createFile($fullDestinationPath . 'defines.php', str_replace(['{{ROOTFOLDER}}', '{{PUBLICFOLDER}}'], [$defineRoot, $definePublic], $this->definesTemplate));
 
         // The root index.php
-        $this->createFile($fullDestinationPath . 'index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'\'', '__DIR__'], $this->indexTemplate));
+        $this->createFile($fullDestinationPath . 'index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ["''", '__DIR__'], $this->indexTemplate));
 
         // The Administrator root index.php
-        $this->createFile($fullDestinationPath . 'administrator/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'' . DIRECTORY_SEPARATOR . 'administrator\'', 'dirname(__DIR__)'], $this->indexTemplate));
+        $this->createFile($fullDestinationPath . 'administrator/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ["'" . DIRECTORY_SEPARATOR . "administrator'", 'dirname(__DIR__)'], $this->indexTemplate));
 
         // The API root index.php
-        $this->createFile($fullDestinationPath . 'api/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'' . DIRECTORY_SEPARATOR . 'api\'', 'dirname(__DIR__)'], $this->indexTemplate));
+        $this->createFile($fullDestinationPath . 'api/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ["'" . DIRECTORY_SEPARATOR . "api'", 'dirname(__DIR__)'], $this->indexTemplate));
 
         // Get all the local filesystem directories
         if (\defined('_JCLI_INSTALLATION')) {

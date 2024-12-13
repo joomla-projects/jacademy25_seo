@@ -250,7 +250,7 @@ class MediaField extends FormField
      *
      * @return  array
      */
-    public function getLayoutData()
+    protected function getLayoutData()
     {
         // Get the basic field data
         $data = parent::getLayoutData();

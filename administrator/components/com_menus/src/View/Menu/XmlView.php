@@ -81,7 +81,7 @@ class XmlView extends BaseHtmlView
         }
 
         if (headers_sent($file, $line)) {
-            Log::add("Headers already sent at $file:$line.", Log::ERROR, 'jerror');
+            Log::add(sprintf('Headers already sent at %s:%d.', $file, $line), Log::ERROR, 'jerror');
 
             return;
         }

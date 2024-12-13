@@ -251,10 +251,10 @@ class Crypto
             if (self::ENCRYPTION_INFO === self::AUTHENTICATION_INFO) {
                 throw new CryptoTestFailedException();
             }
-        } catch (CryptoTestFailedException $ex) {
+        } catch (CryptoTestFailedException $cryptoTestFailedException) {
             // Do this, otherwise it will stay in the "tests are running" state.
             $test_state = 3;
-            throw $ex;
+            throw $cryptoTestFailedException;
         }
 
         // Change this to '0' make the tests always re-run (for benchmarking).

@@ -85,7 +85,7 @@ class SessionFactory implements ContainerAwareInterface
                 $memcached = new \Memcached($config->get('session_memcached_server_id', 'joomla_cms'));
                 $memcached->addServer($host, $port);
 
-                ini_set('session.save_path', "$host:$port");
+                ini_set('session.save_path', sprintf('%s:%s', $host, $port));
                 ini_set('session.save_handler', 'memcached');
 
                 return new Handler\MemcachedHandler($memcached, ['ttl' => $options['expire']]);

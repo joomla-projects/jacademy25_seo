@@ -45,7 +45,7 @@ abstract class RenderModuleEvent extends ModuleEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('attributes', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'attributes' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'attributes' of event %s is required but has not been provided", $name));
         }
 
         // For backward compatibility make sure the content is referenced

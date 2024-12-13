@@ -137,15 +137,18 @@ class OpensearchDocument extends Document
 
         $elShortName = $xml->createElementNS($osns, 'ShortName');
         $elShortName->appendChild($xml->createTextNode(htmlspecialchars($this->_shortName)));
+
         $elOs->appendChild($elShortName);
 
         $elDescription = $xml->createElementNS($osns, 'Description');
         $elDescription->appendChild($xml->createTextNode(htmlspecialchars($this->description)));
+
         $elOs->appendChild($elDescription);
 
         // Always set the accepted input encoding to UTF-8
         $elInputEncoding = $xml->createElementNS($osns, 'InputEncoding');
         $elInputEncoding->appendChild($xml->createTextNode('UTF-8'));
+
         $elOs->appendChild($elInputEncoding);
 
         foreach ($this->_images as $image) {

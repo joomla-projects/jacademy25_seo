@@ -134,7 +134,7 @@ abstract class MailHelper
          * Also, period should not appear 2 or more times consecutively
          */
         $allowed = "a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-";
-        $regex   = "/^[$allowed][\.$allowed]{0,63}$/";
+        $regex   = sprintf('/^[%s][\.%s]{0,63}$/', $allowed, $allowed);
 
         if (!preg_match($regex, $local) || str_ends_with($local, '.') || $local[0] === '.' || preg_match('/\.\./', $local)) {
             return false;

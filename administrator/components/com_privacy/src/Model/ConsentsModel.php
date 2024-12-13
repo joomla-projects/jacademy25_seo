@@ -189,8 +189,8 @@ class ConsentsModel extends ListModel
                 ->where($db->quoteName('state') . ' = 1');
             $db->setQuery($query);
             $db->execute();
-        } catch (ExecutionFailureException $e) {
-            $this->setError($e->getMessage());
+        } catch (ExecutionFailureException $executionFailureException) {
+            $this->setError($executionFailureException->getMessage());
 
             return false;
         }
@@ -217,8 +217,8 @@ class ConsentsModel extends ListModel
                 ->bind(':subject', $subject);
             $db->setQuery($query);
             $db->execute();
-        } catch (ExecutionFailureException $e) {
-            $this->setError($e->getMessage());
+        } catch (ExecutionFailureException $executionFailureException) {
+            $this->setError($executionFailureException->getMessage());
 
             return false;
         }

@@ -169,6 +169,7 @@ class HtmlView extends BaseHtmlView
 
         // Override global params with article specific params
         $this->params->merge($this->item->params);
+
         $this->user   = $user;
 
         // Propose current language as default when creating new article

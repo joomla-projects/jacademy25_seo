@@ -90,6 +90,7 @@ class CategoryField extends ModalSelectField
         ]);
         $linkItem = clone $linkItems;
         $linkItem->setVar('view', 'category');
+
         $linkCheckin = (new Uri())->setPath(Uri::base(true) . '/index.php');
         $linkCheckin->setQuery([
             'option'                => 'com_categories',
@@ -112,6 +113,7 @@ class CategoryField extends ModalSelectField
         $urlSelect = $linkItems;
         $urlEdit   = clone $linkItem;
         $urlEdit->setVar('task', 'category.edit');
+
         $urlNew    = clone $linkItem;
         $urlNew->setVar('task', 'category.add');
 

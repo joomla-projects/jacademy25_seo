@@ -540,7 +540,7 @@ final class Token extends CMSPlugin
 
         $rawToken  = base64_decode($tokenSeed);
         $tokenHash = hash_hmac($algorithm, $rawToken, (string) $siteSecret);
-        $message   = base64_encode("$algorithm:$userId:$tokenHash");
+        $message   = base64_encode(sprintf('%s:%d:%s', $algorithm, $userId, $tokenHash));
 
         if ($userId !== $this->getApplication()->getIdentity()->id) {
             $message = '';

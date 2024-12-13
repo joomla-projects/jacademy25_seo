@@ -188,7 +188,7 @@ class SearchModel extends ListModel
         if ($this->searchquery->filters !== []) {
             // Convert the associative array to a numerically indexed array.
             $groups     = array_values($this->searchquery->filters);
-            $taxonomies = \call_user_func_array('array_merge', array_values($this->searchquery->filters));
+            $taxonomies = array_merge(...array_values($this->searchquery->filters));
 
             $query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t ON t.link_id = l.link_id')
                 ->where('t.node_id IN (' . implode(',', array_unique($taxonomies)) . ')');
@@ -292,7 +292,7 @@ class SearchModel extends ListModel
             return $query;
         }
 
-        $included = \call_user_func_array('array_merge', array_values($this->includedTerms));
+        $included = array_merge(...array_values($this->includedTerms));
         $query->join('INNER', $db->quoteName('#__finder_links_terms') . ' AS m ON m.link_id = l.link_id')
             ->where('m.term_id IN (' . implode(',', $included) . ')');
 
@@ -390,6 +390,7 @@ class SearchModel extends ListModel
         // We have to clone the query uri. Otherwise the next elements will use the same.
         $queryUri = clone $queryUri;
         $queryUri->setVar('o', $value);
+
         $currentOrderingDirection = $app->getInput()->getWord('od', $app->getParams()->get('sort_direction', 'desc'));
 
         // Validate the sorting direction and add it only if it is different than the set in the params.

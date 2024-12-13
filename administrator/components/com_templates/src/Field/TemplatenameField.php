@@ -40,7 +40,7 @@ class TemplatenameField extends ListField
      *
      * @since   1.6
      */
-    public function getOptions()
+    protected function getOptions()
     {
         // Get the client_id filter from the user state.
         $clientId = Factory::getApplication()->getUserStateFromRequest('com_templates.styles.client_id', 'client_id', '0', 'string');

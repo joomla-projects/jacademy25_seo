@@ -52,7 +52,7 @@ function clean_checkout(string $dir)
     $cwd = getcwd();
     chdir($dir);
 
-    echo "Cleaning checkout in $dir.\n";
+    echo "Cleaning checkout in {$dir}.\n";
 
     // Removes .DS_Store; .git sources; testing, CI, and IDE configuration files; Changelogs; GitHub Meta; and README files
     system('find . -name .appveyor.yml | xargs rm -rf -');
@@ -207,7 +207,7 @@ function clean_composer(string $dir)
     $cwd = getcwd();
     chdir($dir);
 
-    echo "Cleaning Composer manifests in $dir.\n";
+    echo "Cleaning Composer manifests in {$dir}.\n";
 
     // Removes Composer manifests
     system('find . -name composer.json | xargs rm -rf -');
@@ -273,7 +273,7 @@ if (!$debugBuild) {
 }
 
 
-echo "Start build for remote $remote.\n";
+echo "Start build for remote {$remote}.\n";
 echo "Delete old release folder.\n";
 system('rm -rf ' . $tmp);
 mkdir($tmp);
@@ -366,7 +366,7 @@ system('mkdir diffdocs');
 system('mkdir diffconvert');
 system('mkdir packages');
 
-echo "Create list of changed files from git repository for version $fullVersion.\n";
+echo "Create list of changed files from git repository for version {$fullVersion}.\n";
 
 /*
  * Here we force add every top-level directory and file in our diff archive, even if they haven't changed.
@@ -479,11 +479,11 @@ if (!$debugBuild) {
 // Count down starting with the latest release and add diff files to this array
 for ($num = $release - 1; $num >= 0; $num--) {
     if (!$buildPatchPackages) {
-        echo "Disabled creating patch package for $num per flag.\n";
+        echo "Disabled creating patch package for {$num} per flag.\n";
         continue;
     }
 
-    echo "Create version $num update packages.\n";
+    echo "Create version {$num} update packages.\n";
 
     // Here we get a list of all files that have changed between the two references ($previousTag and $remote) and save in diffdocs
     $previousTag = $version . '.' . $num;
@@ -560,7 +560,7 @@ for ($num = $release - 1; $num >= 0; $num--) {
 
     // Only create archives for 0 and most recent versions. Skip other update versions.
     if ($num != 0 && ($num != $release - 1)) {
-        echo "Skipping patch archive for version $version.$num\n";
+        echo sprintf('Skipping patch archive for version %s.%s%s', $version, $num, PHP_EOL);
 
         continue;
     }
@@ -688,13 +688,13 @@ chdir('..');
 // This is only needed when we release a version
 if ($includeExtraTextfiles) {
     foreach (array_keys($checksums) as $packageName) {
-        echo "Generating checksums for $packageName\n";
+        echo sprintf('Generating checksums for %s%s', $packageName, PHP_EOL);
 
         foreach (['sha256', 'sha384', 'sha512'] as $hash) {
             if (file_exists('packages/' . $packageName)) {
                 $checksums[$packageName][$hash] = hash_file($hash, 'packages/' . $packageName);
             } else {
-                echo "Package $packageName not found in build directories\n";
+                echo "Package {$packageName} not found in build directories\n";
             }
         }
     }
@@ -705,12 +705,12 @@ if ($includeExtraTextfiles) {
     $checksumsContentUpdate = '';
 
     foreach ($checksums as $packageName => $packageHashes) {
-        $checksumsContent .= "Filename: $packageName\n";
+        $checksumsContent .= sprintf('Filename: %s%s', $packageName, PHP_EOL);
 
         foreach ($packageHashes as $hashType => $hash) {
-            $checksumsContent .= "$hashType: $hash\n";
+            $checksumsContent .= sprintf('%s: %s%s', $hashType, $hash, PHP_EOL);
             if (str_contains($packageName, 'Update_Package.zip')) {
-                $checksumsContentUpdate .= "<$hashType>$hash</$hashType>\n";
+                $checksumsContentUpdate .= "<{$hashType}>{$hash}</{$hashType}>\n";
             }
         }
 
@@ -753,4 +753,4 @@ if ($includeExtraTextfiles) {
     file_put_contents('github_release.txt', $githubText);
 }
 
-echo "Build of version $fullVersion complete!\n";
+echo "Build of version {$fullVersion} complete!\n";

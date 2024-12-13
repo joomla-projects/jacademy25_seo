@@ -286,6 +286,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         $uri->delVar('d2');
         $uri->delVar('w1');
         $uri->delVar('w2');
+
         $elements = $uri->getQuery(true);
 
         // Create hidden input elements for each part of the URI.

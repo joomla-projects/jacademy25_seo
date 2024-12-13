@@ -61,11 +61,11 @@ class FrontendlanguageField extends ListField
 
         try {
             $languages = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             $languages = [];
 
             if ($this->getCurrentUser()->authorise('core.admin')) {
-                Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+                Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
             }
         }
 

@@ -36,11 +36,11 @@ class BeforeBindEvent extends AbstractEvent
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('src', $arguments)) {
-            throw new \BadMethodCallException("Argument 'src' is required for event $name");
+            throw new \BadMethodCallException("Argument 'src' is required for event " . $name);
         }
 
         if (!\array_key_exists('ignore', $arguments)) {
-            throw new \BadMethodCallException("Argument 'ignore' is required for event $name");
+            throw new \BadMethodCallException("Argument 'ignore' is required for event " . $name);
         }
 
         parent::__construct($name, $arguments);
@@ -61,7 +61,7 @@ class BeforeBindEvent extends AbstractEvent
     protected function setSrc($value)
     {
         if (!empty($value) && !\is_object($value) && !\is_array($value)) {
-            throw new \BadMethodCallException("Argument 'src' of event {$this->name} must be empty, object or array");
+            throw new \BadMethodCallException(sprintf("Argument 'src' of event %s must be empty, object or array", $this->name));
         }
 
         return $value;
@@ -82,7 +82,7 @@ class BeforeBindEvent extends AbstractEvent
     protected function setIgnore($value)
     {
         if (!empty($value) && !\is_array($value)) {
-            throw new \BadMethodCallException("Argument 'ignore' of event {$this->name} must be empty or array");
+            throw new \BadMethodCallException(sprintf("Argument 'ignore' of event %s must be empty or array", $this->name));
         }
 
         return $value;

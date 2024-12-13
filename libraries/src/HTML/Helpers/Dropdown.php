@@ -162,7 +162,7 @@ abstract class Dropdown
     public static function publish($checkboxId, $prefix = '')
     {
         $task = $prefix . 'publish';
-        static::addCustomItem(Text::_('JTOOLBAR_PUBLISH'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+        static::addCustomItem(Text::_('JTOOLBAR_PUBLISH'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . "', '" . $task . '\')"');
     }
 
     /**
@@ -178,7 +178,7 @@ abstract class Dropdown
     public static function unpublish($checkboxId, $prefix = '')
     {
         $task = $prefix . 'unpublish';
-        static::addCustomItem(Text::_('JTOOLBAR_UNPUBLISH'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+        static::addCustomItem(Text::_('JTOOLBAR_UNPUBLISH'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . "', '" . $task . '\')"');
     }
 
     /**
@@ -194,7 +194,7 @@ abstract class Dropdown
     public static function featured($checkboxId, $prefix = '')
     {
         $task = $prefix . 'featured';
-        static::addCustomItem(Text::_('JFEATURED'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+        static::addCustomItem(Text::_('JFEATURED'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . "', '" . $task . '\')"');
     }
 
     /**
@@ -210,7 +210,7 @@ abstract class Dropdown
     public static function unfeatured($checkboxId, $prefix = '')
     {
         $task = $prefix . 'unfeatured';
-        static::addCustomItem(Text::_('JUNFEATURED'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+        static::addCustomItem(Text::_('JUNFEATURED'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . "', '" . $task . '\')"');
     }
 
     /**
@@ -226,7 +226,7 @@ abstract class Dropdown
     public static function archive($checkboxId, $prefix = '')
     {
         $task = $prefix . 'archive';
-        static::addCustomItem(Text::_('JTOOLBAR_ARCHIVE'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+        static::addCustomItem(Text::_('JTOOLBAR_ARCHIVE'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . "', '" . $task . '\')"');
     }
 
     /**
@@ -242,7 +242,7 @@ abstract class Dropdown
     public static function unarchive($checkboxId, $prefix = '')
     {
         $task = $prefix . 'unpublish';
-        static::addCustomItem(Text::_('JTOOLBAR_UNARCHIVE'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+        static::addCustomItem(Text::_('JTOOLBAR_UNARCHIVE'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . "', '" . $task . '\')"');
     }
 
     /**
@@ -258,7 +258,7 @@ abstract class Dropdown
     public static function trash($checkboxId, $prefix = '')
     {
         $task = $prefix . 'trash';
-        static::addCustomItem(Text::_('JTOOLBAR_TRASH'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+        static::addCustomItem(Text::_('JTOOLBAR_TRASH'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . "', '" . $task . '\')"');
     }
 
     /**
@@ -274,7 +274,7 @@ abstract class Dropdown
     public static function untrash($checkboxId, $prefix = '')
     {
         $task = $prefix . 'publish';
-        static::addCustomItem(Text::_('JTOOLBAR_UNTRASH'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+        static::addCustomItem(Text::_('JTOOLBAR_UNTRASH'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . "', '" . $task . '\')"');
     }
 
     /**
@@ -290,7 +290,7 @@ abstract class Dropdown
     public static function checkin($checkboxId, $prefix = '')
     {
         $task = $prefix . 'checkin';
-        static::addCustomItem(Text::_('JTOOLBAR_CHECKIN'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+        static::addCustomItem(Text::_('JTOOLBAR_CHECKIN'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . "', '" . $task . '\')"');
     }
 
     /**
@@ -330,7 +330,7 @@ abstract class Dropdown
         static::start();
 
         if ($ajaxLoad) {
-            $href = ' href = "javascript:void(0)" onclick="loadAjax(\'' . $link . '\', \'' . $jsCallBackFunc . '\')"';
+            $href = ' href = "javascript:void(0)" onclick="loadAjax(\'' . $link . "', '" . $jsCallBackFunc . '\')"';
         } else {
             $href = ' href = "' . $link . '" ';
         }

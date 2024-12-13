@@ -44,7 +44,7 @@ class Dispatcher extends ComponentDispatcher
      *
      * @since   4.0.0
      */
-    public function checkAccess()
+    protected function checkAccess()
     {
         parent::checkAccess();
 

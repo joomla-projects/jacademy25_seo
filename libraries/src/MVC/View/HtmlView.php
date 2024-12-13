@@ -365,12 +365,13 @@ class HtmlView extends AbstractView implements CurrentUserInterface
 
         // Clean the file name
         $file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
+
         $tpl  = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
         try {
             // Load the language file for the template
             $lang = $this->getLanguage();
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException $unexpectedValueException) {
             $lang = Factory::getApplication()->getLanguage();
         }
 

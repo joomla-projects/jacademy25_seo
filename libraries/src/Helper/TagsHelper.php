@@ -867,6 +867,7 @@ class TagsHelper extends CMSHelper
         // If existing row, check to see if tags have changed.
         $oldTable = clone $table;
         $oldTable->reset();
+
         $key       = $oldTable->getKeyName();
         $typeAlias = $this->typeAlias;
 
@@ -1032,6 +1033,7 @@ class TagsHelper extends CMSHelper
         $key     = $table->getKeyName();
         $oldTags = $this->getTagIds((int) $table->$key, $this->typeAlias);
         $oldTags = explode(',', $oldTags);
+
         $result  = $this->unTagItem($ucmId, $table);
 
         if ($replace) {

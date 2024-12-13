@@ -163,7 +163,7 @@ class SqlField extends ListField
 
                     // Get the default value for query if empty
                     foreach ($filters as $filter) {
-                        $name   = "sql_default_{$filter}";
+                        $name   = 'sql_default_' . $filter;
                         $attrib = (string) $this->element[$name];
 
                         if ($attrib !== '' && $attrib !== '0') {
@@ -238,15 +238,15 @@ class SqlField extends ListField
                 if ($html_filters && !empty($html_filters[$value])) {
                     $escape = $db->quote($db->escape($html_filters[$value]), false);
 
-                    $query->where("{$value} = {$escape}");
+                    $query->where(sprintf('%s = %s', $value, $escape));
                 } elseif ($filterFieldValue !== null) {
                     $escape = $db->quote($db->escape($filterFieldValue), false);
 
-                    $query->where("{$value} = {$escape}");
+                    $query->where(sprintf('%s = %s', $value, $escape));
                 } elseif (!empty($defaults[$value])) {
                     $escape = $db->quote($db->escape($defaults[$value]), false);
 
-                    $query->where("{$value} = {$escape}");
+                    $query->where(sprintf('%s = %s', $value, $escape));
                 }
             }
         }

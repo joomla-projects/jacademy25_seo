@@ -123,6 +123,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
     {
         $jInstaller = new Installer();
         $jInstaller->setDatabase($this->getDatabase());
+
         $count = 0;
 
         if ($eid === -1) {

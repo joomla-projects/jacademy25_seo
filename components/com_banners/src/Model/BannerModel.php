@@ -67,8 +67,8 @@ class BannerModel extends BaseDatabaseModel
 
         try {
             $db->execute();
-        } catch (\RuntimeException $e) {
-            throw new \Exception($e->getMessage(), 500, $e);
+        } catch (\RuntimeException $runtimeException) {
+            throw new \Exception($runtimeException->getMessage(), 500, $runtimeException);
         }
 
         // Track clicks
@@ -215,7 +215,7 @@ class BannerModel extends BaseDatabaseModel
 
         // Check for links
         if (!preg_match('#http[s]?://|index[2]?\.php#', $url)) {
-            $url = "http://$url";
+            $url = 'http://' . $url;
         }
 
         return $url;

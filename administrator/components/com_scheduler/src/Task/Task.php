@@ -226,10 +226,10 @@ class Task implements LoggerAwareInterface
 
         try {
             $this->app->getDispatcher()->dispatch('onExecuteTask', $event);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             // Suppress the exception for now, we'll throw it again once it's safe
-            $this->log(Text::sprintf('COM_SCHEDULER_TASK_ROUTINE_EXCEPTION', $e->getMessage()), 'error');
-            $this->snapshot['exception'] = $e;
+            $this->log(Text::sprintf('COM_SCHEDULER_TASK_ROUTINE_EXCEPTION', $exception->getMessage()), 'error');
+            $this->snapshot['exception'] = $exception;
             $this->snapshot['status']    = Status::KNOCKOUT;
         }
 
@@ -311,6 +311,7 @@ class Task implements LoggerAwareInterface
 
         $timeout          = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
         $timeout          = new \DateInterval(\sprintf('PT%dS', $timeout));
+
         $timeoutThreshold = (clone $now)->sub($timeout)->toSql();
         $now              = $now->toSql();
 

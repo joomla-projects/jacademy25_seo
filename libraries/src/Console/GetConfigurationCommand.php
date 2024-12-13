@@ -182,7 +182,7 @@ class GetConfigurationCommand extends AbstractCommand
         }
 
         if (!$foundGroup) {
-            $this->ioStyle->error("Group *$group* not found");
+            $this->ioStyle->error(sprintf('Group *%s* not found', $group));
 
             return self::CONFIG_GET_GROUP_NOT_FOUND;
         }
@@ -245,7 +245,7 @@ class GetConfigurationCommand extends AbstractCommand
         $configs = $this->getApplication()->getConfig()->toArray();
 
         if (!\array_key_exists($option, $configs)) {
-            $this->ioStyle->error("Can't find option *$option* in configuration list");
+            $this->ioStyle->error(sprintf("Can't find option *%s* in configuration list", $option));
 
             return self::CONFIG_GET_OPTION_NOT_FOUND;
         }
@@ -311,10 +311,13 @@ class GetConfigurationCommand extends AbstractCommand
         $this->addArgument('option', null, 'Name of the option');
         $this->addOption('group', 'g', InputOption::VALUE_REQUIRED, 'Name of the option');
 
-        $help = "<info>%command.name%</info> displays the current value of a configuration option
-				\nUsage: <info>php %command.full_name%</info> <option>
-				\nGroup usage: <info>php %command.full_name%</info> --group <groupname>
-				\nAvailable group names: $groupNames";
+        $help = '<info>%command.name%</info> displays the current value of a configuration option
+				
+Usage: <info>php %command.full_name%</info> <option>
+				
+Group usage: <info>php %command.full_name%</info> --group <groupname>
+				
+Available group names: ' . $groupNames;
 
         $this->setDescription('Display the current value of a configuration option');
         $this->setHelp($help);

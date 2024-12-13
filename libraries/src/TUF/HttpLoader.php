@@ -32,9 +32,9 @@ class HttpLoader implements LoaderInterface
         try {
             /** @var Http $client */
             $response = $this->http->get($this->repositoryPath . $locator);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             // We convert the generic exception thrown in the Http library into a TufException
-            throw new HttpLoaderException($e->getMessage(), $e->getCode(), $e);
+            throw new HttpLoaderException($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         if ($response->code !== 200) {

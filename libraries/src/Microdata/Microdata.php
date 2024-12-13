@@ -795,7 +795,7 @@ class Microdata
 
         // Control if it is an empty element without a closing tag
         if ($tag === 'meta') {
-            return "<meta$tmp content='$content'>";
+            return sprintf("<meta%s content='%s'>", $tmp, $content);
         }
 
         return '<' . $tag . $tmp . '>' . $content . '</' . $tag . '>';
@@ -826,6 +826,6 @@ class Microdata
      */
     public static function htmlProperty($property)
     {
-        return "itemprop='$property'";
+        return sprintf("itemprop='%s'", $property);
     }
 }

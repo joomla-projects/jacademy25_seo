@@ -170,6 +170,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
         $oldItem = $this->getTable();
         $oldItem->load($oldId);
+
         $fields = FieldsHelper::getFields('com_content.article', $oldItem, true);
 
         $fieldsData = [];
@@ -795,6 +796,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         // Sanitize the ids.
         $pks     = (array) $pks;
         $pks     = ArrayHelper::toInteger($pks);
+
         $value   = (int) $value;
         $context = $this->option . '.' . $this->name;
 
@@ -917,8 +919,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                     $db->execute();
                 }
             }
-        } catch (\Exception $e) {
-            $this->setError($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->setError($exception->getMessage());
 
             return false;
         }

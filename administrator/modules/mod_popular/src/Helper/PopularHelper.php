@@ -119,7 +119,7 @@ abstract class PopularHelper
         }
 
         return Text::plural(
-            'MOD_POPULAR_TITLE' . ($catid !== 0 ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''),
+            'MOD_POPULAR_TITLE' . ($catid !== 0 ? '_CATEGORY' : '') . ($who != '0' ? '_' . $who : ''),
             (int) $params->get('count', 5),
             $title
         );

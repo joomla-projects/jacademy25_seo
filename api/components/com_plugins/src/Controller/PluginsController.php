@@ -65,7 +65,7 @@ class PluginsController extends ApiController
 
         foreach ($data as $key => $value) {
             if (!\in_array($key, ['enabled', 'access', 'ordering'])) {
-                throw new InvalidParameterException("Invalid parameter {$key}.", 400);
+                throw new InvalidParameterException(sprintf('Invalid parameter %s.', $key), 400);
             }
         }
 

@@ -53,8 +53,8 @@ class DebugHelper
                 // Load language
                 $extension = $item->value;
                 $source    = JPATH_ADMINISTRATOR . '/components/' . $extension;
-                if (!$lang->load("$extension.sys", JPATH_ADMINISTRATOR)) {
-                    $lang->load("$extension.sys", $source);
+                if (!$lang->load($extension . '.sys', JPATH_ADMINISTRATOR)) {
+                    $lang->load($extension . '.sys', $source);
                 }
 
                 // Translate component name

@@ -151,10 +151,10 @@ class Mail extends PHPMailer implements MailerInterface
 
         try {
             $result = parent::send();
-        } catch (phpmailerException $e) {
+        } catch (phpmailerException $phpmailerException) {
             // If auto TLS is disabled just let this bubble up
             if (!$this->SMTPAutoTLS) {
-                throw $e;
+                throw $phpmailerException;
             }
 
             $result = false;

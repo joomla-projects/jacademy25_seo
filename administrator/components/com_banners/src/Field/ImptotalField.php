@@ -42,9 +42,9 @@ class ImptotalField extends FormField
     protected function getInput()
     {
         $class    = ' class="form-control validate-numeric text_area"';
-        $onchange = ' onchange="document.getElementById(\'' . $this->id . '_unlimited\').checked=document.getElementById(\'' . $this->id
+        $onchange = ' onchange="document.getElementById(\'' . $this->id . "_unlimited').checked=document.getElementById('" . $this->id
             . '\').value==\'\';"';
-        $onclick  = ' onclick="if (document.getElementById(\'' . $this->id . '_unlimited\').checked) document.getElementById(\'' . $this->id
+        $onclick  = ' onclick="if (document.getElementById(\'' . $this->id . "_unlimited').checked) document.getElementById('" . $this->id
             . '\').value=\'\';"';
         $value    = empty($this->value) ? '' : $this->value;
         $checked  = empty($this->value) ? ' checked="checked"' : '';

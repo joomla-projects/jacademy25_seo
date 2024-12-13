@@ -291,7 +291,7 @@ class ExtensionAdapter extends UpdateAdapter
             }
 
             $app = Factory::getApplication();
-            $app->getLogger()->warning("Error parsing url: {$this->_url}", ['category' => 'updater']);
+            $app->getLogger()->warning('Error parsing url: ' . $this->_url, ['category' => 'updater']);
             $app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');
 
             return false;
@@ -333,7 +333,7 @@ class ExtensionAdapter extends UpdateAdapter
      */
     protected function stabilityTagToInteger($tag)
     {
-        $constant = '\\Joomla\\CMS\\Updater\\Updater::STABILITY_' . strtoupper($tag);
+        $constant = \Joomla\CMS\Updater\Updater::class . '::STABILITY_' . strtoupper($tag);
 
         if (\defined($constant)) {
             return \constant($constant);

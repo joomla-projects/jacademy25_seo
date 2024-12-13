@@ -131,16 +131,16 @@ class Language extends BaseLanguage
 
         if (\defined('JPATH_SITE')) {
             // Note: Manual indexing to enforce load order.
-            $paths[0] = JPATH_SITE . "/language/overrides/$lang.localise.php";
-            $paths[2] = JPATH_SITE . "/language/$lang/localise.php";
-            $paths[4] = JPATH_SITE . "/language/$lang/$lang.localise.php";
+            $paths[0] = JPATH_SITE . sprintf('/language/overrides/%s.localise.php', $lang);
+            $paths[2] = JPATH_SITE . sprintf('/language/%s/localise.php', $lang);
+            $paths[4] = JPATH_SITE . sprintf('/language/%s/%s.localise.php', $lang, $lang);
         }
 
         if (\defined('JPATH_ADMINISTRATOR')) {
             // Note: Manual indexing to enforce load order.
-            $paths[1] = JPATH_ADMINISTRATOR . "/language/overrides/$lang.localise.php";
-            $paths[3] = JPATH_ADMINISTRATOR . "/language/$lang/localise.php";
-            $paths[5] = JPATH_ADMINISTRATOR . "/language/$lang/$lang.localise.php";
+            $paths[1] = JPATH_ADMINISTRATOR . sprintf('/language/overrides/%s.localise.php', $lang);
+            $paths[3] = JPATH_ADMINISTRATOR . sprintf('/language/%s/localise.php', $lang);
+            $paths[5] = JPATH_ADMINISTRATOR . sprintf('/language/%s/%s.localise.php', $lang, $lang);
         }
 
         ksort($paths);
@@ -628,12 +628,12 @@ class Language extends BaseLanguage
         $filenames = [];
 
         if ($internal) {
-            $filenames[] = "$path/joomla.ini";
-            $filenames[] = "$path/$lang.ini";
+            $filenames[] = $path . '/joomla.ini';
+            $filenames[] = sprintf('%s/%s.ini', $path, $lang);
         } else {
             // Try first without a language-prefixed filename.
-            $filenames[] = "$path/$extension.ini";
-            $filenames[] = "$path/$lang.$extension.ini";
+            $filenames[] = sprintf('%s/%s.ini', $path, $extension);
+            $filenames[] = sprintf('%s/%s.%s.ini', $path, $lang, $extension);
         }
 
         foreach ($filenames as $filename) {
@@ -701,13 +701,13 @@ class Language extends BaseLanguage
     {
         try {
             $strings = LanguageHelper::parseIniFile($fileName, $this->debug);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             $strings = [];
 
             // Debug the ini file if needed.
             if ($this->debug && is_file($fileName) && !$this->debugFile($fileName)) {
                 // We didn't find any errors but there's a parser warning.
-                $this->errorfiles[$fileName] = 'PHP parser errors :' . $e->getMessage();
+                $this->errorfiles[$fileName] = 'PHP parser errors :' . $runtimeException->getMessage();
             }
         }
 

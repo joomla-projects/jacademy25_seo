@@ -832,8 +832,8 @@ final class Joomla extends CMSPlugin
 
         try {
             $count = $db->loadResult();
-        } catch (\RuntimeException $e) {
-            $this->getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            $this->getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
 
             return false;
         }
@@ -886,8 +886,8 @@ final class Joomla extends CMSPlugin
 
         try {
             return (int) $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
-            $this->getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\Exception $exception) {
+            $this->getApplication()->enqueueMessage($exception->getMessage(), 'error');
         }
 
         return false;

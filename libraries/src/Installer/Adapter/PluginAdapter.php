@@ -69,16 +69,16 @@ class PluginAdapter extends InstallerAdapter
             $this->currentExtensionId = $this->extension->find(
                 ['type' => $this->type, 'element' => $this->element, 'folder' => $this->group]
             );
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
             throw new \RuntimeException(
                 Text::sprintf(
                     'JLIB_INSTALLER_ABORT_ROLLBACK',
                     Text::_('JLIB_INSTALLER_' . $this->route),
-                    $e->getMessage()
+                    $runtimeException->getMessage()
                 ),
-                $e->getCode(),
-                $e
+                $runtimeException->getCode(),
+                $runtimeException
             );
         }
     }
@@ -300,12 +300,12 @@ class PluginAdapter extends InstallerAdapter
             }
 
             if ($name !== '' && $name !== '0') {
-                $extension = "plg_{$group}_{$name}";
-                $source    = $path ?: JPATH_PLUGINS . "/$group/$name";
+                $extension = sprintf('plg_%s_%s', $group, $name);
+                $source    = $path ?: JPATH_PLUGINS . sprintf('/%s/%s', $group, $name);
                 $folder    = (string) $element->attributes()->folder;
 
-                if ($folder && file_exists("$path/$folder")) {
-                    $source = "$path/$folder";
+                if ($folder && file_exists(sprintf('%s/%s', $path, $folder))) {
+                    $source = sprintf('%s/%s', $path, $folder);
                 }
 
                 $this->doLoadLanguage($extension, $source, JPATH_ADMINISTRATOR);

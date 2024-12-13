@@ -121,9 +121,9 @@ class PluginController extends BaseController
                     // Redirect browser to Media Manager
                     $this->setRedirect(Route::_('index.php?option=com_media&view=media', false));
             }
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             // Display any error
-            $this->app->enqueueMessage($e->getMessage(), 'error');
+            $this->app->enqueueMessage($exception->getMessage(), 'error');
             $this->setRedirect(Route::_('index.php', false));
         }
 

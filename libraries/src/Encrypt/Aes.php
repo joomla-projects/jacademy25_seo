@@ -257,8 +257,8 @@ if (!\function_exists('hash_pbkdf2')) {
         $block_count = $length !== 0 ? ceil($length / \strlen(hash($algo, '', $rawOutput))) : 1;
 
         for ($i = 1; $i <= $block_count; $i++) {
-            $last = $xorsum = hash_hmac($algo, $salt . pack('N', $i), $password, true);
-
+            $last = hash_hmac($algo, $salt . pack('N', $i), $password, true);
+            $xorsum = $last;
             for ($j = 1; $j < $count; $j++) {
                 $xorsum ^= ($last = hash_hmac($algo, $last, $password, true));
             }

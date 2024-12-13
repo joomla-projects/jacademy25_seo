@@ -45,11 +45,11 @@ class BeforeInstallEvent extends AbstractExtensionEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('method', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'method' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'method' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('type', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'type' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'type' of event %s is required but has not been provided", $name));
         }
     }
 

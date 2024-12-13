@@ -40,7 +40,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @link https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new \SimpleXMLElement("<category>$category</category>");
+        $xmlElement = new \SimpleXMLElement(sprintf('<category>%s</category>', $category));
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -318,7 +318,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @link https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new \SimpleXMLElement("<link href='$link' />");
+        $xmlElement = new \SimpleXMLElement(sprintf("<link href='%s' />", $link));
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -483,7 +483,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new \SimpleXMLElement("<title>$title</title>");
+        $xmlElement = new \SimpleXMLElement(sprintf('<title>%s</title>', $title));
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -513,7 +513,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new \SimpleXMLElement("<ttl>$ttl</ttl>");
+        $xmlElement = new \SimpleXMLElement(sprintf('<ttl>%s</ttl>', $ttl));
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -580,6 +580,7 @@ class RssParserTest extends UnitTestCase
 </rss>';
         $reader = new \XMLReader();
         $reader->xml($dummyXml);
+
         $rssParser = new RssParser($reader);
 
         // same logic as FeedFactory.php : skip head record
@@ -590,8 +591,8 @@ class RssParserTest extends UnitTestCase
                     break;
                 }
             }
-        } catch (\Exception $e) {
-            throw new \RuntimeException('Error reading feed.', $e->getCode(), $e);
+        } catch (\Exception $exception) {
+            throw new \RuntimeException('Error reading feed.', $exception->getCode(), $exception);
         }
 
         $rssParser->parse();

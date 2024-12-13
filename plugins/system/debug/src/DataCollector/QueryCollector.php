@@ -201,7 +201,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
                     $line  = $stack['line'] ?? '';
 
                     $caller   = $this->formatCallerInfo($stack);
-                    $location = $file && $line ? "$file:$line" : 'same';
+                    $location = $file && $line ? sprintf('%s:%s', $file, $line) : 'same';
 
                     $isCaller = 0;
 

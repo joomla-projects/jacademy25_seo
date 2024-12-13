@@ -48,8 +48,8 @@ class StylesController extends AdminController
             $model = $this->getModel();
             $model->duplicate($pks);
             $this->setMessage(Text::_('COM_TEMPLATES_SUCCESS_DUPLICATED'));
-        } catch (\Exception $e) {
-            $this->app->enqueueMessage($e->getMessage(), 'error');
+        } catch (\Exception $exception) {
+            $this->app->enqueueMessage($exception->getMessage(), 'error');
         }
 
         $this->setRedirect('index.php?option=com_templates&view=styles');
@@ -100,8 +100,8 @@ class StylesController extends AdminController
             $model = $this->getModel();
             $model->setHome($id);
             $this->setMessage(Text::_('COM_TEMPLATES_SUCCESS_HOME_SET'));
-        } catch (\Exception $e) {
-            $this->setMessage($e->getMessage(), 'warning');
+        } catch (\Exception $exception) {
+            $this->setMessage($exception->getMessage(), 'warning');
         }
 
         $this->setRedirect('index.php?option=com_templates&view=styles');
@@ -136,8 +136,8 @@ class StylesController extends AdminController
             $model = $this->getModel();
             $model->unsetHome($id);
             $this->setMessage(Text::_('COM_TEMPLATES_SUCCESS_HOME_UNSET'));
-        } catch (\Exception $e) {
-            $this->setMessage($e->getMessage(), 'warning');
+        } catch (\Exception $exception) {
+            $this->setMessage($exception->getMessage(), 'warning');
         }
 
         $this->setRedirect('index.php?option=com_templates&view=styles');

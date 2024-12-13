@@ -36,11 +36,11 @@ class AfterLoadEvent extends AbstractEvent
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('result', $arguments)) {
-            throw new \BadMethodCallException("Argument 'result' is required for event $name");
+            throw new \BadMethodCallException("Argument 'result' is required for event " . $name);
         }
 
         if (!\array_key_exists('row', $arguments)) {
-            throw new \BadMethodCallException("Argument 'row' is required for event $name");
+            throw new \BadMethodCallException("Argument 'row' is required for event " . $name);
         }
 
         parent::__construct($name, $arguments);
@@ -78,7 +78,7 @@ class AfterLoadEvent extends AbstractEvent
     protected function setRow($value)
     {
         if (!\is_null($value) && !\is_array($value)) {
-            throw new \BadMethodCallException("Argument 'row' of event {$this->name} is not of the expected type");
+            throw new \BadMethodCallException(sprintf("Argument 'row' of event %s is not of the expected type", $this->name));
         }
 
         return $value;

@@ -187,6 +187,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
         $referenceTokenData = $this->getTokenSeedForUser($userId);
         $referenceTokenData = $referenceTokenData === null || $referenceTokenData === '' || $referenceTokenData === '0' ? '' : $referenceTokenData;
         $referenceTokenData = base64_decode($referenceTokenData);
+
         $referenceHMAC      = hash_hmac($algo, $referenceTokenData, (string) $siteSecret);
 
         // Is the token enabled?

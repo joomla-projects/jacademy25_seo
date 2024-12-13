@@ -90,14 +90,14 @@ class Scheduler
 
         try {
             $this->configureTaskRunnerOptions($resolver);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
         }
 
         try {
             $options = $resolver->resolve($options);
-        } catch (\Exception $e) {
-            if ($e instanceof UndefinedOptionsException || $e instanceof InvalidOptionsException) {
-                throw $e;
+        } catch (\Exception $exception) {
+            if ($exception instanceof UndefinedOptionsException || $exception instanceof InvalidOptionsException) {
+                throw $exception;
             }
         }
 
@@ -203,14 +203,14 @@ class Scheduler
 
         try {
             TaskModel::configureTaskGetterOptions($resolver);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
         }
 
         try {
             $options = $resolver->resolve($options);
-        } catch (\Exception $e) {
-            if ($e instanceof UndefinedOptionsException || $e instanceof InvalidOptionsException) {
-                throw $e;
+        } catch (\Exception $exception) {
+            if ($exception instanceof UndefinedOptionsException || $exception instanceof InvalidOptionsException) {
+                throw $exception;
             }
         }
 

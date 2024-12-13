@@ -191,8 +191,8 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
     {
         try {
             parent::check();
-        } catch (\Exception $e) {
-            $this->setError($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->setError($exception->getMessage());
 
             return false;
         }
@@ -277,7 +277,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
             // Only process if not empty
 
             // Array of characters to remove
-            $badCharacters = ["\n", "\r", "\"", '<', '>'];
+            $badCharacters = ["\n", "\r", '"', '<', '>'];
 
             // Remove bad characters
             $afterClean = StringHelper::str_ireplace($badCharacters, '', $this->metakey);

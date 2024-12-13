@@ -141,7 +141,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
             $messages = [];
 
             for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
-                $messages[] = $errors[$i] instanceof \Exception ? "{$errors[$i]->getMessage()}" : "{$errors[$i]}";
+                $messages[] = $errors[$i] instanceof \Exception ? $errors[$i]->getMessage() : $errors[$i];
             }
 
             throw new InvalidParameterException(implode("\n", $messages));

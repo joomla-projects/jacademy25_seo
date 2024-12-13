@@ -35,15 +35,15 @@ abstract class AbstractEvent extends AbstractImmutableEvent
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('subject', $arguments)) {
-            throw new \BadMethodCallException("Argument 'subject' of event {$this->name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'subject' of event %s is required but has not been provided", $this->name));
         }
 
         if (!\array_key_exists('extension', $arguments)) {
-            throw new \BadMethodCallException("Argument 'extension' of event {$this->name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'extension' of event %s is required but has not been provided", $this->name));
         }
 
         if (!str_contains((string) $arguments['extension'], '.')) {
-            throw new \BadMethodCallException("Argument 'extension' of event {$this->name} has wrong format. Valid format: 'component.section'");
+            throw new \BadMethodCallException(sprintf("Argument 'extension' of event %s has wrong format. Valid format: 'component.section'", $this->name));
         }
 
         if (!\array_key_exists('extensionName', $arguments) || !\array_key_exists('section', $arguments)) {

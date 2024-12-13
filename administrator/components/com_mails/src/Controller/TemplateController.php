@@ -82,7 +82,7 @@ class TemplateController extends FormController
         // Do not cache the response to this, its a redirect, and mod_expires and google chrome browser bugs cache it forever!
         $this->app->allowCache(false);
 
-        $context = "$this->option.edit.$this->context";
+        $context = sprintf('%s.edit.%s', $this->option, $this->context);
 
         // Get the previous record id (if any) and the current record id.
         $template_id = $this->input->getCmd('template_id');
@@ -156,7 +156,7 @@ class TemplateController extends FormController
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
         $model   = $this->getModel();
         $data    = $this->input->post->get('jform', [], 'array');
-        $context = "$this->option.edit.$this->context";
+        $context = sprintf('%s.edit.%s', $this->option, $this->context);
         $task    = $this->getTask();
 
         $recordId = $this->input->getCmd('template_id');

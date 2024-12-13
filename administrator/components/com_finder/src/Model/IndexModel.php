@@ -354,6 +354,7 @@ class IndexModel extends ListModel
 
         // Truncate the taxonomy table and insert the root node.
         $db->truncateTable('#__finder_taxonomy');
+
         $root = (object) [
             'id'        => 1,
             'parent_id' => 0,

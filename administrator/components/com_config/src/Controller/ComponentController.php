@@ -68,11 +68,12 @@ class ComponentController extends FormController
         $id      = $this->input->get('id', null, 'INT');
         $option  = $this->input->get('component');
         $user    = $this->app->getIdentity();
-        $context = "$this->option.edit.$this->context.$option";
+        $context = sprintf('%s.edit.%s.%s', $this->option, $this->context, $option);
 
         /** @var \Joomla\Component\Config\Administrator\Model\ComponentModel $model */
         $model = $this->getModel('Component', 'Administrator');
         $model->setState('component.option', $option);
+
         $form  = $model->getForm();
 
         // Make sure com_joomlaupdate and com_privacy can only be accessed by SuperUser
@@ -125,14 +126,14 @@ class ComponentController extends FormController
 
         try {
             $model->save($data);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Save the data in the session.
             $this->app->setUserState($context . '.data', $data);
 
             // Save failed, go back to the screen and display a notice.
             $this->setRedirect(
                 Route::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false),
-                Text::_('JERROR_SAVE_FAILED', $e->getMessage()),
+                Text::_('JERROR_SAVE_FAILED', $runtimeException->getMessage()),
                 'error'
             );
 
@@ -190,7 +191,7 @@ class ComponentController extends FormController
         $component = $this->input->get('component');
 
         // Clear session data.
-        $this->app->setUserState("$this->option.edit.$this->context.$component.data", null);
+        $this->app->setUserState(sprintf('%s.edit.%s.%s.data', $this->option, $this->context, $component), null);
 
         // Calculate redirect URL
         $returnUri = $this->input->post->get('return', null, 'base64');

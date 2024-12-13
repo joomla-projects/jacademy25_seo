@@ -648,8 +648,8 @@ class FieldsHelper
 
         try {
             $result = (int) $db->loadResult();
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
             $result = 0;
         }
 

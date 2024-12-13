@@ -106,8 +106,8 @@ class LanguagesModel extends ListModel
         try {
             // Load the list items and add the items to the internal cache.
             $this->cache[$store] = $this->getLanguages();
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }

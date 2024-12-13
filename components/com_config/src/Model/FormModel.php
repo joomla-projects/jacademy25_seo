@@ -155,8 +155,8 @@ abstract class FormModel extends BaseForm
 
             // Load the data into the form after the plugins have operated.
             $form->bind($data);
-        } catch (\Exception $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage());
+        } catch (\Exception $exception) {
+            Factory::getApplication()->enqueueMessage($exception->getMessage());
 
             return false;
         }

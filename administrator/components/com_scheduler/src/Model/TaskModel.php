@@ -361,7 +361,7 @@ class TaskModel extends AdminModel
 
         try {
             static::configureTaskGetterOptions($resolver);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         try {
@@ -609,7 +609,7 @@ class TaskModel extends AdminModel
             [$basisHour, $basisMinute] = explode(':', (string) $data['execution_rules']['exec-time']);
 
             $data['last_execution'] = Factory::getDate('now', 'GMT')->format('Y-m')
-                . "-$basisDayOfMonth $basisHour:$basisMinute:00";
+                . sprintf('-%s %s:%s:00', $basisDayOfMonth, $basisHour, $basisMinute);
         } else {
             $data['last_execution'] = $this->getItem($id)->last_execution;
         }
@@ -693,7 +693,7 @@ class TaskModel extends AdminModel
         if ($ruleClass === 'interval') {
             // Rule type for intervals interval-<minute/hours/...>
             $intervalType    = explode('-', (string) $ruleType)[1];
-            $interval        = $executionRules["interval-$intervalType"];
+            $interval        = $executionRules['interval-' . $intervalType];
             $buildExpression = \sprintf($intervalStringMap[$intervalType], $interval);
         }
 
@@ -775,8 +775,8 @@ class TaskModel extends AdminModel
 
         try {
             Factory::getApplication()->getDispatcher()->dispatch($this->event_before_unlock, $event);
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }
@@ -800,8 +800,8 @@ class TaskModel extends AdminModel
 
         try {
             Factory::getApplication()->getDispatcher()->dispatch($this->event_unlock, $event);
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }

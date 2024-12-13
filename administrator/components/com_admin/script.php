@@ -130,16 +130,16 @@ class JoomlaInstallerScript
         try {
             Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_UNINSTALL_EXTENSIONS'), Log::INFO, 'Update');
             $this->uninstallExtensions();
-        } catch (\Throwable $e) {
-            $this->collectError('uninstallExtensions', $e);
+        } catch (\Throwable $throwable) {
+            $this->collectError('uninstallExtensions', $throwable);
         }
 
         // Remove old files
         try {
             Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
             $this->deleteUnexistingFiles();
-        } catch (\Throwable $e) {
-            $this->collectError('deleteUnexistingFiles', $e);
+        } catch (\Throwable $throwable) {
+            $this->collectError('deleteUnexistingFiles', $throwable);
         }
 
         // Further update
@@ -148,15 +148,15 @@ class JoomlaInstallerScript
             $this->updateDatabase();
             $this->updateAssets($installer);
             $this->clearStatsCache();
-        } catch (\Throwable $e) {
-            $this->collectError('Further update', $e);
+        } catch (\Throwable $throwable) {
+            $this->collectError('Further update', $throwable);
         }
 
         // Clean cache
         try {
             $this->cleanJoomlaCache();
-        } catch (\Throwable $e) {
-            $this->collectError('cleanJoomlaCache', $e);
+        } catch (\Throwable $throwable) {
+            $this->collectError('cleanJoomlaCache', $throwable);
         }
     }
 
@@ -181,8 +181,8 @@ class JoomlaInstallerScript
                     ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
                     ->where($db->quoteName('element') . ' = ' . $db->quote('stats'))
             )->loadResult();
-        } catch (Exception $e) {
-            $this->collectError(__METHOD__, $e);
+        } catch (Exception $exception) {
+            $this->collectError(__METHOD__, $exception);
 
             return;
         }
@@ -205,8 +205,8 @@ class JoomlaInstallerScript
 
         try {
             $db->setQuery($query)->execute();
-        } catch (Exception $e) {
-            $this->collectError(__METHOD__, $e);
+        } catch (Exception $exception) {
+            $this->collectError(__METHOD__, $exception);
 
             return;
         }
@@ -237,8 +237,8 @@ class JoomlaInstallerScript
 
         try {
             $results = $db->loadObjectList();
-        } catch (Exception $e) {
-            $this->collectError(__METHOD__, $e);
+        } catch (Exception $exception) {
+            $this->collectError(__METHOD__, $exception);
 
             return;
         }
@@ -252,8 +252,8 @@ class JoomlaInstallerScript
 
             try {
                 $db->execute();
-            } catch (Exception $e) {
-                $this->collectError(__METHOD__, $e);
+            } catch (Exception $exception) {
+                $this->collectError(__METHOD__, $exception);
 
                 return;
             }
@@ -531,8 +531,8 @@ class JoomlaInstallerScript
 
         try {
             $extensions = $db->loadObjectList();
-        } catch (Exception $e) {
-            $this->collectError(__METHOD__, $e);
+        } catch (Exception $exception) {
+            $this->collectError(__METHOD__, $exception);
 
             return;
         }
@@ -2812,8 +2812,8 @@ class JoomlaInstallerScript
                     ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
                     ->where($db->quoteName('element') . ' = ' . $db->quote('actionlogs'))
             )->loadObject();
-        } catch (Exception $e) {
-            $this->collectError(__METHOD__, $e);
+        } catch (Exception $exception) {
+            $this->collectError(__METHOD__, $exception);
 
             return false;
         }
@@ -2852,8 +2852,8 @@ class JoomlaInstallerScript
 
         try {
             $model->save($task);
-        } catch (Exception $e) {
-            $this->collectError(__METHOD__, $e);
+        } catch (Exception $exception) {
+            $this->collectError(__METHOD__, $exception);
 
             return false;
         }
@@ -2881,8 +2881,8 @@ class JoomlaInstallerScript
                     ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
                     ->where($db->quoteName('element') . ' = ' . $db->quote('privacyconsent'))
             )->loadObject();
-        } catch (Exception $e) {
-            $this->collectError(__METHOD__, $e);
+        } catch (Exception $exception) {
+            $this->collectError(__METHOD__, $exception);
 
             return false;
         }
@@ -2922,8 +2922,8 @@ class JoomlaInstallerScript
 
         try {
             $model->save($task);
-        } catch (Exception $e) {
-            $this->collectError(__METHOD__, $e);
+        } catch (Exception $exception) {
+            $this->collectError(__METHOD__, $exception);
 
             return false;
         }
@@ -2955,8 +2955,8 @@ class JoomlaInstallerScript
                     ->where($db->quoteName('folder') . ' = ' . $db->quote('editors'))
                     ->where($db->quoteName('element') . ' = ' . $db->quote('tinymce'))
             )->loadResult();
-        } catch (Exception $e) {
-            $this->collectError(__METHOD__, $e);
+        } catch (Exception $exception) {
+            $this->collectError(__METHOD__, $exception);
 
             return false;
         }
@@ -3029,8 +3029,8 @@ class JoomlaInstallerScript
 
         try {
             $db->setQuery($query)->execute();
-        } catch (Exception $e) {
-            $this->collectError(__METHOD__, $e);
+        } catch (Exception $exception) {
+            $this->collectError(__METHOD__, $exception);
 
             return false;
         }

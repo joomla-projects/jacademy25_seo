@@ -200,8 +200,8 @@ class ConstraintChecker
         }
 
         // Do we have an entry for the database?
-        if (!empty($supportedDatabases["$dbType"])) {
-            $minimumVersion = $supportedDatabases["$dbType"];
+        if (!empty($supportedDatabases[$dbType])) {
+            $minimumVersion = $supportedDatabases[$dbType];
 
             $result = version_compare($dbVersion, $minimumVersion, '>=');
 
@@ -248,7 +248,7 @@ class ConstraintChecker
      */
     protected function stabilityToInteger($tag)
     {
-        $constant = '\\Joomla\\CMS\\Updater\\Updater::STABILITY_' . strtoupper($tag);
+        $constant = \Joomla\CMS\Updater\Updater::class . '::STABILITY_' . strtoupper($tag);
 
         if (\defined($constant)) {
             return \constant($constant);

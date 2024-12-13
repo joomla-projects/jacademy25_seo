@@ -48,6 +48,7 @@ class LayoutHelper
 
         // Make sure we send null to FileLayout if no path set
         $basePath = empty($basePath) ? null : $basePath;
+
         $layout   = new FileLayout($layoutFile, $basePath, $options);
 
         return $layout->debug($displayData);
@@ -71,6 +72,7 @@ class LayoutHelper
 
         // Make sure we send null to FileLayout if no path set
         $basePath = empty($basePath) ? null : $basePath;
+
         $layout   = new FileLayout($layoutFile, $basePath, $options);
 
         return $layout->render($displayData);

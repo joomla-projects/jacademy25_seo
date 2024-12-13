@@ -38,7 +38,7 @@ class TransitionModel extends AdminModel
      *
      * @since   4.0.0
      */
-    public function populateState()
+    protected function populateState()
     {
         parent::populateState();
 

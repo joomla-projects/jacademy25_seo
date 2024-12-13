@@ -67,15 +67,15 @@ final class OnGetApiFields extends AbstractImmutableEvent
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('type', $arguments)) {
-            throw new \BadMethodCallException("Argument 'type' is required for event $name");
+            throw new \BadMethodCallException("Argument 'type' is required for event " . $name);
         }
 
         if (!\array_key_exists('fields', $arguments)) {
-            throw new \BadMethodCallException("Argument 'fields' is required for event $name");
+            throw new \BadMethodCallException("Argument 'fields' is required for event " . $name);
         }
 
         if (!\array_key_exists('context', $arguments)) {
-            throw new \BadMethodCallException("Argument 'context' is required for event $name");
+            throw new \BadMethodCallException("Argument 'context' is required for event " . $name);
         }
 
         parent::__construct($name, $arguments);
@@ -93,7 +93,7 @@ final class OnGetApiFields extends AbstractImmutableEvent
     protected function setType($value)
     {
         if (!\in_array($value, [self::ITEM, self::LIST])) {
-            throw new \BadMethodCallException("Argument 'type' of event {$this->name} must be a valid value");
+            throw new \BadMethodCallException(sprintf("Argument 'type' of event %s must be a valid value", $this->name));
         }
 
         return $value;
@@ -111,7 +111,7 @@ final class OnGetApiFields extends AbstractImmutableEvent
     protected function setFields($value)
     {
         if (!\is_array($value) || $value === []) {
-            throw new \BadMethodCallException("Argument 'fields' of event {$this->name} must be be an array and not empty");
+            throw new \BadMethodCallException(sprintf("Argument 'fields' of event %s must be be an array and not empty", $this->name));
         }
 
         return $value;
@@ -129,7 +129,7 @@ final class OnGetApiFields extends AbstractImmutableEvent
     protected function setRelations($value)
     {
         if (!\is_array($value)) {
-            throw new \BadMethodCallException("Argument 'relations' of event {$this->name} must be be an array");
+            throw new \BadMethodCallException(sprintf("Argument 'relations' of event %s must be be an array", $this->name));
         }
 
         return $value;

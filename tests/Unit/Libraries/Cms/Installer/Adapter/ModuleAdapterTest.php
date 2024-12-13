@@ -115,6 +115,7 @@ class ModuleAdapterTest extends UnitTestCase
         $xml = str_replace('<name>mod_quickicon</name>', '<name>mod_quickicon</name><element>mod_quickicon</element>', $xml);
 
         $xml = simplexml_load_string($xml);
+
         $this->moduleAdapter->setManifest($xml);
 
         $this->assertNotNull($this->moduleAdapter->manifest);

@@ -70,7 +70,7 @@ class UploaddirsField extends FolderlistField
      *
      * @since   3.7.0
      */
-    public function getOptions()
+    protected function getOptions()
     {
         return parent::getOptions();
     }

@@ -83,6 +83,7 @@ class NewsfeedField extends ModalSelectField
         ]);
         $linkItem = clone $linkitems;
         $linkItem->setVar('view', 'newsfeed');
+
         $linkCheckin = (new Uri())->setPath(Uri::base(true) . '/index.php');
         $linkCheckin->setQuery([
             'option'                => 'com_newsfeeds',
@@ -105,6 +106,7 @@ class NewsfeedField extends ModalSelectField
         $urlSelect = $linkitems;
         $urlEdit   = clone $linkItem;
         $urlEdit->setVar('task', 'newsfeed.edit');
+
         $urlNew    = clone $linkItem;
         $urlNew->setVar('task', 'newsfeed.add');
 

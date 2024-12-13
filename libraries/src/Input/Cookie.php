@@ -95,10 +95,10 @@ class Cookie extends Input
         }
 
         // Set the cookie
-        if (version_compare(PHP_VERSION, '7.3', '>=')) {
+        if (PHP_VERSION_ID >= 70300) {
             if (\is_array($value)) {
                 foreach ($value as $key => $val) {
-                    setcookie($name . "[$key]", (string) $val, $options);
+                    setcookie($name . sprintf('[%s]', $key), (string) $val, $options);
                 }
             } else {
                 setcookie($name, (string) $value, $options);
@@ -128,7 +128,7 @@ class Cookie extends Input
             if (\is_array($value)) {
                 foreach ($value as $key => $val) {
                     setcookie(
-                        $name . "[$key]",
+                        $name . sprintf('[%s]', $key),
                         (string) $val,
                         ['expires' => $options['expires'], 'path' => (string) $options['path'], 'domain' => (string) $options['domain'], 'secure' => $options['secure'], 'httponly' => $options['httponly']]
                     );

@@ -149,8 +149,8 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
     {
         try {
             parent::check();
-        } catch (\Exception $e) {
-            $this->setError($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->setError($exception->getMessage());
 
             return false;
         }
@@ -200,7 +200,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
         // Clean up description -- eliminate quotes and <> brackets
         if (!empty($this->metadesc)) {
             // Only process if not empty
-            $badCharacters  = ["\"", '<', '>'];
+            $badCharacters  = ['"', '<', '>'];
             $this->metadesc = StringHelper::str_ireplace($badCharacters, '', $this->metadesc);
         } else {
             $this->metadesc = '';

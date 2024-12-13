@@ -206,10 +206,10 @@ class UpdateModel extends BaseDatabaseModel
         try {
             // Get the component extension ID
             $joomlaUpdateComponentId = $db->loadResult();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Something is wrong here!
             $joomlaUpdateComponentId = 0;
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'error');
         }
 
         // Try the update only if we have an extension id
@@ -606,9 +606,9 @@ class UpdateModel extends BaseDatabaseModel
         $data = "<?php\ndefined('_JOOMLA_UPDATE') or die('Restricted access');\n";
         $data .= '$extractionSetup = [' . "\n";
         $data .= <<<ENDDATA
-	'security.password' => '$password',
-	'setup.sourcefile' => '$file',
-	'setup.destdir' => '$siteroot',
+	'security.password' => '{$password}',
+	'setup.sourcefile' => '{$file}',
+	'setup.destdir' => '{$siteroot}',
 ENDDATA;
 
         $data .= '];';
@@ -714,8 +714,8 @@ ENDDATA;
 
             // Append messages.
             $msg .= ob_get_clean();
-        } catch (\Throwable $e) {
-            $this->collectError('JoomlaInstallerScript::preflight', $e);
+        } catch (\Throwable $throwable) {
+            $this->collectError('JoomlaInstallerScript::preflight', $throwable);
             return false;
         }
 
@@ -737,11 +737,11 @@ ENDDATA;
 
         try {
             $db->execute();
-        } catch (\RuntimeException $e) {
-            $this->collectError('Extension check', $e);
+        } catch (\RuntimeException $runtimeException) {
+            $this->collectError('Extension check', $runtimeException);
             // Install failed, roll back changes.
             $installer->abort(
-                Text::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', Text::_('JLIB_INSTALLER_UPDATE'), $e->getMessage())
+                Text::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', Text::_('JLIB_INSTALLER_UPDATE'), $runtimeException->getMessage())
             );
 
             return false;
@@ -832,8 +832,8 @@ ENDDATA;
 
             // Append messages.
             $msg .= ob_get_clean();
-        } catch (\Throwable $e) {
-            $this->collectError('JoomlaInstallerScript::update', $e);
+        } catch (\Throwable $throwable) {
+            $this->collectError('JoomlaInstallerScript::update', $throwable);
             return false;
         }
 
@@ -854,8 +854,8 @@ ENDDATA;
 
             // Append messages.
             $msg .= ob_get_clean();
-        } catch (\Throwable $e) {
-            $this->collectError('JoomlaInstallerScript::postflight', $e);
+        } catch (\Throwable $throwable) {
+            $this->collectError('JoomlaInstallerScript::postflight', $throwable);
             return false;
         }
 
@@ -920,6 +920,7 @@ ENDDATA;
         // Unset the update filename from the session.
         $app = Factory::getApplication();
         $app->setUserState('com_joomlaupdate.file', null);
+
         $oldVersion = $app->getUserState('com_joomlaupdate.oldversion');
 
         // Trigger event after joomla update.
@@ -1001,8 +1002,8 @@ ENDDATA;
         // Move uploaded file.
         try {
             File::upload($tmp_src, $tmp_dest, false);
-        } catch (FilesystemException $exception) {
-            throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500, $exception);
+        } catch (FilesystemException $filesystemException) {
+            throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500, $filesystemException);
         }
 
         Factory::getApplication()->setUserState('com_joomlaupdate.temp_file', $tmp_dest);
@@ -1695,8 +1696,8 @@ ENDDATA;
                 $source    = $path . '/templates/' . $item->element;
         }
 
-        if (!$lang->load("$extension.sys", JPATH_ADMINISTRATOR)) {
-            $lang->load("$extension.sys", $source);
+        if (!$lang->load($extension . '.sys', JPATH_ADMINISTRATOR)) {
+            $lang->load($extension . '.sys', $source);
         }
         if (!$lang->load($extension, JPATH_ADMINISTRATOR)) {
             $lang->load($extension, $source);
@@ -2052,6 +2053,7 @@ ENDDATA;
         $params->set('updatesource', 'default');
 
         $params = $params->toString();
+
         $db     = $this->getDatabase();
         $query  = $db->getQuery(true)
             ->update($db->quoteName('#__extensions'))
@@ -2063,12 +2065,12 @@ ENDDATA;
         try {
             $db->setQuery($query);
             $db->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             Log::add(
                 \sprintf(
                     'An error has occurred while running "resetUpdateSource". Code: %s. Message: %s.',
-                    $e->getCode(),
-                    $e->getMessage()
+                    $exception->getCode(),
+                    $exception->getMessage()
                 ),
                 Log::WARNING,
                 'Update'

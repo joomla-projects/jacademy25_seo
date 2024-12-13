@@ -296,8 +296,8 @@ class ModuleController extends FormController
 
         try {
             $orders = $model->getItems();
-        } catch (\RuntimeException $e) {
-            $app->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            $app->enqueueMessage($runtimeException->getMessage(), 'error');
 
             return;
         }

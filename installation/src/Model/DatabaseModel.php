@@ -83,8 +83,8 @@ class DatabaseModel extends BaseInstallationModel
                 $select,
                 DatabaseHelper::getEncryptionSettings($options)
             );
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $runtimeException->getMessage()), 'error');
 
             return false;
         }
@@ -117,7 +117,7 @@ class DatabaseModel extends BaseInstallationModel
 
         try {
             $db_version = $db->getVersion();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             /*
              * We may get here if the database doesn't exist, if so then explain that to users instead of showing the database connector's error
              * This only supports PDO PostgreSQL and the PDO MySQL drivers presently
@@ -127,8 +127,8 @@ class DatabaseModel extends BaseInstallationModel
              * PDO PostgreSQL: database "database_name" does not exist
              */
             if (
-                $type === 'mysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42
-                || $type === 'pgsql' && strpos($e->getMessage(), 'database "' . $options->db_name . '" does not exist')
+                $type === 'mysql' && strpos($runtimeException->getMessage(), '[1049] Unknown database') === 42
+                || $type === 'pgsql' && strpos($runtimeException->getMessage(), 'database "' . $options->db_name . '" does not exist')
             ) {
                 /*
                  * Now we're really getting insane here; we're going to try building a new JDatabaseDriver instance
@@ -166,27 +166,27 @@ class DatabaseModel extends BaseInstallationModel
 
                 if ($dbServerCheck) {
                     // Some server parameter is not ok
-                    throw new \RuntimeException($dbServerCheck, 500, $e);
+                    throw new \RuntimeException($dbServerCheck, 500, $runtimeException);
                 }
 
                 // Try to create the database now using the alternate driver
                 try {
                     $this->createDb($altDB, $options, $altDB->hasUtfSupport());
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException $runtimeException) {
                     // We did everything we could
-                    throw new \RuntimeException(Text::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 500, $e);
+                    throw new \RuntimeException(Text::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 500, $runtimeException);
                 }
 
                 // If we got here, the database should have been successfully created, now try one more time to get the version
                 try {
                     $db_version = $db->getVersion();
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException $runtimeException) {
                     // We did everything we could
-                    throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 500, $e);
+                    throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $runtimeException->getMessage()), 500, $runtimeException);
                 }
             } else {
                 // Anything getting into this part of the conditional either doesn't support manually creating the database or isn't that type of error
-                throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 500, $e);
+                throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $runtimeException->getMessage()), 500, $runtimeException);
             }
         }
 
@@ -195,7 +195,7 @@ class DatabaseModel extends BaseInstallationModel
 
         if ($dbServerCheck) {
             // Some server parameter is not ok
-            throw new \RuntimeException($dbServerCheck, 500, $e);
+            throw new \RuntimeException($dbServerCheck, 500, $runtimeException);
         }
 
         // @internal Check for spaces in beginning or end of name.
@@ -214,10 +214,10 @@ class DatabaseModel extends BaseInstallationModel
         // Try to select the database.
         try {
             $db->select($options->db_name);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // If the database could not be selected, attempt to create it and then select it.
             if (!$this->createDb($db, $options, $utfSupport)) {
-                throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name), 500, $e);
+                throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name), 500, $runtimeException);
             }
 
             $db->select($options->db_name);

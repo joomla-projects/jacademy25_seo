@@ -440,6 +440,7 @@ class ZIPExtraction
     {
         $clone = clone self::getInstance();
         $clone->shutdown();
+
         $serialized = serialize($clone);
 
         return (\function_exists('base64_encode') && \function_exists('base64_decode')) ? base64_encode($serialized) : $serialized;

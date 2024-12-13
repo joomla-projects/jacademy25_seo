@@ -66,7 +66,7 @@ class OutputFilterTest extends UnitTestCase
 
         $this->assertEquals(
             'joomlas-version',
-            OutputFilter::stringURLSafe('joomla\'s version'),
+            OutputFilter::stringURLSafe("joomla's version"),
             'Should remove apostrophe from the string'
         );
     }

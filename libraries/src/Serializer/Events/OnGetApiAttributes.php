@@ -49,11 +49,11 @@ final class OnGetApiAttributes extends AbstractImmutableEvent
             !\array_key_exists('attributes', $arguments)
             || \array_key_exists('attributes', $arguments) && !\is_array($arguments['attributes'])
         ) {
-            throw new \BadMethodCallException("Argument 'attributes' as an array is required for event $name");
+            throw new \BadMethodCallException("Argument 'attributes' as an array is required for event " . $name);
         }
 
         if (!\array_key_exists('context', $arguments)) {
-            throw new \BadMethodCallException("Argument 'context' is required for event $name");
+            throw new \BadMethodCallException("Argument 'context' is required for event " . $name);
         }
 
         parent::__construct($name, $arguments);

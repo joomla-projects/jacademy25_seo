@@ -36,6 +36,7 @@ function admin_postinstall_languageaccess340_condition()
         ->where($db->quoteName('access') . ' = ' . $db->quote('0'));
     $db->setQuery($query);
     $db->execute();
+
     $numRows = $db->getNumRows();
     // All good the query return nothing.
     // We have rows here so we have at minimum one row with access set to 0

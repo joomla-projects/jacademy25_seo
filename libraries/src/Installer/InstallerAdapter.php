@@ -230,16 +230,16 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
             if ($this->currentExtensionId) {
                 $this->extension->load(['element' => $this->element, 'type' => $this->type]);
             }
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
             throw new \RuntimeException(
                 Text::sprintf(
                     'JLIB_INSTALLER_ABORT_ROLLBACK',
                     Text::_('JLIB_INSTALLER_' . $this->route),
-                    $e->getMessage()
+                    $runtimeException->getMessage()
                 ),
-                $e->getCode(),
-                $e
+                $runtimeException->getCode(),
+                $runtimeException
             );
         }
     }
@@ -361,9 +361,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // Setup the install paths and perform other prechecks as necessary
         try {
             $this->setupInstallPaths();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
-            $this->parent->abort($e->getMessage());
+            $this->parent->abort($runtimeException->getMessage());
 
             return false;
         }
@@ -378,9 +378,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         try {
             $this->triggerManifestScript('preflight');
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
-            $this->parent->abort($e->getMessage());
+            $this->parent->abort($runtimeException->getMessage());
 
             return false;
         }
@@ -393,18 +393,18 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         try {
             $this->storeExtension();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
-            $this->parent->abort($e->getMessage());
+            $this->parent->abort($runtimeException->getMessage());
 
             return false;
         }
 
         try {
             $this->parseQueries();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
-            $this->parent->abort($e->getMessage());
+            $this->parent->abort($runtimeException->getMessage());
 
             return false;
         }
@@ -412,9 +412,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // Run the custom install method
         try {
             $this->triggerManifestScript('install');
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
-            $this->parent->abort($e->getMessage());
+            $this->parent->abort($runtimeException->getMessage());
 
             return false;
         }
@@ -427,9 +427,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         try {
             $this->finaliseInstall();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
-            $this->parent->abort($e->getMessage());
+            $this->parent->abort($runtimeException->getMessage());
 
             return false;
         }
@@ -437,9 +437,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // And now we run the postflight
         try {
             $this->triggerManifestScript('postflight');
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
-            $this->parent->abort($e->getMessage());
+            $this->parent->abort($runtimeException->getMessage());
 
             return false;
         }
@@ -659,9 +659,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // Setup the install paths and perform other prechecks as necessary
         try {
             $this->setupInstallPaths();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
-            $this->parent->abort($e->getMessage());
+            $this->parent->abort($runtimeException->getMessage());
 
             return false;
         }
@@ -669,9 +669,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // Check to see if an extension by the same name is already installed.
         try {
             $this->checkExistingExtension();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
-            $this->parent->abort($e->getMessage());
+            $this->parent->abort($runtimeException->getMessage());
 
             return false;
         }
@@ -679,9 +679,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // Check if the extension is present in the filesystem
         try {
             $this->checkExtensionInFilesystem();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
-            $this->parent->abort($e->getMessage());
+            $this->parent->abort($runtimeException->getMessage());
 
             return false;
         }
@@ -708,9 +708,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         try {
             $this->triggerManifestScript('preflight');
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
-            $this->parent->abort($e->getMessage());
+            $this->parent->abort($runtimeException->getMessage());
 
             return false;
         }
@@ -724,9 +724,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // If the extension directory does not exist, lets create it
         try {
             $this->createExtensionRoot();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
-            $this->parent->abort($e->getMessage());
+            $this->parent->abort($runtimeException->getMessage());
 
             return false;
         }
@@ -734,9 +734,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // Copy all necessary files
         try {
             $this->copyBaseFiles();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
-            $this->parent->abort($e->getMessage());
+            $this->parent->abort($runtimeException->getMessage());
 
             return false;
         }
@@ -752,18 +752,18 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         try {
             $this->storeExtension();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
-            $this->parent->abort($e->getMessage());
+            $this->parent->abort($runtimeException->getMessage());
 
             return false;
         }
 
         try {
             $this->parseQueries();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
-            $this->parent->abort($e->getMessage());
+            $this->parent->abort($runtimeException->getMessage());
 
             return false;
         }
@@ -771,9 +771,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // Run the custom method based on the route
         try {
             $this->triggerManifestScript($this->route);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
-            $this->parent->abort($e->getMessage());
+            $this->parent->abort($runtimeException->getMessage());
 
             return false;
         }
@@ -786,9 +786,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         try {
             $this->finaliseInstall();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
-            $this->parent->abort($e->getMessage());
+            $this->parent->abort($runtimeException->getMessage());
 
             return false;
         }
@@ -796,9 +796,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // And now we run the postflight
         try {
             $this->triggerManifestScript('postflight');
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Install failed, roll back changes
-            $this->parent->abort($e->getMessage());
+            $this->parent->abort($runtimeException->getMessage());
 
             return false;
         }
@@ -935,7 +935,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // and start from scratch when multiple extensions are installed
         try {
             $container = new Container($this->getContainer());
-        } catch (ContainerNotFoundException $e) {
+        } catch (ContainerNotFoundException $containerNotFoundException) {
             @trigger_error('Container must be set.', E_USER_DEPRECATED);
 
             // Fallback to the global container
@@ -1142,8 +1142,8 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // Setup the uninstall job as required
         try {
             $this->setupUninstall();
-        } catch (\RuntimeException $e) {
-            Log::add($e->getMessage(), Log::WARNING, 'jerror');
+        } catch (\RuntimeException $runtimeException) {
+            Log::add($runtimeException->getMessage(), Log::WARNING, 'jerror');
 
             return false;
         }
@@ -1162,15 +1162,15 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         try {
             $this->triggerManifestScript('preflight');
-        } catch (\RuntimeException $e) {
-            Log::add($e->getMessage(), Log::WARNING, 'jerror');
+        } catch (\RuntimeException $runtimeException) {
+            Log::add($runtimeException->getMessage(), Log::WARNING, 'jerror');
 
             return false;
         }
 
         try {
             $this->triggerManifestScript('uninstall');
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Ignore errors for now
         }
 
@@ -1185,8 +1185,8 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         try {
             $this->parseQueries();
-        } catch (\RuntimeException $e) {
-            Log::add($e->getMessage(), Log::WARNING, 'jerror');
+        } catch (\RuntimeException $runtimeException) {
+            Log::add($runtimeException->getMessage(), Log::WARNING, 'jerror');
 
             $retval = false;
         }
@@ -1199,8 +1199,8 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         try {
             $this->removeExtensionFiles();
-        } catch (\RuntimeException $e) {
-            Log::add($e->getMessage(), Log::WARNING, 'jerror');
+        } catch (\RuntimeException $runtimeException) {
+            Log::add($runtimeException->getMessage(), Log::WARNING, 'jerror');
 
             $retval = false;
         }
@@ -1213,8 +1213,8 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         try {
             $retval |= $this->finaliseUninstall();
-        } catch (\RuntimeException $e) {
-            Log::add($e->getMessage(), Log::WARNING, 'jerror');
+        } catch (\RuntimeException $runtimeException) {
+            Log::add($runtimeException->getMessage(), Log::WARNING, 'jerror');
 
             $retval = false;
         }
@@ -1222,8 +1222,8 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // And now we run the postflight
         try {
             $this->triggerManifestScript('postflight');
-        } catch (\RuntimeException $e) {
-            Log::add($e->getMessage(), Log::WARNING, 'jerror');
+        } catch (\RuntimeException $runtimeException) {
+            Log::add($runtimeException->getMessage(), Log::WARNING, 'jerror');
 
             $retval = false;
         }

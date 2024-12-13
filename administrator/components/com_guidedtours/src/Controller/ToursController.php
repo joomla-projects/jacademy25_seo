@@ -54,8 +54,8 @@ class ToursController extends AdminController
             $model = $this->getModel();
             $model->duplicate($pks);
             $this->setMessage(Text::plural('COM_GUIDEDTOURS_TOURS_DUPLICATED', \count($pks)));
-        } catch (\Exception $e) {
-            $this->app->enqueueMessage($e->getMessage(), 'warning');
+        } catch (\Exception $exception) {
+            $this->app->enqueueMessage($exception->getMessage(), 'warning');
         }
         $this->setRedirect(Route::_('index.php?option=com_guidedtours&view=tours' . $this->getRedirectToListAppend(), false));
     }

@@ -134,7 +134,7 @@ class TufAdapter extends UpdateAdapter
         $values = [];
 
         if (!isset($target["hashes"])) {
-            throw new MetadataException("No trusted hashes are available for '$filename'");
+            throw new MetadataException(sprintf("No trusted hashes are available for '%s'", $filename));
         }
 
         foreach ($customKeys as $key) {

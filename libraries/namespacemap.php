@@ -125,7 +125,7 @@ class JNamespacePsr4Map
     {
         $content   = [];
         $content[] = "<?php";
-        $content[] = 'defined(\'_JEXEC\') or die;';
+        $content[] = "defined('_JEXEC') or die;";
         $content[] = 'return [';
 
         foreach ($elements as $namespace => $path) {
@@ -206,11 +206,11 @@ class JNamespacePsr4Map
             $namespacePath = rtrim($extensionPath . '/' . $namespaceNode->attributes()->path, '/');
 
             if ($type === 'plugin' || $type === 'library') {
-                $baseDir = $type === 'plugin' ? 'JPATH_PLUGINS . \'' : 'JPATH_LIBRARIES . \'';
+                $baseDir = $type === 'plugin' ? "JPATH_PLUGINS . '" : "JPATH_LIBRARIES . '";
                 $path    = substr($namespacePath, strlen($type === 'plugin' ? JPATH_PLUGINS : JPATH_LIBRARIES));
 
                 // Set the namespace
-                $extensions[$namespace] = $baseDir . $path . '\'';
+                $extensions[$namespace] = $baseDir . $path . "'";
 
                 continue;
             }
@@ -222,16 +222,16 @@ class JNamespacePsr4Map
             // Add the site path when a component
             if ($type === 'component') {
                 if (is_dir(JPATH_SITE . $path)) {
-                    $extensions[$namespace . 'Site\\\\'] = 'JPATH_SITE . \'' . $path . '\'';
+                    $extensions[$namespace . 'Site\\\\'] = "JPATH_SITE . '" . $path . "'";
                 }
 
                 if (is_dir(JPATH_API . $path)) {
-                    $extensions[$namespace . 'Api\\\\'] = 'JPATH_API . \'' . $path . '\'';
+                    $extensions[$namespace . 'Api\\\\'] = "JPATH_API . '" . $path . "'";
                 }
             }
 
             // Add the application specific segment when a component or module
-            $baseDir    = $isAdministrator ? 'JPATH_ADMINISTRATOR . \'' : 'JPATH_SITE . \'';
+            $baseDir    = $isAdministrator ? "JPATH_ADMINISTRATOR . '" : "JPATH_SITE . '";
             $realPath   = ($isAdministrator ? JPATH_ADMINISTRATOR : JPATH_SITE) . $path;
             $namespace .= $isAdministrator ? 'Administrator\\\\' : 'Site\\\\';
 
@@ -241,7 +241,7 @@ class JNamespacePsr4Map
             }
 
             // Set the namespace
-            $extensions[$namespace] = $baseDir . $path . '\'';
+            $extensions[$namespace] = $baseDir . $path . "'";
         }
 
         // Return the namespaces

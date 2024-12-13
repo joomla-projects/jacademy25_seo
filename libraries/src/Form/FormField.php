@@ -597,7 +597,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 if (str_starts_with($name, 'data-')) {
                     $this->dataAttributes[$name] = $value;
                 } elseif (property_exists(self::class, $name)) {
-                    Log::add("Cannot access protected / private property $name of " . self::class);
+                    Log::add(sprintf('Cannot access protected / private property %s of ', $name) . self::class);
                 } else {
                     $this->$name = $value;
                 }
@@ -1046,8 +1046,8 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         }
 
         if ($this->showon || $hasOptionShowOn) {
-            $options['rel']           = ' data-showon=\'' .
-                json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
+            $options['rel']           = " data-showon='" .
+                json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . "'";
             $options['showonEnabled'] = true;
         }
 
@@ -1306,8 +1306,10 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     {
         $label       = empty($this->element['label']) ? null : (string) $this->element['label'];
         $label       = $label && $this->translateLabel ? Text::_($label) : $label;
+
         $description = empty($this->description) ? null : $this->description;
         $description = !empty($description) && $this->translateDescription ? Text::_($description) : $description;
+
         $alt         = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
         $options     = [
             'autocomplete'   => $this->autocomplete,

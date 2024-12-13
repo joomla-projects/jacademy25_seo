@@ -85,14 +85,14 @@ class UCMBase implements UCM
 
         try {
             $table->bind($data);
-        } catch (\RuntimeException $e) {
-            throw new \Exception($e->getMessage(), 500, $e);
+        } catch (\RuntimeException $runtimeException) {
+            throw new \Exception($runtimeException->getMessage(), 500, $runtimeException);
         }
 
         try {
             $table->store();
-        } catch (\RuntimeException $e) {
-            throw new \Exception($e->getMessage(), 500, $e);
+        } catch (\RuntimeException $runtimeException) {
+            throw new \Exception($runtimeException->getMessage(), 500, $runtimeException);
         }
 
         return true;

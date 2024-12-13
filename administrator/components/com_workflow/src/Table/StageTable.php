@@ -96,8 +96,8 @@ class StageTable extends Table
             $db->setQuery($query)->execute();
 
             return parent::delete($pk);
-        } catch (\RuntimeException $e) {
-            $app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $e->getMessage()), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            $app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $runtimeException->getMessage()), 'error');
         }
 
         return false;
@@ -115,8 +115,8 @@ class StageTable extends Table
     {
         try {
             parent::check();
-        } catch (\Exception $e) {
-            $this->setError($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->setError($exception->getMessage());
 
             return false;
         }

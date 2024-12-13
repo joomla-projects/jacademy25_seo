@@ -131,7 +131,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
         $responseBody = $response->body;
 
         // @todo this handling must be rethought and made safe. stands as a good demo right now.
-        $responseFilename = Path::clean($this->rootDirectory . "/task_{$id}_response.html");
+        $responseFilename = Path::clean($this->rootDirectory . sprintf('/task_%d_response.html', $id));
 
         try {
             File::write($responseFilename, $responseBody);
@@ -144,9 +144,9 @@ final class Requests extends CMSPlugin implements SubscriberInterface
 
         $this->snapshot['output']      = <<< EOF
 ======= Task Output Body =======
-> URL: $url
-> Response Code: $responseCode
-> Response: $responseStatus
+> URL: {$url}
+> Response Code: {$responseCode}
+> Response: {$responseStatus}
 EOF;
 
         $this->logTask(\sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_RESPONSE'), $responseCode));

@@ -186,6 +186,7 @@ class MenuField extends ModalSelectField
         ]);
         $linkItem = clone $linkItems;
         $linkItem->setVar('view', 'item');
+
         $linkCheckin = (new Uri())->setPath(Uri::base(true) . '/index.php');
         $linkCheckin->setQuery([
             'option'                => 'com_menus',
@@ -208,6 +209,7 @@ class MenuField extends ModalSelectField
         $urlSelect = $linkItems;
         $urlEdit   = clone $linkItem;
         $urlEdit->setVar('task', 'item.edit');
+
         $urlNew    = clone $linkItem;
         $urlNew->setVar('task', 'item.add');
 

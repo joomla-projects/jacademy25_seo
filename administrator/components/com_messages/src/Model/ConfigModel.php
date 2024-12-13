@@ -78,8 +78,8 @@ class ConfigModel extends FormModel
 
         try {
             $rows = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }

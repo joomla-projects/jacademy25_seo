@@ -219,10 +219,10 @@ class MessagesModel extends BaseDatabaseModel
             $cache = $this->getCacheControllerFactory()->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
 
             $result = $cache->get($db->loadObjectList(...), [], md5($cacheId), false);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             $app = Factory::getApplication();
             $app->getLogger()->warning(
-                Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
+                Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $runtimeException->getMessage()),
                 ['category' => 'jerror']
             );
 
@@ -266,10 +266,10 @@ class MessagesModel extends BaseDatabaseModel
 
             // Get the resulting data object for cache ID 'all.1' from com_postinstall group.
             $result = $cache->get($db->loadObjectList(...), [], md5('all.1'), false);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             $app = Factory::getApplication();
             $app->getLogger()->warning(
-                Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
+                Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $runtimeException->getMessage()),
                 ['category' => 'jerror']
             );
 

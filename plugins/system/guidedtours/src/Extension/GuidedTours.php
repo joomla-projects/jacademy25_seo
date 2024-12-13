@@ -327,6 +327,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $temp->title       = $this->getApplication()->getLanguage()->_($item->title);
         $temp->description = $this->getApplication()->getLanguage()->_($item->description);
         $temp->description = $this->fixImagePaths($temp->description);
+
         $temp->url         = $item->url;
 
         // Set the start label for the tour.

@@ -61,7 +61,7 @@ class TemplatesListField extends FolderlistField
      *
      * @since   4.1.0
      */
-    public function getOptions()
+    protected function getOptions()
     {
         $def             = new \stdClass();
         $def->value      = '';

@@ -108,7 +108,7 @@ class UserField extends FormField
      *
      * @since   3.5
      */
-    public function getLayoutData()
+    protected function getLayoutData()
     {
         // Get the basic field data
         $data = parent::getLayoutData();

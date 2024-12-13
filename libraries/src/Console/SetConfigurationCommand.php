@@ -163,7 +163,7 @@ class SetConfigurationCommand extends AbstractCommand
             $this->options,
             function ($value, $key) use ($configs, &$valid) {
                 if (!\array_key_exists($key, $configs)) {
-                    $this->ioStyle->error("Can't find option *$key* in configuration list");
+                    $this->ioStyle->error(sprintf("Can't find option *%s* in configuration list", $key));
                     $valid = false;
                 }
             }
@@ -364,11 +364,11 @@ class SetConfigurationCommand extends AbstractCommand
         try {
             $db = DatabaseDriver::getInstance($settings);
             $db->getVersion();
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $this->ioStyle->error(
                 Text::sprintf(
                     'Cannot connect to database, verify that you specified the correct database details %s',
-                    $e->getMessage()
+                    $exception->getMessage()
                 )
             );
 

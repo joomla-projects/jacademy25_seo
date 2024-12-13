@@ -369,8 +369,8 @@ class TemplateModel extends AdminModel
 
             // Trigger the after save event.
             Factory::getApplication()->triggerEvent($this->event_after_save, [$context, $table, $isNew, $data]);
-        } catch (\Exception $e) {
-            $this->setError($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->setError($exception->getMessage());
 
             return false;
         }

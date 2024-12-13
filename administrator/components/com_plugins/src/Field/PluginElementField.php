@@ -39,7 +39,7 @@ class PluginElementField extends ListField
      *
      * @since   3.9.0
      */
-    public function getOptions()
+    protected function getOptions()
     {
         $options = PluginsHelper::elementOptions();
 

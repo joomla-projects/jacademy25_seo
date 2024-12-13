@@ -461,9 +461,9 @@ class LanguageHelper
             } else {
                 $strings = parse_ini_file($fileName, false, INI_SCANNER_RAW);
             }
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             if ($debug) {
-                throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
+                throw new \RuntimeException($exception->getMessage(), $exception->getCode(), $exception);
             }
 
             return [];

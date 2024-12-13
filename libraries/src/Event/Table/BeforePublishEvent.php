@@ -37,15 +37,15 @@ class BeforePublishEvent extends AbstractEvent
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('pks', $arguments)) {
-            throw new \BadMethodCallException("Argument 'pks' is required for event $name");
+            throw new \BadMethodCallException("Argument 'pks' is required for event " . $name);
         }
 
         if (!\array_key_exists('state', $arguments)) {
-            throw new \BadMethodCallException("Argument 'state' is required for event $name");
+            throw new \BadMethodCallException("Argument 'state' is required for event " . $name);
         }
 
         if (!\array_key_exists('userId', $arguments)) {
-            throw new \BadMethodCallException("Argument 'userId' is required for event $name");
+            throw new \BadMethodCallException("Argument 'userId' is required for event " . $name);
         }
 
         parent::__construct($name, $arguments);
@@ -66,7 +66,7 @@ class BeforePublishEvent extends AbstractEvent
     protected function setQuery($value)
     {
         if (!empty($value) && !\is_array($value)) {
-            throw new \BadMethodCallException("Argument 'pks' of event {$this->name} must be empty or an array");
+            throw new \BadMethodCallException(sprintf("Argument 'pks' of event %s must be empty or an array", $this->name));
         }
 
         return $value;
@@ -87,7 +87,7 @@ class BeforePublishEvent extends AbstractEvent
     protected function setState($value)
     {
         if (!is_numeric($value)) {
-            throw new \BadMethodCallException("Argument 'state' of event {$this->name} must be an integer");
+            throw new \BadMethodCallException(sprintf("Argument 'state' of event %s must be an integer", $this->name));
         }
 
         return (int) $value;
@@ -108,7 +108,7 @@ class BeforePublishEvent extends AbstractEvent
     protected function setUserId($value)
     {
         if (!is_numeric($value)) {
-            throw new \BadMethodCallException("Argument 'userId' of event {$this->name} must be an integer");
+            throw new \BadMethodCallException(sprintf("Argument 'userId' of event %s must be an integer", $this->name));
         }
 
         return (int) $value;

@@ -101,7 +101,7 @@ class CoreUpdateChannelCommand extends AbstractCommand
                     $symfonyStyle->writeln('You are on a "custom" update channel with the URL ' . $params->get('customurl') . '.');
                     break;
                 default:
-                    $symfonyStyle->error('The update channel is set to the invalid value \'' . $params->get('updatesource') . '\'!');
+                    $symfonyStyle->error("The update channel is set to the invalid value '" . $params->get('updatesource') . "'!");
                     return Command::FAILURE;
             }
 
@@ -131,6 +131,7 @@ class CoreUpdateChannelCommand extends AbstractCommand
         // Storing the parameters in the DB
         $table = Table::getInstance('extension');
         $table->load(['type' => 'component', 'element' => 'com_joomlaupdate']);
+
         $table->params = $params->toString();
         $table->store();
 

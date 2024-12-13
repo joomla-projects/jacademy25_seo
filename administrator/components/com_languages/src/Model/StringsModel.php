@@ -46,8 +46,8 @@ class StringsModel extends BaseDatabaseModel
         // Empty the database cache first.
         try {
             $db->truncateTable('#__overrider');
-        } catch (\RuntimeException $e) {
-            return $e;
+        } catch (\RuntimeException $runtimeException) {
+            return $runtimeException;
         }
 
         // Create the insert query.
@@ -175,8 +175,8 @@ class StringsModel extends BaseDatabaseModel
                 // If this is set a 'More Results' link will be displayed in the view.
                 $results['more'] = $limitstart + 10;
             }
-        } catch (\RuntimeException $e) {
-            return $e;
+        } catch (\RuntimeException $runtimeException) {
+            return $runtimeException;
         }
 
         return $results;

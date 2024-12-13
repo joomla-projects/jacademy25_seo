@@ -168,6 +168,7 @@ class FiltersField extends FormField
         $query->join('LEFT', '#__usergroups AS b on a.lft > b.lft AND a.rgt < b.rgt');
         $query->group('a.id, a.title, a.lft');
         $query->order('a.lft ASC');
+
         $db->setQuery($query);
         $options = $db->loadObjectList();
 

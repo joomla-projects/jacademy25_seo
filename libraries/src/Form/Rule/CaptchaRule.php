@@ -63,8 +63,8 @@ class CaptchaRule extends FormRule
             $captcha = Captcha::getInstance((string) $plugin, ['namespace' => (string) $namespace]);
 
             return $captcha->checkAnswer($value);
-        } catch (\RuntimeException $e) {
-            $app->enqueueMessage($e->getMessage(), 'error');
+        } catch (\RuntimeException $runtimeException) {
+            $app->enqueueMessage($runtimeException->getMessage(), 'error');
         }
 
         return false;

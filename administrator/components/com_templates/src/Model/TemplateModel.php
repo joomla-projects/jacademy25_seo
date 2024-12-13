@@ -106,8 +106,8 @@ class TemplateModel extends FormModel
         $temp->client       = $template->client_id;
         $temp->template     = $template->element;
         $temp->extension_id = $template->extension_id;
-
-        $temp->coreFile = $coreFile = $this->getCoreFile($path . $name, $template->client_id) ? md5_file($coreFile) : null;
+        $temp->coreFile = $this->getCoreFile($path . $name, $template->client_id) ? md5_file($coreFile) : null;
+        $coreFile = $this->getCoreFile($path . $name, $template->client_id) ? md5_file($coreFile) : null;
 
         return $temp;
     }
@@ -1647,8 +1647,8 @@ class TemplateModel extends FormModel
 
         try {
             $result = $db->loadObject();
-        } catch (\RuntimeException $e) {
-            $app->enqueueMessage($e->getMessage(), 'warning');
+        } catch (\RuntimeException $runtimeException) {
+            $app->enqueueMessage($runtimeException->getMessage(), 'warning');
 
             return null;
         }

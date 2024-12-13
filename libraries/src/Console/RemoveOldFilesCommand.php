@@ -65,7 +65,7 @@ class RemoveOldFilesCommand extends AbstractCommand
                 if ($exists) {
                     $symfonyStyle->writeln('<error>File Checked & Exists</error> - ' . $file, OutputInterface::VERBOSITY_VERY_VERBOSE);
                 } else {
-                    $symfonyStyle->writeln('<info>File Checked & Doesn\'t Exist</info> - ' . $file, OutputInterface::VERBOSITY_DEBUG);
+                    $symfonyStyle->writeln("<info>File Checked & Doesn't Exist</info> - " . $file, OutputInterface::VERBOSITY_DEBUG);
                 }
             }
 
@@ -75,7 +75,7 @@ class RemoveOldFilesCommand extends AbstractCommand
                 if ($exists) {
                     $symfonyStyle->writeln('<error>Folder Checked & Exists</error> - ' . $folder, OutputInterface::VERBOSITY_VERY_VERBOSE);
                 } else {
-                    $symfonyStyle->writeln('<info>Folder Checked & Doesn\'t Exist</info> - ' . $folder, OutputInterface::VERBOSITY_DEBUG);
+                    $symfonyStyle->writeln("<info>Folder Checked & Doesn't Exist</info> - " . $folder, OutputInterface::VERBOSITY_DEBUG);
                 }
             }
         }

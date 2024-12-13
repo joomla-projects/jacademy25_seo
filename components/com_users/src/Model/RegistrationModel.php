@@ -98,8 +98,8 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
 
         try {
             return (int) $db->loadResult();
-        } catch (\RuntimeException $e) {
-            $this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $runtimeException->getMessage()));
 
             return false;
         }

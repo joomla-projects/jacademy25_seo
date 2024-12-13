@@ -228,7 +228,7 @@ class BannersModel extends ListModel
                         $condition2 .= ' OR ' . $db->quoteName('cat.metakey') . ' ' . $query->regexp($bounded[4]) . ' ';
                     }
 
-                    $temp[] = "($condition1) AND ($condition2)";
+                    $temp[] = sprintf('(%s) AND (%s)', $condition1, $condition2);
                 }
 
                 $query->where('(' . implode(' OR ', $temp) . ')');
@@ -292,6 +292,7 @@ class BannersModel extends ListModel
     {
         $trackDate = Factory::getDate()->format('Y-m-d H:00:00');
         $trackDate = Factory::getDate($trackDate)->toSql();
+
         $items     = $this->getItems();
         $db        = $this->getDatabase();
         $bid       = [];
@@ -313,8 +314,8 @@ class BannersModel extends ListModel
 
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
-            throw new \Exception($e->getMessage(), 500, $e);
+        } catch (ExecutionFailureException $executionFailureException) {
+            throw new \Exception($executionFailureException->getMessage(), 500, $executionFailureException);
         }
 
         foreach ($items as $item) {

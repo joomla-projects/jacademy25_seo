@@ -135,7 +135,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // We aren't concerned with errors from this query, carry on
         }
 
@@ -151,7 +151,7 @@ final class Cookie extends CMSPlugin implements SubscriberInterface
 
         try {
             $results = $db->setQuery($query)->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response->status = Authentication::STATUS_FAILURE;
 
             return;

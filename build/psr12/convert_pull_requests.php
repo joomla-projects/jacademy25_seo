@@ -39,9 +39,9 @@ if ($argv === []) {
 
             Flow:
             * Load all pull requests from Github for the repository
-              $ghRepo
+              {$ghRepo}
             * Checkout each open pull request with the base branch matching
-              $baseBranches
+              {$baseBranches}
             * Merge into the checked out branch up to the psr12anchor tag
               which includes the conversion script.
             * Run the psr12_converter.php with the task "BRANCH"

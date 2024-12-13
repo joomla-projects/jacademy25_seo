@@ -1235,7 +1235,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 $version    = '0.0.0';
                 $hasVersion = false;
             }
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             $version = '0.0.0';
         }
 

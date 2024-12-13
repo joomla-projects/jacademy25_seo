@@ -149,14 +149,14 @@ class RouterViewConfiguration
     public function setParent(RouterViewConfiguration $parent, $parentKey = null)
     {
         if ($this->parent) {
-            $key = array_search($this, $this->parent->children);
+            $key = array_search($this, $this->parent->children, true);
 
             if ($key !== false) {
                 unset($this->parent->children[$key]);
             }
 
             if ($this->parent_key) {
-                $child_key = array_search($this->parent_key, $this->parent->child_keys);
+                $child_key = array_search($this->parent_key, $this->parent->child_keys, true);
                 unset($this->parent->child_keys[$child_key]);
             }
         }
@@ -220,7 +220,7 @@ class RouterViewConfiguration
      */
     public function removeLayout($layout)
     {
-        $key = array_search($layout, $this->layouts);
+        $key = array_search($layout, $this->layouts, true);
 
         if ($key !== false) {
             unset($this->layouts[$key]);

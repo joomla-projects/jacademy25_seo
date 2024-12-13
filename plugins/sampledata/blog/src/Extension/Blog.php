@@ -996,8 +996,8 @@ final class Blog extends CMSPlugin
 
         try {
             $menuIdsLevel1 = $this->addMenuItems($menuItems, 1);
-        } catch (\Exception $e) {
-            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage())];
+        } catch (\Exception $exception) {
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $exception->getMessage())];
         }
 
         // Insert level 1 (Link in the footer as alias)
@@ -1061,8 +1061,8 @@ final class Blog extends CMSPlugin
 
         try {
             $menuIdsLevel1 = array_merge($menuIdsLevel1, $this->addMenuItems($menuItems, 1));
-        } catch (\Exception $e) {
-            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage())];
+        } catch (\Exception $exception) {
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $exception->getMessage())];
         }
 
         $this->getApplication()->setUserState('sampledata.blog.menuIdsLevel1', $menuIdsLevel1);
@@ -1194,8 +1194,8 @@ final class Blog extends CMSPlugin
 
         try {
             $menuIdsLevel2 = $this->addMenuItems($menuItems, 2);
-        } catch (\Exception $e) {
-            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage())];
+        } catch (\Exception $exception) {
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $exception->getMessage())];
         }
 
         // Add a third level of menuItems - use article title also for menuItem title
@@ -1237,8 +1237,8 @@ final class Blog extends CMSPlugin
 
         try {
             $this->addMenuItems($menuItems, 3);
-        } catch (\Exception $e) {
-            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage())];
+        } catch (\Exception $exception) {
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $exception->getMessage())];
         }
 
         $response            = [];

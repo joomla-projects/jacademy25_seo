@@ -405,16 +405,16 @@ class CategoryModel extends AdminModel
         $name = 'category' . ($section ? ('.' . $section) : '');
 
         // Looking first in the component forms folder
-        $path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/forms/$name.xml");
+        $path = Path::clean(JPATH_ADMINISTRATOR . sprintf('/components/%s/forms/%s.xml', $component, $name));
 
         // Looking in the component models/forms folder (J! 3)
         if (!file_exists($path)) {
-            $path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/models/forms/$name.xml");
+            $path = Path::clean(JPATH_ADMINISTRATOR . sprintf('/components/%s/models/forms/%s.xml', $component, $name));
         }
 
         // Old way: looking in the component folder
         if (!file_exists($path)) {
-            $path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/$name.xml");
+            $path = Path::clean(JPATH_ADMINISTRATOR . sprintf('/components/%s/%s.xml', $component, $name));
         }
 
         if (file_exists($path)) {
@@ -433,7 +433,7 @@ class CategoryModel extends AdminModel
         } else {
             // Try to find the component helper.
             $eName = str_replace('com_', '', $component);
-            $path  = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/helpers/category.php");
+            $path  = Path::clean(JPATH_ADMINISTRATOR . sprintf('/components/%s/helpers/category.php', $component));
 
             if (file_exists($path)) {
                 $cName = ucfirst($eName) . ucfirst((string) $section) . 'HelperCategory';
@@ -938,8 +938,8 @@ class CategoryModel extends AdminModel
 
         try {
             $count = $db->loadResult();
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
+        } catch (\RuntimeException $runtimeException) {
+            $this->setError($runtimeException->getMessage());
 
             return false;
         }

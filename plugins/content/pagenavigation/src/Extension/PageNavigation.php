@@ -171,7 +171,7 @@ final class PageNavigation extends CMSPlugin
             reset($list);
 
             // Location of current content item in array list.
-            $location = array_search($uid, array_keys($list));
+            $location = array_search($uid, array_keys($list), true);
             $rows     = array_values($list);
 
             $row->prev = null;

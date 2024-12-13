@@ -381,6 +381,7 @@ class HistoryModel extends ListModel
         Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $typeAlias[0] . '/tables');
         $typeTable = $this->getTable('ContentType');
         $typeTable->load(['type_alias' => $typeAlias[0] . '.' . $typeAlias[1]]);
+
         $contentTable = $typeTable->getContentTable();
 
         if ($contentTable && $contentTable->load($typeAlias[2])) {

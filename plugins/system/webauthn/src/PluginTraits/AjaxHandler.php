@@ -106,10 +106,10 @@ trait AjaxHandler
                 fn($carry, $result) => $carry ?? $result,
                 null
             );
-        } catch (\Exception $e) {
-            Log::add("Callback failure, redirecting to $returnURL.", Log::DEBUG, 'webauthn.system');
+        } catch (\Exception $exception) {
+            Log::add(sprintf('Callback failure, redirecting to %s.', $returnURL), Log::DEBUG, 'webauthn.system');
             $this->getApplication()->getSession()->set('plg_system_webauthn.returnUrl', null);
-            $this->getApplication()->enqueueMessage($e->getMessage(), 'error');
+            $this->getApplication()->enqueueMessage($exception->getMessage(), 'error');
             $this->getApplication()->redirect($returnURL);
 
             return;
@@ -130,15 +130,15 @@ trait AjaxHandler
                         $type = $result['type'] ?? 'info';
                         $this->getApplication()->enqueueMessage($result['message'], $type);
 
-                        $modifiers = " and setting a system message of type $type";
+                        $modifiers = ' and setting a system message of type ' . $type;
                     }
 
                     if (isset($result['url'])) {
-                        Log::add("Callback complete, performing redirection to {$result['url']}{$modifiers}.", Log::DEBUG, 'webauthn.system');
+                        Log::add(sprintf('Callback complete, performing redirection to %s%s.', $result['url'], $modifiers), Log::DEBUG, 'webauthn.system');
                         $this->getApplication()->redirect($result['url']);
                     }
 
-                    Log::add("Callback complete, performing redirection to {$result}{$modifiers}.", Log::DEBUG, 'webauthn.system');
+                    Log::add(sprintf('Callback complete, performing redirection to %s%s.', $result, $modifiers), Log::DEBUG, 'webauthn.system');
                     $this->getApplication()->redirect($result);
 
                     return;
@@ -153,7 +153,7 @@ trait AjaxHandler
             $this->getApplication()->close(200);
         }
 
-        Log::add("Null response from AJAX callback, redirecting to $returnURL", Log::DEBUG, 'webauthn.system');
+        Log::add('Null response from AJAX callback, redirecting to ' . $returnURL, Log::DEBUG, 'webauthn.system');
         $this->getApplication()->getSession()->set('plg_system_webauthn.returnUrl', null);
 
         $this->getApplication()->redirect($returnURL);

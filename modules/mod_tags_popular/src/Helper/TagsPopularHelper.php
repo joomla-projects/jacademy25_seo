@@ -186,9 +186,9 @@ class TagsPopularHelper implements DatabaseAwareInterface
 
         try {
             $results = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             $results = [];
-            $app->enqueueMessage($e->getMessage(), 'error');
+            $app->enqueueMessage($runtimeException->getMessage(), 'error');
         }
 
         return $results;

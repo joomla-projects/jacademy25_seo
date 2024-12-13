@@ -42,7 +42,7 @@ class OverrideController extends FormController
         $this->app->allowCache(false);
 
         $cid     = (array) $this->input->post->get('cid', [], 'string');
-        $context = "$this->option.edit.$this->context";
+        $context = sprintf('%s.edit.%s', $this->option, $this->context);
 
         // Get the constant name.
         $recordId = (\count($cid) ? $cid[0] : $this->input->get('id'));
@@ -77,7 +77,7 @@ class OverrideController extends FormController
         $app     = $this->app;
         $model   = $this->getModel();
         $data    = $this->input->post->get('jform', [], 'array');
-        $context = "$this->option.edit.$this->context";
+        $context = sprintf('%s.edit.%s', $this->option, $this->context);
         $task    = $this->getTask();
 
         $recordId   = $this->input->get('id');
@@ -190,7 +190,7 @@ class OverrideController extends FormController
     {
         $this->checkToken();
 
-        $context = "$this->option.edit.$this->context";
+        $context = sprintf('%s.edit.%s', $this->option, $this->context);
 
         $this->app->setUserState($context . '.data', null);
         $this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));

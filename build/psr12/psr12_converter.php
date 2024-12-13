@@ -218,7 +218,7 @@ foreach ($items as $item) {
         passthru($php . ' ' . $root . '/libraries/vendor/bin/phpcbf ' . $cbfOptions . ' ' . $item, $result);
 
         if ($result !== 0) {
-            echo "Error PHPCBF completed with error code: $result \n\n";
+            echo "Error PHPCBF completed with error code: {$result} \n\n";
         }
     }
 
@@ -227,7 +227,7 @@ foreach ($items as $item) {
         passthru($php . ' ' . $root . '/libraries/vendor/bin/phpcs ' . $csOptions . ' ' . $item, $result);
 
         if ($result !== 0) {
-            echo "Error PHPCS completed with error code: $result \n\n";
+            echo "Error PHPCS completed with error code: {$result} \n\n";
         }
     }
 }
@@ -247,7 +247,7 @@ if ($tasks['CLEAN'] && file_exists($tmpDir . '/cleanup.json')) {
             passthru($php . ' ' . $root . '/libraries/vendor/bin/phpcbf ' . $cbfOptions . ' ' . $item, $result);
 
             if ($result !== 0) {
-                echo "Error PHPCBF complete with error code: $result \n\n";
+                echo "Error PHPCBF complete with error code: {$result} \n\n";
             }
         }
 
@@ -256,7 +256,7 @@ if ($tasks['CLEAN'] && file_exists($tmpDir . '/cleanup.json')) {
             passthru($php . ' ' . $root . '/libraries/vendor/bin/phpcs ' . $csOptions . ' ' . $item, $result);
 
             if ($result !== 0) {
-                echo "Error PHPCS complete with error code: $result \n\n";
+                echo "Error PHPCS complete with error code: {$result} \n\n";
             }
         }
     }

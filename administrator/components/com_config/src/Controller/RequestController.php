@@ -65,8 +65,8 @@ class RequestController extends BaseController
 
         try {
             $data = $model->getData();
-        } catch (\Exception $e) {
-            $this->app->enqueueMessage($e->getMessage(), 'error');
+        } catch (\Exception $exception) {
+            $this->app->enqueueMessage($exception->getMessage(), 'error');
 
             return false;
         }

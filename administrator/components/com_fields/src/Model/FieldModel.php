@@ -348,8 +348,8 @@ class FieldModel extends AdminModel
 
             // Check if the test succeeded
             return $result === true ?: Text::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
-        } catch (\UnexpectedValueException $e) {
-            return $e->getMessage();
+        } catch (\UnexpectedValueException $unexpectedValueException) {
+            return $unexpectedValueException->getMessage();
         }
     }
 

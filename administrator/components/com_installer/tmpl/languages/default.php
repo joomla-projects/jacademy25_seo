@@ -75,7 +75,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 <td>
                                     <?php $buttonText = (isset($this->installedLang[0][$language->code]) || isset($this->installedLang[1][$language->code])) ? 'REINSTALL' : 'INSTALL'; ?>
                                     <?php $buttonClass = (isset($this->installedLang[0][$language->code]) || isset($this->installedLang[1][$language->code])) ? 'btn btn-success btn-sm' : 'btn btn-primary btn-sm'; ?>
-                                    <?php $onclick = 'document.getElementById(\'install_url\').value = \'' . $language->detailsurl . '\'; Joomla.submitbutton(\'install.install\'); document.body.appendChild(document.createElement(\'joomla-core-loader\'));'; ?>
+                                    <?php $onclick = "document.getElementById('install_url').value = '" . $language->detailsurl . "'; Joomla.submitbutton('install.install'); document.body.appendChild(document.createElement('joomla-core-loader'));"; ?>
                                     <input type="button"
                                         class="<?php echo $buttonClass; ?>"
                                         value="<?php echo Text::_('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>"

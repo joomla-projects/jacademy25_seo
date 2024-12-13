@@ -306,7 +306,7 @@ class Nested extends Table
     public function moveByReference($referenceId, $position = 'after', $pk = null, $recursiveUpdate = true)
     {
         if ($this->_debug) {
-            echo "\nMoving ReferenceId:$referenceId, Position:$position, PK:$pk";
+            echo "\nMoving ReferenceId:{$referenceId}, Position:{$position}, PK:{$pk}";
         }
 
         $k  = $this->_tbl_key;
@@ -651,8 +651,8 @@ class Nested extends Table
     {
         try {
             parent::check();
-        } catch (\Exception $e) {
-            $this->setError($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->setError($exception->getMessage());
 
             return false;
         }
@@ -674,9 +674,9 @@ class Nested extends Table
             if (!$this->_db->setQuery($query)->loadResult()) {
                 throw new \UnexpectedValueException(\sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, static::class));
             }
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException $unexpectedValueException) {
             // Validation error - record it and return false.
-            $this->setError($e);
+            $this->setError($unexpectedValueException);
 
             return false;
         }
@@ -1032,9 +1032,9 @@ class Nested extends Table
                 ->where('lft BETWEEN ' . (int) $sibling->lft . ' AND ' . (int) $sibling->rgt)
                 ->where($this->_tbl_key . ' NOT IN (' . implode(',', $children) . ')');
             $this->_db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             $this->_unlock();
-            throw $e;
+            throw $runtimeException;
         }
 
         // Unlock the table for writing.
@@ -1111,9 +1111,9 @@ class Nested extends Table
                 ->where('lft BETWEEN ' . (int) $sibling->lft . ' AND ' . (int) $sibling->rgt)
                 ->where($this->_tbl_key . ' NOT IN (' . implode(',', $children) . ')');
             $this->_db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             $this->_unlock();
-            throw $e;
+            throw $runtimeException;
         }
 
         // Unlock the table for writing.
@@ -1382,9 +1382,9 @@ class Nested extends Table
             }
 
             return false;
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $this->_unlock();
-            throw $e;
+            throw $exception;
         }
     }
 
@@ -1408,9 +1408,9 @@ class Nested extends Table
 
         if ($newState !== null) {
             // Use a new published state in changed row.
-            $newState = "(CASE WHEN p2.$key = " . (int) $pk . " THEN " . (int) $newState . " ELSE p2.$published END)";
+            $newState = sprintf('(CASE WHEN p2.%s = ', $key) . (int) $pk . " THEN " . (int) $newState . sprintf(' ELSE p2.%s END)', $published);
         } else {
-            $newState = "p2.$published";
+            $newState = 'p2.' . $published;
         }
 
         /**
@@ -1442,29 +1442,29 @@ class Nested extends Table
          */
 
         // Find node and all children keys
-        $query->select("c.$key")
-            ->from("$table AS node")
-            ->leftJoin("$table AS c ON node.lft <= c.lft AND c.rgt <= node.rgt")
-            ->where("node.$key = " . (int) $pk);
+        $query->select('c.' . $key)
+            ->from($table . ' AS node')
+            ->leftJoin($table . ' AS c ON node.lft <= c.lft AND c.rgt <= node.rgt')
+            ->where(sprintf('node.%s = ', $key) . (int) $pk);
 
         $pks = $this->_db->setQuery($query)->loadColumn();
 
         // Prepare a list of correct published states.
         $subquery = (string) $query->clear()
-            ->select("c2.$key AS newId")
-            ->select("CASE WHEN MIN($newState) > 0 THEN MAX($newState) ELSE MIN($newState) END AS newPublished")
-            ->from("$table AS c2")
-            ->innerJoin("$table AS p2 ON p2.lft <= c2.lft AND c2.rgt <= p2.rgt")
-            ->where("c2.$key IN (" . implode(',', $pks) . ")")
-            ->group("c2.$key");
+            ->select(sprintf('c2.%s AS newId', $key))
+            ->select(sprintf('CASE WHEN MIN(%s) > 0 THEN MAX(%s) ELSE MIN(%s) END AS newPublished', $newState, $newState, $newState))
+            ->from($table . ' AS c2')
+            ->innerJoin($table . ' AS p2 ON p2.lft <= c2.lft AND c2.rgt <= p2.rgt')
+            ->where(sprintf('c2.%s IN (', $key) . implode(',', $pks) . ")")
+            ->group('c2.' . $key);
 
         // Update and cascade the publishing state.
         $query->clear()
             ->update($table)
-            ->innerJoin("($subquery) AS c2")
-            ->set("$published = " . $this->_db->quoteName("c2.newpublished"))
-            ->where("$key = c2.newId")
-            ->where("$key IN (" . implode(',', $pks) . ")");
+            ->innerJoin(sprintf('(%s) AS c2', $subquery))
+            ->set($published . ' = ' . $this->_db->quoteName("c2.newpublished"))
+            ->where($key . ' = c2.newId')
+            ->where($key . ' IN (' . implode(',', $pks) . ")");
 
         $this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
 
@@ -1500,6 +1500,7 @@ class Nested extends Table
             ->where($k . ' = ' . (int) $id);
 
         $query->setLimit(1);
+
         $row = $this->_db->setQuery($query)->loadObject();
 
         // Check for no $row returned
@@ -1593,7 +1594,7 @@ class Nested extends Table
         }
 
         if ($this->_debug) {
-            echo "\nRepositioning Data for $position\n-----------------------------------\nLeft Where:    $data->left_where"
+            echo "\nRepositioning Data for {$position}\n-----------------------------------\nLeft Where:    $data->left_where"
                 . "\nRight Where:   $data->right_where\nNew Lft:       $data->new_lft\nNew Rgt:       $data->new_rgt"
                 . "\nNew Parent ID: $data->new_parent_id\nNew Level:     $data->new_level\n";
         }
@@ -1663,11 +1664,11 @@ class Nested extends Table
             if ($this->_debug) {
                 $this->_logtable();
             }
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             // Unlock the tables and rethrow.
             $this->_unlock();
 
-            throw $e;
+            throw $exception;
         }
     }
 }

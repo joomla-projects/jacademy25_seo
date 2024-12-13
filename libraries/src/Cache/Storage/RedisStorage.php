@@ -95,9 +95,9 @@ class RedisStorage extends CacheStorage
             } else {
                 $connection = static::$_redis->connect($server['host'], $server['port']);
             }
-        } catch (\RedisException $e) {
+        } catch (\RedisException $redisException) {
             $connection = false;
-            Log::add($e->getMessage(), Log::DEBUG);
+            Log::add($redisException->getMessage(), Log::DEBUG);
         }
 
         if ($connection == false) {
@@ -108,9 +108,9 @@ class RedisStorage extends CacheStorage
 
         try {
             $auth = $server['auth'] ? static::$_redis->auth($server['auth']) : true;
-        } catch (\RedisException $e) {
+        } catch (\RedisException $redisException) {
             $auth = false;
-            Log::add($e->getMessage(), Log::DEBUG);
+            Log::add($redisException->getMessage(), Log::DEBUG);
         }
 
         if ($auth === false) {

@@ -111,7 +111,7 @@ abstract class StringHelper
                         if (!\in_array($openedTag, $closedTags)) {
                             $tmp .= '</' . $openedTag . '>';
                         } else {
-                            unset($closedTags[array_search($openedTag, $closedTags)]);
+                            unset($closedTags[array_search($openedTag, $closedTags, true)]);
                         }
                     }
                 }

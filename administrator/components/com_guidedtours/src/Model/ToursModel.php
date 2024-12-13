@@ -109,7 +109,7 @@ class ToursModel extends ListModel
      *
      * @since  4.3.0
      */
-    public function getListQuery()
+    protected function getListQuery()
     {
         // Create a new query object.
         $db    = $this->getDatabase();

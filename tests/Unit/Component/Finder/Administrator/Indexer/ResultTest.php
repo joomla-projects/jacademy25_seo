@@ -37,6 +37,7 @@ class ResultTest extends UnitTestCase
         /** @var Result $obj */
         $obj = $this->createNoConstructorMock();
         $obj->setElement('this', 'that');
+
         $obj->title = 'MyTitle';
 
         // Test the `serialize` method provided by the object - Pre PHP 8.1 deprecated style

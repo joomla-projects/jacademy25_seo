@@ -742,6 +742,7 @@ class Query
         $input  = StringHelper::strtolower($input);
         $input  = preg_replace('#\s+#mi', ' ', $input);
         $input  = trim((string) $input);
+
         $debug  = Factory::getApplication()->get('debug_lang');
         $params = ComponentHelper::getParams('com_finder');
 
@@ -1272,7 +1273,7 @@ class Query
                 ->bind(':searchStem', $searchStem, ParameterType::STRING);
 
             $query->where('t.phrase = 0')
-                ->where('t.language IN (\'*\',' . $db->quote($token->language) . ')');
+                ->where("t.language IN ('*'," . $db->quote($token->language) . ')');
         }
 
         // Get the terms.

@@ -117,8 +117,8 @@ class HtmlView extends BaseHtmlView
         // Cancel
         $title = Text::_('JTOOLBAR_CANCEL');
         $dhtml = "<button onClick=\"location.href='index.php?option=com_menus&view=items'\" class=\"btn\">
-					<span class=\"icon-times\" title=\"$title\"></span>
-					$title</button>";
+					<span class=\"icon-times\" title=\"{$title}\"></span>
+					{$title}</button>";
         $toolbar->customButton('new')
             ->html($dhtml);
     }

@@ -50,8 +50,8 @@ class Usergroup extends Table
     {
         try {
             parent::check();
-        } catch (\Exception $e) {
-            $this->setError($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->setError($exception->getMessage());
 
             return false;
         }
@@ -276,10 +276,10 @@ class Usergroup extends Table
         $replace = [];
 
         foreach ($ids as $id) {
-            $replace[] = ',' . $db->quote("[$id,") . ',' . $db->quote('[');
-            $replace[] = ',' . $db->quote(",$id,") . ',' . $db->quote(',');
-            $replace[] = ',' . $db->quote(",$id]") . ',' . $db->quote(']');
-            $replace[] = ',' . $db->quote("[$id]") . ',' . $db->quote('[]');
+            $replace[] = ',' . $db->quote(sprintf('[%s,', $id)) . ',' . $db->quote('[');
+            $replace[] = ',' . $db->quote(sprintf(',%s,', $id)) . ',' . $db->quote(',');
+            $replace[] = ',' . $db->quote(sprintf(',%s]', $id)) . ',' . $db->quote(']');
+            $replace[] = ',' . $db->quote(sprintf('[%s]', $id)) . ',' . $db->quote('[]');
         }
 
         $query->clear()

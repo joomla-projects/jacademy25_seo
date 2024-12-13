@@ -51,8 +51,8 @@ class UserMessagesField extends UserField
 
         try {
             $groups = $db->loadColumn();
-        } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
+        } catch (\RuntimeException $runtimeException) {
+            Factory::getApplication()->enqueueMessage($runtimeException->getMessage(), 'notice');
 
             return null;
         }

@@ -41,7 +41,7 @@ class UserlogtypeField extends ListField
      *
      * @since   5.1.0
      */
-    public function getOptions()
+    protected function getOptions()
     {
         $db    = $this->getDatabase();
         $user  = Factory::getApplication()->getIdentity();

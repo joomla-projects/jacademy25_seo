@@ -50,7 +50,7 @@ class PrepareDataEvent extends ModelEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('data', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'data' of event {$name} is required but has not been provided");
+            throw new \BadMethodCallException(sprintf("Argument 'data' of event %s is required but has not been provided", $name));
         }
 
         // For backward compatibility make sure the content is referenced

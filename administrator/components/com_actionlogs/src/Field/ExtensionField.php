@@ -41,7 +41,7 @@ class ExtensionField extends ListField
      *
      * @since   3.9.0
      */
-    public function getOptions()
+    protected function getOptions()
     {
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)

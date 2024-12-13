@@ -234,7 +234,7 @@ class CollectionAdapter extends UpdateAdapter
             }
 
             $app = Factory::getApplication();
-            $app->getLogger()->warning("Error parsing url: {$this->_url}", ['category' => 'updater']);
+            $app->getLogger()->warning('Error parsing url: ' . $this->_url, ['category' => 'updater']);
             $app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $this->_url), 'warning');
 
             return false;

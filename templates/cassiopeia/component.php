@@ -58,7 +58,7 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 		--template-text-light: #ffffff;
 		--link-color: var(--link-color);
 		--template-special-color: #001B4C;
-		$fontStyles
+		{$fontStyles}
 	}");
 
 

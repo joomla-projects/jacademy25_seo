@@ -1315,8 +1315,8 @@ abstract class AdminModel extends FormModel
                 'isNew'   => $isNew,
                 'data'    => $data,
             ]));
-        } catch (\Exception $e) {
-            $this->setError($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->setError($exception->getMessage());
 
             return false;
         }

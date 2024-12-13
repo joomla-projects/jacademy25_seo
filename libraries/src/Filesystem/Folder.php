@@ -565,7 +565,7 @@ abstract class Folder
                 // Compute the isDir flag
                 $isDir = is_dir($fullpath);
 
-                if (($isDir xor $findFiles) && preg_match("/$filter/", $file)) {
+                if (($isDir xor $findFiles) && preg_match(sprintf('/%s/', $filter), $file)) {
                     // (fullpath is dir and folders are searched or fullpath is not dir and files are searched) and file matches the filter
                     $arr[] = $full ? $fullpath : $file;
                 }

@@ -92,8 +92,8 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
 
         try {
             $model->deleteAll($user);
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
+        } catch (\Exception $exception) {
+            $message = $exception->getMessage();
             $type    = 'error';
         }
 
@@ -137,6 +137,7 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
         $viewLayout = $this->input->get('layout', 'default', 'string');
         $view       = $this->getView('Methods', 'html');
         $view->setLayout($viewLayout);
+
         $view->returnURL = $returnURL;
         $view->user      = $user;
         $view->document  = $this->app->getDocument();

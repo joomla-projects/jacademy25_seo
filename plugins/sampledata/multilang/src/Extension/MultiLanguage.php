@@ -609,6 +609,7 @@ final class MultiLanguage extends CMSPlugin
 
         $newlanguage = new Language($itemLanguage->language, false);
         $newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
+
         $title = $newlanguage->_('JCATEGORIES');
         $alias = 'allcategories_' . $itemLanguage->language;
 
@@ -684,6 +685,7 @@ final class MultiLanguage extends CMSPlugin
 
         $newlanguage = new Language($itemLanguage->language, false);
         $newlanguage->load('com_languages', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
+
         $title = $newlanguage->_('COM_LANGUAGES_HOMEPAGE');
         $alias = 'home_' . $itemLanguage->language;
 
@@ -836,6 +838,7 @@ final class MultiLanguage extends CMSPlugin
     {
         $newlanguage = new Language($itemLanguage->language, false);
         $newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
+
         $title = $newlanguage->_('JCATEGORY');
         $alias = ApplicationHelper::stringURLSafe($title);
 
@@ -909,6 +912,7 @@ final class MultiLanguage extends CMSPlugin
 
         $newlanguage = new Language($itemLanguage->language, false);
         $newlanguage->load('com_content.sys', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
+
         $title       = $newlanguage->_('COM_CONTENT_CONTENT_TYPE_ARTICLE');
         $currentDate = Factory::getDate()->toSql();
         $alias       = ApplicationHelper::stringURLSafe($title);

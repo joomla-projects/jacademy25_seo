@@ -160,6 +160,7 @@ final class Finder extends CMSPlugin implements SubscriberInterface
 
         $words = array_filter(array_map('trim', $words));
         $words = array_unique($words);
+
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 

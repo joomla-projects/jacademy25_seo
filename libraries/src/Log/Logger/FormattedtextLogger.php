@@ -139,8 +139,8 @@ class FormattedtextLogger extends Logger
 
         try {
             File::write($this->path, implode("\n", $lines) . "\n", false, true);
-        } catch (FilesystemException $exception) {
-            throw new \RuntimeException('Cannot write to log file.', 500, $exception);
+        } catch (FilesystemException $filesystemException) {
+            throw new \RuntimeException('Cannot write to log file.', 500, $filesystemException);
         }
     }
 
@@ -251,7 +251,7 @@ class FormattedtextLogger extends Logger
         if (empty($this->options['text_file_no_php'])) {
             // Blank line to prevent information disclose: https://bugs.php.net/bug.php?id=60677
             $head[] = '#';
-            $head[] = '#<?php die(\'Forbidden.\'); ?>';
+            $head[] = "#<?php die('Forbidden.'); ?>";
         }
 
         $head[] = '#Date: ' . gmdate('Y-m-d H:i:s') . ' UTC';
@@ -290,8 +290,8 @@ class FormattedtextLogger extends Logger
 
         try {
             File::write($this->path, $head);
-        } catch (FilesystemException $exception) {
-            throw new \RuntimeException('Cannot write to log file.', 500, $exception);
+        } catch (FilesystemException $filesystemException) {
+            throw new \RuntimeException('Cannot write to log file.', 500, $filesystemException);
         }
     }
 

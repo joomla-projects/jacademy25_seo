@@ -116,10 +116,10 @@ final class Remember extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $runtimeException) {
             // Log an alert for the site admin
             Log::add(
-                \sprintf('Failed to delete cookie token for user %s with the following error: %s', $user['username'], $e->getMessage()),
+                \sprintf('Failed to delete cookie token for user %s with the following error: %s', $user['username'], $runtimeException->getMessage()),
                 Log::WARNING,
                 'security'
             );

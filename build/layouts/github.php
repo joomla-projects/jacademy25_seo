@@ -38,7 +38,7 @@ foreach (['FULL', 'UPGRADE', 'MINOR', 'POINT'] as $type) {
             // Unknown file types
             continue;
         }
-        $table[$type] .= "({$githubDownloadLink}{$packageName}) | `" . $hashes['sha256'] . "` |\n";
+        $table[$type] .= sprintf('(%s%s) | `', $githubDownloadLink, $packageName) . $hashes['sha256'] . "` |\n";
     }
 }
 

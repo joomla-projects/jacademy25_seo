@@ -242,7 +242,7 @@ abstract class UserHelper
         $user = User::getInstance((int) $userId);
 
         // Remove the user from the group if necessary.
-        $key = array_search($groupId, $user->groups);
+        $key = array_search($groupId, $user->groups, true);
 
         if ($key !== false) {
             unset($user->groups[$key]);
