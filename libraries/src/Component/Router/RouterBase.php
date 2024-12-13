@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Component\Router;
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Factory;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -25,7 +27,7 @@ abstract class RouterBase implements RouterInterface
     /**
      * Application object to use in the router
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  3.4
      */
     public $app;
@@ -33,7 +35,7 @@ abstract class RouterBase implements RouterInterface
     /**
      * Menu object to use in the router
      *
-     * @var    \Joomla\CMS\Menu\AbstractMenu
+     * @var AbstractMenu
      * @since  3.4
      */
     public $menu;
@@ -41,8 +43,8 @@ abstract class RouterBase implements RouterInterface
     /**
      * Class constructor.
      *
-     * @param   \Joomla\CMS\Application\CMSApplication  $app   Application-object that the router should use
-     * @param   \Joomla\CMS\Menu\AbstractMenu           $menu  Menu-object that the router should use
+     * @param CMSApplication $app Application-object that the router should use
+     * @param AbstractMenu $menu Menu-object that the router should use
      *
      * @since   3.4
      */

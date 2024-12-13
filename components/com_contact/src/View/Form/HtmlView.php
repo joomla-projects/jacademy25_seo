@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Contact\Site\View\Form;
 
+use Joomla\CMS\Form\Form;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -30,7 +32,7 @@ use Joomla\Component\Contact\Site\Model\FormModel;
 class HtmlView extends BaseHtmlView
 {
     /**
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      * @since  4.0.0
      */
     protected $form;
@@ -54,13 +56,13 @@ class HtmlView extends BaseHtmlView
     protected $pageclass_sfx;
 
     /**
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      * @since  4.0.0
      */
     protected $state;
 
     /**
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      * @since  4.0.0
      */
     protected $params;

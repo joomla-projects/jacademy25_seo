@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Newsfeeds\Administrator\View\Newsfeeds;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -43,7 +46,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      *
      * @since  1.6
      */
@@ -52,7 +55,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since  1.6
      */
@@ -70,7 +73,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Form object for search filters
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     public $filterForm;
 

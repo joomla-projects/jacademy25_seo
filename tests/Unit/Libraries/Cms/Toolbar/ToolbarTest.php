@@ -10,6 +10,7 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Toolbar;
 
+use PHPUnit\Framework\TestCase;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarButton;
 use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
@@ -21,7 +22,7 @@ use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
  * @subpackage  Toolbar
  * @since       3.0
  */
-class ToolbarTest extends \PHPUnit\Framework\TestCase
+class ToolbarTest extends TestCase
 {
     /**
      * Tests the constructor

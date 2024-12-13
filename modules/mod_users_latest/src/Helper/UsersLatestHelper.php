@@ -79,7 +79,7 @@ class UsersLatestHelper implements DatabaseAwareInterface
     /**
      * Get users sorted by activation date
      *
-     * @param   \Joomla\Registry\Registry  $params  module parameters
+     * @param Registry $params module parameters
      *
      * @return  array  The array of users
      *

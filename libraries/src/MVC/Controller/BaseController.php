@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
+use Joomla\CMS\Cache\Controller\ViewController;
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
@@ -658,7 +659,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
             }
 
             try {
-                /** @var \Joomla\CMS\Cache\Controller\ViewController $cache */
+                /** @var ViewController $cache */
                 $cache = Factory::getCache($option, 'view');
                 $cache->get($view, 'display');
             } catch (CacheExceptionInterface) {

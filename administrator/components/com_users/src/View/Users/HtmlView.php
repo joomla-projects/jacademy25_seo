@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Users\Administrator\View\Users;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -42,7 +45,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object.
      *
-     * @var   \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      * @since 1.6
      */
     protected $pagination;
@@ -50,7 +53,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state.
      *
-     * @var   \Joomla\Registry\Registry
+     * @var Registry
      * @since 1.6
      */
     protected $state;
@@ -58,7 +61,7 @@ class HtmlView extends BaseHtmlView
     /**
      * A Form instance with filter fields.
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  3.6.3
      */
@@ -75,7 +78,7 @@ class HtmlView extends BaseHtmlView
     /**
      * An ACL object to verify user rights.
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      * @since  3.6.3
      */
     protected $canDo;

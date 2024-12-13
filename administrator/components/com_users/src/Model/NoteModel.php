@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -42,7 +43,7 @@ class NoteModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure
+     * @return Form|bool A Form object on success, false on failure
      *
      * @since   2.5
      */

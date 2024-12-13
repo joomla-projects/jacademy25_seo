@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Content\Site\View\Archive;
 
+use Joomla\Registry\Registry;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\User\User;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -32,7 +35,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var   \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $state;
 
@@ -46,7 +49,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var   \Joomla\CMS\Pagination\Pagination|null
+     * @var Pagination|null
      */
     protected $pagination;
 
@@ -71,7 +74,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      *
      * @since  4.0.0
      */
@@ -90,7 +93,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The user object
      *
-     * @var    \Joomla\CMS\User\User
+     * @var User
      *
      * @since  4.0.0
      */

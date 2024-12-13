@@ -52,7 +52,7 @@ class HtmlView extends InstallerViewDefault
     /**
      * Form object for search filters
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     public $filterForm;
 

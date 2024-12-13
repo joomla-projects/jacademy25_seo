@@ -165,7 +165,7 @@ class ArticlesPopularHelper
     /**
      * Get a list of popular articles from the articles model
      *
-     * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
+     * @param Registry &$params object holding the models parameters
      *
      * @return  mixed
      *

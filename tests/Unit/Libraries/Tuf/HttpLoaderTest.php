@@ -93,7 +93,7 @@ class HttpLoaderTest extends UnitTestCase
      *
      * @since   5.1.0
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|(\stdClass&\PHPUnit\Framework\MockObject\MockObject)
+     * @return MockObject|\stdClass&MockObject
      */
     protected function getHttpMock(int $responseCode, Stream $responseBody, string $expectedFile)
     {

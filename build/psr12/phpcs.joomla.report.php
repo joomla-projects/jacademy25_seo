@@ -10,6 +10,7 @@
 
 namespace Joomla\Reports;
 
+use PHP_CodeSniffer\Reports\Report;
 use PHP_CodeSniffer\Files\File;
 
 use function array_keys;
@@ -23,7 +24,7 @@ use function str_replace;
 use const JSON_OBJECT_AS_ARRAY;
 use const JSON_PRETTY_PRINT;
 
-class Joomla implements \PHP_CodeSniffer\Reports\Report
+class Joomla implements Report
 {
     private $tmpDir = __DIR__ . '/../tmp/psr12';
 

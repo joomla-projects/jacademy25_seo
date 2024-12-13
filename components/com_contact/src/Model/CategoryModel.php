@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contact\Site\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
@@ -164,7 +165,7 @@ class CategoryModel extends ListModel
         // Create a new query object.
         $db = $this->getDatabase();
 
-        /** @var \Joomla\Database\DatabaseQuery $query */
+        /** @var DatabaseQuery $query */
         $query = $db->getQuery(true);
 
         $query->select($this->getState('list.select', 'a.*'))
@@ -449,7 +450,7 @@ class CategoryModel extends ListModel
     /**
      * Generate column expression for slug or catslug.
      *
-     * @param   \Joomla\Database\DatabaseQuery  $query  Current query instance.
+     * @param DatabaseQuery $query Current query instance.
      * @param   string                          $id     Column id name.
      * @param   string                          $alias  Column alias name.
      *

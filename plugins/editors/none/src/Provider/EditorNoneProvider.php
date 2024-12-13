@@ -9,6 +9,7 @@
 
 namespace Joomla\Plugin\Editors\None\Provider;
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Editor\AbstractEditorProvider;
 use Joomla\Event\DispatcherInterface;
@@ -94,7 +95,7 @@ final class EditorNoneProvider extends AbstractEditorProvider
             $height .= 'px';
         }
 
-        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        /** @var WebAssetManager $wa */
         $wa = $this->application->getDocument()->getWebAssetManager();
 
         // Add assets

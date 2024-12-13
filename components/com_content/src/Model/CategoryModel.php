@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
@@ -310,7 +311,7 @@ class CategoryModel extends ListModel
     /**
      * Method to get a JPagination object for the data set.
      *
-     * @return  \Joomla\CMS\Pagination\Pagination  A JPagination object for the data set.
+     * @return Pagination A JPagination object for the data set.
      *
      * @since   3.0.1
      */

@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Contact\Site\View\Featured;
 
+use Joomla\Registry\Registry;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -36,7 +38,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The item model state
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since  1.6.0
      */
@@ -54,7 +56,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      *
      * @since  1.6.0
      */
@@ -63,7 +65,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      *
      * @since  4.0.0
      */

@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\ApiAuthentication\Token\Extension;
 
+use Joomla\Component\Plugins\Administrator\Model\PluginModel;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Event\User\AuthenticationEvent;
@@ -327,7 +328,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
      */
     private function getPluginParameter(string $folder, string $plugin, string $param, $default = null)
     {
-        /** @var \Joomla\Component\Plugins\Administrator\Model\PluginModel $model */
+        /** @var PluginModel $model */
         $model = $this->getApplication()->bootComponent('plugins')
             ->getMVCFactory()->createModel('Plugin', 'Administrator', ['ignore_request' => true]);
 

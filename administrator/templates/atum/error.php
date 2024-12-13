@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Document\ErrorDocument;
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
@@ -12,8 +14,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
-/** @var \Joomla\CMS\Document\ErrorDocument $this */
-
+/** @var ErrorDocument $this */
 // Authenticated versus guest have different displays
 $user = Factory::getUser();
 

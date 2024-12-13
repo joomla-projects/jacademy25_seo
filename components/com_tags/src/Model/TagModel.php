@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Tags\Site\Model;
 
+use Joomla\Component\Tags\Administrator\Table\TagTable;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -265,7 +266,7 @@ class TagModel extends ListModel
             }
 
             // Get a level row instance.
-            /** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
+            /** @var TagTable $table */
             $table = $this->getTable();
 
             $idsArray = explode(',', (string) $pk);
@@ -315,7 +316,7 @@ class TagModel extends ListModel
         if ($hitcount) {
             $pk    = (empty($pk)) ? (int) $this->getState('tag.id') : $pk;
 
-            /** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
+            /** @var TagTable $table */
             $table = $this->getTable();
             $table->hit($pk);
 

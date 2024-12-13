@@ -7,6 +7,8 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Image;
 
+use Joomla\CMS\Image\Filter\Brightness;
+use Joomla\CMS\Image\ImageFilter;
 use Joomla\CMS\Image\Image;
 use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
@@ -698,7 +700,7 @@ class ImageTest extends UnitTestCase
         // Get the filter instance.
         $filter = TestHelper::invoke($image, 'getFilterInstance', 'brightness');
 
-        $this->assertInstanceOf(\Joomla\CMS\Image\Filter\Brightness::class, $filter);
+        $this->assertInstanceOf(Brightness::class, $filter);
     }
 
     /**
@@ -1233,14 +1235,14 @@ class ImageTest extends UnitTestCase
         $handle = imagecreatetruecolor(1, 1);
 
         // Create the mock filter.
-        $mockFilter = $this->getMockForAbstractClass(\Joomla\CMS\Image\ImageFilter::class, [$handle], 'ImageFilterMock', true, false, true);
+        $mockFilter = $this->getMockForAbstractClass(ImageFilter::class, [$handle], 'ImageFilterMock', true, false, true);
 
         // Setup the mock method call expectation.
         $mockFilter->expects($this->once())
             ->method('execute');
 
         // Create a new Image mock
-        $mockImage = $this->getMockForAbstractClass(\Joomla\CMS\Image\Image::class, [$handle], 'ImageMock', true, false, true, ['getFilterInstance']);
+        $mockImage = $this->getMockForAbstractClass(Image::class, [$handle], 'ImageMock', true, false, true, ['getFilterInstance']);
         $mockImage->expects($this->once())
             ->method('getFilterInstance')
             ->willReturn($mockFilter);

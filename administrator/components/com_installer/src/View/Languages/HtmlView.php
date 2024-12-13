@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Languages;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\LanguageHelper;
@@ -46,7 +47,7 @@ class HtmlView extends InstallerViewDefault
     /**
      * Form object for search filters
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     public $filterForm;
 

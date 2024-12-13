@@ -1,5 +1,8 @@
 <?php
 
+use Joomla\CMS\Helper\HelperFactoryInterface;
+use Joomla\CMS\Application\CMSApplication;
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_ajax
@@ -27,8 +30,7 @@ use Joomla\CMS\Table\Table;
  * Best way for JSON output
  * - https://groups.google.com/d/msg/joomla-dev-cms/WsC0nA9Fixo/Ur-gPqpqh-EJ
  */
-
-/** @var \Joomla\CMS\Application\CMSApplication $app */
+/** @var CMSApplication $app */
 $app = Factory::getApplication();
 $app->allowCache(false);
 
@@ -86,7 +88,7 @@ if ($format === '' || $format === '0') {
 
         $moduleInstance = $app->bootModule('mod_' . $module, $app->getName());
 
-        if ($moduleInstance instanceof \Joomla\CMS\Helper\HelperFactoryInterface && $helper = $moduleInstance->getHelper(substr($class, 3))) {
+        if ($moduleInstance instanceof HelperFactoryInterface && $helper = $moduleInstance->getHelper(substr($class, 3))) {
             $results = method_exists($helper, $method . 'Ajax') ? $helper->{$method . 'Ajax'}() : null;
         }
 

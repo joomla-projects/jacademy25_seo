@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Layout\FileLayout;
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Fields.User
@@ -10,7 +12,7 @@
 
 defined('_JEXEC') or die;
 
-/** @var \Joomla\CMS\Layout\FileLayout $this */
+/** @var FileLayout $this */
 $value = $field->value;
 
 if ($value == '') {

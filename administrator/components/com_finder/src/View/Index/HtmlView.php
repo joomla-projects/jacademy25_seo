@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Finder\Administrator\View\Index;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -45,7 +47,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      *
      * @since  3.6.1
      */
@@ -90,7 +92,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Form object for search filters
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  4.0.0
      */

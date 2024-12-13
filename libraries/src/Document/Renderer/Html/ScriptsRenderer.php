@@ -68,7 +68,7 @@ class ScriptsRenderer extends DocumentRenderer
             $asset = $item instanceof WebAssetItemInterface ? $item : null;
 
             // Add src attribute for non Asset item
-            if (!$asset instanceof \Joomla\CMS\WebAsset\WebAssetItemInterface) {
+            if (!$asset instanceof WebAssetItemInterface) {
                 $item['src'] = $key;
             }
 
@@ -138,7 +138,7 @@ class ScriptsRenderer extends DocumentRenderer
     {
         $buffer = '';
         $asset  = $item instanceof WebAssetItemInterface ? $item : null;
-        $src    = $asset instanceof \Joomla\CMS\WebAsset\WebAssetItemInterface ? $asset->getUri() : ($item['src'] ?? '');
+        $src    = $asset instanceof WebAssetItemInterface ? $asset->getUri() : ($item['src'] ?? '');
 
         // Make sure we have a src, and it not already rendered
         if (!$src || !empty($this->renderedSrc[$src])) {
@@ -150,7 +150,7 @@ class ScriptsRenderer extends DocumentRenderer
         $mediaVersion = $this->_doc->getMediaVersion();
 
         // Get the attributes and other options
-        if ($asset instanceof \Joomla\CMS\WebAsset\WebAssetItemInterface) {
+        if ($asset instanceof WebAssetItemInterface) {
             $attribs     = $asset->getAttributes();
             $version     = $asset->getVersion();
             $conditional = $asset->getOption('conditional');

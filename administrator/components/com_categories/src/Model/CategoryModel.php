@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Categories\Administrator\Model;
 
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceInterface;
@@ -151,7 +152,7 @@ class CategoryModel extends AdminModel
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\Table\Table  A Table object
+     * @return Table A Table object
      *
      * @since   1.6
      */

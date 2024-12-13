@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
+use Joomla\Component\Users\Administrator\Helper\Mfa;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -910,7 +911,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     {
         @trigger_error(
             \sprintf(
-                '%s() is deprecated. Use ' . \Joomla\Component\Users\Administrator\Helper\Mfa::class . '::getUserMfaRecords() instead.',
+                '%s() is deprecated. Use ' . Mfa::class . '::getUserMfaRecords() instead.',
                 __METHOD__
             ),
             E_USER_DEPRECATED
@@ -964,7 +965,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     {
         @trigger_error(
             \sprintf(
-                '%s() is deprecated. Use ' . \Joomla\CMS\Factory::class . "::getApplication()->get('secret') instead",
+                '%s() is deprecated. Use ' . Factory::class . "::getApplication()->get('secret') instead",
                 __METHOD__
             ),
             E_USER_DEPRECATED
@@ -990,7 +991,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     {
         @trigger_error(
             \sprintf(
-                '%s() is deprecated. Use ' . \Joomla\Component\Users\Administrator\Helper\Mfa::class . '::getConfigurationInterface()',
+                '%s() is deprecated. Use ' . Mfa::class . '::getConfigurationInterface()',
                 __METHOD__
             ),
             E_USER_DEPRECATED
@@ -1016,7 +1017,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     {
         @trigger_error(
             \sprintf(
-                '%s() is deprecated. See ' . \Joomla\Component\Users\Administrator\Model\BackupcodesModel::class . '::saveBackupCodes()',
+                '%s() is deprecated. See ' . BackupcodesModel::class . '::saveBackupCodes()',
                 __METHOD__
             ),
             E_USER_DEPRECATED

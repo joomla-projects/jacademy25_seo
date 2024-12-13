@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\HTML\Helpers;
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
@@ -210,7 +211,7 @@ abstract class Behavior
             $scriptOptions = ['version' => 'auto', 'relative' => true];
             $scriptOptions = $conditionalBrowser !== null ? array_replace($scriptOptions, ['conditional' => $conditionalBrowser]) : $scriptOptions;
 
-            /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+            /** @var WebAssetManager $wa */
             $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
             $wa->registerAndUseScript('polyfill.' . $polyfillType, 'vendor/polyfills/polyfill-' . $polyfillType . '.js', $scriptOptions);
 

@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Menus\Administrator\Controller;
 
+use Joomla\Component\Menus\Administrator\Model\ItemModel;
+use Joomla\Component\Menus\Administrator\Model\ItemsModel;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
@@ -144,7 +146,7 @@ class ItemController extends FormController
     {
         $this->checkToken();
 
-        /** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
+        /** @var ItemModel $model */
         $model = $this->getModel('Item', 'Administrator', []);
 
         // Preset the redirect
@@ -231,7 +233,7 @@ class ItemController extends FormController
         $append = parent::getRedirectToItemAppend($recordId, $urlVar);
 
         if ($recordId) {
-            /** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
+            /** @var ItemModel $model */
             $model    = $this->getModel();
             $item     = $model->getItem($recordId);
             $clientId = $item->client_id;
@@ -260,7 +262,7 @@ class ItemController extends FormController
         // Check for request forgeries.
         $this->checkToken();
 
-        /** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
+        /** @var ItemModel $model */
         $model    = $this->getModel('Item', 'Administrator', []);
         $table    = $model->getTable();
         $data     = $this->input->post->get('jform', [], 'array');
@@ -568,7 +570,7 @@ class ItemController extends FormController
         $menutype = $this->input->get->get('menutype');
 
         if ($menutype) {
-            /** @var \Joomla\Component\Menus\Administrator\Model\ItemsModel $model */
+            /** @var ItemsModel $model */
             $model = $this->getModel('Items', 'Administrator', []);
             $model->getState();
             $model->setState('filter.menutype', $menutype);

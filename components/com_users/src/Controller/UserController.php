@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Site\Controller;
 
+use Joomla\Component\Users\Site\Model\RemindModel;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -220,7 +221,7 @@ class UserController extends BaseController
 
         $app   = $this->app;
 
-        /** @var \Joomla\Component\Users\Site\Model\RemindModel $model */
+        /** @var RemindModel $model */
         $model = $this->getModel('Remind', 'Site');
         $data  = $this->input->post->get('jform', [], 'array');
 

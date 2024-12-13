@@ -62,7 +62,7 @@ class StylesRenderer extends DocumentRenderer
             $asset = $item instanceof WebAssetItemInterface ? $item : null;
 
             // Add href attribute for non Asset item
-            if (!$asset instanceof \Joomla\CMS\WebAsset\WebAssetItemInterface) {
+            if (!$asset instanceof WebAssetItemInterface) {
                 $item['href'] = $key;
             }
 
@@ -127,7 +127,7 @@ class StylesRenderer extends DocumentRenderer
     {
         $buffer = '';
         $asset  = $item instanceof WebAssetItemInterface ? $item : null;
-        $src    = $asset instanceof \Joomla\CMS\WebAsset\WebAssetItemInterface ? $asset->getUri() : ($item['href'] ?? '');
+        $src    = $asset instanceof WebAssetItemInterface ? $asset->getUri() : ($item['href'] ?? '');
 
         // Make sure we have a src, and it not already rendered
         if (!$src || !empty($this->renderedSrc[$src])) {
@@ -139,7 +139,7 @@ class StylesRenderer extends DocumentRenderer
         $mediaVersion = $this->_doc->getMediaVersion();
 
         // Get the attributes and other options
-        if ($asset instanceof \Joomla\CMS\WebAsset\WebAssetItemInterface) {
+        if ($asset instanceof WebAssetItemInterface) {
             $attribs     = $asset->getAttributes();
             $version     = $asset->getVersion();
             $conditional = $asset->getOption('conditional');

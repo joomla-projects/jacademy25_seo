@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Workflow\Administrator\View\Workflow;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -41,7 +42,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The Form object
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     protected $form;
 

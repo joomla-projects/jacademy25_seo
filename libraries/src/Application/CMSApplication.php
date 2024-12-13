@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Application;
 
+use Joomla\CMS\Document\Document;
 use Joomla\Application\SessionAwareWebApplicationTrait;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
@@ -304,7 +305,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $this->doExecute();
 
             // If we have an application document object, render it.
-            if ($this->document instanceof \Joomla\CMS\Document\Document) {
+            if ($this->document instanceof Document) {
                 // Render the application output.
                 $this->render();
             }
@@ -482,7 +483,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             // Create a CmsApplication object.
             $classname = $prefix . ucfirst((string) $name);
 
-            if (!$container instanceof \Joomla\DI\Container) {
+            if (!$container instanceof Container) {
                 $container = Factory::getContainer();
             }
 
@@ -1314,7 +1315,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $priority = 0;
 
             foreach ($this->get('log_priorities', ['all']) as $p) {
-                $const = \Joomla\CMS\Log\Log::class . '::' . strtoupper((string) $p);
+                $const = Log::class . '::' . strtoupper((string) $p);
 
                 if (\defined($const)) {
                     $priority |= \constant($const);

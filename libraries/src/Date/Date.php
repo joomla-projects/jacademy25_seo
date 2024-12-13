@@ -413,7 +413,7 @@ class Date extends \DateTime implements \Stringable
      */
     public function toSql($local = false, ?DatabaseDriver $db = null)
     {
-        if (!$db instanceof \Joomla\Database\DatabaseDriver) {
+        if (!$db instanceof DatabaseDriver) {
             $db = Factory::getDbo();
         }
 

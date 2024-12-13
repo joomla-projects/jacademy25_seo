@@ -10,6 +10,8 @@
 
 namespace Joomla\Plugin\Privacy\User\Extension;
 
+use Joomla\Component\Privacy\Administrator\Export\Domain;
+use Joomla\Component\Privacy\Administrator\Export\Item;
 use Joomla\CMS\Event\Privacy\CanRemoveDataEvent;
 use Joomla\CMS\Event\Privacy\ExportRequestEvent;
 use Joomla\CMS\Event\Privacy\RemoveDataEvent;
@@ -156,7 +158,7 @@ final class UserPlugin extends PrivacyPlugin implements SubscriberInterface
      *
      * @param   TableUser  $user  The TableUser object to process
      *
-     * @return  \Joomla\Component\Privacy\Administrator\Export\Domain
+     * @return Domain
      *
      * @since   3.9.0
      */
@@ -190,7 +192,7 @@ final class UserPlugin extends PrivacyPlugin implements SubscriberInterface
      *
      * @param   TableUser  $user  The TableUser object to process
      *
-     * @return  \Joomla\Component\Privacy\Administrator\Export\Domain
+     * @return Domain
      *
      * @since   3.9.0
      */
@@ -220,7 +222,7 @@ final class UserPlugin extends PrivacyPlugin implements SubscriberInterface
      *
      * @param   TableUser  $user  The TableUser object to process
      *
-     * @return  \Joomla\Component\Privacy\Administrator\Export\Domain
+     * @return Domain
      *
      * @since   3.9.0
      */
@@ -237,7 +239,7 @@ final class UserPlugin extends PrivacyPlugin implements SubscriberInterface
      *
      * @param   TableUser  $user  The TableUser object to convert
      *
-     * @return  \Joomla\Component\Privacy\Administrator\Export\Item
+     * @return Item
      *
      * @since   3.9.0
      */

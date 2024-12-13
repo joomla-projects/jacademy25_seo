@@ -10,6 +10,9 @@
 
 namespace Joomla\Plugin\Workflow\Publishing\Extension;
 
+use Joomla\CMS\Event\Model\PrepareFormEvent;
+use Joomla\CMS\Event\Model\BeforeChangeStateEvent;
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Table\BeforeStoreEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
@@ -86,7 +89,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function onContentPrepareForm(Model\PrepareFormEvent $event)
+    public function onContentPrepareForm(PrepareFormEvent $event)
     {
         $form    = $event->getForm();
         $data    = $event->getData();
@@ -352,7 +355,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      * @throws \Exception
      * @since   4.0.0
      */
-    public function onContentBeforeChangeState(Model\BeforeChangeStateEvent $event)
+    public function onContentBeforeChangeState(BeforeChangeStateEvent $event)
     {
         $context = $event->getContext();
         $pks     = $event->getPks();
@@ -379,7 +382,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function onContentBeforeSave(Model\BeforeSaveEvent $event)
+    public function onContentBeforeSave(BeforeSaveEvent $event)
     {
         $context = $event->getContext();
 

@@ -10,6 +10,14 @@
 
 namespace Joomla\Plugin\System\Fields\Extension;
 
+use Joomla\CMS\Event\Model\NormaliseRequestDataEvent;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
+use Joomla\CMS\Event\Content\AfterTitleEvent;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
+use Joomla\CMS\Event\Content\AfterDisplayEvent;
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
+use Joomla\CMS\Table\Table;
+use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\CMS\Event\Content;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Language\Multilanguage;
@@ -40,7 +48,7 @@ final class Fields extends CMSPlugin
      *
      * @since   3.8.7
      */
-    public function onContentNormaliseRequestData(Model\NormaliseRequestDataEvent $event)
+    public function onContentNormaliseRequestData(NormaliseRequestDataEvent $event)
     {
         $context = $event->getContext();
         $data    = $event->getData();
@@ -81,7 +89,7 @@ final class Fields extends CMSPlugin
      * The save event.
      *
      * @param   string                   $context  The context
-     * @param   \Joomla\CMS\Table\Table  $item     The table
+     * @param Table $item The table
      * @param   boolean                  $isNew    Is new item
      * @param   array                    $data     The validated data
      *
@@ -122,8 +130,7 @@ final class Fields extends CMSPlugin
         }
 
         // Loading the model
-
-        /** @var \Joomla\Component\Fields\Administrator\Model\FieldModel $model */
+        /** @var FieldModel $model */
         $model = $this->getApplication()->bootComponent('com_fields')->getMVCFactory()
             ->createModel('Field', 'Administrator', ['ignore_request' => true]);
 
@@ -210,7 +217,7 @@ final class Fields extends CMSPlugin
 
         $context = $parts[0] . '.' . $parts[1];
 
-        /** @var \Joomla\Component\Fields\Administrator\Model\FieldModel $model */
+        /** @var FieldModel $model */
         $model = $this->getApplication()->bootComponent('com_fields')->getMVCFactory()
             ->createModel('Field', 'Administrator', ['ignore_request' => true]);
         $model->cleanupValues($context, $item->id);
@@ -244,7 +251,7 @@ final class Fields extends CMSPlugin
      *
      * @since   3.7.0
      */
-    public function onContentPrepareForm(Model\PrepareFormEvent $event)
+    public function onContentPrepareForm(PrepareFormEvent $event)
     {
         $form    = $event->getForm();
         $data    = $event->getData();
@@ -296,7 +303,7 @@ final class Fields extends CMSPlugin
      *
      * @since   3.7.0
      */
-    public function onContentAfterTitle(Content\AfterTitleEvent $event)
+    public function onContentAfterTitle(AfterTitleEvent $event)
     {
         $event->addResult($this->display($event->getContext(), $event->getItem(), $event->getParams(), 1));
     }
@@ -310,7 +317,7 @@ final class Fields extends CMSPlugin
      *
      * @since   3.7.0
      */
-    public function onContentBeforeDisplay(Content\BeforeDisplayEvent $event)
+    public function onContentBeforeDisplay(BeforeDisplayEvent $event)
     {
         $event->addResult($this->display($event->getContext(), $event->getItem(), $event->getParams(), 2));
     }
@@ -324,7 +331,7 @@ final class Fields extends CMSPlugin
      *
      * @since   3.7.0
      */
-    public function onContentAfterDisplay(Content\AfterDisplayEvent $event)
+    public function onContentAfterDisplay(AfterDisplayEvent $event)
     {
         $event->addResult($this->display($event->getContext(), $event->getItem(), $event->getParams(), 3));
     }
@@ -417,7 +424,7 @@ final class Fields extends CMSPlugin
      *
      * @since   3.7.0
      */
-    public function onContentPrepare(Content\ContentPrepareEvent $event)
+    public function onContentPrepare(ContentPrepareEvent $event)
     {
         $context = $event->getContext();
         $item    = $event->getItem();

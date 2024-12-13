@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Application;
 
+use Joomla\CMS\Router\Router;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\OutputController;
@@ -370,7 +371,7 @@ final class SiteApplication extends CMSApplication
      * @param   string  $name     The name of the application.
      * @param   array   $options  An optional associative array of configuration settings.
      *
-     * @return  \Joomla\CMS\Router\Router
+     * @return Router
      *
      * @since      3.2
      *

@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Associations\Administrator\View\Associations;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
@@ -46,7 +49,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      *
      * @since  3.7.0
      */
@@ -64,7 +67,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Selected item type properties.
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since  3.7.0
      */
@@ -109,7 +112,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Form object for search filters
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     public $filterForm;
 

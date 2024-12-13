@@ -10,9 +10,9 @@
 
 namespace Joomla\Plugin\System\TaskNotification\Extension;
 
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -82,7 +82,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
      *
      * @since 4.1.0
      */
-    public function injectTaskNotificationFieldset(Model\PrepareFormEvent $event): bool
+    public function injectTaskNotificationFieldset(PrepareFormEvent $event): bool
     {
         $form = $event->getForm();
 

@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\EditorsXtd\Image\Extension;
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Editor\Button\Button;
 use Joomla\CMS\Event\Editor\EditorButtonsSetupEvent;
@@ -97,7 +98,7 @@ final class Image extends CMSPlugin implements SubscriberInterface
         ) {
             $this->loadLanguage();
 
-            /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+            /** @var WebAssetManager $wa */
             $wa = $doc->getWebAssetManager();
 
             // Register the button assets

@@ -11,9 +11,7 @@
 namespace Joomla\Component\Scheduler\Administrator\Helper;
 
 use Cron\CronExpression;
-use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
-use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Utilities\ArrayHelper;
 

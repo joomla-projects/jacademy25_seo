@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Application;
 
+use Joomla\CMS\Application\Exception\NotAcceptable;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Access\Exception\AuthenticationFailed;
 use Joomla\CMS\Component\ComponentHelper;
@@ -271,7 +272,7 @@ final class ApiApplication extends CMSApplication
 
         // If we can't find a match bail with a 406 - Not Acceptable
         if ($mediaType === null) {
-            throw new Exception\NotAcceptable('Could not match accept header', 406);
+            throw new NotAcceptable('Could not match accept header', 406);
         }
 
         /** @var Accept $mediaType */

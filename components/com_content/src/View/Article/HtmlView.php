@@ -10,8 +10,13 @@
 
 namespace Joomla\Component\Content\Site\View\Article;
 
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
+use Joomla\CMS\Event\Content\AfterTitleEvent;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
+use Joomla\CMS\Event\Content\AfterDisplayEvent;
+use Joomla\Registry\Registry;
+use Joomla\CMS\User\User;
 use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Event\Content;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
@@ -47,7 +52,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      *
      * @since  4.0.0
      */
@@ -63,14 +68,14 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var   \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $state;
 
     /**
      * The user object
      *
-     * @var   \Joomla\CMS\User\User|null
+     * @var User|null
      */
     protected $user;
 
@@ -237,14 +242,14 @@ class HtmlView extends BaseHtmlView
             'page'    => $offset,
         ];
 
-        $dispatcher->dispatch('onContentPrepare', new Content\ContentPrepareEvent('onContentPrepare', $contentEventArguments));
+        $dispatcher->dispatch('onContentPrepare', new ContentPrepareEvent('onContentPrepare', $contentEventArguments));
 
         // Extra content from events
         $item->event   = new \stdClass();
         $contentEvents = [
-            'afterDisplayTitle'    => new Content\AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
-            'beforeDisplayContent' => new Content\BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
-            'afterDisplayContent'  => new Content\AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
+            'afterDisplayTitle'    => new AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
+            'beforeDisplayContent' => new BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+            'afterDisplayContent'  => new AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
         ];
 
         foreach ($contentEvents as $resultKey => $event) {

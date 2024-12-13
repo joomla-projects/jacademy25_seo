@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Site\Controller;
 
+use Joomla\Component\Users\Site\Model\RegistrationModel;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
@@ -57,7 +58,7 @@ class RegistrationController extends BaseController implements UserFactoryAwareI
             throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
         }
 
-        /** @var \Joomla\Component\Users\Site\Model\RegistrationModel $model */
+        /** @var RegistrationModel $model */
         $model = $this->getModel('Registration', 'Site');
         $token = $input->getAlnum('token');
 
@@ -149,7 +150,7 @@ class RegistrationController extends BaseController implements UserFactoryAwareI
 
         $app   = $this->app;
 
-        /** @var \Joomla\Component\Users\Site\Model\RegistrationModel $model */
+        /** @var RegistrationModel $model */
         $model = $this->getModel('Registration', 'Site');
 
         // Get the user data.

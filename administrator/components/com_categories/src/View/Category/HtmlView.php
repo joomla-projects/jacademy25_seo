@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Categories\Administrator\View\Category;
 
+use Joomla\CMS\Form\Form;
+use Joomla\Registry\Registry;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -37,7 +40,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The Form object
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     protected $form;
 
@@ -51,7 +54,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $state;
 
@@ -65,7 +68,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $canDo;
 
@@ -205,7 +208,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Load specific css component
-        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        /** @var WebAssetManager $wa */
         $wa = $this->getDocument()->getWebAssetManager();
         $wa->getRegistry()->addExtensionRegistryFile($component);
 
@@ -369,7 +372,7 @@ class HtmlView extends BaseHtmlView
         $canDo = $this->canDo;
 
         // Load specific css component
-        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        /** @var WebAssetManager $wa */
         $wa = $this->getDocument()->getWebAssetManager();
         $wa->getRegistry()->addExtensionRegistryFile($component);
 

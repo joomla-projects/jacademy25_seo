@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contenthistory\Administrator\View\History;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -49,7 +50,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $state;
 

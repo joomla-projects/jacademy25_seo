@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Languages\Api\Controller;
 
+use Joomla\CMS\MVC\Controller\Exception\Save;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
@@ -87,7 +89,7 @@ class OverridesController extends ApiController
      */
     protected function save($recordKey = null)
     {
-        /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+        /** @var AdminModel $model */
         $model = $this->getModel(Inflector::singularize($this->contentType));
 
         if (!$model) {
@@ -129,7 +131,7 @@ class OverridesController extends ApiController
         }
 
         if (!$model->save($validData)) {
-            throw new Exception\Save(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
+            throw new Save(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
         }
 
         return $validData['key'];

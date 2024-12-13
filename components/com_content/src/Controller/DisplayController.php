@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Content\Site\Controller;
 
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Input\Input;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -25,7 +27,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
  *
  * @since  1.5
  */
-class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
+class DisplayController extends BaseController
 {
     /**
      * @param   array                     $config   An optional associative array of configuration settings.
@@ -33,7 +35,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
      *                                              'view_path' (this list is not meant to be comprehensive).
      * @param   ?MVCFactoryInterface      $factory  The factory.
      * @param   ?CMSApplication           $app      The Application for the dispatcher
-     * @param   ?\Joomla\CMS\Input\Input  $input    The Input object for the request
+     * @param ?Input $input The Input object for the request
      *
      * @since   3.0.1
      */

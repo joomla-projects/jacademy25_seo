@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Privacy\Administrator\Plugin;
 
+use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
@@ -34,7 +35,7 @@ abstract class PrivacyPlugin extends CMSPlugin
     /**
      * Database object
      *
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      * @since  3.9.0
      * @deprecated  4.4.0 will be removed in 6.0 use $this->getDatabase() instead
      */

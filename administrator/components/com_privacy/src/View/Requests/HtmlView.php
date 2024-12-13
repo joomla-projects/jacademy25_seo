@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Privacy\Administrator\View\Requests;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -76,7 +77,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The state information
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      * @since  3.9.0
      */
     protected $state;

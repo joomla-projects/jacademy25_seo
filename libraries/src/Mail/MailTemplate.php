@@ -36,7 +36,7 @@ class MailTemplate
     /**
      * Mailer object to send the actual mail.
      *
-     * @var    \Joomla\CMS\Mail\Mail
+     * @var Mail
      * @since  4.0.0
      */
     protected $mailer;

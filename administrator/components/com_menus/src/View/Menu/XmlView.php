@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Menus\Administrator\View\Menu;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -37,7 +38,7 @@ class XmlView extends BaseHtmlView
     protected $items;
 
     /**
-     * @var   \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since  3.8.0
      */

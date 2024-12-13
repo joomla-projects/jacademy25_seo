@@ -64,7 +64,7 @@ class Dispatcher extends ComponentDispatcher
      * @param   string  $client  Optional client (like Administrator, Site etc.)
      * @param   array   $config  Optional controller config
      *
-     * @return  \Joomla\CMS\MVC\Controller\BaseController
+     * @return BaseController
      *
      * @since   4.0.0
      */

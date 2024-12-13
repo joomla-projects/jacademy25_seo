@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
+use Joomla\CMS\Table\UpdateSite;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -350,7 +351,7 @@ class UpdateModel extends ListModel
             $update->loadFromXml($instance->detailsurl, $minimumStability);
 
             // Find and use extra_query from update_site if available
-            $updateSiteInstance = new \Joomla\CMS\Table\UpdateSite($this->getDatabase());
+            $updateSiteInstance = new UpdateSite($this->getDatabase());
             $updateSiteInstance->load($instance->update_site_id);
 
             if ($updateSiteInstance->extra_query) {

@@ -127,7 +127,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
             $this->event_clean_cache = 'onContentCleanCache';
         }
 
-        if ($factory instanceof \Joomla\CMS\MVC\Factory\MVCFactoryInterface) {
+        if ($factory instanceof MVCFactoryInterface) {
             $this->setMVCFactory($factory);
 
             return;
@@ -413,7 +413,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      */
     public function setDbo(?DatabaseInterface $db = null)
     {
-        if (!$db instanceof \Joomla\Database\DatabaseInterface) {
+        if (!$db instanceof DatabaseInterface) {
             return;
         }
 

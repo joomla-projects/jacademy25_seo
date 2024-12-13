@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\HTML\Helpers;
 
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
@@ -72,10 +74,10 @@ abstract class Content
      */
     public static function months($state)
     {
-        /** @var \Joomla\Component\Content\Administrator\Extension\ContentComponent $contentComponent */
+        /** @var ContentComponent $contentComponent */
         $contentComponent = Factory::getApplication()->bootComponent('com_content');
 
-        /** @var \Joomla\Component\Content\Site\Model\ArticlesModel $model */
+        /** @var ArticlesModel $model */
         $model = $contentComponent->getMVCFactory()
             ->createModel('Articles', 'Site', ['ignore_request' => true]);
 

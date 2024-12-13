@@ -48,11 +48,11 @@ class LoginUniqueFieldRule extends FormRule
         $loginRedirectUrl       = $input['params']->login_redirect_url;
         $loginRedirectMenuitem  = $input['params']->login_redirect_menuitem;
 
-        if (!$form instanceof \Joomla\CMS\Form\Form) {
+        if (!$form instanceof Form) {
             throw new \InvalidArgumentException(\sprintf('The value for $form must not be null in %s', static::class));
         }
 
-        if (!$input instanceof \Joomla\Registry\Registry) {
+        if (!$input instanceof Registry) {
             throw new \InvalidArgumentException(\sprintf('The value for $input must not be null in %s', static::class));
         }
 

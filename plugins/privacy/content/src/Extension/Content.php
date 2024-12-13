@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\Privacy\Content\Extension;
 
+use Joomla\Component\Privacy\Administrator\Export\Domain;
 use Joomla\CMS\User\User;
 use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
@@ -35,13 +36,13 @@ final class Content extends PrivacyPlugin
      * @param   RequestTable  $request  The request record being processed
      * @param   ?User         $user     The user account associated with this request if available
      *
-     * @return  \Joomla\Component\Privacy\Administrator\Export\Domain[]
+     * @return Domain[]
      *
      * @since   3.9.0
      */
     public function onPrivacyExportRequest(RequestTable $request, ?User $user = null)
     {
-        if (!$user instanceof \Joomla\CMS\User\User) {
+        if (!$user instanceof User) {
             return [];
         }
 

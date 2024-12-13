@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
+use Joomla\Component\Content\Administrator\Model\ArticleModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
@@ -30,7 +31,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleModel
+class FormModel extends ArticleModel
 {
     /**
      * Model typeAlias string. Used for version history.

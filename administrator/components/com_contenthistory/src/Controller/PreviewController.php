@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contenthistory\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -30,7 +31,7 @@ class PreviewController extends BaseController
      * @param   string  $prefix  The prefix for the model
      * @param   array   $config  An additional array of parameters
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model
+     * @return BaseDatabaseModel The model
      *
      * @since   3.2
      */

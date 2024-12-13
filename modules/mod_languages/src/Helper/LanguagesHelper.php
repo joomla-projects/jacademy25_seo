@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\Languages\Site\Helper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
@@ -33,7 +34,7 @@ class LanguagesHelper
     /**
      * Gets a list of available languages
      *
-     * @param   \Joomla\Registry\Registry  &$params  module params
+     * @param Registry &$params module params
      *
      * @return  array
      *
@@ -139,7 +140,7 @@ class LanguagesHelper
     /**
      * Gets a list of available languages
      *
-     * @param   \Joomla\Registry\Registry  &$params  module params
+     * @param Registry &$params module params
      *
      * @return  array
      *

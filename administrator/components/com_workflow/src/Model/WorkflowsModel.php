@@ -11,6 +11,8 @@
 
 namespace Joomla\Component\Workflow\Administrator\Model;
 
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -95,7 +97,7 @@ class WorkflowsModel extends ListModel
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\Table\Table  A Table object
+     * @return Table A Table object
      *
      * @since  4.0.0
      */
@@ -128,7 +130,7 @@ class WorkflowsModel extends ListModel
      * @param   array    $data      data
      * @param   boolean  $loadData  load current data
      *
-     * @return  \Joomla\CMS\Form\Form|bool the Form object or false
+     * @return Form|bool the Form object or false
      *
      * @since   4.0.0
      */

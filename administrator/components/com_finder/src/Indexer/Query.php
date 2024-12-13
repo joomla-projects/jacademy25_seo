@@ -207,7 +207,7 @@ class Query
      */
     public function __construct($options, ?DatabaseInterface $db = null)
     {
-        if (!$db instanceof \Joomla\Database\DatabaseInterface) {
+        if (!$db instanceof DatabaseInterface) {
             @trigger_error('Database will be mandatory in 5.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }

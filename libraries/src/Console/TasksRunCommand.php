@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Console;
 
+use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Console\Command\AbstractCommand;
@@ -104,7 +105,7 @@ class TasksRunCommand extends AbstractCommand
         foreach ($records as $record) {
             $cStart   = microtime(true);
             $task     = $scheduler->runTask(['id' => $record->id, 'allowDisabled' => true, 'allowConcurrent' => true]);
-            $exit     = $task instanceof \Joomla\Component\Scheduler\Administrator\Task\Task ? $task->getContent()['status'] : Status::NO_RUN;
+            $exit     = $task instanceof Task ? $task->getContent()['status'] : Status::NO_RUN;
             $duration = microtime(true) - $cStart;
             $key      = (\array_key_exists($exit, $outTextMap)) ? $exit : 'N/A';
             $this->ioStyle->writeln(\sprintf($outTextMap[$key], $record->id, $record->title, $duration, $exit));

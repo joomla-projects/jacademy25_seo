@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Module\Menu\Administrator\Menu\CssMenu;
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
@@ -21,7 +23,7 @@ use Joomla\CMS\Uri\Uri;
  * and NOT the module context.
  * =========================================================================================================
  */
-/** @var  \Joomla\Module\Menu\Administrator\Menu\CssMenu  $this */
+/** @var CssMenu $this */
 $class         = 'item';
 $currentParams = $current->getParams();
 

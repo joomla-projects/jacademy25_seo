@@ -183,7 +183,7 @@ class ApiRouter extends Router
     /**
      * Extract routes matching current route from all known routes.
      *
-     * @return \Joomla\Router\Route[]
+     * @return Route[]
      *
      * @since 4.0.0
      */

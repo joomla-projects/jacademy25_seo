@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Checkin\Administrator\Controller;
 
+use Joomla\Component\Checkin\Administrator\Model\CheckinModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
@@ -63,7 +64,7 @@ class DisplayController extends BaseController
             $this->app->enqueueMessage(Text::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'), 'warning');
         } else {
             // Get the model.
-            /** @var \Joomla\Component\Checkin\Administrator\Model\CheckinModel $model */
+            /** @var CheckinModel $model */
             $model = $this->getModel('Checkin');
 
             // Checked in the items.

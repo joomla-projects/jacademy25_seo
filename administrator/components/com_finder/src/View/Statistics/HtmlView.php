@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Administrator\View\Statistics;
 
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Finder\Administrator\Model\StatisticsModel;
@@ -28,7 +29,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The index statistics
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      *
      * @since  3.6.1
      */

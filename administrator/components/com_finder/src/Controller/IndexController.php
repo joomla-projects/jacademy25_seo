@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Finder\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Component\Finder\Administrator\Model\IndexModel;
 use Joomla\CMS\Event\Finder\GarbageCollectionEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -34,7 +36,7 @@ class IndexController extends AdminController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     * @return BaseDatabaseModel The model.
      *
      * @since   2.5
      */
@@ -86,7 +88,7 @@ class IndexController extends AdminController
             set_time_limit(0);
         }
 
-        /** @var \Joomla\Component\Finder\Administrator\Model\IndexModel $model */
+        /** @var IndexModel $model */
         $model = $this->getModel('Index', 'Administrator');
 
         // Attempt to purge the index.

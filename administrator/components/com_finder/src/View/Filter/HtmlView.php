@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Finder\Administrator\View\Filter;
 
+use Joomla\Component\Finder\Administrator\Table\FilterTable;
+use Joomla\CMS\Form\Form;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -33,7 +36,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The filter object
      *
-     * @var    \Joomla\Component\Finder\Administrator\Table\FilterTable
+     * @var FilterTable
      *
      * @since  3.6.2
      */
@@ -42,7 +45,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The Form object
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  3.6.2
      */
@@ -60,7 +63,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since  3.6.2
      */

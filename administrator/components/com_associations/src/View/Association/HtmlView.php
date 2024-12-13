@@ -57,7 +57,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since  3.7.0
      */

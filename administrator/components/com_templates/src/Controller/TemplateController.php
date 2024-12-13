@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Templates\Administrator\Controller;
 
+use Joomla\Component\Installer\Administrator\Model\InstallModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Component\Templates\Administrator\Model\TemplateModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Filter\InputFilter;
@@ -207,7 +210,7 @@ class TemplateController extends BaseController
             // Call installation model
             $this->input->set('install_directory', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 
-            /** @var \Joomla\Component\Installer\Administrator\Model\InstallModel $installModel */
+            /** @var InstallModel $installModel */
             $installModel = $this->app->bootComponent('com_installer')
                 ->getMVCFactory()->createModel('Install', 'Administrator');
             $this->app->getLanguage()->load('com_installer');
@@ -236,7 +239,7 @@ class TemplateController extends BaseController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional (note, the empty array is atypical compared to other models).
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     * @return BaseDatabaseModel The model.
      *
      * @since   3.2
      */
@@ -272,7 +275,7 @@ class TemplateController extends BaseController
         $data         = $this->input->post->get('jform', [], 'array');
         $task         = $this->getTask();
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model        = $this->getModel();
         $fileName     = (string) $this->input->getCmd('file', '');
         $explodeArray = explode(':', str_replace('//', '/', base64_decode($fileName)));
@@ -556,7 +559,7 @@ class TemplateController extends BaseController
         // Check for request forgeries
         $this->checkToken();
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model    = $this->getModel();
         $id       = (int) $this->input->get('id', 0, 'int');
         $file     = (string) $this->input->getCmd('file', '');
@@ -603,7 +606,7 @@ class TemplateController extends BaseController
         // Check for request forgeries
         $this->checkToken();
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model    = $this->getModel();
         $id       = (int) $this->input->get('id', 0, 'int');
         $isMedia  = (int) $this->input->get('isMedia', 0, 'int');
@@ -655,7 +658,7 @@ class TemplateController extends BaseController
         // Check for request forgeries
         $this->checkToken();
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model   = $this->getModel();
         $id      = (int) $this->input->get('id', 0, 'int');
         $isMedia = (int) $this->input->get('isMedia', 0, 'int');
@@ -711,7 +714,7 @@ class TemplateController extends BaseController
         $w     = $this->input->get('w');
         $h     = $this->input->get('h');
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model = $this->getModel();
 
         // Access check.
@@ -753,7 +756,7 @@ class TemplateController extends BaseController
         $width  = $this->input->get('width');
         $height = $this->input->get('height');
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model  = $this->getModel();
 
         // Access check.
@@ -797,7 +800,7 @@ class TemplateController extends BaseController
         )
             ->clean(base64_decode($this->input->getBase64('address', '')), 'path');
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model    = $this->getModel();
 
         // Access check.
@@ -836,7 +839,7 @@ class TemplateController extends BaseController
         $id    = (int) $this->input->get('id', 0, 'int');
         $file  = (string) $this->input->getCmd('file', '');
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model = $this->getModel();
 
         // Access check.
@@ -884,7 +887,7 @@ class TemplateController extends BaseController
             $app->close();
         }
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model = $this->getModel();
 
         $result = $model->getUpdatedList(true, true);
@@ -978,7 +981,7 @@ class TemplateController extends BaseController
         // Call installation model
         $this->input->set('install_directory', $this->app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 
-        /** @var \Joomla\Component\Installer\Administrator\Model\InstallModel $installModel */
+        /** @var InstallModel $installModel */
         $installModel = $this->app->bootComponent('com_installer')
             ->getMVCFactory()->createModel('Install', 'Administrator');
         $this->app->getLanguage()->load('com_installer');

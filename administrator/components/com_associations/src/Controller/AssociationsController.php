@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Associations\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Router\Route;
@@ -42,7 +43,7 @@ class AssociationsController extends AdminController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  The array of possible config values. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel|boolean
+     * @return BaseDatabaseModel|boolean
      *
      * @since  3.7.0
      */

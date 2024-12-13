@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\ScheduleRunner\Extension;
 
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
@@ -206,7 +207,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
 
         $task = $this->runScheduler($id);
 
-        if ($task instanceof \Joomla\Component\Scheduler\Administrator\Task\Task && !empty($task->getContent()['exception'])) {
+        if ($task instanceof Task && !empty($task->getContent()['exception'])) {
             throw $task->getContent()['exception'];
         }
     }
@@ -254,7 +255,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             ]
         );
 
-        if ($task instanceof \Joomla\Component\Scheduler\Administrator\Task\Task) {
+        if ($task instanceof Task) {
             $task->run();
             $event->addArgument('result', $task->getContent());
         } else {
@@ -297,7 +298,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
      *
      * @todo  Move to another plugin?
      */
-    public function enhanceSchedulerConfig(Model\PrepareFormEvent $event): void
+    public function enhanceSchedulerConfig(PrepareFormEvent $event): void
     {
         $form = $event->getForm();
         $data = $event->getData();

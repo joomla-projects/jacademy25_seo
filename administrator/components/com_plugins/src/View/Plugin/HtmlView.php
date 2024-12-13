@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Plugins\Administrator\View\Plugin;
 
+use Joomla\CMS\Form\Form;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -39,14 +41,14 @@ class HtmlView extends BaseHtmlView
     /**
      * The form object for the newsfeed
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     protected $form;
 
     /**
      * The model state of the newsfeed
      *
-     * @var   \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $state;
 

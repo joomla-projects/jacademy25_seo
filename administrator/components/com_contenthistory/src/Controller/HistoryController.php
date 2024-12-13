@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contenthistory\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Router\Route;
@@ -33,7 +34,7 @@ class HistoryController extends AdminController
      * @param   string  $prefix  The prefix for the model
      * @param   array   $config  An additional array of parameters
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model
+     * @return BaseDatabaseModel The model
      *
      * @since   3.2
      */

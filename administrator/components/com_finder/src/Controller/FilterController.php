@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Controller;
 
+use Joomla\Component\Finder\Administrator\Model\FilterModel;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -42,7 +43,7 @@ class FilterController extends FormController
         // Check for request forgeries.
         $this->checkToken();
 
-        /** @var \Joomla\Component\Finder\Administrator\Model\FilterModel $model */
+        /** @var FilterModel $model */
         $model   = $this->getModel();
         $table   = $model->getTable();
         $data    = $this->input->post->get('jform', [], 'array');

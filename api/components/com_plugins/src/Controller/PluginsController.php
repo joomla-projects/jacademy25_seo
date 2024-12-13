@@ -10,10 +10,11 @@
 
 namespace Joomla\Component\Plugins\Api\Controller;
 
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
+use Joomla\Component\Plugins\Administrator\Model\PluginModel;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\CMS\MVC\Controller\Exception;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
@@ -58,7 +59,7 @@ class PluginsController extends ApiController
         $recordId = $this->input->getInt('id');
 
         if (!$recordId) {
-            throw new Exception\ResourceNotFound(Text::_('JLIB_APPLICATION_ERROR_RECORD'), 404);
+            throw new ResourceNotFound(Text::_('JLIB_APPLICATION_ERROR_RECORD'), 404);
         }
 
         $data = json_decode($this->input->json->getRaw(), true);
@@ -69,7 +70,7 @@ class PluginsController extends ApiController
             }
         }
 
-        /** @var \Joomla\Component\Plugins\Administrator\Model\PluginModel $model */
+        /** @var PluginModel $model */
         $model = $this->getModel(Inflector::singularize($this->contentType), '', ['ignore_request' => true]);
 
         if (!$model) {

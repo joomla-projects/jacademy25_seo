@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Component\Finder\Administrator\View\Filters\HtmlView;
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -13,8 +15,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
-/** @var \Joomla\Component\Finder\Administrator\View\Filters\HtmlView $this */
-
+/** @var HtmlView $this */
 $displayData = [
     'textPrefix' => 'COM_FINDER',
     'formURL'    => 'index.php?option=com_finder&view=filters',

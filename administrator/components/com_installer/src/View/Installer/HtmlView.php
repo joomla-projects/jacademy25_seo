@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Installer;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -31,7 +32,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var   \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since  4.0.0
      */

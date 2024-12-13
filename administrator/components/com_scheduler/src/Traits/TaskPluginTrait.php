@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Traits;
 
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -108,7 +109,7 @@ trait TaskPluginTrait
      */
     public function enhanceTaskItemForm($context, $data = null): bool
     {
-        if ($context instanceof Model\PrepareFormEvent) {
+        if ($context instanceof PrepareFormEvent) {
             $form = $context->getForm();
             $data = $context->getData();
         } elseif ($context instanceof Form) {

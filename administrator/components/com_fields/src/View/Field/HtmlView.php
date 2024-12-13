@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Fields\Administrator\View\Field;
 
+use Joomla\CMS\Form\Form;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -33,7 +35,7 @@ class HtmlView extends BaseHtmlView
 {
     public $canDo;
     /**
-     * @var     \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since   3.7.0
      */
@@ -47,7 +49,7 @@ class HtmlView extends BaseHtmlView
     protected $item;
 
     /**
-     * @var     \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since   3.7.0
      */

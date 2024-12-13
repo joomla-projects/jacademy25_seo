@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Fields\Administrator\View\Groups;
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -36,7 +39,7 @@ use Joomla\Filesystem\Path;
 class HtmlView extends BaseHtmlView
 {
     /**
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  3.7.0
      */
@@ -57,14 +60,14 @@ class HtmlView extends BaseHtmlView
     protected $items;
 
     /**
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      *
      * @since  3.7.0
      */
     protected $pagination;
 
     /**
-     * @var   \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since  3.7.0
      */

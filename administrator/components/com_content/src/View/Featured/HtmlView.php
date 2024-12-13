@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Content\Administrator\View\Featured;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -48,21 +51,21 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var  \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      */
     protected $pagination;
 
     /**
      * The model state
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $state;
 
     /**
      * Form object for search filters
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     public $filterForm;
 

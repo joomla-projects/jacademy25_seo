@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Languages\Api\Controller;
 
+use Joomla\Component\Languages\Api\View\Strings\JsonapiView;
+use Joomla\Component\Languages\Administrator\Model\StringsModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
@@ -70,7 +72,7 @@ class StringsController extends ApiController
         $viewLayout = $this->input->get('layout', 'default', 'string');
 
         try {
-            /** @var \Joomla\Component\Languages\Api\View\Strings\JsonapiView $view */
+            /** @var JsonapiView $view */
             $view = $this->getView(
                 $viewName,
                 $viewType,
@@ -81,7 +83,7 @@ class StringsController extends ApiController
             throw new \RuntimeException($exception->getMessage(), $exception->getCode(), $exception);
         }
 
-        /** @var \Joomla\Component\Languages\Administrator\Model\StringsModel $model */
+        /** @var StringsModel $model */
         $model = $this->getModel($this->contentType, '', ['ignore_request' => true]);
 
         if (!$model) {
@@ -107,7 +109,7 @@ class StringsController extends ApiController
      */
     public function refresh()
     {
-        /** @var \Joomla\Component\Languages\Administrator\Model\StringsModel $model */
+        /** @var StringsModel $model */
         $model = $this->getModel($this->contentType, '', ['ignore_request' => true]);
 
         if (!$model) {

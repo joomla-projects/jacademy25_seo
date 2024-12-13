@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\Installer\Folder\Extension;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\Installer\AddInstallationTabEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -29,7 +30,7 @@ final class FolderInstaller extends CMSPlugin implements SubscriberInterface
     /**
      * Application object.
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  4.0.0
      * @deprecated 6.0 Is needed for template overrides, use getApplication instead
      */

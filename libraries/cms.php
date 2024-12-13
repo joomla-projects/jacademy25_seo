@@ -1,5 +1,14 @@
 <?php
 
+use Joomla\CMS\Autoload\ClassLoader;
+use TYPO3\PharStreamWrapper\Behavior;
+use TYPO3\PharStreamWrapper\Manager;
+use TYPO3\PharStreamWrapper\Interceptor\PharExtensionInterceptor;
+use TYPO3\PharStreamWrapper\PharStreamWrapper;
+use Joomla\CMS\Version;
+use Joomla\CMS\Exception\ExceptionHandler;
+use Joomla\CMS\Log\Log;
+
 /**
  * Joomla! Content Management System
  *
@@ -42,35 +51,35 @@ if (!class_exists('JLoader')) {
 $loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
 
 // We need to pull our decorated class loader into memory before unregistering Composer's loader
-class_exists(\Joomla\CMS\Autoload\ClassLoader::class);
+class_exists(ClassLoader::class);
 
 $loader->unregister();
 
 // Decorate Composer autoloader
-spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
+spl_autoload_register([new ClassLoader($loader), 'loadClass'], true, true);
 
 // Suppress phar stream wrapper for non .phar files
-$behavior = new \TYPO3\PharStreamWrapper\Behavior();
-\TYPO3\PharStreamWrapper\Manager::initialize(
-    $behavior->withAssertion(new \TYPO3\PharStreamWrapper\Interceptor\PharExtensionInterceptor())
+$behavior = new Behavior();
+Manager::initialize(
+    $behavior->withAssertion(new PharExtensionInterceptor())
 );
 
 if (in_array('phar', stream_get_wrappers())) {
     stream_wrapper_unregister('phar');
-    stream_wrapper_register('phar', \TYPO3\PharStreamWrapper\PharStreamWrapper::class);
+    stream_wrapper_register('phar', PharStreamWrapper::class);
 }
 
 // Define the Joomla version if not already defined
 if (!defined('JVERSION')) {
-    define('JVERSION', (new \Joomla\CMS\Version())->getShortVersion());
+    define('JVERSION', (new Version())->getShortVersion());
 }
 
 // Register a handler for uncaught exceptions that shows a pretty error page when possible
-set_exception_handler(\Joomla\CMS\Exception\ExceptionHandler::handleException(...));
+set_exception_handler(ExceptionHandler::handleException(...));
 
 // Set up the message queue logger for web requests
 if (array_key_exists('REQUEST_METHOD', $_SERVER)) {
-    \Joomla\CMS\Log\Log::addLogger(['logger' => 'messagequeue'], \Joomla\CMS\Log\Log::ALL, ['jerror']);
+    Log::addLogger(['logger' => 'messagequeue'], Log::ALL, ['jerror']);
 }
 
 // Register the Crypto lib

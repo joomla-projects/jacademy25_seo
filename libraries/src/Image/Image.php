@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Image;
 
+use Joomla\CMS\Image\Exception\UnparsableImageException;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -177,7 +179,7 @@ class Image
         $info = getimagesize($path);
 
         if (!$info) {
-            throw new Exception\UnparsableImageException('Unable to get properties for the image.');
+            throw new UnparsableImageException('Unable to get properties for the image.');
         }
 
         // Build the response object.

@@ -9,6 +9,11 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
+use Joomla\CMS\MVC\Controller\Exception\CheckinCheckout;
+use Joomla\CMS\MVC\Controller\Exception\Save;
+use Joomla\Registry\Registry;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
@@ -86,7 +91,7 @@ class ApiController extends BaseController
     /**
      * The model state to inject
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $modelState;
 
@@ -258,7 +263,7 @@ class ApiController extends BaseController
         }
 
         if (!\is_null($offset) && $offset > $model->getTotal()) {
-            throw new Exception\ResourceNotFound();
+            throw new ResourceNotFound();
         }
 
         $view->setDocument($this->app->getDocument());
@@ -289,7 +294,7 @@ class ApiController extends BaseController
 
         $modelName = $this->input->get('model', Inflector::singularize($this->contentType));
 
-        /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+        /** @var AdminModel $model */
         $model = $this->getModel($modelName, '', ['ignore_request' => true]);
 
         if (!$model) {
@@ -338,7 +343,7 @@ class ApiController extends BaseController
      */
     public function edit()
     {
-        /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+        /** @var AdminModel $model */
         $model = $this->getModel(Inflector::singularize($this->contentType));
 
         if (!$model) {
@@ -354,7 +359,7 @@ class ApiController extends BaseController
         $recordId = $this->input->getInt('id');
 
         if (!$recordId) {
-            throw new Exception\ResourceNotFound(Text::_('JLIB_APPLICATION_ERROR_RECORD'), 404);
+            throw new ResourceNotFound(Text::_('JLIB_APPLICATION_ERROR_RECORD'), 404);
         }
 
         $key = $table->getKeyName();
@@ -367,7 +372,7 @@ class ApiController extends BaseController
         // Attempt to check-out the new record for editing and redirect.
         if ($table->hasField('checked_out') && !$model->checkout($recordId)) {
             // Check-out failed, display a notice but allow the user to see the record.
-            throw new Exception\CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
+            throw new CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
         }
 
         $this->save($recordId);
@@ -387,7 +392,7 @@ class ApiController extends BaseController
      */
     protected function save($recordKey = null)
     {
-        /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+        /** @var AdminModel $model */
         $model = $this->getModel(Inflector::singularize($this->contentType));
 
         if (!$model) {
@@ -453,7 +458,7 @@ class ApiController extends BaseController
 
         // Attempt to save the data.
         if (!$model->save($validData)) {
-            throw new Exception\Save(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
+            throw new Save(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
         }
 
         try {
@@ -466,12 +471,12 @@ class ApiController extends BaseController
         $recordId = $model->getState($modelName . '.id');
 
         if ($recordId === null) {
-            throw new Exception\CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+            throw new CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
         }
 
         // Save succeeded, so check-in the record.
         if ($checkin && $model->checkin($recordId) === false) {
-            throw new Exception\CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+            throw new CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
         }
 
         return $recordId;

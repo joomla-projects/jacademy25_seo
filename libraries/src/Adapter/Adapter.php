@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Adapter;
 
+use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
@@ -59,7 +60,7 @@ class Adapter
     /**
      * Database Connector Object
      *
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      * @since  1.6
      */
     protected $_db;
@@ -94,7 +95,7 @@ class Adapter
     /**
      * Get the database connector object
      *
-     * @return  \Joomla\Database\DatabaseDriver  Database connector object
+     * @return DatabaseDriver Database connector object
      *
      * @since   1.6
      */

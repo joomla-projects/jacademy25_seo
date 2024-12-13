@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Component\Users\Administrator\View\Notes\HtmlView;
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -12,8 +14,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
-/** @var \Joomla\Component\Users\Administrator\View\Notes\HtmlView $this */
-
+/** @var HtmlView $this */
 $displayData = [
     'textPrefix' => 'COM_USERS_NOTES',
     'formURL'    => 'index.php?option=com_users&view=notes',

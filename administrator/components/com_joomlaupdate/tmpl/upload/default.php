@@ -14,7 +14,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Utility\Utility;
-use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
 /** @var HtmlView $this */
 

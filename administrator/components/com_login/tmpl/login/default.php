@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Component\Login\Administrator\Model\LoginModel;
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_login
@@ -17,7 +19,7 @@ use Joomla\CMS\Helper\ModuleHelper;
  * If you want to use a completely different login module change the value of name
  * in your layout override.
  */
-$loginmodule = \Joomla\Component\Login\Administrator\Model\LoginModel::getLoginModule('mod_login');
+$loginmodule = LoginModel::getLoginModule('mod_login');
 echo ModuleHelper::renderModule($loginmodule, ['id' => 'section-box']);
 
 

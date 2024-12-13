@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Scheduler\Administrator\View\Task;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -55,7 +56,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var \Joomla\Registry\Registry
+     * @var Registry
      * @since  4.1.0
      */
     protected $state;
@@ -63,7 +64,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      * @since  4.1.0
      */
     protected $canDo;

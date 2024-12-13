@@ -134,7 +134,7 @@ class DatabaseStorageTest extends UnitTestCase
      *
      * @since   5.1.0
      *
-     * @return Tuf|(Tuf&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+     * @return Tuf|Tuf&MockObject|MockObject
      */
     protected function getTableMock(array $mockData)
     {

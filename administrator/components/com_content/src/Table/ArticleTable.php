@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Content\Administrator\Table;
 
+use Joomla\CMS\Table\Content;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -19,6 +21,6 @@ namespace Joomla\Component\Content\Administrator\Table;
  *
  * @since  1.5
  */
-class ArticleTable extends \Joomla\CMS\Table\Content
+class ArticleTable extends Content
 {
 }

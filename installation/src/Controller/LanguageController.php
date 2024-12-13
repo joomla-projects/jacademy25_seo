@@ -10,6 +10,7 @@
 
 namespace Joomla\CMS\Installation\Controller;
 
+use Joomla\CMS\Installation\Model\LanguagesModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Language;
@@ -88,7 +89,7 @@ class LanguageController extends JSONController
 
         $app = $this->app;
 
-        /** @var \Joomla\CMS\Installation\Model\LanguagesModel $model */
+        /** @var LanguagesModel $model */
         $model = $this->getModel('Languages');
 
         // Check for request forgeries in the administrator language

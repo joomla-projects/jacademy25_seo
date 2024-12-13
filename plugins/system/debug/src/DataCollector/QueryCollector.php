@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
+use Joomla\Database\DatabaseDriver;
 use DebugBar\DataCollector\AssetProvider;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\Monitor\DebugMonitor;
@@ -205,7 +206,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 
                     $isCaller = 0;
 
-                    if (\Joomla\Database\DatabaseDriver::class === $class && !str_contains((string) $file, 'DatabaseDriver.php')) {
+                    if (DatabaseDriver::class === $class && !str_contains((string) $file, 'DatabaseDriver.php')) {
                         $callerLocation = $location;
                         $isCaller       = 1;
                     }

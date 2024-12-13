@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Login\Administrator\Model;
 
+use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -133,7 +134,7 @@ class LoginModel extends BaseDatabaseModel
         $lang     = Factory::getLanguage()->getTag();
         $clientId = (int) $app->getClientId();
 
-        /** @var \Joomla\CMS\Cache\Controller\CallbackController $cache */
+        /** @var CallbackController $cache */
         $cache = Factory::getCache('com_modules', 'callback');
 
         $loader = function () use ($app, $lang, $module) {

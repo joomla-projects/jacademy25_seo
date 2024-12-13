@@ -1,5 +1,8 @@
 <?php
 
+use Joomla\Component\Finder\Administrator\View\Index\HtmlView;
+use Joomla\CMS\WebAsset\WebAssetManager;
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -16,8 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-/** @var \Joomla\Component\Finder\Administrator\View\Index\HtmlView $this */
-
+/** @var HtmlView $this */
 $displayData = [
     'textPrefix' => 'COM_FINDER',
     'formURL'    => 'index.php?option=com_finder&view=index',
@@ -32,7 +34,7 @@ echo LayoutHelper::render('joomla.content.emptystate', $displayData);
 
 // Show warning that the content - finder plugin is disabled
 if ($this->finderPluginId) {
-    /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+    /** @var WebAssetManager $wa */
     $wa = $this->getDocument()->getWebAssetManager();
     $wa->useScript('joomla.dialog-autocreate');
 

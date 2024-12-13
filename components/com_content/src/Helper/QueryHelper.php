@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Site\Helper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -171,7 +172,7 @@ class QueryHelper
     /**
      * Get join information for the voting query.
      *
-     * @param   \Joomla\Registry\Registry  $params  An options object for the article.
+     * @param Registry $params An options object for the article.
      *
      * @return  array  A named array with "select" and "join" keys.
      *

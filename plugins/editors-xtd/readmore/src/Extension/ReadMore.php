@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\EditorsXtd\ReadMore\Extension;
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Editor\Button\Button;
 use Joomla\CMS\Event\Editor\EditorButtonsSetupEvent;
 use Joomla\CMS\Language\Text;
@@ -71,7 +72,7 @@ final class ReadMore extends CMSPlugin implements SubscriberInterface
      */
     public function onDisplay($name)
     {
-        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        /** @var WebAssetManager $wa */
         $wa = $this->getApplication()->getDocument()->getWebAssetManager();
 
         // Register the asset "editor-button.<button name>", will be loaded by the button layout

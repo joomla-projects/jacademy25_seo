@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Layout\FileLayout;
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Fields.List
@@ -12,7 +14,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-/** @var \Joomla\CMS\Layout\FileLayout $this */
+/** @var FileLayout $this */
 $fieldValue = $field->value;
 
 if ($fieldValue == '') {

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Banners\Administrator\View\Clients;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -65,7 +66,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      * @since  1.6
      */
     protected $state;

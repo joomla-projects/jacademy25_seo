@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Document\Renderer\Feed;
 
+use Joomla\CMS\Document\FeedDocument;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -19,7 +20,6 @@ use Joomla\CMS\Version;
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
-
 /**
  * AtomRenderer is a feed that implements the atom specification
  *
@@ -30,7 +30,7 @@ use Joomla\CMS\Version;
  * @link   http://www.atomenabled.org/developers/syndication/atom-format-spec.php
  * @since  3.5
  *
- * @property-read  \Joomla\CMS\Document\FeedDocument  $_doc  Reference to the Document object that instantiated the renderer
+ * @property-read FeedDocument $_doc Reference to the Document object that instantiated the renderer
  */
 class AtomRenderer extends DocumentRenderer
 {

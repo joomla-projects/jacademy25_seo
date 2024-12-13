@@ -10,6 +10,7 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Form\Field;
 
+use PHPUnit\Framework\TestCase;
 use Joomla\CMS\Form\Field\AccessiblemediaField;
 
 /**
@@ -19,7 +20,7 @@ use Joomla\CMS\Form\Field\AccessiblemediaField;
  * @subpackage  Form
  * @since       4.0.0
  */
-class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
+class AccessiblemediaFieldTest extends TestCase
 {
     /**
      * Tests the constructor

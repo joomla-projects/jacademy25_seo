@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Banners\Administrator\Helper;
 
+use Joomla\Component\Banners\Administrator\Table\ClientTable;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -77,7 +78,7 @@ class BannersHelper extends ContentHelper
             $purchaseType = $row->purchase_type;
 
             if ($purchaseType < 0 && $row->cid) {
-                /** @var \Joomla\Component\Banners\Administrator\Table\ClientTable $client */
+                /** @var ClientTable $client */
                 $client = Table::getInstance('ClientTable', '\\Joomla\\Component\\Banners\\Administrator\\Table\\');
                 $client->load($row->cid);
                 $purchaseType = $client->purchase_type;

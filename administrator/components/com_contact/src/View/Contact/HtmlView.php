@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Contact\Administrator\View\Contact;
 
+use Joomla\CMS\Form\Form;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -35,7 +37,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The Form object
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     protected $form;
 
@@ -49,7 +51,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $state;
 

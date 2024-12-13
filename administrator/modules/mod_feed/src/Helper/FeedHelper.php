@@ -10,6 +10,8 @@
 
 namespace Joomla\Module\Feed\Administrator\Helper;
 
+use Joomla\Registry\Registry;
+use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Language\Text;
 
@@ -27,9 +29,9 @@ class FeedHelper
     /**
      * Method to load a feed.
      *
-     * @param   \Joomla\Registry\Registry  $params  The parameters object.
+     * @param Registry $params The parameters object.
      *
-     * @return  \Joomla\CMS\Feed\Feed|string  Return a JFeedReader object or a string message if error.
+     * @return Feed|string Return a JFeedReader object or a string message if error.
      *
      * @since   1.5
      */

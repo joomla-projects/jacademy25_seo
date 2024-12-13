@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Contact\Administrator\Controller;
 
+use Joomla\Component\Contact\Administrator\Model\ContactModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -66,7 +68,7 @@ class ContactsController extends AdminController
         $value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
         // Get the model.
-        /** @var \Joomla\Component\Contact\Administrator\Model\ContactModel $model */
+        /** @var ContactModel $model */
         $model  = $this->getModel();
 
         // Access checks.
@@ -114,7 +116,7 @@ class ContactsController extends AdminController
      * @param   string  $prefix  The prefix for the PHP class name.
      * @param   array   $config  Array of configuration parameters.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
+     * @return BaseDatabaseModel
      *
      * @since   1.6
      */

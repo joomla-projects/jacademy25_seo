@@ -9,10 +9,14 @@
 
 namespace Joomla\CMS\Helper;
 
+use Joomla\CMS\Event\Module\BeforeRenderModuleEvent;
+use Joomla\CMS\Event\Module\AfterRenderModuleEvent;
+use Joomla\CMS\Event\Module\PrepareModuleListEvent;
+use Joomla\CMS\Event\Module\AfterModuleListEvent;
+use Joomla\CMS\Event\Module\AfterCleanModuleListEvent;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\Module;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;
@@ -205,7 +209,7 @@ abstract class ModuleHelper
         $module->style = $attribs['style'];
 
         // If the $module is nulled it will return an empty content, otherwise it will render the module normally.
-        $brEvent = $dispatcher->dispatch('onRenderModule', new Module\BeforeRenderModuleEvent('onRenderModule', [
+        $brEvent = $dispatcher->dispatch('onRenderModule', new BeforeRenderModuleEvent('onRenderModule', [
             'subject'    => $module,
             'attributes' => &$attribs, // @todo: Remove reference in Joomla 6, see BeforeRenderModuleEvent::__constructor()
         ]));
@@ -236,7 +240,7 @@ abstract class ModuleHelper
         // Revert the scope
         $app->scope = $scope;
 
-        $dispatcher->dispatch('onAfterRenderModule', new Module\AfterRenderModuleEvent('onAfterRenderModule', [
+        $dispatcher->dispatch('onAfterRenderModule', new AfterRenderModuleEvent('onAfterRenderModule', [
             'subject'    => $module,
             'attributes' => $attribs,
         ]));
@@ -372,7 +376,7 @@ abstract class ModuleHelper
         $dispatcher = Factory::getApplication()->getDispatcher();
         $modules    = [];
 
-        $modules = $dispatcher->dispatch('onPrepareModuleList', new Module\PrepareModuleListEvent('onPrepareModuleList', [
+        $modules = $dispatcher->dispatch('onPrepareModuleList', new PrepareModuleListEvent('onPrepareModuleList', [
             'modules' => &$modules, // @todo: Remove reference in Joomla 6, see PrepareModuleListEvent::__constructor()
         ]))->getArgument('modules', $modules);
 
@@ -381,13 +385,13 @@ abstract class ModuleHelper
             $modules = static::getModuleList();
         }
 
-        $modules = $dispatcher->dispatch('onAfterModuleList', new Module\AfterModuleListEvent('onAfterModuleList', [
+        $modules = $dispatcher->dispatch('onAfterModuleList', new AfterModuleListEvent('onAfterModuleList', [
             'modules' => &$modules, // @todo: Remove reference in Joomla 6, see AfterModuleListEvent::__constructor()
         ]))->getArgument('modules', $modules);
 
         $modules = static::cleanModuleList($modules);
 
-        $modules = $dispatcher->dispatch('onAfterCleanModuleList', new Module\AfterCleanModuleListEvent('onAfterCleanModuleList', [
+        $modules = $dispatcher->dispatch('onAfterCleanModuleList', new AfterCleanModuleListEvent('onAfterCleanModuleList', [
             'modules' => &$modules, // @todo: Remove reference in Joomla 6, see AfterCleanModuleListEvent::__constructor()
         ]))->getArgument('modules', $modules);
 

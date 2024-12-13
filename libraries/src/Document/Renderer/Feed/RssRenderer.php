@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Document\Renderer\Feed;
 
+use Joomla\CMS\Document\FeedDocument;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
@@ -19,14 +20,13 @@ use Joomla\CMS\Uri\Uri;
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
-
 /**
  * RssRenderer is a feed that implements RSS 2.0 Specification
  *
  * @link   http://www.rssboard.org/rss-specification
  * @since  3.5
  *
- * @property-read  \Joomla\CMS\Document\FeedDocument  $_doc  Reference to the Document object that instantiated the renderer
+ * @property-read FeedDocument $_doc Reference to the Document object that instantiated the renderer
  */
 class RssRenderer extends DocumentRenderer
 {

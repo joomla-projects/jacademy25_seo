@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Templates\Administrator\View\Template;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -45,7 +46,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The Model state
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $state;
 

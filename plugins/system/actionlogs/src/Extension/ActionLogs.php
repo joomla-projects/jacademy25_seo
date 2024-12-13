@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\ActionLogs\Extension;
 
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -354,7 +355,7 @@ final class ActionLogs extends CMSPlugin
      * Method is called when an extension is being saved
      *
      * @param   string                   $context  The extension
-     * @param   \Joomla\CMS\Table\Table  $table    DataBase Table object
+     * @param Table $table DataBase Table object
      * @param   boolean                  $isNew    If the extension is new or not
      *
      * @return  void

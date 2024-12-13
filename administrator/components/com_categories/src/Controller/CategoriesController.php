@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Categories\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Response\JsonResponse;
@@ -33,7 +35,7 @@ class CategoriesController extends AdminController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  The array of possible config values. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     * @return BaseDatabaseModel The model.
      *
      * @since   1.6
      */
@@ -80,7 +82,7 @@ class CategoriesController extends AdminController
         $extension = $this->input->get('extension');
         $this->setRedirect(Route::_('index.php?option=com_categories&view=categories&extension=' . $extension, false));
 
-        /** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $model */
+        /** @var CategoryModel $model */
         $model = $this->getModel();
 
         if ($model->rebuild()) {

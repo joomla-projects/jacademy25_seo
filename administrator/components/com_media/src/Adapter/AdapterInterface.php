@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Media\Administrator\Adapter;
 
+use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -186,7 +188,7 @@ interface AdapterInterface
      * @return  string
      *
      * @since   4.0.0
-     * @throws  \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
+     * @throws FileNotFoundException
      */
     public function getUrl(string $path): string;
 

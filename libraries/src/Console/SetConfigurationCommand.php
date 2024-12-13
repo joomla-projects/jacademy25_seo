@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Console;
 
+use Joomla\Database\DatabaseInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Console\Command\AbstractCommand;
@@ -263,7 +264,7 @@ class SetConfigurationCommand extends AbstractCommand
      *
      * @param   array  $options  Options array
      *
-     * @return boolean|\Joomla\Database\DatabaseInterface
+     * @return boolean|DatabaseInterface
      *
      * @since 4.0.0
      * @throws \Exception

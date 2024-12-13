@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contact\Administrator\Controller;
 
+use Joomla\Component\Contact\Administrator\Model\ContactModel;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
@@ -101,7 +102,7 @@ class ContactController extends FormController
         $this->checkToken();
 
         // Set the model
-        /** @var \Joomla\Component\Contact\Administrator\Model\ContactModel $model */
+        /** @var ContactModel $model */
         $model = $this->getModel('Contact', 'Administrator', []);
 
         // Preset the redirect

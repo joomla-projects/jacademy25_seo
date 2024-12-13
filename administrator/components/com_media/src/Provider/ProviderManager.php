@@ -74,7 +74,7 @@ class ProviderManager
      */
     public function unregisterProvider(?ProviderInterface $provider = null): void
     {
-        if (!$provider instanceof \Joomla\Component\Media\Administrator\Provider\ProviderInterface) {
+        if (!$provider instanceof ProviderInterface) {
             $this->providers = [];
             return;
         }

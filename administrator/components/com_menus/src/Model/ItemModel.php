@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Menus\Administrator\Model;
 
+use Joomla\Cms\Table\Table;
+use Joomla\Cms\Table\Nested;
+use Joomla\CMS\Table\Menu;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -878,7 +881,7 @@ class ItemModel extends AdminModel
      * @param   string  $prefix  A prefix for the table class name. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\Cms\Table\Table|\Joomla\Cms\Table\Nested  A database object.
+     * @return Table|Nested A database object.
      *
      * @since   1.6
      */
@@ -891,7 +894,7 @@ class ItemModel extends AdminModel
      * A protected method to get the where clause for the reorder.
      * This ensures that the row will be moved relative to a row with the same menutype.
      *
-     * @param   \Joomla\CMS\Table\Menu  $table
+     * @param Menu $table
      *
      * @return  array  An array of conditions to add to add to ordering queries.
      *

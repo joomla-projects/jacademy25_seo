@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Banners\Administrator\Model;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\FormModel;
@@ -55,7 +56,7 @@ class DownloadModel extends FormModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|boolean  A Form object on success, false on failure
+     * @return Form|boolean A Form object on success, false on failure
      *
      * @since   1.6
      */

@@ -33,7 +33,7 @@ class CategoriesView extends HtmlView
     /**
      * State data
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      * @since  3.2
      */
     protected $state;

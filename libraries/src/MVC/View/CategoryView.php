@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\Registry\Registry;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -39,7 +41,7 @@ class CategoryView extends HtmlView
     /**
      * State data
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      * @since  3.2
      */
     protected $state;
@@ -47,7 +49,7 @@ class CategoryView extends HtmlView
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since  5.2.0
      */
@@ -80,7 +82,7 @@ class CategoryView extends HtmlView
     /**
      * Pagination object
      *
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      * @since  3.2
      */
     protected $pagination;

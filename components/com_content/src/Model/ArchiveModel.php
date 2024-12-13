@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
@@ -192,7 +193,7 @@ class ArchiveModel extends ArticlesModel
     /**
      * Generate column expression for slug or catslug.
      *
-     * @param   \Joomla\Database\DatabaseQuery  $query  Current query instance.
+     * @param DatabaseQuery $query Current query instance.
      * @param   string                          $id     Column id name.
      * @param   string                          $alias  Column alias name.
      *

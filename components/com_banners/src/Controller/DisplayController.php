@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Banners\Site\Controller;
 
+use Joomla\Component\Banners\Site\Model\BannerModel;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -35,7 +36,7 @@ class DisplayController extends BaseController
         $id = $this->input->getInt('id', 0);
 
         if ($id) {
-            /** @var \Joomla\Component\Banners\Site\Model\BannerModel $model */
+            /** @var BannerModel $model */
             $model = $this->getModel('Banner', 'Site', ['ignore_request' => true]);
             $model->setState('banner.id', $id);
             $model->click();

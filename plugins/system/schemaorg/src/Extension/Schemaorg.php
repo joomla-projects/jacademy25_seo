@@ -10,6 +10,8 @@
 
 namespace Joomla\Plugin\System\Schemaorg\Extension;
 
+use Joomla\CMS\Event\Model\AfterSaveEvent;
+use Joomla\CMS\Event\Model\AfterDeleteEvent;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareDataEvent;
@@ -189,7 +191,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @since   5.0.0
      */
-    public function onContentAfterSave(Model\AfterSaveEvent $event)
+    public function onContentAfterSave(AfterSaveEvent $event)
     {
         $context = $event->getContext();
         $table   = $event->getItem();
@@ -539,7 +541,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @since   5.1.3
      */
-    public function onContentAfterDelete(Model\AfterDeleteEvent $event)
+    public function onContentAfterDelete(AfterDeleteEvent $event)
     {
         $context = $event->getContext();
         $itemId  = $event->getItem()->id;

@@ -386,12 +386,10 @@ class LdapPluginTest extends UnitTestCase
 
                                         public function offsetSet(mixed $offset, mixed $value): void
                                         {
-                                            return;
                                         }
 
                                         public function offsetUnset(mixed $offset): void
                                         {
-                                            return;
                                         }
 
                                         public function count(): int
@@ -435,12 +433,10 @@ class LdapPluginTest extends UnitTestCase
 
                                     public function offsetSet(mixed $offset, mixed $value): void
                                     {
-                                        return;
                                     }
 
                                     public function offsetUnset(mixed $offset): void
                                     {
-                                        return;
                                     }
 
                                     public function count(): int

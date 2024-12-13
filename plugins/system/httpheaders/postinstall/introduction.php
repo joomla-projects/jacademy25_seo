@@ -7,7 +7,7 @@
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Factory;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -24,7 +24,7 @@ use Joomla\CMS\Factory;
  */
 function httpheaders_postinstall_condition()
 {
-    return !Joomla\CMS\Plugin\PluginHelper::isEnabled('system', 'httpheaders');
+    return !PluginHelper::isEnabled('system', 'httpheaders');
 }
 
 /**

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Administrator\Model;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
@@ -92,7 +93,7 @@ class ArticlesModel extends ListModel
      * @param   array    $data      data
      * @param   boolean  $loadData  load current data
      *
-     * @return  \Joomla\CMS\Form\Form|null  The Form object or null if the form can't be found
+     * @return Form|null The Form object or null if the form can't be found
      *
      * @since   3.2
      */

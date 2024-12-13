@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Config\Site\View\Modules;
 
+use Joomla\Component\Modules\Administrator\Model\ModuleModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -65,12 +66,12 @@ class HtmlView extends BaseHtmlView
         $lang->load('com_modules', JPATH_ADMINISTRATOR, $lang->getTag());
 
         // @todo Move and clean up
-        $module = (new \Joomla\Component\Modules\Administrator\Model\ModuleModel())->getItem(Factory::getApplication()->getInput()->getInt('id'));
+        $module = (new ModuleModel())->getItem(Factory::getApplication()->getInput()->getInt('id'));
 
         $moduleData = $module->getProperties();
         unset($moduleData['xml']);
 
-        /** @var \Joomla\Component\Config\Site\Model\ModulesModel $model */
+        /** @var ModulesModel $model */
         $model = $this->getModel();
 
         // Need to add module name to the state of model

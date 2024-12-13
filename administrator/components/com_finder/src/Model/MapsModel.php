@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Model;
 
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -268,7 +269,7 @@ class MapsModel extends ListModel
      * @param   string  $prefix  A prefix for the table class name. [optional]
      * @param   array   $config  Configuration array for model. [optional]
      *
-     * @return  \Joomla\CMS\Table\Table  A database object
+     * @return Table A database object
      *
      * @since   2.5
      */

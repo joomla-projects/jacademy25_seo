@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -32,7 +33,7 @@ class FormView extends HtmlView
     /**
      * The \JForm object
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     protected $form;
 
@@ -60,7 +61,7 @@ class FormView extends HtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $canDo;
 

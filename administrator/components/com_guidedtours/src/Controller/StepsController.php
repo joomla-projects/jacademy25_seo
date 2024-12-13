@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Controller\AdminController;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -31,7 +32,7 @@ class StepsController extends AdminController
      * @param   string $prefix The class prefix. Optional.
      * @param   array  $config The array of possible config values. Optional.
      *
-     * @return \Joomla\CMS\MVC\Model\BaseDatabaseModel
+     * @return BaseDatabaseModel
      *
      * @since 4.3.0
      */

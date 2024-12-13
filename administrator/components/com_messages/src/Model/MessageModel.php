@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Messages\Administrator\Model;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rule;
 use Joomla\CMS\Component\ComponentHelper;
@@ -202,7 +203,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure
+     * @return Form|bool A Form object on success, false on failure
      *
      * @since   1.6
      */

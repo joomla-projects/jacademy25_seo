@@ -10,9 +10,10 @@
 
 namespace Joomla\Component\Contenthistory\Api\Controller;
 
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
+use Joomla\CMS\MVC\Controller\Exception\Save;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\CMS\MVC\Controller\Exception;
 use Joomla\Component\Contenthistory\Administrator\Model\HistoryModel;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -79,13 +80,13 @@ class HistoryController extends ApiController
         $recordId = $this->input->getInt('id');
 
         if (!$recordId) {
-            throw new Exception\ResourceNotFound(Text::_('JLIB_APPLICATION_ERROR_RECORD'), 404);
+            throw new ResourceNotFound(Text::_('JLIB_APPLICATION_ERROR_RECORD'), 404);
         }
 
         $cid = [$recordId];
 
         if (!$model->keep($cid)) {
-            throw new Exception\Save(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', \count($cid)));
+            throw new Save(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', \count($cid)));
         }
 
         return $this;

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Modules\Administrator\View\Select;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -31,7 +32,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $state;
 

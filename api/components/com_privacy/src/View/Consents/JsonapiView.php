@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Privacy\Api\View\Consents;
 
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
@@ -76,7 +77,7 @@ class JsonapiView extends BaseApiView
      */
     public function displayItem($item = null)
     {
-        /** @var \Joomla\CMS\MVC\Model\ListModel $model */
+        /** @var ListModel $model */
         $model       = $this->getModel();
         $displayItem = null;
         $id          = $model->getState()->get($this->getName() . '.id');

@@ -691,7 +691,7 @@ class Update
      */
     protected function stabilityTagToInteger($tag)
     {
-        $constant = \Joomla\CMS\Updater\Updater::class . '::STABILITY_' . strtoupper($tag);
+        $constant = Updater::class . '::STABILITY_' . strtoupper($tag);
 
         if (\defined($constant)) {
             return \constant($constant);

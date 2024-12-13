@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Wrapper\Site\View\Wrapper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Uri\Uri;
@@ -36,7 +37,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      * @since  4.0.0
      */
     protected $params;

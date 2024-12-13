@@ -85,7 +85,7 @@ class Feed implements \ArrayAccess, \Countable
         }
 
         // Validate that any authors that are set are instances of JFeedPerson or null.
-        if (($name === 'author') && (!($value instanceof FeedPerson) || (!$value instanceof \Joomla\CMS\Feed\FeedPerson))) {
+        if (($name === 'author') && (!($value instanceof FeedPerson) || (!$value instanceof FeedPerson))) {
             throw new \InvalidArgumentException(
                 \sprintf(
                     '%1$s "author" must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',

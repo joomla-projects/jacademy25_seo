@@ -27,7 +27,7 @@ class InvalidParameterExceptionHandler extends \Tobscure\JsonApi\Exception\Handl
      *
      * @param   \Exception  $e  The exception being handled
      *
-     * @return  \Tobscure\JsonApi\Exception\Handler\ResponseBag
+     * @return ResponseBag
      *
      * @since  4.0.0
      */

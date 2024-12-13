@@ -41,7 +41,7 @@ class UpdateController extends BaseController
     {
         $this->checkToken();
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update');
         $user  = $this->app->getIdentity();
 
@@ -117,7 +117,7 @@ class UpdateController extends BaseController
         $this->checkToken('get');
         $this->app->setUserState('com_joomlaupdate.oldversion', JVERSION);
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update');
 
         Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), Log::INFO, 'Update');
@@ -147,7 +147,7 @@ class UpdateController extends BaseController
             return;
         }
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update');
 
         try {
@@ -201,7 +201,7 @@ class UpdateController extends BaseController
             return;
         }
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update');
 
         try {
@@ -246,7 +246,7 @@ class UpdateController extends BaseController
         $this->checkToken('request');
 
         // Purge updates
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update');
         $model->purge();
 
@@ -269,7 +269,7 @@ class UpdateController extends BaseController
         // Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
         $this->app->getIdentity()->authorise('core.admin') or jexit(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update');
 
         // Make sure logging is working before continue
@@ -344,7 +344,7 @@ class UpdateController extends BaseController
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
         }
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update');
 
         // Get the captive file before the session resets
@@ -408,7 +408,7 @@ class UpdateController extends BaseController
         // Get and render the view.
         if ($view = $this->getView($vName, $vFormat)) {
             // Get the model for the view.
-            /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+            /** @var UpdateModel $model */
             $model = $this->getModel('Update');
 
             // Push the model into the view (as default).
@@ -441,7 +441,7 @@ class UpdateController extends BaseController
         }
 
         // Get the model
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update');
 
         // Try to log in
@@ -485,7 +485,7 @@ class UpdateController extends BaseController
         $joomlaCurrentVersion = $this->input->get('joomla-current-version', '', JVERSION);
         $extensionVersion     = $this->input->get('extension-version', '', 'DEFAULT');
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model                      = $this->getModel('Update');
         $upgradeCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
         $currentCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaCurrentVersion);
@@ -575,7 +575,7 @@ class UpdateController extends BaseController
         $joomlaCurrentVersion = $this->input->post->get('joomla-current-version', JVERSION);
         $extensionInformation = $this->input->post->get('extensions', []);
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update');
 
         $extensionResults = [];

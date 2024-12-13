@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\Stats\Extension;
 
+use Joomla\CMS\Layout\LayoutInterface;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Layout\FileLayout;
@@ -292,7 +293,7 @@ final class Stats extends CMSPlugin
      *
      * @param   string  $layoutId  Layout identifier
      *
-     * @return  \Joomla\CMS\Layout\LayoutInterface
+     * @return LayoutInterface
      *
      * @since   3.5
      */

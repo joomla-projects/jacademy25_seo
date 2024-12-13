@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\Jooa11y\Extension;
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
 
@@ -180,7 +181,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         $allOptions = array_merge($getOptions, $extraProps);
         $document->addScriptOptions('jooa11yOptions', $allOptions);
 
-        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa*/
+        /** @var WebAssetManager $wa*/
         $wa = $document->getWebAssetManager();
         $wa->getRegistry()->addExtensionRegistryFile('plg_system_jooa11y');
 

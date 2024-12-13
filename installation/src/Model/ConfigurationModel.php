@@ -10,6 +10,7 @@
 
 namespace Joomla\CMS\Installation\Model;
 
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Installer\Installer;
@@ -142,7 +143,7 @@ class ConfigurationModel extends BaseInstallationModel
 
         // This is needed because the installer loads the extension table in constructor, needs to be refactored in 5.0
         // It doesn't honor the DatabaseAware interface
-        Factory::getContainer()->set(\Joomla\CMS\Table\Extension::class, new \Joomla\CMS\Table\Extension($db));
+        Factory::getContainer()->set(Extension::class, new Extension($db));
 
         $installer = Installer::getInstance();
 

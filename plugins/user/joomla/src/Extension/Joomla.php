@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\User\Joomla\Extension;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
@@ -42,7 +43,7 @@ final class Joomla extends CMSPlugin
     /**
      * Set as required the passwords fields when mail to user is set to No
      *
-     * @param   \Joomla\CMS\Form\Form  $form  The form to be altered.
+     * @param Form $form The form to be altered.
      * @param   mixed                  $data  The associated data for the form.
      *
      * @return  boolean

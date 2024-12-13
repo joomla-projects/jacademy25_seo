@@ -10,6 +10,8 @@
 
 namespace Joomla\Plugin\Workflow\Featuring\Extension;
 
+use Joomla\CMS\Event\Model\PrepareFormEvent;
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Table\BeforeStoreEvent;
@@ -88,7 +90,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function onContentPrepareForm(Model\PrepareFormEvent $event)
+    public function onContentPrepareForm(PrepareFormEvent $event)
     {
         $form = $event->getForm();
         $data = $event->getData();
@@ -269,7 +271,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
             AbstractEvent::create(
                 'onContentBeforeChangeFeatured',
                 [
-                    'eventClass'  => \Joomla\Component\Content\Administrator\Event\Model\FeatureEvent::class,
+                    'eventClass'  => FeatureEvent::class,
                     'subject'     => $this,
                     'extension'   => $context,
                     'pks'         => $pks,
@@ -372,7 +374,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function onContentBeforeSave(Model\BeforeSaveEvent $event)
+    public function onContentBeforeSave(BeforeSaveEvent $event)
     {
         $context = $event->getContext();
 

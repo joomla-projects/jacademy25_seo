@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\Filesystem\Local\Extension;
 
+use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
@@ -97,7 +98,7 @@ final class Local extends CMSPlugin implements ProviderInterface
     /**
      * Returns and array of adapters
      *
-     * @return  \Joomla\Component\Media\Administrator\Adapter\AdapterInterface[]
+     * @return AdapterInterface[]
      *
      * @since  4.0.0
      */

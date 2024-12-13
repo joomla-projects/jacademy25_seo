@@ -10,12 +10,14 @@
 
 namespace Joomla\Tests\Integration;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Base Integration Test case for common behavior across integration tests
  *
  * @since   4.0.0
  */
-abstract class IntegrationTestCase extends \PHPUnit\Framework\TestCase
+abstract class IntegrationTestCase extends TestCase
 {
     /**
      *

@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Workflow;
 
+use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
@@ -99,7 +100,7 @@ trait WorkflowServiceTrait
             AbstractEvent::create(
                 'onWorkflowFunctionalityUsed',
                 [
-                    'eventClass'    => \Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent::class,
+                    'eventClass'    => WorkflowFunctionalityUsedEvent::class,
                     'subject'       => $this,
                     'extension'     => $extension,
                     'functionality' => $functionality,

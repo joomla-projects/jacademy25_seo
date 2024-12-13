@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Scheduler\Administrator\View\Select;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -40,7 +41,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      * @since  4.1.0
      */
     protected $state;

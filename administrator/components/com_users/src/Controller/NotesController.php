@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Controller\AdminController;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -38,7 +39,7 @@ class NotesController extends AdminController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     * @return BaseDatabaseModel The model.
      *
      * @since   2.5
      */

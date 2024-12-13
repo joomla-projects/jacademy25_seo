@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Contact\Site\View\Contact;
 
+use Joomla\CMS\User\User;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Form\Form;
+use Joomla\Component\Contact\Site\Model\CategoryModel;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -35,7 +39,7 @@ use Joomla\Component\Contact\Site\Model\ContactModel;
 class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 {
     /**
-     * @var \Joomla\CMS\User\User|null
+     * @var User|null
      */
     public $contactUser;
     use UserFactoryAwareTrait;
@@ -43,7 +47,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
     /**
      * The item model state
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since  1.6
      */
@@ -52,7 +56,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
     /**
      * The form object for the contact item
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  1.6
      */
@@ -90,7 +94,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      *
      * @since  4.0.0
      */
@@ -99,7 +103,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
     /**
      * The user object
      *
-     * @var    \Joomla\CMS\User\User
+     * @var User
      *
      * @since  4.0.0
      */
@@ -187,7 +191,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         // Collect extra contact information when this information is required
         if ($item && $item->params->get('show_contact_list')) {
             // Get Category Model data
-            /** @var \Joomla\Component\Contact\Site\Model\CategoryModel $categoryModel */
+            /** @var CategoryModel $categoryModel */
             $categoryModel = $app->bootComponent('com_contact')->getMVCFactory()
                 ->createModel('Category', 'Site', ['ignore_request' => true]);
 

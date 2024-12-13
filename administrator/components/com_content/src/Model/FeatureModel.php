@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Content\Administrator\Model;
 
+use Joomla\CMS\Table\Table;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -28,7 +30,7 @@ class FeatureModel extends ArticleModel
      * @param   string  $prefix  A prefix for the table class name. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\Table\Table A database object
+     * @return Table A database object
      *
      * @since   1.6
      */

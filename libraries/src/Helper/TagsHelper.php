@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Helper;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\CoreContent;
@@ -509,7 +510,7 @@ class TagsHelper extends CMSHelper
      * @param   string   $languageFilter   Optional filter on language. Options are 'all', 'current' or any string.
      * @param   string   $stateFilter      Optional filtering on publication state, defaults to published or unpublished.
      *
-     * @return  \Joomla\Database\DatabaseQuery  Query to retrieve a list of tags
+     * @return DatabaseQuery Query to retrieve a list of tags
      *
      * @since   3.1
      */

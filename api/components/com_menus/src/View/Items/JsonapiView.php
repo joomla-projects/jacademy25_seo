@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Menus\Api\View\Items;
 
+use Joomla\Component\Menus\Administrator\Model\MenutypesModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Serializer\JoomlaSerializer;
@@ -122,7 +123,7 @@ class JsonapiView extends BaseApiView
      */
     public function displayListTypes()
     {
-        /** @var \Joomla\Component\Menus\Administrator\Model\MenutypesModel $model */
+        /** @var MenutypesModel $model */
         $model = $this->getModel();
         $items = [];
 

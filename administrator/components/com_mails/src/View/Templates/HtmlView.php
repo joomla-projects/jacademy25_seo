@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Mails\Administrator\View\Templates;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -62,7 +63,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $state;
 

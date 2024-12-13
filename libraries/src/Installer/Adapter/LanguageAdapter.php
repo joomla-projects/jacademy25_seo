@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -629,7 +630,7 @@ class LanguageAdapter extends InstallerAdapter
      * Custom discover method
      * Finds language files
      *
-     * @return  \Joomla\CMS\Table\Extension[]  Array of discovered extensions.
+     * @return Extension[] Array of discovered extensions.
      *
      * @since  3.1
      */

@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
+use Joomla\CMS\Table\Menu;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
@@ -1119,7 +1120,7 @@ class ComponentAdapter extends InstallerAdapter
     {
         $db = $this->getDatabase();
 
-        /** @var  \Joomla\CMS\Table\Menu  $table */
+        /** @var Menu $table */
         $table = Table::getInstance('menu');
 
         // Get the ids of the menu items
@@ -1362,7 +1363,7 @@ class ComponentAdapter extends InstallerAdapter
     {
         $db = $this->getDatabase();
 
-        /** @var  \Joomla\CMS\Table\Menu  $table */
+        /** @var Menu $table */
         $table  = Table::getInstance('menu');
 
         try {
@@ -1410,7 +1411,7 @@ class ComponentAdapter extends InstallerAdapter
                 return false;
             }
 
-            /** @var  \Joomla\CMS\Table\Menu $temporaryTable */
+            /** @var Menu $temporaryTable */
             $temporaryTable = Table::getInstance('menu');
             $temporaryTable->delete($menu_id, true);
             $temporaryTable->load($parentId);

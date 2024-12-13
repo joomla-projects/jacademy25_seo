@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Privacy\Administrator\View\Export;
 
+use Joomla\CMS\Document\XmlDocument;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
@@ -18,13 +19,12 @@ use Joomla\Component\Privacy\Administrator\Model\ExportModel;
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
-
 /**
  * Export view class
  *
  * @since  3.9.0
  *
- * @property-read   \Joomla\CMS\Document\XmlDocument  $document
+ * @property-read XmlDocument $document
  */
 class XmlView extends AbstractView
 {

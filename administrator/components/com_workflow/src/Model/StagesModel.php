@@ -11,6 +11,7 @@
 
 namespace Joomla\Component\Workflow\Administrator\Model;
 
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -111,7 +112,7 @@ class StagesModel extends ListModel
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\Table\Table  A Table object
+     * @return Table A Table object
      *
      * @since  4.0.0
      */

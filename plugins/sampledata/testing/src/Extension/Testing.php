@@ -10,6 +10,13 @@
 
 namespace Joomla\Plugin\SampleData\Testing\Extension;
 
+use Joomla\Component\Menus\Administrator\Model\ItemModel;
+use Joomla\Component\Tags\Administrator\Model\TagModel;
+use Joomla\Component\Banners\Administrator\Model\ClientModel;
+use Joomla\Component\Banners\Administrator\Model\BannerModel;
+use Joomla\Component\Newsfeeds\Administrator\Model\NewsfeedModel;
+use Joomla\Component\Menus\Administrator\Model\MenuModel;
+use Joomla\Component\Content\Administrator\Model\ArticleModel;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
@@ -51,7 +58,7 @@ final class Testing extends CMSPlugin
     /**
      * Holds the menuitem model
      *
-     * @var    \Joomla\Component\Menus\Administrator\Model\ItemModel
+     * @var ItemModel
      *
      * @since  3.8.0
      */
@@ -95,7 +102,7 @@ final class Testing extends CMSPlugin
             return ['success' => true, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 1, 'com_tags')];
         }
 
-        /** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
+        /** @var TagModel $model */
         $model  = $this->getApplication()->bootComponent('com_tags')->getMVCFactory()->createModel('Tag', 'Administrator', ['ignore_request' => true]);
         $access = (int) $this->getApplication()->get('access', 1);
         $user   = $this->getApplication()->getIdentity();
@@ -182,10 +189,10 @@ final class Testing extends CMSPlugin
 
         $factory = $this->getApplication()->bootComponent('com_banners')->getMVCFactory();
 
-        /** @var \Joomla\Component\Banners\Administrator\Model\ClientModel $clientModel */
+        /** @var ClientModel $clientModel */
         $clientModel = $factory->createModel('Client', 'Administrator', ['ignore_request' => true]);
 
-        /** @var \Joomla\Component\Banners\Administrator\Model\BannerModel $bannerModel */
+        /** @var BannerModel $bannerModel */
         $bannerModel = $factory->createModel('Banner', 'Administrator', ['ignore_request' => true]);
 
         $user = $this->getApplication()->getIdentity();
@@ -1240,7 +1247,7 @@ final class Testing extends CMSPlugin
             return ['success' => true, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 6, 'com_newsfeed')];
         }
 
-        /** @var \Joomla\Component\Newsfeeds\Administrator\Model\NewsfeedModel $model */
+        /** @var NewsfeedModel $model */
         $model  = $this->getApplication()->bootComponent('com_newsfeeds')->getMVCFactory()->createModel('Newsfeed', 'Administrator', ['ignore_request' => true]);
         $access = (int) $this->getApplication()->get('access', 1);
         $user   = $this->getApplication()->getIdentity();
@@ -1346,7 +1353,7 @@ final class Testing extends CMSPlugin
             return ['success' => true, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 7, 'com_menus')];
         }
 
-        /** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
+        /** @var MenuModel $model */
         $factory   = $this->getApplication()->bootComponent('com_menus')->getMVCFactory();
         $model     = $factory->createModel('Menu', 'Administrator', ['ignore_request' => true]);
         $modelItem = $factory->createModel('Item', 'Administrator', ['ignore_request' => true]);
@@ -4141,7 +4148,7 @@ final class Testing extends CMSPlugin
         $mvcFactory = $this->getApplication()->bootComponent('com_content')->getMVCFactory();
 
         foreach ($articles as $i => $article) {
-            /** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
+            /** @var ArticleModel $model */
             $model = $mvcFactory->createModel('Article', 'Administrator', ['ignore_request' => true]);
 
             // Set values from language strings.

@@ -7,6 +7,7 @@
 
 declare(strict_types=1);
 
+use Rector\CodeQuality\Rector\Class_\CompleteDynamicPropertiesRector;
 use Rector\CodeQuality\Rector\LogicalAnd\LogicalToBooleanRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\CodingStyle\Rector\Use_\SeparateMultiUseImportsRector;
@@ -14,6 +15,7 @@ use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPrivateMethodRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUselessReturnTagRector;
+use Rector\DeadCode\Rector\If_\RemoveAlwaysTrueIfConditionRector;
 use Rector\DeadCode\Rector\If_\UnwrapFutureCompatibleIfPhpVersionRector;
 use Rector\DeadCode\Rector\StaticCall\RemoveParentCallWithoutParentRector;
 use Rector\EarlyReturn\Rector\If_\ChangeOrIfContinueToMultiContinueRector;
@@ -22,56 +24,62 @@ use Rector\Set\ValueObject\SetList;
 use Rector\TypeDeclaration\Rector\ClassMethod\ReturnNeverTypeRector;
 use Rector\ValueObject\PhpVersion;
 
-return static function (RectorConfig $rectorConfig): void {
-    // Min version
-    $rectorConfig->phpVersion(PhpVersion::PHP_81);
+$rectorConfig = RectorConfig::configure();
 
-    // No short class import
-    $rectorConfig->importShortClasses(false);
+// Min version
+$rectorConfig->withPhpVersion(PhpVersion::PHP_81);
 
-    // Tabs for indentation
-    $rectorConfig->indent(' ', 4);
+// No short class import
+$rectorConfig->withImportNames(importShortClasses: false, removeUnusedImports: true);
 
-    // Complete sets with rules
-    $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_81,
-        SetList::CODE_QUALITY,
-        SetList::CODING_STYLE,
-        SetList::DEAD_CODE,
-        //SetList::EARLY_RETURN,
-        //SetList::INSTANCEOF,
-        //SetList::NAMING,
-        //SetList::PRIVATIZATION,
-        //SetList::STRICT_BOOLEANS,
-        //SetList::TYPE_DECLARATION,
-    ]);
+// Tabs for indentation
+$rectorConfig->withIndent(' ', 4);
 
-    // Skip some rules and folders/files
-    $rectorConfig->skip([
-        // Keep Joomla version compare
-        UnwrapFutureCompatibleIfPhpVersionRector::class,
-        // Keep docs
-        RemoveUselessParamTagRector::class,
-        RemoveUselessReturnTagRector::class,
-        // Keep <?php } ? on same line
-        NewlineAfterStatementRector::class,
-        // Do not remove methods and properties
-        RemoveUnusedPrivateMethodRector::class,
-        // Stay safe and do not remove code
-        RemoveParentCallWithoutParentRector::class,
-        // Keep the or in JEXEC
-        LogicalToBooleanRector::class,
-        // No return never
-        ReturnNeverTypeRector::class,
-        // No splitting if with ||
-        ChangeOrIfContinueToMultiContinueRector::class,
-        // Multiuse should be allowed in component classes
-        SeparateMultiUseImportsRector::class => ['*Component.php'],
+// Complete sets with rules
+$rectorConfig->withSets([
+    LevelSetList::UP_TO_PHP_81,
+    SetList::CODE_QUALITY,
+    SetList::CODING_STYLE,
+    SetList::DEAD_CODE,
+    //SetList::EARLY_RETURN,
+    //SetList::INSTANCEOF,
+    //SetList::NAMING,
+    //SetList::PRIVATIZATION,
+    //SetList::STRICT_BOOLEANS,
+    //SetList::TYPE_DECLARATION,
+]);
 
-        // Ignore vendor
-        '*/vendor/*',
-    ]);
+// Skip some rules and folders/files
+$rectorConfig->withSkip([
+    // Keep Joomla version compare
+    UnwrapFutureCompatibleIfPhpVersionRector::class,
+    // Keep docs
+    RemoveUselessParamTagRector::class,
+    RemoveUselessReturnTagRector::class,
+    // Keep <?php } ? on same line
+    NewlineAfterStatementRector::class,
+    // Do not remove methods and properties
+    RemoveUnusedPrivateMethodRector::class,
+    // Stay safe and do not remove code
+    RemoveParentCallWithoutParentRector::class,
+    // Keep the or in JEXEC
+    LogicalToBooleanRector::class,
+    // No return never
+    ReturnNeverTypeRector::class,
+    // No splitting if with ||
+    ChangeOrIfContinueToMultiContinueRector::class,
+    // Multiuse should be allowed in component classes
+    SeparateMultiUseImportsRector::class => ['*Component.php'],
+    // JLoader check
+    RemoveAlwaysTrueIfConditionRector::class => [__DIR__ . '/../libraries/bootstrap.php'],
+    // Do not add $app and $db as properties
+    CompleteDynamicPropertiesRector::class => [__DIR__ . '/../libraries/src/Plugin/CMSPlugin.php'],
 
-    // The bootstrap file, which finds the core classes and loads the extension namespace
-    $rectorConfig->bootstrapFiles([__DIR__ . '/phpstan/joomla-bootstrap.php']);
-};
+    // Ignore vendor
+    '*/vendor/*'
+]);
+
+// The bootstrap file, which finds the core classes and loads the extension namespace
+$rectorConfig->withBootstrapFiles([__DIR__ . '/phpstan/joomla-bootstrap.php']);
+
+return $rectorConfig;

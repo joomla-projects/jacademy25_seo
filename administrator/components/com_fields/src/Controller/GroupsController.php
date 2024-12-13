@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Fields\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Controller\AdminController;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -39,7 +40,7 @@ class GroupsController extends AdminController
      * @param   string  $prefix  The prefix for the PHP class name.
      * @param   array   $config  Array of configuration parameters.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
+     * @return BaseDatabaseModel
      *
      * @since   3.7.0
      */

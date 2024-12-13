@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Form;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Field\SubformField;
@@ -1102,7 +1103,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                             static::class,
                             $this->element['name'],
                             $class,
-                            \Joomla\CMS\Component\ComponentHelper::class
+                            ComponentHelper::class
                         )
                     );
                 }

@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Service\Provider;
 
+use Joomla\Database\Monitor\DebugMonitor;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Mysql\MysqlDriver;
@@ -114,7 +115,7 @@ class Database implements ServiceProviderInterface
                     }
 
                     if (JDEBUG) {
-                        $options['monitor'] = new \Joomla\Database\Monitor\DebugMonitor();
+                        $options['monitor'] = new DebugMonitor();
                     }
 
                     try {

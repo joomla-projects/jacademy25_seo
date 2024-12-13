@@ -52,7 +52,7 @@ class NotequalsRule extends FormRule
             throw new \UnexpectedValueException(\sprintf('$field empty in %s::test', static::class));
         }
 
-        if (!$input instanceof \Joomla\Registry\Registry) {
+        if (!$input instanceof Registry) {
             throw new \InvalidArgumentException(\sprintf('The value for $input must not be null in %s', static::class));
         }
         // Test the two values against each other.

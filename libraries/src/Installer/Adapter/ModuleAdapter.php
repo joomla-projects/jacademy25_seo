@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
+use Joomla\CMS\Table\Module;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
@@ -258,7 +259,7 @@ class ModuleAdapter extends InstallerAdapter
             }
 
             // Wipe out any instances in the modules table
-            /** @var \Joomla\CMS\Table\Module $module */
+            /** @var Module $module */
             $module = Table::getInstance('Module');
 
             foreach ($modules as $modInstanceId) {
@@ -629,7 +630,7 @@ class ModuleAdapter extends InstallerAdapter
             // Create unpublished module
             $name = preg_replace('#[\*?]#', '', Text::_($this->name));
 
-            /** @var \Joomla\CMS\Table\Module $module */
+            /** @var Module $module */
             $module            = Table::getInstance('module');
             $module->title     = $name;
             $module->content   = '';

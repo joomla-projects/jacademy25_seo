@@ -10,6 +10,7 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Mail;
 
+use PHPMailer\PHPMailer\PHPMailer\PHPMailer\Exception;
 use Joomla\CMS\Mail\Mail;
 use Joomla\Tests\Unit\UnitTestCase;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -108,7 +109,7 @@ class MailTest extends UnitTestCase
      *
      * @return void
      * @since         4.0.0
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      */
     public function testAddRecipient($recipient, $name, $expected)
     {
@@ -130,7 +131,7 @@ class MailTest extends UnitTestCase
      *
      * @return void
      * @since         4.0.0
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      */
     public function testAddCc($recipient, $name, $expected)
     {
@@ -150,7 +151,7 @@ class MailTest extends UnitTestCase
      *
      * @return void
      * @since         4.0.0
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      * @dataProvider  seedTestAdd
      */
     public function testAddBcc($recipient, $name, $expected)
@@ -208,7 +209,7 @@ class MailTest extends UnitTestCase
      *
      * @return void
      * @since         4.0.0
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      */
     public function testAddReplyTo($recipient, $name, $expected)
     {
@@ -223,7 +224,7 @@ class MailTest extends UnitTestCase
      * @return void
      *
      * @since   4.0.0
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      */
     public function testAddAttachment()
     {

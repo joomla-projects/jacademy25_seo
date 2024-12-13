@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\Debug\Storage;
 
+use Joomla\CMS\User\User;
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Filesystem\File;
@@ -172,7 +173,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
             return false;
         }
 
-        /** @var \Joomla\CMS\User\User $user */
+        /** @var User $user */
         $user = Factory::getContainer()->get(UserFactoryInterface::class)
             ->loadUserById($data['juser']['user_id']);
         // Super users are allowed to look at other users requests. Otherwise users can only see their own requests.

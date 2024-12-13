@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Languages\Administrator\View\Overrides;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -63,7 +64,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Form object for search filters
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     public $filterForm;
 

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Event\Installer\AfterInstallerEvent;
 use Joomla\CMS\Event\Installer\BeforeInstallationEvent;
 use Joomla\CMS\Event\Installer\BeforeInstallerEvent;
@@ -38,7 +39,7 @@ use Joomla\Filesystem\Path;
 class InstallModel extends BaseDatabaseModel
 {
     /**
-     * @var \Joomla\CMS\Table\Table Table object
+     * @var Table Table object
      */
     protected $_table;
 

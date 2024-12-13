@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Document;
 
+use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
@@ -538,7 +539,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
 
         if ($this->_caching == true && $type === 'modules' && $name !== 'debug') {
             /** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer  $renderer */
-            /** @var  \Joomla\CMS\Cache\Controller\OutputController  $cache */
+            /** @var OutputController $cache */
             $cache  = $this->getCacheControllerFactory()->createCacheController('output', ['defaultgroup' => 'com_modules']);
             $itemId = (int) CmsFactory::getApplication()->getInput()->get('Itemid', 0, 'int');
 

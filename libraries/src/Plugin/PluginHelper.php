@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Plugin;
 
+use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
@@ -166,7 +167,7 @@ abstract class PluginHelper
         // Check for the default args, if so we can optimise cheaply
         $defaults = false;
 
-        if ($plugin === null && $autocreate === true && !$dispatcher instanceof \Joomla\Event\DispatcherInterface) {
+        if ($plugin === null && $autocreate === true && !$dispatcher instanceof DispatcherInterface) {
             $defaults = true;
         }
 
@@ -257,7 +258,7 @@ abstract class PluginHelper
 
         $levels = Factory::getUser()->getAuthorisedViewLevels();
 
-        /** @var \Joomla\CMS\Cache\Controller\CallbackController $cache */
+        /** @var CallbackController $cache */
         $cache = Factory::getCache('com_plugins', 'callback');
 
         $loader = function () use ($levels) {

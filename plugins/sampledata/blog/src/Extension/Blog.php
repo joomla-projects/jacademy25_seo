@@ -10,6 +10,12 @@
 
 namespace Joomla\Plugin\SampleData\Blog\Extension;
 
+use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
+use Joomla\Component\Workflow\Administrator\Table\StageTable;
+use Joomla\Component\Workflow\Administrator\Table\TransitionTable;
+use Joomla\Component\Menus\Administrator\Table\MenuTypeTable;
+use Joomla\Component\Menus\Administrator\Model\ItemModel;
+use Joomla\Component\Modules\Administrator\Model\ModuleModel;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
@@ -47,7 +53,7 @@ final class Blog extends CMSPlugin
     /**
      * Holds the menuitem model
      *
-     * @var    \Joomla\Component\Menus\Administrator\Model\ItemModel
+     * @var ItemModel
      *
      * @since  3.8.0
      */
@@ -237,7 +243,7 @@ final class Blog extends CMSPlugin
             $this->getApplication()->bootComponent('com_workflow');
 
             // Create workflow
-            $workflowTable = new \Joomla\Component\Workflow\Administrator\Table\WorkflowTable($this->getDatabase());
+            $workflowTable = new WorkflowTable($this->getDatabase());
 
             $workflowTable->default         = 0;
             $workflowTable->title           = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_SAMPLE_TITLE') . $langSuffix;
@@ -256,7 +262,7 @@ final class Blog extends CMSPlugin
 
             // Create Stages.
             for ($i = 1; $i <= 9; $i++) {
-                $stageTable = new \Joomla\Component\Workflow\Administrator\Table\StageTable($this->getDatabase());
+                $stageTable = new StageTable($this->getDatabase());
 
                 // Set values from language strings.
                 $stageTable->title       = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE' . $i . '_TITLE');
@@ -399,7 +405,7 @@ final class Blog extends CMSPlugin
 
             // Create Transitions.
             foreach ($fromTo as $i => $item) {
-                $trTable = new \Joomla\Component\Workflow\Administrator\Table\TransitionTable($this->getDatabase());
+                $trTable = new TransitionTable($this->getDatabase());
 
                 $trTable->from_stage_id = $item['from_stage_id'];
                 $trTable->to_stage_id   = $item['to_stage_id'];
@@ -746,7 +752,7 @@ final class Blog extends CMSPlugin
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
         // Create the menu types.
-        $menuTable = new \Joomla\Component\Menus\Administrator\Table\MenuTypeTable($this->getDatabase());
+        $menuTable = new MenuTypeTable($this->getDatabase());
         $menuTypes = [];
 
         for ($i = 0; $i <= 2; $i++) {
@@ -1271,7 +1277,7 @@ final class Blog extends CMSPlugin
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
         // Add Include Paths.
-        /** @var \Joomla\Component\Modules\Administrator\Model\ModuleModel $model */
+        /** @var ModuleModel $model */
         $model = $this->getApplication()->bootComponent('com_modules')->getMVCFactory()
             ->createModel('Module', 'Administrator', ['ignore_request' => true]);
         $access = (int) $this->getApplication()->get('access', 1);

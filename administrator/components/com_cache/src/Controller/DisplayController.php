@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Cache\Administrator\Controller;
 
+use Joomla\Component\Cache\Administrator\Model\CacheModel;
 use Joomla\CMS\Event\Cache\AfterPurgeEvent;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -107,7 +108,7 @@ class DisplayController extends BaseController
         // Check for request forgeries
         $this->checkToken();
 
-        /** @var \Joomla\Component\Cache\Administrator\Model\CacheModel $model */
+        /** @var CacheModel $model */
         $model      = $this->getModel('cache');
         $allCleared = true;
 

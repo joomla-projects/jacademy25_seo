@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\Finder\Site\Helper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Router\Route;
@@ -57,7 +58,7 @@ class FinderHelper
     /**
      * Get Smart Search query object.
      *
-     * @param   \Joomla\Registry\Registry  $params  Module parameters.
+     * @param Registry $params Module parameters.
      *
      * @return  Query object
      *

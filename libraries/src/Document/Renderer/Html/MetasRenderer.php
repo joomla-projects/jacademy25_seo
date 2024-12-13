@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Document\Renderer\Html;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Event\Application\BeforeCompileHeadEvent;
 use Joomla\CMS\Factory;
@@ -47,7 +48,7 @@ class MetasRenderer extends DocumentRenderer
             $this->_doc->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($this->_doc->_metaTags['name']['tags']));
         }
 
-        /** @var \Joomla\CMS\Application\CMSApplication $app */
+        /** @var CMSApplication $app */
         $app = Factory::getApplication();
         $wa  = $this->_doc->getWebAssetManager();
 

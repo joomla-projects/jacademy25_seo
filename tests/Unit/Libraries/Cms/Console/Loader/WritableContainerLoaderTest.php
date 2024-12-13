@@ -10,6 +10,7 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Console\Loader;
 
+use Symfony\Component\Console\Exception\CommandNotFoundException;
 use Joomla\CMS\Console\Loader\WritableContainerLoader;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Tests\Unit\UnitTestCase;
@@ -50,7 +51,7 @@ class WritableContainerLoaderTest extends UnitTestCase
      */
     public function testTheLoaderCanBeWrittenTo()
     {
-        $command = $this->createMock(AbstractCommand::class);
+        $this->createMock(AbstractCommand::class);
 
         $commandName = 'test:command';
         $serviceId   = 'test.loader';
@@ -104,7 +105,7 @@ class WritableContainerLoaderTest extends UnitTestCase
         $commandName = 'test:loader';
         $serviceId   = 'test.loader';
 
-        $this->expectException(\Symfony\Component\Console\Exception\CommandNotFoundException::class);
+        $this->expectException(CommandNotFoundException::class);
 
         $this->container->expects($this->once())
             ->method('has')

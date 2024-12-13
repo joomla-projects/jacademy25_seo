@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\Skipto\Extension;
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -95,7 +96,7 @@ final class Skipto extends CMSPlugin
             ]
         );
 
-        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        /** @var WebAssetManager $wa */
         $wa = $document->getWebAssetManager();
         $wa->useScript('skipto');
     }

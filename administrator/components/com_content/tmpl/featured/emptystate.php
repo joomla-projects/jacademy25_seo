@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Component\Content\Administrator\View\Featured\HtmlView;
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_content
@@ -12,8 +14,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
-/** @var \Joomla\Component\Content\Administrator\View\Featured\HtmlView $this */
-
+/** @var HtmlView $this */
 $displayData = [
     'textPrefix' => 'COM_CONTENT',
     'formURL'    => 'index.php?option=com_content&view=featured',

@@ -10,6 +10,7 @@
 
 namespace Joomla\CMS\Installation\Application;
 
+use Joomla\CMS\Application\ExtensionNamespaceMapper;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Date\Date;
@@ -41,7 +42,7 @@ use Joomla\Session\SessionEvent;
  */
 final class InstallationApplication extends CMSApplication
 {
-    use \Joomla\CMS\Application\ExtensionNamespaceMapper;
+    use ExtensionNamespaceMapper;
 
     /**
      * Class constructor.
@@ -349,7 +350,7 @@ final class InstallationApplication extends CMSApplication
         $langfiles = [];
 
         // If db connection, fetch them from the database.
-        if ($db instanceof \Joomla\Database\DatabaseInterface) {
+        if ($db instanceof DatabaseInterface) {
             foreach (LanguageHelper::getInstalledLanguages(null, null, null, null, null, null, $db) as $clientId => $language) {
                 $clientName = $clientId === 0 ? 'site' : 'admin';
 
@@ -477,7 +478,7 @@ final class InstallationApplication extends CMSApplication
      */
     public function loadDocument(?Document $document = null)
     {
-        if (!$document instanceof \Joomla\CMS\Document\Document) {
+        if (!$document instanceof Document) {
             $lang = $this->getLanguage();
             $type = $this->input->get('format', 'html', 'word');
             $date = new Date('now');

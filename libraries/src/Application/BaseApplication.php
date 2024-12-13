@@ -31,7 +31,7 @@ use Joomla\Registry\Registry;
 abstract class BaseApplication extends AbstractApplication
 {
     /**
-     * @var \Joomla\CMS\Input\Input
+     * @var Input
      */
     public $input;
     use EventAware;

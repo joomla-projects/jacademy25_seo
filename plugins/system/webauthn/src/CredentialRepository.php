@@ -407,7 +407,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
     {
         $publicKeyCredentialSource = $this->findOneByCredentialId($credentialId);
 
-        if (!$publicKeyCredentialSource instanceof \Webauthn\PublicKeyCredentialSource) {
+        if (!$publicKeyCredentialSource instanceof PublicKeyCredentialSource) {
             return '';
         }
 

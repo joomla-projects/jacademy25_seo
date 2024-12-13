@@ -332,7 +332,7 @@ abstract class Mfa
     public static function canShowConfigurationInterface(?User $user = null): bool
     {
         // If I have no user to check against that's all the checking I can do.
-        if (!$user instanceof \Joomla\CMS\User\User) {
+        if (!$user instanceof User) {
             return false;
         }
 

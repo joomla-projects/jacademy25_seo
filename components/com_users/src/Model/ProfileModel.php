@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Site\Model;
 
+use Joomla\Component\Users\Administrator\Helper\Mfa;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -322,7 +323,7 @@ class ProfileModel extends FormModel
     {
         @trigger_error(
             \sprintf(
-                '%s() is deprecated. Use ' . \Joomla\Component\Users\Administrator\Helper\Mfa::class . '::getUserMfaRecords() instead.',
+                '%s() is deprecated. Use ' . Mfa::class . '::getUserMfaRecords() instead.',
                 __METHOD__
             ),
             E_USER_DEPRECATED

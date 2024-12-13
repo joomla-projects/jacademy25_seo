@@ -238,7 +238,7 @@ class StepsModel extends ListModel
                 $app    = Factory::getApplication();
                 $tourId = $item->tour_id;
 
-                /** @var \Joomla\Component\Guidedtours\Administrator\Model\TourModel $tourModel */
+                /** @var TourModel $tourModel */
                 $tourModel = $app->bootComponent('com_guidedtours')
                                  ->getMVCFactory()->createModel('Tour', 'Administrator', [ 'ignore_request' => true ]);
 

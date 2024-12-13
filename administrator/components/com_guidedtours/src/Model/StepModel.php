@@ -110,7 +110,7 @@ class StepModel extends AdminModel
     /**
      * Prepare and sanitise the table prior to saving.
      *
-     * @param   \Joomla\CMS\Table\Table  $table  The Table object
+     * @param Table $table The Table object
      *
      * @return  void
      *
@@ -240,7 +240,7 @@ class StepModel extends AdminModel
         if ($result = parent::getItem($pk)) {
             $app = Factory::getApplication();
 
-            /** @var \Joomla\Component\Guidedtours\Administrator\Model\TourModel $tourModel */
+            /** @var TourModel $tourModel */
             $tourModel = $app->bootComponent('com_guidedtours')
             ->getMVCFactory()->createModel('Tour', 'Administrator', ['ignore_request' => true]);
 

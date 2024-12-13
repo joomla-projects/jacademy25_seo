@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\WebServices\Languages\Extension;
 
+use Joomla\Component\Languages\Administrator\Model\LanguagesModel;
 use Joomla\CMS\Event\Application\BeforeApiRouteEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\ApiRouter;
@@ -84,7 +85,7 @@ final class Languages extends CMSPlugin implements SubscriberInterface
 
         $router->addRoutes($routes);
 
-        /** @var \Joomla\Component\Languages\Administrator\Model\LanguagesModel $model */
+        /** @var LanguagesModel $model */
         $model = $this->getApplication()->bootComponent('com_languages')
             ->getMVCFactory()->createModel('Languages', 'Administrator', ['ignore_request' => true]);
 

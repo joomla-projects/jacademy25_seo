@@ -10,9 +10,10 @@
 
 namespace Joomla\Component\Mails\Administrator\Controller;
 
+use Joomla\CMS\Event\Model\NormaliseRequestDataEvent;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
-use Joomla\CMS\Event\Model;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -152,7 +153,7 @@ class TemplateController extends FormController
         // Check for request forgeries.
         $this->checkToken();
 
-        /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+        /** @var AdminModel $model */
         $model   = $this->getModel();
         $data    = $this->input->post->get('jform', [], 'array');
         $context = sprintf('%s.edit.%s', $this->option, $this->context);
@@ -194,7 +195,7 @@ class TemplateController extends FormController
         $objData = (object) $data;
         $this->getDispatcher()->dispatch(
             'onContentNormaliseRequestData',
-            new Model\NormaliseRequestDataEvent('onContentNormaliseRequestData', [
+            new NormaliseRequestDataEvent('onContentNormaliseRequestData', [
                 'context' => $this->option . '.' . $this->context,
                 'data'    => $objData,
                 'subject' => $form,

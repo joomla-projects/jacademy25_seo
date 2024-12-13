@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Config\Administrator\Controller;
 
+use Joomla\Component\Config\Administrator\Model\ComponentModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -70,7 +71,7 @@ class ComponentController extends FormController
         $user    = $this->app->getIdentity();
         $context = sprintf('%s.edit.%s.%s', $this->option, $this->context, $option);
 
-        /** @var \Joomla\Component\Config\Administrator\Model\ComponentModel $model */
+        /** @var ComponentModel $model */
         $model = $this->getModel('Component', 'Administrator');
         $model->setState('component.option', $option);
 

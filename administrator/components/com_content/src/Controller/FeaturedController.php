@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Content\Administrator\Controller;
 
+use Joomla\Component\Content\Administrator\Model\FeatureModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Response\JsonResponse;
 
@@ -58,7 +60,7 @@ class FeaturedController extends ArticlesController
         if ($ids === []) {
             $this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
         } else {
-            /** @var \Joomla\Component\Content\Administrator\Model\FeatureModel $model */
+            /** @var FeatureModel $model */
             $model = $this->getModel();
 
             // Remove the items.
@@ -91,7 +93,7 @@ class FeaturedController extends ArticlesController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     * @return BaseDatabaseModel The model.
      *
      * @since   1.6
      */

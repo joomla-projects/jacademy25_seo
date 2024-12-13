@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Redirect\Administrator\Controller;
 
+use Joomla\String\StringHelper;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -106,7 +108,7 @@ class LinksController extends AdminController
      * @param   string  $prefix  The prefix of the model.
      * @param   array   $config  An array of settings.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel The model instance
+     * @return BaseDatabaseModel The model instance
      *
      * @since   1.6
      */
@@ -136,7 +138,7 @@ class LinksController extends AdminController
                 $separator = $params->get('separator', '|');
 
                 // Basic check to make sure the correct separator is being used
-                if (!\Joomla\String\StringHelper::strpos($batch_urls_line, $separator)) {
+                if (!StringHelper::strpos($batch_urls_line, $separator)) {
                     $this->setMessage(Text::sprintf('COM_REDIRECT_NO_SEPARATOR_FOUND', $separator), 'error');
                     $this->setRedirect('index.php?option=com_redirect&view=links');
 

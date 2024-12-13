@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\Debug\Extension;
 
+use Joomla\Database\Monitor\DebugMonitor;
 use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
@@ -105,7 +106,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     /**
      * The query monitor.
      *
-     * @var    \Joomla\Database\Monitor\DebugMonitor
+     * @var DebugMonitor
      * @since  4.0.0
      */
     private $queryMonitor;
@@ -587,7 +588,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
                     foreach ($entry->callStack as $stackEntry) {
                         if (
                             !empty($stackEntry['class'])
-                            && ($stackEntry['class'] === \Joomla\CMS\Log\LogEntry::class || $stackEntry['class'] === \Joomla\CMS\Log\Log::class)
+                            && ($stackEntry['class'] === LogEntry::class || $stackEntry['class'] === Log::class)
                         ) {
                             continue;
                         }

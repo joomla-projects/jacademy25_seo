@@ -175,7 +175,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         }
 
         $extension = strtolower($extension);
-        $lang      = $this->getApplication() instanceof \Joomla\CMS\Application\CMSApplicationInterface ? $this->getApplication()->getLanguage() : Factory::getLanguage();
+        $lang      = $this->getApplication() instanceof CMSApplicationInterface ? $this->getApplication()->getLanguage() : Factory::getLanguage();
 
         // If language already loaded, don't load it again.
         if ($lang->getPaths($extension)) {

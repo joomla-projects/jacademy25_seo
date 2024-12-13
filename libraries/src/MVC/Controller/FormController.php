@@ -9,10 +9,11 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
+use Joomla\CMS\Event\Model\NormaliseRequestDataEvent;
+use Joomla\CMS\Form\Form;
 use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\Model;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\Form\FormFactoryInterface;
@@ -625,7 +626,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         $objData = (object) $data;
         $this->getDispatcher()->dispatch(
             'onContentNormaliseRequestData',
-            new Model\NormaliseRequestDataEvent('onContentNormaliseRequestData', [
+            new NormaliseRequestDataEvent('onContentNormaliseRequestData', [
                 'context' => $this->option . '.' . $this->context,
                 'data'    => $objData,
                 'subject' => $form,
@@ -841,7 +842,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             false
         );
 
-        /** @var \Joomla\CMS\Form\Form $form */
+        /** @var Form $form */
         $form = $model->getForm($data, false);
 
         /**

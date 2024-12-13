@@ -767,7 +767,7 @@ class WebAssetManager implements WebAssetManagerInterface
             return $this;
         }
 
-        if ($asset instanceof \Joomla\CMS\WebAsset\WebAssetItem) {
+        if ($asset instanceof WebAssetItem) {
             // Get all dependencies of given asset recursively
             $allDependencies = $this->getDependenciesForAsset($type, $asset, true);
 

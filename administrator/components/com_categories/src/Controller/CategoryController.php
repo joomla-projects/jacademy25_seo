@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Categories\Administrator\Controller;
 
+use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -181,7 +182,7 @@ class CategoryController extends FormController
     {
         $this->checkToken();
 
-        /** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $model */
+        /** @var CategoryModel $model */
         $model = $this->getModel('Category');
 
         // Preset the redirect
@@ -233,7 +234,7 @@ class CategoryController extends FormController
     /**
      * Function that allows child controller access to model data after the data has been saved.
      *
-     * @param   \Joomla\CMS\MVC\Model\BaseDatabaseModel  $model      The data model object.
+     * @param BaseDatabaseModel $model The data model object.
      * @param   array                                    $validData  The validated data.
      *
      * @return  void

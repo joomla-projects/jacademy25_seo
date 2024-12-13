@@ -132,7 +132,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
         if ($this->getApplication()->isClient('site')) {
             $levels = $this->getApplication()->getIdentity()->getAuthorisedViewLevels();
 
-            foreach ($this->sefs as $sef => $language) {
+            foreach ($this->sefs as $language) {
                 // @todo: In Joomla 2.5.4 and earlier access wasn't set. Non modified Content Languages got 0 as access value
                 // we also check if frontend language exists and is enabled
                 if (
@@ -147,7 +147,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             // Set current language to default site language, fallback to en-GB if there is no content language for the default site language.
             $this->current_lang = isset($this->lang_codes[$this->default_lang]) ? $this->default_lang : 'en-GB';
 
-            foreach ($this->sefs as $sef => $language) {
+            foreach ($this->sefs as $language) {
                 if (!\array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0))) {
                     unset($this->lang_codes[$language->lang_code]);
                     unset($this->sefs[$language->sef]);
@@ -605,7 +605,6 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      * @param   array  $user     Holds the user data.
      * @param   array  $options  Array holding options (remember, autoregister, group).
      *
-     * @return  null
      *
      * @since   1.5
      */

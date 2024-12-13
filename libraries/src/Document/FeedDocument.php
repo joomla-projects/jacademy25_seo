@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Document;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\Feed\FeedImage;
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory as CmsFactory;
@@ -68,7 +69,7 @@ class FeedDocument extends Document
     /**
      * Lastbuild date feed element
      *
-     * @var    \Joomla\CMS\Date\Date
+     * @var Date
      * @since  1.7.0
      */
     public $lastBuildDate;

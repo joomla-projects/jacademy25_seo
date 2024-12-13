@@ -47,7 +47,7 @@ trait UserProfileFields
      * @var   User|null
      * @since 4.0.0
      */
-    private static $userFromFormData = null;
+    private static $userFromFormData;
 
     /**
      * HTMLHelper method to render the WebAuthn user profile field in the profile view page.
@@ -225,7 +225,7 @@ trait UserProfileFields
     private function canEditUser(?User $user = null): bool
     {
         // I can edit myself, but Guests can't have passwordless logins associated
-        if (!$user instanceof \Joomla\CMS\User\User || $user->guest) {
+        if (!$user instanceof User || $user->guest) {
             return true;
         }
 

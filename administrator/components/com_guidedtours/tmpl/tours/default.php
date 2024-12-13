@@ -18,7 +18,6 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\Component\Guidedtours\Administrator\View\Tours\HtmlView;
 
 /** @var  HtmlView  $this */
 

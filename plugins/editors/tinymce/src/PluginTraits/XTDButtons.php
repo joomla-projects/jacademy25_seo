@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
@@ -44,7 +45,7 @@ trait XTDButtons
             return [];
         }
 
-        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        /** @var WebAssetManager $wa */
         $wa       = $this->application->getDocument()->getWebAssetManager();
         $editorId = $options['editorId'] ?? '';
 

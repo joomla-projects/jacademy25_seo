@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Templates\Administrator\View\Templates;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -67,7 +68,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Form object for search filters
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  4.0.0
      */

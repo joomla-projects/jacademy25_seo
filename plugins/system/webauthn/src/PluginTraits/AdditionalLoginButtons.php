@@ -10,9 +10,9 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Document\HtmlDocument;
-use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
@@ -177,7 +177,7 @@ trait AdditionalLoginButtons
         // Set the "don't load again" flag
         $this->injectedCSSandJS = true;
 
-        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        /** @var WebAssetManager $wa */
         $wa = $this->getApplication()->getDocument()->getWebAssetManager();
 
         if (!$wa->assetExists('style', 'plg_system_webauthn.button')) {

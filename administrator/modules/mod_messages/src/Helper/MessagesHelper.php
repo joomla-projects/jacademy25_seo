@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\Messages\Administrator\Helper;
 
+use Joomla\Component\Messages\Administrator\Model\MessagesModel;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\Registry\Registry;
 
@@ -39,8 +40,7 @@ class MessagesHelper
         // Try to get the items from the messages model
         try {
             /**
-             *  @var \Joomla\Component\Messages\Administrator\Model\MessagesModel $messagesModel
-             *
+             * @var MessagesModel $messagesModel
              */
             $messagesModel = $app->bootComponent('com_messages')->getMVCFactory()
                 ->createModel('Messages', 'Administrator', ['ignore_request' => true]);

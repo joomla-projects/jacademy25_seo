@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Tags\Site\View\Tag;
 
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\MenuItem;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -34,7 +35,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since  3.1
      */
@@ -77,7 +78,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      *
      * @since  3.1
      */

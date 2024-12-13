@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Menus\Administrator\Controller;
 
+use Joomla\Component\Menus\Administrator\Model\ItemModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -102,7 +103,7 @@ class ItemsController extends AdminController
 
         $this->setRedirect('index.php?option=com_menus&view=items&menutype=' . $this->input->getCmd('menutype'));
 
-        /** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
+        /** @var ItemModel $model */
         $model = $this->getModel();
 
         if ($model->rebuild()) {

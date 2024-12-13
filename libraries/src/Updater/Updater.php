@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Updater;
 
+use Joomla\CMS\Table\Update;
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Adapter\Adapter;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
@@ -166,7 +168,7 @@ class Updater extends Adapter
             if (!empty($updateObjects)) {
                 $retval = true;
 
-                /** @var \Joomla\CMS\Table\Update $update */
+                /** @var Update $update */
                 foreach ($updateObjects as $update) {
                     $update->check();
                     $update->store();
@@ -289,14 +291,14 @@ class Updater extends Adapter
             }
 
             if (\array_key_exists('updates', $update_result) && \count($update_result['updates'])) {
-                /** @var \Joomla\CMS\Table\Update $current_update */
+                /** @var Update $current_update */
                 foreach ($update_result['updates'] as $current_update) {
                     $current_update->extra_query = $updateSite['extra_query'];
 
-                    /** @var \Joomla\CMS\Table\Update $update */
+                    /** @var Update $update */
                     $update = Table::getInstance('update');
 
-                    /** @var \Joomla\CMS\Table\Extension $extension */
+                    /** @var Extension $extension */
                     $extension = Table::getInstance('extension');
 
                     $uid = $update

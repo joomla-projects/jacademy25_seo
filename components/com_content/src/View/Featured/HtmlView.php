@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Content\Site\View\Featured;
 
+use Joomla\Registry\Registry;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\Database\DatabaseDriver;
+use Joomla\CMS\User\User;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -32,7 +36,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $state;
 
@@ -46,7 +50,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object.
      *
-     * @var  \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      */
     protected $pagination;
 
@@ -72,7 +76,7 @@ class HtmlView extends BaseHtmlView
     protected $link_items = [];
 
     /**
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      *
      * @since  3.6.3
      *
@@ -85,7 +89,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The user object
      *
-     * @var \Joomla\CMS\User\User|null
+     * @var User|null
      */
     protected $user;
 
@@ -101,7 +105,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      *
      * @since  4.0.0
      */
@@ -132,7 +136,7 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        /** @var \Joomla\Registry\Registry $params */
+        /** @var Registry $params */
         $params = $state->params;
 
         // PREPARE THE DATA

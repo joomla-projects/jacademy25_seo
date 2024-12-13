@@ -13,7 +13,6 @@ namespace Joomla\Component\Scheduler\Administrator\Table;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;

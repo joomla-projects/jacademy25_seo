@@ -10,6 +10,7 @@
 
 namespace Joomla\CMS\Installation\Service\Provider;
 
+use Joomla\Event\DispatcherInterface;
 use Joomla\CMS\Error\Renderer\JsonRenderer;
 use Joomla\CMS\Input\Input as CMSInput;
 use Joomla\CMS\Installation\Application\CliInstallationApplication;
@@ -48,7 +49,7 @@ class Application implements ServiceProviderInterface
             InstallationApplication::class,
             function (Container $container) {
                 $app = new InstallationApplication($container->get(CMSInput::class), $container->get('config'), null, $container);
-                $app->setDispatcher($container->get(\Joomla\Event\DispatcherInterface::class));
+                $app->setDispatcher($container->get(DispatcherInterface::class));
                 $app->setLogger($container->get(LoggerInterface::class));
                 $app->setSession($container->get(SessionInterface::class));
 
@@ -67,7 +68,7 @@ class Application implements ServiceProviderInterface
 
                 $app = new CliInstallationApplication(null, null, $container->get('config'), $lang);
 
-                $app->setDispatcher($container->get(\Joomla\Event\DispatcherInterface::class));
+                $app->setDispatcher($container->get(DispatcherInterface::class));
                 $app->setLogger($container->get(LoggerInterface::class));
                 $app->setSession($container->get(SessionInterface::class));
 

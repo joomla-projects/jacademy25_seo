@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Content\Administrator\Model;
 
+use Joomla\CMS\Table\Table;
+use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
@@ -330,7 +332,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     /**
      * Prepare and sanitise the table data prior to saving.
      *
-     * @param   \Joomla\CMS\Table\Table  $table  A Table object.
+     * @param Table $table A Table object.
      *
      * @return  void
      *
@@ -688,7 +690,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                 'published' => 1,
             ];
 
-            /** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $categoryModel */
+            /** @var CategoryModel $categoryModel */
             $categoryModel = Factory::getApplication()->bootComponent('com_categories')
                 ->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
 

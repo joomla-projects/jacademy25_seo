@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Plugins\Administrator\Field;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Form\Field\OrderingField;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -34,7 +35,7 @@ class PluginorderingField extends OrderingField
     /**
      * Builds the query for the ordering list.
      *
-     * @return  \Joomla\Database\DatabaseQuery  The query for the ordering form field.
+     * @return DatabaseQuery The query for the ordering form field.
      */
     protected function getQuery()
     {

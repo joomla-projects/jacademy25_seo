@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\Menu\Site\Helper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory;
@@ -30,7 +31,7 @@ class MenuHelper
     /**
      * Get a list of the menu items.
      *
-     * @param   \Joomla\Registry\Registry  &$params  The module options.
+     * @param Registry &$params The module options.
      *
      * @return  array
      *
@@ -182,7 +183,7 @@ class MenuHelper
     /**
      * Get base menu item.
      *
-     * @param   \Joomla\Registry\Registry  &$params  The module options.
+     * @param Registry &$params The module options.
      *
      * @return  object
      *
@@ -204,7 +205,7 @@ class MenuHelper
     /**
      * Get active menu item.
      *
-     * @param   \Joomla\Registry\Registry  &$params  The module options.
+     * @param Registry &$params The module options.
      *
      * @return  object
      *

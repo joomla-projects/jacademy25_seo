@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Banners\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Component\Banners\Administrator\Model\BannerModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -61,7 +63,7 @@ class BannersController extends AdminController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     * @return BaseDatabaseModel The model.
      *
      * @since   1.6
      */
@@ -94,7 +96,7 @@ class BannersController extends AdminController
             $this->app->enqueueMessage(Text::_('COM_BANNERS_NO_BANNERS_SELECTED'), 'warning');
         } else {
             // Get the model.
-            /** @var \Joomla\Component\Banners\Administrator\Model\BannerModel $model */
+            /** @var BannerModel $model */
             $model = $this->getModel();
 
             // Change the state of the records.

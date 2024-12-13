@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Administrator\Controller;
 
+use Joomla\Component\Content\Administrator\Model\ArticleModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -202,7 +203,7 @@ class ArticleController extends FormController
         $this->checkToken();
 
         // Set the model
-        /** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
+        /** @var ArticleModel $model */
         $model = $this->getModel('Article', 'Administrator', []);
 
         // Preset the redirect

@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Model;
 
+use Joomla\CMS\Table\Extension;
+use Joomla\Component\Installer\Administrator\Model\DatabaseModel;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Extension\AfterJoomlaUpdateEvent;
@@ -679,7 +681,7 @@ ENDDATA;
         $installer->setOverwrite(true);
 
         $db                   = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
-        $installer->extension = new \Joomla\CMS\Table\Extension($db);
+        $installer->extension = new Extension($db);
         $installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
 
         $installer->setAdapter($installer->extension->type);
@@ -748,7 +750,7 @@ ENDDATA;
         }
 
         $id  = $db->loadResult();
-        $row = new \Joomla\CMS\Table\Extension($db);
+        $row = new Extension($db);
 
         if ($id) {
             // Load the entry and update the manifest_cache.
@@ -1337,7 +1339,7 @@ ENDDATA;
     {
         $mvcFactory = $this->bootComponent('com_installer')->getMVCFactory();
 
-        /** @var \Joomla\Component\Installer\Administrator\Model\DatabaseModel $model */
+        /** @var DatabaseModel $model */
         $model = $mvcFactory->createModel('Database', 'Administrator');
 
         // Check if no default text filters found
@@ -1345,8 +1347,8 @@ ENDDATA;
             return false;
         }
 
-        $coreExtensionInfo = \Joomla\CMS\Extension\ExtensionHelper::getExtensionRecord('joomla', 'file');
-        $cache             = new \Joomla\Registry\Registry($coreExtensionInfo->manifest_cache);
+        $coreExtensionInfo = ExtensionHelper::getExtensionRecord('joomla', 'file');
+        $cache             = new Registry($coreExtensionInfo->manifest_cache);
 
         $updateVersion = $cache->get('version');
 

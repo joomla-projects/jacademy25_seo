@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\Content\Joomla\Extension;
 
+use Joomla\Component\Workflow\Administrator\Model\StagesModel;
 use Joomla\CMS\Cache\CacheControllerFactory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
@@ -734,7 +735,7 @@ final class Joomla extends CMSPlugin
             return true;
         }
 
-        /** @var \Joomla\Component\Workflow\Administrator\Model\StagesModel $model */
+        /** @var StagesModel $model */
         $model = $this->getApplication()->bootComponent('com_workflow')->getMVCFactory()
             ->createModel('Stages', 'Administrator', ['ignore_request' => true]);
 

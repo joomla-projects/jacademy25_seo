@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
@@ -15,8 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
 /** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView $this */
-
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('core')
     ->useScript('com_joomlaupdate.default')

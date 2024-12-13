@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
+use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
@@ -99,7 +100,7 @@ class Indexer
     /**
      * Database driver cache.
      *
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      * @since  3.8.0
      */
     protected $db;
@@ -121,7 +122,7 @@ class Indexer
      */
     public function __construct(?DatabaseInterface $db = null)
     {
-        if (!$db instanceof \Joomla\Database\DatabaseInterface) {
+        if (!$db instanceof DatabaseInterface) {
             @trigger_error('Database will be mandatory in 5.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }

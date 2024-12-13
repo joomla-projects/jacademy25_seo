@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Newsfeeds\Site\View\Newsfeed;
 
+use Joomla\CMS\User\User;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Feed\FeedFactory;
@@ -66,7 +68,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The current user instance
      *
-     * @var    \Joomla\CMS\User\User|null
+     * @var User|null
      *
      * @since  4.0.0
      */
@@ -84,7 +86,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      *
      * @since  4.0.0
      */

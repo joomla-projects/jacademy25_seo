@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Languages\Api\View\Strings;
 
+use Joomla\Component\Languages\Administrator\Model\StringsModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
@@ -50,7 +51,7 @@ class JsonapiView extends BaseApiView
      */
     public function displayList(?array $items = null)
     {
-        /** @var \Joomla\Component\Languages\Administrator\Model\StringsModel $model */
+        /** @var StringsModel $model */
         $model  = $this->getModel();
         $result = $model->search();
 

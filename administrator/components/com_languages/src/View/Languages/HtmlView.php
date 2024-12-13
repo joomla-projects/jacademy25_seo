@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Languages\Administrator\View\Languages;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -39,14 +42,14 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var  \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      */
     protected $pagination;
 
     /**
      * The model state
      *
-     * @var   \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since  4.0.0
      */
@@ -55,7 +58,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Form object for search filters
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  4.0.0
      */

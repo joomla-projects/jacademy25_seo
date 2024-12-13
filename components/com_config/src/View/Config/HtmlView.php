@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Config\Site\View\Config;
 
+use Joomla\CMS\Form\Form;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Controller\RequestController;
@@ -28,7 +30,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The form object
      *
-     * @var   \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since 3.2
      */
@@ -64,7 +66,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      *
      * @since  4.0.0
      */

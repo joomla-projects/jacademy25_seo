@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Updater;
 
+use Joomla\CMS\Http\Response;
 use Joomla\CMS\Adapter\AdapterInstance;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
@@ -206,7 +207,7 @@ abstract class UpdateAdapter extends AdapterInstance
      *
      * @param   array  $options  The update options, see findUpdate() in children classes
      *
-     * @return  \Joomla\CMS\Http\Response|bool  False if we can't connect to the site, HTTP Response object otherwise
+     * @return Response|bool False if we can't connect to the site, HTTP Response object otherwise
      *
      * @throws  \Exception
      */

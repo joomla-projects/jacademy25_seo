@@ -20,8 +20,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
-use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
-use Joomla\Component\Scheduler\Administrator\Table\TaskTable;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -198,7 +196,7 @@ class Task implements LoggerAwareInterface
         }
 
         // Exit early if task routine is not available
-        if (!SchedulerHelper::getTaskOptions()->findOption($this->get('type')) instanceof \Joomla\Component\Scheduler\Administrator\Task\TaskOption) {
+        if (!SchedulerHelper::getTaskOptions()->findOption($this->get('type')) instanceof TaskOption) {
             $this->snapshot['status'] = Status::NO_ROUTINE;
             $this->skipExecution();
             $this->dispatchExitEvent();

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Menus\Administrator\Controller;
 
+use Joomla\Component\Menus\Administrator\Model\MenuModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 
@@ -87,7 +88,7 @@ class MenusController extends AdminController
 
             if ($cids !== []) {
                 // Get the model.
-                /** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
+                /** @var MenuModel $model */
                 $model = $this->getModel();
 
                 // Remove the items.

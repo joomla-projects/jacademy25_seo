@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\System\Webauthn;
 
 use Joomla\Application\ApplicationInterface;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -99,7 +98,7 @@ final class Authentication
      */
     public function getKnownAuthenticators(): array
     {
-        $return = ($this->metadataRepository instanceof \Webauthn\MetadataService\MetadataStatementRepository && method_exists($this->metadataRepository, 'getKnownAuthenticators'))
+        $return = ($this->metadataRepository instanceof MetadataStatementRepository && method_exists($this->metadataRepository, 'getKnownAuthenticators'))
             ? $this->metadataRepository->getKnownAuthenticators()
             : [];
 

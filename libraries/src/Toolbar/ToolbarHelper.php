@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Toolbar;
 
+use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
@@ -675,7 +676,7 @@ abstract class ToolbarHelper
         $lang = Factory::getLanguage();
         $lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 
-        /** @var \Joomla\CMS\Table\ContentType $contentTypeTable */
+        /** @var ContentType $contentTypeTable */
         $contentTypeTable = Table::getInstance('ContentType', '\\Joomla\\CMS\\Table\\');
         $contentTypeTable->getTypeId($typeAlias);
 

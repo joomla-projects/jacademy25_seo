@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Config\Site\Controller;
 
+use Joomla\CMS\Input\Input;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Client\ClientHelper;
@@ -39,7 +41,7 @@ class ModulesController extends BaseController
      *                                              'view_path' (this list is not meant to be comprehensive).
      * @param   ?MVCFactoryInterface      $factory  The factory.
      * @param   ?CMSApplication           $app      The Application for the dispatcher
-     * @param   ?\Joomla\CMS\Input\Input  $input    The Input object for the request
+     * @param ?Input $input The Input object for the request
      *
      * @since   1.6
      */
@@ -111,7 +113,7 @@ class ModulesController extends BaseController
         $app->loadDocument($document);
         $app->loadIdentity($user);
 
-        /** @var \Joomla\CMS\Dispatcher\ComponentDispatcher $dispatcher */
+        /** @var ComponentDispatcher $dispatcher */
         $dispatcher = $app->bootComponent('com_modules')->getDispatcher($app);
 
         /** @var ModuleController $controllerClass */

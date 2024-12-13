@@ -9,8 +9,8 @@
 
 namespace Joomla\CMS\Document\Renderer\Html;
 
+use Joomla\CMS\Event\Module\AfterRenderModulesEvent;
 use Joomla\CMS\Document\DocumentRenderer;
-use Joomla\CMS\Event\Module;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -59,7 +59,7 @@ class ModulesRenderer extends DocumentRenderer
         }
 
         // Dispatch onAfterRenderModules event
-        $event = new Module\AfterRenderModulesEvent('onAfterRenderModules', [
+        $event = new AfterRenderModulesEvent('onAfterRenderModules', [
             'content'    => &$buffer, // @todo: Remove reference in Joomla 6, see AfterRenderModulesEvent::__constructor()
             'attributes' => $params,
         ]);

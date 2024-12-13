@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Contact\Site\Model;
 
+use Joomla\Component\Contact\Administrator\Model\ContactModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
@@ -28,7 +30,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  4.0.0
  */
-class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactModel
+class FormModel extends ContactModel
 {
     /**
      * Model typeAlias string. Used for version history.
@@ -106,7 +108,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
         }
 
         $properties = $table->getProperties();
-        $value      = ArrayHelper::toObject($properties, \Joomla\CMS\Object\CMSObject::class);
+        $value      = ArrayHelper::toObject($properties, CMSObject::class);
 
         // Convert field to Registry.
         $value->params = new Registry($value->params);

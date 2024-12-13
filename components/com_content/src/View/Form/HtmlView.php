@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Content\Site\View\Form;
 
+use Joomla\CMS\Form\Form;
+use Joomla\Registry\Registry;
+use Joomla\CMS\User\User;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -33,7 +36,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The Form object
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     protected $form;
 
@@ -54,14 +57,14 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $state;
 
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      *
      * @since  4.0.0
      */
@@ -79,7 +82,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The user object
      *
-     * @var \Joomla\CMS\User\User
+     * @var User
      *
      * @since  4.0.0
      */

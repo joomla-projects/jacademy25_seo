@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Pagination;
 
+use Joomla\CMS\Router\Router;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -214,7 +215,7 @@ class Pagination
         $filter = new InputFilter();
 
         // It is applicable only for CMS router. API router works differently.
-        if (!$router instanceof \Joomla\CMS\Router\Router) {
+        if (!$router instanceof Router) {
             return;
         }
 

@@ -58,7 +58,7 @@ class OptionsRule extends FormRule
         // Create the field
         $field = null;
 
-        if ($form instanceof \Joomla\CMS\Form\Form) {
+        if ($form instanceof Form) {
             $field = $form->getField((string) $element->attributes()->name, $group);
         }
 

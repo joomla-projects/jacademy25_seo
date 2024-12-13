@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Workflow\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -112,7 +113,7 @@ class StagesController extends AdminController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  The array of possible config values. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     * @return BaseDatabaseModel The model.
      *
      * @since  4.0.0
      */

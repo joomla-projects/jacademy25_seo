@@ -9,6 +9,25 @@
 
 namespace Joomla\CMS;
 
+use Joomla\CMS\Service\Provider\Application;
+use Joomla\CMS\Service\Provider\Authentication;
+use Joomla\CMS\Service\Provider\CacheController;
+use Joomla\CMS\Service\Provider\CaptchaRegistry;
+use Joomla\CMS\Service\Provider\Config;
+use Joomla\CMS\Service\Provider\Console;
+use Joomla\CMS\Service\Provider\EditorsRegistry;
+use Joomla\CMS\Service\Provider\Database;
+use Joomla\CMS\Service\Provider\Dispatcher;
+use Joomla\CMS\Service\Provider\Form;
+use Joomla\CMS\Service\Provider\Input;
+use Joomla\CMS\Service\Provider\Logger;
+use Joomla\CMS\Service\Provider\Mailer;
+use Joomla\CMS\Service\Provider\Menu;
+use Joomla\CMS\Service\Provider\Pathway;
+use Joomla\CMS\Service\Provider\HTMLRegistry;
+use Joomla\CMS\Service\Provider\Toolbar;
+use Joomla\CMS\Service\Provider\WebAssetRegistry;
+use Joomla\CMS\Service\Provider\Router;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
@@ -521,11 +540,11 @@ abstract class Factory
 
                 if (!class_exists($classname)) {
                     // The class does not exist, default to Date
-                    $classname = \Joomla\CMS\Date\Date::class;
+                    $classname = Date::class;
                 }
             } else {
                 // No tag, so default to Date
-                $classname = \Joomla\CMS\Date\Date::class;
+                $classname = Date::class;
             }
         }
 
@@ -599,28 +618,28 @@ abstract class Factory
     protected static function createContainer(): Container
     {
         return (new Container())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\CacheController())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\CaptchaRegistry())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Config())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Console())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\EditorsRegistry())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher())
+            ->registerServiceProvider(new Application())
+            ->registerServiceProvider(new Authentication())
+            ->registerServiceProvider(new CacheController())
+            ->registerServiceProvider(new CaptchaRegistry())
+            ->registerServiceProvider(new Config())
+            ->registerServiceProvider(new Console())
+            ->registerServiceProvider(new EditorsRegistry())
+            ->registerServiceProvider(new Database())
+            ->registerServiceProvider(new Dispatcher())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Input())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger())
+            ->registerServiceProvider(new Form())
+            ->registerServiceProvider(new Input())
+            ->registerServiceProvider(new Logger())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Language())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Mailer())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Pathway())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\HTMLRegistry())
+            ->registerServiceProvider(new Mailer())
+            ->registerServiceProvider(new Menu())
+            ->registerServiceProvider(new Pathway())
+            ->registerServiceProvider(new HTMLRegistry())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\WebAssetRegistry())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Router())
+            ->registerServiceProvider(new Toolbar())
+            ->registerServiceProvider(new WebAssetRegistry())
+            ->registerServiceProvider(new Router())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\User());
     }
 

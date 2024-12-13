@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Workflow\Administrator\View\Transition;
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Input\Input;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -41,7 +44,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Form object to generate fields
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  4.0.0
      */
@@ -58,7 +61,7 @@ class HtmlView extends BaseHtmlView
     /**
      * That is object of Application
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  4.0.0
      */
     protected $app;
@@ -66,7 +69,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The application input object.
      *
-     * @var    \Joomla\CMS\Input\Input
+     * @var Input
      * @since  4.0.0
      */
     protected $input;

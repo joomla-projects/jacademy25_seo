@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contact\Site\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Event\Contact\SubmitContactEvent;
 use Joomla\CMS\Event\Contact\ValidateContactEvent;
 use Joomla\CMS\Factory;
@@ -66,7 +67,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     * @return BaseDatabaseModel The model.
      *
      * @since   1.6.4
      */

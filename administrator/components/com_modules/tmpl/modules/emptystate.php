@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Component\Modules\Administrator\View\Modules\HtmlView;
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_modules
@@ -13,8 +15,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
-/** @var \Joomla\Component\Modules\Administrator\View\Modules\HtmlView $this */
-
+/** @var HtmlView $this */
 $displayData = [
     'textPrefix' => 'COM_MODULES',
     'formURL'    => 'index.php?option=com_modules&view=select&client_id=' . $this->clientId,

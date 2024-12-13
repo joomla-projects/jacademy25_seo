@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Users\Administrator\View\Note;
 
+use Joomla\CMS\Form\Form;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -34,7 +36,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The edit form.
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  2.5
      */
@@ -51,7 +53,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state.
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      * @since  2.5
      */
     protected $state;

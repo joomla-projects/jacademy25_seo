@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Associations\Administrator\Helper;
 
+use Joomla\CMS\Association\AssociationExtensionHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Factory;
@@ -76,7 +78,7 @@ class AssociationsHelper extends ContentHelper
      *
      * @param   string  $extensionName  The extension name with com_
      *
-     * @return  \Joomla\CMS\Association\AssociationExtensionHelper|null
+     * @return AssociationExtensionHelper|null
      *
      * @since  3.7.0
      */
@@ -98,7 +100,7 @@ class AssociationsHelper extends ContentHelper
      * @param   string  $typeName       The item type
      * @param   int     $itemId         The id of item for which we need the associated items
      *
-     * @return  \Joomla\CMS\Table\Table|null
+     * @return Table|null
      *
      * @since  3.7.0
      */
@@ -362,7 +364,7 @@ class AssociationsHelper extends ContentHelper
      *
      * @param   string  $extensionName  The extension identifier.
      *
-     * @return  \Joomla\Registry\Registry  The item properties.
+     * @return Registry The item properties.
      *
      * @since  3.7.0
      */

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
+use Joomla\CMS\Event\Module\AfterModuleListEvent;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
@@ -209,7 +210,7 @@ class CaptiveModel extends BaseDatabaseModel
     {
         $renderOptions = new CaptiveRenderOptions();
 
-        if (!$record instanceof \Joomla\Component\Users\Administrator\Table\MfaTable) {
+        if (!$record instanceof MfaTable) {
             return $renderOptions;
         }
 
@@ -335,7 +336,7 @@ class CaptiveModel extends BaseDatabaseModel
      *
      * @since 4.2.0
      */
-    public function onAfterModuleList(Module\AfterModuleListEvent $event): void
+    public function onAfterModuleList(AfterModuleListEvent $event): void
     {
         $modules = $event->getModules();
 

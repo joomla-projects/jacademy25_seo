@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Plugin;
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -26,7 +29,7 @@ abstract class ActionLogPlugin extends CMSPlugin
     /**
      * Application object.
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  3.9.0
      *
      * @deprecated  5.1.0 will be removed in 7.0 use $this->getApplication() instead
@@ -36,7 +39,7 @@ abstract class ActionLogPlugin extends CMSPlugin
     /**
      * Database object.
      *
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      * @since  3.9.0
      *
      * @deprecated  5.1.0 will be removed in 7.0 use $this->getDatabase() instead
@@ -94,7 +97,7 @@ abstract class ActionLogPlugin extends CMSPlugin
             $messages[$index] = $message;
         }
 
-        /** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel $model */
+        /** @var ActionlogModel $model */
         $model = $app->bootComponent('com_actionlogs')
             ->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
 

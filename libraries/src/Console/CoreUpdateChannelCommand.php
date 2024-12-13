@@ -13,7 +13,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 use Joomla\Console\Command\AbstractCommand;
-use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

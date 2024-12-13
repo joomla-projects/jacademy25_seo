@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Categories\Administrator\Table;
 
+use Joomla\CMS\Table\Category;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -19,7 +21,7 @@ namespace Joomla\Component\Categories\Administrator\Table;
  *
  * @since  1.6
  */
-class CategoryTable extends \Joomla\CMS\Table\Category
+class CategoryTable extends Category
 {
     /**
      * Method to delete a node and, optionally, its child nodes from the table.

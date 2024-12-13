@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Session\SessionInterface;
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
@@ -80,7 +82,7 @@ return new class () implements ServiceProviderInterface {
      *
      * @param   ApplicationInterface  $app  The application we are running in
      *
-     * @return \Joomla\Session\SessionInterface|null
+     * @return SessionInterface|null
      *
      * @since  4.2.0
      */

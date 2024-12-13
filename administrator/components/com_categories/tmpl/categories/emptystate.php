@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Component\Categories\Administrator\View\Categories\HtmlView;
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_categories
@@ -14,8 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
-/** @var \Joomla\Component\Categories\Administrator\View\Categories\HtmlView $this */
-
+/** @var HtmlView $this */
 $extension = $this->state->get('filter.extension');
 $component = $this->state->get('filter.component');
 $section = $this->state->get('filter.section');

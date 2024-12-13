@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\PostInstallationMessages\Administrator\Dispatcher;
 
+use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
 use Joomla\CMS\Extension\ExtensionHelper;
 
@@ -54,7 +55,7 @@ class Dispatcher extends AbstractModuleDispatcher
 
         // Try to get the items from the post-installation model
         try {
-            /** @var \Joomla\Component\Postinstall\Administrator\Model\MessagesModel $messagesModel */
+            /** @var MessagesModel $messagesModel */
             $messagesModel = $app->bootComponent('com_postinstall')->getMVCFactory()
                 ->createModel('Messages', 'Administrator', ['ignore_request' => true]);
             $data['messagesCount'] = $messagesModel->getItemsCount();

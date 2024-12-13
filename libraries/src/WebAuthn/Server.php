@@ -9,15 +9,25 @@
 
 namespace Joomla\CMS\WebAuthn;
 
+use Cose\Algorithm\Signature\RSA\RS1;
+use Cose\Algorithm\Signature\RSA\RS256;
+use Cose\Algorithm\Signature\RSA\RS384;
+use Cose\Algorithm\Signature\RSA\RS512;
+use Cose\Algorithm\Signature\RSA\PS256;
+use Cose\Algorithm\Signature\RSA\PS384;
+use Cose\Algorithm\Signature\RSA\PS512;
+use Cose\Algorithm\Signature\ECDSA\ES256;
+use Cose\Algorithm\Signature\ECDSA\ES256K;
+use Cose\Algorithm\Signature\ECDSA\ES384;
+use Cose\Algorithm\Signature\ECDSA\ES512;
+use Cose\Algorithm\Signature\EdDSA\Ed25519;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 use Cose\Algorithm\Algorithm;
 use Cose\Algorithm\ManagerFactory;
-use Cose\Algorithm\Signature\ECDSA;
-use Cose\Algorithm\Signature\EdDSA;
-use Cose\Algorithm\Signature\RSA;
 use ParagonIE\ConstantTime\Base64;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use Psr\Http\Message\ServerRequestInterface;
@@ -129,18 +139,18 @@ final class Server
     private readonly ?MetadataStatementRepository $metadataStatementRepository)
     {
         $this->coseAlgorithmManagerFactory = new ManagerFactory();
-        $this->coseAlgorithmManagerFactory->add('RS1', new RSA\RS1());
-        $this->coseAlgorithmManagerFactory->add('RS256', new RSA\RS256());
-        $this->coseAlgorithmManagerFactory->add('RS384', new RSA\RS384());
-        $this->coseAlgorithmManagerFactory->add('RS512', new RSA\RS512());
-        $this->coseAlgorithmManagerFactory->add('PS256', new RSA\PS256());
-        $this->coseAlgorithmManagerFactory->add('PS384', new RSA\PS384());
-        $this->coseAlgorithmManagerFactory->add('PS512', new RSA\PS512());
-        $this->coseAlgorithmManagerFactory->add('ES256', new ECDSA\ES256());
-        $this->coseAlgorithmManagerFactory->add('ES256K', new ECDSA\ES256K());
-        $this->coseAlgorithmManagerFactory->add('ES384', new ECDSA\ES384());
-        $this->coseAlgorithmManagerFactory->add('ES512', new ECDSA\ES512());
-        $this->coseAlgorithmManagerFactory->add('Ed25519', new EdDSA\Ed25519());
+        $this->coseAlgorithmManagerFactory->add('RS1', new RS1());
+        $this->coseAlgorithmManagerFactory->add('RS256', new RS256());
+        $this->coseAlgorithmManagerFactory->add('RS384', new RS384());
+        $this->coseAlgorithmManagerFactory->add('RS512', new RS512());
+        $this->coseAlgorithmManagerFactory->add('PS256', new PS256());
+        $this->coseAlgorithmManagerFactory->add('PS384', new PS384());
+        $this->coseAlgorithmManagerFactory->add('PS512', new PS512());
+        $this->coseAlgorithmManagerFactory->add('ES256', new ES256());
+        $this->coseAlgorithmManagerFactory->add('ES256K', new ES256K());
+        $this->coseAlgorithmManagerFactory->add('ES384', new ES384());
+        $this->coseAlgorithmManagerFactory->add('ES512', new ES512());
+        $this->coseAlgorithmManagerFactory->add('Ed25519', new Ed25519());
 
         $this->tokenBindingHandler                 = new IgnoreTokenBindingHandler();
         $this->extensionOutputCheckerHandler       = new ExtensionOutputCheckerHandler();
@@ -305,7 +315,7 @@ final class Server
          *
          * BTW, the documentation of the library is wrong...
          */
-        if ($this->metadataStatementRepository instanceof \Webauthn\MetadataService\MetadataStatementRepository) {
+        if ($this->metadataStatementRepository instanceof MetadataStatementRepository) {
             $refObj  = new \ReflectionObject($authenticatorAttestationResponseValidator);
             $refProp = $refObj->getProperty('metadataStatementRepository');
             $refProp->setAccessible(true);

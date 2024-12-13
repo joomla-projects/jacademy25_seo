@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Installer\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Component\Installer\Administrator\Model\UpdatesitesModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -66,7 +68,7 @@ class UpdatesitesController extends AdminController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  The array of possible config values. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
+     * @return BaseDatabaseModel
      *
      * @since   4.0.0
      */
@@ -102,7 +104,7 @@ class UpdatesitesController extends AdminController
         }
 
         // Get the model.
-        /** @var \Joomla\Component\Installer\Administrator\Model\UpdatesitesModel $model */
+        /** @var UpdatesitesModel $model */
         $model = $this->getModel('Updatesites');
 
         // Change the state of the records.

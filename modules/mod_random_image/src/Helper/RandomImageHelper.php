@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\RandomImage\Site\Helper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Uri\Uri;
 use Joomla\String\StringHelper;
 
@@ -27,7 +28,7 @@ class RandomImageHelper
     /**
      * Retrieves a random image
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters object
+     * @param Registry &$params module parameters object
      * @param   array                      $images   list of images
      *
      * @return  mixed
@@ -75,7 +76,7 @@ class RandomImageHelper
     /**
      * Retrieves images from a specific folder
      *
-     * @param   \Joomla\Registry\Registry  &$params  module params
+     * @param Registry &$params module params
      * @param   string                     $folder   folder to get the images from
      *
      * @return  array
@@ -119,7 +120,7 @@ class RandomImageHelper
     /**
      * Get sanitized folder
      *
-     * @param   \Joomla\Registry\Registry  &$params  module params objects
+     * @param Registry &$params module params objects
      *
      * @return  mixed
      */

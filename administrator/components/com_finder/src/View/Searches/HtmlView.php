@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Finder\Administrator\View\Searches;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -49,21 +52,21 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var  \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      */
     protected $pagination;
 
     /**
      * The model state
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $state;
 
     /**
      * Form object for search filters
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  4.0.0
      */
@@ -81,7 +84,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since  4.0.0
      */

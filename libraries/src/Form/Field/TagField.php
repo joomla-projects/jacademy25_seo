@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -46,7 +47,7 @@ class TagField extends ListField
     /**
      * com_tags parameters
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      * @since  3.1
      */
     protected $comParams;

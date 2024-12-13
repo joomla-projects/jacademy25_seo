@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Update;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -43,7 +45,7 @@ class HtmlView extends InstallerViewDefault
     /**
      * List pagination.
      *
-     * @var \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      */
     protected $pagination;
 
@@ -64,7 +66,7 @@ class HtmlView extends InstallerViewDefault
     /**
      * Form object for search filters
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     public $filterForm;
 
@@ -104,7 +106,7 @@ class HtmlView extends InstallerViewDefault
         }
 
         // Find if there are any updates which require but are missing a Download Key
-        if (!class_exists(\Joomla\Component\Installer\Administrator\Helper\InstallerHelper::class)) {
+        if (!class_exists(CmsInstallerHelper::class)) {
             require_once JPATH_COMPONENT_ADMINISTRATOR . '/Helper/InstallerHelper.php';
         }
 

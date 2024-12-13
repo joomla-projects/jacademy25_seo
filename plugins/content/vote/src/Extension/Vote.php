@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\Content\Vote\Extension;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
@@ -26,7 +27,7 @@ use Joomla\CMS\Uri\Uri;
 final class Vote extends CMSPlugin
 {
     /**
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      *
      * @since  3.7.0
      *

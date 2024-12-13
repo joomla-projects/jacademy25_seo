@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Config\Administrator\Controller;
 
+use Joomla\Component\Config\Administrator\Model\ApplicationModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Language\Text;
@@ -84,7 +85,7 @@ class ApplicationController extends BaseController
 
         $this->app->setUserState('com_config.config.global.data', null);
 
-        /** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
+        /** @var ApplicationModel $model */
         $model = $this->getModel('Application', 'Administrator');
 
         $data  = $this->input->post->get('jform', [], 'array');
@@ -212,8 +213,7 @@ class ApplicationController extends BaseController
         }
 
         // Initialise model.
-
-        /** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
+        /** @var ApplicationModel $model */
         $model = $this->getModel('Application', 'Administrator');
 
         // Attempt to save the configuration and remove root.
@@ -260,7 +260,7 @@ class ApplicationController extends BaseController
             $this->app->close();
         }
 
-        /** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
+        /** @var ApplicationModel $model */
         $model = $this->getModel('Application', 'Administrator');
 
         echo new JsonResponse($model->sendTestMail());
@@ -289,7 +289,7 @@ class ApplicationController extends BaseController
             $this->app->close();
         }
 
-        /** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
+        /** @var ApplicationModel $model */
         $model = $this->getModel('Application', 'Administrator');
         echo new JsonResponse($model->storePermissions());
         $this->app->close();

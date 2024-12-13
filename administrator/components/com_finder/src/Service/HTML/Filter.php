@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Service\HTML;
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -441,7 +442,7 @@ class Filter
 
             // Load the CSS/JS resources.
             if ($loadMedia) {
-                /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+                /** @var WebAssetManager $wa */
                 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
                 $wa->useStyle('com_finder.dates');
             }

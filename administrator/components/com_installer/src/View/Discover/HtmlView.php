@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Discover;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\Component\Installer\Administrator\Model\DiscoverModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
@@ -37,7 +39,7 @@ class HtmlView extends InstallerViewDefault
     /**
      * The pagination object
      *
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      *
      * @since  5.2.0
      */
@@ -54,7 +56,7 @@ class HtmlView extends InstallerViewDefault
     /**
      * Form object for search filters
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     public $filterForm;
 

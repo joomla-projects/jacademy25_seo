@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Media\Administrator\View\File;
 
+use Joomla\CMS\Form\Form;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -29,11 +31,11 @@ use Joomla\Component\Media\Administrator\Model\FileModel;
 class HtmlView extends BaseHtmlView
 {
     /**
-     * @var \Joomla\CMS\Form\Form|bool
+     * @var Form|bool
      */
     public $form;
     /**
-     * @var \Joomla\Registry\Registry
+     * @var Registry
      */
     public $params;
     public $file;

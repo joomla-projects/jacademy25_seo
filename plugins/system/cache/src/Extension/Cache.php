@@ -163,7 +163,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
                 ->createDocument($this->getApplication()->getInput()->get('format', 'html'));
             $this->getApplication()->loadDocument($document);
 
-            if ($this->profiler instanceof \Joomla\CMS\Profiler\Profiler) {
+            if ($this->profiler instanceof Profiler) {
                 $this->profiler->mark('afterCache');
             }
 

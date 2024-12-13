@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Privacy\Administrator\View\Capabilities;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -38,7 +39,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The state information
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      * @since  3.9.0
      */
     protected $state;

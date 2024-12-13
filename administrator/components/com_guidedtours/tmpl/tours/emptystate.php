@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Component\Guidedtours\Administrator\View\Tours\HtmlView;
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_guidedtours
@@ -12,8 +14,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
-/** @var \Joomla\Component\Guidedtours\Administrator\View\Tours\HtmlView $this */
-
+/** @var HtmlView $this */
 $displayData = [
     'textPrefix' => 'COM_GUIDEDTOURS_TOURS_LIST',
     'formURL'    => 'index.php?option=com_guidedtours&view=tours',

@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Categories;
 
+use Joomla\CMS\User\User;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
@@ -439,7 +440,7 @@ class CategoryNode implements NodeInterface
      *
      * @param   boolean  $modifiedUser  Returns the modified_user when set to true
      *
-     * @return  \Joomla\CMS\User\User  A User object containing a userid
+     * @return User A User object containing a userid
      *
      * @since   1.6
      */

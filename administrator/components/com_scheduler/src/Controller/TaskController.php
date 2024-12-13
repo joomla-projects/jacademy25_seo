@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Controller;
 
+use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -50,7 +51,7 @@ class TaskController extends FormController
         $taskType   = $input->get('type');
         $taskOption = $validTaskOptions->findOption($taskType) ?: null;
 
-        if (!$taskOption instanceof \Joomla\Component\Scheduler\Administrator\Task\TaskOption) {
+        if (!$taskOption instanceof TaskOption) {
             // ? : Is this the right redirect [review]
             $redirectUrl = 'index.php?option=' . $this->option . '&view=select&layout=edit';
             $this->setRedirect(Route::_($redirectUrl, false));

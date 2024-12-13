@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\Highlight\Extension;
 
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -77,7 +78,7 @@ final class Highlight extends CMSPlugin
             $cleanTerms[] = htmlspecialchars((string) $filter->clean($term, 'string'));
         }
 
-        /** @var \Joomla\CMS\Document\HtmlDocument $doc */
+        /** @var HtmlDocument $doc */
         $doc = $this->getApplication()->getDocument();
 
         // Activate the highlighter.

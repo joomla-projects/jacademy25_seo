@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Mails\Administrator\Model;
 
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -69,7 +70,7 @@ class TemplateModel extends AdminModel
      * @param   array    $data      An optional array of data for the form to interrogate.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure
+     * @return Form|bool A Form object on success, false on failure
      *
      * @since   4.0.0
      */
@@ -317,7 +318,7 @@ class TemplateModel extends AdminModel
         $isNew       = true;
 
         // Include the plugins for the save events.
-        \Joomla\CMS\Plugin\PluginHelper::importPlugin($this->events_map['save']);
+        PluginHelper::importPlugin($this->events_map['save']);
 
         // Allow an exception to be thrown.
         try {

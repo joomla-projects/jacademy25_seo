@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Checkin\Administrator\View\Checkin;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -44,21 +47,21 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var  \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      */
     protected $pagination;
 
     /**
      * The model state
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $state;
 
     /**
      * Form object for search filters
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  4.0.0
      */

@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\HTML\Helpers;
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -92,8 +93,7 @@ abstract class FormBehavior
         $options_str = json_encode($options, ($debug && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));
 
         // Add chosen.js assets
-
-        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        /** @var WebAssetManager $wa */
         $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
         $wa->usePreset('chosen')
             ->registerAndUseScript('joomla-chosen', 'legacy/joomla-chosen.min.js', [], [], ['chosen'])

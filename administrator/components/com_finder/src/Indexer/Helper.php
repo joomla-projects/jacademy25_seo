@@ -475,7 +475,7 @@ class Helper
         $content       = Table::getInstance('Content');
         $content->text = $text;
 
-        if ($item instanceof \Joomla\Component\Finder\Administrator\Indexer\Result) {
+        if ($item instanceof Result) {
             $content->bind((array) $item);
             $content->bind($item->getElements());
         }

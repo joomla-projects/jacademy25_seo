@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Model;
 
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -86,7 +87,7 @@ class TourModel extends AdminModel
     /**
      * Prepare and sanitise the table prior to saving.
      *
-     * @param   \Joomla\CMS\Table\Table  $table  The Table object
+     * @param Table $table The Table object
      *
      * @return  void
      *

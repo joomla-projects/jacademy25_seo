@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Categories\Administrator\View\Categories;
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -65,7 +67,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Form object for search filters
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     public $filterForm;
 
@@ -205,7 +207,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Load specific css component
-        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        /** @var WebAssetManager $wa */
         $wa = $this->getDocument()->getWebAssetManager();
         $wa->getRegistry()->addExtensionRegistryFile($component);
 

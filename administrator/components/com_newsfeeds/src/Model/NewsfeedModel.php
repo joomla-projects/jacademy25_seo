@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Newsfeeds\Administrator\Model;
 
+use Joomla\Component\Categories\Administrator\Model\CategoryModel;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -198,7 +200,7 @@ class NewsfeedModel extends AdminModel
                 'published' => 1,
             ];
 
-            /** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $categoryModel */
+            /** @var CategoryModel $categoryModel */
             $categoryModel = Factory::getApplication()->bootComponent('com_categories')
                 ->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
 
@@ -284,7 +286,7 @@ class NewsfeedModel extends AdminModel
     /**
      * Prepare and sanitise the table prior to saving.
      *
-     * @param   \Joomla\CMS\Table\Table  $table  The table object
+     * @param Table $table The table object
      *
      * @return  void
      */

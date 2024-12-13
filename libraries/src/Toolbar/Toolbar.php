@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Toolbar;
 
+use Joomla\DI\Exception\KeyNotFoundException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
@@ -100,7 +101,7 @@ class Toolbar
     protected $_name = 'toolbar', ?ToolbarFactoryInterface $factory = null)
     {
         // At 5.0, require the factory to be injected
-        if (!$factory instanceof \Joomla\CMS\Toolbar\ToolbarFactoryInterface) {
+        if (!$factory instanceof ToolbarFactoryInterface) {
             @trigger_error(
                 \sprintf(
                     'As of Joomla! 5.0, a %1$s must be provided to a %2$s object when creating it.',
@@ -136,7 +137,7 @@ class Toolbar
      *
      * @todo Needs a proper replacement before removal as ToolbarFactoryInterface alone does not share the object everywhere
      *
-     * @throws \Joomla\DI\Exception\KeyNotFoundException
+     * @throws KeyNotFoundException
      */
     public static function getInstance($name = 'toolbar')
     {

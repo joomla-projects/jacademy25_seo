@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Plugin\PluginHelper;
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Joomlaupdate
@@ -33,7 +35,7 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 // @Todo This needs to be changed to a proper factory
-                $plugin = \Joomla\CMS\Plugin\PluginHelper::getPlugin('quickicon', 'joomlaupdate');
+                $plugin = PluginHelper::getPlugin('quickicon', 'joomlaupdate');
 
                 $plugin = new Joomlaupdate(
                     $container->get(DispatcherInterface::class),

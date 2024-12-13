@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Contact\Administrator\Model;
 
+use Joomla\Component\Categories\Administrator\Model\CategoryModel;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
@@ -299,7 +301,7 @@ class ContactModel extends AdminModel
                 'published' => 1,
             ];
 
-            /** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $categoryModel */
+            /** @var CategoryModel $categoryModel */
             $categoryModel = Factory::getApplication()->bootComponent('com_categories')
                 ->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
 
@@ -344,7 +346,7 @@ class ContactModel extends AdminModel
     /**
      * Prepare and sanitise the table prior to saving.
      *
-     * @param   \Joomla\CMS\Table\Table  $table  The Table object
+     * @param Table $table The Table object
      *
      * @return  void
      *
@@ -386,7 +388,7 @@ class ContactModel extends AdminModel
     /**
      * A protected method to get a set of ordering conditions.
      *
-     * @param   \Joomla\CMS\Table\Table  $table  A record object.
+     * @param Table $table A record object.
      *
      * @return  array  An array of conditions to add to ordering queries.
      *

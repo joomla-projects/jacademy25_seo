@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Table;
 
+use Joomla\Database\DatabaseDriver;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -23,7 +25,7 @@ class Tuf extends Table
     /**
      * Constructor
      *
-     * @param   \Joomla\Database\DatabaseDriver  $db  A database connector object
+     * @param DatabaseDriver $db A database connector object
      *
      * @since   5.1.0
      */

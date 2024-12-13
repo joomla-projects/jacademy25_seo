@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Config\Administrator\Controller;
 
+use Joomla\Component\Config\Administrator\Model\ApplicationModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 
@@ -50,7 +51,7 @@ class RequestController extends BaseController
             $paths->insert(JPATH_BASE . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 1);
         }
 
-        $model     = new \Joomla\Component\Config\Administrator\Model\ApplicationModel();
+        $model     = new ApplicationModel();
         $component = $model->getState()->get('component.option');
 
         // Access check.

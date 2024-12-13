@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Templates\Administrator\View\Style;
 
+use Joomla\CMS\Form\Form;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Templates\Administrator\Model\StyleModel;
@@ -35,14 +37,14 @@ class JsonView extends BaseHtmlView
     /**
      * The form object
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     protected $form;
 
     /**
      * The model state
      *
-     * @var   \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $state;
 

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Controller;
 
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Finder\BeforeIndexEvent;
 use Joomla\CMS\Event\Finder\BuildIndexEvent;
@@ -271,7 +272,7 @@ class IndexerController extends BaseController
      * can be an \Exception object for when an error has occurred or
      * a CMSObject for a good response.
      *
-     * @param   \Joomla\CMS\Object\CMSObject|\Exception  $data  CMSObject on success, \Exception on error. [optional]
+     * @param CMSObject|\Exception $data CMSObject on success, \Exception on error. [optional]
      *
      * @return  void
      *

@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Component\Users\Site\View\Login\HtmlView;
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_users
@@ -10,8 +12,7 @@
 
 defined('_JEXEC') or die;
 
-/** @var \Joomla\Component\Users\Site\View\Login\HtmlView $this */
-
+/** @var HtmlView $this */
 if ((property_exists($this->user, 'cookieLogin') && $this->user->cookieLogin !== null && !empty($this->user->cookieLogin)) || $this->user->guest) {
     // The user is not logged in or needs to provide a password.
     echo $this->loadTemplate('login');

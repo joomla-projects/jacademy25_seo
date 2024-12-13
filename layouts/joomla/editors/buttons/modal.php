@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Editor\Button\Button;
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -14,7 +16,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-/** @var \Joomla\CMS\Editor\Button\Button $button */
+/** @var Button $button */
 $button = $displayData;
 
 if (!$button->get('modal')) {

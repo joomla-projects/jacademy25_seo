@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Fields\Administrator\Model;
 
+use Joomla\CMS\Categories\CategoryInterface;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Factory;
@@ -228,7 +230,7 @@ class FieldsModel extends ListModel
                     }
                 )();
 
-                if ($cat instanceof \Joomla\CMS\Categories\CategoryInterface) {
+                if ($cat instanceof CategoryInterface) {
                     foreach ($categories as $assignedCatIds) {
                         // Check if we have the actual category
                         $parent = $cat->get($assignedCatIds);
@@ -413,7 +415,7 @@ class FieldsModel extends ListModel
      * @param   array    $data      data
      * @param   boolean  $loadData  load current data
      *
-     * @return  \Joomla\CMS\Form\Form|bool  the Form object or false
+     * @return Form|bool the Form object or false
      *
      * @since   3.7.0
      */

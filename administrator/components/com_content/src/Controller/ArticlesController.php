@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Content\Administrator\Controller;
 
+use Joomla\Component\Content\Administrator\Model\ArticleModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -99,7 +101,7 @@ class ArticlesController extends AdminController
         }
 
         // Get the model.
-        /** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
+        /** @var ArticleModel $model */
         $model = $this->getModel();
 
         // Publish the items.
@@ -125,7 +127,7 @@ class ArticlesController extends AdminController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  The array of possible config values. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
+     * @return BaseDatabaseModel
      *
      * @since   1.6
      */

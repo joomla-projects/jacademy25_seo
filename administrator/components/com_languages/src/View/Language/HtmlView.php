@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Languages\Administrator\View\Language;
 
+use Joomla\CMS\Form\Form;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -40,21 +42,21 @@ class HtmlView extends BaseHtmlView
     /**
      * The Form object
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     public $form;
 
     /**
      * The model state
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      */
     public $state;
 
     /**
      * The actions the user is authorised to perform
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since  4.0.0
      */

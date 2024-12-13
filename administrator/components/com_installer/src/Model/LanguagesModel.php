@@ -9,6 +9,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
@@ -198,7 +199,7 @@ class LanguagesModel extends ListModel
     /**
      * Returns a record count for the updatesite.
      *
-     * @param   \Joomla\Database\DatabaseQuery|string  $query  The query.
+     * @param DatabaseQuery|string $query The query.
      *
      * @return  integer  Number of rows for query.
      *

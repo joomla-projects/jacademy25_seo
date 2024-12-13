@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\ArticlesNews\Site\Helper;
 
+use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
@@ -48,7 +49,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
      */
     public function getArticles(Registry $params, SiteApplication $app)
     {
-        /** @var \Joomla\Component\Content\Site\Model\ArticlesModel $model */
+        /** @var ArticlesModel $model */
         $model = $app->bootComponent('com_content')->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
 
         // Set application parameters in model
@@ -191,7 +192,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
     /**
      * Get a list of the latest articles from the article model
      *
-     * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
+     * @param Registry &$params object holding the models parameters
      *
      * @return  mixed
      *

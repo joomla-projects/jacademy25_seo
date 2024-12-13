@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Installation\Console;
 
+use Joomla\CMS\Installation\Model\ConfigurationModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Form\FormHelper;
@@ -161,7 +162,7 @@ class InstallCommand extends AbstractCommand
 
         $this->ioStyle->writeln('OK');
 
-        /** @var \Joomla\CMS\Installation\Model\ConfigurationModel $configurationModel */
+        /** @var ConfigurationModel $configurationModel */
         $configurationModel = $app->getMVCFactory()->createModel('Configuration', 'Installation');
 
         // Attempt to setup the configuration.

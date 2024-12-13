@@ -232,7 +232,7 @@ class ManageModel extends InstallerModel
 
         // Get an installer object for the extension type
         $installer = Installer::getInstance();
-        $row       = new \Joomla\CMS\Table\Extension($this->getDatabase());
+        $row       = new Extension($this->getDatabase());
 
         // Uninstall the chosen extensions
         $msgs   = [];

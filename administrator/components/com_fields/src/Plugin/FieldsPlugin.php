@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Fields\Administrator\Plugin;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\CustomFields\GetTypesEvent;
 use Joomla\CMS\Event\CustomFields\PrepareDomEvent;
 use Joomla\CMS\Event\CustomFields\PrepareFieldEvent;
@@ -43,7 +44,7 @@ abstract class FieldsPlugin extends CMSPlugin
     /**
      * Application object.
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  4.0.0
      */
     protected $app;

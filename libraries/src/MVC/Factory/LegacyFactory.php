@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
+use Joomla\CMS\MVC\Controller\ControllerInterface;
+use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -40,7 +42,7 @@ class LegacyFactory implements MVCFactoryInterface
      * @param   CMSApplicationInterface  $app     The app
      * @param   Input                    $input   The input
      *
-     * @return  \Joomla\CMS\MVC\Controller\ControllerInterface
+     * @return ControllerInterface
      *
      * @since   4.0.0
      * @throws  \Exception
@@ -79,7 +81,7 @@ class LegacyFactory implements MVCFactoryInterface
      * @param   string  $type    Optional type of view.
      * @param   array   $config  Optional configuration array for the view.
      *
-     * @return  \Joomla\CMS\MVC\View\ViewInterface  The view object
+     * @return ViewInterface The view object
      *
      * @since   3.10.0
      * @throws  \Exception
@@ -118,7 +120,7 @@ class LegacyFactory implements MVCFactoryInterface
      * @param   string  $prefix  Optional table prefix.
      * @param   array   $config  Optional configuration array for the table.
      *
-     * @return  \Joomla\CMS\Table\Table  The table object
+     * @return Table The table object
      *
      * @since   3.10.0
      * @throws  \Exception

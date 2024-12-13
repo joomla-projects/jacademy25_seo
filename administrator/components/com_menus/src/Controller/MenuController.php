@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Menus\Administrator\Controller;
 
+use Joomla\Component\Menus\Administrator\Model\MenuModel;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Filter\InputFilter;
@@ -82,7 +83,7 @@ class MenuController extends FormController
         $data['id'] = $recordId;
 
         // Get the model and attempt to validate the posted data.
-        /** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
+        /** @var MenuModel $model */
         $model = $this->getModel('Menu', '', ['ignore_request' => false]);
         $form  = $model->getForm();
 

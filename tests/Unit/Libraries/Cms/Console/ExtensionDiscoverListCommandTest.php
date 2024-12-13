@@ -10,6 +10,7 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Console;
 
+use PHPUnit\Framework\TestCase;
 use Joomla\CMS\Console\ExtensionDiscoverListCommand;
 use Joomla\Database\DatabaseInterface;
 
@@ -18,7 +19,7 @@ use Joomla\Database\DatabaseInterface;
  *
  * @since   4.0.0
  */
-class ExtensionDiscoverListCommandTest extends \PHPUnit\Framework\TestCase
+class ExtensionDiscoverListCommandTest extends TestCase
 {
     /**
      * Tests the constructor

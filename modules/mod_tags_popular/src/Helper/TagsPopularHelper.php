@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\TagsPopular\Site\Helper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -33,7 +34,7 @@ class TagsPopularHelper implements DatabaseAwareInterface
     /**
      * Get list of popular tags
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
+     * @param Registry &$params module parameters
      *
      * @return  mixed
      *
@@ -197,7 +198,7 @@ class TagsPopularHelper implements DatabaseAwareInterface
     /**
      * Get list of popular tags
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
+     * @param Registry &$params module parameters
      *
      * @return  mixed
      *

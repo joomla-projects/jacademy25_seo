@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Privacy\Administrator\View\Request;
 
+use Joomla\Registry\Registry;
+use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -58,7 +60,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The state information
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      * @since  3.9.0
      */
     protected $state;
@@ -83,7 +85,7 @@ class HtmlView extends BaseHtmlView
 
         // Variables only required for the default layout
         if ($this->getLayout() === 'default') {
-            /** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel $logsModel */
+            /** @var ActionlogsModel $logsModel */
             $logsModel = $this->getModel('actionlogs');
 
             $this->actionlogs = $logsModel->getLogsForItem('com_privacy.request', $this->item->id);

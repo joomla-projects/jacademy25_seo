@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Component\Tags\Administrator\View\Tags\HtmlView;
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_tags
@@ -12,8 +14,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
-/** @var \Joomla\Component\Tags\Administrator\View\Tags\HtmlView $this */
-
+/** @var HtmlView $this */
 $displayData = [
     'textPrefix' => 'COM_TAGS',
     'formURL'    => 'index.php?option=com_tags&task=tag.add',

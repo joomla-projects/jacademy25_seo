@@ -1,5 +1,8 @@
 <?php
 
+use Joomla\CMS\Autoload\ClassLoader;
+use Joomla\CMS\Version;
+
 /**
  * Prepares a minimalist framework for unit testing.
  *
@@ -102,12 +105,12 @@ JLoader::setup();
 $loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
 
 // We need to pull our decorated class loader into memory before unregistering Composer's loader
-class_exists(\Joomla\CMS\Autoload\ClassLoader::class);
+class_exists(ClassLoader::class);
 
 $loader->unregister();
 
 // Decorate Composer autoloader
-spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
+spl_autoload_register([new ClassLoader($loader), 'loadClass'], true, true);
 
 // Load extension classes
 require_once JPATH_LIBRARIES . '/namespacemap.php';
@@ -115,4 +118,4 @@ $extensionPsr4Loader = new \JNamespacePsr4Map();
 $extensionPsr4Loader->load();
 
 // Define the Joomla version if not already defined.
-\defined('JVERSION') or \define('JVERSION', (new \Joomla\CMS\Version())->getShortVersion());
+\defined('JVERSION') or \define('JVERSION', (new Version())->getShortVersion());

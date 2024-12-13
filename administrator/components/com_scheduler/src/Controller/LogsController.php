@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -42,7 +43,7 @@ class LogsController extends AdminController
      * @param   string  $prefix  The prefix for the PHP class name.
      * @param   array   $config  Array of configuration parameters.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
+     * @return BaseDatabaseModel
      *
      * @since   __DEPLOY_VERSION__
      */

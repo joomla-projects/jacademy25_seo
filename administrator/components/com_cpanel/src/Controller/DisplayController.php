@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Cpanel\Administrator\Controller;
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 
@@ -80,7 +81,7 @@ class DisplayController extends BaseController
         }
 
         // Administrator
-        $clientId = (\Joomla\CMS\Application\ApplicationHelper::getClientInfo('administrator', true))->id;
+        $clientId = (ApplicationHelper::getClientInfo('administrator', true))->id;
 
         $this->app->setUserState('com_modules.modules.' . $clientId . '.filter.position', $position);
         $this->app->setUserState('com_modules.modules.client_id', (string) $clientId);

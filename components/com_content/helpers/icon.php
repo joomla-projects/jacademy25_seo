@@ -9,7 +9,8 @@
  *
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
-
+use Joomla\Component\Content\Administrator\Service\HTML\Icon;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
@@ -119,12 +120,12 @@ abstract class JHtmlIcon
     /**
      * Creates an icon instance.
      *
-     * @return  \Joomla\Component\Content\Administrator\Service\HTML\Icon
+     * @return Icon
      *
      * @deprecated  4.3 will be removed in 6.0 without replacement
      */
     private static function getIcon()
     {
-        return (new \Joomla\Component\Content\Administrator\Service\HTML\Icon(Joomla\CMS\Factory::getApplication()));
+        return (new Icon(Factory::getApplication()));
     }
 }

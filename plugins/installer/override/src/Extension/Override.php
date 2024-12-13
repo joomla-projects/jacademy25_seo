@@ -10,6 +10,10 @@
 
 namespace Joomla\Plugin\Installer\Override\Extension;
 
+use Joomla\Component\Templates\Administrator\Model\TemplateModel;
+use Joomla\Component\Templates\Administrator\Extension\TemplatesComponent;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\Exception\ConnectionFailureException;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -64,7 +68,7 @@ final class Override extends CMSPlugin implements SubscriberInterface
      * @param   string  $name    The model name. Optional
      * @param   string  $prefix  The class prefix. Optional
      *
-     * @return  \Joomla\Component\Templates\Administrator\Model\TemplateModel
+     * @return TemplateModel
      *
      * @since   4.0.0
      *
@@ -72,10 +76,10 @@ final class Override extends CMSPlugin implements SubscriberInterface
      */
     public function getModel($name = 'Template', $prefix = 'Administrator')
     {
-        /** @var \Joomla\Component\Templates\Administrator\Extension\TemplatesComponent $templateProvider */
+        /** @var TemplatesComponent $templateProvider */
         $templateProvider = $this->getApplication()->bootComponent('com_templates');
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model = $templateProvider->getMVCFactory()->createModel($name, $prefix);
 
         return $model;
@@ -173,7 +177,7 @@ final class Override extends CMSPlugin implements SubscriberInterface
     public function getOverrideCoreList()
     {
         try {
-            /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $templateModel */
+            /** @var TemplateModel $templateModel */
             $templateModel = $this->getModel();
         } catch (\Exception) {
             return [];
@@ -321,7 +325,7 @@ final class Override extends CMSPlugin implements SubscriberInterface
      * @return  void
      *
      * @since   4.0.0
-     * @throws   \Joomla\Database\Exception\ExecutionFailureException|\Joomla\Database\Exception\ConnectionFailureException
+     * @throws ExecutionFailureException|ConnectionFailureException
      */
     private function saveOverrides($pks)
     {

@@ -109,14 +109,14 @@ class Workflow
         $this->extension = $extension;
 
         // Initialise default objects if none have been provided
-        if (!$app instanceof \Joomla\CMS\Application\CMSApplication) {
+        if (!$app instanceof CMSApplication) {
             @trigger_error('From 6.0 declaring the app dependency will be mandatory.', E_USER_DEPRECATED);
             $app = Factory::getApplication();
         }
 
         $this->app = $app;
 
-        if (!$db instanceof \Joomla\Database\DatabaseDriver) {
+        if (!$db instanceof DatabaseDriver) {
             @trigger_error('From 6.0 declaring the database dependency will be mandatory.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseDriver::class);
         }
@@ -382,7 +382,7 @@ class Workflow
             AbstractEvent::create(
                 'onWorkflowBeforeTransition',
                 [
-                    'eventClass'     => \Joomla\CMS\Event\Workflow\WorkflowTransitionEvent::class,
+                    'eventClass'     => WorkflowTransitionEvent::class,
                     'subject'        => $this,
                     'extension'      => $this->extension,
                     'pks'            => $pks,

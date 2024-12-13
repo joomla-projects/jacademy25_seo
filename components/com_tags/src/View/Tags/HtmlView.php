@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Tags\Site\View\Tags;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\User\User;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -32,7 +34,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var   \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since  3.1
      */
@@ -49,7 +51,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      * @since  3.1
      */
     protected $pagination;
@@ -57,7 +59,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      * @since  3.1
      */
     protected $params;
@@ -73,7 +75,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The logged in user
      *
-     * @var    \Joomla\CMS\User\User|null
+     * @var User|null
      * @since  4.0.0
      */
     protected $user;

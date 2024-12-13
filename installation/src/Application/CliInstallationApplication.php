@@ -10,6 +10,7 @@
 
 namespace Joomla\CMS\Installation\Application;
 
+use Joomla\Console\Command\AbstractCommand;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\EventAware;
@@ -153,7 +154,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
     /**
      * Get the commands which should be registered by default to the application.
      *
-     * @return  \Joomla\Console\Command\AbstractCommand[]
+     * @return AbstractCommand[]
      *
      * @since   4.3.0
      */
@@ -170,7 +171,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
     /**
      * Method to get the application input object.
      *
-     * @return  \Joomla\Input\Input
+     * @return Input
      *
      * @since   4.0.0
      */
@@ -217,7 +218,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
         $langfiles = [];
 
         // If db connection, fetch them from the database.
-        if ($db instanceof \Joomla\Database\DatabaseInterface) {
+        if ($db instanceof DatabaseInterface) {
             foreach (LanguageHelper::getInstalledLanguages(null, null, null, null, null, null, $db) as $clientId => $language) {
                 $clientName = $clientId === 0 ? 'site' : 'admin';
 

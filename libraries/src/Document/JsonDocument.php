@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Document;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory as CmsFactory;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -61,7 +62,7 @@ class JsonDocument extends Document
      */
     public function render($cache = false, $params = [])
     {
-        /** @var \Joomla\CMS\Application\CMSApplication $app */
+        /** @var CMSApplication $app */
         $app = CmsFactory::getApplication();
 
         $app->allowCache($cache);

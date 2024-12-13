@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Menus\Administrator\Table;
 
+use Joomla\CMS\Table\MenuType;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -19,6 +21,6 @@ namespace Joomla\Component\Menus\Administrator\Table;
  *
  * @since  1.6
  */
-class MenuTypeTable extends \Joomla\CMS\Table\MenuType
+class MenuTypeTable extends MenuType
 {
 }

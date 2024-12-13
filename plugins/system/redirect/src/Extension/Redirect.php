@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\Redirect\Extension;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Factory;
@@ -57,7 +58,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
      */
     public function handleError(ErrorEvent $event)
     {
-        /** @var \Joomla\CMS\Application\CMSApplication $app */
+        /** @var CMSApplication $app */
         $app = $event->getApplication();
 
         if ($app->isClient('administrator') || ((int) $event->getError()->getCode() !== 404)) {

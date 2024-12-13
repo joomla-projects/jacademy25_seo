@@ -9,6 +9,9 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
+use Joomla\CMS\MVC\Model\ModelInterface;
+use Joomla\CMS\Table\Table;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -28,7 +31,7 @@ final class ApiMVCFactory extends MVCFactory
      * @param   string  $prefix  Optional model prefix.
      * @param   array   $config  Optional configuration array for the model.
      *
-     * @return  \Joomla\CMS\MVC\Model\ModelInterface  The model object
+     * @return ModelInterface The model object
      *
      * @since   4.0.0
      * @throws  \Exception
@@ -51,7 +54,7 @@ final class ApiMVCFactory extends MVCFactory
      * @param   string  $prefix  Optional table prefix.
      * @param   array   $config  Optional configuration array for the table.
      *
-     * @return  \Joomla\CMS\Table\Table  The table object
+     * @return Table The table object
      *
      * @since   4.0.0
      * @throws  \Exception

@@ -1,5 +1,9 @@
 <?php
 
+use Joomla\CMS\Application\ExtensionNamespaceMapper;
+use Joomla\DI\Container;
+use Joomla\Event\DispatcherInterface;
+
 /**
  * @package    Joomla.Build
  *
@@ -50,7 +54,7 @@ ini_set('display_errors', 1);
  */
 class StubGenerator extends CliApplication
 {
-    use \Joomla\CMS\Application\ExtensionNamespaceMapper;
+    use ExtensionNamespaceMapper;
 
     /**
      * Entry point for CLI script
@@ -143,12 +147,12 @@ PHP;
 
 Factory::getContainer()->share(
     'StubGenerator',
-    fn(\Joomla\DI\Container $container) => new \StubGenerator(
+    fn(Container $container) => new \StubGenerator(
         null,
         null,
         null,
         null,
-        $container->get(\Joomla\Event\DispatcherInterface::class),
+        $container->get(DispatcherInterface::class),
         $container
     ),
     true

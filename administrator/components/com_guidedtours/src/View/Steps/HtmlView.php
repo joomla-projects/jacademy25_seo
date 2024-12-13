@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\View\Steps;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Form\Form;
+use Joomla\Component\Guidedtours\Administrator\Model\TourModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -40,21 +44,21 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      */
     protected $pagination;
 
     /**
      * The model state
      *
-     * @var \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $state;
 
     /**
      * Form object for search filters
      *
-     * @var \Joomla\CMS\Form\Form
+     * @var Form
      */
     public $filterForm;
 
@@ -134,7 +138,7 @@ class HtmlView extends BaseHtmlView
         $app   = Factory::getApplication();
         $user  = $app->getIdentity();
 
-        /** @var \Joomla\Component\Guidedtours\Administrator\Model\TourModel $tourModel */
+        /** @var TourModel $tourModel */
         $tourModel = $app->bootComponent('com_guidedtours')
             ->getMVCFactory()->createModel('Tour', 'Administrator', ['ignore_request' => true]);
 

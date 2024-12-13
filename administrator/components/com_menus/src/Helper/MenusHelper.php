@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Menus\Administrator\Helper;
 
+use Joomla\CMS\Table\Menu;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Menu\PreprocessMenuItemsEvent;
@@ -456,7 +457,7 @@ class MenusHelper extends ContentHelper
         ]))->getArgument('subject', $items);
 
         foreach ($items as $item) {
-            /** @var \Joomla\CMS\Table\Menu $table */
+            /** @var Menu $table */
             $table = Table::getInstance('Menu');
 
             $item->alias = $menutype . '-' . $item->title;

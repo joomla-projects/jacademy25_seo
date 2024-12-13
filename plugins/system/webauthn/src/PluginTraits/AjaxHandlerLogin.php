@@ -10,6 +10,9 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
+use Joomla\CMS\Event\User\LoginEvent;
+use Joomla\CMS\Event\User\AfterLoginEvent;
+use Joomla\CMS\Event\User\LoginFailureEvent;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxLogin;
@@ -144,7 +147,7 @@ trait AjaxHandlerLogin
     private function loginUser(int $userId): void
     {
         // Trick the class auto-loader into loading the necessary classes
-        class_exists(\Joomla\CMS\Authentication\Authentication::class, true);
+        class_exists(Authentication::class, true);
 
         // Fake a successful login message
         $isAdmin = $this->getApplication()->isClient('administrator');
@@ -201,7 +204,7 @@ trait AjaxHandlerLogin
 
         PluginHelper::importPlugin('user', null, true, $dispatcher);
 
-        $event   = new \Joomla\CMS\Event\User\LoginEvent(
+        $event   = new LoginEvent(
             'onUserLogin',
             [
                 'options' => $options,
@@ -221,7 +224,7 @@ trait AjaxHandlerLogin
             $options['responseType'] = $response->type;
 
             // The user is successfully logged in. Run the after login events
-            $event = new \Joomla\CMS\Event\User\AfterLoginEvent(
+            $event = new AfterLoginEvent(
                 'onUserAfterLogin',
                 [
                     'options' => $options,
@@ -234,7 +237,7 @@ trait AjaxHandlerLogin
         }
 
         // If we are here the plugins marked a login failure. Trigger the onUserLoginFailure Event.
-        $event = new \Joomla\CMS\Event\User\LoginFailureEvent(
+        $event = new LoginFailureEvent(
             'onUserLoginFailure',
             [
                 'options' => $options,
@@ -260,7 +263,7 @@ trait AjaxHandlerLogin
     private function getAuthenticationResponseObject(): AuthenticationResponse
     {
         // Force the class auto-loader to load the JAuthentication class
-        class_exists(\Joomla\CMS\Authentication\Authentication::class, true);
+        class_exists(Authentication::class, true);
 
         return new AuthenticationResponse();
     }

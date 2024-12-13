@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contenthistory\Administrator\View\Compare;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Contenthistory\Administrator\Model\CompareModel;
@@ -35,7 +36,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $state;
 

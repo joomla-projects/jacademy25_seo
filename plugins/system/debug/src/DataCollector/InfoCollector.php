@@ -11,8 +11,6 @@
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
 use DebugBar\DataCollector\AssetProvider;
-use Joomla\CMS\Application\AdministratorApplication;
-use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;

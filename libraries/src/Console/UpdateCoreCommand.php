@@ -9,14 +9,12 @@
 
 namespace Joomla\CMS\Console;
 
-use Joomla\Application\Cli\CliInput;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\Console\Command\AbstractCommand;
-use Joomla\Database\DatabaseInterface;
 use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;

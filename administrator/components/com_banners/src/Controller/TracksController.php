@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Banners\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Component\Banners\Administrator\Model\TracksModel;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -40,7 +42,7 @@ class TracksController extends BaseController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     * @return BaseDatabaseModel The model.
      *
      * @since   1.6
      */
@@ -62,7 +64,7 @@ class TracksController extends BaseController
         $this->checkToken();
 
         // Get the model.
-        /** @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */
+        /** @var TracksModel $model */
         $model = $this->getModel();
 
         // Load the filter state.
@@ -111,7 +113,7 @@ class TracksController extends BaseController
             $this->checkToken('GET');
 
             // Get the model for the view.
-            /** @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */
+            /** @var TracksModel $model */
             $model = $this->getModel($vName);
 
             // Load the filter state.

@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\Fields\Subform\Extension;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Event\CustomFields\BeforePrepareFieldEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
@@ -358,7 +359,7 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
      *
      * @param   \stdClass  $field  The field
      *
-     * @return  \Joomla\Registry\Registry
+     * @return Registry
      *
      * @since 4.0.0
      */

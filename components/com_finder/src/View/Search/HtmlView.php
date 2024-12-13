@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Finder\Site\View\Search;
 
+use Joomla\Registry\Registry;
+use Joomla\CMS\User\User;
 use Joomla\CMS\Event\Finder\ResultEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -57,21 +59,21 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
     /**
      * The page parameters
      *
-     * @var  \Joomla\Registry\Registry|null
+     * @var Registry|null
      */
     protected $params;
 
     /**
      * The model state
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $state;
 
     /**
      * The logged in user
      *
-     * @var  \Joomla\CMS\User\User|null
+     * @var User|null
      */
     protected $user;
 

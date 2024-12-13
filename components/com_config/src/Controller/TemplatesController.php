@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Config\Site\Controller;
 
+use Joomla\CMS\Input\Input;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Language\Text;
@@ -35,7 +36,7 @@ class TemplatesController extends BaseController
      *                                              'view_path' (this list is not meant to be comprehensive).
      * @param   ?MVCFactoryInterface      $factory  The factory.
      * @param   ?CMSApplication           $app      The Application for the dispatcher
-     * @param   ?\Joomla\CMS\Input\Input  $input    The Input object for the request
+     * @param ?Input $input The Input object for the request
      *
      * @since   1.6
      */

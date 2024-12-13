@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\View\Step;
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -32,7 +34,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The \JForm object
      *
-     * @var \Joomla\CMS\Form\Form
+     * @var Form
      */
     protected $form;
 
@@ -53,7 +55,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      */
     protected $canDo;
 

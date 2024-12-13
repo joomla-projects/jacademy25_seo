@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Scheduler\Administrator\View\Tasks;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -55,7 +56,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state.
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      * @since  4.1.0
      */
     protected $state;

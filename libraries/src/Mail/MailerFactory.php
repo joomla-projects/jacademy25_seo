@@ -53,7 +53,7 @@ class MailerFactory implements MailerFactoryInterface
     {
         $configuration = new Registry($this->defaultConfiguration);
 
-        if ($settings instanceof \Joomla\Registry\Registry) {
+        if ($settings instanceof Registry) {
             $configuration->merge($settings);
         }
 

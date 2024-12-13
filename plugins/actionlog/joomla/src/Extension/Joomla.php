@@ -10,6 +10,22 @@
 
 namespace Joomla\Plugin\Actionlog\Joomla\Extension;
 
+use Joomla\CMS\Event\Model\AfterSaveEvent;
+use Joomla\CMS\Event\Model\AfterDeleteEvent;
+use Joomla\CMS\Event\Model\AfterChangeStateEvent;
+use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
+use Joomla\CMS\Event\Extension\AfterInstallEvent;
+use Joomla\CMS\Event\Extension\AfterUninstallEvent;
+use Joomla\CMS\Event\Extension\AfterUpdateEvent;
+use Joomla\CMS\Event\User\AfterLoginEvent;
+use Joomla\CMS\Event\User\LoginFailureEvent;
+use Joomla\CMS\Event\User\LogoutEvent;
+use Joomla\CMS\Event\User\AfterRemindEvent;
+use Joomla\CMS\Event\Checkin\AfterCheckinEvent;
+use Joomla\CMS\Event\Cache\AfterPurgeEvent;
+use Joomla\CMS\Event\User\AfterResetRequestEvent;
+use Joomla\CMS\Event\User\AfterResetCompleteEvent;
+use Joomla\CMS\Event\User\BeforeSaveEvent;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\Application;
@@ -147,7 +163,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.0
      */
-    public function onContentAfterSave(Model\AfterSaveEvent $event): void
+    public function onContentAfterSave(AfterSaveEvent $event): void
     {
         $context = $event->getContext();
         $article = $event->getItem();
@@ -207,7 +223,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.0
      */
-    public function onContentAfterDelete(Model\AfterDeleteEvent $event): void
+    public function onContentAfterDelete(AfterDeleteEvent $event): void
     {
         $context = $event->getContext();
         $article = $event->getItem();
@@ -254,7 +270,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.0
      */
-    public function onContentChangeState(Model\AfterChangeStateEvent $event): void
+    public function onContentChangeState(AfterChangeStateEvent $event): void
     {
         $context = $event->getContext();
         $pks     = $event->getPks();
@@ -347,7 +363,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.0
      */
-    public function onApplicationAfterSave(Application\AfterSaveConfigurationEvent $event): void
+    public function onApplicationAfterSave(AfterSaveConfigurationEvent $event): void
     {
         $option = $this->getApplication()->getInput()->getCmd('option');
 
@@ -379,7 +395,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.0
      */
-    public function onExtensionAfterInstall(Extension\AfterInstallEvent $event): void
+    public function onExtensionAfterInstall(AfterInstallEvent $event): void
     {
         $installer = $event->getInstaller();
         $eid       = $event->getEid();
@@ -426,7 +442,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.0
      */
-    public function onExtensionAfterUninstall(Extension\AfterUninstallEvent $event): void
+    public function onExtensionAfterUninstall(AfterUninstallEvent $event): void
     {
         $installer = $event->getInstaller();
         $eid       = $event->getEid();
@@ -479,7 +495,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.0
      */
-    public function onExtensionAfterUpdate(Extension\AfterUpdateEvent $event): void
+    public function onExtensionAfterUpdate(AfterUpdateEvent $event): void
     {
         $installer = $event->getInstaller();
         $eid       = $event->getEid();
@@ -525,7 +541,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.0
      */
-    public function onExtensionAfterSave(Model\AfterSaveEvent $event): void
+    public function onExtensionAfterSave(AfterSaveEvent $event): void
     {
         $context = $event->getContext();
         $table   = $event->getItem();
@@ -583,7 +599,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.0
      */
-    public function onExtensionAfterDelete(Model\AfterDeleteEvent $event): void
+    public function onExtensionAfterDelete(AfterDeleteEvent $event): void
     {
         $context = $event->getContext();
         $table   = $event->getItem();
@@ -746,7 +762,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.0
      */
-    public function onUserAfterSaveGroup(Model\AfterSaveEvent $event): void
+    public function onUserAfterSaveGroup(AfterSaveEvent $event): void
     {
         $table = $event->getItem();
         $isNew = $event->getIsNew();
@@ -788,7 +804,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.0
      */
-    public function onUserAfterDeleteGroup(Model\AfterDeleteEvent $event): void
+    public function onUserAfterDeleteGroup(AfterDeleteEvent $event): void
     {
         $group   = $event->getItem();
         $context = $this->getApplication()->getInput()->get('option');
@@ -818,7 +834,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.0
      */
-    public function onUserAfterLogin(User\AfterLoginEvent $event): void
+    public function onUserAfterLogin(AfterLoginEvent $event): void
     {
         $options = $event->getOptions();
 
@@ -855,7 +871,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.0
      */
-    public function onUserLoginFailure(User\LoginFailureEvent $event): void
+    public function onUserLoginFailure(LoginFailureEvent $event): void
     {
         $response = $event->getAuthenticationResponse();
         $context  = 'com_users';
@@ -907,7 +923,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.0
      */
-    public function onUserLogout(User\LogoutEvent $event): void
+    public function onUserLogout(LogoutEvent $event): void
     {
         $user    = $event->getParameters();
         $context = 'com_users';
@@ -961,7 +977,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.0
      */
-    public function onUserAfterRemind(User\AfterRemindEvent $event): void
+    public function onUserAfterRemind(AfterRemindEvent $event): void
     {
         $user    = $event->getUser();
         $context = $this->getApplication()->getInput()->get('option');
@@ -995,7 +1011,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.3
      */
-    public function onAfterCheckin(Checkin\AfterCheckinEvent $event): void
+    public function onAfterCheckin(AfterCheckinEvent $event): void
     {
         $table   = $event->getTableName();
         $context = 'com_checkin';
@@ -1083,7 +1099,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.4
      */
-    public function onAfterPurge(Cache\AfterPurgeEvent $event): void
+    public function onAfterPurge(AfterPurgeEvent $event): void
     {
         $group   = $event->getGroup() ?: 'all';
         $context = $this->getApplication()->getInput()->get('option');
@@ -1220,7 +1236,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   4.2.9
      */
-    public function onUserAfterResetRequest(User\AfterResetRequestEvent $event): void
+    public function onUserAfterResetRequest(AfterResetRequestEvent $event): void
     {
         $user    = $event->getUser();
         $context = $this->getApplication()->getInput()->get('option');
@@ -1254,7 +1270,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   4.2.9
      */
-    public function onUserAfterResetComplete(User\AfterResetCompleteEvent $event)
+    public function onUserAfterResetComplete(AfterResetCompleteEvent $event)
     {
         $user    = $event->getUser();
         $context = $this->getApplication()->getInput()->get('option');
@@ -1286,7 +1302,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   5.0.0
      */
-    public function onUserBeforeSave(User\BeforeSaveEvent $event): void
+    public function onUserBeforeSave(BeforeSaveEvent $event): void
     {
         $user = $event->getUser();
         $new  = $event->getData();

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contact\Api\Controller;
 
+use Joomla\Component\Contact\Site\Model\ContactModel;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Contact\SubmitContactEvent;
 use Joomla\CMS\Event\Contact\ValidateContactEvent;
@@ -102,7 +103,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
 
         $modelName = Inflector::singularize($this->contentType);
 
-        /** @var  \Joomla\Component\Contact\Site\Model\ContactModel $model */
+        /** @var ContactModel $model */
         $model = $this->getModel($modelName, 'Site');
 
         if (!$model) {

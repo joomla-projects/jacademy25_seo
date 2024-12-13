@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Languages\Administrator\Controller;
 
+use Joomla\Component\Languages\Administrator\Model\OverridesModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Router\Route;
@@ -80,7 +81,7 @@ class OverridesController extends AdminController
         // Check for request forgeries.
         $this->checkToken();
 
-        /** @var \Joomla\Component\Languages\Administrator\Model\OverridesModel $model */
+        /** @var OverridesModel $model */
         $model = $this->getModel('overrides');
         $model->purge();
         $this->setRedirect(Route::_('index.php?option=com_languages&view=overrides', false));

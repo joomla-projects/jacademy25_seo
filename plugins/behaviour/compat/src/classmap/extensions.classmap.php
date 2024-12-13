@@ -1,5 +1,25 @@
 <?php
 
+use Joomla\Component\Actionlogs\Administrator\Plugin\ActionLogPlugin;
+use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
+use Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin;
+use Joomla\Component\Privacy\Administrator\Export\Domain;
+use Joomla\Component\Privacy\Administrator\Export\Field;
+use Joomla\Component\Privacy\Administrator\Export\Item;
+use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
+use Joomla\Component\Privacy\Administrator\Removal\Status;
+use Joomla\Component\Privacy\Administrator\Table\RequestTable;
+use Joomla\Component\Tags\Administrator\Table\TagTable;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Component\Finder\Administrator\Indexer\Adapter;
+use Joomla\Component\Finder\Administrator\Indexer\Helper;
+use Joomla\Component\Finder\Administrator\Indexer\Indexer;
+use Joomla\Component\Finder\Administrator\Indexer\Parser;
+use Joomla\Component\Finder\Administrator\Indexer\Query;
+use Joomla\Component\Finder\Administrator\Indexer\Result;
+use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
+use Joomla\Component\Finder\Administrator\Indexer\Token;
+
 /**
  * Joomla! Content Management System
  *
@@ -11,27 +31,27 @@
 \defined('_JEXEC') or die;
 
 // Class map of the core extensions
-JLoader::registerAlias('ActionLogPlugin', \Joomla\Component\Actionlogs\Administrator\Plugin\ActionLogPlugin::class, '5.0');
+JLoader::registerAlias('ActionLogPlugin', ActionLogPlugin::class, '5.0');
 
-JLoader::registerAlias('FieldsPlugin', \Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin::class, '5.0');
-JLoader::registerAlias('FieldsListPlugin', \Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin::class, '5.0');
+JLoader::registerAlias('FieldsPlugin', FieldsPlugin::class, '5.0');
+JLoader::registerAlias('FieldsListPlugin', FieldsListPlugin::class, '5.0');
 
-JLoader::registerAlias('PrivacyExportDomain', \Joomla\Component\Privacy\Administrator\Export\Domain::class, '5.0');
-JLoader::registerAlias('PrivacyExportField', \Joomla\Component\Privacy\Administrator\Export\Field::class, '5.0');
-JLoader::registerAlias('PrivacyExportItem', \Joomla\Component\Privacy\Administrator\Export\Item::class, '5.0');
-JLoader::registerAlias('PrivacyPlugin', \Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin::class, '5.0');
-JLoader::registerAlias('PrivacyRemovalStatus', \Joomla\Component\Privacy\Administrator\Removal\Status::class, '5.0');
-JLoader::registerAlias('PrivacyTableRequest', \Joomla\Component\Privacy\Administrator\Table\RequestTable::class, '5.0');
+JLoader::registerAlias('PrivacyExportDomain', Domain::class, '5.0');
+JLoader::registerAlias('PrivacyExportField', Field::class, '5.0');
+JLoader::registerAlias('PrivacyExportItem', Item::class, '5.0');
+JLoader::registerAlias('PrivacyPlugin', PrivacyPlugin::class, '5.0');
+JLoader::registerAlias('PrivacyRemovalStatus', Status::class, '5.0');
+JLoader::registerAlias('PrivacyTableRequest', RequestTable::class, '5.0');
 
-JLoader::registerAlias('TagsTableTag', \Joomla\Component\Tags\Administrator\Table\TagTable::class, '5.0');
+JLoader::registerAlias('TagsTableTag', TagTable::class, '5.0');
 
-JLoader::registerAlias('ContentHelperRoute', \Joomla\Component\Content\Site\Helper\RouteHelper::class, '5.0');
+JLoader::registerAlias('ContentHelperRoute', RouteHelper::class, '5.0');
 
-JLoader::registerAlias('FinderIndexerAdapter', \Joomla\Component\Finder\Administrator\Indexer\Adapter::class, '5.0');
-JLoader::registerAlias('FinderIndexerHelper', \Joomla\Component\Finder\Administrator\Indexer\Helper::class, '5.0');
-JLoader::registerAlias('FinderIndexer', \Joomla\Component\Finder\Administrator\Indexer\Indexer::class, '5.0');
-JLoader::registerAlias('FinderIndexerParser', \Joomla\Component\Finder\Administrator\Indexer\Parser::class, '5.0');
-JLoader::registerAlias('FinderIndexerQuery', \Joomla\Component\Finder\Administrator\Indexer\Query::class, '5.0');
-JLoader::registerAlias('FinderIndexerResult', \Joomla\Component\Finder\Administrator\Indexer\Result::class, '5.0');
-JLoader::registerAlias('FinderIndexerTaxonomy', \Joomla\Component\Finder\Administrator\Indexer\Taxonomy::class, '5.0');
-JLoader::registerAlias('FinderIndexerToken', \Joomla\Component\Finder\Administrator\Indexer\Token::class, '5.0');
+JLoader::registerAlias('FinderIndexerAdapter', Adapter::class, '5.0');
+JLoader::registerAlias('FinderIndexerHelper', Helper::class, '5.0');
+JLoader::registerAlias('FinderIndexer', Indexer::class, '5.0');
+JLoader::registerAlias('FinderIndexerParser', Parser::class, '5.0');
+JLoader::registerAlias('FinderIndexerQuery', Query::class, '5.0');
+JLoader::registerAlias('FinderIndexerResult', Result::class, '5.0');
+JLoader::registerAlias('FinderIndexerTaxonomy', Taxonomy::class, '5.0');
+JLoader::registerAlias('FinderIndexerToken', Token::class, '5.0');
