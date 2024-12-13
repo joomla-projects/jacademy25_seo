@@ -19,6 +19,7 @@ use Rector\DeadCode\Rector\StaticCall\RemoveParentCallWithoutParentRector;
 use Rector\EarlyReturn\Rector\If_\ChangeOrIfContinueToMultiContinueRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
+use Rector\TypeDeclaration\Rector\ClassMethod\ReturnNeverTypeRector;
 use Rector\ValueObject\PhpVersion;
 
 return static function (RectorConfig $rectorConfig): void {
@@ -33,7 +34,7 @@ return static function (RectorConfig $rectorConfig): void {
 
     // Complete sets with rules
     $rectorConfig->sets([
-        //LevelSetList::UP_TO_PHP_81,
+        LevelSetList::UP_TO_PHP_81,
         //SetList::CODE_QUALITY,
         //SetList::CODING_STYLE,
         //SetList::DEAD_CODE,
@@ -60,6 +61,8 @@ return static function (RectorConfig $rectorConfig): void {
         RemoveParentCallWithoutParentRector::class,
         // Keep the or in JEXEC
         LogicalToBooleanRector::class,
+        // No return never
+        ReturnNeverTypeRector::class,
         // No splitting if with ||
         ChangeOrIfContinueToMultiContinueRector::class,
         // Multiuse should be allowed in component classes

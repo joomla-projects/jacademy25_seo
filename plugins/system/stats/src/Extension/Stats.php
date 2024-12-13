@@ -405,7 +405,7 @@ final class Stats extends CMSPlugin
      */
     private function isAjaxRequest()
     {
-        return strtolower($this->getApplication()->getInput()->server->get('HTTP_X_REQUESTED_WITH', '')) === 'xmlhttprequest';
+        return strtolower((string) $this->getApplication()->getInput()->server->get('HTTP_X_REQUESTED_WITH', '')) === 'xmlhttprequest';
     }
 
     /**
@@ -454,7 +454,7 @@ final class Stats extends CMSPlugin
         try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
             $db->lockTable('#__extensions');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // If we can't lock the tables it's too risky to continue execution
             return false;
         }
@@ -464,7 +464,7 @@ final class Stats extends CMSPlugin
             $result = $db->setQuery($query)->execute();
 
             $this->clearCacheGroups(['com_plugins']);
-        } catch (\Exception $exc) {
+        } catch (\Exception) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -473,7 +473,7 @@ final class Stats extends CMSPlugin
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }
@@ -551,7 +551,7 @@ final class Stats extends CMSPlugin
 
                 $cache = Cache::getInstance('callback', $options);
                 $cache->clean();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Ignore it
             }
         }
@@ -579,7 +579,7 @@ final class Stats extends CMSPlugin
         try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
             $db->lockTable('#__extensions');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // If we can't lock the tables it's too risky to continue execution
             return false;
         }
@@ -589,7 +589,7 @@ final class Stats extends CMSPlugin
             $result = $db->setQuery($query)->execute();
 
             $this->clearCacheGroups(['com_plugins']);
-        } catch (\Exception $exc) {
+        } catch (\Exception) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -598,7 +598,7 @@ final class Stats extends CMSPlugin
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }

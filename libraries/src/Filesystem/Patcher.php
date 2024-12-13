@@ -288,7 +288,7 @@ class Patcher
         $line = current($lines);
 
         // Search for the header
-        while ($line !== false && !preg_match(self::SRC_FILE, $line, $m)) {
+        while ($line !== false && !preg_match(self::SRC_FILE, (string) $line, $m)) {
             $line = next($lines);
         }
 
@@ -308,7 +308,7 @@ class Patcher
         }
 
         // Search the destination file
-        if (!preg_match(self::DST_FILE, $line, $m)) {
+        if (!preg_match(self::DST_FILE, (string) $line, $m)) {
             throw new \RuntimeException('Invalid Diff file');
         }
 
@@ -345,7 +345,7 @@ class Patcher
     {
         $line = current($lines);
 
-        if (preg_match(self::HUNK, $line, $m)) {
+        if (preg_match(self::HUNK, (string) $line, $m)) {
             $srcLine = (int) $m[1];
 
             $srcSize = 1;
@@ -415,17 +415,17 @@ class Patcher
                     throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXPECTED_REMOVE_LINE', key($lines)));
                 }
 
-                $source[] = substr($line, 1);
+                $source[] = substr((string) $line, 1);
                 $src_left--;
             } elseif ($line[0] == '+') {
                 if ($dst_left == 0) {
                     throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXPECTED_ADD_LINE', key($lines)));
                 }
 
-                $destin[] = substr($line, 1);
+                $destin[] = substr((string) $line, 1);
                 $dst_left--;
             } elseif ($line != '\\ No newline at end of file') {
-                $line     = substr($line, 1);
+                $line     = substr((string) $line, 1);
                 $source[] = $line;
                 $destin[] = $line;
                 $src_left--;

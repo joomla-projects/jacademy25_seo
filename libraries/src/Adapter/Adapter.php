@@ -57,14 +57,6 @@ class Adapter
     protected $_classprefix = 'J';
 
     /**
-     * Base Path for the adapter instance
-     *
-     * @var    string
-     * @since  1.6
-     */
-    protected $_basepath = null;
-
-    /**
      * Database Connector Object
      *
      * @var    \Joomla\Database\DatabaseDriver
@@ -75,15 +67,19 @@ class Adapter
     /**
      * Constructor
      *
-     * @param   string  $basepath       Base Path of the adapters
+     * @param string $_basepath Base Path of the adapters
      * @param   string  $classprefix    Class prefix of adapters
      * @param   string  $adapterfolder  Name of folder to append to base path
      *
      * @since   1.6
      */
-    public function __construct($basepath, $classprefix = null, $adapterfolder = null)
+    public function __construct(/**
+     * Base Path for the adapter instance
+     *
+     * @since  1.6
+     */
+    protected $_basepath, $classprefix = null, $adapterfolder = null)
     {
-        $this->_basepath      = $basepath;
         $this->_classprefix   = $classprefix ?: 'J';
         $this->_adapterfolder = $adapterfolder ?: 'adapters';
 

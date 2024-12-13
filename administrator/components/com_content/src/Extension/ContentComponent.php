@@ -293,7 +293,7 @@ class ContentComponent extends MVCComponent implements
             return 'Article';
         }
 
-        return ucfirst($modelname);
+        return ucfirst((string) $modelname);
     }
 
     /**

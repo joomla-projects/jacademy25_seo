@@ -103,7 +103,7 @@ $wa->useScript('com_finder.maps')
                                 ?>
                                 <?php echo str_repeat('<span class="gi">&mdash;</span>', $item->level - 1); ?>
                                 <?php echo $this->escape($title); ?>
-                                <?php if ($this->escape(trim($title, '*')) === 'Language' && Multilanguage::isEnabled()) : ?>
+                                <?php if ($this->escape(trim((string) $title, '*')) === 'Language' && Multilanguage::isEnabled()) : ?>
                                 <div class="small">
                                     <strong><?php echo Text::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
                                 </div>

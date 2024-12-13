@@ -42,7 +42,7 @@ trait DocumentAwareTrait
             return $this->document;
         }
 
-        throw new \UnexpectedValueException('Document not set in ' . __CLASS__);
+        throw new \UnexpectedValueException('Document not set in ' . self::class);
     }
 
     /**

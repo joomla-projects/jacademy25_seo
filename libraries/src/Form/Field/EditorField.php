@@ -123,19 +123,10 @@ class EditorField extends TextareaField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'height':
-            case 'width':
-            case 'assetField':
-            case 'authorField':
-            case 'asset':
-            case 'buttons':
-            case 'hide':
-            case 'editorType':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'height', 'width', 'assetField', 'authorField', 'asset', 'buttons', 'hide', 'editorType' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -249,7 +240,7 @@ class EditorField extends TextareaField
 
         return $editor->display(
             $this->name,
-            htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'),
+            htmlspecialchars((string) $this->value, ENT_COMPAT, 'UTF-8'),
             $this->width,
             $this->height,
             $this->columns,

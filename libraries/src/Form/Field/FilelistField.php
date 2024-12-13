@@ -93,17 +93,10 @@ class FilelistField extends ListField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'fileFilter':
-            case 'exclude':
-            case 'hideNone':
-            case 'hideDefault':
-            case 'stripExt':
-            case 'directory':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'fileFilter', 'exclude', 'hideNone', 'hideDefault', 'stripExt', 'directory' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -214,7 +207,7 @@ class FilelistField extends ListField
             foreach ($files as $file) {
                 // Check to see if the file is in the exclude mask.
                 if ($this->exclude) {
-                    if (preg_match(\chr(1) . $this->exclude . \chr(1), $file)) {
+                    if (preg_match(\chr(1) . $this->exclude . \chr(1), (string) $file)) {
                         continue;
                     }
                 }

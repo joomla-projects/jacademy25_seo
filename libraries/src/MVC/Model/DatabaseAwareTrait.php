@@ -56,7 +56,7 @@ trait DatabaseAwareTrait
             return $this->_db;
         }
 
-        throw new \UnexpectedValueException('Database driver not set in ' . __CLASS__);
+        throw new \UnexpectedValueException('Database driver not set in ' . self::class);
     }
 
     /**

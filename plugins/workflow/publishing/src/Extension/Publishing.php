@@ -427,7 +427,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $parts = explode('.', $context);
+        $parts = explode('.', (string) $context);
 
         $component = $this->getApplication()->bootComponent($parts[0]);
 

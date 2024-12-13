@@ -170,7 +170,7 @@ class StagesModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+            $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
             $query->where('(' . $db->quoteName('s.title') . ' LIKE :search1 OR ' . $db->quoteName('s.description') . ' LIKE :search2)')
                 ->bind([':search1', ':search2'], $search);
         }

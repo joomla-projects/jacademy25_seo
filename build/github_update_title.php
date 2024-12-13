@@ -50,7 +50,7 @@ if (empty($argv)) {
 }
 
 foreach ($argv as $arg) {
-    if (substr($arg, 0, 2) === '--') {
+    if (str_starts_with($arg, '--')) {
         $argi = explode('=', $arg, 2);
         switch ($argi[0]) {
             case '--try-run':
@@ -152,21 +152,21 @@ echo "\nFound " . \count($list) . " pull request(s).\n";
 foreach ($list as $pr) {
     echo "Change Title for PR #" . $pr['number'] . "\n";
 
-    $branch = substr($pr['baseRefName'], 0, strpos($pr['baseRefName'], '-'));
+    $branch = substr((string) $pr['baseRefName'], 0, strpos((string) $pr['baseRefName'], '-'));
 
     $title = $pr['title'];
 
-    if (str_contains($title, ']') && strpos($title, ']') < 10) {
-        $title = substr($title, strpos($title, ']') + 1);
+    if (str_contains((string) $title, ']') && strpos((string) $title, ']') < 10) {
+        $title = substr((string) $title, strpos((string) $title, ']') + 1);
     }
 
-    $newTitle = '[' . $branch . '] ' . trim($title);
+    $newTitle = '[' . $branch . '] ' . trim((string) $title);
 
     if ($newTitle === $pr['title']) {
         continue;
     }
 
-    echo 'OLD: ' . trim($pr['title']) ."\n";
+    echo 'OLD: ' . trim((string) $pr['title']) ."\n";
     echo 'NEW: ' . $newTitle ."\n";
 
     $cmd    = $gh . ' pr edit ' . $pr['url'] . ' --title "' . str_replace('"', '\"', $newTitle) . '"';

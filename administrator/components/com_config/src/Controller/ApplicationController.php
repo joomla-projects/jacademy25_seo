@@ -181,16 +181,10 @@ class ApplicationController extends BaseController
         $this->app->enqueueMessage(Text::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
 
         // Set the redirect based on the task.
-        switch ($this->input->getCmd('task')) {
-            case 'apply':
-                $this->setRedirect(Route::_('index.php?option=com_config', false));
-                break;
-
-            case 'save':
-            default:
-                $this->setRedirect(Route::_('index.php', false));
-                break;
-        }
+        match ($this->input->getCmd('task')) {
+            'apply' => $this->setRedirect(Route::_('index.php?option=com_config', false)),
+            default => $this->setRedirect(Route::_('index.php', false)),
+        };
     }
 
     /**

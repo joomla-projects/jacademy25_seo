@@ -158,7 +158,7 @@ final class ActionLogs extends CMSPlugin
 
         try {
             $values = $db->setQuery($query)->loadObject();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 
@@ -174,11 +174,11 @@ final class ActionLogs extends CMSPlugin
         $data->actionlogs->actionlogsExtensions = $values->extensions;
 
         if (!HTMLHelper::isRegistered('users.actionlogsNotify')) {
-            HTMLHelper::register('users.actionlogsNotify', [__CLASS__, 'renderActionlogsNotify']);
+            HTMLHelper::register('users.actionlogsNotify', [self::class, 'renderActionlogsNotify']);
         }
 
         if (!HTMLHelper::isRegistered('users.actionlogsExtensions')) {
-            HTMLHelper::register('users.actionlogsExtensions', [__CLASS__, 'renderActionlogsExtensions']);
+            HTMLHelper::register('users.actionlogsExtensions', [self::class, 'renderActionlogsExtensions']);
         }
 
         return true;
@@ -218,7 +218,7 @@ final class ActionLogs extends CMSPlugin
 
         try {
             $exists = (bool) $db->setQuery($query)->loadResult();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return;
         }
 
@@ -271,7 +271,7 @@ final class ActionLogs extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // Do nothing.
         }
     }
@@ -305,7 +305,7 @@ final class ActionLogs extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // Do nothing.
         }
     }
@@ -378,7 +378,7 @@ final class ActionLogs extends CMSPlugin
 
         try {
             $values = $db->setQuery($query)->loadObjectList();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return;
         }
 
@@ -399,7 +399,7 @@ final class ActionLogs extends CMSPlugin
 
             try {
                 $db->setQuery($query)->execute();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 // Do nothing.
             }
         }

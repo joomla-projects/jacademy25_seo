@@ -213,11 +213,11 @@ class FieldsModel extends ListModel
                         // Try to get the categories for this component and section
                         try {
                             $cat = $componentObject->getCategory([], $parts[1] ?: '');
-                        } catch (SectionNotFoundException $e) {
+                        } catch (SectionNotFoundException) {
                             // Not found for component and section -> Now try once more without the section, so only component
                             try {
                                 $cat = $componentObject->getCategory();
-                            } catch (SectionNotFoundException $e) {
+                            } catch (SectionNotFoundException) {
                                 // If we haven't found it now, return (no categories available for this component)
                                 return null;
                             }
@@ -336,12 +336,12 @@ class FieldsModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $search = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $search = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id')
                     ->bind(':id', $search, ParameterType::INTEGER);
-            } elseif (stripos($search, 'author:') === 0) {
-                $search = '%' . substr($search, 7) . '%';
+            } elseif (stripos((string) $search, 'author:') === 0) {
+                $search = '%' . substr((string) $search, 7) . '%';
                 $query->where(
                     '(' .
                         $db->quoteName('ua.name') . ' LIKE :name OR ' .
@@ -351,7 +351,7 @@ class FieldsModel extends ListModel
                     ->bind(':name', $search)
                     ->bind(':username', $search);
             } else {
-                $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+                $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
                 $query->where(
                     '(' .
                         $db->quoteName('a.title') . ' LIKE :title OR ' .

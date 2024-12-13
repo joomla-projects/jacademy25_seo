@@ -269,7 +269,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
             AbstractEvent::create(
                 'onContentBeforeChangeFeatured',
                 [
-                    'eventClass'  => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
+                    'eventClass'  => \Joomla\Component\Content\Administrator\Event\Model\FeatureEvent::class,
                     'subject'     => $this,
                     'extension'   => $context,
                     'pks'         => $pks,
@@ -424,7 +424,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $parts = explode('.', $context);
+        $parts = explode('.', (string) $context);
 
         $component = $this->getApplication()->bootComponent($parts[0]);
 

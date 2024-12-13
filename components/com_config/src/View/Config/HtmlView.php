@@ -88,7 +88,7 @@ class HtmlView extends BaseHtmlView
         $requestController = new RequestController();
 
         // Execute backend controller
-        $serviceData = json_decode($requestController->getJson(), true);
+        $serviceData = json_decode((string) $requestController->getJson(), true);
 
         $form = $this->getForm();
 
@@ -129,7 +129,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $params->get('pageclass_sfx', ''));
         $this->params        = &$params;
     }
 }

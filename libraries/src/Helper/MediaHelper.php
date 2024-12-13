@@ -103,7 +103,7 @@ class MediaHelper
                 $mime  = finfo_file($finfo, $file);
                 finfo_close($finfo);
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // If we have any kind of error here => false;
             return false;
         }
@@ -182,8 +182,8 @@ class MediaHelper
             return false;
         }
 
-        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
-        $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
+        $allowable = array_map('trim', explode(',', (string) $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
+        $ignored   = array_map('trim', explode(',', (string) $params->get('ignore_extensions', '')));
 
         if ($extension == '' || $extension == false || (!\in_array($extension, $allowable, true) && !\in_array($extension, $ignored, true))) {
             return false;
@@ -253,8 +253,8 @@ class MediaHelper
 
         $filetype = array_pop($filetypes);
 
-        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
-        $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
+        $allowable = array_map('trim', explode(',', (string) $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
+        $ignored   = array_map('trim', explode(',', (string) $params->get('ignore_extensions', '')));
 
         if ($filetype == '' || $filetype == false || (!\in_array($filetype, $allowable) && !\in_array($filetype, $ignored))) {
             $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
@@ -271,7 +271,7 @@ class MediaHelper
         }
 
         if ($params->get('restrict_uploads', 1)) {
-            $allowedExtensions = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
+            $allowedExtensions = array_map('trim', explode(',', (string) $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
 
             if (\in_array($filetype, $allowedExtensions)) {
                 // If tmp_name is empty, then the file was bigger than the PHP limit
@@ -385,7 +385,7 @@ class MediaHelper
             $d = dir($dir);
 
             while (($entry = $d->read()) !== false) {
-                if ($entry[0] !== '.' && strpos($entry, '.html') === false && strpos($entry, '.php') === false && is_file($dir . DIRECTORY_SEPARATOR . $entry)) {
+                if ($entry[0] !== '.' && !str_contains($entry, '.html') && !str_contains($entry, '.php') && is_file($dir . DIRECTORY_SEPARATOR . $entry)) {
                     $total_file++;
                 }
 
@@ -412,19 +412,12 @@ class MediaHelper
      */
     public function toBytes($val)
     {
-        switch ($val[\strlen($val) - 1]) {
-            case 'M':
-            case 'm':
-                return (int) $val * 1048576;
-            case 'K':
-            case 'k':
-                return (int) $val * 1024;
-            case 'G':
-            case 'g':
-                return (int) $val * 1073741824;
-            default:
-                return $val;
-        }
+        return match ($val[\strlen($val) - 1]) {
+            'M', 'm' => (int) $val * 1048576,
+            'K', 'k' => (int) $val * 1024,
+            'G', 'g' => (int) $val * 1073741824,
+            default => $val,
+        };
     }
 
     /**

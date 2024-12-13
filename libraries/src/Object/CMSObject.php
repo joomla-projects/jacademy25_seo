@@ -25,7 +25,7 @@ namespace Joomla\CMS\Object;
  *              Use \stdClass or \Joomla\Registry\Registry instead.
  *              Example: new \Joomla\Registry\Registry();
  */
-class CMSObject extends \stdClass
+class CMSObject extends \stdClass implements \Stringable
 {
     use LegacyErrorHandlingTrait;
     use LegacyPropertyManagementTrait;
@@ -55,8 +55,8 @@ class CMSObject extends \stdClass
      * @deprecated  4.3 will be removed in 6.0
      *              Classes should provide their own __toString() implementation.
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return \get_class($this);
+        return static::class;
     }
 }

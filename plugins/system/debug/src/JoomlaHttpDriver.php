@@ -26,13 +26,6 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 final class JoomlaHttpDriver implements HttpDriverInterface
 {
     /**
-     * @var CMSApplicationInterface
-     *
-     * @since   4.1.5
-     */
-    private $app;
-
-    /**
      * @var array
      *
      * @since   4.1.5
@@ -46,9 +39,13 @@ final class JoomlaHttpDriver implements HttpDriverInterface
      *
      * @since   4.1.5
      */
-    public function __construct(CMSApplicationInterface $app)
+    public function __construct(
+        /**
+         * @since   4.1.5
+         */
+        private readonly CMSApplicationInterface $app
+    )
     {
-        $this->app = $app;
     }
 
     /**

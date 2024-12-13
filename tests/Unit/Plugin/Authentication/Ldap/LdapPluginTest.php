@@ -331,29 +331,15 @@ class LdapPluginTest extends UnitTestCase
     private function createFactory(bool $failBind = false, bool $failQuery = false, bool $hasEntry = true): LdapFactoryInterface
     {
         return new class ($failBind, $failQuery, $hasEntry) implements LdapFactoryInterface {
-            private $failBind  = false;
-            private $failQuery = false;
-            private $hasEntry  = false;
-
-            public function __construct(bool $failBind, bool $failQuery, bool $hasEntry)
+            public function __construct(private readonly bool $failBind, private readonly bool $failQuery, private readonly bool $hasEntry)
             {
-                $this->failBind  = $failBind;
-                $this->failQuery = $failQuery;
-                $this->hasEntry  = $hasEntry;
             }
 
             public function createLdap(array $config): LdapInterface
             {
                 return new class ($this->failBind, $this->failQuery, $this->hasEntry) implements LdapInterface {
-                    private $failBind  = false;
-                    private $failQuery = false;
-                    private $hasEntry  = false;
-
-                    public function __construct(bool $failBind, bool $failQuery, bool $hasEntry)
+                    public function __construct(private readonly bool $failBind, private readonly bool $failQuery, private readonly bool $hasEntry)
                     {
-                        $this->failBind  = $failBind;
-                        $this->failQuery = $failQuery;
-                        $this->hasEntry  = $hasEntry;
                     }
 
                     public function bind(?string $dn = null, ?string $password = null)
@@ -370,11 +356,8 @@ class LdapPluginTest extends UnitTestCase
                         }
 
                         return new class ($this->hasEntry) implements QueryInterface {
-                            private $hasEntry = false;
-
-                            public function __construct(bool $hasEntry)
+                            public function __construct(private readonly bool $hasEntry)
                             {
-                                $this->hasEntry = $hasEntry;
                             }
 
                             public function execute(): CollectionInterface

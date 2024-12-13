@@ -118,7 +118,7 @@ class SearchesModel extends ListModel
 
         // Filter by search in title
         if ($search = $this->getState('filter.search')) {
-            $search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+            $search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim((string) $search), true) . '%'));
             $query->where($db->quoteName('a.searchterm') . ' LIKE ' . $search);
         }
 

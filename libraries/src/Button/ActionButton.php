@@ -24,7 +24,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  4.0.0
  */
-class ActionButton
+class ActionButton implements \Stringable
 {
     /**
      * The button states profiles.

@@ -517,7 +517,7 @@ abstract class DaemonApplication extends CliApplication
                 $this->processId = (int) posix_getpid();
                 $this->parentId  = $this->processId;
             }
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add('Unable to fork.', Log::EMERGENCY);
 
             return false;
@@ -753,7 +753,7 @@ abstract class DaemonApplication extends CliApplication
         }
 
         // Make sure that the folder where we are writing the process id file exists.
-        $folder = \dirname($file);
+        $folder = \dirname((string) $file);
 
         if (!is_dir($folder) && !Folder::create($folder)) {
             Log::add('Unable to create directory: ' . $folder, Log::ERROR);

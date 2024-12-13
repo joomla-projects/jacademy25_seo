@@ -837,7 +837,7 @@ class ModuleModel extends AdminModel
             Form::addFormPath($chromePath);
 
             foreach ($chromeFormFiles as $formFile) {
-                $form->loadFile(basename($formFile, '.xml'), false);
+                $form->loadFile(basename((string) $formFile, '.xml'), false);
             }
         }
 
@@ -858,7 +858,7 @@ class ModuleModel extends AdminModel
                 Form::addFormPath($chromePath);
 
                 foreach ($chromeFormFiles as $formFile) {
-                    $form->loadFile(basename($formFile, '.xml'), false);
+                    $form->loadFile(basename((string) $formFile, '.xml'), false);
                 }
             }
         }

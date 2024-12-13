@@ -32,7 +32,7 @@ $query->setQuery($sql . ' HAVING ' . $db->quoteName('value') . ' IN (' . implode
 try {
     $db->setQuery($query);
     $items = $db->loadObjectList();
-} catch (Exception $e) {
+} catch (Exception) {
     // If the query failed, we fetch all elements
     $db->setQuery($sql);
     $items = $db->loadObjectList();

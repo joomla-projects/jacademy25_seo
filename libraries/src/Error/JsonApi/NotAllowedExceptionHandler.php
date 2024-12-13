@@ -48,7 +48,7 @@ class NotAllowedExceptionHandler implements ExceptionHandlerInterface
      *
      * @since  4.0.0
      */
-    public function handle(\Exception $e)
+    public function handle(\Throwable $e)
     {
         $status = 403;
         $error  = ['title' => 'Access Denied'];

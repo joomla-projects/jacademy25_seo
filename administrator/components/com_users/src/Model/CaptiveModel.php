@@ -66,7 +66,7 @@ class CaptiveModel extends BaseDatabaseModel
             $app = Factory::getApplication();
         }
 
-        $app->registerEvent('onAfterModuleList', [$this, 'onAfterModuleList']);
+        $app->registerEvent('onAfterModuleList', $this->onAfterModuleList(...));
     }
 
     /**
@@ -106,9 +106,7 @@ class CaptiveModel extends BaseDatabaseModel
         if (!$includeBackupCodes) {
             $methodNames = array_filter(
                 $methodNames,
-                function ($method) {
-                    return $method != 'backupcodes';
-                }
+                fn($method) => $method != 'backupcodes'
             );
         }
 

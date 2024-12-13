@@ -69,7 +69,7 @@ abstract class TemplateHelper
             'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
             'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh',
         ];
-        $explodedFileName = explode('.', $file['name']);
+        $explodedFileName = explode('.', (string) $file['name']);
 
         if (\count($explodedFileName) > 2) {
             foreach ($executable as $extensionName) {
@@ -91,10 +91,10 @@ abstract class TemplateHelper
 
         $format = strtolower(File::getExt($file['name']));
 
-        $imageTypes   = explode(',', $params->get('image_formats', 'gif,bmp,jpg,jpeg,png,webp'));
-        $sourceTypes  = explode(',', $params->get('source_formats', 'txt,less,ini,xml,js,php,css,scss,sass,json'));
-        $fontTypes    = explode(',', $params->get('font_formats', 'woff,woff2,ttf,otf'));
-        $archiveTypes = explode(',', $params->get('compressed_formats', 'zip'));
+        $imageTypes   = explode(',', (string) $params->get('image_formats', 'gif,bmp,jpg,jpeg,png,webp'));
+        $sourceTypes  = explode(',', (string) $params->get('source_formats', 'txt,less,ini,xml,js,php,css,scss,sass,json'));
+        $fontTypes    = explode(',', (string) $params->get('font_formats', 'woff,woff2,ttf,otf'));
+        $archiveTypes = explode(',', (string) $params->get('compressed_formats', 'zip'));
 
         $allowable = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
 

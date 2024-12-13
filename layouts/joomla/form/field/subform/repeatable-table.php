@@ -116,7 +116,7 @@ if (!empty($groupByFieldset)) {
         </div>
         <?php if ($multiple) : ?>
         <template class="subform-repeatable-template-section hidden">
-            <?php echo trim($this->sublayout($sublayout, ['form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons])); ?>
+            <?php echo trim((string) $this->sublayout($sublayout, ['form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons])); ?>
         </template>
         <?php endif; ?>
     </joomla-field-subform>

@@ -111,7 +111,7 @@ final class TinyMCE extends CMSPlugin implements SubscriberInterface
             : [];
 
         foreach ($filepaths as $filepath) {
-            $fileinfo    = pathinfo($filepath);
+            $fileinfo    = pathinfo((string) $filepath);
             $filename    = $fileinfo['filename'];
             $title_upper = strtoupper($filename);
 

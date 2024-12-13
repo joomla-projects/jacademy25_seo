@@ -154,7 +154,7 @@ final class WebInstaller extends CMSPlugin implements SubscriberInterface
     private function isRTL()
     {
         if ($this->rtl === null) {
-            $this->rtl = strtolower($this->getApplication()->getDocument()->getDirection()) === 'rtl' ? 1 : 0;
+            $this->rtl = strtolower((string) $this->getApplication()->getDocument()->getDirection()) === 'rtl' ? 1 : 0;
         }
 
         return $this->rtl;

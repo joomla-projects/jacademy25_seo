@@ -49,9 +49,7 @@ class CryptoCipher implements CipherInterface
             return \Crypto::Decrypt($data, $key->getPublic());
         } catch (\InvalidCiphertextException $ex) {
             throw new \RuntimeException('DANGER! DANGER! The ciphertext has been tampered with!', $ex->getCode(), $ex);
-        } catch (\CryptoTestFailedException $ex) {
-            throw new \RuntimeException('Cannot safely perform decryption', $ex->getCode(), $ex);
-        } catch (\CannotPerformOperationException $ex) {
+        } catch (\CryptoTestFailedException|\CannotPerformOperationException $ex) {
             throw new \RuntimeException('Cannot safely perform decryption', $ex->getCode(), $ex);
         }
     }
@@ -77,9 +75,7 @@ class CryptoCipher implements CipherInterface
         // Encrypt the data.
         try {
             return \Crypto::Encrypt($data, $key->getPublic());
-        } catch (\CryptoTestFailedException $ex) {
-            throw new \RuntimeException('Cannot safely perform encryption', $ex->getCode(), $ex);
-        } catch (\CannotPerformOperationException $ex) {
+        } catch (\CryptoTestFailedException|\CannotPerformOperationException $ex) {
             throw new \RuntimeException('Cannot safely perform encryption', $ex->getCode(), $ex);
         }
     }
@@ -99,9 +95,7 @@ class CryptoCipher implements CipherInterface
         // Generate the encryption key.
         try {
             $public = \Crypto::CreateNewRandomKey();
-        } catch (\CryptoTestFailedException $ex) {
-            throw new \RuntimeException('Cannot safely create a key', $ex->getCode(), $ex);
-        } catch (\CannotPerformOperationException $ex) {
+        } catch (\CryptoTestFailedException|\CannotPerformOperationException $ex) {
             throw new \RuntimeException('Cannot safely create a key', $ex->getCode(), $ex);
         }
 
@@ -124,7 +118,7 @@ class CryptoCipher implements CipherInterface
             \Crypto::RuntimeTest();
 
             return true;
-        } catch (\CryptoTestFailedException $e) {
+        } catch (\CryptoTestFailedException) {
             return false;
         }
     }

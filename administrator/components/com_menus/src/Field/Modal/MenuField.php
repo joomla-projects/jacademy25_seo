@@ -146,8 +146,8 @@ class MenuField extends ModalSelectField
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
         // Check if the value consist with id:alias, extract the id only
-        if ($value && str_contains($value, ':')) {
-            [$id]  = explode(':', $value, 2);
+        if ($value && str_contains((string) $value, ':')) {
+            [$id]  = explode(':', (string) $value, 2);
             $value = (int) $id;
         }
 

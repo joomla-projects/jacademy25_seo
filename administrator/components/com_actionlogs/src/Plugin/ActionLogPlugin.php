@@ -84,11 +84,11 @@ abstract class ActionLogPlugin extends CMSPlugin
             }
 
             if (\array_key_exists('type', $message)) {
-                $message['type'] = strtoupper($message['type']);
+                $message['type'] = strtoupper((string) $message['type']);
             }
 
             if (\array_key_exists('app', $message)) {
-                $message['app'] = strtoupper($message['app']);
+                $message['app'] = strtoupper((string) $message['app']);
             }
 
             $messages[$index] = $message;

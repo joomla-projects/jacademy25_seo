@@ -268,11 +268,11 @@ class Updater extends Adapter
         if (\is_array($update_result)) {
             // If we have additional update sites in the remote (collection) update XML document, parse them
             if (\array_key_exists('update_sites', $update_result) && \count($update_result['update_sites'])) {
-                $thisUrl = trim($updateSite['location']);
+                $thisUrl = trim((string) $updateSite['location']);
                 $thisId  = (int) $updateSite['update_site_id'];
 
                 foreach ($update_result['update_sites'] as $extraUpdateSite) {
-                    $extraUrl = trim($extraUpdateSite['location']);
+                    $extraUrl = trim((string) $extraUpdateSite['location']);
                     $extraId  = (int) $extraUpdateSite['update_site_id'];
 
                     // Do not try to fetch the same update site twice
@@ -305,7 +305,7 @@ class Updater extends Adapter
                                 'element'   => $current_update->element,
                                 'type'      => $current_update->type,
                                 'client_id' => $current_update->client_id,
-                                'folder'    => isset($current_update->folder) ? $current_update->folder : '',
+                                'folder'    => $current_update->folder ?? '',
                             ]
                         );
 
@@ -315,7 +315,7 @@ class Updater extends Adapter
                                 'element'   => $current_update->element,
                                 'type'      => $current_update->type,
                                 'client_id' => $current_update->client_id,
-                                'folder'    => isset($current_update->folder) ? $current_update->folder : '',
+                                'folder'    => $current_update->folder ?? '',
                             ]
                         );
 

@@ -51,7 +51,7 @@ class SiteStatusPluginTest extends UnitTestCase
     public function setUp(): void
     {
         // Dir must be random for parallel automated tests
-        $this->tmpFolder = JPATH_ROOT . '/tmp/' . rand();
+        $this->tmpFolder = JPATH_ROOT . '/tmp/' . random_int(0, mt_getrandmax());
 
         if (!is_dir($this->tmpFolder)) {
             mkdir($this->tmpFolder);

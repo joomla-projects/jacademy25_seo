@@ -21,14 +21,6 @@ namespace Joomla\CMS\Component\Router;
 class RouterViewConfiguration
 {
     /**
-     * Name of the view
-     *
-     * @var    string
-     * @since  3.5
-     */
-    public $name;
-
-    /**
      * Key of the view
      *
      * @var    string
@@ -99,10 +91,14 @@ class RouterViewConfiguration
      *
      * @since   3.5
      */
-    public function __construct($name)
+    public function __construct(/**
+     * Name of the view
+     *
+     * @since  3.5
+     */
+    public $name)
     {
-        $this->name   = $name;
-        $this->path[] = $name;
+        $this->path[] = $this->name;
     }
 
     /**

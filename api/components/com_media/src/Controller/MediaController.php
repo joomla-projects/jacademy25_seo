@@ -212,7 +212,7 @@ class MediaController extends ApiController
         }
 
         // Content is only required when it is a file
-        if (empty($content) && strpos($path, '.') !== false) {
+        if (empty($content) && str_contains((string) $path, '.')) {
             $missingParameters[] = 'content';
         }
 
@@ -322,7 +322,7 @@ class MediaController extends ApiController
         $json = $this->input->json;
 
         // Decode content, if any
-        if ($content = base64_decode($json->get('content', '', 'raw'))) {
+        if ($content = base64_decode((string) $json->get('content', '', 'raw'))) {
             $this->checkContent();
         }
 

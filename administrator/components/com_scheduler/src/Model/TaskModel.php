@@ -118,7 +118,7 @@ class TaskModel extends AdminModel
      */
     public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
-        $config['events_map'] = $config['events_map'] ?? [];
+        $config['events_map'] ??= [];
 
         $config['events_map'] = array_merge(
             [
@@ -397,7 +397,7 @@ class TaskModel extends AdminModel
 
             $db->setQuery($lockQuery)->execute();
             $affectedRows = $db->getAffectedRows();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return null;
         } finally {
             $db->unlockTables();
@@ -427,7 +427,7 @@ class TaskModel extends AdminModel
 
         try {
             $runningCount = $db->setQuery($lockCountQuery)->loadResult();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -455,9 +455,7 @@ class TaskModel extends AdminModel
             ->bind(':now1', $now);
 
         $activeRoutines = array_map(
-            static function (TaskOption $taskOption): string {
-                return $taskOption->id;
-            },
+            static fn(TaskOption $taskOption): string => $taskOption->id,
             SchedulerHelper::getTaskOptions()->options
         );
 
@@ -499,9 +497,7 @@ class TaskModel extends AdminModel
             ->select($db->quoteName('id'));
 
         $activeRoutines = array_map(
-            static function (TaskOption $taskOption): string {
-                return $taskOption->id;
-            },
+            static fn(TaskOption $taskOption): string => $taskOption->id,
             SchedulerHelper::getTaskOptions()->options
         );
 
@@ -526,7 +522,7 @@ class TaskModel extends AdminModel
 
         try {
             return $db->setQuery($idQuery)->loadColumn();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return [];
         }
     }
@@ -550,7 +546,7 @@ class TaskModel extends AdminModel
 
         try {
             $task = $db->setQuery($getQuery)->loadObject();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return null;
         }
 
@@ -610,7 +606,7 @@ class TaskModel extends AdminModel
         // If a new entry, we'll have to put in place a pseudo-last_execution
         if ($isNew) {
             $basisDayOfMonth           = $data['execution_rules']['exec-day'];
-            [$basisHour, $basisMinute] = explode(':', $data['execution_rules']['exec-time']);
+            [$basisHour, $basisMinute] = explode(':', (string) $data['execution_rules']['exec-time']);
 
             $data['last_execution'] = Factory::getDate('now', 'GMT')->format('Y-m')
                 . "-$basisDayOfMonth $basisHour:$basisMinute:00";
@@ -630,7 +626,7 @@ class TaskModel extends AdminModel
 
         // If no params, we set as empty array.
         // ? Is this the right place to do this
-        $data['params'] = $data['params'] ?? [];
+        $data['params'] ??= [];
 
         // Parent method takes care of saving to the table
         return parent::save($data);
@@ -691,12 +687,12 @@ class TaskModel extends AdminModel
         ];
 
         $ruleType        = $executionRules['rule-type'];
-        $ruleClass       = strpos($ruleType, 'interval') === 0 ? 'interval' : $ruleType;
+        $ruleClass       = str_starts_with((string) $ruleType, 'interval') ? 'interval' : $ruleType;
         $buildExpression = '';
 
         if ($ruleClass === 'interval') {
             // Rule type for intervals interval-<minute/hours/...>
-            $intervalType    = explode('-', $ruleType)[1];
+            $intervalType    = explode('-', (string) $ruleType)[1];
             $interval        = $executionRules["interval-$intervalType"];
             $buildExpression = \sprintf($intervalStringMap[$intervalType], $interval);
         }
@@ -832,9 +828,7 @@ class TaskModel extends AdminModel
     {
         if ($targetToInt) {
             $target = array_map(
-                static function (string $x): int {
-                    return (int) $x;
-                },
+                static fn(string $x): int => (int) $x,
                 $target
             );
         }

@@ -139,7 +139,7 @@ abstract class BaseModel implements ModelInterface, StatefulModelInterface
         if (empty($this->name)) {
             $r = null;
 
-            if (!preg_match('/Model(.*)/i', \get_class($this), $r)) {
+            if (!preg_match('/Model(.*)/i', static::class, $r)) {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
             }
 

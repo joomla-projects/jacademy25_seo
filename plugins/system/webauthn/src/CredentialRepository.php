@@ -79,7 +79,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
 
         try {
             return PublicKeyCredentialSource::createFromArray(json_decode($json, true));
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return null;
         }
     }
@@ -107,7 +107,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
 
         try {
             $records = $db->setQuery($query)->loadAssocList();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return [];
         }
 
@@ -126,7 +126,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             try {
                 $json = $this->decryptCredential($record['credential']);
                 $data = json_decode($json, true);
-            } catch (\JsonException $e) {
+            } catch (\JsonException) {
                 return null;
             }
 
@@ -136,7 +136,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
 
             try {
                 return PublicKeyCredentialSource::createFromArray($data);
-            } catch (\InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException) {
                 return null;
             }
         };
@@ -155,9 +155,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
          *
          * @return boolean
          */
-        $filterClosure = function ($record) {
-            return !\is_null($record) && \is_object($record) && ($record instanceof PublicKeyCredentialSource);
-        };
+        $filterClosure = (fn($record) => !\is_null($record) && \is_object($record) && ($record instanceof PublicKeyCredentialSource));
 
         return array_filter($records, $filterClosure);
     }
@@ -222,7 +220,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             $o->user_id = $oldRecord->user_id;
             $o->label   = $oldRecord->label;
             $update     = true;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         $o->credential = $this->encryptCredential($o->credential);
@@ -268,7 +266,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
 
         try {
             $results = $db->setQuery($query)->loadAssocList();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return [];
         }
 
@@ -288,7 +286,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             try {
                 $json = $this->decryptCredential($record['credential']);
                 $data = json_decode($json, true);
-            } catch (\JsonException $e) {
+            } catch (\JsonException) {
                 $record['credential'] = null;
 
                 return $record;
@@ -304,7 +302,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
                 $record['credential'] = PublicKeyCredentialSource::createFromArray($data);
 
                 return $record;
-            } catch (\InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException) {
                 $record['credential'] = null;
 
                 return $record;
@@ -338,7 +336,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             $count = $db->setQuery($query)->loadResult();
 
             return $count > 0;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
     }
@@ -473,7 +471,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
 
         try {
             $numRecords = $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
 
@@ -501,7 +499,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         while (true) {
             try {
                 $ids = $db->setQuery($query, $start, $limit)->loadColumn();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 return null;
             }
 
@@ -562,7 +560,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         }
 
         // Was the credential stored unencrypted (e.g. the site's secret was empty)?
-        if ((strpos($credential, '{') !== false) && (strpos($credential, '"publicKeyCredentialId"') !== false)) {
+        if ((str_contains($credential, '{')) && (str_contains($credential, '"publicKeyCredentialId"'))) {
             return $credential;
         }
 
@@ -585,7 +583,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             /** @var Registry $config */
             $config = $app->getConfig();
             $secret = $config->get('secret', '');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $secret = '';
         }
 
@@ -621,7 +619,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
 
             try {
                 $tzDefault = Factory::getApplication()->get('offset');
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $tzDefault = 'GMT';
             }
 
@@ -634,7 +632,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
                 $userTimeZone = new \DateTimeZone($tz);
 
                 $jDate->setTimezone($userTimeZone);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Nothing. Fall back to UTC.
             }
         }

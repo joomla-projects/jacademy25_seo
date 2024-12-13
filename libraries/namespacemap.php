@@ -146,7 +146,7 @@ class JNamespacePsr4Map
 
         try {
             File::write($this->file, implode("\n", $content));
-        } catch (Exception $e) {
+        } catch (Exception) {
             Log::add('Could not save ' . $this->file, Log::WARNING);
 
             $map = [];
@@ -154,7 +154,7 @@ class JNamespacePsr4Map
 
             foreach ($elements as $namespace => $path) {
                 foreach ($constants as $constant) {
-                    $path = preg_replace(['/^(' . $constant . ")\s\.\s\'/", '/\'$/'], [constant($constant), ''], $path);
+                    $path = preg_replace(['/^(' . $constant . ")\s\.\s\'/", '/\'$/'], [constant($constant), ''], (string) $path);
                 }
 
                 $namespace = str_replace('\\\\', '\\', $namespace);
@@ -216,7 +216,7 @@ class JNamespacePsr4Map
             }
 
             // Check if we need to use administrator path
-            $isAdministrator = strpos($namespacePath, JPATH_ADMINISTRATOR) === 0;
+            $isAdministrator = str_starts_with($namespacePath, JPATH_ADMINISTRATOR);
             $path            = substr($namespacePath, strlen($isAdministrator ? JPATH_ADMINISTRATOR : JPATH_SITE));
 
             // Add the site path when a component
@@ -266,9 +266,9 @@ class JNamespacePsr4Map
                 // Scan library manifest directories for XML files
                 foreach (Folder::files(JPATH_MANIFESTS . '/libraries', '\.xml$', true, true) as $file) {
                     // Match manifest to extension directory
-                    $manifests[JPATH_LIBRARIES . '/' . File::stripExt(substr($file, strlen(JPATH_MANIFESTS . '/libraries') + 1))] = $file;
+                    $manifests[JPATH_LIBRARIES . '/' . File::stripExt(substr((string) $file, strlen(JPATH_MANIFESTS . '/libraries') + 1))] = $file;
                 }
-            } catch (UnexpectedValueException $e) {
+            } catch (UnexpectedValueException) {
                 return [];
             }
 
@@ -284,7 +284,7 @@ class JNamespacePsr4Map
         } else {
             try {
                 $directories = Folder::folders(JPATH_PLUGINS, '.', false, true);
-            } catch (UnexpectedValueException $e) {
+            } catch (UnexpectedValueException) {
                 $directories = [];
             }
         }
@@ -292,7 +292,7 @@ class JNamespacePsr4Map
         foreach ($directories as $directory) {
             try {
                 $extensionDirectories = Folder::folders($directory, '.', false, false);
-            } catch (UnexpectedValueException $e) {
+            } catch (UnexpectedValueException) {
                 continue;
             }
 
@@ -302,7 +302,7 @@ class JNamespacePsr4Map
 
                 if ($type === 'component') {
                     // Strip the com_ from the extension name for components
-                    $file = $extensionPath . '/' . substr($extension, 4) . '.xml';
+                    $file = $extensionPath . '/' . substr((string) $extension, 4) . '.xml';
 
                     if (!is_file($file)) {
                         $file = $extensionPath . '/' . $extension . '.xml';

@@ -96,8 +96,8 @@ final class LoadModule extends CMSPlugin
                         $matcheslist[1] = $defaultStyle;
                     }
 
-                    $position = trim($matcheslist[0]);
-                    $style    = trim($matcheslist[1]);
+                    $position = trim((string) $matcheslist[0]);
+                    $style    = trim((string) $matcheslist[1]);
 
                     $output = $this->load($position, $style);
 

@@ -804,7 +804,7 @@ abstract class Adapter extends CMSPlugin
         }
 
         // Instantiate the params.
-        $params = json_decode($params);
+        $params = json_decode((string) $params);
 
         // Get the page title if it is set.
         if (isset($params->page_title) && $params->page_title) {

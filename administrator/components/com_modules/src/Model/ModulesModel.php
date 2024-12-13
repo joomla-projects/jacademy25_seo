@@ -175,7 +175,7 @@ class ModulesModel extends ListModel
             $this->translate($result);
 
             // Sort the array of translated objects.
-            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, true, true);
+            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower((string) $listDirn) == 'desc' ? -1 : 1, true, true);
 
             // Process pagination.
             $total                                      = \count($result);
@@ -380,8 +380,8 @@ class ModulesModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $ids = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $ids = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id')
                     ->bind(':id', $ids, ParameterType::INTEGER);
             } else {

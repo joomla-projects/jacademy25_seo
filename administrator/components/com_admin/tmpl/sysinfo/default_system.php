@@ -133,7 +133,7 @@ use Joomla\CMS\Language\Text;
                     <?php echo Text::_('COM_ADMIN_USER_AGENT'); ?>
                 </th>
                 <td>
-                    <?php echo htmlspecialchars($this->info['useragent'], ENT_COMPAT, 'UTF-8'); ?>
+                    <?php echo htmlspecialchars((string) $this->info['useragent'], ENT_COMPAT, 'UTF-8'); ?>
                 </td>
             </tr>
         </tbody>

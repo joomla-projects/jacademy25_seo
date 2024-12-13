@@ -119,9 +119,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
             // Existing record. Remove it from the list of records.
             $records = array_filter(
                 $records,
-                function ($rec) {
-                    return $rec->id != $this->id;
-                }
+                fn($rec) => $rec->id != $this->id
             );
         }
 
@@ -135,9 +133,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
         if ($this->default == 0) {
             $hasDefaultRecord = array_reduce(
                 $records,
-                function ($carry, $record) {
-                    return $carry || ($record->default == 1);
-                },
+                fn($carry, $record) => $carry || ($record->default == 1),
                 false
             );
 
@@ -151,9 +147,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
             // Do I have any backup records?
             $hasBackupCodes = array_reduce(
                 $records,
-                function (bool $carry, $record) {
-                    return $carry || $record->method === 'backupcodes';
-                },
+                fn(bool $carry, $record) => $carry || $record->method === 'backupcodes',
                 false
             );
 

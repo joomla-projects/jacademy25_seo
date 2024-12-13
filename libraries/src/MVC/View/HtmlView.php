@@ -241,7 +241,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
             return '';
         }
 
-        return htmlspecialchars($var, ENT_QUOTES, $this->_charset);
+        return htmlspecialchars((string) $var, ENT_QUOTES, $this->_charset);
     }
 
     /**
@@ -281,7 +281,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
     {
         $previous = $this->_layout;
 
-        if (strpos($layout, ':') === false) {
+        if (!str_contains($layout, ':')) {
             $this->_layout = $layout;
         } else {
             // Convert parameter to array based on :
@@ -437,7 +437,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
     public function loadHelper($hlp = null)
     {
         // Clean the file name
-        $file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);
+        $file = preg_replace('/[^A-Z0-9_\.-]/i', '', (string) $hlp);
 
         // Load the template script
         $helper = Path::find($this->_path['helper'], $this->_createFileName('helper', ['name' => $file]));
@@ -544,15 +544,10 @@ class HtmlView extends AbstractView implements CurrentUserInterface
      */
     protected function _createFileName($type, $parts = [])
     {
-        switch ($type) {
-            case 'template':
-                $filename = strtolower($parts['name']) . '.' . $this->_layoutExt;
-                break;
-
-            default:
-                $filename = strtolower($parts['name']) . '.php';
-                break;
-        }
+        $filename = match ($type) {
+            'template' => strtolower((string) $parts['name']) . '.' . $this->_layoutExt,
+            default => strtolower((string) $parts['name']) . '.php',
+        };
 
         return $filename;
     }

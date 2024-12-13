@@ -37,7 +37,7 @@ class CacheControllerFactory implements CacheControllerFactoryInterface
             $type = 'output';
         }
 
-        $type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
+        $type = strtolower((string) preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
 
         $class = __NAMESPACE__ . '\\Controller\\' . ucfirst($type) . 'Controller';
 

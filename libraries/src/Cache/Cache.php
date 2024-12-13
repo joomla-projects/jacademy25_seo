@@ -525,7 +525,7 @@ class Cache
         if (isset($data['module']) && \is_array($data['module'])) {
             // Iterate through the module positions and push them into the document buffer.
             foreach ($data['module'] as $name => $contents) {
-                $document->setBuffer($contents, 'module', $name);
+                $document->setBuffer($contents, 'module');
             }
         }
 
@@ -542,7 +542,7 @@ class Cache
             $search      = '#<input type="hidden" name="[0-9a-f]{32}" value="1">#';
             $replacement = '<input type="hidden" name="' . $token . '" value="1">';
 
-            $data['body'] = preg_replace($search, $replacement, $data['body']);
+            $data['body'] = preg_replace($search, $replacement, (string) $data['body']);
             $body         = $data['body'];
         }
 

@@ -28,12 +28,6 @@ class Profiler
     protected $start = 0;
 
     /**
-     * @var    string  The prefix to use in the output
-     * @since  3.0.0
-     */
-    protected $prefix = '';
-
-    /**
      * @var    array  The buffer of profiling messages.
      * @since  3.0.0
      */
@@ -70,10 +64,12 @@ class Profiler
      *
      * @since   1.7.0
      */
-    public function __construct($prefix = '')
+    public function __construct(/**
+     * @since  3.0.0
+     */
+    protected $prefix = '')
     {
         $this->start  = microtime(1);
-        $this->prefix = $prefix;
         $this->marks  = [];
         $this->buffer = [];
     }

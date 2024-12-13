@@ -65,9 +65,9 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
         foreach ($report['messages'] as $line => $lineErrors) {
             foreach ($lineErrors as $column => $colErrors) {
                 foreach ($colErrors as $error) {
-                    $error['type'] = strtolower($error['type']);
+                    $error['type'] = strtolower((string) $error['type']);
                     if ($phpcsFile->config->encoding !== 'utf-8') {
-                        $error['message'] = iconv($phpcsFile->config->encoding, 'utf-8', $error['message']);
+                        $error['message'] = iconv($phpcsFile->config->encoding, 'utf-8', (string) $error['message']);
                     }
 
                     $error['fixable'] = $error['fixable'] === true ? 'Yes' : 'No';
@@ -103,8 +103,8 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                 $fileContent = file_get_contents($file);
 
                 if (
-                    strpos($fileContent, "defined('_JEXEC')") !== false
-                    || strpos($fileContent, "defined('JPATH_BASE')") !== false
+                    str_contains($fileContent, "defined('_JEXEC')")
+                    || str_contains($fileContent, "defined('JPATH_BASE')")
                 ) {
                     $this->preProcessing[] = [
                         'file' => $file,
@@ -124,7 +124,7 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                     if ($replace === null) {
                         $replace = [
                             "\\" => '/',
-                            dirname(dirname(__DIR__)) . '/' => '',
+                            dirname(__DIR__, 2) . '/' => '',
                             '.' => '\.',
                         ];
                     }
@@ -145,8 +145,8 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
 
             case 'Squiz.Classes.ValidClassName.NotCamelCaps':
                 if (
-                    strpos($file, 'localise') !== false
-                    || strpos($file, 'recaptcha_invisible') !== false
+                    str_contains((string) $file, 'localise')
+                    || str_contains((string) $file, 'recaptcha_invisible')
                 ) {
                     $this->preProcessing[] = [
                         'file' => $file,
@@ -190,7 +190,7 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                 if ($replace === null) {
                     $replace = [
                         "\\" => '/',
-                        dirname(dirname(__DIR__)) . '/' => '',
+                        dirname(__DIR__, 2) . '/' => '',
                         '.' => '\.',
                     ];
                 }

@@ -105,12 +105,12 @@ class ExtensionAdapter extends UpdateAdapter
         switch ($name) {
             case 'UPDATE':
                 // Lower case and remove the exclamation mark
-                $product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
+                $product = strtolower((string) InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
 
                 // Check that the product matches and that the version matches (optionally a regexp)
                 if (
                     $product == $this->currentUpdate->targetplatform['NAME']
-                    && preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', JVERSION)
+                    && preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', (string) JVERSION)
                 ) {
                     // Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
                     if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum, '>=')) {
@@ -286,7 +286,7 @@ class ExtensionAdapter extends UpdateAdapter
 
         if (!xml_parse($this->xmlParser, $response->body)) {
             // If the URL is missing the .xml extension, try appending it and retry loading the update
-            if (!$this->appendExtension && (substr($this->_url, -4) !== '.xml')) {
+            if (!$this->appendExtension && (!str_ends_with($this->_url, '.xml'))) {
                 $options['append_extension'] = true;
 
                 return $this->findUpdate($options);

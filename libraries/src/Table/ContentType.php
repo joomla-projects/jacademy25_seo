@@ -144,9 +144,9 @@ class ContentType extends Table
 
         if (\is_object($tableInfo) && isset($tableInfo->special)) {
             if (\is_object($tableInfo->special) && isset($tableInfo->special->type) && isset($tableInfo->special->prefix)) {
-                $class = $tableInfo->special->class ?? 'Joomla\\CMS\\Table\\Table';
+                $class = $tableInfo->special->class ?? \Joomla\CMS\Table\Table::class;
 
-                if (!class_implements($class, 'Joomla\\CMS\\Table\\TableInterface')) {
+                if (!class_implements($class, \Joomla\CMS\Table\TableInterface::class)) {
                     // This isn't an instance of TableInterface. Stop.
                     throw new \RuntimeException('Class must be an instance of Joomla\\CMS\\Table\\TableInterface');
                 }

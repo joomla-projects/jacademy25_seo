@@ -188,7 +188,7 @@ if ($this->type == 'font') {
                         <?php echo HTMLHelper::_('form.token'); ?>
                     </form>
                 <?php elseif ($this->type == 'image') : ?>
-                    <legend><?php echo $this->escape(basename($this->image['address'])); ?></legend>
+                    <legend><?php echo $this->escape(basename((string) $this->image['address'])); ?></legend>
                     <img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" style="max-width: 100%">
                     <form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post" name="adminForm" id="adminForm">
                         <fieldset class="adminform">

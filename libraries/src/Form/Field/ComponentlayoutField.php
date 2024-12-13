@@ -66,7 +66,7 @@ class ComponentlayoutField extends FormField
             $extension = $this->form->getValue('extension');
         }
 
-        $extension = preg_replace('#\W#', '', $extension);
+        $extension = preg_replace('#\W#', '', (string) $extension);
 
         $template = (string) $this->element['template'];
         $template = preg_replace('#\W#', '', $template);
@@ -75,7 +75,7 @@ class ComponentlayoutField extends FormField
 
         if ($this->form instanceof Form) {
             $template_style_id = $this->form->getValue('template_style_id', null, 0);
-            $template_style_id = (int) preg_replace('#\W#', '', $template_style_id);
+            $template_style_id = (int) preg_replace('#\W#', '', (string) $template_style_id);
         }
 
         $view = (string) $this->element['view'];
@@ -169,7 +169,7 @@ class ComponentlayoutField extends FormField
                     $menu = $menu[0];
 
                     // Add an option to the component group
-                    $value                  = basename($file, '.xml');
+                    $value                  = basename((string) $file, '.xml');
                     $component_layouts[$i]  = $value;
                     $text                   = isset($menu['option']) ? Text::_($menu['option']) : (isset($menu['title']) ? Text::_($menu['title']) : $value);
                     $groups['_']['items'][] = HTMLHelper::_('select.option', '_:' . $value, $text);
@@ -197,7 +197,7 @@ class ComponentlayoutField extends FormField
                     if (is_dir($template_path) && ($files = Folder::files($template_path, '^[^_]*\.php$', false, true))) {
                         foreach ($files as $i => $file) {
                             // Remove layout files that exist in the component folder
-                            if (\in_array(basename($file, '.php'), $component_layouts)) {
+                            if (\in_array(basename((string) $file, '.php'), $component_layouts)) {
                                 unset($files[$i]);
                             }
                         }
@@ -211,7 +211,7 @@ class ComponentlayoutField extends FormField
 
                             foreach ($files as $file) {
                                 // Add an option to the template group
-                                $value = basename($file, '.php');
+                                $value = basename((string) $file, '.php');
                                 $text  = $lang
                                     ->hasKey(
                                         $key = strtoupper(
@@ -251,7 +251,7 @@ class ComponentlayoutField extends FormField
                 ['id' => $this->id, 'group.id' => 'id', 'list.attr' => $attr, 'list.select' => $selected]
             );
 
-            return implode($html);
+            return implode('', $html);
         }
 
         return '';

@@ -76,7 +76,7 @@ class ContenthistoryHelper
 
         if (\is_object($object)) {
             foreach ($object as $name => $value) {
-                if (!\is_null($value) && $subObject = json_decode($value)) {
+                if (!\is_null($value) && $subObject = json_decode((string) $value)) {
                     $object->$name = $subObject;
                 }
             }
@@ -201,7 +201,7 @@ class ContenthistoryHelper
 
             try {
                 $result = $db->loadResult();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Ignore any errors and just return false
                 return false;
             }

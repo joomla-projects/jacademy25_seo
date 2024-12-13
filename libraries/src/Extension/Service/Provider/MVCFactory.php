@@ -33,24 +33,22 @@ use Joomla\Event\DispatcherInterface;
 class MVCFactory implements ServiceProviderInterface
 {
     /**
-     * The extension namespace
-     *
-     * @var  string
-     *
-     * @since   4.0.0
-     */
-    private $namespace;
-
-    /**
      * MVCFactory constructor.
      *
      * @param   string  $namespace  The namespace
      *
      * @since   4.0.0
      */
-    public function __construct(string $namespace)
+    public function __construct(
+        /**
+         * The extension namespace
+         *
+         *
+         * @since   4.0.0
+         */
+        private readonly string $namespace
+    )
     {
-        $this->namespace = $namespace;
     }
 
     /**

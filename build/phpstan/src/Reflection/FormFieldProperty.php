@@ -18,8 +18,8 @@ use PHPStan\Type\Type;
 class FormFieldProperty implements PropertyReflection
 {
     public function __construct(
-        private ClassReflection $classReflection,
-        private string $propertyName
+        private readonly ClassReflection $classReflection,
+        private readonly string $propertyName
     ) {
     }
 

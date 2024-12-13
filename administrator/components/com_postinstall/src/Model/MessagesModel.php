@@ -218,7 +218,7 @@ class MessagesModel extends BaseDatabaseModel
             /** @var CallbackController $cache */
             $cache = $this->getCacheControllerFactory()->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
 
-            $result = $cache->get([$db, 'loadObjectList'], [], md5($cacheId), false);
+            $result = $cache->get($db->loadObjectList(...), [], md5($cacheId), false);
         } catch (\RuntimeException $e) {
             $app = Factory::getApplication();
             $app->getLogger()->warning(
@@ -265,7 +265,7 @@ class MessagesModel extends BaseDatabaseModel
                 ->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
 
             // Get the resulting data object for cache ID 'all.1' from com_postinstall group.
-            $result = $cache->get([$db, 'loadObjectList'], [], md5('all.1'), false);
+            $result = $cache->get($db->loadObjectList(...), [], md5('all.1'), false);
         } catch (\RuntimeException $e) {
             $app = Factory::getApplication();
             $app->getLogger()->warning(

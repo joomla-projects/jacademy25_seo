@@ -44,38 +44,6 @@ use Webauthn\PublicKeyCredentialUserEntity;
 final class Authentication
 {
     /**
-     * The credentials repository
-     *
-     * @var   CredentialRepository
-     * @since 4.2.0
-     */
-    private $credentialsRepository;
-
-    /**
-     * The application we are running in.
-     *
-     * @var   CMSApplication
-     * @since 4.2.0
-     */
-    private $app;
-
-    /**
-     * The application session
-     *
-     * @var   SessionInterface
-     * @since 4.2.0
-     */
-    private $session;
-
-    /**
-     * A simple metadata statement repository
-     *
-     * @var   MetadataStatementRepository
-     * @since 4.2.0
-     */
-    private $metadataRepository;
-
-    /**
      * Should I permit attestation support if a Metadata Statement Repository object is present and
      * non-empty?
      *
@@ -89,21 +57,38 @@ final class Authentication
      *
      * @param   ?ApplicationInterface                 $app       The app we are running in
      * @param   ?SessionInterface                     $session   The app session object
-     * @param   ?PublicKeyCredentialSourceRepository  $credRepo  Credentials repo
-     * @param   ?MetadataStatementRepository          $mdsRepo   Authenticator metadata repo
+     * @param ?PublicKeyCredentialSourceRepository $credentialsRepository Credentials repo
+     * @param ?MetadataStatementRepository $metadataRepository Authenticator metadata repo
      *
      * @since   4.2.0
      */
     public function __construct(
-        ?ApplicationInterface $app = null,
-        ?SessionInterface $session = null,
-        ?PublicKeyCredentialSourceRepository $credRepo = null,
-        ?MetadataStatementRepository $mdsRepo = null
-    ) {
-        $this->app                   = $app;
-        $this->session               = $session;
-        $this->credentialsRepository = $credRepo;
-        $this->metadataRepository    = $mdsRepo;
+        /**
+         * The application we are running in.
+         *
+         * @since 4.2.0
+         */
+        private readonly ?ApplicationInterface $app = null,
+        /**
+         * The application session
+         *
+         * @since 4.2.0
+         */
+        private readonly ?SessionInterface $session = null,
+        /**
+         * The credentials repository
+         *
+         * @since 4.2.0
+         */
+        private readonly ?PublicKeyCredentialSourceRepository $credentialsRepository = null,
+        /**
+         * A simple metadata statement repository
+         *
+         * @since 4.2.0
+         */
+        private readonly ?MetadataStatementRepository $metadataRepository = null
+    )
+    {
     }
 
     /**
@@ -120,7 +105,7 @@ final class Authentication
 
         // Add a generic authenticator entry
         $image = HTMLHelper::_('image', 'plg_system_webauthn/fido.png', '', '', true, true);
-        $image = $image ? JPATH_ROOT . substr($image, \strlen(Uri::root(true))) : (JPATH_BASE . '/media/plg_system_webauthn/images/fido.png');
+        $image = $image ? JPATH_ROOT . substr((string) $image, \strlen(Uri::root(true))) : (JPATH_BASE . '/media/plg_system_webauthn/images/fido.png');
         $image = file_exists($image) ? file_get_contents($image) : '';
 
         $return[''] = (object) [
@@ -249,7 +234,7 @@ final class Authentication
     {
         // Make sure the public key credential request options in the session are valid
         $encodedPkOptions                  = $this->session->get('plg_system_webauthn.publicKeyCredentialRequestOptions', null);
-        $serializedOptions                 = base64_decode($encodedPkOptions);
+        $serializedOptions                 = base64_decode((string) $encodedPkOptions);
         $publicKeyCredentialRequestOptions = unserialize($serializedOptions);
 
         if (
@@ -307,8 +292,8 @@ final class Authentication
 
         /** @var PublicKeyCredentialCreationOptions|null $publicKeyCredentialCreationOptions */
         try {
-            $publicKeyCredentialCreationOptions = unserialize(base64_decode($encodedOptions));
-        } catch (\Exception $e) {
+            $publicKeyCredentialCreationOptions = unserialize(base64_decode((string) $encodedOptions));
+        } catch (\Exception) {
             Log::add('The plg_system_webauthn.publicKeyCredentialCreationOptions in the session is invalid', Log::NOTICE, 'webauthn.system');
             $publicKeyCredentialCreationOptions = null;
         }
@@ -392,7 +377,7 @@ final class Authentication
                 '/templates/',
                 '/templates/' . $this->app->getTemplate(),
             ];
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
 
@@ -501,8 +486,8 @@ final class Authentication
         }
 
         try {
-            $publicKeyCredentialRequestOptions = unserialize(base64_decode($encodedOptions));
-        } catch (\Exception $e) {
+            $publicKeyCredentialRequestOptions = unserialize(base64_decode((string) $encodedOptions));
+        } catch (\Exception) {
             Log::add('Invalid plg_system_webauthn.publicKeyCredentialRequestOptions in the session', Log::NOTICE, 'webauthn.system');
 
             throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));

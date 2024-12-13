@@ -85,50 +85,25 @@ trait AjaxHandler
 
             // Call the plugin event onAjaxWebauthnSomething where Something is the akaction param.
             /** @var AbstractEvent|ResultAwareInterface $triggerEvent */
-            $eventName    = 'onAjaxWebauthn' . ucfirst($akaction);
+            $eventName    = 'onAjaxWebauthn' . ucfirst((string) $akaction);
 
-            switch ($eventName) {
-                case 'onAjaxWebauthn':
-                    $eventClass = PlgSystemWebauthnAjax::class;
-                    break;
-
-                case 'onAjaxWebauthnChallenge':
-                    $eventClass = PlgSystemWebauthnAjaxChallenge::class;
-                    break;
-
-                case 'onAjaxWebauthnCreate':
-                    $eventClass = PlgSystemWebauthnAjaxCreate::class;
-                    break;
-
-                case 'onAjaxWebauthnDelete':
-                    $eventClass = PlgSystemWebauthnAjaxDelete::class;
-                    break;
-
-                case 'onAjaxWebauthnInitcreate':
-                    $eventClass = PlgSystemWebauthnAjaxInitCreate::class;
-                    break;
-
-                case 'onAjaxWebauthnLogin':
-                    $eventClass = PlgSystemWebauthnAjaxLogin::class;
-                    break;
-
-                case 'onAjaxWebauthnSavelabel':
-                    $eventClass = PlgSystemWebauthnAjaxSaveLabel::class;
-                    break;
-
-                default:
-                    $eventClass = GenericEvent::class;
-                    break;
-            }
+            $eventClass = match ($eventName) {
+                'onAjaxWebauthn' => PlgSystemWebauthnAjax::class,
+                'onAjaxWebauthnChallenge' => PlgSystemWebauthnAjaxChallenge::class,
+                'onAjaxWebauthnCreate' => PlgSystemWebauthnAjaxCreate::class,
+                'onAjaxWebauthnDelete' => PlgSystemWebauthnAjaxDelete::class,
+                'onAjaxWebauthnInitcreate' => PlgSystemWebauthnAjaxInitCreate::class,
+                'onAjaxWebauthnLogin' => PlgSystemWebauthnAjaxLogin::class,
+                'onAjaxWebauthnSavelabel' => PlgSystemWebauthnAjaxSaveLabel::class,
+                default => GenericEvent::class,
+            };
 
             $triggerEvent = new $eventClass($eventName, []);
             $result       = $this->getApplication()->getDispatcher()->dispatch($eventName, $triggerEvent);
             $results      = ($result instanceof ResultAwareInterface) ? ($result['result'] ?? []) : [];
             $result       = array_reduce(
                 $results,
-                function ($carry, $result) {
-                    return $carry ?? $result;
-                },
+                fn($carry, $result) => $carry ?? $result,
                 null
             );
         } catch (\Exception $e) {

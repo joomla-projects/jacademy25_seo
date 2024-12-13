@@ -254,7 +254,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $this->item->params->get('pageclass_sfx', ''));
 
         $this->_prepareDocument();
 

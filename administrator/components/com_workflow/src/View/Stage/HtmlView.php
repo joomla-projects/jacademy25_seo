@@ -97,7 +97,7 @@ class HtmlView extends BaseHtmlView
 
         $extension = $this->state->get('filter.extension');
 
-        $parts = explode('.', $extension);
+        $parts = explode('.', (string) $extension);
 
         $this->extension = array_shift($parts);
 

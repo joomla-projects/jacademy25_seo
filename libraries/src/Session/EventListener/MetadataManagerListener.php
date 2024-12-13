@@ -25,22 +25,6 @@ use Joomla\Session\SessionEvent;
 final class MetadataManagerListener
 {
     /**
-     * Session metadata manager.
-     *
-     * @var    MetadataManager
-     * @since  4.0.0
-     */
-    private $metadataManager;
-
-    /**
-     * Application configuration.
-     *
-     * @var    Registry
-     * @since  4.0.0
-     */
-    private $config;
-
-    /**
      * Constructor.
      *
      * @param   MetadataManager  $metadataManager  Session metadata manager.
@@ -48,10 +32,21 @@ final class MetadataManagerListener
      *
      * @since   4.0.0
      */
-    public function __construct(MetadataManager $metadataManager, Registry $config)
+    public function __construct(
+        /**
+         * Session metadata manager.
+         *
+         * @since  4.0.0
+         */
+        private readonly MetadataManager $metadataManager,
+        /**
+         * Application configuration.
+         *
+         * @since  4.0.0
+         */
+        private readonly Registry $config
+    )
     {
-        $this->metadataManager = $metadataManager;
-        $this->config          = $config;
     }
 
     /**

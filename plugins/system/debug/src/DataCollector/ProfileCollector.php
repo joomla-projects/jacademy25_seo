@@ -263,7 +263,7 @@ class ProfileCollector extends AbstractDataCollector
      */
     public function collect(): array
     {
-        $this->requestEndTime = $this->requestEndTime ?? microtime(true);
+        $this->requestEndTime ??= microtime(true);
 
         $start = $this->requestStartTime;
 
@@ -283,13 +283,7 @@ class ProfileCollector extends AbstractDataCollector
 
         usort(
             $this->measures,
-            function ($a, $b) {
-                if ($a['start'] === $b['start']) {
-                    return 0;
-                }
-
-                return $a['start'] < $b['start'] ? -1 : 1;
-            }
+            fn($a, $b) => $a['start'] <=> $b['start']
         );
 
         return [

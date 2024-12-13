@@ -110,7 +110,7 @@ final class Joomla extends CMSPlugin
                     ->where($db->quoteName('user_id_from') . ' = :userId')
                     ->bind(':userId', $userId, ParameterType::INTEGER)
             )->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // Do nothing.
         }
 
@@ -125,7 +125,7 @@ final class Joomla extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // Do nothing
         }
 
@@ -137,7 +137,7 @@ final class Joomla extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // Do nothing
         }
     }
@@ -175,7 +175,7 @@ final class Joomla extends CMSPlugin
         }
 
         // Check if we have a sensible from email address, if not bail out as mail would not be sent anyway
-        if (strpos($app->get('mailfrom'), '@') === false) {
+        if (!str_contains((string) $app->get('mailfrom'), '@')) {
             $app->enqueueMessage($language->_('JERROR_SENDING_EMAIL'), 'warning');
 
             return;
@@ -318,7 +318,7 @@ final class Joomla extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // The old session is already invalidated, don't let this block logging in
         }
 
@@ -441,7 +441,7 @@ final class Joomla extends CMSPlugin
 
         $silentResponseTypes = array_map(
             'trim',
-            explode(',', $userParams->get('silentresponses', '') ?: '')
+            explode(',', (string) $userParams->get('silentresponses', '') ?: '')
         );
         $silentResponseTypes = $silentResponseTypes ?: ['cookie', 'passwordless'];
 

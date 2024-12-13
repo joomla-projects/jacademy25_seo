@@ -60,20 +60,12 @@ class WarningsModel extends ListModel
             $val = (int) $matches[1];
         }
 
-        switch (strtolower($last)) {
-            case 'g':
-            case 'gb':
-                $val *= (1024 * 1024 * 1024);
-                break;
-            case 'm':
-            case 'mb':
-                $val *= (1024 * 1024);
-                break;
-            case 'k':
-            case 'kb':
-                $val *= 1024;
-                break;
-        }
+        match (strtolower($last)) {
+            'g', 'gb' => $val *= (1024 * 1024 * 1024),
+            'm', 'mb' => $val *= (1024 * 1024),
+            'k', 'kb' => $val *= 1024,
+            default => (int) $val,
+        };
 
         return (int) $val;
     }

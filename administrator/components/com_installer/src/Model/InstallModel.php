@@ -214,7 +214,7 @@ class InstallModel extends BaseDatabaseModel
         // Install the package.
         if (!$installer->install($package['dir'])) {
             // There was an error installing the package.
-            $msg     = Text::sprintf('COM_INSTALLER_INSTALL_ERROR', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+            $msg     = Text::sprintf('COM_INSTALLER_INSTALL_ERROR', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper((string) $package['type'])));
             $result  = false;
             $msgType = 'error';
         } else {
@@ -329,8 +329,8 @@ class InstallModel extends BaseDatabaseModel
 
         // Move uploaded file.
         try {
-            File::upload($tmp_src, $tmp_dest, false, true);
-        } catch (FilesystemException $exception) {
+            File::upload($tmp_src, $tmp_dest, false);
+        } catch (FilesystemException) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 'error');
 
             return false;

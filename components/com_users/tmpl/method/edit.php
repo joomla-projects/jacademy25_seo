@@ -145,7 +145,7 @@ $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
                     $this->renderOptions['input_attributes']
                 );
 
-                if (strpos($attributes['class'], 'form-control') === false) {
+                if (!str_contains((string) $attributes['class'], 'form-control')) {
                     $attributes['class'] .= ' form-control';
                 }
                 ?>

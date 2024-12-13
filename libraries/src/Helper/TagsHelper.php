@@ -108,7 +108,7 @@ class TagsHelper extends CMSHelper
         $typeId = $ucm->getTypeId();
 
         // Insert the new tag maps
-        if (strpos(implode(',', $tags), '#') !== false) {
+        if (str_contains(implode(',', $tags), '#')) {
             $tags = $this->createTagsFromField($tags);
         }
 
@@ -194,7 +194,7 @@ class TagsHelper extends CMSHelper
 
                 try {
                     $aliasesMapper = $db->loadAssocList('alias');
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     return false;
                 }
 
@@ -246,7 +246,7 @@ class TagsHelper extends CMSHelper
 
         foreach ($tags as $key => $tag) {
             // User is not allowed to create tags, so don't create.
-            if (!$canCreate && strpos($tag, '#new#') !== false) {
+            if (!$canCreate && str_contains((string) $tag, '#new#')) {
                 continue;
             }
 
@@ -793,20 +793,11 @@ class TagsHelper extends CMSHelper
 
         $db->setQuery($query);
 
-        switch ($arrayType) {
-            case 'assocList':
-                $types = $db->loadAssocList();
-                break;
-
-            case 'rowList':
-                $types = $db->loadRowList();
-                break;
-
-            case 'objectList':
-            default:
-                $types = $db->loadObjectList();
-                break;
-        }
+        $types = match ($arrayType) {
+            'assocList' => $db->loadAssocList(),
+            'rowList' => $db->loadRowList(),
+            default => $db->loadObjectList(),
+        };
 
         return $types;
     }
@@ -1000,7 +991,7 @@ class TagsHelper extends CMSHelper
 
         try {
             $results = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return [];
         }
 

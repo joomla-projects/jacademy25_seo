@@ -144,7 +144,7 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
 
                         $isCaller = 0;
 
-                        if (!$callerLocation && $class !== Language::class && !strpos($file, 'Text.php')) {
+                        if (!$callerLocation && $class !== Language::class && !strpos((string) $file, 'Text.php')) {
                             $callerLocation = $location;
                             $isCaller       = 1;
                         }

@@ -9,7 +9,7 @@
  */
 
 // Set defaults
-$root      = dirname(dirname(__DIR__));
+$root      = dirname(__DIR__, 2);
 $php       = 'php';
 $git       = 'git';
 $checkPath = false;
@@ -73,7 +73,7 @@ if (empty($argv)) {
 }
 
 foreach ($argv as $arg) {
-    if (substr($arg, 0, 2) === '--') {
+    if (str_starts_with($arg, '--')) {
         $argi = explode('=', $arg, 2);
         switch ($argi[0]) {
             case '--task':
@@ -114,7 +114,7 @@ if ($tasks['BRANCH']) {
     }
 
     foreach ($output as $k => $line) {
-        if (substr($line, -4) !== '.php') {
+        if (!str_ends_with($line, '.php')) {
             unset($output[$k]);
         }
     }
@@ -159,7 +159,7 @@ if ($checkPath) {
                 continue;
             }
             if (!is_dir($dir->path . '/' . $entry)) {
-                if (substr($entry, -4) !== '.php') {
+                if (!str_ends_with($entry, '.php')) {
                     continue;
                 }
             }
@@ -181,9 +181,7 @@ if ($checkPath) {
 $executedTasks = implode(
     ',',
     array_keys(
-        array_filter($tasks, function ($task) {
-            return $task;
-        })
+        array_filter($tasks, fn($task) => $task)
     )
 );
 $executedPaths = implode("\n", $items);

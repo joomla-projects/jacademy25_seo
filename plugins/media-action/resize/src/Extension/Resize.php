@@ -83,22 +83,13 @@ final class Resize extends MediaActionPlugin implements SubscriberInterface
             Image::SCALE_INSIDE
         );
 
-        switch (strtolower($item->extension)) {
-            case 'gif':
-                $type = IMAGETYPE_GIF;
-                break;
-            case 'png':
-                $type = IMAGETYPE_PNG;
-                break;
-            case 'avif':
-                $type = IMAGETYPE_AVIF;
-                break;
-            case 'webp':
-                $type = IMAGETYPE_WEBP;
-                break;
-            default:
-                $type = IMAGETYPE_JPEG;
-        }
+        $type = match (strtolower($item->extension)) {
+            'gif' => IMAGETYPE_GIF,
+            'png' => IMAGETYPE_PNG,
+            'avif' => IMAGETYPE_AVIF,
+            'webp' => IMAGETYPE_WEBP,
+            default => IMAGETYPE_JPEG,
+        };
 
         ob_start();
         $imgObject->toFile(null, $type);

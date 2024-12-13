@@ -403,7 +403,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
                 );
             }
 
-            $item['type'] = strtolower($item['type']);
+            $item['type'] = strtolower((string) $item['type']);
 
             $name                   = $item['name'];
             $uri                    = $item['uri'] ?? '';

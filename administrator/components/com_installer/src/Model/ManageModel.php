@@ -239,7 +239,7 @@ class ManageModel extends InstallerModel
         $result = false;
 
         foreach ($eid as $id) {
-            $id = trim($id);
+            $id = trim((string) $id);
             $row->load($id);
             $result = false;
 
@@ -253,7 +253,7 @@ class ManageModel extends InstallerModel
             $langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
             $rowtype    = Text::_($langstring);
 
-            if (strpos($rowtype, $langstring) !== false) {
+            if (str_contains($rowtype, $langstring)) {
                 $rowtype = $row->type;
             }
 
@@ -369,8 +369,8 @@ class ManageModel extends InstallerModel
         // Process search filter (extension id).
         $search = $this->getState('filter.search');
 
-        if (!empty($search) && stripos($search, 'id:') === 0) {
-            $ids = (int) substr($search, 3);
+        if (!empty($search) && stripos((string) $search, 'id:') === 0) {
+            $ids = (int) substr((string) $search, 3);
             $query->where($db->quoteName('extension_id') . ' = :eid')
                 ->bind(':eid', $ids, ParameterType::INTEGER);
         }

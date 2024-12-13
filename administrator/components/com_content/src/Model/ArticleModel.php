@@ -106,7 +106,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      */
     public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
-        $config['events_map'] = $config['events_map'] ?? [];
+        $config['events_map'] ??= [];
 
         $config['events_map'] = array_merge(
             ['featured' => 'content'],
@@ -117,9 +117,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
         // Set the featured status change events
         $this->event_before_change_featured = $config['event_before_change_featured'] ?? $this->event_before_change_featured;
-        $this->event_before_change_featured = $this->event_before_change_featured ?? 'onContentBeforeChangeFeatured';
+        $this->event_before_change_featured ??= 'onContentBeforeChangeFeatured';
         $this->event_after_change_featured  = $config['event_after_change_featured'] ?? $this->event_after_change_featured;
-        $this->event_after_change_featured  = $this->event_after_change_featured ?? 'onContentAfterChangeFeatured';
+        $this->event_after_change_featured ??= 'onContentAfterChangeFeatured';
 
         $this->setUpWorkflow('com_content.article');
     }
@@ -202,7 +202,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             // Set some needed variables.
             $this->user           = $this->getCurrentUser();
             $this->table          = $this->getTable();
-            $this->tableClassName = \get_class($this->table);
+            $this->tableClassName = $this->table::class;
             $this->contentType    = new UCMType();
             $this->type           = $this->contentType->getTypeByTable($this->tableClassName);
         }
@@ -682,7 +682,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         if ($createCategory && $this->canCreateCategory()) {
             $category = [
                 // Remove #new# prefix, if exists.
-                'title'     => strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'],
+                'title'     => str_starts_with((string) $data['catid'], '#new#') ? substr((string) $data['catid'], 5) : $data['catid'],
                 'parent_id' => 1,
                 'extension' => 'com_content',
                 'language'  => $data['language'],
@@ -709,7 +709,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
             foreach ($data['urls'] as $i => $url) {
                 if ($url != false && ($i == 'urla' || $i == 'urlb' || $i == 'urlc')) {
-                    if (preg_match('~^#[a-zA-Z]{1}[a-zA-Z0-9-_:.]*$~', $check['urls'][$i]) == 1) {
+                    if (preg_match('~^#[a-zA-Z]{1}[a-zA-Z0-9-_:.]*$~', (string) $check['urls'][$i]) == 1) {
                         $data['urls'][$i] = $check['urls'][$i];
                     } else {
                         $data['urls'][$i] = PunycodeHelper::urlToPunycode($url);
@@ -745,7 +745,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             }
 
             if ($data['title'] == $origTable->title) {
-                list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+                [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
                 $data['title']       = $title;
                 $data['alias']       = $alias;
             } elseif ($data['alias'] == $origTable->alias) {
@@ -768,7 +768,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                     $msg = Text::_('COM_CONTENT_SAVE_WARNING');
                 }
 
-                list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+                [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
                 $data['alias']       = $alias;
 
                 if (isset($msg)) {

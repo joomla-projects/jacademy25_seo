@@ -92,7 +92,7 @@ class Text
     private static function passSprintf(&$string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
     {
         // Check if string contains a comma
-        if (empty($string) || strpos($string, ',') === false) {
+        if (empty($string) || !str_contains($string, ',')) {
             return false;
         }
 
@@ -110,7 +110,7 @@ class Text
         $first_part = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $first_part);
 
         // Check if string contains sprintf placeholders
-        if (!preg_match('/%([0-9]+\$)?s/', $first_part)) {
+        if (!preg_match('/%([0-9]+\$)?s/', (string) $first_part)) {
             return false;
         }
 
@@ -331,7 +331,7 @@ class Text
                     'As of 3.7.0, passing a null value for the first argument of %1$s() is deprecated and will not be supported in 4.0.'
                     . ' Use the %2$s::getScriptStrings() method to get the strings from the JavaScript language store instead.',
                     __METHOD__,
-                    __CLASS__
+                    self::class
                 ),
                 E_USER_DEPRECATED
             );

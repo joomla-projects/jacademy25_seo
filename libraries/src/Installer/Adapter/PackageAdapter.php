@@ -141,8 +141,8 @@ class PackageAdapter extends InstallerAdapter
         $dispatcher = Factory::getApplication()->getDispatcher();
 
         // Add a callback for the `onExtensionAfterInstall` event so we can receive the installed extension ID
-        if (!$dispatcher->hasListener([$this, 'onExtensionAfterInstall'], 'onExtensionAfterInstall')) {
-            $dispatcher->addListener('onExtensionAfterInstall', [$this, 'onExtensionAfterInstall']);
+        if (!$dispatcher->hasListener($this->onExtensionAfterInstall(...), 'onExtensionAfterInstall')) {
+            $dispatcher->addListener('onExtensionAfterInstall', $this->onExtensionAfterInstall(...));
         }
 
         foreach ($this->getManifest()->files->children() as $child) {
@@ -230,7 +230,7 @@ class PackageAdapter extends InstallerAdapter
 
             try {
                 $db->setQuery($query)->execute();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_SETTING_PACKAGE_ID'), Log::WARNING, 'jerror');
             }
         }
@@ -720,7 +720,7 @@ class PackageAdapter extends InstallerAdapter
 
         try {
             return $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
             return false;

@@ -90,7 +90,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
         if (empty($this->option)) {
             $r = null;
 
-            if (!preg_match('/(.*)Model/i', \get_class($this), $r)) {
+            if (!preg_match('/(.*)Model/i', static::class, $r)) {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
             }
 
@@ -311,7 +311,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
             /** @var CallbackController $cache */
             $cache = $this->getCacheControllerFactory()->createCacheController('callback', $options);
             $cache->clean();
-        } catch (CacheExceptionInterface $exception) {
+        } catch (CacheExceptionInterface) {
             $options['result'] = false;
         }
 
@@ -348,7 +348,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     {
         if (!$this->dispatcher) {
             @trigger_error(
-                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', self::class),
                 E_USER_DEPRECATED
             );
 
@@ -398,8 +398,8 @@ abstract class BaseDatabaseModel extends BaseModel implements
     {
         try {
             return $this->getDatabase();
-        } catch (DatabaseNotFoundException $e) {
-            throw new \UnexpectedValueException('Database driver not set in ' . __CLASS__);
+        } catch (DatabaseNotFoundException) {
+            throw new \UnexpectedValueException('Database driver not set in ' . self::class);
         }
     }
 

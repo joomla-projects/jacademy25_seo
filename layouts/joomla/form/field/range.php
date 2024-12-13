@@ -68,5 +68,5 @@ $value = is_numeric($value) ? (float) $value : $min;
     type="range"
     name="<?php echo $name; ?>"
     id="<?php echo $id; ?>"
-    value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+    value="<?php echo htmlspecialchars((string) $value, ENT_COMPAT, 'UTF-8'); ?>"
     <?php echo implode(' ', $attributes); ?>>

@@ -48,12 +48,12 @@ class Application implements ServiceProviderInterface
             InstallationApplication::class,
             function (Container $container) {
                 $app = new InstallationApplication($container->get(CMSInput::class), $container->get('config'), null, $container);
-                $app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+                $app->setDispatcher($container->get(\Joomla\Event\DispatcherInterface::class));
                 $app->setLogger($container->get(LoggerInterface::class));
                 $app->setSession($container->get(SessionInterface::class));
 
                 // Ensure that session purging is configured now we have a dispatcher
-                $app->getDispatcher()->addListener(SessionEvents::START, [$app, 'afterSessionStart'], Priority::HIGH);
+                $app->getDispatcher()->addListener(SessionEvents::START, $app->afterSessionStart(...), Priority::HIGH);
 
                 return $app;
             },
@@ -67,7 +67,7 @@ class Application implements ServiceProviderInterface
 
                 $app = new CliInstallationApplication(null, null, $container->get('config'), $lang);
 
-                $app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+                $app->setDispatcher($container->get(\Joomla\Event\DispatcherInterface::class));
                 $app->setLogger($container->get(LoggerInterface::class));
                 $app->setSession($container->get(SessionInterface::class));
 
@@ -79,9 +79,7 @@ class Application implements ServiceProviderInterface
         // Inject a custom JSON error renderer
         $container->share(
             JsonRenderer::class,
-            function (Container $container) {
-                return new \Joomla\CMS\Installation\Error\Renderer\JsonRenderer();
-            }
+            fn(Container $container) => new \Joomla\CMS\Installation\Error\Renderer\JsonRenderer()
         );
     }
 }

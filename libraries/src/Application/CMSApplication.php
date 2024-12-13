@@ -272,9 +272,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         // Get invalid input variables
         $invalidInputVariables = array_filter(
             ['option', 'view', 'format', 'lang', 'Itemid', 'template', 'templateStyle', 'task'],
-            function ($systemVariable) use ($input) {
-                return $input->exists($systemVariable) && \is_array($input->getRaw($systemVariable));
-            }
+            fn($systemVariable) => $input->exists($systemVariable) && \is_array($input->getRaw($systemVariable))
         );
 
         // Unset invalid system variables
@@ -390,7 +388,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
             // Check task or option/view/layout
             if (!empty($task)) {
-                $tasks = explode(',', $tasks);
+                $tasks = explode(',', (string) $tasks);
 
                 // Check full task version "option/task"
                 if (array_search($this->input->getCmd('option', '') . '/' . $task, $tasks) === false) {
@@ -449,7 +447,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 Log::WARNING,
                 'deprecated'
             );
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
@@ -489,7 +487,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     {
         if (empty(static::$instances[$name])) {
             // Create a CmsApplication object.
-            $classname = $prefix . ucfirst($name);
+            $classname = $prefix . ucfirst((string) $name);
 
             if (!$container) {
                 $container = Factory::getContainer();
@@ -780,7 +778,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      */
     public function isHttpsForced($clientId = null)
     {
-        $clientId = (int) ($clientId !== null ? $clientId : $this->getClientId());
+        $clientId = (int) ($clientId ?? $this->getClientId());
         $forceSsl = (int) $this->get('force_ssl');
 
         if ($clientId === 0 && $forceSsl === 2) {
@@ -1129,7 +1127,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 $oldPath          = StringHelper::strtolower(substr($oldUri->getPath(), \strlen($base) + 1));
                 $activePathPrefix = StringHelper::strtolower($active->route);
 
-                $position = strpos($oldPath, $activePathPrefix);
+                $position = strpos($oldPath, (string) $activePathPrefix);
 
                 if ($position !== false) {
                     $oldUri->setPath($base . '/' . substr_replace($oldPath, $item->route, $position, \strlen($activePathPrefix)));
@@ -1327,7 +1325,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $priority = 0;
 
             foreach ($this->get('log_priorities', ['all']) as $p) {
-                $const = '\\Joomla\\CMS\\Log\\Log::' . strtoupper($p);
+                $const = '\\Joomla\\CMS\\Log\\Log::' . strtoupper((string) $p);
 
                 if (\defined($const)) {
                     $priority |= \constant($const);
@@ -1335,7 +1333,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             }
 
             // Split into an array at any character other than alphabet, numbers, _, ., or -
-            $categories = preg_split('/[^\w.-]+/', $this->get('log_categories', ''), -1, PREG_SPLIT_NO_EMPTY);
+            $categories = preg_split('/[^\w.-]+/', (string) $this->get('log_categories', ''), -1, PREG_SPLIT_NO_EMPTY);
             $mode       = (bool) $this->get('log_category_mode', false);
 
             if (!$categories) {

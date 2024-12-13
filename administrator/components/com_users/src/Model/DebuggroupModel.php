@@ -220,7 +220,7 @@ class DebuggroupModel extends ListModel
 
         // Filter the items over the search string if set.
         if ($this->getState('filter.search')) {
-            $search = '%' . trim($this->getState('filter.search')) . '%';
+            $search = '%' . trim((string) $this->getState('filter.search')) . '%';
 
             // Add the clauses to the query.
             $query->where(

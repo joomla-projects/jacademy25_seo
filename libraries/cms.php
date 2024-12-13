@@ -42,7 +42,7 @@ if (!class_exists('JLoader')) {
 $loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
 
 // We need to pull our decorated class loader into memory before unregistering Composer's loader
-class_exists('\\Joomla\\CMS\\Autoload\\ClassLoader');
+class_exists(\Joomla\CMS\Autoload\ClassLoader::class);
 
 $loader->unregister();
 
@@ -57,7 +57,7 @@ $behavior = new \TYPO3\PharStreamWrapper\Behavior();
 
 if (in_array('phar', stream_get_wrappers())) {
     stream_wrapper_unregister('phar');
-    stream_wrapper_register('phar', 'TYPO3\\PharStreamWrapper\\PharStreamWrapper');
+    stream_wrapper_register('phar', \TYPO3\PharStreamWrapper\PharStreamWrapper::class);
 }
 
 // Define the Joomla version if not already defined
@@ -66,7 +66,7 @@ if (!defined('JVERSION')) {
 }
 
 // Register a handler for uncaught exceptions that shows a pretty error page when possible
-set_exception_handler(['Joomla\CMS\Exception\ExceptionHandler', 'handleException']);
+set_exception_handler(\Joomla\CMS\Exception\ExceptionHandler::handleException(...));
 
 // Set up the message queue logger for web requests
 if (array_key_exists('REQUEST_METHOD', $_SERVER)) {

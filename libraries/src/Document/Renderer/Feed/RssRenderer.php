@@ -173,7 +173,7 @@ class RssRenderer extends DocumentRenderer
                 $itemlink = implode('/', array_map('rawurlencode', explode('/', $itemlink)));
             }
 
-            if ((strpos($itemlink, 'http://') === false) && (strpos($itemlink, 'https://') === false)) {
+            if ((!str_contains($itemlink, 'http://')) && (!str_contains($itemlink, 'https://'))) {
                 $itemlink = str_replace(' ', '%20', $url . $itemlink);
             }
 
@@ -205,7 +205,7 @@ class RssRenderer extends DocumentRenderer
             if (empty($item->category) === false) {
                 if (\is_array($item->category)) {
                     foreach ($item->category as $cat) {
-                        $feed .= "			<category>" . htmlspecialchars($cat, ENT_COMPAT, 'UTF-8') . "</category>\n";
+                        $feed .= "			<category>" . htmlspecialchars((string) $cat, ENT_COMPAT, 'UTF-8') . "</category>\n";
                     }
                 } else {
                     $feed .= "			<category>" . htmlspecialchars($item->category, ENT_COMPAT, 'UTF-8') . "</category>\n";

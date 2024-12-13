@@ -66,13 +66,10 @@ class CheckboxesField extends ListField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'forceMultiple':
-            case 'checkedOptions':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'forceMultiple', 'checkedOptions' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**

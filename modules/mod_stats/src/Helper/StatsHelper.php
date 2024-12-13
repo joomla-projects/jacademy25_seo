@@ -94,7 +94,7 @@ class StatsHelper implements DatabaseAwareInterface
 
             try {
                 $users = $db->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $users = false;
             }
 
@@ -106,7 +106,7 @@ class StatsHelper implements DatabaseAwareInterface
 
             try {
                 $items = $db->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $items = false;
             }
 
@@ -134,7 +134,7 @@ class StatsHelper implements DatabaseAwareInterface
 
             try {
                 $hits = $db->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $hits = false;
             }
 

@@ -35,22 +35,6 @@ class ChangeSet
     protected $changeItems = [];
 
     /**
-     * DatabaseDriver object
-     *
-     * @var    DatabaseDriver
-     * @since  2.5
-     */
-    protected $db = null;
-
-    /**
-     * Folder where SQL update files will be found
-     *
-     * @var    string
-     * @since  2.5
-     */
-    protected $folder = null;
-
-    /**
      * The singleton instance of this object
      *
      * @var    ChangeSet
@@ -67,10 +51,18 @@ class ChangeSet
      *
      * @since   2.5
      */
-    public function __construct($db, $folder = null)
+    public function __construct(/**
+     * DatabaseDriver object
+     *
+     * @since  2.5
+     */
+    protected $db, /**
+     * Folder where SQL update files will be found
+     *
+     * @since  2.5
+     */
+    protected $folder = null)
     {
-        $this->db     = $db;
-        $this->folder = $folder;
         $updateFiles  = $this->getUpdateFiles();
 
         // If no files were found nothing more we can do - continue
@@ -81,7 +73,7 @@ class ChangeSet
         $updateQueries = $this->getUpdateQueries($updateFiles);
 
         foreach ($updateQueries as $obj) {
-            $this->changeItems[] = ChangeItem::getInstance($db, $obj->file, $obj->updateQuery);
+            $this->changeItems[] = ChangeItem::getInstance($this->db, $obj->file, $obj->updateQuery);
         }
     }
 

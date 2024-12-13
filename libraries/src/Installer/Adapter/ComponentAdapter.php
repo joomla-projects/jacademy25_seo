@@ -521,7 +521,7 @@ class ComponentAdapter extends InstallerAdapter
     {
         $element = parent::getElement($element);
 
-        if (strpos($element, 'com_') !== 0) {
+        if (!str_starts_with($element, 'com_')) {
             $element = 'com_' . $element;
         }
 
@@ -541,31 +541,18 @@ class ComponentAdapter extends InstallerAdapter
     {
         $source = $this->parent->getPath('source');
 
-        switch ($this->parent->extension->client_id) {
-            case 0:
-                $client = JPATH_SITE;
-
-                break;
-
-            case 1:
-                $client = JPATH_ADMINISTRATOR;
-
-                break;
-
-            case 3:
-                $client = JPATH_API;
-
-                break;
-
-            default:
-                throw new \InvalidArgumentException(
-                    \sprintf(
-                        'Unsupported client ID %d for component %s',
-                        $this->parent->extension->client_id,
-                        $this->parent->extension->element
-                    )
-                );
-        }
+        $client = match ($this->parent->extension->client_id) {
+            0 => JPATH_SITE,
+            1 => JPATH_ADMINISTRATOR,
+            3 => JPATH_API,
+            default => throw new \InvalidArgumentException(
+                \sprintf(
+                    'Unsupported client ID %d for component %s',
+                    $this->parent->extension->client_id,
+                    $this->parent->extension->element
+                )
+            ),
+        };
 
         if (!$source) {
             $this->parent->setPath('source', $client . '/components/' . $this->parent->extension->element);
@@ -1245,7 +1232,7 @@ class ComponentAdapter extends InstallerAdapter
         try {
             $db->setQuery($query);
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -1368,7 +1355,7 @@ class ComponentAdapter extends InstallerAdapter
 
         try {
             return $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_COMP_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
             return false;

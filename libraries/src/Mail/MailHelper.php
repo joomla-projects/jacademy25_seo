@@ -40,7 +40,7 @@ abstract class MailHelper
     {
         $value = PunycodeHelper::emailToPunycode($value);
 
-        return trim(preg_replace('/(%0A|%0D|\n+|\r+)/i', '', $value));
+        return trim((string) preg_replace('/(%0A|%0D|\n+|\r+)/i', '', $value));
     }
 
     /**
@@ -54,7 +54,7 @@ abstract class MailHelper
      */
     public static function cleanText($value)
     {
-        return trim(preg_replace('/(%0A|%0D|\n+|\r+)(content-type:|to:|cc:|bcc:)/i', '', $value));
+        return trim((string) preg_replace('/(%0A|%0D|\n+|\r+)(content-type:|to:|cc:|bcc:)/i', '', $value));
     }
 
     /**
@@ -136,7 +136,7 @@ abstract class MailHelper
         $allowed = "a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-";
         $regex   = "/^[$allowed][\.$allowed]{0,63}$/";
 
-        if (!preg_match($regex, $local) || substr($local, -1) === '.' || $local[0] === '.' || preg_match('/\.\./', $local)) {
+        if (!preg_match($regex, $local) || str_ends_with($local, '.') || $local[0] === '.' || preg_match('/\.\./', $local)) {
             return false;
         }
 
@@ -173,7 +173,7 @@ abstract class MailHelper
             }
 
             // Check for a dash at the beginning of the domain
-            if (strpos($domain, '-') === 0) {
+            if (str_starts_with($domain, '-')) {
                 return false;
             }
 
@@ -202,7 +202,7 @@ abstract class MailHelper
         $siteUrl = Uri::root();
 
         // Replace none SEF URLs by absolute SEF URLs
-        if (strpos($content, 'href="index.php?') !== false) {
+        if (str_contains($content, 'href="index.php?')) {
             preg_match_all('#href="index.php\?([^"]+)"#m', $content, $matches);
 
             foreach ($matches[1] as $urlQueryString) {
@@ -221,19 +221,19 @@ abstract class MailHelper
         $attributes = ['href=', 'src=', 'poster=', 'loading=', 'data-path='];
 
         foreach ($attributes as $attribute) {
-            if (strpos($content, $attribute) !== false) {
+            if (str_contains((string) $content, $attribute)) {
                 // If the attribute is 'loading=', remove loading="lazy"
                 if ($attribute === 'loading=') {
-                    $content = preg_replace('/\s' . $attribute . '"lazy"/i', '', $content);
+                    $content = preg_replace('/\s' . $attribute . '"lazy"/i', '', (string) $content);
                 } elseif ($attribute === 'data-path=') {
                     // If the attribute is 'data-path=', remove the entire attribute
-                    $content = preg_replace('/\s' . $attribute . '"([^"]*)"/i', '', $content);
+                    $content = preg_replace('/\s' . $attribute . '"([^"]*)"/i', '', (string) $content);
                 } else {
                     // Define a regular expression pattern for matching relative URLs in the specified attribute
                     $regex = '#\s' . $attribute . '"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
 
                     // Replace relative URLs with absolute URLs using the siteUrl variable
-                    $content = preg_replace($regex, ' ' . $attribute . '"' . $siteUrl . '$1"', $content);
+                    $content = preg_replace($regex, ' ' . $attribute . '"' . $siteUrl . '$1"', (string) $content);
                 }
                 self::checkContent($content);
             }
@@ -258,19 +258,12 @@ abstract class MailHelper
             return;
         }
 
-        switch (preg_last_error()) {
-            case PREG_BACKTRACK_LIMIT_ERROR:
-                $message = 'PHP regular expression limit reached (pcre.backtrack_limit)';
-                break;
-            case PREG_RECURSION_LIMIT_ERROR:
-                $message = 'PHP regular expression limit reached (pcre.recursion_limit)';
-                break;
-            case PREG_BAD_UTF8_ERROR:
-                $message = 'Bad UTF8 passed to PCRE function';
-                break;
-            default:
-                $message = 'Unknown PCRE error calling PCRE function';
-        }
+        $message = match (preg_last_error()) {
+            PREG_BACKTRACK_LIMIT_ERROR => 'PHP regular expression limit reached (pcre.backtrack_limit)',
+            PREG_RECURSION_LIMIT_ERROR => 'PHP regular expression limit reached (pcre.recursion_limit)',
+            PREG_BAD_UTF8_ERROR => 'Bad UTF8 passed to PCRE function',
+            default => 'Unknown PCRE error calling PCRE function',
+        };
 
         throw new \RuntimeException($message);
     }

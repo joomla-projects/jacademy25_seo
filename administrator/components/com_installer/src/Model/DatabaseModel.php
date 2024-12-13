@@ -380,8 +380,8 @@ class DatabaseModel extends InstallerModel
         // Process search filter (update site id).
         $search = $this->getState('filter.search');
 
-        if (!empty($search) && stripos($search, 'id:') === 0) {
-            $ids = (int) substr($search, 3);
+        if (!empty($search) && stripos((string) $search, 'id:') === 0) {
+            $ids = (int) substr((string) $search, 3);
             $query->where($db->quoteName('schemas.extension_id') . ' = :eid')
                 ->bind(':eid', $ids, ParameterType::INTEGER);
         }
@@ -479,7 +479,7 @@ class DatabaseModel extends InstallerModel
 
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 

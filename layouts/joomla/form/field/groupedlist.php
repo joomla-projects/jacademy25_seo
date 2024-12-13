@@ -101,4 +101,4 @@ if ($readonly) {
     );
 }
 
-echo implode($html);
+echo implode('', $html);

@@ -175,9 +175,7 @@ class FieldsHelper
             PluginHelper::importPlugin('fields', null, true, $dispatcher);
 
             $fieldIds = array_map(
-                function ($f) {
-                    return $f->id;
-                },
+                fn($f) => $f->id,
                 $fields
             );
 
@@ -226,9 +224,7 @@ class FieldsHelper
                     ]))->getArgument('result', []);
 
                     if (\is_array($value)) {
-                        $value = array_filter($value, function ($v) {
-                            return $v !== '' && $v !== null;
-                        });
+                        $value = array_filter($value, fn($v) => $v !== '' && $v !== null);
                         $value = $value ? implode(' ', $value) : '';
                     }
 

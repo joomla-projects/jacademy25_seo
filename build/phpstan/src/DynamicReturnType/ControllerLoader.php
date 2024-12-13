@@ -39,7 +39,7 @@ class ControllerLoader extends NamespaceBased
         }
 
         if (\count($methodCall->getArgs()) < 2) {
-            $prefix = strpos($scope->getNamespace(), 'Site') ? 'Site' : 'Administrator';
+            $prefix = strpos((string) $scope->getNamespace(), 'Site') ? 'Site' : 'Administrator';
         }
 
         if (\count($methodCall->getArgs()) > 0) {

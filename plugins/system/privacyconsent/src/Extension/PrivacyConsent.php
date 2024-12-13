@@ -183,7 +183,7 @@ final class PrivacyConsent extends CMSPlugin
 
             try {
                 $this->getDatabase()->insertObject('#__privacy_consents', $userNote);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Do nothing if the save fails
             }
 
@@ -282,10 +282,10 @@ final class PrivacyConsent extends CMSPlugin
                 'method', 'methods', 'captive', 'callback',
             ];
             $isAllowedUserTask = \in_array($task, $allowedUserTasks)
-                || substr($task, 0, 8) === 'captive.'
-                || substr($task, 0, 8) === 'methods.'
-                || substr($task, 0, 7) === 'method.'
-                || substr($task, 0, 9) === 'callback.';
+                || str_starts_with((string) $task, 'captive.')
+                || str_starts_with((string) $task, 'methods.')
+                || str_starts_with((string) $task, 'method.')
+                || str_starts_with((string) $task, 'callback.');
 
             if (
                 ($option == 'com_users' && $isAllowedUserTask)
@@ -362,7 +362,7 @@ final class PrivacyConsent extends CMSPlugin
      */
     private function getRedirectMessage()
     {
-        $messageOnRedirect = trim($this->params->get('messageOnRedirect', ''));
+        $messageOnRedirect = trim((string) $this->params->get('messageOnRedirect', ''));
 
         if (empty($messageOnRedirect)) {
             return $this->getApplication()->getLanguage()->_('PLG_SYSTEM_PRIVACYCONSENT_REDIRECT_MESSAGE_DEFAULT');

@@ -194,7 +194,7 @@ class ApiController extends BaseController
         $path         = $this->getPath();
         $content      = $this->input->json;
         $name         = $content->getString('name');
-        $mediaContent = base64_decode($content->get('content', '', 'raw'));
+        $mediaContent = base64_decode((string) $content->get('content', '', 'raw'));
         $override     = $content->get('override', false);
 
         if ($mediaContent) {
@@ -265,7 +265,7 @@ class ApiController extends BaseController
 
         $content      = $this->input->json;
         $name         = basename($path);
-        $mediaContent = base64_decode($content->get('content', '', 'raw'));
+        $mediaContent = base64_decode((string) $content->get('content', '', 'raw'));
         $newPath      = $content->getString('newPath', null);
         $move         = $content->get('move', true);
 
@@ -276,7 +276,7 @@ class ApiController extends BaseController
         }
 
         if ($newPath != null && $newPath !== $adapter . ':' . $path) {
-            list($destinationAdapter, $destinationPath) = explode(':', $newPath, 2);
+            [$destinationAdapter, $destinationPath] = explode(':', $newPath, 2);
 
             if ($move) {
                 $destinationPath = $this->getModel()->move($adapter, $path, $destinationPath, false);

@@ -45,28 +45,28 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
 
 // Template params
 $logoBrandLarge  = $this->params->get('logoBrandLarge')
-    ? Uri::root(false) . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
+    ? Uri::root(false) . htmlspecialchars((string) $this->params->get('logoBrandLarge'), ENT_QUOTES)
     : Uri::root(false) . 'media/templates/administrator/atum/images/logos/brand-large.svg';
 $logoBrandSmall = $this->params->get('logoBrandSmall')
-    ? Uri::root(false) . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
+    ? Uri::root(false) . htmlspecialchars((string) $this->params->get('logoBrandSmall'), ENT_QUOTES)
     : Uri::root(false) . 'media/templates/administrator/atum/images/logos/brand-small.svg';
 
 $logoBrandLargeAlt = empty($this->params->get('logoBrandLargeAlt')) && empty($this->params->get('emptyLogoBrandLargeAlt'))
     ? ''
-    : htmlspecialchars($this->params->get('logoBrandLargeAlt', ''), ENT_COMPAT, 'UTF-8');
+    : htmlspecialchars((string) $this->params->get('logoBrandLargeAlt', ''), ENT_COMPAT, 'UTF-8');
 $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($this->params->get('emptyLogoBrandSmallAlt'))
     ? ''
-    : htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8');
+    : htmlspecialchars((string) $this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8');
 
 // Get the hue value
-preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
+preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', (string) $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
 
 $linkColor = $this->params->get('link-color', '#2a69b8');
-list($r, $g, $b) = sscanf($linkColor, "#%02x%02x%02x");
+[$r, $g, $b] = sscanf($linkColor, "#%02x%02x%02x");
 
 $linkColorDark = $this->params->get('link-color-dark', '#6fbfdb');
-list($rd, $gd, $bd) = sscanf($linkColorDark, "#%02x%02x%02x");
-list($lighterRd, $lighterGd, $lighterBd) = adjustColorLightness($rd, $gd, $bd, 10);
+[$rd, $gd, $bd] = sscanf($linkColorDark, "#%02x%02x%02x");
+[$lighterRd, $lighterGd, $lighterBd] = adjustColorLightness($rd, $gd, $bd, 10);
 
 $linkColorDarkHvr = sprintf("%d, %d, %d", $lighterRd, $lighterGd, $lighterBd);
 

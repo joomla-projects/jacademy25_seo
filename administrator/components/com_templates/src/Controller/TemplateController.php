@@ -146,7 +146,7 @@ class TemplateController extends BaseController
         $this->input->set('installtype', 'folder');
         $newNameRaw = $this->input->get('new_name', null, 'string');
         // Only accept letters, numbers and underscore for template name
-        $newName    = preg_replace('/[^a-zA-Z0-9_]/', '', $newNameRaw);
+        $newName    = preg_replace('/[^a-zA-Z0-9_]/', '', (string) $newNameRaw);
         $templateID = (int) $this->input->getInt('id', 0);
         $file       = (string) $this->input->get('file', '', 'cmd');
 
@@ -166,7 +166,7 @@ class TemplateController extends BaseController
         $model->setState('to_path', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 
         // Process only if we have a new name entered
-        if (\strlen($newName) > 0) {
+        if (\strlen((string) $newName) > 0) {
             if (!$this->app->getIdentity()->authorise('core.create', 'com_templates')) {
                 // User is not authorised to delete
                 $this->setMessage(Text::_('COM_TEMPLATES_ERROR_CREATE_NOT_PERMITTED'), 'error');
@@ -534,7 +534,7 @@ class TemplateController extends BaseController
 
         if ($return = $model->uploadFile($upload, $location)) {
             $this->setMessage(Text::sprintf('COM_TEMPLATES_FILE_UPLOAD_SUCCESS', $upload['name']));
-            $redirect = base64_encode($return);
+            $redirect = base64_encode((string) $return);
             $url      = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $redirect . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
         } else {
@@ -576,7 +576,7 @@ class TemplateController extends BaseController
             return;
         }
 
-        if (!preg_match('/^[a-zA-Z0-9-_.]+$/', $name)) {
+        if (!preg_match('/^[a-zA-Z0-9-_.]+$/', (string) $name)) {
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FOLDER_NAME'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
@@ -677,7 +677,7 @@ class TemplateController extends BaseController
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_RENAME_ASSET_FILE'), 'warning');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $isMedia;
             $this->setRedirect(Route::_($url, false));
-        } elseif (!preg_match('/^(?!\.)(?!.*\.$)(?!.*\.\.)[a-zA-Z0-9_.-]+$/', $newName)) {
+        } elseif (!preg_match('/^(?!\.)(?!.*\.$)(?!.*\.\.)[a-zA-Z0-9_.-]+$/', (string) $newName)) {
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $isMedia;
             $this->setRedirect(Route::_($url, false));
@@ -807,7 +807,7 @@ class TemplateController extends BaseController
             return;
         }
 
-        if (!preg_match('/^[a-zA-Z0-9-_]+$/', $newName)) {
+        if (!preg_match('/^[a-zA-Z0-9-_]+$/', (string) $newName)) {
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file  . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
@@ -918,7 +918,7 @@ class TemplateController extends BaseController
         $newNameRaw = $this->input->get('new_name', null, 'string');
 
         // Only accept letters, numbers and underscore for template name
-        $newName     = preg_replace('/[^a-zA-Z0-9_]/', '', $newNameRaw);
+        $newName     = preg_replace('/[^a-zA-Z0-9_]/', '', (string) $newNameRaw);
         $templateID  = (int) $this->input->getInt('id', 0);
         $file        = (string) $this->input->get('file', '', 'cmd');
         $extraStyles = (array) $this->input->get('style_ids', [], 'array');
@@ -932,7 +932,7 @@ class TemplateController extends BaseController
         $model->setState('to_path', $this->app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 
         // Process only if we have a new name entered
-        if (!\strlen($newName)) {
+        if (!\strlen((string) $newName)) {
             $this->setMessage(Text::sprintf('COM_TEMPLATES_ERROR_INVALID_TEMPLATE_NAME'), 'error');
 
             return false;

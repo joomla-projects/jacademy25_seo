@@ -63,18 +63,10 @@ if ($tagId = $params->get('tag_id', '')) {
 
     echo '<li class="' . $class . '">';
 
-    switch ($item->type) :
-        case 'separator':
-        case 'component':
-        case 'heading':
-        case 'url':
-            require ModuleHelper::getLayoutPath('mod_menu', 'default_' . $item->type);
-            break;
-
-        default:
-            require ModuleHelper::getLayoutPath('mod_menu', 'default_url');
-            break;
-    endswitch;
+    match ($item->type) {
+        'separator', 'component', 'heading', 'url' => require ModuleHelper::getLayoutPath('mod_menu', 'default_' . $item->type),
+        default => require ModuleHelper::getLayoutPath('mod_menu', 'default_url'),
+    };
 
     // The next item is deeper.
     if ($item->deeper) {

@@ -705,10 +705,10 @@ abstract class Bootstrap
      */
     public static function addSlide($selector, $text, $id, $class = ''): string
     {
-        $in        = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] === $id ? ' show' : '';
-        $collapsed = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] === $id ? '' : ' collapsed';
-        $parent    = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
-            'data-bs-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
+        $in        = static::$loaded[self::class . '::startAccordion'][$selector]['active'] === $id ? ' show' : '';
+        $collapsed = static::$loaded[self::class . '::startAccordion'][$selector]['active'] === $id ? '' : ' collapsed';
+        $parent    = static::$loaded[self::class . '::startAccordion'][$selector]['parent'] ?
+            'data-bs-parent="' . static::$loaded[self::class . '::startAccordion'][$selector]['parent'] . '"' : '';
         $class        = (!empty($class)) ? ' ' . $class : '';
         $ariaExpanded = $in === 'show';
 
@@ -849,8 +849,8 @@ HTMLSTR;
     {
         static $tabLayout = null;
 
-        $tabLayout = $tabLayout === null ? new FileLayout('libraries.html.bootstrap.tab.addtab') : $tabLayout;
-        $active    = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
+        $tabLayout ??= new FileLayout('libraries.html.bootstrap.tab.addtab');
+        $active    = (static::$loaded[self::class . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
         return $tabLayout->render(['id' => preg_replace('/^[\.#]/', '', $id), 'active' => $active, 'title' => $title]);
     }

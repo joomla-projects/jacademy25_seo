@@ -42,7 +42,7 @@ trait LanguageAwareTrait
             return $this->language;
         }
 
-        throw new \UnexpectedValueException('Language not set in ' . __CLASS__);
+        throw new \UnexpectedValueException('Language not set in ' . self::class);
     }
 
     /**

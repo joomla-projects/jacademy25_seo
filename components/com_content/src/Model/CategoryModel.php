@@ -187,7 +187,7 @@ class CategoryModel extends ListModel
 
         $listOrder = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
 
-        if (!\in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
+        if (!\in_array(strtoupper((string) $listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
@@ -290,7 +290,7 @@ class CategoryModel extends ListModel
             $orderCol = null;
         }
 
-        if (!\in_array(strtoupper($orderDirn), ['ASC', 'DESC', ''])) {
+        if (!\in_array(strtoupper((string) $orderDirn), ['ASC', 'DESC', ''])) {
             $orderDirn = 'ASC';
         }
 

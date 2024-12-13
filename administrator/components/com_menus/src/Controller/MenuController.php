@@ -67,7 +67,7 @@ class MenuController extends FormController
         $recordId = $this->input->getInt('id');
 
         // Prevent using 'main' as menutype as this is reserved for backend menus
-        if (strtolower($data['menutype']) == 'main') {
+        if (strtolower((string) $data['menutype']) == 'main') {
             $this->setMessage(Text::_('COM_MENUS_ERROR_MENUTYPE'), 'error');
 
             // Redirect back to the edit screen.
@@ -116,7 +116,7 @@ class MenuController extends FormController
         }
 
         if (isset($validData['preset'])) {
-            $preset = trim($validData['preset']) ?: null;
+            $preset = trim((string) $validData['preset']) ?: null;
 
             unset($validData['preset']);
         }

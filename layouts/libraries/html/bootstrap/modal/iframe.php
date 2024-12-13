@@ -38,8 +38,8 @@ $iframeAttributes = [
 ];
 
 if (isset($params['title'])) {
-    $iframeAttributes['name'] = addslashes($params['title']);
-    $iframeAttributes['title'] = addslashes($params['title']);
+    $iframeAttributes['name'] = addslashes((string) $params['title']);
+    $iframeAttributes['title'] = addslashes((string) $params['title']);
 }
 
 if (isset($params['height'])) {

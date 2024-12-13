@@ -92,7 +92,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 <td class="d-none d-md-table-cell">
                                         <?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
                                         <?php // Display a Note if language pack version is not equal to Joomla version ?>
-                                        <?php if (strpos($language->version, $minorVersion) !== 0 || strpos($language->version, $currentShortVersion) !== 0) : ?>
+                                        <?php if (!str_starts_with($language->version, $minorVersion) || !str_starts_with($language->version, (string) $currentShortVersion)) : ?>
                                             <span class="badge bg-warning"><?php echo $language->version; ?></span>
                                             <span class="icon-info-circle" aria-hidden="true" tabindex="0"></span>
                                             <div role="tooltip" class="text-start" id="tip<?php echo $language->code; ?>">

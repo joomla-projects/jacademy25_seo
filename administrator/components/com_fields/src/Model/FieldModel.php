@@ -144,7 +144,7 @@ class FieldModel extends AdminModel
             $origTable->load($input->getInt('id'));
 
             if ($data['title'] == $origTable->title) {
-                list($title, $name) = $this->generateNewTitle($data['group_id'], $data['name'], $data['title']);
+                [$title, $name] = $this->generateNewTitle($data['group_id'], $data['name'], $data['title']);
                 $data['title']      = $title;
                 $data['label']      = $title;
                 $data['name']       = $name;
@@ -329,7 +329,7 @@ class FieldModel extends AdminModel
         if ($rule instanceof DatabaseAwareInterface) {
             try {
                 $rule->setDatabase($this->getDatabase());
-            } catch (DatabaseNotFoundException $e) {
+            } catch (DatabaseNotFoundException) {
                 @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
                 $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
@@ -340,7 +340,7 @@ class FieldModel extends AdminModel
             $value   = $data['default_value'];
 
             if ($data['type'] === 'checkboxes') {
-                $value = explode(',', $value);
+                $value = explode(',', (string) $value);
             } elseif ($element['multiple'] && \is_string($value) && \is_array(json_decode($value, true))) {
                 $value = (array)json_decode($value);
             }
@@ -1060,11 +1060,11 @@ class FieldModel extends AdminModel
                 // Try to get the categories for this component and section
                 try {
                     $cat = $componentObject->getCategory([], $section ?: '');
-                } catch (SectionNotFoundException $e) {
+                } catch (SectionNotFoundException) {
                     // Not found for component and section -> Now try once more without the section, so only component
                     try {
                         $cat = $componentObject->getCategory();
-                    } catch (SectionNotFoundException $e) {
+                    } catch (SectionNotFoundException) {
                         // If we haven't found it now, return (no categories available for this component)
                         return null;
                     }
@@ -1225,7 +1225,7 @@ class FieldModel extends AdminModel
         // Set the variables
         $user      = $this->getCurrentUser();
         $table     = $this->getTable();
-        $context   = explode('.', Factory::getApplication()->getUserState('com_fields.fields.context'));
+        $context   = explode('.', (string) Factory::getApplication()->getUserState('com_fields.fields.context'));
         $value     = (int) $value;
 
         foreach ($pks as $pk) {

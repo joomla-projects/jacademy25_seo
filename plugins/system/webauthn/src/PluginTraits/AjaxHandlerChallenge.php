@@ -57,7 +57,7 @@ trait AjaxHandlerChallenge
             $session->get('plg_system_webauthn.returnUrl', Uri::current())
         );
         $returnUrl = $input->getBase64('returnUrl', $returnUrl);
-        $returnUrl = base64_decode($returnUrl);
+        $returnUrl = base64_decode((string) $returnUrl);
 
         // For security reasons the post-login redirection URL must be internal to the site.
         if (!Uri::isInternal($returnUrl)) {
@@ -77,7 +77,7 @@ trait AjaxHandlerChallenge
         // Is the username valid?
         try {
             $userId = UserHelper::getUserId($username);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $userId = 0;
         }
 
@@ -89,7 +89,7 @@ trait AjaxHandlerChallenge
 
         try {
             $myUser = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $myUser = new User();
         }
 

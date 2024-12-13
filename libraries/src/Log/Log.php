@@ -239,7 +239,7 @@ class Log
             $options['logger'] = 'formattedtext';
         }
 
-        $options['logger'] = strtolower($options['logger']);
+        $options['logger'] = strtolower((string) $options['logger']);
 
         // Special case - if a Closure object is sent as the callback (in case of CallbackLogger)
         // Closure objects are not serializable so swap it out for a unique id first then back again later
@@ -337,7 +337,7 @@ class Log
                         E_USER_DEPRECATED
                     );
 
-                    $class = __NAMESPACE__ . '\\Logger\\' . ucfirst($this->configurations[$signature]['logger']) . 'Logger';
+                    $class = __NAMESPACE__ . '\\Logger\\' . ucfirst((string) $this->configurations[$signature]['logger']) . 'Logger';
 
                     if (!class_exists($class)) {
                         throw new \RuntimeException('Unable to create a Logger instance: ' . $class);

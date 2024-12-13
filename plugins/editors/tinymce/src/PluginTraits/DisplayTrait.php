@@ -64,8 +64,8 @@ trait DisplayTrait
         $width           = $attributes['width'] ?? '';
         $height          = $attributes['height'] ?? '';
         $id              = $attributes['id'] ?? $name;
-        $id              = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
-        $nameGroup       = explode('[', preg_replace('/\[\]|\]/', '', $name));
+        $id              = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', (string) $id);
+        $nameGroup       = explode('[', (string) preg_replace('/\[\]|\]/', '', $name));
         $fieldName       = end($nameGroup);
         $buttons         = $params['buttons'] ?? true;
         $asset           = $params['asset'] ?? 0;
@@ -164,7 +164,7 @@ trait DisplayTrait
 
                 // if we have a name and path, add it to the list
                 if ($external['name'] != '' && $path != '') {
-                    $externalPlugins[$external['name']] = substr($path, 0, 1) == '/' ? Uri::root() . substr($path, 1) : $path;
+                    $externalPlugins[$external['name']] = str_starts_with((string) $path, '/') ? Uri::root() . substr((string) $path, 1) : $path;
                 }
             }
         }
@@ -205,7 +205,7 @@ trait DisplayTrait
              * If URL, just pass it to $content_css
              * else, assume it is a file name in the current template folder
              */
-            $content_css = strpos($content_css_custom, 'http') !== false
+            $content_css = str_contains((string) $content_css_custom, 'http')
                 ? $content_css_custom
                 : $this->includeRelativeFiles('css', $content_css_custom);
         } else {
@@ -275,18 +275,11 @@ trait DisplayTrait
              * Set 0: for Administrator, Editor, Super Users (4,7,8)
              * Set 1: for Registered, Manager (2,6), all else are public
              */
-            switch (true) {
-                case isset($ugroups[4]) || isset($ugroups[7]) || isset($ugroups[8]):
-                    $preset = $presets['advanced'];
-                    break;
-
-                case isset($ugroups[2]) || isset($ugroups[6]):
-                    $preset = $presets['medium'];
-                    break;
-
-                default:
-                    $preset = $presets['simple'];
-            }
+            $preset = match (true) {
+                isset($ugroups[4]) || isset($ugroups[7]) || isset($ugroups[8]) => $presets['advanced'],
+                isset($ugroups[2]) || isset($ugroups[6]) => $presets['medium'],
+                default => $presets['simple'],
+            };
 
             $levelParams->loadArray($preset);
         }
@@ -383,11 +376,11 @@ trait DisplayTrait
         $custom_button = trim($levelParams->get('custom_button', ''));
 
         if ($custom_plugin) {
-            $plugins   = array_merge($plugins, explode(strpos($custom_plugin, ',') !== false ? ',' : ' ', $custom_plugin));
+            $plugins   = array_merge($plugins, explode(str_contains($custom_plugin, ',') ? ',' : ' ', $custom_plugin));
         }
 
         if ($custom_button) {
-            $toolbar1  = array_merge($toolbar1, explode(strpos($custom_button, ',') !== false ? ',' : ' ', $custom_button));
+            $toolbar1  = array_merge($toolbar1, explode(str_contains($custom_button, ',') ? ',' : ' ', $custom_button));
         }
 
         // Merge the two toolbars for backwards compatibility

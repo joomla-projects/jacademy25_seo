@@ -804,7 +804,7 @@ abstract class DebugAdapter extends CMSPlugin
         }
 
         // Instantiate the params.
-        $params = json_decode($params);
+        $params = json_decode((string) $params);
 
         // Get the page title if it is set.
         if (isset($params->page_title) && $params->page_title) {
@@ -919,16 +919,12 @@ abstract class DebugAdapter extends CMSPlugin
         }
 
         // Translate the state
-        switch ($item) {
-            case 1:
-            case 2:
-                // Published and archived items only should return a published state
-                return 1;
-
-            default:
-                // All other states should return an unpublished state
-                return 0;
-        }
+        return match ($item) {
+            // Published and archived items only should return a published state
+            1, 2 => 1,
+            // All other states should return an unpublished state
+            default => 0,
+        };
     }
 
     /**

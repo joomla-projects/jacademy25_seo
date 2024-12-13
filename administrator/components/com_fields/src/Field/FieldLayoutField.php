@@ -45,7 +45,7 @@ class FieldLayoutField extends FormField
      */
     protected function getInput()
     {
-        $extension = explode('.', $this->form->getValue('context'));
+        $extension = explode('.', (string) $this->form->getValue('context'));
         $extension = $extension[0];
 
         if ($extension) {
@@ -86,7 +86,7 @@ class FieldLayoutField extends FormField
 
                 foreach ($component_layouts as $i => $file) {
                     // Add an option to the component group
-                    $value                 = basename($file, '.php');
+                    $value                 = basename((string) $file, '.php');
                     $component_layouts[$i] = $value;
 
                     if ($value === 'render') {
@@ -115,7 +115,7 @@ class FieldLayoutField extends FormField
                     }
 
                     foreach ($files as $i => $file) {
-                        $value = basename($file, '.php');
+                        $value = basename((string) $file, '.php');
 
                         // Remove the default "render.php" or layout files that exist in the component folder
                         if ($value === 'render' || \in_array($value, $component_layouts)) {
@@ -132,7 +132,7 @@ class FieldLayoutField extends FormField
 
                         foreach ($files as $file) {
                             // Add an option to the template group
-                            $value                              = basename($file, '.php');
+                            $value                              = basename((string) $file, '.php');
                             $groups[$template->name]['items'][] = HTMLHelper::_('select.option', $value, $value);
                         }
                     }
@@ -157,7 +157,7 @@ class FieldLayoutField extends FormField
                 ['id' => $this->id, 'group.id' => 'id', 'list.attr' => $attr, 'list.select' => $selected]
             );
 
-            return implode($html);
+            return implode('', $html);
         }
 
         return '';

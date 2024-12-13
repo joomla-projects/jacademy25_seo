@@ -40,7 +40,7 @@ Factory::getApplication()->getDocument()->getWebAssetManager()
     ->useScript('joomla.dialog-autocreate')
     ->useScript('webcomponent.toolbar-button');
 
-$tagName    = $tagName ?? 'button';
+$tagName ??= 'button';
 $modalAttrs = [];
 
 // Check for use of Joomla Dialog, otherwise fallback to BS Modal

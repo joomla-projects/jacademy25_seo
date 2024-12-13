@@ -292,11 +292,11 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $baseSchema['@graph']   = [];
 
         // Add base tag Person/Organization
-        $baseId = $domain . '#/schema/' . ucfirst($baseType) . '/base';
+        $baseId = $domain . '#/schema/' . ucfirst((string) $baseType) . '/base';
 
         $siteSchema = [];
 
-        $siteSchema['@type'] = ucfirst($baseType);
+        $siteSchema['@type'] = ucfirst((string) $baseType);
         $siteSchema['@id']   = $baseId;
 
         $name = $this->params->get('name', $app->get('sitename'));

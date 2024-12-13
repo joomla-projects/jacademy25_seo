@@ -67,7 +67,7 @@ class Router extends RouterBase
         $vars  = [];
 
         foreach ($segments as &$segment) {
-            $segment = preg_replace('/-/', ':', $segment, 1);
+            $segment = preg_replace('/-/', ':', (string) $segment, 1);
         }
         unset($segment);
 

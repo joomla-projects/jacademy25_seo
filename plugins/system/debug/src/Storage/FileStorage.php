@@ -92,13 +92,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
         // Sort the files, newest first
         usort(
             $files,
-            function ($a, $b) {
-                if ($a['time'] === $b['time']) {
-                    return 0;
-                }
-
-                return $a['time'] < $b['time'] ? 1 : -1;
-            }
+            fn($a, $b) => $b['time'] <=> $a['time']
         );
 
         // Load the metadata and filter the results.

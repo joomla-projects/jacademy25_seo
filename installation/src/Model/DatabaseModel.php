@@ -204,7 +204,7 @@ class DatabaseModel extends BaseInstallationModel
         }
 
         // @internal Check for asc(00) Null in name.
-        if (strpos($options->db_name, \chr(00)) !== false) {
+        if (str_contains($options->db_name, \chr(00))) {
             throw new \RuntimeException(Text::_('INSTL_DATABASE_NAME_INVALID_CHAR'));
         }
 
@@ -226,7 +226,7 @@ class DatabaseModel extends BaseInstallationModel
         // Set the character set to UTF-8 for pre-existing databases.
         try {
             $db->alterDbCharacterSet($options->db_name);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Continue Anyhow
         }
 
@@ -270,7 +270,7 @@ class DatabaseModel extends BaseInstallationModel
         // Set the character set to UTF-8 for pre-existing databases.
         try {
             $db->alterDbCharacterSet($options['db_name']);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Continue Anyhow
         }
 
@@ -339,7 +339,7 @@ class DatabaseModel extends BaseInstallationModel
         if ($tables) {
             foreach ($tables as $table) {
                 // If the table uses the given prefix, back it up.
-                if (strpos($table, $prefix) === 0) {
+                if (str_starts_with((string) $table, $prefix)) {
                     // Backup table name.
                     $backupTable = str_replace($prefix, $backup, $table);
 
@@ -385,7 +385,7 @@ class DatabaseModel extends BaseInstallationModel
         try {
             // Run the create database query.
             $db->createDatabase($options, $utf);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // If an error occurred return false.
             return false;
         }
@@ -419,7 +419,7 @@ class DatabaseModel extends BaseInstallationModel
 
         foreach ($queries as $query) {
             // Trim any whitespace.
-            $query = trim($query);
+            $query = trim((string) $query);
 
             // If the query isn't empty and is not a MySQL or PostgreSQL comment, execute it.
             if (!empty($query) && ($query[0] != '#') && ($query[0] != '-')) {
@@ -464,7 +464,7 @@ class DatabaseModel extends BaseInstallationModel
         $query = preg_replace("/\n\--[^\n]*/", '', "\n" . $query);
 
         // Find function.
-        $funct = explode('CREATE OR REPLACE FUNCTION', $query);
+        $funct = explode('CREATE OR REPLACE FUNCTION', (string) $query);
 
         // Save sql before function and parse it.
         $query = $funct[0];

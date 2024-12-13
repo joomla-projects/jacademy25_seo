@@ -178,7 +178,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // The extension can be in the form com_foo.section
-        $parts           = explode('.', $extension);
+        $parts           = explode('.', (string) $extension);
         $component       = $parts[0];
         $section         = (\count($parts) > 1) ? $parts[1] : null;
         $componentParams = ComponentHelper::getParams($component);
@@ -357,7 +357,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // The extension can be in the form com_foo.section
-        $parts     = explode('.', $extension);
+        $parts     = explode('.', (string) $extension);
         $component = $parts[0];
 
         // Need to load the menu language file as mod_menu hasn't been loaded yet.

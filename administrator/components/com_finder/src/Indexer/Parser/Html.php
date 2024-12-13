@@ -77,7 +77,7 @@ class Html extends Parser
             ')\b/i', ' $1$2', $input);
 
         // Strip HTML tags.
-        $input = strip_tags($input);
+        $input = strip_tags((string) $input);
 
         return parent::parse($input);
     }

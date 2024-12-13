@@ -33,15 +33,6 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
     use TaskPluginTrait;
 
     /**
-     * The meta data manager
-     *
-     * @var   MetadataManager
-     *
-     * @since 4.4.0
-     */
-    private $metadataManager;
-
-    /**
      * @var string[]
      * @since 5.0.0
      */
@@ -68,11 +59,15 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.4.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, MetadataManager $metadataManager)
+    public function __construct(DispatcherInterface $dispatcher, array $config, /**
+     * The meta data manager
+     *
+     *
+     * @since 4.4.0
+     */
+    private MetadataManager $metadataManager)
     {
         parent::__construct($dispatcher, $config);
-
-        $this->metadataManager = $metadataManager;
     }
 
     /**

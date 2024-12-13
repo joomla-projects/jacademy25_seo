@@ -45,7 +45,7 @@ class FilesystemHelper
         }
 
         if (($sch === 'http') || ($sch === 'https')) {
-            $headers = get_headers($url, 1);
+            $headers = get_headers($url, true);
 
             if ((!\array_key_exists('Content-Length', $headers))) {
                 return false;
@@ -343,7 +343,7 @@ class FilesystemHelper
         $return = round($size);
 
         if ($unit) {
-            $return = round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+            $return = round($size * 1024 ** stripos('bkmgtpezy', $unit[0]));
         }
 
         return $return;
@@ -363,6 +363,6 @@ class FilesystemHelper
         $base     = log($maxSize) / log(1024);
         $suffixes = ['', 'k', 'M', 'G', 'T'];
 
-        return round(pow(1024, $base - floor($base)), 0) . $suffixes[floor($base)];
+        return round(1024 ** ($base - floor($base)), 0) . $suffixes[floor($base)];
     }
 }

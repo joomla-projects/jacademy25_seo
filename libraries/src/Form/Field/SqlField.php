@@ -85,16 +85,10 @@ class SqlField extends ListField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'keyField':
-            case 'valueField':
-            case 'translate':
-            case 'header':
-            case 'query':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'keyField', 'valueField', 'translate', 'header', 'query' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -291,7 +285,7 @@ class SqlField extends ListField
 
             try {
                 $items = $db->loadObjectList();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
             }
         }

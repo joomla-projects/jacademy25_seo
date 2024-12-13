@@ -199,9 +199,7 @@ class TasksModel extends ListModel
 
             // Array of all active routine ids
             $activeRoutines = array_map(
-                static function (TaskOption $taskOption): string {
-                    return $taskOption->id;
-                },
+                static fn(TaskOption $taskOption): string => $taskOption->id,
                 $taskOptions->options
             );
 
@@ -303,12 +301,12 @@ class TasksModel extends ListModel
 
         if (!empty($searchStr)) {
             // Allow search by ID
-            if (stripos($searchStr, 'id:') === 0) {
+            if (stripos((string) $searchStr, 'id:') === 0) {
                 // Add array support [?]
-                $id = (int) substr($searchStr, 3);
+                $id = (int) substr((string) $searchStr, 3);
                 $query->where($db->quoteName('a.id') . '= :id')
                     ->bind(':id', $id, ParameterType::INTEGER);
-            } elseif (stripos($searchStr, 'type:') !== 0) {
+            } elseif (stripos((string) $searchStr, 'type:') !== 0) {
                 // Search by type is handled exceptionally in _getList() [@todo: remove refs]
                 $searchStr = "%$searchStr%";
 
@@ -366,7 +364,7 @@ class TasksModel extends ListModel
     {
         // Get stuff from the model state
         $listOrder      = $this->getState('list.ordering', 'a.next_execution');
-        $listDirectionN = strtolower($this->getState('list.direction', 'asc')) === 'desc' ? -1 : 1;
+        $listDirectionN = strtolower((string) $this->getState('list.direction', 'asc')) === 'desc' ? -1 : 1;
 
         // Set limit parameters and get object list
         $query->setLimit($limit, $limitstart);

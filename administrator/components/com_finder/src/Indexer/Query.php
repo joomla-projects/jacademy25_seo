@@ -741,7 +741,7 @@ class Query
         $input  = html_entity_decode($input, ENT_QUOTES, 'UTF-8');
         $input  = StringHelper::strtolower($input);
         $input  = preg_replace('#\s+#mi', ' ', $input);
-        $input  = trim($input);
+        $input  = trim((string) $input);
         $debug  = Factory::getApplication()->get('debug_lang');
         $params = ComponentHelper::getParams('com_finder');
 
@@ -847,7 +847,7 @@ class Query
                 // Clean up the input string again.
                 $input = str_replace($matches[0], '', $input);
                 $input = preg_replace('#\s+#mi', ' ', $input);
-                $input = trim($input);
+                $input = trim((string) $input);
             }
         }
 
@@ -880,7 +880,7 @@ class Query
 
                     // Clean up the input string again.
                     $input = preg_replace('#\s+#mi', ' ', $input);
-                    $input = trim($input);
+                    $input = trim((string) $input);
 
                     // Get the number of words in the phrase.
                     $parts      = explode(' ', $match);

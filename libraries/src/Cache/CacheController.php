@@ -103,8 +103,8 @@ class CacheController
 
         try {
             return Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
-        } catch (\RuntimeException $e) {
-            $type  = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
+        } catch (\RuntimeException) {
+            $type  = strtolower((string) preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
             $class = 'JCacheController' . ucfirst($type);
 
             if (!class_exists($class)) {

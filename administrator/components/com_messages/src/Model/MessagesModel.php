@@ -148,7 +148,7 @@ class MessagesModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+            $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
             $query->extendWhere(
                 'AND',
                 [

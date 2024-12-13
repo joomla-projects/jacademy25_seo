@@ -50,7 +50,7 @@ class ApplicationHelper
         }
 
         $input  = Factory::getApplication()->getInput();
-        $option = strtolower($input->get('option', ''));
+        $option = strtolower((string) $input->get('option', ''));
 
         if (empty($option)) {
             $option = $default;

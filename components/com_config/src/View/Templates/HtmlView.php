@@ -102,13 +102,13 @@ class HtmlView extends BaseHtmlView
         $json = $view->display();
 
         // Execute backend controller
-        $serviceData = json_decode($json, true);
+        $serviceData = json_decode((string) $json, true);
 
         // Access backend com_config
         $requestController = new RequestController();
 
         // Execute backend controller
-        $configData = json_decode($requestController->getJson(), true);
+        $configData = json_decode((string) $requestController->getJson(), true);
 
         $data = array_merge($configData, $serviceData);
 
@@ -152,7 +152,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $params->get('pageclass_sfx', ''));
         $this->params        = &$params;
     }
 }

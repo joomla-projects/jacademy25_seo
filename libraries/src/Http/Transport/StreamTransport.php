@@ -196,7 +196,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
     protected function getResponse(array $headers, $body)
     {
         // Get the response code from the first offset of the response headers.
-        preg_match('/[0-9]{3}/', array_shift($headers), $matches);
+        preg_match('/[0-9]{3}/', (string) array_shift($headers), $matches);
         $code = $matches[0];
 
         if (!is_numeric($code)) {

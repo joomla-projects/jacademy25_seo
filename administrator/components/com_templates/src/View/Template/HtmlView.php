@@ -163,8 +163,8 @@ class HtmlView extends BaseHtmlView
 
         $app               = Factory::getApplication();
         $this->file        = $app->getInput()->get('file', '');
-        $this->fileName    = InputFilter::getInstance()->clean(base64_decode($this->file), 'string');
-        $explodeArray      = explode('.', $this->fileName);
+        $this->fileName    = InputFilter::getInstance()->clean(base64_decode((string) $this->file), 'string');
+        $explodeArray      = explode('.', (string) $this->fileName);
         $ext               = end($explodeArray);
         $this->files       = $model->getFiles();
         $this->mediaFiles  = $model->getMediaFiles();
@@ -177,10 +177,10 @@ class HtmlView extends BaseHtmlView
         $this->stylesHTML  = '';
 
         $params       = ComponentHelper::getParams('com_templates');
-        $imageTypes   = explode(',', $params->get('image_formats', 'gif,bmp,jpg,jpeg,png,webp'));
-        $sourceTypes  = explode(',', $params->get('source_formats', 'txt,less,ini,xml,js,php,css,scss,sass,json'));
-        $fontTypes    = explode(',', $params->get('font_formats', 'woff,woff2,ttf,otf'));
-        $archiveTypes = explode(',', $params->get('compressed_formats', 'zip'));
+        $imageTypes   = explode(',', (string) $params->get('image_formats', 'gif,bmp,jpg,jpeg,png,webp'));
+        $sourceTypes  = explode(',', (string) $params->get('source_formats', 'txt,less,ini,xml,js,php,css,scss,sass,json'));
+        $fontTypes    = explode(',', (string) $params->get('font_formats', 'woff,woff2,ttf,otf'));
+        $archiveTypes = explode(',', (string) $params->get('compressed_formats', 'zip'));
 
         if (\in_array($ext, $sourceTypes)) {
             $this->form   = $model->getForm();
@@ -191,7 +191,7 @@ class HtmlView extends BaseHtmlView
             try {
                 $this->image = $model->getImage();
                 $this->type  = 'image';
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_GD_EXTENSION_NOT_AVAILABLE'));
                 $this->type = 'home';
             }

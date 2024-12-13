@@ -464,7 +464,7 @@ final class MultiLanguage extends CMSPlugin
 
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 
@@ -490,7 +490,7 @@ final class MultiLanguage extends CMSPlugin
 
             try {
                 $db->execute();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 return false;
             }
         }
@@ -527,7 +527,7 @@ final class MultiLanguage extends CMSPlugin
 
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 
@@ -859,7 +859,7 @@ final class MultiLanguage extends CMSPlugin
 
             try {
                 $db->execute();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 return false;
             }
         }
@@ -893,7 +893,7 @@ final class MultiLanguage extends CMSPlugin
 
         try {
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -1057,7 +1057,7 @@ final class MultiLanguage extends CMSPlugin
 
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 
@@ -1069,7 +1069,7 @@ final class MultiLanguage extends CMSPlugin
             if ($stage_id) {
                 $workflow->createAssociation($newId, $stage_id);
             }
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 

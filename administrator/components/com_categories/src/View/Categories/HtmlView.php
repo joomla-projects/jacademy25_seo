@@ -215,7 +215,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Prepare the toolbar.
-        ToolbarHelper::title($title, 'folder categories ' . substr($component, 4) . ($section ? "-$section" : '') . '-categories');
+        ToolbarHelper::title($title, 'folder categories ' . substr((string) $component, 4) . ($section ? "-$section" : '') . '-categories');
 
         if ($canDo->get('core.create') || \count($user->getAuthorisedCategories($component, 'core.create')) > 0) {
             $toolbar->addNew('category.add');
@@ -309,7 +309,7 @@ class HtmlView extends BaseHtmlView
             if ($lang->hasKey($languageKey)) {
                 $ref_key = $languageKey;
             } else {
-                $languageKey = 'JHELP_COMPONENTS_' . strtoupper(substr($component, 4) . ($section ? "_$section" : '')) . '_CATEGORIES';
+                $languageKey = 'JHELP_COMPONENTS_' . strtoupper(substr((string) $component, 4) . ($section ? "_$section" : '')) . '_CATEGORIES';
 
                 if ($lang->hasKey($languageKey)) {
                     $ref_key = $languageKey;
@@ -325,7 +325,7 @@ class HtmlView extends BaseHtmlView
          * -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
          */
         if (!$url) {
-            if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL')) {
+            if ($lang->hasKey($lang_help_url = strtoupper((string) $component) . '_HELP_URL')) {
                 $debug = $lang->setDebug(false);
                 $url   = Text::_($lang_help_url);
                 $lang->setDebug($debug);

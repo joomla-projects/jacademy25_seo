@@ -147,12 +147,12 @@ class ActionlogsModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $ids = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $ids = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id')
                     ->bind(':id', $ids, ParameterType::INTEGER);
-            } elseif (stripos($search, 'item_id:') === 0) {
-                $ids = (int) substr($search, 8);
+            } elseif (stripos((string) $search, 'item_id:') === 0) {
+                $ids = (int) substr((string) $search, 8);
                 $query->where($db->quoteName('a.item_id') . ' = :itemid')
                     ->bind(':itemid', $ids, ParameterType::INTEGER);
             } else {
@@ -363,7 +363,7 @@ class ActionlogsModel extends ListModel
     {
         try {
             $this->getDatabase()->truncateTable('#__action_logs');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

@@ -175,7 +175,7 @@ class ConsentBoxField extends CheckboxesField
         $extraData = [
             'text'     => $data['label'],
             'for'      => $this->id,
-            'classes'  => explode(' ', $data['labelclass']),
+            'classes'  => explode(' ', (string) $data['labelclass']),
             'position' => $position,
         ];
 
@@ -250,7 +250,7 @@ class ConsentBoxField extends CheckboxesField
 
         try {
             $article = $db->loadObject();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // Something at the database layer went wrong
             return Route::_(
                 'index.php?option=com_content&view=article&id='

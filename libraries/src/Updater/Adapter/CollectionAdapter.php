@@ -152,7 +152,7 @@ class CollectionAdapter extends UpdateAdapter
                 $ver = new Version();
 
                 // Lower case and remove the exclamation mark
-                $product = strtolower(InputFilter::getInstance()->clean($ver::PRODUCT, 'cmd'));
+                $product = strtolower((string) InputFilter::getInstance()->clean($ver::PRODUCT, 'cmd'));
 
                 /*
                  * Set defaults, the extension file should clarify in case but it may be only available in one version
@@ -173,7 +173,7 @@ class CollectionAdapter extends UpdateAdapter
 
                 // Set this to ourselves as a default
                 // validate that we can install the extension
-                if ($product == $values['targetplatform'] && preg_match('/^' . $values['targetplatformversion'] . '/', JVERSION)) {
+                if ($product == $values['targetplatform'] && preg_match('/^' . $values['targetplatformversion'] . '/', (string) JVERSION)) {
                     $update->bind($values);
                     $this->updates[] = $update;
                 }
@@ -227,7 +227,7 @@ class CollectionAdapter extends UpdateAdapter
 
         if (!xml_parse($this->xmlParser, $response->body)) {
             // If the URL is missing the .xml extension, try appending it and retry loading the update
-            if (!$this->appendExtension && (substr($this->_url, -4) !== '.xml')) {
+            if (!$this->appendExtension && (!str_ends_with($this->_url, '.xml'))) {
                 $options['append_extension'] = true;
 
                 return $this->findUpdate($options);

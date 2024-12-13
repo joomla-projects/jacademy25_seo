@@ -235,7 +235,7 @@ class HtmlView extends BaseHtmlView
         $input             = $this->app->getInput();
         $this->referenceId = $input->get('id', 0, 'int');
 
-        [$extensionName, $typeName] = explode('.', $input->get('itemtype', '', 'string'), 2);
+        [$extensionName, $typeName] = explode('.', (string) $input->get('itemtype', '', 'string'), 2);
 
         /** @var Registry $extension */
         $extension = AssociationsHelper::getSupportedExtension($extensionName);
@@ -305,7 +305,7 @@ class HtmlView extends BaseHtmlView
         $this->targetTitle      = '';
 
         if ($target = $input->get('target', '', 'string')) {
-            $matches              = preg_split("#[\:]+#", $target);
+            $matches              = preg_split("#[\:]+#", (string) $target);
             $this->targetAction   = $matches[2];
             $this->targetId       = $matches[1];
             $this->targetLanguage = $matches[0];

@@ -187,7 +187,7 @@ class JoomlaInstallerScript
             return;
         }
 
-        $params = json_decode($params, true);
+        $params = json_decode((string) $params, true);
 
         // Reset the last run parameter
         if (isset($params['lastrun'])) {
@@ -2960,7 +2960,7 @@ class JoomlaInstallerScript
             return false;
         }
 
-        $params = json_decode($params, true);
+        $params = json_decode((string) $params, true);
 
         // If there are no toolbars there is nothing to migrate
         if (!isset($params['configuration']['toolbars'])) {
@@ -3196,7 +3196,7 @@ class JoomlaInstallerScript
         try {
             // Using hard-coded string because a new language string would not be available in all cases
             Log::add('Fixing permissions for files and folders.', Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 

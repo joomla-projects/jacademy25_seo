@@ -98,16 +98,16 @@ class NotesModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $search3 = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $search3 = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id');
                 $query->bind(':id', $search3, ParameterType::INTEGER);
-            } elseif (stripos($search, 'uid:') === 0) {
-                $search4 = (int) substr($search, 4);
+            } elseif (stripos((string) $search, 'uid:') === 0) {
+                $search4 = (int) substr((string) $search, 4);
                 $query->where($db->quoteName('a.user_id') . ' = :id');
                 $query->bind(':id', $search4, ParameterType::INTEGER);
             } else {
-                $search = '%' . trim($search) . '%';
+                $search = '%' . trim((string) $search) . '%';
                 $query->where(
                     '(' . $db->quoteName('a.subject') . ' LIKE :subject'
                     . ' OR ' . $db->quoteName('u.name') . ' LIKE :name'

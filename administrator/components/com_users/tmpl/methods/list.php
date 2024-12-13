@@ -34,7 +34,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
 ?>
 <div id="com-users-methods-list-container">
     <?php foreach ($this->methods as $methodName => $method) :
-        $methodClass = 'com-users-methods-list-method-name-' . htmlentities($method['name'])
+        $methodClass = 'com-users-methods-list-method-name-' . htmlentities((string) $method['name'])
             . ($this->defaultMethod == $methodName ? ' com-users-methods-list-method-default' : '');
         ?>
         <div class="com-users-methods-list-method <?php echo $methodClass?> <?php echo count($method['active']) ? 'com-users-methods-list-method-active' : '' ?>">
@@ -128,7 +128,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
 
                 <?php if ($canAddEdit && (empty($method['active']) || $method['allowMultiple'])) : ?>
                     <div class="com-users-methods-list-method-addnew-container border-top pt-2">
-                        <a href="<?php echo Route::_('index.php?option=com_users&task=method.add&method=' . $this->escape(urlencode($method['name'])) . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
+                        <a href="<?php echo Route::_('index.php?option=com_users&task=method.add&method=' . $this->escape(urlencode((string) $method['name'])) . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
                            class="com-users-methods-list-method-addnew btn btn-primary btn-sm"
                         >
                             <span class="icon-plus-2" aria-hidden="true"></span>

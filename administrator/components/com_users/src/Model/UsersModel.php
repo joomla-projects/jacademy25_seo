@@ -97,7 +97,7 @@ class UsersModel extends ListModel
             $this->context .= '.' . $layout;
         }
 
-        $groups = json_decode(base64_decode($input->get('groups', '', 'BASE64')));
+        $groups = json_decode(base64_decode((string) $input->get('groups', '', 'BASE64')));
 
         if (isset($groups)) {
             $groups = ArrayHelper::toInteger($groups);
@@ -105,7 +105,7 @@ class UsersModel extends ListModel
 
         $this->setState('filter.groups', $groups);
 
-        $excluded = json_decode(base64_decode($input->get('excluded', '', 'BASE64')));
+        $excluded = json_decode(base64_decode((string) $input->get('excluded', '', 'BASE64')));
 
         if (isset($excluded)) {
             $excluded = ArrayHelper::toInteger($excluded);
@@ -406,16 +406,16 @@ class UsersModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $ids = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $ids = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id');
                 $query->bind(':id', $ids, ParameterType::INTEGER);
-            } elseif (stripos($search, 'username:') === 0) {
-                $search = '%' . substr($search, 9) . '%';
+            } elseif (stripos((string) $search, 'username:') === 0) {
+                $search = '%' . substr((string) $search, 9) . '%';
                 $query->where($db->quoteName('a.username') . ' LIKE :username');
                 $query->bind(':username', $search);
             } else {
-                $search = '%' . trim($search) . '%';
+                $search = '%' . trim((string) $search) . '%';
 
                 // Add the clauses to the query.
                 $query->where(
@@ -598,7 +598,7 @@ class UsersModel extends ListModel
 
         try {
             $result = $db->setQuery($query)->loadColumn();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $result = [];
         }
 

@@ -73,7 +73,7 @@ class LinksModel extends ListModel
 
         try {
             $db->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -169,12 +169,12 @@ class LinksModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $ids = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $ids = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id');
                 $query->bind(':id', $ids, ParameterType::INTEGER);
             } else {
-                $search = '%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%');
+                $search = '%' . str_replace(' ', '%', $db->escape(trim((string) $search), true) . '%');
                 $query->where(
                     '(' . $db->quoteName('old_url') . ' LIKE :oldurl'
                     . ' OR ' . $db->quoteName('new_url') . ' LIKE :newurl'

@@ -91,7 +91,7 @@ class CategoryFeedView extends AbstractView
 
             // Strip html from feed item title
             if ($titleField) {
-                $title = htmlspecialchars($item->$titleField, ENT_QUOTES, 'UTF-8');
+                $title = htmlspecialchars((string) $item->$titleField, ENT_QUOTES, 'UTF-8');
                 $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
             } else {
                 $title = '';
@@ -107,7 +107,7 @@ class CategoryFeedView extends AbstractView
             $categoryTitle = $item->category_title ?? $category->title;
 
             if ($createdField) {
-                $date = isset($item->$createdField) ? date('r', strtotime($item->$createdField)) : '';
+                $date = isset($item->$createdField) ? date('r', strtotime((string) $item->$createdField)) : '';
             } else {
                 $date = '';
             }

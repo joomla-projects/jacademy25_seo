@@ -59,7 +59,7 @@ trait MultiFactorAuthenticationHandler
         // Multi-factor Authentication checks take place only for logged in users.
         try {
             $user = $this->getIdentity();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -255,7 +255,7 @@ trait MultiFactorAuthenticationHandler
         // Make sure we are logged in
         try {
             $user = $this->getIdentity();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // This would happen if we are in CLI or under an old Joomla! version. Either case is not supported.
             return false;
         }
@@ -356,7 +356,7 @@ trait MultiFactorAuthenticationHandler
 
         try {
             $result = $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $result = 1;
         }
 
@@ -390,7 +390,7 @@ trait MultiFactorAuthenticationHandler
         $secret               = $this->get('secret');
         $otpKey               = $this->decryptLegacyTFAString($secret, $otpKey);
         $otep                 = $this->decryptLegacyTFAString($secret, $userTable->otep);
-        $config               = @json_decode($otpKey, true);
+        $config               = @json_decode((string) $otpKey, true);
         $hasConverted         = true;
 
         if (!empty($config)) {
@@ -438,7 +438,7 @@ trait MultiFactorAuthenticationHandler
         }
 
         // Convert the emergency codes
-        if ($hasConverted && !empty(@json_decode($otep, true))) {
+        if ($hasConverted && !empty(@json_decode((string) $otep, true))) {
             // Delete any other record with the same user_id and Method.
             $method = 'emergencycodes';
             $userId = $user->id;
@@ -461,7 +461,7 @@ trait MultiFactorAuthenticationHandler
                     'last_used'  => null,
                     'tries'      => 0,
                     'try_count'  => null,
-                    'options'    => @json_decode($otep, true),
+                    'options'    => @json_decode((string) $otep, true),
                 ]
             );
         }
@@ -491,7 +491,7 @@ trait MultiFactorAuthenticationHandler
         // Is this already decrypted?
         try {
             $decrypted = @json_decode($stringToDecrypt, true);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $decrypted = null;
         }
 

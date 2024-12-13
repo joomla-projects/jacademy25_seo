@@ -92,17 +92,10 @@ class FolderlistField extends ListField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'folderFilter':
-            case 'exclude':
-            case 'recursive':
-            case 'hideNone':
-            case 'hideDefault':
-            case 'directory':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'folderFilter', 'exclude', 'recursive', 'hideNone', 'hideDefault', 'directory' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**

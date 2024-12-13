@@ -143,16 +143,10 @@ class ModulesController extends BaseController
         $this->app->enqueueMessage(Text::_('COM_CONFIG_MODULES_SAVE_SUCCESS'), 'success');
 
         // Set the redirect based on the task.
-        switch ($this->input->getCmd('task')) {
-            case 'apply':
-                $this->app->redirect(Route::_('index.php?option=com_config&view=modules' . $moduleId . $redirect, false));
-                break;
-
-            case 'save':
-            default:
-                $this->setRedirect($this->getReturnUrl());
-                break;
-        }
+        match ($this->input->getCmd('task')) {
+            'apply' => $this->app->redirect(Route::_('index.php?option=com_config&view=modules' . $moduleId . $redirect, false)),
+            default => $this->setRedirect($this->getReturnUrl()),
+        };
     }
 
     /**
@@ -165,7 +159,7 @@ class ModulesController extends BaseController
     private function getReturnUrl(): string
     {
         if ($return = $this->input->post->get('return', '', 'BASE64')) {
-            $return = base64_decode(urldecode($return));
+            $return = base64_decode(urldecode((string) $return));
 
             // Only redirect to if it is an internal URL
             if (Uri::isInternal($return)) {

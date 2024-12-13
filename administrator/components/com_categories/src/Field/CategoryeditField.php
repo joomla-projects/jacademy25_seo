@@ -97,14 +97,11 @@ class CategoryeditField extends ListField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'allowAdd':
-                return (bool) $this->$name;
-            case 'customPrefix':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'allowAdd' => (bool) $this->$name,
+            'customPrefix' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -196,7 +193,7 @@ class CategoryeditField extends ListField
 
         // Filter language
         if (!empty($this->element['language'])) {
-            if (strpos($this->element['language'], ',') !== false) {
+            if (str_contains($this->element['language'], ',')) {
                 $language = explode(',', $this->element['language']);
             } else {
                 $language = $this->element['language'];

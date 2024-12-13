@@ -337,7 +337,7 @@ class ItemsModel extends ListModel
         }
 
         // Filter by search in title, alias or id
-        if ($search = trim($this->getState('filter.search', ''))) {
+        if ($search = trim((string) $this->getState('filter.search', ''))) {
             if (stripos($search, 'id:') === 0) {
                 $search = (int) substr($search, 3);
                 $query->where($db->quoteName('a.id') . ' = :search')
@@ -438,7 +438,7 @@ class ItemsModel extends ListModel
                     $query->where(0);
                 }
             }
-        } elseif (\strlen($menuType)) {
+        } elseif (\strlen((string) $menuType)) {
             // Default behavior => load all items from a specific menu
             $query->where($db->quoteName('a.menutype') . ' = :menuType')
                 ->bind(':menuType', $menuType);
@@ -497,7 +497,7 @@ class ItemsModel extends ListModel
         if ($name == 'com_menus.items.filter') {
             $clientId = $this->getState('filter.client_id');
             $form->setFieldAttribute('menutype', 'clientid', $clientId);
-        } elseif (false !== strpos($name, 'com_menus.items.modal.')) {
+        } elseif (str_contains($name, 'com_menus.items.modal.')) {
             $form->removeField('client_id');
 
             $clientId = $this->getState('filter.client_id');

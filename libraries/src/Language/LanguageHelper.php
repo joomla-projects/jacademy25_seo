@@ -103,7 +103,7 @@ class LanguageHelper
     public static function detectLanguage()
     {
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-            $browserLangs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+            $browserLangs = explode(',', (string) $_SERVER['HTTP_ACCEPT_LANGUAGE']);
             $systemLangs  = self::getLanguages();
 
             foreach ($browserLangs as $browserLang) {
@@ -229,7 +229,7 @@ class LanguageHelper
             if ($cache->contains('installedlanguages')) {
                 $installedLanguages = $cache->get('installedlanguages');
             } else {
-                $db = $db ?? Factory::getContainer()->get(DatabaseInterface::class);
+                $db ??= Factory::getContainer()->get(DatabaseInterface::class);
 
                 $query = $db->getQuery(true)
                     ->select(
@@ -281,7 +281,7 @@ class LanguageHelper
                 if ($processMetaData) {
                     try {
                         $lang->metadata = self::parseXMLLanguageFile($metafile);
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         // Not able to process xml language file. Fail silently.
                         Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
@@ -300,7 +300,7 @@ class LanguageHelper
                 if ($processManifest) {
                     try {
                         $lang->manifest = Installer::parseXMLInstallFile($metafile);
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         // Not able to process xml language file. Fail silently.
                         Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
@@ -491,7 +491,7 @@ class LanguageHelper
     {
         // Escape double quotes.
         foreach ($strings as $key => $string) {
-            $strings[$key] = addcslashes($string, '"');
+            $strings[$key] = addcslashes((string) $string, '"');
         }
 
         // Write override.ini file with the strings.
@@ -626,7 +626,7 @@ class LanguageHelper
                     if ($metadata = self::parseXMLLanguageFile($file)) {
                         $languages = array_replace($languages, [$dirPathParts['filename'] => $metadata]);
                     }
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     // Ignore it
                 }
             }

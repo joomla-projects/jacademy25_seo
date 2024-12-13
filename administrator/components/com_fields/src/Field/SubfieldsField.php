@@ -85,9 +85,7 @@ class SubfieldsField extends ListField
         // Sorting the fields based on the text which is displayed
         usort(
             $options,
-            function ($a, $b) {
-                return strcmp($a->text, $b->text);
-            }
+            fn($a, $b) => strcmp($a->text, $b->text)
         );
 
         if (\count($options) == 0) {

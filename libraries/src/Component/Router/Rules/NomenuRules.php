@@ -97,16 +97,16 @@ class NomenuRules implements RulesInterface
                                     break;
                                 }
 
-                                $vars[$view->key] = preg_replace('/-/', ':', $result, 1);
+                                $vars[$view->key] = preg_replace('/-/', ':', (string) $result, 1);
                             }
                         } else {
                             $segment = array_shift($segments);
                             $result  = \call_user_func_array([$this->router, 'get' . ucfirst($view->name) . 'Id'], [$segment, $vars]);
 
-                            $vars[$view->key] = preg_replace('/-/', ':', $result, 1);
+                            $vars[$view->key] = preg_replace('/-/', ':', (string) $result, 1);
                         }
                     } else {
-                        $vars[$view->key] = preg_replace('/-/', ':', array_shift($segments), 1);
+                        $vars[$view->key] = preg_replace('/-/', ':', (string) array_shift($segments), 1);
                     }
                 }
             }

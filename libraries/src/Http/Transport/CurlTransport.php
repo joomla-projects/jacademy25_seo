@@ -77,7 +77,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         // If data exists let's encode it and make sure our Content-type header is set.
         if (isset($data)) {
             // If the data is a scalar value simply add it to the cURL post fields.
-            if (\is_scalar($data) || (isset($headers['Content-Type']) && strpos($headers['Content-Type'], 'multipart/form-data') === 0)) {
+            if (\is_scalar($data) || (isset($headers['Content-Type']) && str_starts_with((string) $headers['Content-Type'], 'multipart/form-data'))) {
                 $options[CURLOPT_POSTFIELDS] = $data;
             } else {
                 // Otherwise we need to encode the value first.
@@ -242,7 +242,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
             $body = array_pop($response);
 
             // Get the last set of response headers as an array.
-            $headers = explode("\r\n", array_pop($response));
+            $headers = explode("\r\n", (string) array_pop($response));
         }
 
         // Get the response code from the first offset of the response headers.

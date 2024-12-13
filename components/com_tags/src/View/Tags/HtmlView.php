@@ -108,12 +108,12 @@ class HtmlView extends BaseHtmlView
                 $temp                = new Registry($itemElement->params);
                 $itemElement->params = clone $this->params;
                 $itemElement->params->merge($temp);
-                $itemElement->params = (array) json_decode($itemElement->params);
+                $itemElement->params = (array) json_decode((string) $itemElement->params);
             }
         }
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $this->params->get('pageclass_sfx', ''));
 
         $active = Factory::getApplication()->getMenu()->getActive();
 

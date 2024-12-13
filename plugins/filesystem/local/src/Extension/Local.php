@@ -36,13 +36,6 @@ final class Local extends CMSPlugin implements ProviderInterface
      * @since  4.0.0
      */
     protected $autoloadLanguage = true;
-    /**
-     * The root directory path
-     *
-     * @var    string
-     * @since  4.3.0
-     */
-    private $rootDirectory;
 
     /**
      * Constructor.
@@ -53,11 +46,14 @@ final class Local extends CMSPlugin implements ProviderInterface
      *
      * @since   4.3.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, string $rootDirectory)
+    public function __construct(DispatcherInterface $dispatcher, array $config, /**
+     * The root directory path
+     *
+     * @since  4.3.0
+     */
+    private readonly string $rootDirectory)
     {
         parent::__construct($dispatcher, $config);
-
-        $this->rootDirectory = $rootDirectory;
     }
 
     /**

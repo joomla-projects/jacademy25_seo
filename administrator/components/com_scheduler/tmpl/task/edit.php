@@ -91,7 +91,7 @@ endforeach;
                         if (!$long_description) {
                             $truncated = HTMLHelper::_('string.truncate', $short_description, 550, true, false);
 
-                            if (strlen($truncated) > 500) {
+                            if (strlen((string) $truncated) > 500) {
                                 $long_description  = $short_description;
                                 $short_description = HTMLHelper::_('string.truncate', $truncated, 250);
 

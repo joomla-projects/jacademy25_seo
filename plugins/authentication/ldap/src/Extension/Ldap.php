@@ -34,14 +34,6 @@ use Symfony\Component\Ldap\LdapInterface;
 final class Ldap extends CMSPlugin implements SubscriberInterface
 {
     /**
-     * The ldap factory
-     *
-     * @var    LdapFactoryInterface
-     * @since  4.3.0
-     */
-    private $factory;
-
-    /**
      * Constructor
      *
      * @param   LdapFactoryInterface  $factory     The Ldap factory
@@ -52,11 +44,14 @@ final class Ldap extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.3.0
      */
-    public function __construct(LdapFactoryInterface $factory, DispatcherInterface $dispatcher, array $config = [])
+    public function __construct(/**
+     * The ldap factory
+     *
+     * @since  4.3.0
+     */
+    private readonly LdapFactoryInterface $factory, DispatcherInterface $dispatcher, array $config = [])
     {
         parent::__construct($dispatcher, $config);
-
-        $this->factory = $factory;
     }
 
     /**
@@ -121,7 +116,7 @@ final class Ldap extends CMSPlugin implements SubscriberInterface
                 $cacertfile = "";
             } elseif (is_file($cacert)) {
                 $cacertfile = $cacert;
-                $cacertdir  = \dirname($cacert);
+                $cacertdir  = \dirname((string) $cacert);
             } else {
                 $cacertfile = $cacert;
                 $cacertdir  = $cacert;

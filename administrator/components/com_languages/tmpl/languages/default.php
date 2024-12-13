@@ -89,7 +89,7 @@ if ($saveOrder && !empty($this->items)) {
                             </tr>
                         </thead>
                         <tbody<?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>"<?php
                               endif; ?>>
                         <?php
                         foreach ($this->items as $i => $item) :

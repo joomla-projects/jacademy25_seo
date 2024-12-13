@@ -24,23 +24,21 @@ namespace Joomla\CMS\Component\Router;
 class RouterLegacy implements RouterInterface
 {
     /**
-     * Name of the component
-     *
-     * @var    string
-     * @since  3.3
-     */
-    protected $component;
-
-    /**
      * Constructor
      *
      * @param   string  $component  Component name without the com_ prefix this router should react upon
      *
      * @since   3.3
      */
-    public function __construct($component)
+    public function __construct(
+        /**
+         * Name of the component
+         *
+         * @since  3.3
+         */
+        protected $component
+    )
     {
-        $this->component = $component;
     }
 
     /**
@@ -98,7 +96,7 @@ class RouterLegacy implements RouterInterface
 
         if (\function_exists($function)) {
             foreach ($segments as &$segment) {
-                $segment = preg_replace('/-/', ':', $segment, 1);
+                $segment = preg_replace('/-/', ':', (string) $segment, 1);
             }
 
             return $function($segments);

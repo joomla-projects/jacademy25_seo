@@ -29,7 +29,7 @@ $wa->useScript('table.columns')
 
 try {
     $app = Factory::getApplication();
-} catch (Exception $e) {
+} catch (Exception) {
     die('Failed to get app');
 }
 
@@ -149,7 +149,7 @@ if ($saveOrder && !empty($this->items)) {
 
                 <!-- Table body begins -->
                 <tbody <?php if ($saveOrder) : ?>
-                    class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php
+                    class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>" data-nested="true" <?php
                        endif; ?>>
                 <?php foreach ($this->items as $i => $item) :
                     $canEditOwn = $canEditOwnTour && $item->created_by == $userId;

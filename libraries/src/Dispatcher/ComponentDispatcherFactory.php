@@ -34,15 +34,6 @@ class ComponentDispatcherFactory implements ComponentDispatcherFactoryInterface
     protected $namespace;
 
     /**
-     * The MVC factory
-     *
-     * @var  MVCFactoryInterface
-     *
-     * @since   4.0.0
-     */
-    private $mvcFactory;
-
-    /**
      * ComponentDispatcherFactory constructor.
      *
      * @param   string               $namespace   The namespace
@@ -50,10 +41,15 @@ class ComponentDispatcherFactory implements ComponentDispatcherFactoryInterface
      *
      * @since   4.0.0
      */
-    public function __construct(string $namespace, MVCFactoryInterface $mvcFactory)
+    public function __construct(string $namespace, /**
+     * The MVC factory
+     *
+     *
+     * @since   4.0.0
+     */
+    private readonly MVCFactoryInterface $mvcFactory)
     {
         $this->namespace  = $namespace;
-        $this->mvcFactory = $mvcFactory;
     }
 
     /**

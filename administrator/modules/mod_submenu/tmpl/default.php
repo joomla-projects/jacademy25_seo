@@ -23,11 +23,11 @@ $user = $app->getIdentity();
         <div class="module-wrapper">
             <div class="card">
                 <?php
-                    $child->img = $child->img ?? '';
+                    $child->img ??= '';
 
-                if (substr($child->img, 0, 6) === 'class:') {
+                if (str_starts_with($child->img, 'class:')) {
                     $iconImage = '<span class="icon-' . substr($child->img, 6) . '" aria-hidden="true"></span>';
-                } elseif (substr($child->img, 0, 6) === 'image:') {
+                } elseif (str_starts_with($child->img, 'image:')) {
                     $iconImage = '<img src="' . substr($child->img, 6) . '" aria-hidden="true">';
                 } elseif (!empty($child->img)) {
                     $iconImage = '<img src="' . $child->img . '" aria-hidden="true">';
@@ -53,8 +53,8 @@ $user = $app->getIdentity();
                                     <?php echo $item->target ? ' target="' . $item->target . '"' : ''; ?>>
                                     <?php if (!empty($params->get('menu_image'))) : ?>
                                         <?php
-                                        $image = htmlspecialchars($params->get('menu_image'), ENT_QUOTES, 'UTF-8');
-                                        $class = htmlspecialchars($params->get('menu_image_css'), ENT_QUOTES, 'UTF-8');
+                                        $image = htmlspecialchars((string) $params->get('menu_image'), ENT_QUOTES, 'UTF-8');
+                                        $class = htmlspecialchars((string) $params->get('menu_image_css'), ENT_QUOTES, 'UTF-8');
                                         $alt   = $params->get('menu_text') ? '' : htmlspecialchars(Text::_($item->title), ENT_QUOTES, 'UTF-8');
                                         ?>
                                         <?php echo HTMLHelper::_('image', $image, $alt, 'class="' . $class . '"'); ?>

@@ -214,14 +214,14 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
 
                     try {
                         $result = $db->setQuery($query)->loadResult();
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         // Do not start the tour.
                         continue;
                     }
 
                     // A result has been found in the user profiles table
                     if (!\is_null($result)) {
-                        $values = json_decode($result, true);
+                        $values = json_decode((string) $result, true);
 
                         if (empty($values)) {
                             // Do not start the tour.

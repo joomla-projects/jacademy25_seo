@@ -51,19 +51,19 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
                 switch ($target) {
                     case 1:
                         // Open in a new window
-                        echo '<a href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '" target="_blank" rel="nofollow noopener noreferrer">' .
-                            htmlspecialchars($label, ENT_COMPAT, 'UTF-8') . '</a>';
+                        echo '<a href="' . htmlspecialchars((string) $link, ENT_COMPAT, 'UTF-8') . '" target="_blank" rel="nofollow noopener noreferrer">' .
+                            htmlspecialchars((string) $label, ENT_COMPAT, 'UTF-8') . '</a>';
                         break;
 
                     case 2:
                         // Open in a popup window
                         $attribs = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600';
-                        echo "<a href=\"" . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . "\" onclick=\"window.open(this.href, 'targetWindow', '" . $attribs . "'); return false;\" rel=\"noopener noreferrer\">" .
-                            htmlspecialchars($label, ENT_COMPAT, 'UTF-8') . '</a>';
+                        echo "<a href=\"" . htmlspecialchars((string) $link, ENT_COMPAT, 'UTF-8') . "\" onclick=\"window.open(this.href, 'targetWindow', '" . $attribs . "'); return false;\" rel=\"noopener noreferrer\">" .
+                            htmlspecialchars((string) $label, ENT_COMPAT, 'UTF-8') . '</a>';
                         break;
                     case 3:
-                        echo '<a href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '" rel="noopener noreferrer" data-bs-toggle="modal" data-bs-target="#linkModal">' .
-                            htmlspecialchars($label, ENT_COMPAT, 'UTF-8') . ' </a>';
+                        echo '<a href="' . htmlspecialchars((string) $link, ENT_COMPAT, 'UTF-8') . '" rel="noopener noreferrer" data-bs-toggle="modal" data-bs-target="#linkModal">' .
+                            htmlspecialchars((string) $label, ENT_COMPAT, 'UTF-8') . ' </a>';
                         echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'linkModal',
@@ -82,8 +82,8 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 
                     default:
                         // Open in parent window
-                        echo '<a href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '" rel="nofollow">' .
-                            htmlspecialchars($label, ENT_COMPAT, 'UTF-8') . ' </a>';
+                        echo '<a href="' . htmlspecialchars((string) $link, ENT_COMPAT, 'UTF-8') . '" rel="nofollow">' .
+                            htmlspecialchars((string) $label, ENT_COMPAT, 'UTF-8') . ' </a>';
                         break;
                 }
                 ?>

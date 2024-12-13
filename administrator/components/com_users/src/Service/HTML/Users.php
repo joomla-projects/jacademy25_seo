@@ -265,7 +265,7 @@ class Users
         }
 
         if (!\is_array($value)) {
-            return htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
+            return htmlspecialchars((string) $value, ENT_COMPAT, 'UTF-8');
         }
     }
 
@@ -308,7 +308,7 @@ class Users
         $title = $db->loadResult();
 
         if ($title) {
-            return htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
+            return htmlspecialchars((string) $title, ENT_COMPAT, 'UTF-8');
         }
 
         return static::value('');
@@ -344,7 +344,7 @@ class Users
         $result = LanguageHelper::parseXMLLanguageFile($file);
 
         if ($result) {
-            return htmlspecialchars($result['name'], ENT_COMPAT, 'UTF-8');
+            return htmlspecialchars((string) $result['name'], ENT_COMPAT, 'UTF-8');
         }
 
         return static::value($value);
@@ -380,7 +380,7 @@ class Users
         $result = LanguageHelper::parseXMLLanguageFile($file);
 
         if ($result) {
-            return htmlspecialchars($result['name'], ENT_COMPAT, 'UTF-8');
+            return htmlspecialchars((string) $result['name'], ENT_COMPAT, 'UTF-8');
         }
 
         return static::value($value);

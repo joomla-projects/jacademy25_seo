@@ -41,8 +41,8 @@ $moduleHtml = preg_replace(
     // Create and add the edit link and tooltip
     '\\1 <a class="btn btn-link jmodedit" href="' . $editUrl . '" target="' . $target . '" aria-describedby="tip-' . (int) $mod->id . '">
 	<span class="icon-edit" aria-hidden="true"></span><span class="visually-hidden">' . Text::_('JGLOBAL_EDIT') . '</span></a>
-	<div role="tooltip" id="tip-' . (int) $mod->id . '">' . Text::_('JLIB_HTML_EDIT_MODULE') . '<br>' . htmlspecialchars($mod->title, ENT_COMPAT, 'UTF-8') . '<br>' . sprintf(Text::_('JLIB_HTML_EDIT_MODULE_IN_POSITION'), htmlspecialchars($position, ENT_COMPAT, 'UTF-8')) . '</div>',
-    $moduleHtml,
+	<div role="tooltip" id="tip-' . (int) $mod->id . '">' . Text::_('JLIB_HTML_EDIT_MODULE') . '<br>' . htmlspecialchars($mod->title, ENT_COMPAT, 'UTF-8') . '<br>' . sprintf(Text::_('JLIB_HTML_EDIT_MODULE_IN_POSITION'), htmlspecialchars((string) $position, ENT_COMPAT, 'UTF-8')) . '</div>',
+    (string) $moduleHtml,
     1,
     $count
 );
@@ -52,7 +52,7 @@ if ($menusEditing && $mod->module === 'mod_menu') {
     // find the menu item id
     $regex = '/\bitem-(\d+)\b/';
 
-    preg_match_all($regex, $moduleHtml, $menuItemids);
+    preg_match_all($regex, (string) $moduleHtml, $menuItemids);
     if ($menuItemids) {
         foreach ($menuItemids[1] as $menuItemid) {
                 $menuitemEditUrl = Uri::base() . 'administrator/index.php?option=com_menus&view=item&client_id=0&layout=edit&id=' . (int) $menuItemid;
@@ -62,7 +62,7 @@ if ($menusEditing && $mod->module === 'mod_menu') {
                     // Create and add the edit link
                     '\\1 <a class="jmenuedit small" href="' . $menuitemEditUrl . '" target="' . $target . '" title="' . Text::_('JLIB_HTML_EDIT_MENU_ITEM') . ' ' . sprintf(Text::_('JLIB_HTML_EDIT_MENU_ITEM_ID'), (int) $menuItemid) . '">
 					<span class="icon-edit" aria-hidden="true"></span></a>',
-                    $moduleHtml
+                    (string) $moduleHtml
                 );
         }
     }

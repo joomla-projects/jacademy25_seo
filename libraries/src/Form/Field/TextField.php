@@ -104,17 +104,10 @@ class TextField extends FormField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'maxLength':
-            case 'dirname':
-            case 'addonBefore':
-            case 'addonAfter':
-            case 'inputmode':
-            case 'charcounter':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'maxLength', 'dirname', 'addonBefore', 'addonAfter', 'inputmode', 'charcounter' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -152,7 +145,7 @@ class TextField extends FormField
                 break;
 
             case 'charcounter':
-                $this->charcounter = strtolower($value) === 'true';
+                $this->charcounter = strtolower((string) $value) === 'true';
                 break;
 
             default:
@@ -184,7 +177,7 @@ class TextField extends FormField
 
             $this->inputmode = '';
             $inputmode       = preg_replace('/\s+/', ' ', trim($inputmode));
-            $inputmode       = explode(' ', $inputmode);
+            $inputmode       = explode(' ', (string) $inputmode);
 
             $defaultInputmode = \in_array('default', $inputmode) ? Text::_('JLIB_FORM_INPUTMODE') . ' ' : '';
 

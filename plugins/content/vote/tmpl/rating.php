@@ -47,8 +47,8 @@ if ($iconStar === null || $iconHalfstar === null) {
 }
 
 // Get paths to icons
-$pathStar     = JPATH_ROOT . substr($iconStar, strlen(Uri::root(true)));
-$pathHalfstar = JPATH_ROOT . substr($iconHalfstar, strlen(Uri::root(true)));
+$pathStar     = JPATH_ROOT . substr((string) $iconStar, strlen(Uri::root(true)));
+$pathHalfstar = JPATH_ROOT . substr((string) $iconHalfstar, strlen(Uri::root(true)));
 
 // Write inline '<svg>' elements
 $star     = file_exists($pathStar) ? file_get_contents($pathStar) : '';

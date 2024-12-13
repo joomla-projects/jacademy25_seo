@@ -54,8 +54,8 @@ final class LanguageCode extends CMSPlugin
                     \chr(1) . '(<html.*\s+lang=")(' . $code . ')(".*>)' . \chr(1) . 'i',
                 ];
                 $replace = [
-                    '${1}' . strtolower($new_code) . '${3}',
-                    '${1}' . strtolower($new_code) . '${3}',
+                    '${1}' . strtolower((string) $new_code) . '${3}',
+                    '${1}' . strtolower((string) $new_code) . '${3}',
                 ];
             } else {
                 $patterns = [];

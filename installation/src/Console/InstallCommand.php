@@ -232,7 +232,7 @@ class InstallCommand extends AbstractCommand
 
                 foreach ($conditions as $cond) {
                     // remove jform[] from the name
-                    $f    = rtrim(substr($cond['field'], 6), ']');
+                    $f    = rtrim(substr((string) $cond['field'], 6), ']');
                     $temp = false;
 
                     if ($cond['sign'] == '=' && \in_array($cfg[$f], $cond['values'])) {
@@ -355,7 +355,7 @@ class InstallCommand extends AbstractCommand
         $answer      = null;
 
         foreach ($_SERVER['argv'] as $arg) {
-            if ($arg == '--' . $option || strpos($arg, $option . '=')) {
+            if ($arg == '--' . $option || strpos((string) $arg, $option . '=')) {
                 $givenOption = true;
             }
         }

@@ -251,14 +251,14 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
          */
         $code = $input->getString('code');
 
-        if ($isKeyAlreadySetup || ((\strlen($code) == 12) && ($code == $keyID))) {
+        if ($isKeyAlreadySetup || ((\strlen((string) $code) == 12) && ($code == $keyID))) {
             $event->addResult($options);
 
             return;
         }
 
         // If an empty code or something other than 44 characters was submitted I'm not having any of this!
-        if (empty($code) || (\strlen($code) != 44)) {
+        if (empty($code) || (\strlen((string) $code) != 44)) {
             throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 500);
         }
 
@@ -270,7 +270,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
         }
 
         // The code is valid. Keep the Yubikey ID (first twelve characters)
-        $keyID = substr($code, 0, 12);
+        $keyID = substr((string) $code, 0, 12);
 
         // Return the configuration to be serialized
         $event->addResult(['id' => $keyID]);
@@ -315,20 +315,16 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
             $records = MfaHelper::getUserMfaRecords($record->user_id);
             $records = array_filter(
                 $records,
-                function ($rec) use ($record) {
-                    return $rec->method === $record->method;
-                }
+                fn($rec) => $rec->method === $record->method
             );
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $records = [];
         }
 
         // Loop all records, stop if at least one matches
         $result = array_reduce(
             $records,
-            function (bool $carry, $aRecord) use ($code) {
-                return $carry || $this->validateAgainstRecord($aRecord, $code);
-            },
+            fn(bool $carry, $aRecord) => $carry || $this->validateAgainstRecord($aRecord, $code),
             false
         );
 
@@ -349,7 +345,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
         // Let the user define a client ID and a secret key in the plugin's configuration
         $clientID    = $this->params->get('client_id', 1);
         $secretKey   = $this->params->get('secret', '');
-        $serverQueue = trim($this->params->get('servers', ''));
+        $serverQueue = trim((string) $this->params->get('servers', ''));
 
         if (!empty($serverQueue)) {
             $serverQueue = explode("\r", $serverQueue);
@@ -398,7 +394,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
             $this->signRequest($uri, $secretKey);
 
             if ($uri->hasVar('h')) {
-                $uri->setVar('h', urlencode($uri->getVar('h')));
+                $uri->setVar('h', urlencode((string) $uri->getVar('h')));
             }
 
             try {
@@ -409,7 +405,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
                 } else {
                     continue;
                 }
-            } catch (\Exception $exc) {
+            } catch (\Exception) {
                 // No response, continue with the next server
                 continue;
             }

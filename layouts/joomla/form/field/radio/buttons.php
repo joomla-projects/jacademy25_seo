@@ -44,8 +44,8 @@ extract($displayData);
  */
 
 $alt         = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
-$isBtnGroup  = strpos(trim($class), 'btn-group') !== false;
-$isBtnYesNo  = strpos(trim($class), 'btn-group-yesno') !== false;
+$isBtnGroup  = str_contains(trim($class), 'btn-group');
+$isBtnYesNo  = str_contains(trim($class), 'btn-group-yesno');
 $classToggle = $isBtnGroup ? 'btn-check' : 'form-check-input';
 $btnClass    = $isBtnGroup ? 'btn btn-outline-secondary' : 'form-check-label';
 $blockStart  = $isBtnGroup ? '' : '<div class="form-check">';
@@ -90,17 +90,11 @@ if ($dataAttribute) {
                 // Initialize some option attributes.
                 if ($isBtnYesNo) {
                     // Set the button classes for the yes/no group
-                    switch ($option->value) {
-                        case '0':
-                            $btnClass = 'btn btn-outline-danger';
-                            break;
-                        case '1':
-                            $btnClass = 'btn btn-outline-success';
-                            break;
-                        default:
-                            $btnClass = 'btn btn-outline-secondary';
-                            break;
-                    }
+                    $btnClass = match ($option->value) {
+                        '0' => 'btn btn-outline-danger',
+                        '1' => 'btn btn-outline-success',
+                        default => 'btn btn-outline-secondary',
+                    };
                 }
 
                 $optionClass = !empty($option->class) ? $option->class : $btnClass;

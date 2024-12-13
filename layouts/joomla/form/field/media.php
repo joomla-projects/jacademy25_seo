@@ -60,20 +60,10 @@ $attr .= $dataAttribute;
 // Initialize JavaScript field attributes.
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
 
-switch ($preview) {
-    case 'no': // Deprecated parameter value
-    case 'false':
-    case 'none':
-        $showPreview = false;
-        break;
-    case 'yes': // Deprecated parameter value
-    case 'true':
-    case 'show':
-    case 'tooltip':
-    default:
-        $showPreview = true;
-        break;
-}
+$showPreview = match ($preview) {
+    'no', 'false', 'none' => false,
+    default => true,
+};
 
 // Prefill the contents of the popover
 if ($showPreview) {

@@ -95,7 +95,7 @@ abstract class DatabaseHelper
                 ];
 
                 foreach (['cipher', 'ca', 'key', 'cert'] as $value) {
-                    $confVal = trim($ssl['dbssl' . $value]);
+                    $confVal = trim((string) $ssl['dbssl' . $value]);
 
                     if ($confVal !== '') {
                         $options['ssl'][$value] = $confVal;

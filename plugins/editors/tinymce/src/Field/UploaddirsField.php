@@ -56,7 +56,7 @@ class UploaddirsField extends FolderlistField
         $this->hideDefault = true;
 
         @trigger_error(
-            __CLASS__ . ' is deprecated, use Joomla\CMS\Form\Field\FolderlistField instead. Will be removed in 7.0.',
+            self::class . ' is deprecated, use Joomla\CMS\Form\Field\FolderlistField instead. Will be removed in 7.0.',
             \E_USER_DEPRECATED
         );
 
@@ -97,6 +97,6 @@ class UploaddirsField extends FolderlistField
         // Create a regular list.
         $html[] = HTMLHelper::_('select.genericlist', $options, $this->name, 'class="form-select"', 'value', 'text', $this->value, $this->id);
 
-        return implode($html);
+        return implode('', $html);
     }
 }

@@ -32,7 +32,7 @@ $saveOrder = $listOrder == 'w.ordering';
 $orderingColumn = 'created';
 $saveOrderingUrl = '';
 
-if (strpos($listOrder, 'modified') !== false) {
+if (str_contains((string) $listOrder, 'modified')) {
     $orderingColumn = 'modified';
 }
 
@@ -104,7 +104,7 @@ $userId = $user->id;
                             </tr>
                         </thead>
                         <tbody <?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>" data-nested="false"<?php
                                endif; ?>>
                         <?php foreach ($this->workflows as $i => $item) :
                             $states = Route::_('index.php?option=com_workflow&view=stages&workflow_id=' . $item->id . '&extension=' . $extension);

@@ -40,7 +40,7 @@ if ($parts) {
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.ordering');
-$saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
+$saveOrder = ($listOrder == 'a.ordering' && strtolower((string) $listDirn) == 'asc');
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_fields&task=groups.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
@@ -102,7 +102,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                             </tr>
                         </thead>
                         <tbody <?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>" data-nested="true"<?php
                                endif; ?>>
                             <?php foreach ($this->items as $i => $item) : ?>
                                 <?php $ordering   = ($listOrder == 'a.ordering'); ?>

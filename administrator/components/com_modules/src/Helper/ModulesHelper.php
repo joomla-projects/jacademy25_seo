@@ -244,7 +244,7 @@ abstract class ModulesHelper
             // Avoid untranslated strings
             if (!self::isTranslatedText($langKey, $text)) {
                 // Try to humanize the position name
-                $text = ucfirst(preg_replace('/^' . $template . '\-/', '', $position));
+                $text = ucfirst((string) preg_replace('/^' . $template . '\-/', '', $position));
                 $text = ucwords(str_replace(['-', '_'], ' ', $text));
             }
         }

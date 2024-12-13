@@ -92,7 +92,7 @@ abstract class UiTab
      */
     public static function addTab($selector, $id, $title)
     {
-        $active = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
+        $active = (static::$loaded[self::class . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
         return '<joomla-tab-element id="' . $id . '"' . $active . ' name="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '">';
     }

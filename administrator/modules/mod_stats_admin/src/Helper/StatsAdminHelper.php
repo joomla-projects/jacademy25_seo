@@ -84,7 +84,7 @@ class StatsAdminHelper
 
             try {
                 $users = $db->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $users = false;
             }
 
@@ -96,7 +96,7 @@ class StatsAdminHelper
 
             try {
                 $items = $db->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $items = false;
             }
 

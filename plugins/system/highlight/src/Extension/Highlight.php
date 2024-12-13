@@ -61,7 +61,7 @@ final class Highlight extends CMSPlugin
 
         // Get the terms to highlight from the request.
         $terms = $input->request->get('highlight', null, 'base64');
-        $terms = $terms ? json_decode(base64_decode($terms)) : null;
+        $terms = $terms ? json_decode(base64_decode((string) $terms)) : null;
 
         // Check the terms.
         if (empty($terms)) {
@@ -74,7 +74,7 @@ final class Highlight extends CMSPlugin
         $cleanTerms = [];
 
         foreach ($terms as $term) {
-            $cleanTerms[] = htmlspecialchars($filter->clean($term, 'string'));
+            $cleanTerms[] = htmlspecialchars((string) $filter->clean($term, 'string'));
         }
 
         /** @var \Joomla\CMS\Document\HtmlDocument $doc */

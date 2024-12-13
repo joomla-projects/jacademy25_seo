@@ -84,7 +84,7 @@ class ModuleController extends FormController
         $this->app->setUserState('com_modules.add.module.params', null);
 
         if ($return = $this->input->get('return', '', 'BASE64')) {
-            $return = base64_decode($return);
+            $return = base64_decode((string) $return);
 
             // Don't redirect to an external URL.
             if (!Uri::isInternal($return)) {

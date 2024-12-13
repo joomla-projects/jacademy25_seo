@@ -170,15 +170,10 @@ class MethodModel extends BaseDatabaseModel
     {
         $task = $this->getState('task', 'edit');
 
-        switch ($task) {
-            case 'mfa':
-                $key = 'COM_USERS_USER_MULTIFACTOR_AUTH';
-                break;
-
-            default:
-                $key = \sprintf('COM_USERS_MFA_%s_PAGE_HEAD', $task);
-                break;
-        }
+        $key = match ($task) {
+            'mfa' => 'COM_USERS_USER_MULTIFACTOR_AUTH',
+            default => \sprintf('COM_USERS_MFA_%s_PAGE_HEAD', $task),
+        };
 
         return Text::_($key);
     }

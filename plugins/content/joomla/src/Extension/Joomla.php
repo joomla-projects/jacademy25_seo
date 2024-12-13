@@ -169,19 +169,12 @@ final class Joomla extends CMSPlugin
         if (!\in_array($context, ['com_categories.category', 'com_workflow.stage', 'com_workflow.workflow'])) {
             return true;
         }
-
-        switch ($context) {
-            case 'com_categories.category':
-                return $this->canDeleteCategories($data);
-
-            case 'com_workflow.workflow':
-                return $this->workflowNotUsed($data->id);
-
-            case 'com_workflow.stage':
-                return $this->stageNotUsed($data->id);
-        }
-
-        return true;
+        return match ($context) {
+            'com_categories.category' => $this->canDeleteCategories($data),
+            'com_workflow.workflow' => $this->workflowNotUsed($data->id),
+            'com_workflow.stage' => $this->stageNotUsed($data->id),
+            default => true,
+        };
     }
 
     /**
@@ -323,7 +316,7 @@ final class Joomla extends CMSPlugin
                 ];
 
                 if ($menu->getParams()->get('menu-meta_description')) {
-                    $additionalSchema['description'] = htmlentities($menu->getParams()->get('menu-meta_description'));
+                    $additionalSchema['description'] = htmlentities((string) $menu->getParams()->get('menu-meta_description'));
                 }
 
                 $model = $component->createModel($view, 'Site');

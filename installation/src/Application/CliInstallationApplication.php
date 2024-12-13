@@ -55,14 +55,6 @@ final class CliInstallationApplication extends Application implements CMSApplica
     public $input;
 
     /**
-     * The application language object.
-     *
-     * @var    Language
-     * @since  4.3.0
-     */
-    protected $language;
-
-    /**
      * @var MVCFactory
      * @since 4.3.0
      */
@@ -104,7 +96,12 @@ final class CliInstallationApplication extends Application implements CMSApplica
         ?InputInterface $input = null,
         ?OutputInterface $output = null,
         ?Registry $config = null,
-        ?Language $language = null
+        /**
+         * The application language object.
+         *
+         * @since  4.3.0
+         */
+        protected ?Language $language = null
     ) {
         // Register the application name.
         $this->setName('Joomla CLI installation');
@@ -113,7 +110,6 @@ final class CliInstallationApplication extends Application implements CMSApplica
 
         // Register the client ID.
         $this->clientId = 2;
-        $this->language = $language;
 
         // Run the parent constructor.
         parent::__construct($input, $output, $config);
@@ -127,7 +123,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
 
         // Register the config to Factory.
         Factory::$config   = $this->config;
-        Factory::$language = $language;
+        Factory::$language = $this->language;
     }
 
     /**
@@ -140,7 +136,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
      *
      * @since   4.3.0
      */
-    public function enqueueMessage($msg, $type = 'info')
+    public function enqueueMessage($msg, $type = 'info'): never
     {
         throw new \Exception($msg);
     }

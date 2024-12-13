@@ -21,7 +21,7 @@ namespace Joomla\CMS\Application\CLI;
  * @deprecated  4.3 will be removed in 6.0
  *              Use the `joomla/console` package instead
  */
-final class ColorStyle
+final class ColorStyle implements \Stringable
 {
     /**
      * Known colors
@@ -155,7 +155,7 @@ final class ColorStyle
      *
      * @since   4.0.0
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getStyle();
     }

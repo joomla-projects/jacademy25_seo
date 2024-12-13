@@ -104,8 +104,8 @@ abstract class Credentials
         }
 
         try {
-            $publicKeyCredentialCreationOptions = unserialize(base64_decode($encodedOptions));
-        } catch (\Exception $e) {
+            $publicKeyCredentialCreationOptions = unserialize(base64_decode((string) $encodedOptions));
+        } catch (\Exception) {
             $publicKeyCredentialCreationOptions = null;
         }
 
@@ -202,7 +202,7 @@ abstract class Credentials
         }
 
         // Make sure the public key credential request options in the session are valid
-        $serializedOptions                 = base64_decode($encodedPkOptions);
+        $serializedOptions                 = base64_decode((string) $encodedPkOptions);
         $publicKeyCredentialRequestOptions = unserialize($serializedOptions);
 
         if (
@@ -274,7 +274,7 @@ abstract class Credentials
         try {
             $app      = Factory::getApplication();
             $siteName = $app->get('sitename');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $siteName = 'Joomla! Site';
         }
 

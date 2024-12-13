@@ -63,8 +63,8 @@ class TourModel extends AdminModel
         $input = Factory::getApplication()->getInput();
 
         // Language keys must include GUIDEDTOUR to prevent save issues
-        if (strpos($data['description'], 'GUIDEDTOUR') !== false) {
-            $data['description'] = strip_tags($data['description']);
+        if (str_contains((string) $data['description'], 'GUIDEDTOUR')) {
+            $data['description'] = strip_tags((string) $data['description']);
         }
 
         if ($input->get('task') == 'save2copy') {
@@ -562,7 +562,7 @@ class TourModel extends AdminModel
             if ($result === null) {
                 return false;
             }
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -597,7 +597,7 @@ class TourModel extends AdminModel
 
         try {
             $result = $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -616,7 +616,7 @@ class TourModel extends AdminModel
         ];
 
         if (!\is_null($result)) {
-            $values = json_decode($result, true);
+            $values = json_decode((string) $result, true);
 
             // The profile is updated only when delayed. 'Completed' and 'Skipped' are final
             if (!empty($values) && $values['state'] === 'delayed') {

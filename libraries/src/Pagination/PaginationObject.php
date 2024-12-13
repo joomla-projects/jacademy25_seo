@@ -21,36 +21,6 @@ namespace Joomla\CMS\Pagination;
 class PaginationObject
 {
     /**
-     * @var    string  The link text.
-     * @since  1.5
-     */
-    public $text;
-
-    /**
-     * @var    integer  The number of rows as a base offset.
-     * @since  1.5
-     */
-    public $base;
-
-    /**
-     * @var    string  The link URL.
-     * @since  1.5
-     */
-    public $link;
-
-    /**
-     * @var    integer  The prefix used for request variables.
-     * @since  1.6
-     */
-    public $prefix;
-
-    /**
-     * @var    boolean  Flag whether the object is the 'active' page
-     * @since  3.0
-     */
-    public $active;
-
-    /**
      * Class constructor.
      *
      * @param   string   $text    The link text.
@@ -61,12 +31,28 @@ class PaginationObject
      *
      * @since   1.5
      */
-    public function __construct($text, $prefix = '', $base = null, $link = null, $active = false)
+    public function __construct(
+        /**
+         * @since  1.5
+         */
+        public $text,
+        /**
+         * @since  1.6
+         */
+        public $prefix = '',
+        /**
+         * @since  1.5
+         */
+        public $base = null,
+        /**
+         * @since  1.5
+         */
+        public $link = null,
+        /**
+         * @since  3.0
+         */
+        public $active = false
+    )
     {
-        $this->text   = $text;
-        $this->prefix = $prefix;
-        $this->base   = $base;
-        $this->link   = $link;
-        $this->active = $active;
     }
 }

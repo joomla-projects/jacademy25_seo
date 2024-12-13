@@ -74,17 +74,10 @@ $start = (int) $params->get('startLevel', 1);
 
     echo '<li class="' . implode(' ', $class) . '">';
 
-    switch ($item->type) :
-        case 'separator':
-        case 'component':
-        case 'heading':
-        case 'url':
-            require ModuleHelper::getLayoutPath('mod_menu', 'dropdown-metismenu_' . $item->type);
-            break;
-
-        default:
-            require ModuleHelper::getLayoutPath('mod_menu', 'dropdown-metismenu_url');
-    endswitch;
+    match ($item->type) {
+        'separator', 'component', 'heading', 'url' => require ModuleHelper::getLayoutPath('mod_menu', 'dropdown-metismenu_' . $item->type),
+        default => require ModuleHelper::getLayoutPath('mod_menu', 'dropdown-metismenu_url'),
+    };
 
     switch (true) :
         // The next item is deeper.

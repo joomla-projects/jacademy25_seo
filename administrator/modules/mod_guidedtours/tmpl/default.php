@@ -162,7 +162,7 @@ endforeach;
 $modalHtml[] = '</div>';
 $modalHtml[] = '</div>';
 
-$modalBody = implode($modalHtml);
+$modalBody = implode('', $modalHtml);
 
 ?>
 <template id="<?php echo $popupId; ?>"><?php echo $modalBody; ?></template>

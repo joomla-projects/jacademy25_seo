@@ -19,13 +19,13 @@ $app = Factory::getApplication();
 $wa  = $this->getWebAssetManager();
 
 // Get the hue value
-preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
+preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', (string) $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
 
 $linkColor = $this->params->get('link-color', '#2a69b8');
-list($r, $g, $b) = sscanf($linkColor, "#%02x%02x%02x");
+[$r, $g, $b] = sscanf($linkColor, "#%02x%02x%02x");
 
 $linkColorDark = $this->params->get('link-color-dark', '#6fbfdb');
-list($rd, $gd, $bd) = sscanf($linkColorDark, "#%02x%02x%02x");
+[$rd, $gd, $bd] = sscanf($linkColorDark, "#%02x%02x%02x");
 
 $adjustColorLightness = function ($r, $g, $b, $percent) {
     $adjust = function ($color) use ($percent) {
@@ -35,7 +35,7 @@ $adjustColorLightness = function ($r, $g, $b, $percent) {
     return [$adjust($r), $adjust($g), $adjust($b)];
 };
 
-list($lighterRd, $lighterGd, $lighterBd) = $adjustColorLightness($rd, $gd, $bd, 10);
+[$lighterRd, $lighterGd, $lighterBd] = $adjustColorLightness($rd, $gd, $bd, 10);
 $linkColorDarkHvr = sprintf("%d, %d, %d", $lighterRd, $lighterGd, $lighterBd);
 
 // Enable assets

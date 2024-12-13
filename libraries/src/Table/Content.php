@@ -150,13 +150,13 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         // Search for the {readmore} tag and split the text up accordingly.
         if (isset($array['articletext'])) {
             $pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
-            $tagPos  = preg_match($pattern, $array['articletext']);
+            $tagPos  = preg_match($pattern, (string) $array['articletext']);
 
             if ($tagPos == 0) {
                 $this->introtext = $array['articletext'];
                 $this->fulltext  = '';
             } else {
-                list($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
+                [$this->introtext, $this->fulltext] = preg_split($pattern, (string) $array['articletext'], 2);
             }
         }
 

@@ -60,7 +60,7 @@ if (empty($argv)) {
 }
 
 foreach ($argv as $arg) {
-    if (substr($arg, 0, 2) === '--') {
+    if (str_starts_with($arg, '--')) {
         $argi = explode('=', $arg, 2);
         switch ($argi[0]) {
             case '--pr':

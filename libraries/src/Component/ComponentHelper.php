@@ -408,7 +408,7 @@ class ComponentHelper
 
         try {
             static::$components = $cache->get($loader, [], __METHOD__);
-        } catch (CacheExceptionInterface $e) {
+        } catch (CacheExceptionInterface) {
             static::$components = $loader();
         }
 
@@ -446,7 +446,7 @@ class ComponentHelper
     {
         $reflect = new \ReflectionClass($object);
 
-        if (!$reflect->getNamespaceName() || \get_class($object) === ComponentDispatcher::class || \get_class($object) === ApiDispatcher::class) {
+        if (!$reflect->getNamespaceName() || $object::class === ComponentDispatcher::class || $object::class === ApiDispatcher::class) {
             return 'com_' . strtolower($alternativeName);
         }
 

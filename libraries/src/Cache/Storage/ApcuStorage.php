@@ -81,7 +81,7 @@ class ApcuStorage extends CacheStorage
                 $name = $key['key'];
             }
 
-            $namearr = explode('-', $name);
+            $namearr = explode('-', (string) $name);
 
             if ($namearr !== false && $namearr[0] == $secret && $namearr[1] === 'cache') {
                 $group = $namearr[2];
@@ -170,7 +170,7 @@ class ApcuStorage extends CacheStorage
                 $internalKey = $key['key'];
             }
 
-            if (strpos($internalKey, $secret . '-cache-' . $group . '-') === 0 xor $mode !== 'group') {
+            if (str_starts_with((string) $internalKey, $secret . '-cache-' . $group . '-') xor $mode !== 'group') {
                 apcu_delete($internalKey);
             }
         }
@@ -203,7 +203,7 @@ class ApcuStorage extends CacheStorage
                 $internalKey = $key['key'];
             }
 
-            if (strpos($internalKey, $secret . '-cache-')) {
+            if (strpos((string) $internalKey, $secret . '-cache-')) {
                 apcu_fetch($internalKey);
             }
         }

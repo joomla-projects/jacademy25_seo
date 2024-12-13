@@ -34,15 +34,6 @@ use Joomla\Utilities\ArrayHelper;
 class Router extends RouterBase
 {
     /**
-     * The db
-     *
-     * @var DatabaseInterface
-     *
-     * @since  4.0.0
-     */
-    private $db;
-
-    /**
      * Lookup array of the menu items
      *
      * @var   array
@@ -70,10 +61,14 @@ class Router extends RouterBase
      *
      * @since  4.0.0
      */
-    public function __construct(SiteApplication $app, AbstractMenu $menu, ?CategoryFactoryInterface $categoryFactory, DatabaseInterface $db)
+    public function __construct(SiteApplication $app, AbstractMenu $menu, ?CategoryFactoryInterface $categoryFactory, /**
+     * The db
+     *
+     *
+     * @since  4.0.0
+     */
+    private readonly DatabaseInterface $db)
     {
-        $this->db = $db;
-
         parent::__construct($app, $menu);
 
         $sefPlugin       = PluginHelper::getPlugin('system', 'sef');
@@ -106,7 +101,7 @@ class Router extends RouterBase
             }
 
             foreach ($query['id'] as &$item) {
-                if (!strpos($item, ':')) {
+                if (!strpos((string) $item, ':')) {
                     $dbquery = $this->db->getQuery(true);
                     $id      = (int) $item;
 
@@ -267,8 +262,8 @@ class Router extends RouterBase
         unset($query['layout']);
 
         foreach ($segments as &$segment) {
-            if (strpos($segment, ':')) {
-                [$void, $segment] = explode(':', $segment, 2);
+            if (strpos((string) $segment, ':')) {
+                [$void, $segment] = explode(':', (string) $segment, 2);
             }
         }
 

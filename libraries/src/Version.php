@@ -257,7 +257,7 @@ final class Version
         // Load the media version and cache it for future use
         if (self::$mediaVersion === null) {
             self::$mediaVersion = $this->getMediaVersionCache()
-                ->get([$this, 'generateMediaVersion'], [], md5('_media_version' . $this->getLongVersion()));
+                ->get($this->generateMediaVersion(...), []);
         }
 
         return self::$mediaVersion;

@@ -134,7 +134,7 @@ final class Token extends CMSPlugin
 
                 $data->{$this->profileKeyPrefix}[$k] = $v[1];
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // We suppress any database error. It means we get no token saved by default.
         }
 
@@ -404,7 +404,7 @@ final class Token extends CMSPlugin
             $query->bind(':profileKey', $profileKey, ParameterType::STRING);
 
             $db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // Do nothing.
         }
     }
@@ -449,7 +449,7 @@ final class Token extends CMSPlugin
             $query->bind(':userId', $userId, ParameterType::INTEGER);
 
             return $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
     }
@@ -529,7 +529,7 @@ final class Token extends CMSPlugin
 
         try {
             $siteSecret = $this->getApplication()->get('secret');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $siteSecret = '';
         }
 
@@ -539,7 +539,7 @@ final class Token extends CMSPlugin
         }
 
         $rawToken  = base64_decode($tokenSeed);
-        $tokenHash = hash_hmac($algorithm, $rawToken, $siteSecret);
+        $tokenHash = hash_hmac($algorithm, $rawToken, (string) $siteSecret);
         $message   = base64_encode("$algorithm:$userId:$tokenHash");
 
         if ($userId !== $this->getApplication()->getIdentity()->id) {
@@ -596,7 +596,7 @@ final class Token extends CMSPlugin
 
         try {
             $numRows = $db->setQuery($q)->loadResult() ?? 0;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

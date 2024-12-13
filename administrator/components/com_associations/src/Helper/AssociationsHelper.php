@@ -193,7 +193,7 @@ class AssociationsHelper extends ContentHelper
      */
     private static function getExtensionRealName($extensionName)
     {
-        return strpos($extensionName, 'com_') === false ? $extensionName : substr($extensionName, 4);
+        return !str_contains($extensionName, 'com_') ? $extensionName : substr($extensionName, 4);
     }
 
     /**
@@ -317,7 +317,7 @@ class AssociationsHelper extends ContentHelper
             $text    = $language->lang_code;
 
             $tooltip = '<strong>' . htmlspecialchars($language->title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
-                . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
+                . htmlspecialchars((string) $title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
             $classes = 'badge ' . $labelClass;
 
             $items[$langCode]['link'] = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
@@ -409,7 +409,7 @@ class AssociationsHelper extends ContentHelper
             $title       = $helper->getTypeTitle($typeName);
             $languageKey = $typeName;
 
-            $typeNameExploded = explode('.', $typeName);
+            $typeNameExploded = explode('.', (string) $typeName);
 
             if (array_pop($typeNameExploded) === 'category') {
                 $languageKey = strtoupper($extensionName) . '_CATEGORIES';

@@ -210,7 +210,7 @@ class MapsModel extends ListModel
 
         // Filter the maps over the search string if set.
         if ($search = $this->getState('filter.search')) {
-            $search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+            $search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim((string) $search), true) . '%'));
             $query->where('a.title LIKE ' . $search);
         }
 

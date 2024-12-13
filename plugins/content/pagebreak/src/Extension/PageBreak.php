@@ -214,9 +214,9 @@ final class PageBreak extends CMSPlugin
                         $match = (array) Utility::parseAttributes($match[0]);
 
                         if (isset($match['alt'])) {
-                            $title = stripslashes($match['alt']);
+                            $title = stripslashes((string) $match['alt']);
                         } elseif (isset($match['title'])) {
-                            $title = stripslashes($match['title']);
+                            $title = stripslashes((string) $match['title']);
                         } else {
                             $title = Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
                         }
@@ -271,7 +271,7 @@ final class PageBreak extends CMSPlugin
             $headingtext = $this->getApplication()->getLanguage()->_('PLG_CONTENT_PAGEBREAK_ARTICLE_INDEX');
 
             if ($this->params->get('article_index_text')) {
-                $headingtext = htmlspecialchars($this->params->get('article_index_text'), ENT_QUOTES, 'UTF-8');
+                $headingtext = htmlspecialchars((string) $this->params->get('article_index_text'), ENT_QUOTES, 'UTF-8');
             }
         }
 
@@ -288,9 +288,9 @@ final class PageBreak extends CMSPlugin
                 $attrs2 = Utility::parseAttributes($bot[0]);
 
                 if (@$attrs2['alt']) {
-                    $title = stripslashes($attrs2['alt']);
+                    $title = stripslashes((string) $attrs2['alt']);
                 } elseif (@$attrs2['title']) {
-                    $title = stripslashes($attrs2['title']);
+                    $title = stripslashes((string) $attrs2['title']);
                 } else {
                     $title = Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
                 }

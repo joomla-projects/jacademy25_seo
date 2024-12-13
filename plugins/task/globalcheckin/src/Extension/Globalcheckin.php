@@ -82,7 +82,7 @@ class Globalcheckin extends CMSPlugin implements SubscriberInterface
 
         foreach ($tables as $tn) {
             // Make sure we get the right tables based on prefix.
-            if (stripos($tn, $prefix) !== 0) {
+            if (stripos((string) $tn, $prefix) !== 0) {
                 continue;
             }
 
@@ -114,7 +114,7 @@ class Globalcheckin extends CMSPlugin implements SubscriberInterface
 
             try {
                 $db->execute();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 // This failure isn't critical, don't care too much
                 $failed = true;
             }

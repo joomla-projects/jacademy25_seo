@@ -162,7 +162,7 @@ abstract class UpdateAdapter extends AdapterInstance
 
         try {
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Do nothing
         }
     }
@@ -194,7 +194,7 @@ abstract class UpdateAdapter extends AdapterInstance
 
         try {
             $name = $db->loadResult();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Do nothing
         }
 
@@ -212,7 +212,7 @@ abstract class UpdateAdapter extends AdapterInstance
      */
     protected function getUpdateSiteResponse($options = [])
     {
-        $url                = trim($options['location']);
+        $url                = trim((string) $options['location']);
         $this->_url         = &$url;
         $this->updateSiteId = $options['update_site_id'];
 
@@ -227,8 +227,8 @@ abstract class UpdateAdapter extends AdapterInstance
             $this->appendExtension = $options['append_extension'];
         }
 
-        if ($this->appendExtension && (substr($url, -4) !== '.xml')) {
-            if (substr($url, -1) !== '/') {
+        if ($this->appendExtension && (!str_ends_with($url, '.xml'))) {
+            if (!str_ends_with($url, '/')) {
                 $url .= '/';
             }
 
@@ -249,7 +249,7 @@ abstract class UpdateAdapter extends AdapterInstance
         try {
             $http     = HttpFactory::getHttp($httpOption);
             $response = $http->get($url, [], 20);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 
@@ -268,7 +268,7 @@ abstract class UpdateAdapter extends AdapterInstance
 
         if ($response === null || $response->code !== 200) {
             // If the URL is missing the .xml extension, try appending it and retry loading the update
-            if (!$this->appendExtension && (substr($url, -4) !== '.xml')) {
+            if (!$this->appendExtension && (!str_ends_with($url, '.xml'))) {
                 $options['append_extension'] = true;
 
                 return $this->getUpdateSiteResponse($options);

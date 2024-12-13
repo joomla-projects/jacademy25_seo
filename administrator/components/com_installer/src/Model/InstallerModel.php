@@ -101,7 +101,7 @@ class InstallerModel extends ListModel
                     $found = 0;
 
                     foreach ($searchFields as $key => $field) {
-                        if (!$found && preg_match('/' . $escapedSearchString . '/i', $item->{$field})) {
+                        if (!$found && preg_match('/' . $escapedSearchString . '/i', (string) $item->{$field})) {
                             $found = 1;
                         }
                     }
@@ -115,7 +115,7 @@ class InstallerModel extends ListModel
 
             // Process ordering.
             // Sort array object by selected ordering and selected direction. Sort is case insensitive and using locale sorting.
-            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, false, true);
+            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower((string) $listDirn) == 'desc' ? -1 : 1, false, true);
 
             // Process pagination.
             $total                                      = \count($result);

@@ -77,7 +77,7 @@ class WorkflowsModel extends ListModel
         $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
         $this->setState('filter.extension', $extension);
-        $parts = explode('.', $extension);
+        $parts = explode('.', (string) $extension);
 
         // Extract the component name
         $this->setState('filter.component', $parts[0]);
@@ -260,14 +260,14 @@ class WorkflowsModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+            $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
             $query->where('(' . $db->quoteName('w.title') . ' LIKE :search1 OR ' . $db->quoteName('w.description') . ' LIKE :search2)')
                 ->bind([':search1', ':search2'], $search);
         }
 
         // Add the list ordering clause.
         $orderCol  = $this->state->get('list.ordering', 'w.ordering');
-        $orderDirn = strtoupper($this->state->get('list.direction', 'ASC'));
+        $orderDirn = strtoupper((string) $this->state->get('list.direction', 'ASC'));
 
         $query->order($db->escape($orderCol) . ' ' . ($orderDirn === 'DESC' ? 'DESC' : 'ASC'));
 

@@ -36,41 +36,6 @@ use Tuf\Loader\SizeCheckingLoader;
 class TufFetcher
 {
     /**
-     * The table object holding the metadata
-     *
-     * @var MetadataTable
-     */
-    private MetadataTable $metadataTable;
-
-    /**
-     * The repository base url
-     *
-     * @var mixed
-     */
-    private string $repositoryUrl;
-
-    /**
-     * The database driver
-     *
-     * @var DatabaseInterface
-     */
-    protected DatabaseInterface $db;
-
-    /**
-     * The web application object
-     *
-     * @var CMSApplicationInterface
-     */
-    protected CMSApplicationInterface $app;
-
-    /**
-     * The http client
-     *
-     * @var Http
-     */
-    protected Http $httpClient;
-
-    /**
      * Validating updates with TUF
      *
      * @param   MetadataTable            $metadataTable  The table object holding the metadata
@@ -80,17 +45,28 @@ class TufFetcher
      * @param   CMSApplicationInterface  $app            The application object for sending errors to users
      */
     public function __construct(
-        MetadataTable $metadataTable,
-        string $repositoryUrl,
-        DatabaseInterface $db,
-        Http $httpClient,
-        CMSApplicationInterface $app
-    ) {
-        $this->metadataTable = $metadataTable;
-        $this->repositoryUrl = $repositoryUrl;
-        $this->db            = $db;
-        $this->httpClient    = $httpClient;
-        $this->app           = $app;
+        /**
+         * The table object holding the metadata
+         */
+        private readonly MetadataTable $metadataTable,
+        /**
+         * The repository base url
+         */
+        private readonly string $repositoryUrl,
+        /**
+         * The database driver
+         */
+        protected DatabaseInterface $db,
+        /**
+         * The http client
+         */
+        protected Http $httpClient,
+        /**
+         * The web application object
+         */
+        protected CMSApplicationInterface $app
+    )
+    {
     }
 
     /**
@@ -127,17 +103,17 @@ class TufFetcher
                 }
                 throw $e;
             }
-        } catch (DownloadSizeException $e) {
+        } catch (DownloadSizeException) {
             $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_DOWNLOAD_SIZE'), CMSApplicationInterface::MSG_ERROR);
-        } catch (MetadataException $e) {
+        } catch (MetadataException) {
             $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_INVALID_METADATA'), CMSApplicationInterface::MSG_ERROR);
-        } catch (FreezeAttackException $e) {
+        } catch (FreezeAttackException) {
             $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_FREEZE_ATTACK'), CMSApplicationInterface::MSG_ERROR);
-        } catch (RollbackAttackException $e) {
+        } catch (RollbackAttackException) {
             $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_ROLLBACK_ATTACK'), CMSApplicationInterface::MSG_ERROR);
-        } catch (SignatureThresholdException $e) {
+        } catch (SignatureThresholdException) {
             $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_SIGNATURE_THRESHOLD'), CMSApplicationInterface::MSG_ERROR);
-        } catch (TufException $e) {
+        } catch (TufException) {
             $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_ERROR_GENERIC'), CMSApplicationInterface::MSG_ERROR);
         }
 

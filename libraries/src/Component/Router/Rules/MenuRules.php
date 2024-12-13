@@ -114,7 +114,7 @@ class MenuRules implements RulesInterface
             foreach ($active->query as $k => $v) {
                 if (isset($query[$k]) && $v !== $query[$k]) {
                     // Compare again without alias
-                    if (\is_string($v) && $v == current(explode(':', $query[$k], 2))) {
+                    if (\is_string($v) && $v == current(explode(':', (string) $query[$k], 2))) {
                         continue;
                     }
 

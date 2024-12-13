@@ -38,14 +38,6 @@ class InputFilter extends BaseInputFilter
     ];
 
     /**
-     * A flag for Unicode Supplementary Characters (4-byte Unicode character) stripping.
-     *
-     * @var    integer
-     * @since  3.5
-     */
-    private $stripUSC = 0;
-
-    /**
      * A container for InputFilter instances.
      *
      * @var    InputFilter[]
@@ -64,12 +56,14 @@ class InputFilter extends BaseInputFilter
      *
      * @since   1.7.0
      */
-    public function __construct($tagsArray = [], $attrArray = [], $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = 0)
+    public function __construct($tagsArray = [], $attrArray = [], $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, /**
+     * A flag for Unicode Supplementary Characters (4-byte Unicode character) stripping.
+     *
+     * @since  3.5
+     */
+    private $stripUSC = 0)
     {
         parent::__construct($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto);
-
-        // Assign member variables
-        $this->stripUSC = $stripUSC;
     }
 
     /**
@@ -265,14 +259,14 @@ class InputFilter extends BaseInputFilter
 
                 // 1. Null byte check
                 if ($options['null_byte']) {
-                    if (strstr($intendedName, "\x00")) {
+                    if (strstr((string) $intendedName, "\x00")) {
                         return false;
                     }
                 }
 
                 // 2. PHP-in-extension check (.php, .php.xxx[.yyy[.zzz[...]]], .xxx[.yyy[.zzz[...]]].php)
                 if (!empty($options['forbidden_extensions'])) {
-                    $explodedName = explode('.', $intendedName);
+                    $explodedName = explode('.', (string) $intendedName);
                     $explodedName = array_reverse($explodedName);
                     array_pop($explodedName);
                     $explodedName = array_map('strtolower', $explodedName);
@@ -294,7 +288,7 @@ class InputFilter extends BaseInputFilter
                     || $options['shorttag_in_content'] || $options['phar_stub_in_content']
                     || ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions']))
                 ) {
-                    $fp = \strlen($tempName) ? @fopen($tempName, 'r') : false;
+                    $fp = \strlen((string) $tempName) ? @fopen($tempName, 'r') : false;
 
                     if ($fp !== false) {
                         $data = '';
@@ -444,19 +438,15 @@ class InputFilter extends BaseInputFilter
         // Convert decimal
         $source = preg_replace_callback(
             '/&#(\d+);/m',
-            function ($m) {
-                return mb_convert_encoding(\chr($m[1]), 'UTF-8', 'ISO-8859-1');
-            },
+            fn($m) => mb_convert_encoding(\chr($m[1]), 'UTF-8', 'ISO-8859-1'),
             $source
         );
 
         // Convert hex
         $source = preg_replace_callback(
             '/&#x([a-f0-9]+);/mi',
-            function ($m) {
-                return mb_convert_encoding(\chr(hexdec($m[1])), 'UTF-8', 'ISO-8859-1');
-            },
-            $source
+            fn($m) => mb_convert_encoding(\chr(hexdec((string) $m[1])), 'UTF-8', 'ISO-8859-1'),
+            (string) $source
         );
 
         return $source;
@@ -487,6 +477,6 @@ class InputFilter extends BaseInputFilter
             return $filteredArray;
         }
 
-        return preg_replace('/[\xF0-\xF7].../s', "\xE2\xAF\x91", $source);
+        return preg_replace('/[\xF0-\xF7].../s', "\xE2\xAF\x91", (string) $source);
     }
 }

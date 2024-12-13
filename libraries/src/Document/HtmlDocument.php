@@ -337,10 +337,10 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             return $this;
         }
 
-        $this->title = (isset($data['title']) && !empty($data['title']) && !stristr($this->title, $data['title']))
+        $this->title = (isset($data['title']) && !empty($data['title']) && !stristr($this->title, (string) $data['title']))
             ? $this->title . $data['title']
             : $this->title;
-        $this->description = (isset($data['description']) && !empty($data['description']) && !stristr($this->description, $data['description']))
+        $this->description = (isset($data['description']) && !empty($data['description']) && !stristr($this->description, (string) $data['description']))
             ? $this->description . $data['description']
             : $this->description;
         $this->link = $data['link'] ?? $this->link;
@@ -365,7 +365,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
         if (isset($data['style'])) {
             foreach ($data['style'] as $type => $styles) {
                 foreach ($styles as $hash => $style) {
-                    if (!isset($this->_style[strtolower($type)][$hash])) {
+                    if (!isset($this->_style[strtolower((string) $type)][$hash])) {
                         $this->addStyleDeclaration($style, $type);
                     }
                 }
@@ -379,7 +379,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
         if (isset($data['script'])) {
             foreach ($data['script'] as $type => $scripts) {
                 foreach ($scripts as $hash => $script) {
-                    if (!isset($this->_script[strtolower($type)][$hash])) {
+                    if (!isset($this->_script[strtolower((string) $type)][$hash])) {
                         $this->addScriptDeclaration($script, $type);
                     }
                 }
@@ -547,7 +547,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
                     [
                         $name,
                         $attribs,
-                        \get_class($renderer),
+                        $renderer::class,
                         $itemId,
                     ]
                 )

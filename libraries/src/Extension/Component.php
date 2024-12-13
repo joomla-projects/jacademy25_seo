@@ -25,24 +25,22 @@ use Joomla\CMS\Dispatcher\DispatcherInterface;
 class Component implements ComponentInterface
 {
     /**
-     * The dispatcher factory.
-     *
-     * @var ComponentDispatcherFactoryInterface
-     *
-     * @since  4.0.0
-     */
-    private $dispatcherFactory;
-
-    /**
      * Component constructor.
      *
      * @param   ComponentDispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
      *
      * @since   4.0.0
      */
-    public function __construct(ComponentDispatcherFactoryInterface $dispatcherFactory)
+    public function __construct(
+        /**
+         * The dispatcher factory.
+         *
+         *
+         * @since  4.0.0
+         */
+        private readonly ComponentDispatcherFactoryInterface $dispatcherFactory
+    )
     {
-        $this->dispatcherFactory = $dispatcherFactory;
     }
 
     /**

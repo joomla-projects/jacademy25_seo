@@ -287,8 +287,8 @@ class TemplateController extends FormController
                 // Check if there is a return value
                 $return = $this->input->get('return', null, 'base64');
 
-                if (!\is_null($return) && Uri::isInternal(base64_decode($return))) {
-                    $url = base64_decode($return);
+                if (!\is_null($return) && Uri::isInternal(base64_decode((string) $return))) {
+                    $url = base64_decode((string) $return);
                 }
 
                 // Redirect to the list screen.

@@ -27,7 +27,7 @@ class FeedFactory
      * @var    array  The list of registered parser classes for feeds.
      * @since  3.1.4
      */
-    protected $parsers = ['rss' => 'Joomla\\CMS\\Feed\\Parser\\RssParser', 'feed' => 'Joomla\\CMS\\Feed\\Parser\\AtomParser'];
+    protected $parsers = ['rss' => \Joomla\CMS\Feed\Parser\RssParser::class, 'feed' => \Joomla\CMS\Feed\Parser\AtomParser::class];
 
     /**
      * Method to load a URI into the feed reader for parsing.

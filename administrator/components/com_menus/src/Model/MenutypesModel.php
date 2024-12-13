@@ -276,10 +276,10 @@ class MenutypesModel extends BaseDatabaseModel
         }
 
         foreach ($views as $viewPath) {
-            $view = basename($viewPath);
+            $view = basename((string) $viewPath);
 
             // Ignore private views.
-            if (strpos($view, '_') !== 0) {
+            if (!str_starts_with($view, '_')) {
                 // Determine if a metadata file exists for the view.
                 $file = $viewPath . '/metadata.xml';
 
@@ -470,9 +470,9 @@ class MenutypesModel extends BaseDatabaseModel
         // Build list of standard layout names
         foreach ($layouts as $layout) {
             // Ignore private layouts.
-            if (strpos(basename($layout), '_') === false) {
+            if (!str_contains(basename((string) $layout), '_')) {
                 // Get the layout name.
-                $layoutNames[] = basename($layout, '.xml');
+                $layoutNames[] = basename((string) $layout, '.xml');
             }
         }
 
@@ -485,7 +485,7 @@ class MenutypesModel extends BaseDatabaseModel
 
         foreach ($folders as $folder) {
             if (is_dir($folder . '/html/' . $component . '/' . $view)) {
-                $template = basename($folder);
+                $template = basename((string) $folder);
                 $lang->load('tpl_' . $template . '.sys', $client->path)
                 || $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template);
 
@@ -493,14 +493,14 @@ class MenutypesModel extends BaseDatabaseModel
 
                 foreach ($templateLayouts as $layout) {
                     // Get the layout name.
-                    $templateLayoutName = basename($layout, '.xml');
+                    $templateLayoutName = basename((string) $layout, '.xml');
 
                     // Add to the list only if it is not a standard layout
                     if (array_search($templateLayoutName, $layoutNames) === false) {
                         $layouts[] = $layout;
 
                         // Set template name array so we can get the right template for the layout
-                        $templateName[$layout] = basename($folder);
+                        $templateName[$layout] = basename((string) $folder);
                     }
                 }
             }
@@ -509,11 +509,11 @@ class MenutypesModel extends BaseDatabaseModel
         // Process the found layouts.
         foreach ($layouts as $layout) {
             // Ignore private layouts.
-            if (strpos(basename($layout), '_') === false) {
+            if (!str_contains(basename((string) $layout), '_')) {
                 $file = $layout;
 
                 // Get the layout name.
-                $layout = basename($layout, '.xml');
+                $layout = basename((string) $layout, '.xml');
 
                 // Create the menu option for the layout.
                 $o              = new CMSObject();

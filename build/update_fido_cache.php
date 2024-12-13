@@ -20,7 +20,7 @@ if (!isset($fullPath)) {
     $fullPath = \dirname(__DIR__);
 }
 
-$filePath = rtrim($fullPath, '\\/') . '/plugins/system/webauthn/fido.jwt';
+$filePath = rtrim((string) $fullPath, '\\/') . '/plugins/system/webauthn/fido.jwt';
 
 if (is_file($filePath) && filemtime($filePath) > (time() - 864000)) {
     echo "The file $filePath already exists and is current; nothing to do.\n";

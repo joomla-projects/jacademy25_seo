@@ -81,7 +81,7 @@ final class Image extends CMSPlugin implements SubscriberInterface
 
         // For categories we check the extension (ex: component.section)
         if ($extension === 'com_categories') {
-            $parts     = explode('.', $this->getApplication()->getInput()->get('extension', 'com_content'));
+            $parts     = explode('.', (string) $this->getApplication()->getInput()->get('extension', 'com_content'));
             $extension = $parts[0];
         }
 
@@ -119,7 +119,7 @@ final class Image extends CMSPlugin implements SubscriberInterface
                     'trim',
                     explode(
                         ',',
-                        ComponentHelper::getParams('com_media')->get(
+                        (string) ComponentHelper::getParams('com_media')->get(
                             'image_extensions',
                             'bmp,gif,jpg,jpeg,png,webp'
                         )
@@ -129,7 +129,7 @@ final class Image extends CMSPlugin implements SubscriberInterface
                     'trim',
                     explode(
                         ',',
-                        ComponentHelper::getParams('com_media')->get(
+                        (string) ComponentHelper::getParams('com_media')->get(
                             'audio_extensions',
                             'mp3,m4a,mp4a,ogg'
                         )
@@ -139,7 +139,7 @@ final class Image extends CMSPlugin implements SubscriberInterface
                     'trim',
                     explode(
                         ',',
-                        ComponentHelper::getParams('com_media')->get(
+                        (string) ComponentHelper::getParams('com_media')->get(
                             'video_extensions',
                             'mp4,mp4v,mpeg,mov,webm'
                         )
@@ -149,7 +149,7 @@ final class Image extends CMSPlugin implements SubscriberInterface
                     'trim',
                     explode(
                         ',',
-                        ComponentHelper::getParams('com_media')->get(
+                        (string) ComponentHelper::getParams('com_media')->get(
                             'doc_extensions',
                             'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv'
                         )

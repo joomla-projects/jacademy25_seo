@@ -143,14 +143,10 @@ class RulesField extends FormField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'section':
-            case 'component':
-            case 'assetField':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'section', 'component', 'assetField' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**

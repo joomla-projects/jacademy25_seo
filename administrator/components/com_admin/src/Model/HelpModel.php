@@ -171,7 +171,7 @@ class HelpModel extends BaseDatabaseModel
             $title = Text::_($title);
 
             // Strip the extension
-            $file = preg_replace('#\.xml$|\.html$#', '', $file);
+            $file = preg_replace('#\.xml$|\.html$#', '', (string) $file);
 
             if ($help_search && StringHelper::strpos(StringHelper::strtolower(strip_tags($buffer)), StringHelper::strtolower($help_search)) === false) {
                 continue;

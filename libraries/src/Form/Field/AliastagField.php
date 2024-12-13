@@ -71,9 +71,7 @@ class AliastagField extends ListField
         // Sort by language value
         usort(
             $options,
-            function ($a, $b) {
-                return strcmp($a->text, $b->text);
-            }
+            fn($a, $b) => strcmp($a->text, $b->text)
         );
 
         return $options;

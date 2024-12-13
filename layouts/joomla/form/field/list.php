@@ -92,4 +92,4 @@ if ($readonly) {
     $html[] = HTMLHelper::_('select.genericlist', $options, $name, $listoptions);
 }
 
-echo implode($html);
+echo implode('', $html);

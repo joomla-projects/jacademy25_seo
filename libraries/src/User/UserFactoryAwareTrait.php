@@ -42,7 +42,7 @@ trait UserFactoryAwareTrait
             return $this->userFactory;
         }
 
-        throw new \UnexpectedValueException('UserFactory not set in ' . __CLASS__);
+        throw new \UnexpectedValueException('UserFactory not set in ' . self::class);
     }
 
     /**

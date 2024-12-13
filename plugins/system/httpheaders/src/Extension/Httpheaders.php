@@ -191,7 +191,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
 
             foreach ($inlineScripts as $type => $scripts) {
                 foreach ($scripts as $hash => $scriptContent) {
-                    $scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', $scriptContent, true)) . "'";
+                    $scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', (string) $scriptContent, true)) . "'";
                 }
             }
         }
@@ -202,7 +202,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
 
             foreach ($inlineStyles as $type => $styles) {
                 foreach ($styles as $hash => $styleContent) {
-                    $styleHashes[] = "'sha256-" . base64_encode(hash('sha256', $styleContent, true)) . "'";
+                    $styleHashes[] = "'sha256-" . base64_encode(hash('sha256', (string) $styleContent, true)) . "'";
                 }
             }
         }
@@ -212,8 +212,8 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
 
         foreach ($headers as $id => $headerConfiguration) {
             if (
-                strtolower($headerConfiguration['name']) === 'content-security-policy'
-                || strtolower($headerConfiguration['name']) === 'content-security-policy-report-only'
+                strtolower((string) $headerConfiguration['name']) === 'content-security-policy'
+                || strtolower((string) $headerConfiguration['name']) === 'content-security-policy-report-only'
             ) {
                 $newHeaderValue = $headerConfiguration['value'];
 
@@ -310,12 +310,12 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
                 }
 
                 // Append the script hashes placeholder
-                if ($scriptHashesEnabled && strpos($cspValue->directive, 'script-src') === 0) {
+                if ($scriptHashesEnabled && str_starts_with($cspValue->directive, 'script-src')) {
                     $cspValue->value = '{script-hashes} ' . $cspValue->value;
                 }
 
                 // Append the style hashes placeholder
-                if ($styleHashesEnabled && strpos($cspValue->directive, 'style-src') === 0) {
+                if ($styleHashesEnabled && str_starts_with($cspValue->directive, 'style-src')) {
                     $cspValue->value = '{style-hashes} ' . $cspValue->value;
                 }
 
@@ -327,7 +327,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
                 if (
                     $strictDynamicEnabled
                     && $cspValue->directive === 'script-src'
-                    && strpos($cspValue->value, 'strict-dynamic') === false
+                    && !str_contains($cspValue->value, 'strict-dynamic')
                 ) {
                     $cspValue->value = "'strict-dynamic' " . $cspValue->value;
                 }

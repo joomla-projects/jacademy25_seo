@@ -497,10 +497,10 @@ for ($num = $release - 1; $num >= 0; $num--) {
 
     // Loop through and add all files except: tests, installation, build, .git, .travis, travis, phpunit, .md, or images
     foreach ($files as $file) {
-        if (substr($file, 0, 1) === 'R') {
-            $fileName = substr($file, strrpos($file, "\t") + 1);
+        if (str_starts_with((string) $file, 'R')) {
+            $fileName = substr((string) $file, strrpos((string) $file, "\t") + 1);
         } else {
-            $fileName = substr($file, 2);
+            $fileName = substr((string) $file, 2);
         }
 
         $folderPath             = explode('/', $fileName);
@@ -524,11 +524,11 @@ for ($num = $release - 1; $num >= 0; $num--) {
         }
 
         // Act on the file based on the action
-        switch (substr($file, 0, 1)) {
+        switch (substr((string) $file, 0, 1)) {
             // This is a new case with git 2.9 to handle renamed files
             case 'R':
                 // Explode the file on the tab character; key 0 is the action (rename), key 1 is the old filename, and key 2 is the new filename
-                $renamedFileData = explode("\t", $file);
+                $renamedFileData = explode("\t", (string) $file);
 
                 // Add the new file for packaging
                 $filesArray[$renamedFileData[2]] = true;
@@ -709,7 +709,7 @@ if ($includeExtraTextfiles) {
 
         foreach ($packageHashes as $hashType => $hash) {
             $checksumsContent .= "$hashType: $hash\n";
-            if (strpos($packageName, 'Update_Package.zip') !== false) {
+            if (str_contains($packageName, 'Update_Package.zip')) {
                 $checksumsContentUpdate .= "<$hashType>$hash</$hashType>\n";
             }
         }
@@ -735,15 +735,15 @@ if ($includeExtraTextfiles) {
     foreach ($checksums as $packageName => $packageHashes) {
         $type = '';
 
-        if (strpos($packageName, 'Full_Package') !== false) {
+        if (str_contains($packageName, 'Full_Package')) {
             $type = 'FULL';
-        } elseif (strpos($packageName, 'Patch_Package') !== false) {
-            if (strpos($packageName, '.x_to') !== false) {
+        } elseif (str_contains($packageName, 'Patch_Package')) {
+            if (str_contains($packageName, '.x_to')) {
                 $type = 'MINOR';
             } else {
                 $type = 'POINT';
             }
-        } elseif (strpos($packageName, 'Update_Package') !== false) {
+        } elseif (str_contains($packageName, 'Update_Package')) {
             $type = 'UPGRADE';
         }
 

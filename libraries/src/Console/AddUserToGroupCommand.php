@@ -163,7 +163,7 @@ class AddUserToGroupCommand extends AbstractCommand
 
         // Group names have been supplied as input arguments
         if ($groups) {
-            $groups = explode(',', $groups);
+            $groups = explode(',', (string) $groups);
 
             foreach ($groups as $group) {
                 $groupId = $this->getGroupId($group);

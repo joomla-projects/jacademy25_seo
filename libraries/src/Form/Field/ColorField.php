@@ -132,20 +132,10 @@ class ColorField extends FormField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'colors':
-            case 'control':
-            case 'default':
-            case 'display':
-            case 'format':
-            case 'keywords':
-            case 'preview':
-            case 'saveFormat':
-            case 'split':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'colors', 'control', 'default', 'display', 'format', 'keywords', 'preview', 'saveFormat', 'split' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -246,7 +236,7 @@ class ColorField extends FormField
     {
         $lang  = Factory::getApplication()->getLanguage();
         $data  = parent::getLayoutData();
-        $color = strtolower($this->value);
+        $color = strtolower((string) $this->value);
         $color = !$color && $color !== '0' ? '' : $color;
 
         // Position of the panel can be: right (default), left, top or bottom (default RTL is left)
@@ -258,18 +248,11 @@ class ColorField extends FormField
             $color = '#' . $color;
         }
 
-        switch ($this->control) {
-            case 'simple':
-                $controlModeData = $this->getSimpleModeLayoutData();
-                break;
-            case 'slider':
-                $controlModeData = $this->getSliderModeLayoutData();
-                break;
-            case 'advanced':
-            default:
-                $controlModeData = $this->getAdvancedModeLayoutData($lang);
-                break;
-        }
+        $controlModeData = match ($this->control) {
+            'simple' => $this->getSimpleModeLayoutData(),
+            'slider' => $this->getSliderModeLayoutData(),
+            default => $this->getAdvancedModeLayoutData($lang),
+        };
 
         $extraData = [
             'color'    => $color,
@@ -291,7 +274,7 @@ class ColorField extends FormField
      */
     protected function getSimpleModeLayoutData()
     {
-        $colors = strtolower($this->colors);
+        $colors = strtolower((string) $this->colors);
 
         if (empty($colors)) {
             $colors = [

@@ -71,7 +71,7 @@ class ModuleRenderer extends DocumentRenderer
 
         // Use parameters from template
         if (isset($attribs['params'])) {
-            $template_params = new Registry(html_entity_decode($attribs['params'], ENT_COMPAT, 'UTF-8'));
+            $template_params = new Registry(html_entity_decode((string) $attribs['params'], ENT_COMPAT, 'UTF-8'));
             $params->merge($template_params);
             $module         = clone $module;
             $module->params = (string) $params;

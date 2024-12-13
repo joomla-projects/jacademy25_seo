@@ -140,7 +140,7 @@ class OrderingField extends FormField
             $html[] = HTMLHelper::_('list.ordering', $this->name, $query, trim($attr), $this->value, $itemId ? 0 : 1, $this->id);
         }
 
-        return implode($html);
+        return implode('', $html);
     }
 
     /**

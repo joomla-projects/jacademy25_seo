@@ -42,7 +42,7 @@ trait FormFactoryAwareTrait
             return $this->formFactory;
         }
 
-        throw new \UnexpectedValueException('FormFactory not set in ' . __CLASS__);
+        throw new \UnexpectedValueException('FormFactory not set in ' . self::class);
     }
 
     /**

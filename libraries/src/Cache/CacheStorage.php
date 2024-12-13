@@ -100,7 +100,7 @@ class CacheStorage
     {
         $app = Factory::getApplication();
 
-        $this->_hash        = md5($app->get('secret', ''));
+        $this->_hash        = md5((string) $app->get('secret', ''));
         $this->_application = $options['application'] ?? md5(JPATH_CONFIGURATION);
         $this->_language    = $options['language'] ?? 'en-GB';
         $this->_locking     = $options['locking'] ?? true;
@@ -148,7 +148,7 @@ class CacheStorage
         $options['now'] = $now;
 
         // We can't cache this since options may change...
-        $handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
+        $handler = strtolower((string) preg_replace('/[^A-Z0-9_\.-]/i', '', (string) $handler));
 
         /** @var CacheStorage $class */
         $class = __NAMESPACE__ . '\\Storage\\' . ucfirst($handler) . 'Storage';

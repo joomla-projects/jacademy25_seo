@@ -78,7 +78,7 @@ class SiteCreatePublicFolderCommand extends AbstractCommand
         $this->publicFolder = $this->getStringFromOption('public-folder', 'Please enter the absolute path to the public folder', true);
 
         // Remove the last (Windows || NIX) slash
-        $this->publicFolder = rtrim((new InputFilter())->clean($this->publicFolder, 'PATH'), '/');
+        $this->publicFolder = rtrim((string) (new InputFilter())->clean($this->publicFolder, 'PATH'), '/');
         $this->publicFolder = rtrim($this->publicFolder, '\\');
 
         // Check if the symlink function is available
@@ -89,7 +89,7 @@ class SiteCreatePublicFolderCommand extends AbstractCommand
 
         try {
             (new PublicFolderGeneratorHelper())->createPublicFolder($this->publicFolder);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return Command::FAILURE;
         }
 

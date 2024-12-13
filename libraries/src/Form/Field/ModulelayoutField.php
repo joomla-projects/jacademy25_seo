@@ -65,7 +65,7 @@ class ModulelayoutField extends FormField
             $module = $this->form->getValue('module');
         }
 
-        $module = preg_replace('#\W#', '', $module);
+        $module = preg_replace('#\W#', '', (string) $module);
 
         // Get the template.
         $template = (string) $this->element['template'];
@@ -76,7 +76,7 @@ class ModulelayoutField extends FormField
 
         if ($this->form instanceof Form) {
             $template_style_id = $this->form->getValue('template_style_id', null, 0);
-            $template_style_id = (int) preg_replace('#\W#', '', $template_style_id);
+            $template_style_id = (int) preg_replace('#\W#', '', (string) $template_style_id);
         }
 
         // If an extension and view are present build the options.
@@ -141,7 +141,7 @@ class ModulelayoutField extends FormField
 
                 foreach ($module_layouts as $file) {
                     // Add an option to the module group
-                    $value                  = basename($file, '.php');
+                    $value                  = basename((string) $file, '.php');
                     $text                   = $lang->hasKey($key = strtoupper($module . '_LAYOUT_' . $value)) ? Text::_($key) : $value;
                     $groups['_']['items'][] = HTMLHelper::_('select.option', '_:' . $value, $text);
                 }
@@ -174,7 +174,7 @@ class ModulelayoutField extends FormField
 
                             foreach ($files as $file) {
                                 // Add an option to the template group
-                                $value = basename($file, '.php');
+                                $value = basename((string) $file, '.php');
                                 $text  = $lang->hasKey($key = strtoupper('TPL_' . $template->element . '_' . $module . '_LAYOUT_' . $value))
                                     ? Text::_($key) : $value;
                                 $groups[$template->element]['items'][] = HTMLHelper::_('select.option', $template->element . ':' . $value, $text);
@@ -202,7 +202,7 @@ class ModulelayoutField extends FormField
                 ['id' => $this->id, 'group.id' => 'id', 'list.attr' => $attr, 'list.select' => $selected]
             );
 
-            return implode($html);
+            return implode('', $html);
         }
 
         return '';

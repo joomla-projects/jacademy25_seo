@@ -65,12 +65,12 @@ class Uri extends \Joomla\Uri\Uri
             // Are we obtaining the URI from the server?
             if ($uri === 'SERVER') {
                 // Determine if the request was over SSL (HTTPS).
-                if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) !== 'off')) {
+                if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower((string) $_SERVER['HTTPS']) !== 'off')) {
                     $https = 's://';
                 } elseif (
                     (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])
                     && !empty($_SERVER['HTTP_X_FORWARDED_PROTO'])
-                    && (strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) !== 'http'))
+                    && (strtolower((string) $_SERVER['HTTP_X_FORWARDED_PROTO']) !== 'http'))
                 ) {
                     $https = 's://';
                 } else {
@@ -133,7 +133,7 @@ class Uri extends \Joomla\Uri\Uri
             $uri       = static::getInstance();
             $live_site = ($uri->isSsl()) ? str_replace('http://', 'https://', $config->get('live_site', '')) : $config->get('live_site', '');
 
-            if (trim($live_site) != '') {
+            if (trim((string) $live_site) != '') {
                 $uri                    = static::getInstance($live_site);
                 static::$base['prefix'] = $uri->toString(['scheme', 'host', 'port']);
                 static::$base['path']   = rtrim($uri->toString(['path']), '/\\');
@@ -148,7 +148,7 @@ class Uri extends \Joomla\Uri\Uri
             } else {
                 static::$base['prefix'] = $uri->toString(['scheme', 'host', 'port']);
 
-                if (strpos(PHP_SAPI, 'cgi') !== false && !\ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI'])) {
+                if (str_contains(PHP_SAPI, 'cgi') && !\ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI'])) {
                     // PHP-CGI on Apache with "cgi.fix_pathinfo = 0"
 
                     // We shouldn't have user-supplied PATH_INFO in PHP_SELF in this case
@@ -248,9 +248,9 @@ class Uri extends \Joomla\Uri\Uri
 
         // @see UriTest
         if (
-            empty($host) && strpos($uri->path, 'index.php') === 0
+            empty($host) && str_starts_with($uri->path, 'index.php')
             || !empty($host) && preg_match('#^' . preg_quote(static::base(), '#') . '#', $base)
-            || !empty($host) && $host === static::getInstance(static::base())->host && strpos($uri->path, 'index.php') !== false
+            || !empty($host) && $host === static::getInstance(static::base())->host && str_contains($uri->path, 'index.php')
             || !empty($host) && $base === $host && preg_match('#^' . preg_quote($base, '#') . '#', static::base())
         ) {
             return true;

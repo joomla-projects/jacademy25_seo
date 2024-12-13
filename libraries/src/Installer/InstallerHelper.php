@@ -109,7 +109,7 @@ abstract class InstallerHelper
         // Parse the Content-Disposition header to get the file name
         if (
             !empty($headers['content-disposition'])
-            && preg_match("/\s*filename\s?=\s?(.*)/", $headers['content-disposition'][0], $parts)
+            && preg_match("/\s*filename\s?=\s?(.*)/", (string) $headers['content-disposition'][0], $parts)
         ) {
             $flds   = explode(';', $parts[1]);
             $target = trim($flds[0], '"');
@@ -166,7 +166,7 @@ abstract class InstallerHelper
         try {
             $archive = new Archive(['tmp_path' => Factory::getApplication()->get('tmp_path')]);
             $extract = $archive->extract($archivename, $extractdir);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             if ($alwaysReturnArray) {
                 return [
                     'extractdir'  => null,
@@ -290,7 +290,7 @@ abstract class InstallerHelper
     {
         $default = uniqid();
 
-        if (!\is_string($url) || strpos($url, '/') === false) {
+        if (!\is_string($url) || !str_contains($url, '/')) {
             return $default;
         }
 
@@ -302,7 +302,7 @@ abstract class InstallerHelper
         $filename = preg_replace('/[^a-z0-9\_\-\.]/i', '_', $filename);
 
         // Replace multiple underscores with just one.
-        $filename = preg_replace('/__+/', '_', trim($filename, '_'));
+        $filename = preg_replace('/__+/', '_', trim((string) $filename, '_'));
 
         // Return the cleaned filename or, if it is empty, a unique id.
         return $filename ?: $default;

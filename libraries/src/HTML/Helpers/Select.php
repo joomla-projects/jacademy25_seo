@@ -140,7 +140,7 @@ abstract class Select
         $id = str_replace(['[', ']', ' '], '', $id);
 
         // If the selectbox contains "form-select-color-state" then load the JS file
-        if (strpos($attribs, 'form-select-color-state') !== false) {
+        if (str_contains($attribs, 'form-select-color-state')) {
             Factory::getDocument()->getWebAssetManager()
                 ->registerAndUseScript(
                     'webcomponent.select-colour',
@@ -150,7 +150,7 @@ abstract class Select
                 );
         }
 
-        $baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
+        $baseIndent = str_repeat((string) $options['format.indent'], $options['format.depth']++);
         $html       = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '') . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol']
             . static::options($data, $options) . $baseIndent . '</select>' . $options['format.eol'];
 
@@ -222,10 +222,10 @@ abstract class Select
         // Disable groups in the options.
         $options['groups'] = false;
 
-        $baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
+        $baseIndent = str_repeat((string) $options['format.indent'], $options['format.depth']++);
         $html       = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '')
                 . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol'];
-        $groupIndent = str_repeat($options['format.indent'], $options['format.depth']++);
+        $groupIndent = str_repeat((string) $options['format.indent'], $options['format.depth']++);
 
         foreach ($data as $dataKey => $group) {
             $label   = $dataKey;
@@ -269,7 +269,7 @@ abstract class Select
                 $html .= static::options($subList, $options);
             } else {
                 $html .= $groupIndent . '<optgroup' . (empty($id) ? '' : ' id="' . $id . '"') . ' label="'
-                    . ($options['group.label.toHtml'] ? htmlspecialchars($label, ENT_COMPAT, 'UTF-8') : $label) . '">' . $options['format.eol']
+                    . ($options['group.label.toHtml'] ? htmlspecialchars((string) $label, ENT_COMPAT, 'UTF-8') : $label) . '">' . $options['format.eol']
                     . static::options($subList, $options) . $groupIndent . '</optgroup>' . $options['format.eol'];
             }
         }
@@ -476,7 +476,7 @@ abstract class Select
         }
 
         $html       = '';
-        $baseIndent = str_repeat($options['format.indent'], $options['format.depth']);
+        $baseIndent = str_repeat((string) $options['format.indent'], $options['format.depth']);
 
         foreach ($arr as $elementKey => &$element) {
             $attr  = '';
@@ -548,13 +548,13 @@ abstract class Select
 
             if ($key === '<OPTGROUP>' && $options['groups']) {
                 $html .= $baseIndent . '<optgroup label="' . ($options['list.translate'] ? Text::_($text) : $text) . '">' . $options['format.eol'];
-                $baseIndent = str_repeat($options['format.indent'], ++$options['format.depth']);
+                $baseIndent = str_repeat((string) $options['format.indent'], ++$options['format.depth']);
             } elseif ($key === '</OPTGROUP>' && $options['groups']) {
-                $baseIndent = str_repeat($options['format.indent'], --$options['format.depth']);
+                $baseIndent = str_repeat((string) $options['format.indent'], --$options['format.depth']);
                 $html .= $baseIndent . '</optgroup>' . $options['format.eol'];
             } else {
                 // If no string after hyphen - take hyphen out
-                $splitText = explode(' - ', $text, 2);
+                $splitText = explode(' - ', (string) $text, 2);
                 $text      = $splitText[0];
 
                 if (isset($splitText[1]) && $splitText[1] !== '' && !preg_match('/^[\s]+$/', $splitText[1])) {
@@ -566,13 +566,13 @@ abstract class Select
                 }
 
                 if ($options['option.label.toHtml']) {
-                    $label = htmlentities($label);
+                    $label = htmlentities((string) $label);
                 }
 
                 if (\is_array($attr)) {
                     $attr = ArrayHelper::toString($attr);
                 } else {
-                    $attr = trim($attr);
+                    $attr = trim((string) $attr);
                 }
 
                 $extra = ($id ? ' id="' . $id . '"' : '') . ($label ? ' label="' . $label . '"' : '') . ($attr ? ' ' . $attr : '') . $extra;

@@ -56,7 +56,7 @@ class ActionlogsHelper
                 \sprintf(
                     '%s() requires an array or object implementing the Traversable interface, a %s was given.',
                     __METHOD__,
-                    \is_object($data) ? \get_class($data) : \gettype($data)
+                    get_debug_type($data)
                 )
             );
         }
@@ -208,7 +208,7 @@ class ActionlogsHelper
 
         foreach ($messageData as $key => $value) {
             // Escape any markup in the values to prevent XSS attacks
-            $value = $value !== null ? htmlspecialchars($value, ENT_QUOTES, 'UTF-8') : '';
+            $value = $value !== null ? htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8') : '';
 
             // Convert relative url to absolute url so that it is clickable in action logs notification email
             if ($generateLinks && StringHelper::strpos($value, 'index.php?') === 0) {
@@ -310,7 +310,7 @@ class ActionlogsHelper
 
         try {
             $rows = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $rows = [];
         }
 

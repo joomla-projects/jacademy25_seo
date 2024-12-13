@@ -106,7 +106,7 @@ class UCMContent extends UCMBase
         $type = $type ?: $this->type;
 
         if (!\is_array($pk)) {
-            $pk = explode(',', $pk);
+            $pk = explode(',', (string) $pk);
         }
 
         $query = $db->getQuery(true)

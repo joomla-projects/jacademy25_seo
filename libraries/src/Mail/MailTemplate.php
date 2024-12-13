@@ -42,21 +42,6 @@ class MailTemplate
     protected $mailer;
 
     /**
-     * Identifier of the mail template.
-     *
-     * @var    string
-     * @since  4.0.0
-     */
-    protected $template_id;
-
-    /**
-     * Language of the mail template.
-     *
-     * @var    string
-     */
-    protected $language;
-
-    /**
      *
      * @var    string[]
      * @since  4.0.0
@@ -111,17 +96,22 @@ class MailTemplate
     /**
      * Constructor for the mail templating class
      *
-     * @param   string   $templateId  Id of the mail template.
+     * @param string $template_id Id of the mail template.
      * @param   string   $language    Language of the template to use.
      * @param   ?Mail    $mailer      Mail object to send the mail with.
      *
      * @since   4.0.0
      */
-    public function __construct($templateId, $language, ?Mail $mailer = null)
+    public function __construct(/**
+     * Identifier of the mail template.
+     *
+     * @since  4.0.0
+     */
+    protected $template_id, /**
+     * Language of the mail template.
+     */
+    protected $language, ?Mail $mailer = null)
     {
-        $this->template_id = $templateId;
-        $this->language    = $language;
-
         if ($mailer) {
             $this->mailer = $mailer;
         } else {
@@ -357,7 +347,7 @@ class MailTemplate
                 }
 
                 // Check if layout is a template override
-                $layoutParts = explode(':', $layout);
+                $layoutParts = explode(':', (string) $layout);
 
                 if (\count($layoutParts) === 2) {
                     $layout = $layoutParts[1];
@@ -374,7 +364,7 @@ class MailTemplate
                     ]);
                 }
 
-                $htmlBody = $layoutFile->render(['mail' => $htmlBody, 'extra' => $this->layoutTemplateData], null);
+                $htmlBody = $layoutFile->render(['mail' => $htmlBody, 'extra' => $this->layoutTemplateData]);
 
                 $htmlBody = $this->replaceTags(Text::_($htmlBody), $this->data);
             }
@@ -389,17 +379,11 @@ class MailTemplate
         }
 
         foreach ($this->recipients as $recipient) {
-            switch ($recipient->type) {
-                case 'cc':
-                    $this->mailer->addCc($recipient->mail, $recipient->name);
-                    break;
-                case 'bcc':
-                    $this->mailer->addBcc($recipient->mail, $recipient->name);
-                    break;
-                case 'to':
-                default:
-                    $this->mailer->addAddress($recipient->mail, $recipient->name);
-            }
+            match ($recipient->type) {
+                'cc' => $this->mailer->addCc($recipient->mail, $recipient->name),
+                'bcc' => $this->mailer->addBcc($recipient->mail, $recipient->name),
+                default => $this->mailer->addAddress($recipient->mail, $recipient->name),
+            };
         }
 
         if ($this->replyto) {
@@ -408,7 +392,7 @@ class MailTemplate
             $this->mailer->addReplyTo($replyTo, $replyToName);
         }
 
-        if (trim($config->get('attachment_folder', ''))) {
+        if (trim((string) $config->get('attachment_folder', ''))) {
             $folderPath = rtrim(Path::check(JPATH_ROOT . '/' . $config->get('attachment_folder')), \DIRECTORY_SEPARATOR);
 
             if ($folderPath && $folderPath !== Path::clean(JPATH_ROOT) && is_dir($folderPath)) {
@@ -488,7 +472,7 @@ class MailTemplate
             } else {
                 // Escape if necessary
                 if ($isHtml && \in_array(strtoupper($key), $this->unsafe_tags, true)) {
-                    $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+                    $value = htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
                 }
 
                 $text = str_replace('{' . strtoupper($key) . '}', $value, $text);

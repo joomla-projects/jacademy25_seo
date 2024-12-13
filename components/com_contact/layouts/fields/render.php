@@ -30,7 +30,7 @@ if (!$context) {
     return;
 }
 
-$parts     = explode('.', $context);
+$parts     = explode('.', (string) $context);
 $component = $parts[0];
 $fields    = null;
 

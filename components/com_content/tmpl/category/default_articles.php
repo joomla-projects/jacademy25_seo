@@ -37,18 +37,11 @@ $langFilter = false;
 if (($this->params->get('filter_field') === 'tag') && (Multilanguage::isEnabled())) {
     $tagfilter = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
 
-    switch ($tagfilter) {
-        case 'current_language':
-            $langFilter = Factory::getApplication()->getLanguage()->getTag();
-            break;
-
-        case 'all':
-            $langFilter = false;
-            break;
-
-        default:
-            $langFilter = $tagfilter;
-    }
+    $langFilter = match ($tagfilter) {
+        'current_language' => Factory::getApplication()->getLanguage()->getTag(),
+        'all' => false,
+        default => $tagfilter,
+    };
 }
 
 // Check for at least one editable article

@@ -47,7 +47,7 @@ Text::script('JCLOSE');
 try {
     /** @var CMSWebApplicationInterface $app */
     $app = Factory::getApplication();
-} catch (Exception $e) {
+} catch (Exception) {
     die('Failed to get app');
 }
 
@@ -159,7 +159,7 @@ if ($this->hasDueTasks === true) {
 
                 <!-- Table body begins -->
                 <tbody <?php if ($saveOrder) : ?>
-                    class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php
+                    class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>" data-nested="true" <?php
                        endif; ?>>
                 <?php foreach ($this->items as $i => $item) :
                     $canCreate  = $user->authorise('core.create', 'com_scheduler');

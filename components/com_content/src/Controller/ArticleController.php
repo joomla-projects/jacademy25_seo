@@ -321,11 +321,11 @@ class ArticleController extends FormController
     {
         $return = $this->input->get('return', null, 'base64');
 
-        if (empty($return) || !Uri::isInternal(base64_decode($return))) {
+        if (empty($return) || !Uri::isInternal(base64_decode((string) $return))) {
             return Uri::base();
         }
 
-        return base64_decode($return);
+        return base64_decode((string) $return);
     }
 
     /**

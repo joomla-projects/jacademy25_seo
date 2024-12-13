@@ -28,24 +28,6 @@ use Joomla\Input\Input;
 class Module implements ModuleInterface, HelperFactoryInterface
 {
     /**
-     * The dispatcher factory.
-     *
-     * @var ModuleDispatcherFactoryInterface
-     *
-     * @since  4.0.0
-     */
-    private $dispatcherFactory;
-
-    /**
-     * The helper factory.
-     *
-     * @var HelperFactoryInterface
-     *
-     * @since  4.0.0
-     */
-    private $helperFactory;
-
-    /**
      * Module constructor.
      *
      * @param   ModuleDispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
@@ -53,10 +35,23 @@ class Module implements ModuleInterface, HelperFactoryInterface
      *
      * @since   4.0.0
      */
-    public function __construct(ModuleDispatcherFactoryInterface $dispatcherFactory, ?HelperFactoryInterface $helperFactory)
+    public function __construct(
+        /**
+         * The dispatcher factory.
+         *
+         *
+         * @since  4.0.0
+         */
+        private readonly ModuleDispatcherFactoryInterface $dispatcherFactory,
+        /**
+         * The helper factory.
+         *
+         *
+         * @since  4.0.0
+         */
+        private readonly ?HelperFactoryInterface $helperFactory
+    )
     {
-        $this->dispatcherFactory = $dispatcherFactory;
-        $this->helperFactory     = $helperFactory;
     }
 
     /**

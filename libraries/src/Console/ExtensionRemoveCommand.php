@@ -175,7 +175,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 
         $response = $this->ioStyle->ask('Are you sure you want to remove this extension?', 'yes/no');
 
-        if (strtolower($response) === 'yes') {
+        if (strtolower((string) $response) === 'yes') {
             // Get an installer object for the extension type
             $installer = Installer::getInstance();
             $row       = new Extension($this->getDatabase());
@@ -208,7 +208,7 @@ class ExtensionRemoveCommand extends AbstractCommand
             return self::REMOVE_INVALID_TYPE;
         }
 
-        if (strtolower($response) === 'no') {
+        if (strtolower((string) $response) === 'no') {
             $this->ioStyle->note('Extension not removed.');
 
             return self::REMOVE_ABORT;

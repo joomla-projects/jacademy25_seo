@@ -84,17 +84,10 @@ class SubformField extends FormField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'formsource':
-            case 'min':
-            case 'max':
-            case 'layout':
-            case 'groupByFieldset':
-            case 'buttons':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'formsource', 'min', 'max', 'layout', 'groupByFieldset', 'buttons' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -411,7 +404,7 @@ class SubformField extends FormField
     {
         // Make sure there is a valid SimpleXMLElement.
         if (!($this->element instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s::filter `element` is not an instance of SimpleXMLElement', static::class));
         }
 
         // Get the field filter type.

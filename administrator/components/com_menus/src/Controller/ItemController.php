@@ -374,7 +374,7 @@ class ItemController extends FormController
 
             // Parse the submitted link arguments.
             $args = [];
-            parse_str(parse_url($data['link'], PHP_URL_QUERY), $args);
+            parse_str(parse_url((string) $data['link'], PHP_URL_QUERY), $args);
 
             // Merge in the user supplied request arguments.
             $args = array_merge($args, $data['request']);
@@ -506,7 +506,7 @@ class ItemController extends FormController
         // Get the type.
         $type = $data['type'];
 
-        $type     = json_decode(base64_decode($type));
+        $type     = json_decode(base64_decode((string) $type));
         $title    = $type->title ?? null;
         $recordId = $type->id ?? 0;
 

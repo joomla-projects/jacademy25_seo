@@ -96,7 +96,7 @@ class Input extends \Joomla\Input\Input
             return $this->inputs[$name];
         }
 
-        $className = '\\Joomla\\CMS\\Input\\' . ucfirst($name);
+        $className = '\\Joomla\\CMS\\Input\\' . ucfirst((string) $name);
 
         if (class_exists($className)) {
             $this->inputs[$name] = new $className(null, $this->options);
@@ -104,9 +104,9 @@ class Input extends \Joomla\Input\Input
             return $this->inputs[$name];
         }
 
-        $superGlobal = '_' . strtoupper($name);
+        $superGlobal = '_' . strtoupper((string) $name);
 
-        if (\in_array(strtoupper($name), self::$allowedGlobals, true) && isset($GLOBALS[$superGlobal])) {
+        if (\in_array(strtoupper((string) $name), self::$allowedGlobals, true) && isset($GLOBALS[$superGlobal])) {
             $this->inputs[$name] = new Input($GLOBALS[$superGlobal], $this->options);
 
             return $this->inputs[$name];
@@ -210,7 +210,7 @@ class Input extends \Joomla\Input\Input
     public function unserialize($input)
     {
         // Unserialize the options, data, and inputs.
-        list($this->options, $this->data, $this->inputs) = unserialize($input);
+        [$this->options, $this->data, $this->inputs] = unserialize($input);
 
         // Load the filter.
         if (isset($this->options['filter'])) {

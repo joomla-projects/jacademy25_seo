@@ -41,7 +41,7 @@ class ResultTest extends UnitTestCase
 
         // Test the `serialize` method provided by the object - Pre PHP 8.1 deprecated style
         $this->assertIsString(
-            $obj->serialize($obj)
+            $obj->serialize()
         );
 
         // Test PHP `serialize` the object - PHP 8.1+ style (uses magic methods)
