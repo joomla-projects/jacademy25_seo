@@ -72,7 +72,6 @@
 			label="COM_USERS_CONFIG_FIELD_CAPTCHA_LABEL"
 			folder="captcha"
 			filter="cmd"
-			useglobal="true"
 			>
 			<option value="0">JOPTION_DO_NOT_USE</option>
 		</field>
