@@ -205,6 +205,10 @@ class JsonapiView extends BaseApiView
             return $item;
         }
 
+        /**
+         * @deprecated  5.2 will be removed in 7.0
+         *              Will be removed without replacement.
+         */
         $item->text = $item->introtext . ' ' . $item->fulltext;
 
         // Process the content plugins.
