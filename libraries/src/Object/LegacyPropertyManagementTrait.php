@@ -84,7 +84,7 @@ trait LegacyPropertyManagementTrait
         $vars = get_object_vars($this);
 
         if ($public) {
-            foreach ($vars as $key => $value) {
+            foreach (array_keys($vars) as $key) {
                 if (str_starts_with($key, '_')) {
                     unset($vars[$key]);
                 }

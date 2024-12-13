@@ -63,7 +63,7 @@ class TasksController extends AdminController
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
 
-        if (empty($cid)) {
+        if ($cid === []) {
             $this->app->getLogger()
                 ->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), ['category' => 'jerror']);
         } else {
@@ -85,7 +85,7 @@ class TasksController extends AdminController
                     $noticeText = $this->text_prefix . '_N_ITEMS_UNLOCKED';
                 }
 
-                if (\count($cid)) {
+                if ($cid !== []) {
                     $this->setMessage(Text::plural($noticeText, \count($cid)));
                 }
             } catch (\Exception $e) {

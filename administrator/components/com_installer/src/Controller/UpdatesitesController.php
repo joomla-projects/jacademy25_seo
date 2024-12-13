@@ -97,7 +97,7 @@ class UpdatesitesController extends AdminController
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
 
-        if (empty($ids)) {
+        if ($ids === []) {
             throw new \Exception(Text::_('COM_INSTALLER_ERROR_NO_UPDATESITES_SELECTED'), 500);
         }
 
@@ -136,7 +136,7 @@ class UpdatesitesController extends AdminController
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
 
-        if (empty($ids)) {
+        if ($ids === []) {
             throw new \Exception(Text::_('COM_INSTALLER_ERROR_NO_UPDATESITES_SELECTED'), 500);
         }
 

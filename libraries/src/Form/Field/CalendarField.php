@@ -230,8 +230,8 @@ class CalendarField extends FormField
             $this->filltable    = (string) $this->element['filltable'] ?: 'true';
             $this->timeformat   = (int) $this->element['timeformat'] ?: 24;
             $this->singleheader = (string) $this->element['singleheader'] ?: 'false';
-            $this->minyear      = \strlen((string) $this->element['minyear']) ? (int) $this->element['minyear'] : null;
-            $this->maxyear      = \strlen((string) $this->element['maxyear']) ? (int) $this->element['maxyear'] : null;
+            $this->minyear      = \strlen((string) $this->element['minyear']) !== 0 ? (int) $this->element['minyear'] : null;
+            $this->maxyear      = \strlen((string) $this->element['maxyear']) !== 0 ? (int) $this->element['maxyear'] : null;
 
             if ($this->maxyear < 0 || $this->minyear > 0) {
                 $this->todaybutton = 'false';

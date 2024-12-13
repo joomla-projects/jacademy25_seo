@@ -134,7 +134,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
         $nonceEnabled = (int) $this->params->get('nonce_enabled', 0);
 
         // Nonce generation when it's enabled
-        if ($nonceEnabled) {
+        if ($nonceEnabled !== 0) {
             $this->cspNonce = base64_encode(bin2hex(random_bytes(64)));
         }
 
@@ -185,7 +185,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
         $scriptHashes = [];
         $styleHashes  = [];
 
-        if ($scriptHashesEnabled) {
+        if ($scriptHashesEnabled !== 0) {
             // Generate the hashes for the script-src
             $inlineScripts = \is_array($headData['script']) ? $headData['script'] : [];
 
@@ -196,7 +196,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
             }
         }
 
-        if ($styleHashesEnabled) {
+        if ($styleHashesEnabled !== 0) {
             // Generate the hashes for the style-src
             $inlineStyles = \is_array($headData['style']) ? $headData['style'] : [];
 
@@ -217,13 +217,13 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
             ) {
                 $newHeaderValue = $headerConfiguration['value'];
 
-                if (!empty($scriptHashes)) {
+                if ($scriptHashes !== []) {
                     $newHeaderValue = str_replace('{script-hashes}', implode(' ', $scriptHashes), $newHeaderValue);
                 } else {
                     $newHeaderValue = str_replace('{script-hashes}', '', $newHeaderValue);
                 }
 
-                if (!empty($styleHashes)) {
+                if ($styleHashes !== []) {
                     $newHeaderValue = str_replace('{style-hashes}', implode(' ', $styleHashes), $newHeaderValue);
                 } else {
                     $newHeaderValue = str_replace('{style-hashes}', '', $newHeaderValue);
@@ -340,7 +340,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
             $newCspValues[] = "frame-ancestors 'self'";
         }
 
-        if (empty($newCspValues)) {
+        if ($newCspValues === []) {
             return;
         }
 
@@ -437,7 +437,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
     {
         $staticHeaderConfiguration = $this->getStaticHeaderConfiguration();
 
-        if (empty($staticHeaderConfiguration)) {
+        if ($staticHeaderConfiguration === []) {
             return;
         }
 
@@ -446,7 +446,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
             $header          = $headerAndClient[0];
             $client          = $headerAndClient[1] ?? 'both';
 
-            if (!$this->getApplication()->isClient($client) && $client != 'both') {
+            if (!$this->getApplication()->isClient($client) && $client !== 'both') {
                 continue;
             }
 

@@ -68,7 +68,7 @@ class ScriptsRenderer extends DocumentRenderer
             $asset = $item instanceof WebAssetItemInterface ? $item : null;
 
             // Add src attribute for non Asset item
-            if (!$asset) {
+            if (!$asset instanceof \Joomla\CMS\WebAsset\WebAssetItemInterface) {
                 $item['src'] = $key;
             }
 
@@ -138,7 +138,7 @@ class ScriptsRenderer extends DocumentRenderer
     {
         $buffer = '';
         $asset  = $item instanceof WebAssetItemInterface ? $item : null;
-        $src    = $asset ? $asset->getUri() : ($item['src'] ?? '');
+        $src    = $asset instanceof \Joomla\CMS\WebAsset\WebAssetItemInterface ? $asset->getUri() : ($item['src'] ?? '');
 
         // Make sure we have a src, and it not already rendered
         if (!$src || !empty($this->renderedSrc[$src])) {
@@ -150,7 +150,7 @@ class ScriptsRenderer extends DocumentRenderer
         $mediaVersion = $this->_doc->getMediaVersion();
 
         // Get the attributes and other options
-        if ($asset) {
+        if ($asset instanceof \Joomla\CMS\WebAsset\WebAssetItemInterface) {
             $attribs     = $asset->getAttributes();
             $version     = $asset->getVersion();
             $conditional = $asset->getOption('conditional');
@@ -173,7 +173,7 @@ class ScriptsRenderer extends DocumentRenderer
         } else {
             $attribs     = $item;
             $version     = $attribs['options']['version'] ?? '';
-            $conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
+            $conditional = empty($attribs['options']['conditional']) ? null : $attribs['options']['conditional'];
         }
 
         // Add "nonce" attribute if exist
@@ -315,7 +315,7 @@ class ScriptsRenderer extends DocumentRenderer
 
             if (!($this->_doc->isHtml5() && $isNoValueAttrib)) {
                 // Json encode value if it's an array.
-                $value = !\is_scalar($value) ? json_encode($value) : $value;
+                $value = \is_scalar($value) ? $value : json_encode($value);
 
                 $buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
             }
@@ -371,7 +371,7 @@ class ScriptsRenderer extends DocumentRenderer
             unset($assets[$k]);
         }
 
-        if (!empty($importmap['imports'])) {
+        if (isset($importmap['imports']) && $importmap['imports'] !== []) {
             // Add polyfill when exists
             if (!empty($assets['es-module-shims'])) {
                 $buffer .= $this->renderElement($assets['es-module-shims']);

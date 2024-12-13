@@ -105,11 +105,7 @@ class FormView extends HtmlView
             $this->helpLink = $config['help_link'];
         }
 
-        if (isset($config['toolbar_icon'])) {
-            $this->toolbarIcon = $config['toolbar_icon'];
-        } else {
-            $this->toolbarIcon = 'pencil-2 ' . $this->getName() . '-add';
-        }
+        $this->toolbarIcon = $config['toolbar_icon'] ?? 'pencil-2 ' . $this->getName() . '-add';
 
         // Set default value for $canDo to avoid fatal error if child class doesn't set value for this property
         // Return a CanDo object to prevent any BC break, will be changed in 7.0 to Registry
@@ -131,7 +127,7 @@ class FormView extends HtmlView
         $this->initializeView();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors')) > 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

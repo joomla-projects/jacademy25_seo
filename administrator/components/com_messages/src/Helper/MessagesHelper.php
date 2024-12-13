@@ -33,12 +33,6 @@ class MessagesHelper
      */
     public static function getStateOptions()
     {
-        // Build the filter options.
-        $options   = [];
-        $options[] = HTMLHelper::_('select.option', '1', Text::_('COM_MESSAGES_OPTION_READ'));
-        $options[] = HTMLHelper::_('select.option', '0', Text::_('COM_MESSAGES_OPTION_UNREAD'));
-        $options[] = HTMLHelper::_('select.option', '-2', Text::_('JTRASHED'));
-
-        return $options;
+        return [HTMLHelper::_('select.option', '1', Text::_('COM_MESSAGES_OPTION_READ')), HTMLHelper::_('select.option', '0', Text::_('COM_MESSAGES_OPTION_UNREAD')), HTMLHelper::_('select.option', '-2', Text::_('JTRASHED'))];
     }
 }

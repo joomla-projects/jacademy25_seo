@@ -130,9 +130,11 @@ class TemplatesModel extends ListModel
         );
         $query->from($db->quoteName('#__mail_templates', 'a'))
             ->where($db->quoteName('a.language') . ' = ' . $db->quote(''));
+        // Filter by search in title.
+        $search = trim((string) $this->getState('filter.search', ''));
 
         // Filter by search in title.
-        if ($search = trim((string) $this->getState('filter.search', ''))) {
+        if ($search !== '' && $search !== '0') {
             if (stripos($search, 'id:') === 0) {
                 $search = substr($search, 3);
                 $query->where($db->quoteName('a.template_id') . ' = :search')

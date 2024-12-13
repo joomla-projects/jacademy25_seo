@@ -131,7 +131,7 @@ abstract class JsonApiView extends JsonView
         $pagination = $model->getPagination();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors')) > 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -188,7 +188,7 @@ abstract class JsonApiView extends JsonView
         $collection = (new Collection($items, $this->serializer))
             ->fields([$this->type => $eventResult->getAllPropertiesToRender()]);
 
-        if (!empty($this->relationship)) {
+        if ($this->relationship !== []) {
             $collection->with($this->relationship);
         }
 
@@ -220,7 +220,7 @@ abstract class JsonApiView extends JsonView
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors')) > 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -242,7 +242,7 @@ abstract class JsonApiView extends JsonView
         $element = (new Resource($item, $this->serializer))
             ->fields([$this->type => $eventResult->getAllPropertiesToRender()]);
 
-        if (!empty($this->relationship)) {
+        if ($this->relationship !== []) {
             $element->with($eventResult->getAllRelationsToRender());
         }
 

@@ -69,7 +69,7 @@ class ArticleController extends FormController
             // Redirect to the return page.
             $this->setRedirect($this->getReturnPage());
 
-            return;
+            return null;
         }
 
         // Redirect to the edit screen.
@@ -124,7 +124,7 @@ class ArticleController extends FormController
      */
     protected function allowEdit($data = [], $key = 'id')
     {
-        $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+        $recordId = (int) isset($data[$key]) !== 0 ? $data[$key] : 0;
         $user     = $this->app->getIdentity();
 
         // Zero record (id:0), return component edit permission by calling parent controller method
@@ -368,11 +368,9 @@ class ArticleController extends FormController
             }
         } elseif ($this->getTask() === 'save2copy') {
             // Redirect to the article page, use the redirect url set from parent controller
-        } else {
+        } elseif ($result) {
             // If ok, redirect to the return page.
-            if ($result) {
-                $this->setRedirect(Route::_($this->getReturnPage(), false));
-            }
+            $this->setRedirect(Route::_($this->getReturnPage(), false));
         }
 
         return $result;

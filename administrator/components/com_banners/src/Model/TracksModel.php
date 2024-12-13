@@ -126,7 +126,7 @@ class TracksModel extends ListModel
 
         // Filter by type.
 
-        if ($type = (int) $this->getState('filter.type')) {
+        if ($type = (int) $this->getState('filter.type') !== 0) {
             $query->where($db->quoteName('a.track_type') . ' = :type')
                 ->bind(':type', $type, ParameterType::INTEGER);
         }
@@ -162,7 +162,7 @@ class TracksModel extends ListModel
         }
 
         // Filter on the level.
-        if ($level = (int) $this->getState('filter.level')) {
+        if ($level = (int) $this->getState('filter.level') !== 0) {
             $query->where($db->quoteName('c.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
         }
@@ -193,7 +193,7 @@ class TracksModel extends ListModel
         $categoryId = (int) $this->getState('category_id');
 
         // Access checks.
-        if ($categoryId) {
+        if ($categoryId !== 0) {
             $allow = $user->authorise('core.delete', 'com_banners.category.' . $categoryId);
         } else {
             $allow = $user->authorise('core.delete', 'com_banners');
@@ -206,7 +206,7 @@ class TracksModel extends ListModel
                 ->delete($db->quoteName('#__banner_tracks'));
 
             // Filter by type
-            if ($type = (int) $this->getState('filter.type')) {
+            if ($type = (int) $this->getState('filter.type') !== 0) {
                 $query->where($db->quoteName('track_type') . ' = :type')
                     ->bind(':type', $type, ParameterType::INTEGER);
             }
@@ -228,13 +228,13 @@ class TracksModel extends ListModel
                 ->from($db->quoteName('#__banners'));
 
             // Filter by client
-            if ($clientId = (int) $this->getState('filter.client_id')) {
+            if ($clientId = (int) $this->getState('filter.client_id') !== 0) {
                 $subQuery->where($db->quoteName('cid') . ' = :clientId');
                 $query->bind(':clientId', $clientId, ParameterType::INTEGER);
             }
 
             // Filter by category
-            if ($categoryId) {
+            if ($categoryId !== 0) {
                 $subQuery->where($db->quoteName('catid') . ' = :categoryId');
                 $query->bind(':categoryId', $categoryId, ParameterType::INTEGER);
             }
@@ -267,17 +267,12 @@ class TracksModel extends ListModel
      */
     public function getBaseName()
     {
-        if (!isset($this->basename)) {
+        if ($this->basename === null) {
             $basename   = str_replace('__SITE__', Factory::getApplication()->get('sitename'), $this->getState('basename'));
             $categoryId = $this->getState('filter.category_id');
 
             if (is_numeric($categoryId)) {
-                if ($categoryId > 0) {
-                    $basename = str_replace('__CATID__', $categoryId, $basename);
-                } else {
-                    $basename = str_replace('__CATID__', '', $basename);
-                }
-
+                $basename = $categoryId > 0 ? str_replace('__CATID__', $categoryId, $basename) : str_replace('__CATID__', '', $basename);
                 $categoryName = $this->getCategoryName();
                 $basename     = str_replace('__CATNAME__', $categoryName, $basename);
             } else {
@@ -311,19 +306,11 @@ class TracksModel extends ListModel
 
             $begin = $this->getState('filter.begin');
 
-            if (!empty($begin)) {
-                $basename = str_replace('__BEGIN__', $begin, $basename);
-            } else {
-                $basename = str_replace('__BEGIN__', '', $basename);
-            }
+            $basename = empty($begin) ? str_replace('__BEGIN__', '', $basename) : str_replace('__BEGIN__', $begin, $basename);
 
             $end = $this->getState('filter.end');
 
-            if (!empty($end)) {
-                $basename = str_replace('__END__', $end, $basename);
-            } else {
-                $basename = str_replace('__END__', '', $basename);
-            }
+            $basename = empty($end) ? str_replace('__END__', '', $basename) : str_replace('__END__', $end, $basename);
 
             $this->basename = $basename;
         }
@@ -342,7 +329,7 @@ class TracksModel extends ListModel
     {
         $categoryId = (int) $this->getState('filter.category_id');
 
-        if ($categoryId) {
+        if ($categoryId !== 0) {
             $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->select($db->quoteName('title'))
@@ -376,7 +363,7 @@ class TracksModel extends ListModel
     {
         $clientId = (int) $this->getState('filter.client_id');
 
-        if ($clientId) {
+        if ($clientId !== 0) {
             $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->select($db->quoteName('name'))
@@ -432,7 +419,7 @@ class TracksModel extends ListModel
      */
     public function getContent()
     {
-        if (!isset($this->content)) {
+        if (!property_exists($this, 'content') || $this->content === null) {
             $this->content = '"' . str_replace('"', '""', Text::_('COM_BANNERS_HEADING_NAME')) . '","'
                 . str_replace('"', '""', Text::_('COM_BANNERS_HEADING_CLIENT')) . '","'
                 . str_replace('"', '""', Text::_('JCATEGORY')) . '","'
@@ -464,13 +451,10 @@ class TracksModel extends ListModel
                 // Run the packager
                 $delete = Folder::files($app->get('tmp_path') . '/', uniqid('banners_tracks_'), false, true);
 
-                if (!empty($delete)) {
-                    if (!File::delete($delete)) {
-                        // File::delete throws an error
-                        $this->setError(Text::_('COM_BANNERS_ERR_ZIP_DELETE_FAILURE'));
-
-                        return false;
-                    }
+                if (!empty($delete) && !File::delete($delete)) {
+                    // File::delete throws an error
+                    $this->setError(Text::_('COM_BANNERS_ERR_ZIP_DELETE_FAILURE'));
+                    return false;
                 }
 
                 $archive = new Archive();

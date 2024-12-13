@@ -139,16 +139,14 @@ class LibraryAdapter extends InstallerAdapter
                 $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
                 $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-                if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                    if (!$this->parent->copyFiles([$path])) {
-                        // Install failed, rollback changes
-                        throw new \RuntimeException(
-                            Text::sprintf(
-                                'JLIB_INSTALLER_ABORT_MANIFEST',
-                                Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
-                            )
-                        );
-                    }
+                if (($this->parent->isOverwrite() || !file_exists($path['dest'])) && !$this->parent->copyFiles([$path])) {
+                    // Install failed, rollback changes
+                    throw new \RuntimeException(
+                        Text::sprintf(
+                            'JLIB_INSTALLER_ABORT_MANIFEST',
+                            Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+                        )
+                    );
                 }
             }
         }
@@ -283,13 +281,10 @@ class LibraryAdapter extends InstallerAdapter
 
         // @todo: Change this so it walked up the path backwards so we clobber multiple empties
         // If the folder is empty, let's delete it
-        if (is_dir(Path::clean($this->parent->getPath('extension_root')))) {
-            if (is_dir($this->parent->getPath('extension_root'))) {
-                $files = Folder::files($this->parent->getPath('extension_root'));
-
-                if (!\count($files)) {
-                    Folder::delete($this->parent->getPath('extension_root'));
-                }
+        if (is_dir(Path::clean($this->parent->getPath('extension_root'))) && is_dir($this->parent->getPath('extension_root'))) {
+            $files = Folder::files($this->parent->getPath('extension_root'));
+            if (!\count($files)) {
+                Folder::delete($this->parent->getPath('extension_root'));
             }
         }
 
@@ -321,7 +316,7 @@ class LibraryAdapter extends InstallerAdapter
     {
         $group = (string) $this->getManifest()->libraryname;
 
-        if (!$group) {
+        if ($group === '' || $group === '0') {
             throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_NOFILE'));
         }
 

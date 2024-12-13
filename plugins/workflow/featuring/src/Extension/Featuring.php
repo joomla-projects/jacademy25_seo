@@ -520,12 +520,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
         }
 
         $table = $model->getTable();
-
-        if (!$table instanceof TableInterface || !$table->hasField('featured')) {
-            return false;
-        }
-
-        return true;
+        return $table instanceof TableInterface && $table->hasField('featured');
     }
 
     /**

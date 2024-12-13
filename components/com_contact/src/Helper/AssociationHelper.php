@@ -41,18 +41,13 @@ abstract class AssociationHelper extends CategoryAssociationHelper
         $view ??= $jinput->get('view');
         $id     = empty($id) ? $jinput->getInt('id') : $id;
 
-        if ($view === 'contact') {
-            if ($id) {
-                $associations = Associations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $id);
-
-                $return = [];
-
-                foreach ($associations as $tag => $item) {
-                    $return[$tag] = RouteHelper::getContactRoute($item->id, (int) $item->catid, $item->language);
-                }
-
-                return $return;
+        if ($view === 'contact' && $id) {
+            $associations = Associations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $id);
+            $return = [];
+            foreach ($associations as $tag => $item) {
+                $return[$tag] = RouteHelper::getContactRoute($item->id, (int) $item->catid, $item->language);
             }
+            return $return;
         }
 
         if ($view === 'category' || $view === 'categories') {

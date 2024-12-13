@@ -121,13 +121,11 @@ class LanguagesHelper
                         $language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
                     } elseif ($active && $active->language === '*') {
                         $language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $active->id);
+                    } elseif ($language->active) {
+                        $language->link = Uri::getInstance()->toString(['path', 'query']);
                     } else {
-                        if ($language->active) {
-                            $language->link = Uri::getInstance()->toString(['path', 'query']);
-                        } else {
-                            $itemid         = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
-                            $language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
-                        }
+                        $itemid         = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
+                        $language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
                     }
                 } else {
                     $language->link = Route::_('&Itemid=' . $homes['*']->id);

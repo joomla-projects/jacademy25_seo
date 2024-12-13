@@ -39,7 +39,7 @@ use Joomla\Component\Users\Site\View\Methods\HtmlView;
         <?php endif; ?>
     </div>
 
-    <?php if (!count($this->methods)) : ?>
+    <?php if (count($this->methods) === 0) : ?>
         <div id="com-users-methods-list-instructions" class="alert alert-info mt-2">
             <span class="icon icon-info-circle" aria-hidden="true"></span>
             <?php echo Text::_('COM_USERS_MFA_LIST_INSTRUCTIONS'); ?>

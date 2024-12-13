@@ -16,7 +16,7 @@ use Joomla\Component\Tags\Site\Helper\RouteHelper;
 
 ?>
 <div class="mod-tagspopular tagspopular">
-<?php if (!count($list)) : ?>
+<?php if (count($list) === 0) : ?>
     <div class="alert alert-info">
         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
         <?php echo Text::_('MOD_TAGS_POPULAR_NO_ITEMS_FOUND'); ?>

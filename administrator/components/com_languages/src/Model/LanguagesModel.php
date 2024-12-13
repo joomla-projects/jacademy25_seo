@@ -158,7 +158,7 @@ class LanguagesModel extends ListModel
         }
 
         // Filter by access level.
-        if ($access = (int) $this->getState('filter.access')) {
+        if ($access = (int) $this->getState('filter.access') !== 0) {
             $query->where($db->quoteName('a.access') . ' = :access')
                 ->bind(':access', $access, ParameterType::INTEGER);
         }

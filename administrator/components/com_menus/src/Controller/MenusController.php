@@ -73,7 +73,7 @@ class MenusController extends AdminController
         // Remove zero values resulting from input filter
         $cids = array_filter($cids);
 
-        if (empty($cids)) {
+        if ($cids === []) {
             $this->setMessage(Text::_('COM_MENUS_NO_MENUS_SELECTED'), 'warning');
         } else {
             // Access checks.
@@ -85,7 +85,7 @@ class MenusController extends AdminController
                 }
             }
 
-            if (\count($cids) > 0) {
+            if ($cids !== []) {
                 // Get the model.
                 /** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
                 $model = $this->getModel();

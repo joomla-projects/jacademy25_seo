@@ -53,7 +53,7 @@ class WhosonlineHelper
             $sessions = [];
         }
 
-        if (\count($sessions)) {
+        if ($sessions !== []) {
             foreach ($sessions as $session) {
                 // If guest increase guest count by 1
                 if ($session->guest == 1) {

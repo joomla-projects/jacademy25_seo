@@ -27,6 +27,7 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
  */
 class HtmlView extends InstallerViewDefault
 {
+    public $paths;
     /**
      * Display the view
      *

@@ -23,7 +23,7 @@ $tryRun           = false;
 
 $script = array_shift($argv);
 
-if (empty($argv)) {
+if ($argv === []) {
     echo <<<TEXT
         Joomla! Github Rebase script
         ============================
@@ -120,11 +120,11 @@ $fieldList = [
 
 $branches = 'base:' . implode(' base:', explode(',', $baseBranches));
 
-if (!empty($label)) {
+if ($label !== '' && $label !== '0') {
     $branches .= ' label:' . $label;
 }
 
-if (!empty($prNumber)) {
+if (!($prNumber === '' || $prNumber === '0' || $prNumber === false)) {
     echo "Retrieving Pull Request " . $prNumber . "...\n";
     $cmd = $gh . ' pr view ' . $prNumber . ' --json ' . implode(',', $fieldList);
 } else {
@@ -141,7 +141,7 @@ if ($result !== 0) {
 
 $json = $output[0];
 
-if (!empty($prNumber)) {
+if (!($prNumber === '' || $prNumber === '0' || $prNumber === false)) {
     $json = '[' . $json . ']';
 }
 

@@ -665,11 +665,7 @@ class User
         if (\array_key_exists('params', $array)) {
             $this->_params->loadArray($array['params']);
 
-            if (\is_array($array['params'])) {
-                $params = (string) $this->_params;
-            } else {
-                $params = $array['params'];
-            }
+            $params = \is_array($array['params']) ? (string) $this->_params : $array['params'];
 
             $this->params = $params;
         }
@@ -885,11 +881,7 @@ class User
         }
 
         // The user is no longer a guest
-        if ($this->id != 0) {
-            $this->guest = 0;
-        } else {
-            $this->guest = 1;
-        }
+        $this->guest = $this->id != 0 ? 0 : 1;
 
         return true;
     }

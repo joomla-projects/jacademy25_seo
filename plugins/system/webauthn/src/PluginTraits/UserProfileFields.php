@@ -193,7 +193,7 @@ trait UserProfileFields
 
         if (\is_array($data)) {
             $id = $data['id'] ?? null;
-        } elseif (\is_object($data) && ($data instanceof Registry)) {
+        } elseif ($data instanceof Registry) {
             $id = $data->get('id');
         } elseif (\is_object($data)) {
             $id = $data->id ?? null;
@@ -225,7 +225,7 @@ trait UserProfileFields
     private function canEditUser(?User $user = null): bool
     {
         // I can edit myself, but Guests can't have passwordless logins associated
-        if (empty($user) || $user->guest) {
+        if (!$user instanceof \Joomla\CMS\User\User || $user->guest) {
             return true;
         }
 

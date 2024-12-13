@@ -85,7 +85,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
         }
 
         // Check for valid name.
-        if (trim($this->name) == '') {
+        if (trim($this->name) === '') {
             $this->setError(Text::_('COM_NEWSFEEDS_WARNING_PROVIDE_VALID_NAME'));
 
             return false;
@@ -97,12 +97,12 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
 
         $this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
 
-        if (trim(str_replace('-', '', $this->alias)) == '') {
+        if (trim(str_replace('-', '', $this->alias)) === '') {
             $this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
         }
 
         // Check for a valid category.
-        if (!$this->catid = (int) $this->catid) {
+        if ($this->catid = (int) $this->catid === 0) {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
 
             return false;
@@ -144,7 +144,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
         $user = $this->getCurrentUser();
 
         // Set created date if not set.
-        if (!(int) $this->created) {
+        if ((int) $this->created === 0) {
             $this->created = $date->toSql();
         }
 
@@ -158,7 +158,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
                 $this->created_by = $user->id;
             }
 
-            if (!(int) $this->modified) {
+            if ((int) $this->modified === 0) {
                 $this->modified = $this->created;
             }
 

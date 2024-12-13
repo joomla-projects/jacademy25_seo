@@ -351,7 +351,7 @@ class UpdatesitesModel extends InstallerModel
             // Create a unique array of files ordered by priority
             $xmlfiles = array_unique(array_merge($parentXmlfiles, $allXmlFiles));
 
-            if (!empty($xmlfiles)) {
+            if ($xmlfiles !== []) {
                 foreach ($xmlfiles as $file) {
                     // Is it a valid Joomla installation manifest file?
                     $manifest = $tmpInstaller->isManifest($file);
@@ -609,7 +609,7 @@ class UpdatesitesModel extends InstallerModel
                     break;
             }
 
-            if (!empty($supportedIDs)) {
+            if ($supportedIDs !== []) {
                 // Don't remove array_values(). whereIn expect a zero-based array.
                 $query->whereIn($db->quoteName('s.update_site_id'), array_values($supportedIDs));
             } else {

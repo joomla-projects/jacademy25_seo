@@ -31,6 +31,11 @@ use Joomla\Component\Newsfeeds\Site\Model\NewsfeedModel;
  */
 class HtmlView extends BaseHtmlView
 {
+    public $rssDoc;
+    /**
+     * @var string
+     */
+    public $msg;
     /**
      * The model state
      *
@@ -262,7 +267,7 @@ class HtmlView extends BaseHtmlView
             $category = Categories::getInstance('Newsfeeds')->get($this->item->catid);
 
             while (
-                isset($category->id) && $category->id > 1
+                property_exists($category, 'id') && $category->id !== null && $category->id > 1
                 && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
                 || $id != $category->id)
             ) {

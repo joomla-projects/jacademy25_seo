@@ -86,7 +86,7 @@ class FeedView extends BaseHtmlView
             $item->description = $result->description;
 
             // Use Unix date to cope for non-english languages
-            $item->date        = (int) $result->start_date ? HTMLHelper::_('date', $result->start_date, 'U') : $result->indexdate;
+            $item->date        = (int) $result->start_date !== 0 ? HTMLHelper::_('date', $result->start_date, 'U') : $result->indexdate;
 
             // Loads item info into RSS array
             $this->getDocument()->addItem($item);

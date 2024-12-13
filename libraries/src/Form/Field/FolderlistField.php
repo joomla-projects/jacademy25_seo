@@ -209,10 +209,8 @@ class FolderlistField extends ListField
                 $folder = trim(str_replace($path, '', $folder), DIRECTORY_SEPARATOR);
 
                 // Check to see if the file is in the exclude mask.
-                if ($this->exclude) {
-                    if (preg_match(\chr(1) . $this->exclude . \chr(1), $folder)) {
-                        continue;
-                    }
+                if ($this->exclude && preg_match(\chr(1) . $this->exclude . \chr(1), $folder)) {
+                    continue;
                 }
 
                 $options[] = HTMLHelper::_('select.option', $folder, $folder);

@@ -62,7 +62,7 @@ class StylesRenderer extends DocumentRenderer
             $asset = $item instanceof WebAssetItemInterface ? $item : null;
 
             // Add href attribute for non Asset item
-            if (!$asset) {
+            if (!$asset instanceof \Joomla\CMS\WebAsset\WebAssetItemInterface) {
                 $item['href'] = $key;
             }
 
@@ -127,7 +127,7 @@ class StylesRenderer extends DocumentRenderer
     {
         $buffer = '';
         $asset  = $item instanceof WebAssetItemInterface ? $item : null;
-        $src    = $asset ? $asset->getUri() : ($item['href'] ?? '');
+        $src    = $asset instanceof \Joomla\CMS\WebAsset\WebAssetItemInterface ? $asset->getUri() : ($item['href'] ?? '');
 
         // Make sure we have a src, and it not already rendered
         if (!$src || !empty($this->renderedSrc[$src])) {
@@ -139,7 +139,7 @@ class StylesRenderer extends DocumentRenderer
         $mediaVersion = $this->_doc->getMediaVersion();
 
         // Get the attributes and other options
-        if ($asset) {
+        if ($asset instanceof \Joomla\CMS\WebAsset\WebAssetItemInterface) {
             $attribs     = $asset->getAttributes();
             $version     = $asset->getVersion();
             $conditional = $asset->getOption('conditional');
@@ -162,7 +162,7 @@ class StylesRenderer extends DocumentRenderer
         } else {
             $attribs     = $item;
             $version     = $attribs['options']['version'] ?? '';
-            $conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
+            $conditional = empty($attribs['options']['conditional']) ? null : $attribs['options']['conditional'];
         }
 
         // Add "nonce" attribute if exist
@@ -313,7 +313,7 @@ class StylesRenderer extends DocumentRenderer
 
             if (!($this->_doc->isHtml5() && $isNoValueAttrib)) {
                 // Json encode value if it's an array.
-                $value = !\is_scalar($value) ? json_encode($value) : $value;
+                $value = \is_scalar($value) ? $value : json_encode($value);
 
                 $buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
             }

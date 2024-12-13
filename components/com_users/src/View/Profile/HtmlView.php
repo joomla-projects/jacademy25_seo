@@ -93,7 +93,7 @@ class HtmlView extends BaseHtmlView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  void|boolean
+     * @return bool|null
      *
      * @since   1.6
      * @throws  \Exception
@@ -117,7 +117,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // View also takes responsibility for checking if the user logged in with remember me.
-        if (isset($user->cookieLogin) && !empty($user->cookieLogin)) {
+        if (property_exists($user, 'cookieLogin') && $user->cookieLogin !== null && !empty($user->cookieLogin)) {
             // If so, the user must login to edit the password and other data.
             // What should happen here? Should we force a logout which destroys the cookies?
             $app = Factory::getApplication();
@@ -154,6 +154,7 @@ class HtmlView extends BaseHtmlView
         $this->prepareDocument();
 
         parent::display($tpl);
+        return null;
     }
 
     /**

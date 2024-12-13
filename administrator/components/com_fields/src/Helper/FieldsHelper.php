@@ -225,7 +225,7 @@ class FieldsHelper
 
                     if (\is_array($value)) {
                         $value = array_filter($value, fn($v) => $v !== '' && $v !== null);
-                        $value = $value ? implode(' ', $value) : '';
+                        $value = $value !== [] ? implode(' ', $value) : '';
                     }
 
                     /*
@@ -582,7 +582,7 @@ class FieldsHelper
     {
         $fieldId = (int) $fieldId;
 
-        if (!$fieldId) {
+        if ($fieldId === 0) {
             return [];
         }
 
@@ -611,7 +611,7 @@ class FieldsHelper
     {
         $fieldId = (int) $fieldId;
 
-        if (!$fieldId) {
+        if ($fieldId === 0) {
             return [];
         }
 

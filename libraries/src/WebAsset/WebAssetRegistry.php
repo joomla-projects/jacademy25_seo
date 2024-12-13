@@ -240,7 +240,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
         array $dependencies = []
     ): WebAssetItem {
         $nameSpace = \array_key_exists('namespace', $options) ? $options['namespace'] : __NAMESPACE__ . '\\AssetItem';
-        $className = \array_key_exists('class', $options) ? $options['class'] : null;
+        $className = $options['class'] ?? null;
 
         if ($className && class_exists($nameSpace . '\\' . $className)) {
             $className = $nameSpace . '\\' . $className;
@@ -387,7 +387,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
             'registryFile' => $path,
         ];
 
-        $namespace = \array_key_exists('namespace', $data) ? $data['namespace'] : null;
+        $namespace = $data['namespace'] ?? null;
 
         // Prepare WebAssetItem instances
         foreach ($data['assets'] as $i => $item) {

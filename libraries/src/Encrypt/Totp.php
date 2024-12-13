@@ -62,11 +62,7 @@ class Totp
     {
         $this->_pinModulo      = 10 ** $this->_passCodeLength;
 
-        if (\is_null($base32)) {
-            $this->_base32 = new Base32();
-        } else {
-            $this->_base32 = $base32;
-        }
+        $this->_base32 = \is_null($base32) ? new Base32() : $base32;
     }
 
     /**

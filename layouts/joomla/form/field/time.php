@@ -49,12 +49,12 @@ extract($displayData);
  */
 
 $attributes = [
-    !empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
-    !empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
+    empty($class) ? 'class="form-control"' : 'class="form-control ' . $class . '"',
+    empty($description) ? '' : 'aria-describedby="' . ($id ?: $name) . '-desc"',
     $disabled ? 'disabled' : '',
     $readonly ? 'readonly' : '',
-    strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-    !empty($onchange) ? 'onchange="' . $onchange . '"' : '',
+    strlen($hint) !== 0 ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
+    empty($onchange) ? '' : 'onchange="' . $onchange . '"',
     isset($max) ? 'max="' . $max . '"' : '',
     isset($step) ? 'step="' . $step . '"' : '',
     isset($min) ? 'min="' . $min . '"' : '',

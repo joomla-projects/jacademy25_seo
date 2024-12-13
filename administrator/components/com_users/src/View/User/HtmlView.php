@@ -120,7 +120,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         // Prevent user from modifying own group(s)
         $user = $this->getCurrentUser();
 
-        if ((int) $user->id != (int) $this->item->id || $user->authorise('core.admin')) {
+        if ((int) $user->id !== (int) $this->item->id || $user->authorise('core.admin')) {
             $this->grouplist = $model->getGroups();
             $this->groups    = $model->getAssignedGroups();
         }
@@ -130,7 +130,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 
         $userBeingEdited = $this->getUserFactory()->loadUserById($this->item->id);
 
-        if ($this->item->id > 0 && (int) $userBeingEdited->id == (int) $this->item->id) {
+        if ($this->item->id > 0 && (int) $userBeingEdited->id === (int) $this->item->id) {
             try {
                 $this->mfaConfigurationUI = Mfa::canShowConfigurationInterface($userBeingEdited)
                     ? Mfa::getConfigurationInterface($userBeingEdited)

@@ -60,8 +60,9 @@ class AliastagField extends ListField
         foreach ($options as $item) {
             $parts     = explode('.', $item->value);
             $extension = $parts[0];
-            $lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
-            || $lang->load($extension, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $extension));
+            if (!$lang->load($extension . '.sys', JPATH_ADMINISTRATOR)) {
+                $lang->load($extension, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $extension));
+            }
             $item->text = Text::_(strtoupper($extension) . '_TAGS_' . strtoupper($parts[1]));
         }
 

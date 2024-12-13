@@ -163,7 +163,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
                 ->createDocument($this->getApplication()->getInput()->get('format', 'html'));
             $this->getApplication()->loadDocument($document);
 
-            if ($this->profiler) {
+            if ($this->profiler instanceof \Joomla\CMS\Profiler\Profiler) {
                 $this->profiler->mark('afterCache');
             }
 
@@ -278,7 +278,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        if ($this->isExcluded() === true) {
+        if ($this->isExcluded()) {
             $this->getCacheController()->setCaching(false);
 
             return;
@@ -326,7 +326,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
             $externalUrl = Uri::getInstance()->toString();
 
             // Loop through each pattern.
-            if ($exclusions) {
+            if ($exclusions !== []) {
                 foreach ($exclusions as $exclusion) {
                     // Test both external and internal URI
                     if (preg_match('#' . $exclusion . '#i', $externalUrl . ' ' . $internalUrl, $match)) {

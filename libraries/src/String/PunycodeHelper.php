@@ -98,7 +98,7 @@ abstract class PunycodeHelper
             $newuri .= $parsed['scheme'] . '://';
         }
 
-        if (!empty($newhost)) {
+        if ($newhost !== '' && $newhost !== '0') {
             $newuri .= $newhost;
         }
 
@@ -160,7 +160,7 @@ abstract class PunycodeHelper
             $newuri .= $parsed['scheme'] . '://';
         }
 
-        if (!empty($newhost)) {
+        if ($newhost !== '' && $newhost !== '0') {
             $newuri .= $newhost;
         }
 
@@ -205,7 +205,7 @@ abstract class PunycodeHelper
         // Not addressing UTF-8 user names
         $newEmail = $explodedAddress[0];
 
-        if (!empty($explodedAddress[1])) {
+        if (isset($explodedAddress[1]) && ($explodedAddress[1] !== '' && $explodedAddress[1] !== '0')) {
             $domainExploded = explode('.', $explodedAddress[1]);
             $newdomain      = '';
 
@@ -238,7 +238,7 @@ abstract class PunycodeHelper
         // Not addressing UTF-8 user names
         $newEmail = $explodedAddress[0];
 
-        if (!empty($explodedAddress[1])) {
+        if (isset($explodedAddress[1]) && ($explodedAddress[1] !== '' && $explodedAddress[1] !== '0')) {
             $domainExploded = explode('.', $explodedAddress[1]);
             $newdomain      = '';
 

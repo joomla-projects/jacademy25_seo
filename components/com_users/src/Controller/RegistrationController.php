@@ -80,25 +80,19 @@ class RegistrationController extends BaseController implements UserFactoryAwareI
         $userToActivate = $this->getUserFactory()->loadUserById($userIdToActivate);
 
         // Admin activation is on and admin is activating the account
-        if (($uParams->get('useractivation') == 2) && $userToActivate->getParam('activate', 0)) {
-            // If a user admin is not logged in, redirect them to the login page with an error message
-            if (!$user->authorise('core.create', 'com_users') || !$user->authorise('core.manage', 'com_users')) {
-                $activationUrl = 'index.php?option=com_users&task=registration.activate&token=' . $token;
-                $loginUrl      = 'index.php?option=com_users&view=login&return=' . base64_encode($activationUrl);
-
-                // In case we still run into this in the second step the user does not have the right permissions
-                $message = Text::_('COM_USERS_REGISTRATION_ACL_ADMIN_ACTIVATION_PERMISSIONS');
-
-                // When we are not logged in we should login
-                if ($user->guest) {
-                    $message = Text::_('COM_USERS_REGISTRATION_ACL_ADMIN_ACTIVATION');
-                }
-
-                $this->setMessage($message);
-                $this->setRedirect(Route::_($loginUrl, false));
-
-                return false;
+        // If a user admin is not logged in, redirect them to the login page with an error message
+        if ($uParams->get('useractivation') == 2 && $userToActivate->getParam('activate', 0) && (!$user->authorise('core.create', 'com_users') || !$user->authorise('core.manage', 'com_users'))) {
+            $activationUrl = 'index.php?option=com_users&task=registration.activate&token=' . $token;
+            $loginUrl      = 'index.php?option=com_users&view=login&return=' . base64_encode($activationUrl);
+            // In case we still run into this in the second step the user does not have the right permissions
+            $message = Text::_('COM_USERS_REGISTRATION_ACL_ADMIN_ACTIVATION_PERMISSIONS');
+            // When we are not logged in we should login
+            if ($user->guest) {
+                $message = Text::_('COM_USERS_REGISTRATION_ACL_ADMIN_ACTIVATION');
             }
+            $this->setMessage($message);
+            $this->setRedirect(Route::_($loginUrl, false));
+            return false;
         }
 
         // Attempt to activate the user.
@@ -199,10 +193,8 @@ class RegistrationController extends BaseController implements UserFactoryAwareI
                         if (isset($filteredData[$field->group][$fieldName])) {
                             $requestData[$field->group][$fieldName] = $filteredData[$field->group][$fieldName];
                         }
-                    } else {
-                        if (isset($filteredData[$fieldName])) {
-                            $requestData[$fieldName] = $filteredData[$fieldName];
-                        }
+                    } elseif (isset($filteredData[$fieldName])) {
+                        $requestData[$fieldName] = $filteredData[$fieldName];
                     }
                 }
             }

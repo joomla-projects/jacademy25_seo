@@ -86,11 +86,7 @@ class ApcuStorage extends CacheStorage
             if ($namearr !== false && $namearr[0] == $secret && $namearr[1] === 'cache') {
                 $group = $namearr[2];
 
-                if (!isset($data[$group])) {
-                    $item = new CacheStorageHelper($group);
-                } else {
-                    $item = $data[$group];
-                }
+                $item = $data[$group] ?? new CacheStorageHelper($group);
 
                 $item->updateSize($key['mem_size']);
 

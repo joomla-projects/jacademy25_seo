@@ -174,7 +174,7 @@ class MediaHelper
         $executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
 
         // Remove allowed executables from array
-        if (\count($allowedExecutables)) {
+        if (\count($allowedExecutables) > 0) {
             $executables = array_diff($executables, $allowedExecutables);
         }
 
@@ -184,13 +184,8 @@ class MediaHelper
 
         $allowable = array_map('trim', explode(',', (string) $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
         $ignored   = array_map('trim', explode(',', (string) $params->get('ignore_extensions', '')));
-
-        if ($extension == '' || $extension == false || (!\in_array($extension, $allowable, true) && !\in_array($extension, $ignored, true))) {
-            return false;
-        }
-
         // We don't check mime at all or it passes the checks
-        return true;
+        return !($extension == '' || $extension == false || !\in_array($extension, $allowable, true) && !\in_array($extension, $ignored, true));
     }
 
     /**
@@ -245,7 +240,7 @@ class MediaHelper
 
         $check = array_intersect($filetypes, $executables);
 
-        if (!empty($check)) {
+        if ($check !== []) {
             $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
             return false;
@@ -354,11 +349,7 @@ class MediaHelper
          * formula accordingly. This is so this script will work
          * dynamically with any size image
          */
-        if ($width > $height) {
-            $percentage = ($target / $width);
-        } else {
-            $percentage = ($target / $height);
-        }
+        $percentage = $width > $height ? $target / $width : $target / $height;
 
         // Gets the new value and applies the percentage, then rounds the value
         $width  = round($width * $percentage);

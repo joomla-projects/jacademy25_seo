@@ -43,12 +43,7 @@ class UsersHelper extends ContentHelper
      */
     public static function getStateOptions()
     {
-        // Build the filter options.
-        $options   = [];
-        $options[] = HTMLHelper::_('select.option', '0', Text::_('JENABLED'));
-        $options[] = HTMLHelper::_('select.option', '1', Text::_('JDISABLED'));
-
-        return $options;
+        return [HTMLHelper::_('select.option', '0', Text::_('JENABLED')), HTMLHelper::_('select.option', '1', Text::_('JDISABLED'))];
     }
 
     /**
@@ -60,12 +55,7 @@ class UsersHelper extends ContentHelper
      */
     public static function getActiveOptions()
     {
-        // Build the filter options.
-        $options   = [];
-        $options[] = HTMLHelper::_('select.option', '0', Text::_('COM_USERS_ACTIVATED'));
-        $options[] = HTMLHelper::_('select.option', '1', Text::_('COM_USERS_UNACTIVATED'));
-
-        return $options;
+        return [HTMLHelper::_('select.option', '0', Text::_('COM_USERS_ACTIVATED')), HTMLHelper::_('select.option', '1', Text::_('COM_USERS_UNACTIVATED'))];
     }
 
     /**

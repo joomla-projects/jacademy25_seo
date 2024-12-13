@@ -191,13 +191,13 @@ class TagsModel extends ListModel
         $query->select('(' . (string) $subQueryCountTaggedItems . ') AS ' . $db->quoteName('countTaggedItems'));
 
         // Filter on the level.
-        if ($level = (int) $this->getState('filter.level')) {
+        if ($level = (int) $this->getState('filter.level') !== 0) {
             $query->where($db->quoteName('a.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
         }
 
         // Filter by access level.
-        if ($access = (int) $this->getState('filter.access')) {
+        if ($access = (int) $this->getState('filter.access') !== 0) {
             $query->where($db->quoteName('a.access') . ' = :access')
                 ->bind(':access', $access, ParameterType::INTEGER);
         }

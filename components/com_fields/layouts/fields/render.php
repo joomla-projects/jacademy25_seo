@@ -64,7 +64,7 @@ foreach ($fields as $field) {
     $output[] = '<li class="field-entry ' . $class . '">' . $content . '</li>';
 }
 
-if (empty($output)) {
+if ($output === []) {
     return;
 }
 ?>

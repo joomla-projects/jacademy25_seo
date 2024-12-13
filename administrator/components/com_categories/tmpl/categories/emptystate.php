@@ -22,8 +22,9 @@ $section = $this->state->get('filter.section');
 
 // Special handling for the title as com_categories is a service component for many other components. Copied from the categories view.
 $lang = Factory::getApplication()->getLanguage();
-$lang->load($component, JPATH_BASE)
-|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+if (!$lang->load($component, JPATH_BASE)) {
+    $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+}
 
 // If a component categories title string is present, let's use it.
 if ($lang->hasKey($component_title_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_TITLE')) {

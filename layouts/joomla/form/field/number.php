@@ -47,17 +47,17 @@ extract($displayData);
  */
 
 $attributes = [
-    !empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
-    !empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
+    empty($class) ? 'class="form-control"' : 'class="form-control ' . $class . '"',
+    empty($description) ? '' : 'aria-describedby="' . ($id ?: $name) . '-desc"',
     $disabled ? 'disabled' : '',
     $readonly ? 'readonly' : '',
-    strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-    !empty($onchange) ? 'onchange="' . $onchange . '"' : '',
+    strlen($hint) !== 0 ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
+    empty($onchange) ? '' : 'onchange="' . $onchange . '"',
     isset($max) ? 'max="' . $max . '"' : '',
-    !empty($step) ? 'step="' . $step . '"' : '',
+    empty($step) ? '' : 'step="' . $step . '"',
     isset($min) ? 'min="' . $min . '"' : '',
     $required ? 'required' : '',
-    !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
+    empty($autocomplete) ? '' : 'autocomplete="' . $autocomplete . '"',
     $autofocus ? 'autofocus' : '',
     $dataAttribute,
 ];

@@ -249,7 +249,7 @@ class CategoriesModel extends ListModel
             $categoryId = $categoryId ? [$categoryId] : [];
         }
 
-        if (\count($categoryId)) {
+        if ($categoryId !== []) {
             // Case: Using both categories filter and by level filter
             $categoryTable    = Table::getInstance('Category', 'JTable');
             $subCatItemsWhere = [];
@@ -270,7 +270,7 @@ class CategoriesModel extends ListModel
         }
 
         // Filter by access level.
-        if ($access = (int) $this->getState('filter.access')) {
+        if ($access = (int) $this->getState('filter.access') !== 0) {
             $query->where($db->quoteName('a.access') . ' = :access')
                 ->bind(':access', $access, ParameterType::INTEGER);
         }
@@ -351,7 +351,7 @@ class CategoriesModel extends ListModel
                 $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
             )
                 ->bind(':typeAlias', $typeAlias);
-        } elseif ($tag = (int) $tag) {
+        } elseif ($tag = (int) $tag !== 0) {
             $query->join(
                 'INNER',
                 $db->quoteName('#__contentitem_tag_map', 'tagmap'),

@@ -34,19 +34,12 @@ class Privacy
      */
     public function statusLabel($status)
     {
-        switch ($status) {
-            case 2:
-                return '<span class="badge bg-success">' . Text::_('COM_PRIVACY_STATUS_COMPLETED') . '</span>';
-
-            case 1:
-                return '<span class="badge bg-info">' . Text::_('COM_PRIVACY_STATUS_CONFIRMED') . '</span>';
-
-            case -1:
-                return '<span class="badge bg-danger">' . Text::_('COM_PRIVACY_STATUS_INVALID') . '</span>';
-
-            default:
-            case 0:
-                return '<span class="badge bg-warning">' . Text::_('COM_PRIVACY_STATUS_PENDING') . '</span>';
-        }
+        return match ($status) {
+            2 => '<span class="badge bg-success">' . Text::_('COM_PRIVACY_STATUS_COMPLETED') . '</span>',
+            1 => '<span class="badge bg-info">' . Text::_('COM_PRIVACY_STATUS_CONFIRMED') . '</span>',
+            -1 => '<span class="badge bg-danger">' . Text::_('COM_PRIVACY_STATUS_INVALID') . '</span>',
+            0 => '<span class="badge bg-warning">' . Text::_('COM_PRIVACY_STATUS_PENDING') . '</span>',
+            default => null,
+        };
     }
 }

@@ -56,6 +56,6 @@ class PhpSetting
      */
     public function string($val)
     {
-        return !empty($val) ? $val : Text::_('JNONE');
+        return empty($val) ? Text::_('JNONE') : $val;
     }
 }

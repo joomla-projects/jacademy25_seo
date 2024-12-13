@@ -89,7 +89,7 @@ class StepTable extends Table implements CurrentUserInterface
         $userId = $this->getCurrentUser()->id;
 
         // Set created date if not set.
-        if (!(int) $this->created) {
+        if ((int) $this->created === 0) {
             $this->created = $date;
         }
 
@@ -103,7 +103,7 @@ class StepTable extends Table implements CurrentUserInterface
                 $this->created_by = $userId;
             }
 
-            if (!(int) $this->modified) {
+            if ((int) $this->modified === 0) {
                 $this->modified = $date;
             }
 

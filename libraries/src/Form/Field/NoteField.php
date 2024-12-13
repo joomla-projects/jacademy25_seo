@@ -69,20 +69,21 @@ class NoteField extends FormField
         if (!empty($this->class)) {
             $class[] = $this->class;
         }
+        $close = (string) $this->element['close'];
 
-        if ($close = (string) $this->element['close']) {
+        if ($close !== '' && $close !== '0') {
             HTMLHelper::_('bootstrap.alert');
             $close   = $close === 'true' ? 'alert' : $close;
             $html[]  = '<button type="button" class="btn-close" data-bs-dismiss="' . $close . '"></button>';
             $class[] = 'alert-dismissible show';
         }
 
-        $class       = $class ? ' class="' . implode(' ', $class) . '"' : '';
-        $title       = $this->element['label'] ? (string) $this->element['label'] : ($this->element['title'] ? (string) $this->element['title'] : '');
+        $class       = $class !== [] ? ' class="' . implode(' ', $class) . '"' : '';
+        $title       = $this->element['label'] instanceof \SimpleXMLElement ? (string) $this->element['label'] : ($this->element['title'] ? (string) $this->element['title'] : '');
         $heading     = $this->element['heading'] ? (string) $this->element['heading'] : 'h4';
         $description = (string) $this->element['description'];
-        $html[]      = !empty($title) ? '<' . $heading . '>' . Text::_($title) . '</' . $heading . '>' : '';
-        $html[]      = !empty($description) ? Text::_($description) : '';
+        $html[]      = $title === '' || $title === '0' ? '' : '<' . $heading . '>' . Text::_($title) . '</' . $heading . '>';
+        $html[]      = $description === '' || $description === '0' ? '' : Text::_($description);
 
         return '</div><div ' . $class . '>' . implode('', $html);
     }

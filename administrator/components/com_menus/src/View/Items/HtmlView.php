@@ -33,6 +33,10 @@ use Joomla\Component\Menus\Administrator\Model\ItemsModel;
 class HtmlView extends BaseHtmlView
 {
     /**
+     * @var int
+     */
+    public $total;
+    /**
      * Array used for displaying the levels filter
      *
      * @var    \stdClass[]
@@ -144,16 +148,15 @@ class HtmlView extends BaseHtmlView
                 case 'component':
                 default:
                     // Load language
-                    $lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR)
-                    || $lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->componentname);
+                    if (!$lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR)) {
+                        $lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->componentname);
+                    }
 
                     if (!empty($item->componentname)) {
                         $titleParts   = [];
                         $titleParts[] = Text::_($item->componentname);
                         $vars         = null;
-
                         parse_str($item->link, $vars);
-
                         if (isset($vars['view'])) {
                             // Attempt to load the view xml file.
                             $file = JPATH_SITE . '/components/' . $item->componentname . '/views/' . $vars['view'] . '/metadata.xml';
@@ -162,18 +165,13 @@ class HtmlView extends BaseHtmlView
                                 $file = JPATH_SITE . '/components/' . $item->componentname . '/view/' . $vars['view'] . '/metadata.xml';
                             }
 
-                            if (is_file($file) && $xml = simplexml_load_file($file)) {
-                                // Look for the first view node off of the root node.
-                                if ($view = $xml->xpath('view[1]')) {
-                                    // Add view title if present.
-                                    if (!empty($view[0]['title'])) {
-                                        $viewTitle = trim((string) $view[0]['title']);
-
-                                        // Check if the key is valid. Needed due to B/C so we don't show untranslated keys. This check should be removed with Joomla 4.
-                                        if ($lang->hasKey($viewTitle)) {
-                                            $titleParts[] = Text::_($viewTitle);
-                                        }
-                                    }
+                            // Look for the first view node off of the root node.
+                            // Add view title if present.
+                            if (is_file($file) && $xml = simplexml_load_file($file) && ($view = $xml->xpath('view[1]')) && !empty($view[0]['title'])) {
+                                $viewTitle = trim((string) $view[0]['title']);
+                                // Check if the key is valid. Needed due to B/C so we don't show untranslated keys. This check should be removed with Joomla 4.
+                                if ($lang->hasKey($viewTitle)) {
+                                    $titleParts[] = Text::_($viewTitle);
                                 }
                             }
 
@@ -187,8 +185,9 @@ class HtmlView extends BaseHtmlView
                                 $file = JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $item->componentname . '/' . $vars['view'] . '/' . $temp[1] . '.xml';
 
                                 // Load template language file
-                                $lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE)
-                                || $lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0]);
+                                if (!$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE)) {
+                                    $lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0]);
+                                }
                             } else {
                                 $base = $this->state->get('filter.client_id') == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
 
@@ -209,10 +208,8 @@ class HtmlView extends BaseHtmlView
 
                             if (is_file($file) && $xml = simplexml_load_file($file)) {
                                 // Look for the first view node off of the root node.
-                                if ($layout = $xml->xpath('layout[1]')) {
-                                    if (!empty($layout[0]['title'])) {
-                                        $titleParts[] = Text::_(trim((string) $layout[0]['title']));
-                                    }
+                                if (($layout = $xml->xpath('layout[1]')) && !empty($layout[0]['title'])) {
+                                    $titleParts[] = Text::_(trim((string) $layout[0]['title']));
                                 }
 
                                 if (!empty($layout[0]->message[0])) {
@@ -227,14 +224,11 @@ class HtmlView extends BaseHtmlView
                                 $titleParts[] = $vars['view'];
                             }
                         }
-
                         $value = implode(' » ', $titleParts);
+                    } elseif (preg_match("/^index.php\?option=([a-zA-Z\-0-9_]*)/", $item->link, $result)) {
+                        $value = Text::sprintf('COM_MENUS_TYPE_UNEXISTING', $result[1]);
                     } else {
-                        if (preg_match("/^index.php\?option=([a-zA-Z\-0-9_]*)/", $item->link, $result)) {
-                            $value = Text::sprintf('COM_MENUS_TYPE_UNEXISTING', $result[1]);
-                        } else {
-                            $value = Text::_('COM_MENUS_TYPE_UNKNOWN');
-                        }
+                        $value = Text::_('COM_MENUS_TYPE_UNKNOWN');
                     }
                     break;
             }

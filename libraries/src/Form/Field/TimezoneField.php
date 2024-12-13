@@ -143,7 +143,7 @@ class TimezoneField extends GroupedlistField
                 }
 
                 // Only add options where a locale exists.
-                if (!empty($locale)) {
+                if ($locale !== '' && $locale !== '0') {
                     $groups[$group][$zone] = HTMLHelper::_('select.option', $zone, str_replace('_', ' ', $locale), 'value', 'text', false);
                 }
             }

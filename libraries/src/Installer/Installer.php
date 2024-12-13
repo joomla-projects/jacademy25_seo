@@ -217,7 +217,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public static function splitSql(?string $sql): array
     {
-        if (empty($sql)) {
+        if ($sql === null || $sql === '' || $sql === '0') {
             return [];
         }
 
@@ -309,7 +309,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
                 $query = trim($query);
 
-                if ($query) {
+                if ($query !== '' && $query !== '0') {
                     if (($i === $end - 1) && ($current !== ';')) {
                         $query .= ';';
                     }
@@ -352,11 +352,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
     {
         $tmp = $this->overwrite;
 
-        if ($state) {
-            $this->overwrite = true;
-        } else {
-            $this->overwrite = false;
-        }
+        $this->overwrite = $state;
 
         return $tmp;
     }
@@ -438,11 +434,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
     {
         $tmp = $this->upgrade;
 
-        if ($state) {
-            $this->upgrade = true;
-        } else {
-            $this->upgrade = false;
-        }
+        $this->upgrade = $state;
 
         return $tmp;
     }
@@ -475,7 +467,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function getPath($name, $default = null)
     {
-        return (!empty($this->paths[$name])) ? $this->paths[$name] : $default;
+        return (empty($this->paths[$name])) ? $default : $this->paths[$name];
     }
 
     /**
@@ -843,12 +835,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             'installer' => clone $this,
             'eid'       => $result,
         ]));
-
-        if ($result !== false) {
-            return true;
-        }
-
-        return false;
+        return $result !== false;
     }
 
     /**
@@ -934,12 +921,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             }
 
             $result = $adapter->refreshManifestCache();
-
-            if ($result !== false) {
-                return true;
-            }
-
-            return false;
+            return $result !== false;
         }
 
         $this->abort(Text::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE_VALID'));
@@ -1083,7 +1065,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             // Create an array of queries from the sql file
             $queries = self::splitSql($buffer);
 
-            if (\count($queries) === 0) {
+            if ($queries === []) {
                 // No queries to process
                 continue;
             }
@@ -1131,7 +1113,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 return;
             }
 
-            if (\count($schemapaths)) {
+            if (\count($schemapaths) > 0) {
                 $dbDriver = $db->getServerType();
 
                 $schemapath = '';
@@ -1195,7 +1177,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         $db          = $this->getDatabase();
         $schemapaths = $schema->children();
 
-        if (!\count($schemapaths)) {
+        if (\count($schemapaths) === 0) {
             return $updateCount;
         }
 
@@ -1437,7 +1419,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         if ($oldFiles && ($oldFiles instanceof \SimpleXMLElement)) {
             $oldEntries = $oldFiles->children();
 
-            if (\count($oldEntries)) {
+            if (\count($oldEntries) > 0) {
                 $deletions = $this->findDeletedFiles($oldEntries, $element->children());
 
                 foreach ($deletions['folders'] as $deleted_folder) {
@@ -1642,7 +1624,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         // Here we set the folder we are going to copy the files to.
         // Default 'media' Files are copied to the JPATH_BASE/media folder
 
-        $folder      = ((string) $element->attributes()->destination) ? '/' . $element->attributes()->destination : null;
+        $folder      = ((string) $element->attributes()->destination !== '' && (string) $element->attributes()->destination !== '0') ? '/' . $element->attributes()->destination : null;
         $destination = Path::clean(JPATH_ROOT . '/media' . $folder);
 
         // Here we set the folder we are going to copy the files from.
@@ -1725,7 +1707,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
         // Iterating through the fieldsets:
         foreach ($fieldsets as $fieldset) {
-            if (!\count($fieldset->children())) {
+            if (\count($fieldset->children()) === 0) {
                 // Either the tag does not exist or has no children therefore we return zero files processed.
                 return '{}';
             }
@@ -1778,7 +1760,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
          * $files must be an array of filenames.  Verify that it is an array with
          * at least one file to copy.
          */
-        if (\is_array($files) && \count($files) > 0) {
+        if (\is_array($files) && $files !== []) {
             foreach ($files as $file) {
                 // Get the source and destination paths
                 $filesource = Path::clean($file['src']);
@@ -1869,11 +1851,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         $retval = true;
 
         // Get the client info if we're using a specific client
-        if ($cid > -1) {
-            $client = ApplicationHelper::getClientInfo($cid);
-        } else {
-            $client = null;
-        }
+        $client = $cid > -1 ? ApplicationHelper::getClientInfo($cid) : null;
 
         // Get the array of file nodes to process
         $files = $element->children();
@@ -1891,11 +1869,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
          */
         switch ($element->getName()) {
             case 'media':
-                if ((string) $element->attributes()->destination) {
-                    $folder = (string) $element->attributes()->destination;
-                } else {
-                    $folder = '';
-                }
+                $folder = (string) $element->attributes()->destination ?: '';
 
                 $source = $client->path . '/media/' . $folder;
 
@@ -1904,15 +1878,13 @@ class Installer extends Adapter implements DatabaseAwareInterface
             case 'languages':
                 $lang_client = (string) $element->attributes()->client;
 
-                if ($lang_client) {
+                if ($lang_client !== '' && $lang_client !== '0') {
                     $client = ApplicationHelper::getClientInfo($lang_client, true);
                     $source = $client->path . '/language';
+                } elseif ($client) {
+                    $source = $client->path . '/language';
                 } else {
-                    if ($client) {
-                        $source = $client->path . '/language';
-                    } else {
-                        $source = '';
-                    }
+                    $source = '';
                 }
 
                 break;
@@ -1956,11 +1928,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
             // Actually delete the files/folders
 
-            if (is_dir($path)) {
-                $val = Folder::delete($path);
-            } else {
-                $val = File::delete($path);
-            }
+            $val = is_dir($path) ? Folder::delete($path) : File::delete($path);
 
             if ($val === false) {
                 Log::add('Failed to delete ' . $path, Log::WARNING, 'jerror');
@@ -1968,7 +1936,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             }
         }
 
-        if (!empty($folder)) {
+        if ($folder !== '' && $folder !== '0') {
             Folder::delete($source);
         }
 
@@ -2026,7 +1994,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         $xmlfiles = array_unique(array_merge($parentXmlfiles, $allXmlFiles));
 
         // If at least one XML file exists
-        if (!empty($xmlfiles)) {
+        if ($xmlfiles !== []) {
             foreach ($xmlfiles as $file) {
                 // Is it a valid Joomla installation manifest file?
                 $manifest = $this->isManifest($file);
@@ -2081,12 +2049,12 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
         // If we cannot load the XML file return null
         if (!$xml) {
-            return;
+            return null;
         }
 
         // Check for a valid XML root tag.
         if ($xml->getName() !== 'extension') {
-            return;
+            return null;
         }
 
         // Valid manifest file return the object
@@ -2186,7 +2154,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                     foreach ($container_parts as $part) {
                         // Iterate through each part
                         // Add a slash if its not empty
-                        if (!empty($container)) {
+                        if ($container !== '' && $container !== '0') {
                             $container .= '/';
                         }
 
@@ -2205,24 +2173,20 @@ class Installer extends Adapter implements DatabaseAwareInterface
         foreach ($oldFiles as $file) {
             switch ($file->getName()) {
                 case 'folder':
-                    if (!\in_array((string) $file, $folders)) {
-                        // See whether the folder exists in the new list
-                        if (!\in_array((string) $file, $containers)) {
-                            // Check if the folder exists as a container in the new list
-                            // If it's not in the new list or a container then delete it
-                            $folders_deleted[] = (string) $file;
-                        }
+                    // See whether the folder exists in the new list
+                    if (!\in_array((string) $file, $folders) && !\in_array((string) $file, $containers)) {
+                        // Check if the folder exists as a container in the new list
+                        // If it's not in the new list or a container then delete it
+                        $folders_deleted[] = (string) $file;
                     }
                     break;
 
                 case 'file':
                 default:
-                    if (!\in_array((string) $file, $files)) {
-                        // Look if the file exists in the new list
-                        if (!\in_array(\dirname((string) $file), $folders)) {
-                            // Look if the file is now potentially in a folder
-                            $files_deleted[] = (string) $file;
-                        }
+                    // Look if the file exists in the new list
+                    if (!\in_array((string) $file, $files) && !\in_array(\dirname((string) $file), $folders)) {
+                        // Look if the file is now potentially in a folder
+                        $files_deleted[] = (string) $file;
                     }
                     break;
             }
@@ -2319,16 +2283,16 @@ class Installer extends Adapter implements DatabaseAwareInterface
         $data['group']       = (string) $xml->group;
 
         // Child template specific fields.
-        if (isset($xml->inheritable)) {
-            $data['inheritable'] = (string) $xml->inheritable === '0' ? false : true;
+        if (property_exists($xml, 'inheritable') && $xml->inheritable !== null) {
+            $data['inheritable'] = (string) $xml->inheritable !== '0';
         }
 
         // Child template specific fields.
-        if (isset($xml->namespace) && (string) $xml->namespace !== '') {
+        if (property_exists($xml, 'namespace') && $xml->namespace !== null && (string) $xml->namespace !== '') {
             $data['namespace'] = (string) $xml->namespace;
         }
 
-        if (isset($xml->parent) && (string) $xml->parent !== '') {
+        if (property_exists($xml, 'parent') && $xml->parent !== null && (string) $xml->parent !== '') {
             $data['parent'] = (string) $xml->parent;
         }
 
@@ -2337,7 +2301,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             $data['filename'] = File::stripExt($filename);
 
             foreach ($xml->files->children() as $oneFile) {
-                if ((string) $oneFile->attributes()->plugin) {
+                if ((string) $oneFile->attributes()->plugin !== '' && (string) $oneFile->attributes()->plugin !== '0') {
                     $data['filename'] = (string) $oneFile->attributes()->plugin;
                     break;
                 }

@@ -57,7 +57,7 @@ class Usergroup extends Table
         }
 
         // Validate the title.
-        if ((trim($this->title)) == '') {
+        if (trim($this->title) === '') {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE'));
 
             return false;
@@ -303,7 +303,7 @@ class Usergroup extends Table
             }
         }
 
-        if (!empty($matchIds)) {
+        if ($matchIds !== []) {
             $query->clear()
                 ->update($db->quoteName('#__viewlevels'))
                 ->set($db->quoteName('rules') . ' = ' . str_repeat('REPLACE(', 4 * \count($ids)) . $db->quoteName('rules') . implode(')', $replace) . ')')

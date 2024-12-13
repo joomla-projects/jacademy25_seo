@@ -48,7 +48,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
                         <h2>
                         <?php
                         if ($this->item->xml) {
-                            echo ($text = (string) $this->item->xml->name) ? Text::_($text) : $this->item->name;
+                            echo ($text = (string) $this->item->xml->name !== '' && $text = (string) $this->item->xml->name !== '0') ? Text::_($text) : $this->item->name;
                         } else {
                             echo Text::_('COM_PLUGINS_XML_ERR');
                         }

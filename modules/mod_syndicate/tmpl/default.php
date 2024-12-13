@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 $textClass = ($params->get('display_text', 1) ? '' : 'class="visually-hidden"');
 
 $linkText = '<span class="icon-feed m-1" aria-hidden="true"></span>';
-$linkText .= '<span ' . $textClass . '>' . (!empty($text) ? $text : Text::_('MOD_SYNDICATE_DEFAULT_FEED_ENTRIES')) . '</span>';
+$linkText .= '<span ' . $textClass . '>' . (empty($text) ? Text::_('MOD_SYNDICATE_DEFAULT_FEED_ENTRIES') : $text) . '</span>';
 
 $attribs = [
     'class' => 'mod-syndicate syndicate-module'

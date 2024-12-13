@@ -124,7 +124,7 @@ final class Joomla extends CMSPlugin
         $db->setQuery($query);
         $users = (array) $db->loadColumn();
 
-        if (empty($users)) {
+        if ($users === []) {
             return;
         }
 
@@ -282,7 +282,7 @@ final class Joomla extends CMSPlugin
             ->createCacheController('Callback', ['lifetime' => $app->get('cachetime'), 'caching' => $enableCache, 'defaultgroup' => 'schemaorg']);
 
         // Add article data
-        if ($view == 'article' && $id > 0) {
+        if ($view === 'article' && $id > 0) {
             $additionalSchemas = $cache->get(function ($id) use ($component, $baseId) {
                 $model = $component->createModel('Article', 'Site');
 
@@ -437,7 +437,7 @@ final class Joomla extends CMSPlugin
             $categories[] = $article->category_title;
         }
 
-        if (!empty($categories)) {
+        if ($categories !== []) {
             $schema['articleSection'] = implode(', ', $categories);
         }
 
@@ -507,7 +507,7 @@ final class Joomla extends CMSPlugin
             ->createCacheController('Callback', ['lifetime' => $app->get('cachetime'), 'caching' => $enableCache, 'defaultgroup' => 'schemaorg']);
 
         // Add contact data
-        if ($view == 'contact' && $id > 0) {
+        if ($view === 'contact' && $id > 0) {
             $additionalSchema = $cache->get(function ($id) use ($component, $baseId) {
                 $model = $component->createModel('Contact', 'Site');
 
@@ -725,7 +725,7 @@ final class Joomla extends CMSPlugin
 
         $section = '';
 
-        if (!empty($parts[1])) {
+        if (isset($parts[1]) && ($parts[1] !== '' && $parts[1] !== '0')) {
             $section = $parts[1];
         }
 
@@ -862,7 +862,7 @@ final class Joomla extends CMSPlugin
 
         $section = '';
 
-        if (!empty($parts[1])) {
+        if (isset($parts[1]) && ($parts[1] !== '' && $parts[1] !== '0')) {
             $section = $parts[1];
         }
 
@@ -870,7 +870,7 @@ final class Joomla extends CMSPlugin
 
         $table = $component->getWorkflowTableBySection($section);
 
-        if (empty($stageIds) || !$table) {
+        if ($stageIds === [] || !$table) {
             return false;
         }
 
@@ -920,7 +920,7 @@ final class Joomla extends CMSPlugin
         }
 
         // Make sure we only do the query if we have some categories to look in
-        if (\count($childCategoryIds)) {
+        if ($childCategoryIds !== []) {
             // Count the items in this category
             $query = $db->getQuery(true)
                 ->select('COUNT(' . $db->quoteName('id') . ')')

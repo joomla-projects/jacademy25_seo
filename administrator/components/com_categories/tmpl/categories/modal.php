@@ -97,7 +97,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         }
 
                         $link     = RouteHelper::getCategoryRoute($item->id, $item->language);
-                        $itemHtml = '<a href="' . $this->escape($link) . '"' . ($lang ? ' hreflang="' . $lang . '"' : '') . '>' . $item->title . '</a>';
+                        $itemHtml = '<a href="' . $this->escape($link) . '"' . ($lang !== '' && $lang !== '0' ? ' hreflang="' . $lang . '"' : '') . '>' . $item->title . '</a>';
                         ?>
                         <tr class="row<?php echo $i % 2; ?>">
                             <td class="text-center">

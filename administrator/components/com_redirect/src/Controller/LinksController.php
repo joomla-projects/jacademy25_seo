@@ -42,7 +42,7 @@ class LinksController extends AdminController
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
 
-        if (empty($ids)) {
+        if ($ids === []) {
             $this->app->enqueueMessage(Text::_('COM_REDIRECT_NO_ITEM_SELECTED'), 'warning');
         } else {
             $newUrl  = $this->input->getString('new_url');
@@ -79,7 +79,7 @@ class LinksController extends AdminController
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
 
-        if (empty($ids)) {
+        if ($ids === []) {
             $this->app->enqueueMessage(Text::_('COM_REDIRECT_NO_ITEM_SELECTED'), 'warning');
         } else {
             $newUrl  = $this->input->getString('new_url');
@@ -150,7 +150,7 @@ class LinksController extends AdminController
         // Set default message on error - overwrite if successful
         $this->setMessage(Text::_('COM_REDIRECT_NO_ITEM_ADDED'), 'error');
 
-        if (!empty($batch_urls)) {
+        if ($batch_urls !== []) {
             $model = $this->getModel('Links');
 
             // Execute the batch process

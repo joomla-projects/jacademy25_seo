@@ -48,7 +48,7 @@ class DatabaseController extends BaseController
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
 
-        if (empty($cid)) {
+        if ($cid === []) {
             $this->app->getLogger()->warning(
                 Text::_(
                     'COM_INSTALLER_ERROR_NO_EXTENSIONS_SELECTED'

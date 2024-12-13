@@ -92,7 +92,10 @@ class GroupedlistField extends FormField
                 case 'group':
                     // The element is a <group />
                     // Get the group label.
-                    if ($groupLabel = (string) $element['label']) {
+                    $groupLabel = (string) $element['label'];
+                    // The element is a <group />
+                    // Get the group label.
+                    if ($groupLabel !== '' && $groupLabel !== '0') {
                         $label = Text::_($groupLabel);
                     }
 
@@ -131,7 +134,7 @@ class GroupedlistField extends FormField
                         $groups[$label][] = $tmp;
                     }
 
-                    if ($groupLabel) {
+                    if ($groupLabel !== '' && $groupLabel !== '0') {
                         $label = \count($groups);
                     }
                     break;

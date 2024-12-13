@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 /** @var \Joomla\Component\Users\Site\View\Login\HtmlView $this */
 
-if ((isset($this->user->cookieLogin) && !empty($this->user->cookieLogin)) || $this->user->guest) {
+if ((property_exists($this->user, 'cookieLogin') && $this->user->cookieLogin !== null && !empty($this->user->cookieLogin)) || $this->user->guest) {
     // The user is not logged in or needs to provide a password.
     echo $this->loadTemplate('login');
 } else {

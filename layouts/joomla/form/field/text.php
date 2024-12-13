@@ -76,26 +76,26 @@ if ($charcounter) {
 }
 
 $attributes = [
-    !empty($class) ? 'class="form-control ' . $class . $charcounterclass . '"' : 'class="form-control' . $charcounterclass . '"',
-    !empty($size) ? 'size="' . $size . '"' : '',
-    !empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
+    empty($class) ? 'class="form-control' . $charcounterclass . '"' : 'class="form-control ' . $class . $charcounterclass . '"',
+    empty($size) ? '' : 'size="' . $size . '"',
+    empty($description) ? '' : 'aria-describedby="' . ($id ?: $name) . '-desc"',
     $disabled ? 'disabled' : '',
     $readonly ? 'readonly' : '',
     $dataAttribute,
     $list,
-    strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
+    strlen($hint) !== 0 ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
     $onchange ? ' onchange="' . $onchange . '"' : '',
-    !empty($maxLength) ? $maxLength : '',
+    empty($maxLength) ? '' : $maxLength,
     $required ? 'required' : '',
-    !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
+    empty($autocomplete) ? '' : 'autocomplete="' . $autocomplete . '"',
     $autofocus ? ' autofocus' : '',
     $spellcheck ? '' : 'spellcheck="false"',
-    !empty($inputmode) ? $inputmode : '',
-    !empty($counterlabel) ? $counterlabel : '',
-    !empty($pattern) ? 'pattern="' . $pattern . '"' : '',
+    empty($inputmode) ? '' : $inputmode,
+    empty($counterlabel) ? '' : $counterlabel,
+    empty($pattern) ? '' : 'pattern="' . $pattern . '"',
 
     // @TODO add a proper string here!!!
-    !empty($validationtext) ? 'data-validation-text="' . $this->escape(Text::_($validationtext)) . '"' : '',
+    empty($validationtext) ? '' : 'data-validation-text="' . $this->escape(Text::_($validationtext)) . '"',
 ];
 
 $addonBeforeHtml = '<span class="input-group-text">' . Text::_($addonBefore) . '</span>';

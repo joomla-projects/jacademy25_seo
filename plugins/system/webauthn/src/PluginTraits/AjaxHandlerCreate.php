@@ -105,7 +105,7 @@ trait AjaxHandlerCreate
             'attestationSupport'  => $this->authenticationHelper->hasAttestationSupport(),
         ];
 
-        if (isset($error) && !empty($error)) {
+        if (isset($error) && ($error !== '' && $error !== '0')) {
             $layoutParameters['error'] = $error;
         }
 

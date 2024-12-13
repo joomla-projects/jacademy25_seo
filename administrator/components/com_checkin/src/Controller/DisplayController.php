@@ -59,7 +59,7 @@ class DisplayController extends BaseController
 
         $ids = (array) $this->input->get('cid', [], 'string');
 
-        if (empty($ids)) {
+        if ($ids === []) {
             $this->app->enqueueMessage(Text::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'), 'warning');
         } else {
             // Get the model.

@@ -236,7 +236,7 @@ abstract class DaemonApplication extends CliApplication
         fclose($fp);
 
         // Check to make sure that the process id exists as a positive integer.
-        if (!$pid) {
+        if ($pid === 0) {
             return false;
         }
 

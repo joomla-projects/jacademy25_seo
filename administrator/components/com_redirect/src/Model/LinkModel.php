@@ -133,7 +133,7 @@ class LinkModel extends AdminModel
         $pks = ArrayHelper::toInteger($pks);
 
         // Populate default comment if necessary.
-        $comment = (!empty($comment)) ? $comment : Text::sprintf('COM_REDIRECT_REDIRECTED_ON', HTMLHelper::_('date', time()));
+        $comment = (empty($comment)) ? Text::sprintf('COM_REDIRECT_REDIRECTED_ON', HTMLHelper::_('date', time())) : $comment;
 
         // Access checks.
         if (!$user->authorise('core.edit', 'com_redirect')) {

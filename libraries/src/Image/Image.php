@@ -117,7 +117,7 @@ class Image
         }
 
         // Determine which image types are supported by GD, but only once.
-        if (empty(static::$formats)) {
+        if (static::$formats === []) {
             $info                            = gd_info();
             static::$formats[IMAGETYPE_JPEG] = $info['JPEG Support'];
             static::$formats[IMAGETYPE_PNG]  = $info['PNG Support'];
@@ -127,7 +127,7 @@ class Image
         }
 
         // If the source input is a resource, set it as the image handle.
-        if ($source && (\is_object($source) && $source::class == 'GdImage')) {
+        if ($source && (\is_object($source) && $source::class === 'GdImage')) {
             $this->handle = $source;
         } elseif (!empty($source) && \is_string($source)) {
             // If the source input is not empty, assume it is a path and populate the image handle.
@@ -258,7 +258,7 @@ class Image
         // Process thumbs
         $generated = [];
 
-        if (!empty($thumbSizes)) {
+        if ($thumbSizes !== []) {
             foreach ($thumbSizes as $thumbSize) {
                 // Desired thumbnail size
                 $size = explode('x', strtolower((string) $thumbSize));
@@ -433,7 +433,7 @@ class Image
             }
             if ($ict >= 0 && $ict < $ctot) {
                 $rgba = imagecolorsforindex($this->getHandle(), $ict);
-                if (!empty($rgba)) {
+                if ($rgba !== []) {
                     $color = imagecolorallocatealpha(
                         $handle,
                         $rgba['red'],
@@ -543,11 +543,7 @@ class Image
     public function isLoaded()
     {
         // Make sure the resource handle is valid.
-        if (!(\is_object($this->handle) && $this->handle::class == 'GdImage')) {
-            return false;
-        }
-
-        return true;
+        return \is_object($this->handle) && $this->handle::class === 'GdImage';
     }
 
     /**
@@ -729,7 +725,7 @@ class Image
             }
             if ($ict >= 0 && $ict < $ctot) {
                 $rgba = imagecolorsforindex($this->getHandle(), $ict);
-                if (!empty($rgba)) {
+                if ($rgba !== []) {
                     $color = imagecolorallocatealpha(
                         $handle,
                         $rgba['red'],
@@ -1029,11 +1025,7 @@ class Image
                 $rx = ($width > 0) ? ($this->getWidth() / $width) : 0;
                 $ry = ($height > 0) ? ($this->getHeight() / $height) : 0;
 
-                if ($scaleMethod != self::SCALE_OUTSIDE) {
-                    $ratio = max($rx, $ry);
-                } else {
-                    $ratio = min($rx, $ry);
-                }
+                $ratio = $scaleMethod != self::SCALE_OUTSIDE ? max($rx, $ry) : min($rx, $ry);
 
                 $dimensions->width  = (int) round($this->getWidth() / $ratio);
                 $dimensions->height = (int) round($this->getHeight() / $ratio);
@@ -1062,7 +1054,7 @@ class Image
         $height ??= $width;
 
         // If we were given a percentage, calculate the integer value.
-        if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', (string) $height)) {
+        if (preg_match('/^\d+(\.\d+)?\%$/', (string) $height)) {
             $height = (int) round($this->getHeight() * (float) str_replace('%', '', $height) / 100);
         } else { // Else do some rounding so we come out with a sane integer value.
             $height = (int) round((float) $height);
@@ -1101,7 +1093,7 @@ class Image
         $width ??= $height;
 
         // If we were given a percentage, calculate the integer value.
-        if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', (string) $width)) {
+        if (preg_match('/^\d+(\.\d+)?\%$/', (string) $width)) {
             $width = (int) round($this->getWidth() * (float) str_replace('%', '', $width) / 100);
         } else { // Else do some rounding so we come out with a sane integer value.
             $width = (int) round((float) $width);

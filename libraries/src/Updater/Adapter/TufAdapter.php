@@ -111,7 +111,7 @@ class TufAdapter extends UpdateAdapter
             // or "only" env related constraints fail - the later one is the existing behavior of the XML updater
             if (
                 $constraintChecker->check($version, $options['minimum_stability'] ?? Updater::STABILITY_STABLE) === true
-                || !empty((array) $constraintChecker->getFailedEnvironmentConstraints())
+                || (array) $constraintChecker->getFailedEnvironmentConstraints() !== []
             ) {
                 return [$version];
             }

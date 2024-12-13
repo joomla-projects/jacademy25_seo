@@ -69,10 +69,7 @@ class RulesRule extends FormRule
     {
         $actions = [];
 
-        // Iterate over the asset actions and add to the actions.
-        foreach ((array) $value as $name => $rules) {
-            $actions[] = $name;
-        }
+        $actions = array_keys((array) $value);
 
         return $actions;
     }
@@ -91,8 +88,8 @@ class RulesRule extends FormRule
         $actions = [];
 
         // Initialise some field attributes.
-        $section   = $element['section'] ? (string) $element['section'] : '';
-        $component = $element['component'] ? (string) $element['component'] : '';
+        $section   = $element['section'] instanceof \SimpleXMLElement ? (string) $element['section'] : '';
+        $component = $element['component'] instanceof \SimpleXMLElement ? (string) $element['component'] : '';
 
         // Get the asset actions for the element.
         $elActions = Access::getActionsFromFile(

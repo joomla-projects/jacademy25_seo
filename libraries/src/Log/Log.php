@@ -373,17 +373,15 @@ class Log
         // Let's go iterate over the loggers and get all the ones we need.
         foreach ((array) $this->lookup as $signature => $rules) {
             // Check to make sure the priority matches the logger.
-            if ($priority & $rules->priorities) {
+            if (($priority & $rules->priorities) !== 0) {
                 if ($rules->exclude) {
                     // If either there are no set categories or the category (including the empty case) is not in the list of excluded categories, add this logger.
                     if (empty($rules->categories) || !\in_array($category, $rules->categories)) {
                         $loggers[] = $signature;
                     }
-                } else {
+                } elseif (empty($rules->categories) || \in_array($category, $rules->categories)) {
                     // If either there are no set categories (meaning all) or the specific category is set, add this logger.
-                    if (empty($rules->categories) || \in_array($category, $rules->categories)) {
-                        $loggers[] = $signature;
-                    }
+                    $loggers[] = $signature;
                 }
             }
         }

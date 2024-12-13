@@ -140,11 +140,7 @@ class EmailRule extends FormRule implements DatabaseAwareInterface
 
                     // All segments match, check whether to allow the domain or not.
                     if ($status === $emailCount) {
-                        if ($domain->rule == 0) {
-                            $allowed = false;
-                        } else {
-                            $allowed = true;
-                        }
+                        $allowed = $domain->rule != 0;
                     }
                 }
 

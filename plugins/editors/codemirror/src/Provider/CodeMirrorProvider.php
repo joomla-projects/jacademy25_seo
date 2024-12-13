@@ -110,7 +110,7 @@ final class CodeMirrorProvider extends AbstractEditorProvider
             'less' => 'css',
             'js'   => 'javascript',
         ];
-        $options->mode = !empty($params['syntax']) ? $params['syntax'] : $this->params->get('syntax', 'html');
+        $options->mode = empty($params['syntax']) ? $this->params->get('syntax', 'html') : $params['syntax'];
         $options->mode = $modeAlias[$options->mode] ?? $options->mode;
 
         // Special options for non-tagged modes.

@@ -36,12 +36,7 @@ class TemplatesHelper
      */
     public static function getClientOptions()
     {
-        // Build the filter options.
-        $options   = [];
-        $options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
-        $options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
-
-        return $options;
+        return [HTMLHelper::_('select.option', '0', Text::_('JSITE')), HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'))];
     }
 
     /**
@@ -133,7 +128,7 @@ class TemplatesHelper
 
             // Extensions use 'extension' as the root tag.  Languages use 'metafile' instead
 
-            if ($xml->getName() != 'extension' && $xml->getName() != 'metafile') {
+            if ($xml->getName() !== 'extension' && $xml->getName() !== 'metafile') {
                 unset($xml);
 
                 return false;
@@ -141,11 +136,7 @@ class TemplatesHelper
 
             $positions = (array) $xml->positions;
 
-            if (isset($positions['position'])) {
-                $positions = (array) $positions['position'];
-            } else {
-                $positions = [];
-            }
+            $positions = isset($positions['position']) ? (array) $positions['position'] : [];
         }
 
         return $positions;

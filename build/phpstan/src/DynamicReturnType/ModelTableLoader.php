@@ -34,7 +34,7 @@ class ModelTableLoader extends NamespaceBased
         $name   = '';
         $prefix = '';
 
-        if (\count($methodCall->getArgs()) === 0) {
+        if ($methodCall->getArgs() === []) {
             $name = end(explode('\\', $scope->getClassReflection()->getNativeReflection()->getShortName()));
 
             // Some models have form as part of their name
@@ -45,7 +45,7 @@ class ModelTableLoader extends NamespaceBased
             $prefix = 'Administrator';
         }
 
-        if (\count($methodCall->getArgs()) > 0) {
+        if ($methodCall->getArgs() !== []) {
             $name = str_replace("'", '', $methodCall->getArgs()[0]->value->getAttribute('rawValue'));
         }
 
@@ -57,7 +57,7 @@ class ModelTableLoader extends NamespaceBased
             return null;
         }
 
-        foreach ($this->findNamespaces($prefix) as $ns => $path) {
+        foreach (array_keys($this->findNamespaces($prefix)) as $ns) {
             if (!class_exists($ns . 'Table\\' . $name . 'Table')) {
                 continue;
             }

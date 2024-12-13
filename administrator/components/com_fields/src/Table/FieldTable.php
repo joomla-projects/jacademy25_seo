@@ -133,7 +133,7 @@ class FieldTable extends Table implements CurrentUserInterface
     public function check()
     {
         // Check for valid name
-        if (trim($this->title) == '') {
+        if (trim($this->title) === '') {
             $this->setError(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
 
             return false;
@@ -145,7 +145,7 @@ class FieldTable extends Table implements CurrentUserInterface
 
         $this->name = ApplicationHelper::stringURLSafe($this->name, $this->language);
 
-        if (trim(str_replace('-', '', $this->name)) == '') {
+        if (trim(str_replace('-', '', $this->name)) === '') {
             $this->name = StringHelper::increment($this->name, 'dash');
         }
 
@@ -174,7 +174,7 @@ class FieldTable extends Table implements CurrentUserInterface
         $user = $this->getCurrentUser();
 
         // Set created date if not set.
-        if (!(int) $this->created_time) {
+        if ((int) $this->created_time === 0) {
             $this->created_time = $date;
         }
 
@@ -183,7 +183,7 @@ class FieldTable extends Table implements CurrentUserInterface
             $this->modified_time = $date;
             $this->modified_by   = $user->id;
         } else {
-            if (!(int) $this->modified_time) {
+            if ((int) $this->modified_time === 0) {
                 $this->modified_time = $this->created_time;
             }
 
@@ -313,7 +313,7 @@ class FieldTable extends Table implements CurrentUserInterface
         if ($result = $db->loadResult()) {
             $assetId = (int) $result;
 
-            if ($assetId) {
+            if ($assetId !== 0) {
                 return $assetId;
             }
         }

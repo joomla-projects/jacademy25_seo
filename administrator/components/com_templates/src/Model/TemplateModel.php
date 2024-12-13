@@ -107,11 +107,7 @@ class TemplateModel extends FormModel
         $temp->template     = $template->element;
         $temp->extension_id = $template->extension_id;
 
-        if ($coreFile = $this->getCoreFile($path . $name, $template->client_id)) {
-            $temp->coreFile = md5_file($coreFile);
-        } else {
-            $temp->coreFile = null;
-        }
+        $temp->coreFile = $coreFile = $this->getCoreFile($path . $name, $template->client_id) ? md5_file($coreFile) : null;
 
         return $temp;
     }
@@ -371,10 +367,11 @@ class TemplateModel extends FormModel
             $lang   = Factory::getLanguage();
 
             // Load the core and/or local language file(s).
-            $lang->load('tpl_' . $template->element, $client->path)
+            if (!($lang->load('tpl_' . $template->element, $client->path)
             || (!empty($template->xmldata->parent) && $lang->load('tpl_' . $template->xmldata->parent, $client->path))
-            || $lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element)
-            || (!empty($template->xmldata->parent) && $lang->load('tpl_' . $template->xmldata->parent, $client->path . '/templates/' . $template->xmldata->parent));
+            || $lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element)) && !empty($template->xmldata->parent)) {
+                $lang->load('tpl_' . $template->xmldata->parent, $client->path . '/templates/' . $template->xmldata->parent);
+            }
             $this->element = $path;
 
             if (!is_writable($path)) {
@@ -456,7 +453,7 @@ class TemplateModel extends FormModel
             return strnatcmp($result[$a]->name, $result[$b]->name);
         });
 
-        return !empty($result) ? $result : ['.'];
+        return $result === [] ? ['.'] : $result;
     }
 
     /**
@@ -572,7 +569,7 @@ class TemplateModel extends FormModel
      */
     private function getSafeName($name)
     {
-        if (str_contains($name, '-') && preg_match('/[0-9]/', $name)) {
+        if (str_contains($name, '-') && preg_match('/\d/', $name)) {
             // Get the extension
             $extension = File::getExt($name);
 
@@ -732,12 +729,9 @@ class TemplateModel extends FormModel
             // Delete new folder if it exists
             $toPath = $this->getState('to_path');
 
-            if (is_dir(Path::clean($toPath))) {
-                if (!Folder::delete($toPath)) {
-                    $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
-
-                    return false;
-                }
+            if (is_dir(Path::clean($toPath)) && !Folder::delete($toPath)) {
+                $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
+                return false;
             }
 
             // Copy all files from $fromName template to $newName folder
@@ -775,13 +769,8 @@ class TemplateModel extends FormModel
 
                 Folder::copy(JPATH_SITE . '/media/' . $destination, $toPath . '/' . $folder);
             }
-
             // Adjust to new template name
-            if (!$this->fixTemplateName()) {
-                return false;
-            }
-
-            return true;
+            return $this->fixTemplateName();
         }
 
         $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
@@ -946,7 +935,7 @@ class TemplateModel extends FormModel
             } catch (\Exception) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
 
-                return;
+                return null;
             }
 
             if (file_exists($filePath)) {
@@ -1086,7 +1075,7 @@ class TemplateModel extends FormModel
                 $folders = Folder::folders($componentPath . '/' . $component, '^view[s]?$', false, true);
                 $folders = array_merge($folders, Folder::folders($componentPath . '/' . $component, '^tmpl?$', false, true));
 
-                if (!$folders) {
+                if ($folders === []) {
                     continue;
                 }
 
@@ -1182,7 +1171,7 @@ class TemplateModel extends FormModel
 
                 $url = Path::clean($explodeArray[$size - 3] . '/' . $explodeArray[$size - 1]);
 
-                if ($explodeArray[$size - 2] == 'layouts') {
+                if ($explodeArray[$size - 2] === 'layouts') {
                     $htmlPath = Path::clean($client->path . '/templates/' . $template->element . '/html/layouts/' . $url);
                 } else {
                     $htmlPath = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $url);
@@ -1690,11 +1679,7 @@ class TemplateModel extends FormModel
             $fileName     = end($explodeArray);
             $path         = $this->getBasePath() . base64_decode((string) $app->getInput()->get('file'));
 
-            if (stristr($client->path, 'administrator') == false) {
-                $folder = '/templates/';
-            } else {
-                $folder = '/administrator/templates/';
-            }
+            $folder = stristr($client->path, 'administrator') == false ? '/templates/' : '/administrator/templates/';
 
             $uri = Uri::root(true) . $folder . $template->element;
 
@@ -1712,6 +1697,7 @@ class TemplateModel extends FormModel
 
             return $font;
         }
+        return null;
     }
 
     /**
@@ -1851,7 +1837,7 @@ class TemplateModel extends FormModel
      */
     protected function checkFormat($ext)
     {
-        if (!isset($this->allowedFormats)) {
+        if (!property_exists($this, 'allowedFormats') || $this->allowedFormats === null) {
             $params       = ComponentHelper::getParams('com_templates');
             $imageTypes   = explode(',', (string) $params->get('image_formats', 'gif,bmp,jpg,jpeg,png,webp'));
             $sourceTypes  = explode(',', (string) $params->get('source_formats', 'txt,less,ini,xml,js,php,css,scss,sass,json'));
@@ -1946,12 +1932,9 @@ class TemplateModel extends FormModel
 
                 return false;
             }
-        } else {
-            if (!Folder::create($toPath)) {
-                $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
-
-                return false;
-            }
+        } elseif (!Folder::create($toPath)) {
+            $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
+            return false;
         }
 
         // Create the html folder
@@ -2048,19 +2031,8 @@ class TemplateModel extends FormModel
 
             return false;
         }
-
         // Create an empty media folder structure
-        if (
-            !Folder::create($toPath . '/media')
-            || !Folder::create($toPath . '/media/css')
-            || !Folder::create($toPath . '/media/js')
-            || !Folder::create($toPath . '/media/images')
-            || !Folder::create($toPath . '/media/scss')
-        ) {
-            return false;
-        }
-
-        return true;
+        return !(!Folder::create($toPath . '/media') || !Folder::create($toPath . '/media/css') || !Folder::create($toPath . '/media/js') || !Folder::create($toPath . '/media/images') || !Folder::create($toPath . '/media/scss'));
     }
 
     /**

@@ -66,8 +66,9 @@ class ComponentsCategoryField extends ListField
 
             // Load component language files
             $lang = Factory::getLanguage();
-            $lang->load($component, JPATH_BASE)
-            || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+            if (!$lang->load($component, JPATH_BASE)) {
+                $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+            }
 
             // If the component section string exists, let's use it
             if ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : '')))) {

@@ -355,8 +355,7 @@ class FormHelper
         // Reference to an array with paths for current entity
         $paths = &self::$paths[$entity];
 
-        // Force the new path(s) to an array.
-        settype($new, 'array');
+        $new = (array) $new;
 
         // Add the new paths to the stack if not already there.
         foreach ($new as $path) {
@@ -447,8 +446,7 @@ class FormHelper
             $prefixes[] = __NAMESPACE__ . '\\' . ucfirst($entity);
         }
 
-        // Force the new namespace(s) to an array.
-        settype($new, 'array');
+        $new = (array) $new;
 
         // Add the new paths to the stack if not already there.
         foreach ($new as $prefix) {
@@ -516,24 +514,20 @@ class FormHelper
 
             if ($dotPos === false) {
                 $field = $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0];
+            } elseif ($dotPos === 0) {
+                $fieldName = substr($showOnPartBlocks[0], 1);
+                $field     = $formControl ? $formControl . '[' . $fieldName . ']' : $fieldName;
+            } elseif ($formControl) {
+                $field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
             } else {
-                if ($dotPos === 0) {
-                    $fieldName = substr($showOnPartBlocks[0], 1);
-                    $field     = $formControl ? $formControl . '[' . $fieldName . ']' : $fieldName;
-                } else {
-                    if ($formControl) {
-                        $field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
-                    } else {
-                        $groupParts = explode('.', $showOnPartBlocks[0]);
-                        $field      = array_shift($groupParts) . '[' . implode('][', $groupParts) . ']';
-                    }
-                }
+                $groupParts = explode('.', $showOnPartBlocks[0]);
+                $field      = array_shift($groupParts) . '[' . implode('][', $groupParts) . ']';
             }
 
             $showOnData[] = [
                 'field'  => $field,
                 'values' => explode(',', $showOnPartBlocks[1]),
-                'sign'   => $compareEqual === true ? '=' : '!=',
+                'sign'   => $compareEqual ? '=' : '!=',
                 'op'     => $op,
             ];
 

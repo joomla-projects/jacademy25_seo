@@ -178,12 +178,10 @@ class StageTable extends Table
     {
         $table = new StageTable($this->getDbo(), $this->getDispatcher());
 
-        if ($this->default == '1') {
-            // Verify that the default is unique for this workflow
-            if ($table->load(['default' => '1', 'workflow_id' => (int) $this->workflow_id])) {
-                $table->default = 0;
-                $table->store();
-            }
+        // Verify that the default is unique for this workflow
+        if ($this->default == '1' && $table->load(['default' => '1', 'workflow_id' => (int) $this->workflow_id])) {
+            $table->default = 0;
+            $table->store();
         }
 
         return parent::store($updateNulls);
@@ -273,6 +271,6 @@ class StageTable extends Table
         $asset->loadByName($name);
         $assetId = $asset->id;
 
-        return !empty($assetId) ? $assetId : parent::_getAssetParentId($table, $id);
+        return empty($assetId) ? parent::_getAssetParentId($table, $id) : $assetId;
     }
 }

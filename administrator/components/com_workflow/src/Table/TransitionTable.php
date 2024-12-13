@@ -142,6 +142,6 @@ class TransitionTable extends Table
         $asset->loadByName($name);
         $assetId = $asset->id;
 
-        return !empty($assetId) ? $assetId : parent::_getAssetParentId($table, $id);
+        return empty($assetId) ? parent::_getAssetParentId($table, $id) : $assetId;
     }
 }

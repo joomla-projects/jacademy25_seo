@@ -31,13 +31,13 @@ class Profiler
      * @var    array  The buffer of profiling messages.
      * @since  3.0.0
      */
-    protected $buffer = null;
+    protected $buffer = [];
 
     /**
      * @var    array  The profiling messages.
      * @since  3.0.0
      */
-    protected $marks = null;
+    protected $marks = [];
 
     /**
      * @var    float  The previous time marker
@@ -70,8 +70,6 @@ class Profiler
     protected $prefix = '')
     {
         $this->start  = microtime(1);
-        $this->marks  = [];
-        $this->buffer = [];
     }
 
     /**

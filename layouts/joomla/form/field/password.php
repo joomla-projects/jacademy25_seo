@@ -84,25 +84,25 @@ if ($lock) {
 }
 
 $ariaDescribedBy = $rules ? $name . '-rules ' : '';
-$ariaDescribedBy .= !empty($description) ? (($id ?: $name) . '-desc') : '';
+$ariaDescribedBy .= empty($description) ? ('') : ($id ?: $name) . '-desc';
 
 $attributes = [
-    strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-    !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
-    !empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
-    !empty($ariaDescribedBy) ? 'aria-describedby="' . trim($ariaDescribedBy) . '"' : '',
+    strlen($hint) !== 0 ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
+    empty($autocomplete) ? '' : 'autocomplete="' . $autocomplete . '"',
+    empty($class) ? 'class="form-control"' : 'class="form-control ' . $class . '"',
+    $ariaDescribedBy === '' || $ariaDescribedBy === '0' ? '' : 'aria-describedby="' . trim($ariaDescribedBy) . '"',
     $readonly ? 'readonly' : '',
     $disabled ? 'disabled' : '',
-    !empty($size) ? 'size="' . $size . '"' : '',
-    !empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
+    empty($size) ? '' : 'size="' . $size . '"',
+    empty($maxLength) ? '' : 'maxlength="' . $maxLength . '"',
     $required ? 'required' : '',
     $autofocus ? 'autofocus' : '',
-    !empty($minLength) ? 'data-min-length="' . $minLength . '"' : '',
-    !empty($minIntegers) ? 'data-min-integers="' . $minIntegers . '"' : '',
-    !empty($minSymbols) ? 'data-min-symbols="' . $minSymbols . '"' : '',
-    !empty($minUppercase) ? 'data-min-uppercase="' . $minUppercase . '"' : '',
-    !empty($minLowercase) ? 'data-min-lowercase="' . $minLowercase . '"' : '',
-    !empty($forcePassword) ? 'data-min-force="' . $forcePassword . '"' : '',
+    empty($minLength) ? '' : 'data-min-length="' . $minLength . '"',
+    empty($minIntegers) ? '' : 'data-min-integers="' . $minIntegers . '"',
+    empty($minSymbols) ? '' : 'data-min-symbols="' . $minSymbols . '"',
+    empty($minUppercase) ? '' : 'data-min-uppercase="' . $minUppercase . '"',
+    empty($minLowercase) ? '' : 'data-min-lowercase="' . $minLowercase . '"',
+    empty($forcePassword) ? '' : 'data-min-force="' . $forcePassword . '"',
     $dataAttribute,
 ];
 

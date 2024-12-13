@@ -118,6 +118,7 @@ class TufFetcher
         }
 
         $this->rollBackTufMetadata();
+        return null;
     }
 
     /**

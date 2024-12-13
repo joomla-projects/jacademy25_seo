@@ -105,11 +105,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
     {
         // Set the view name
         if (empty($this->_name)) {
-            if (\array_key_exists('name', $config)) {
-                $this->_name = $config['name'];
-            } else {
-                $this->_name = $this->getName();
-            }
+            $this->_name = \array_key_exists('name', $config) ? $config['name'] : $this->getName();
         }
 
         // Set the component name if passed
@@ -154,11 +150,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
         );
 
         // If $model is null we use the default model
-        if ($default === null) {
-            $model = $this->_defaultModel;
-        } else {
-            $model = strtolower($default);
-        }
+        $model = $default === null ? $this->_defaultModel : strtolower($default);
 
         // First check to make sure the model requested exists
         if (isset($this->_models[$model])) {

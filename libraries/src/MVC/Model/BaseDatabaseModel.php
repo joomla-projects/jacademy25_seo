@@ -105,7 +105,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
         $db = \array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo();
 
         if ($db) {
-            @trigger_error(\sprintf('Database is not available in constructor in 6.0.'), E_USER_DEPRECATED);
+            @trigger_error('Database is not available in constructor in 6.0.', E_USER_DEPRECATED);
             $this->setDatabase($db);
 
             // Is needed, when models use the deprecated MVC DatabaseAwareTrait, as the trait is overriding the local functions
@@ -127,7 +127,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
             $this->event_clean_cache = 'onContentCleanCache';
         }
 
-        if ($factory) {
+        if ($factory instanceof \Joomla\CMS\MVC\Factory\MVCFactoryInterface) {
             $this->setMVCFactory($factory);
 
             return;
@@ -280,12 +280,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     {
         $table           = $this->getTable();
         $checkedOutField = $table->getColumnAlias('checked_out');
-
-        if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != $this->getCurrentUser()->id) {
-            return true;
-        }
-
-        return false;
+        return property_exists($item, $checkedOutField) && $item->{$checkedOutField} != $this->getCurrentUser()->id;
     }
 
     /**
@@ -418,7 +413,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      */
     public function setDbo(?DatabaseInterface $db = null)
     {
-        if ($db === null) {
+        if (!$db instanceof \Joomla\Database\DatabaseInterface) {
             return;
         }
 

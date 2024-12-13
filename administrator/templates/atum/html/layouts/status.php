@@ -32,11 +32,7 @@ foreach ($modules as $key => $mod) {
             $dom->loadHTML('<?xml encoding="utf-8" ?>' . $out);
             $els = $dom->getElementsByTagName('a');
 
-            if ($els[0]) {
-                $moduleCollapsedHtml[] = $dom->saveHTML($els[0]);
-            } else {
-                $moduleCollapsedHtml[] = $out;
-            }
+            $moduleCollapsedHtml[] = $els[0] ? $dom->saveHTML($els[0]) : $out;
         } else {
             $moduleCollapsedHtml[] = $out;
         }

@@ -115,7 +115,7 @@ class TagsHelper extends CMSHelper
         // Prevent saving duplicate tags
         $tags = array_values(array_unique($tags));
 
-        if (!$tags) {
+        if ($tags === []) {
             return true;
         }
 
@@ -167,15 +167,13 @@ class TagsHelper extends CMSHelper
             $aliases = [];
 
             foreach ($tags as $tag) {
-                if (!empty($tag->path)) {
-                    if ($pathParts = explode('/', $tag->path)) {
-                        $aliases = array_merge($aliases, $pathParts);
-                    }
+                if (!empty($tag->path) && $pathParts = explode('/', $tag->path)) {
+                    $aliases = array_merge($aliases, $pathParts);
                 }
             }
 
             // Get the aliases titles in one single query and map the results
-            if ($aliases) {
+            if ($aliases !== []) {
                 // Remove duplicates
                 $aliases = array_values(array_unique($aliases));
 
@@ -203,18 +201,11 @@ class TagsHelper extends CMSHelper
                     foreach ($tags as $tag) {
                         $namesPath = [];
 
-                        if (!empty($tag->path)) {
-                            if ($pathParts = explode('/', $tag->path)) {
-                                foreach ($pathParts as $alias) {
-                                    if (isset($aliasesMapper[$alias])) {
-                                        $namesPath[] = $aliasesMapper[$alias]['title'];
-                                    } else {
-                                        $namesPath[] = $alias;
-                                    }
-                                }
-
-                                $tag->text = implode('/', $namesPath);
+                        if (!empty($tag->path) && $pathParts = explode('/', $tag->path)) {
+                            foreach ($pathParts as $alias) {
+                                $namesPath[] = isset($aliasesMapper[$alias]) ? $aliasesMapper[$alias]['title'] : $alias;
                             }
+                            $tag->text = implode('/', $namesPath);
                         }
                     }
                 }
@@ -236,7 +227,7 @@ class TagsHelper extends CMSHelper
     public function createTagsFromField($tags)
     {
         if (empty($tags) || $tags[0] == '') {
-            return;
+            return null;
         }
 
         // We will use the tags table to store them
@@ -470,7 +461,7 @@ class TagsHelper extends CMSHelper
     public function getTagIds($ids, $prefix)
     {
         if (empty($ids)) {
-            return;
+            return null;
         }
 
         /**
@@ -708,7 +699,7 @@ class TagsHelper extends CMSHelper
     {
         $tagNames = [];
 
-        if (\is_array($tagIds) && \count($tagIds) > 0) {
+        if (\is_array($tagIds) && $tagIds !== []) {
             $tagIds = ArrayHelper::toInteger($tagIds);
 
             $db    = Factory::getDbo();
@@ -756,6 +747,7 @@ class TagsHelper extends CMSHelper
 
             return $tagTreeArray;
         }
+        return null;
     }
 
     /**
@@ -883,13 +875,13 @@ class TagsHelper extends CMSHelper
         }
 
         // New items with no tags bypass this step.
-        if ((!empty($newTags) && \is_string($newTags) || (isset($newTags[0]) && $newTags[0] != '')) || isset($this->oldTags)) {
+        if ((!empty($newTags) && \is_string($newTags) || (isset($newTags[0]) && $newTags[0] != '')) || $this->oldTags !== null) {
             if (\is_array($newTags)) {
                 $newTags = implode(',', $newTags);
             }
 
             // We need to process tags if the tags have changed or if we have a new row
-            $this->tagsChanged = (empty($this->oldTags) && !empty($newTags)) || (!empty($this->oldTags) && $this->oldTags != $newTags) || !$table->$key;
+            $this->tagsChanged = (empty($this->oldTags) && ($newTags !== '' && $newTags !== '0')) || (!empty($this->oldTags) && $this->oldTags != $newTags) || !$table->$key;
         }
     }
 
@@ -1045,18 +1037,13 @@ class TagsHelper extends CMSHelper
         if ($replace) {
             $newTags = $tags;
         } else {
-            if ($tags == []) {
-                $newTags = $table->newTags;
-            } else {
-                $newTags = $tags;
-            }
-
-            if ($oldTags[0] != '') {
+            $newTags = $tags == [] ? $table->newTags : $tags;
+            if ($oldTags[0] !== '') {
                 $newTags = array_unique(array_merge($newTags, $oldTags));
             }
         }
 
-        if (\is_array($newTags) && \count($newTags) > 0 && $newTags[0] != '') {
+        if (\is_array($newTags) && $newTags !== [] && $newTags[0] != '') {
             $result = $result && $this->addTagMapping($ucmId, $table, $newTags);
         }
 
@@ -1090,7 +1077,7 @@ class TagsHelper extends CMSHelper
             ->bind(':type', $this->typeAlias)
             ->bind(':id', $id, ParameterType::INTEGER);
 
-        if (\is_array($tags) && \count($tags) > 0) {
+        if (\is_array($tags) && $tags !== []) {
             $tags = ArrayHelper::toInteger($tags);
 
             $query->whereIn($db->quoteName('tag_id'), $tags);
@@ -1114,7 +1101,7 @@ class TagsHelper extends CMSHelper
     {
         $tagNames = [];
 
-        if (\is_array($tagIds) && \count($tagIds) > 0) {
+        if (\is_array($tagIds) && $tagIds !== []) {
             $tagIds = ArrayHelper::toInteger($tagIds);
 
             $db    = Factory::getDbo();

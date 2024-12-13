@@ -32,7 +32,7 @@ class DIContainer implements DynamicMethodReturnTypeExtension
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
-        if (\count($methodCall->getArgs()) === 0) {
+        if ($methodCall->getArgs() === []) {
             return null;
         }
 

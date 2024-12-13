@@ -156,7 +156,7 @@ class TransitionsModel extends ListModel
             ->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('t.checked_out'));
 
         // Filter by extension
-        if ($workflowID = (int) $this->getState('filter.workflow_id')) {
+        if ($workflowID = (int) $this->getState('filter.workflow_id') !== 0) {
             $query->where($db->quoteName('t.workflow_id') . ' = :id')
                 ->bind(':id', $workflowID, ParameterType::INTEGER);
         }
@@ -173,13 +173,13 @@ class TransitionsModel extends ListModel
         }
 
         // Filter by column from_stage_id
-        if ($fromStage = (int) $this->getState('filter.from_stage')) {
+        if ($fromStage = (int) $this->getState('filter.from_stage') !== 0) {
             $query->where($db->quoteName('from_stage_id') . ' = :fromStage')
                 ->bind(':fromStage', $fromStage, ParameterType::INTEGER);
         }
 
         // Filter by column to_stage_id
-        if ($toStage = (int) $this->getState('filter.to_stage')) {
+        if ($toStage = (int) $this->getState('filter.to_stage') !== 0) {
             $query->where($db->quoteName('to_stage_id') . ' = :toStage')
                 ->bind(':toStage', $toStage, ParameterType::INTEGER);
         }

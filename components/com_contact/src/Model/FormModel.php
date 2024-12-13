@@ -89,7 +89,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
      */
     public function getItem($itemId = null)
     {
-        $itemId = (int) (!empty($itemId)) ? $itemId : $this->getState('contact.id');
+        $itemId = (int) (!empty($itemId)) !== 0 ? $itemId : $this->getState('contact.id');
 
         // Get a row instance.
         $table = $this->getTable();

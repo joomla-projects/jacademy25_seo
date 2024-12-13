@@ -166,7 +166,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
         }
 
         // Check for a title.
-        if (trim($this->title) == '') {
+        if (trim($this->title) === '') {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
 
             return false;
@@ -174,13 +174,13 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
 
         $this->alias = trim($this->alias);
 
-        if (empty($this->alias)) {
+        if ($this->alias === '' || $this->alias === '0') {
             $this->alias = $this->title;
         }
 
         $this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
 
-        if (trim(str_replace('-', '', $this->alias)) == '') {
+        if (trim(str_replace('-', '', $this->alias)) === '') {
             $this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
         }
 
@@ -235,7 +235,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
         $user = $this->getCurrentUser();
 
         // Set created date if not set.
-        if (!(int) $this->created_time) {
+        if ((int) $this->created_time === 0) {
             $this->created_time = $date;
         }
 
@@ -244,7 +244,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
             $this->modified_user_id = $user->id;
             $this->modified_time    = $date;
         } else {
-            if (!(int) ($this->modified_time)) {
+            if ((int) ($this->modified_time) === 0) {
                 $this->modified_time = $this->created_time;
             }
 

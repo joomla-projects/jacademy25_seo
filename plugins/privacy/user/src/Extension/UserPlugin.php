@@ -66,7 +66,7 @@ final class UserPlugin extends PrivacyPlugin implements SubscriberInterface
         $user   = $event->getUser();
         $status = new Status();
 
-        if (!$user) {
+        if (!$user instanceof \Joomla\CMS\User\User) {
             $event->addResult($status);
             return;
         }
@@ -99,7 +99,7 @@ final class UserPlugin extends PrivacyPlugin implements SubscriberInterface
     {
         $user = $event->getUser();
 
-        if (!$user) {
+        if (!$user instanceof \Joomla\CMS\User\User) {
             return;
         }
 
@@ -132,7 +132,7 @@ final class UserPlugin extends PrivacyPlugin implements SubscriberInterface
         $user = $event->getUser();
 
         // This plugin only processes data for registered user accounts
-        if (!$user) {
+        if (!$user instanceof \Joomla\CMS\User\User) {
             return;
         }
 

@@ -118,7 +118,7 @@ class TemplateModel extends AdminModel
             $form->removeField('copyto', 'params');
         }
 
-        if (!trim((string) $params->get('attachment_folder', ''))) {
+        if (trim((string) $params->get('attachment_folder', '')) === '' || trim((string) $params->get('attachment_folder', '')) === '0') {
             $form->removeField('attachments');
 
             return $form;
@@ -312,8 +312,8 @@ class TemplateModel extends AdminModel
         $context    = $this->option . '.' . $this->name;
 
         $key         = $table->getKeyName();
-        $template_id = (!empty($data['template_id'])) ? $data['template_id'] : $this->getState($this->getName() . '.template_id');
-        $language    = (!empty($data['language'])) ? $data['language'] : $this->getState($this->getName() . '.language');
+        $template_id = (empty($data['template_id'])) ? $this->getState($this->getName() . '.template_id') : $data['template_id'];
+        $language    = (empty($data['language'])) ? $this->getState($this->getName() . '.language') : $data['language'];
         $isNew       = true;
 
         // Include the plugins for the save events.

@@ -31,6 +31,7 @@ use Joomla\Filesystem\Path;
  */
 class HtmlView extends BaseHtmlView
 {
+    public $canDo;
     /**
      * @var     \Joomla\CMS\Form\Form
      *
@@ -102,7 +103,7 @@ class HtmlView extends BaseHtmlView
         $toolbar   = $this->getDocument()->getToolbar();
 
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $checkedOut = !\is_null($this->item->checked_out) && $this->item->checked_out != $userId;
 
         // Avoid nonsense situation.
         if ($component == 'com_fields') {
@@ -111,8 +112,9 @@ class HtmlView extends BaseHtmlView
 
         // Load component language file
         $lang = $this->getLanguage();
-        $lang->load($component, JPATH_ADMINISTRATOR)
-        || $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
+        if (!$lang->load($component, JPATH_ADMINISTRATOR)) {
+            $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
+        }
 
         $title = Text::sprintf('COM_FIELDS_VIEW_FIELD_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', Text::_(strtoupper((string) $component)));
 

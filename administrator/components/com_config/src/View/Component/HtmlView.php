@@ -29,6 +29,15 @@ use Joomla\Component\Config\Administrator\Model\ComponentModel;
 class HtmlView extends BaseHtmlView
 {
     /**
+     * @var mixed[]
+     */
+    public $components;
+    /**
+     * @var bool
+     */
+    public $userIsSuperAdmin;
+    public $currentComponent;
+    /**
      * The model state
      *
      * @var   \Joomla\Registry\Registry
@@ -158,9 +167,9 @@ class HtmlView extends BaseHtmlView
         $helpKey = (string) $this->form->getXml()->config->help['key'];
 
         // Try with legacy language key
-        if (!$helpKey) {
+        if ($helpKey === '' || $helpKey === '0') {
             $language    = Factory::getApplication()->getLanguage();
-            $languageKey = 'JHELP_COMPONENTS_' . strtoupper($this->currentComponent) . '_OPTIONS';
+            $languageKey = 'JHELP_COMPONENTS_' . strtoupper((string) $this->currentComponent) . '_OPTIONS';
 
             if ($language->hasKey($languageKey)) {
                 $helpKey = $languageKey;

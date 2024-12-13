@@ -51,14 +51,14 @@ if ($color === 'none' || is_null($color)) {
 }
 
 $alpha        = $format === 'hsla' || $format === 'rgba' || $format === 'alpha';
-$autocomplete = !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '';
+$autocomplete = empty($autocomplete) ? '' : 'autocomplete="' . $autocomplete . '"';
 $autofocus    = $autofocus ? ' autofocus' : '';
 $color        = ' data-color="' . $color . '"';
 $class        = $class ? ' class="' . $class . '"' : '';
 $default      = $default ? ' data-default="' . $default . '"' : '';
 $disabled     = $disabled ? ' disabled' : '';
 $format       = $format ? ' data-format="' . $format . '"' : '';
-$hint         = strlen($hint) ? ' placeholder="' . $this->escape($hint) . '"' : '';
+$hint         = strlen($hint) !== 0 ? ' placeholder="' . $this->escape($hint) . '"' : '';
 $onchange     = $onchange ? ' onchange="' . $onchange . '"' : '';
 $onclick      = $onclick ? ' onclick="' . $onclick . '"' : '';
 $preview      = $preview ? ' data-preview="' . $preview . '"' : '';

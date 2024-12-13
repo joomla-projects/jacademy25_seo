@@ -197,7 +197,7 @@ class JNamespacePsr4Map
             $namespace = (string) $namespaceNode;
 
             // Ignore when the string is empty
-            if (!$namespace) {
+            if ($namespace === '' || $namespace === '0') {
                 continue;
             }
 

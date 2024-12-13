@@ -84,8 +84,9 @@ class ComponentDispatcher extends Dispatcher
     protected function loadLanguage()
     {
         // Load common and local language files.
-        $this->app->getLanguage()->load($this->option, JPATH_BASE) ||
-        $this->app->getLanguage()->load($this->option, JPATH_COMPONENT);
+        if (!$this->app->getLanguage()->load($this->option, JPATH_BASE)) {
+            $this->app->getLanguage()->load($this->option, JPATH_COMPONENT);
+        }
     }
 
     /**

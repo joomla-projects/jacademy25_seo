@@ -177,7 +177,7 @@ class Menu extends Nested
         $table = new self($db, $this->getDispatcher());
 
         $originalAlias = trim($this->alias);
-        $this->alias   = !$originalAlias ? $this->title : $originalAlias;
+        $this->alias   = $originalAlias === '' || $originalAlias === '0' ? $this->title : $originalAlias;
         $this->alias   = ApplicationHelper::stringURLSafe(trim($this->alias), $this->language);
 
         if ($this->parent_id == 1 && $this->client_id == 0) {
@@ -227,17 +227,15 @@ class Menu extends Nested
 
                     $otherMenuItemId = (int) $db->setQuery($query)->loadResult();
 
-                    if ($otherMenuItemId) {
+                    if ($otherMenuItemId !== 0) {
                         $table->load(['id' => $otherMenuItemId]);
                         $error = true;
                     }
                 }
-            } else {
+            } elseif ($table->load($itemSearch) && ($table->id != $this->id || $this->id == 0)) {
                 // Check if the alias already exists. For monolingual site.
                 // If there is a menu item at the same level with the same alias (in any language).
-                if ($table->load($itemSearch) && ($table->id != $this->id || $this->id == 0)) {
-                    $error = true;
-                }
+                $error = true;
             }
 
             // The alias already exists. Enqueue an error message.
@@ -257,20 +255,17 @@ class Menu extends Nested
             }
         }
 
-        if ($this->home == '1') {
-            // Verify that the home page for this language is unique per client id
-            if ($table->load(['home' => '1', 'language' => $this->language, 'client_id' => (int) $this->client_id])) {
-                if ($table->checked_out && $table->checked_out != $this->checked_out) {
-                    $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_DEFAULT_CHECKIN_USER_MISMATCH'));
+        // Verify that the home page for this language is unique per client id
+        if ($this->home == '1' && $table->load(['home' => '1', 'language' => $this->language, 'client_id' => (int) $this->client_id])) {
+            if ($table->checked_out && $table->checked_out != $this->checked_out) {
+                $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_DEFAULT_CHECKIN_USER_MISMATCH'));
 
-                    return false;
-                }
-
-                $table->home             = 0;
-                $table->checked_out      = null;
-                $table->checked_out_time = null;
-                $table->store();
+                return false;
             }
+            $table->home             = 0;
+            $table->checked_out      = null;
+            $table->checked_out_time = null;
+            $table->store();
         }
 
         if (!parent::store($updateNulls)) {

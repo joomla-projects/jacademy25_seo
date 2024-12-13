@@ -31,6 +31,10 @@ use Joomla\Component\Templates\Administrator\Model\TemplatesModel;
 class HtmlView extends BaseHtmlView
 {
     /**
+     * @var int
+     */
+    public $total;
+    /**
      * The list of templates
      *
      * @var     array

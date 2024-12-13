@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-if (!count($images)) {
+if (count($images) === 0) {
     echo Text::_('MOD_RANDOM_IMAGE_NO_IMAGES');
 
     return;

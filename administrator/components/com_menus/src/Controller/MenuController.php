@@ -67,7 +67,7 @@ class MenuController extends FormController
         $recordId = $this->input->getInt('id');
 
         // Prevent using 'main' as menutype as this is reserved for backend menus
-        if (strtolower((string) $data['menutype']) == 'main') {
+        if (strtolower((string) $data['menutype']) === 'main') {
             $this->setMessage(Text::_('COM_MENUS_ERROR_MENUTYPE'), 'error');
 
             // Redirect back to the edit screen.
@@ -199,7 +199,7 @@ class MenuController extends FormController
         $cid = (array) $this->input->get('cid', [], 'int');
 
         // We know the first element is the one we need because we don't allow multi selection of rows
-        $id = empty($cid) ? 0 : reset($cid);
+        $id = $cid === [] ? 0 : reset($cid);
 
         if ($id === 0) {
             $this->setMessage(Text::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), 'warning');

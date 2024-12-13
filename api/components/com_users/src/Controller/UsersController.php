@@ -57,8 +57,9 @@ class UsersController extends ApiController
     {
         foreach (FieldsHelper::getFields('com_users.user') as $field) {
             if (isset($data[$field->name])) {
-                !isset($data['com_fields']) && $data['com_fields'] = [];
-
+                if (!isset($data['com_fields'])) {
+                    $data['com_fields'] = [];
+                }
                 $data['com_fields'][$field->name] = $data[$field->name];
                 unset($data[$field->name]);
             }
@@ -72,10 +73,8 @@ class UsersController extends ApiController
             }
         }
 
-        if ($this->input->getMethod() === 'POST') {
-            if (isset($data['password'])) {
-                $data['password2'] = $data['password'];
-            }
+        if ($this->input->getMethod() === 'POST' && isset($data['password'])) {
+            $data['password2'] = $data['password'];
         }
 
         return $data;

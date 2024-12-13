@@ -120,12 +120,12 @@ class OrderingField extends FormField
         $attr = '';
 
         // Initialize some field attributes.
-        $attr .= !empty($this->class) ? ' class="form-select' . $this->class . '"' : ' class="form-select"';
+        $attr .= empty($this->class) ? ' class="form-select"' : ' class="form-select' . $this->class . '"';
         $attr .= $this->disabled ? ' disabled' : '';
-        $attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
+        $attr .= empty($this->size) ? '' : ' size="' . $this->size . '"';
 
         // Initialize JavaScript field attributes.
-        $attr .= !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
+        $attr .= empty($this->onchange) ? '' : ' onchange="' . $this->onchange . '"';
 
         $itemId = (int) $this->getItemId();
 
@@ -133,11 +133,11 @@ class OrderingField extends FormField
 
         // Create a read-only list (no name) with a hidden input to store the value.
         if ($this->readonly) {
-            $html[] = HTMLHelper::_('list.ordering', '', $query, trim($attr), $this->value, $itemId ? 0 : 1, $this->id);
+            $html[] = HTMLHelper::_('list.ordering', '', $query, trim($attr), $this->value, $itemId !== 0 ? 0 : 1, $this->id);
             $html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '">';
         } else {
             // Create a regular list.
-            $html[] = HTMLHelper::_('list.ordering', $this->name, $query, trim($attr), $this->value, $itemId ? 0 : 1, $this->id);
+            $html[] = HTMLHelper::_('list.ordering', $this->name, $query, trim($attr), $this->value, $itemId !== 0 ? 0 : 1, $this->id);
         }
 
         return implode('', $html);

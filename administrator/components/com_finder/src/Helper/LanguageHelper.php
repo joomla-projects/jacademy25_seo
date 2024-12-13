@@ -144,8 +144,9 @@ class LanguageHelper
 
         // Load language file for each plugin.
         foreach ($plugins as $plugin) {
-            $lang->load($plugin->name, JPATH_ADMINISTRATOR)
-                || $lang->load($plugin->name, JPATH_PLUGINS . '/finder/' . $plugin->element);
+            if (!$lang->load($plugin->name, JPATH_ADMINISTRATOR)) {
+                $lang->load($plugin->name, JPATH_PLUGINS . '/finder/' . $plugin->element);
+            }
         }
     }
 }

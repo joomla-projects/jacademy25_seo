@@ -117,13 +117,8 @@ class RemindModel extends AdminModel
                 'created' => Factory::getDate()->toSql(),
             ]
         );
-
-        if (!$saved) {
-            // Error was set by the save method
-            return false;
-        }
-
-        return true;
+        // Error was set by the save method
+        return $saved;
     }
 
     /**

@@ -84,7 +84,7 @@ class Factory implements FactoryInterface
      */
     public function createRenderer(Document $document, string $type, string $docType = ''): RendererInterface
     {
-        $docType = $docType ? ucfirst($docType) : ucfirst($document->getType());
+        $docType = $docType !== '' && $docType !== '0' ? ucfirst($docType) : ucfirst($document->getType());
 
         // Determine the path and class
         $class = __NAMESPACE__ . '\\Renderer\\' . $docType . '\\' . ucfirst($type) . 'Renderer';

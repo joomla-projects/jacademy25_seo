@@ -95,6 +95,6 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
     {
         $list = $this->getButtons($buttons, $options);
 
-        return $list ? LayoutHelper::render('joomla.editors.buttons', $list) : '';
+        return $list !== [] ? LayoutHelper::render('joomla.editors.buttons', $list) : '';
     }
 }

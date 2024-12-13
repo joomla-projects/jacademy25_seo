@@ -147,7 +147,7 @@ class CheckinModel extends ListModel
      */
     public function getTotal()
     {
-        if (!isset($this->total)) {
+        if ($this->total === null) {
             $this->getItems();
         }
 
@@ -163,7 +163,7 @@ class CheckinModel extends ListModel
      */
     public function getItems()
     {
-        if (!isset($this->items)) {
+        if (!property_exists($this, 'items') || $this->items === null) {
             $db     = $this->getDatabase();
             $tables = $db->getTableList();
             $prefix = Factory::getApplication()->get('dbprefix');
@@ -209,28 +209,22 @@ class CheckinModel extends ListModel
 
             // Order items by table
             if ($this->getState('list.ordering') == 'table') {
-                if (strtolower((string) $this->getState('list.direction')) == 'asc') {
+                if (strtolower((string) $this->getState('list.direction')) === 'asc') {
                     ksort($results);
                 } else {
                     krsort($results);
                 }
-            } else {
+            } elseif (strtolower((string) $this->getState('list.direction')) === 'asc') {
                 // Order items by number of items
-                if (strtolower((string) $this->getState('list.direction')) == 'asc') {
-                    asort($results);
-                } else {
-                    arsort($results);
-                }
+                asort($results);
+            } else {
+                arsort($results);
             }
 
             // Pagination
             $limit = (int) $this->getState('list.limit');
 
-            if ($limit !== 0) {
-                $this->items = \array_slice($results, $this->getState('list.start'), $limit);
-            } else {
-                $this->items = $results;
-            }
+            $this->items = $limit !== 0 ? \array_slice($results, $this->getState('list.start'), $limit) : $results;
         }
 
         return $this->items;

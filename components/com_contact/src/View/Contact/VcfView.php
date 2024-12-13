@@ -69,12 +69,12 @@ class VcfView extends AbstractView
 
             $firstname = '';
 
-            if (!empty($name_and_midname)) {
+            if ($name_and_midname !== '' && $name_and_midname !== '0') {
                 $namearray = explode(' ', $name_and_midname);
 
                 $firstname  = $namearray[0];
                 $middlename = (\count($namearray) > 1) ? $namearray[1] : '';
-                $card_name  = $firstname . ' ' . ($middlename ? $middlename . ' ' : '') . $card_name;
+                $card_name  = $firstname . ' ' . ($middlename !== '' && $middlename !== '0' ? $middlename . ' ' : '') . $card_name;
             }
         } else {
             // "Firstname Middlename Lastname" format support
@@ -83,7 +83,7 @@ class VcfView extends AbstractView
             $middlename = (\count($namearray) > 2) ? $namearray[1] : '';
             $firstname  = array_shift($namearray);
             $lastname   = \count($namearray) ? end($namearray) : '';
-            $card_name  = $firstname . ($middlename ? ' ' . $middlename : '') . ($lastname ? ' ' . $lastname : '');
+            $card_name  = $firstname . ($middlename !== '' && $middlename !== '0' ? ' ' . $middlename : '') . ($lastname ? ' ' . $lastname : '');
         }
 
         $rev = date('c', strtotime($item->modified));

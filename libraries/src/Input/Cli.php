@@ -61,11 +61,7 @@ class Cli extends Input
      */
     public function __construct(?array $source = null, array $options = [])
     {
-        if (isset($options['filter'])) {
-            $this->filter = $options['filter'];
-        } else {
-            $this->filter = InputFilter::getInstance();
-        }
+        $this->filter = $options['filter'] ?? InputFilter::getInstance();
 
         // Get the command line options
         $this->parseArguments();

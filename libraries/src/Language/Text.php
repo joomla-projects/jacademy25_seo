@@ -107,10 +107,10 @@ class Text
         $first_part = array_shift($string_parts);
 
         // Replace custom named placeholders with sprintf style placeholders
-        $first_part = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $first_part);
+        $first_part = preg_replace('/\[\[%(\d+):[^\]]*\]\]/', '%\1$s', $first_part);
 
         // Check if string contains sprintf placeholders
-        if (!preg_match('/%([0-9]+\$)?s/', (string) $first_part)) {
+        if (!preg_match('/%(\d+\$)?s/', (string) $first_part)) {
             return false;
         }
 
@@ -211,7 +211,7 @@ class Text
         }
 
         // Not found so revert to the original.
-        $key = !$found ? $string : $key;
+        $key = $found ? $key : $string;
 
         if (\is_array($args[$count - 1])) {
             $args[0] = $lang->_(
@@ -276,7 +276,7 @@ class Text
         }
 
         // Replace custom named placeholders with sprintf style placeholders
-        $args[0] = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $args[0]);
+        $args[0] = preg_replace('/\[\[%(\d+):[^\]]*\]\]/', '%\1$s', $args[0]);
 
         return \call_user_func_array('sprintf', $args);
     }
@@ -342,11 +342,7 @@ class Text
                 $interpretBackSlashes = (bool) $jsSafe['interpretBackSlashes'];
             }
 
-            if (\array_key_exists('jsSafe', $jsSafe)) {
-                $jsSafe = (bool) $jsSafe['jsSafe'];
-            } else {
-                $jsSafe = false;
-            }
+            $jsSafe = \array_key_exists('jsSafe', $jsSafe) ? (bool) $jsSafe['jsSafe'] : false;
         }
 
         // Add the string to the array if not null.

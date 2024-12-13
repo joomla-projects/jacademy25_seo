@@ -102,7 +102,7 @@ class PackageManifest extends Manifest
         $this->scriptfile  = (string) $xml->scriptfile;
         $this->version     = (string) $xml->version;
 
-        if (isset($xml->blockChildUninstall)) {
+        if (property_exists($xml, 'blockChildUninstall') && $xml->blockChildUninstall !== null) {
             $value = (string) $xml->blockChildUninstall;
 
             if ($value === '1' || $value === 'true') {
@@ -110,7 +110,7 @@ class PackageManifest extends Manifest
             }
         }
 
-        if (isset($xml->files->file) && \count($xml->files->file)) {
+        if (property_exists($xml->files, 'file') && $xml->files->file !== null && \count($xml->files->file)) {
             foreach ($xml->files->file as $file) {
                 // NOTE: JInstallerExtension doesn't expect a string.
                 // DO NOT CAST $file
@@ -119,7 +119,7 @@ class PackageManifest extends Manifest
         }
 
         // Handle cases where package contains folders
-        if (isset($xml->files->folder) && \count($xml->files->folder)) {
+        if (property_exists($xml->files, 'folder') && $xml->files->folder !== null && \count($xml->files->folder)) {
             foreach ($xml->files->folder as $folder) {
                 // NOTE: JInstallerExtension doesn't expect a string.
                 // DO NOT CAST $folder

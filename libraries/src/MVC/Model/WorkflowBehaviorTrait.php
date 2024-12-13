@@ -76,7 +76,7 @@ trait WorkflowBehaviorTrait
 
         $this->extension = array_shift($parts);
 
-        if (\count($parts)) {
+        if ($parts !== []) {
             $this->section = array_shift($parts);
         }
 
@@ -234,13 +234,13 @@ trait WorkflowBehaviorTrait
         // Get workflow stage information
         $stage = $workflow->getMVCFactory()->createTable('Stage', 'Administrator');
 
-        if (empty($value) || !$stage->load($value)) {
+        if ($value === 0 || !$stage->load($value)) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_BATCH_WORKFLOW_STAGE_ROW_NOT_FOUND'), 'error');
 
             return false;
         }
 
-        if (empty($pks)) {
+        if ($pks === []) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_BATCH_WORKFLOW_STAGE_ROW_NOT_FOUND'), 'error');
 
             return false;

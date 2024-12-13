@@ -28,6 +28,43 @@ use Joomla\Component\Languages\Administrator\Helper\MultilangstatusHelper;
 class HtmlView extends BaseHtmlView
 {
     /**
+     * @var int
+     */
+    public $homes;
+    /**
+     * @var bool
+     */
+    public $language_filter;
+    /**
+     * @var int
+     */
+    public $switchers;
+    /**
+     * @var mixed[]
+     */
+    public $listUsersError;
+    /**
+     * @var mixed[]
+     */
+    public $contentlangs;
+    /**
+     * @var mixed[]
+     */
+    public $site_langs;
+    /**
+     * @var mixed[]
+     */
+    public $statuses;
+    /**
+     * @var mixed[]
+     */
+    public $homepages;
+    /**
+     * @var bool
+     */
+    public $defaultHome;
+    public $default_lang;
+    /**
      * Display the view.
      *
      * @param   string  $tpl  The name of the template file to parse.

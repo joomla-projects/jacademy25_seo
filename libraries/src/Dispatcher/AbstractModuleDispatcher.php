@@ -128,9 +128,8 @@ abstract class AbstractModuleDispatcher extends Dispatcher
         $langPaths = $language->getPaths();
 
         // Only load the module's language file if it hasn't been already
-        if (!$langPaths || (!isset($langPaths[$coreLanguageDirectory]) && !isset($langPaths[$extensionLanguageDirectory]))) {
-            // 1.5 or Core then 1.6 3PD
-            $language->load($this->module->module, $coreLanguageDirectory) ||
+        // 1.5 or Core then 1.6 3PD
+        if ((!$langPaths || !isset($langPaths[$coreLanguageDirectory]) && !isset($langPaths[$extensionLanguageDirectory])) && !$language->load($this->module->module, $coreLanguageDirectory)) {
             $language->load($this->module->module, $extensionLanguageDirectory);
         }
     }

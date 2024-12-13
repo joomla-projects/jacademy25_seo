@@ -50,7 +50,7 @@ class CaptchaRule extends FormRule
             $default = $app->getParams()->get('captcha', $default);
         }
 
-        $plugin = $element['plugin'] ? (string) $element['plugin'] : $default;
+        $plugin = $element['plugin'] instanceof \SimpleXMLElement ? (string) $element['plugin'] : $default;
 
         $namespace = $element['namespace'] ?: $form->getName();
 

@@ -216,7 +216,7 @@ class Updater extends Adapter
 
             if (\is_array($eid)) {
                 $query->whereIn($db->quoteName('b.extension_id'), $eid);
-            } elseif ($eid = (int) $eid) {
+            } elseif ($eid = (int) $eid !== 0) {
                 $query->where($db->quoteName('b.extension_id') . ' = :eid')
                     ->bind(':eid', $eid, ParameterType::INTEGER);
             }
@@ -276,7 +276,7 @@ class Updater extends Adapter
                     $extraId  = (int) $extraUpdateSite['update_site_id'];
 
                     // Do not try to fetch the same update site twice
-                    if (($thisId == $extraId) || ($thisUrl == $extraUrl)) {
+                    if (($thisId === $extraId) || ($thisUrl === $extraUrl)) {
                         continue;
                     }
 
@@ -374,7 +374,7 @@ class Updater extends Adapter
             ->select('DISTINCT ' . $db->quoteName('update_site_id'))
             ->from($db->quoteName('#__updates'));
 
-        if ($timestamp) {
+        if ($timestamp !== 0) {
             $subQuery = $db->getQuery(true)
                 ->select($db->quoteName('update_site_id'))
                 ->from($db->quoteName('#__update_sites'))

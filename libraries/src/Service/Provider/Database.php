@@ -67,10 +67,8 @@ class Database implements ServiceProviderInterface
                         $dbtype = 'mysql';
                     }
 
-                    if (strtolower($dbtype) === 'mysql') {
-                        if (!MysqlDriver::isSupported()) {
-                            $dbtype = 'mysqli';
-                        }
+                    if (strtolower($dbtype) === 'mysql' && !MysqlDriver::isSupported()) {
+                        $dbtype = 'mysqli';
                     }
 
                     /*

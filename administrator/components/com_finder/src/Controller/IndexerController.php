@@ -97,7 +97,7 @@ class IndexerController extends BaseController
             $output = ob_get_contents();
 
             // Finder plugins should not create output of any kind. If there is output, that very likely is the result of a PHP error.
-            if (trim($output)) {
+            if (trim($output) !== '' && trim($output) !== '0') {
                 throw new \Exception(Text::_('COM_FINDER_AN_ERROR_HAS_OCCURRED'));
             }
 
@@ -203,7 +203,7 @@ class IndexerController extends BaseController
             $output = ob_get_contents();
 
             // Finder plugins should not create output of any kind. If there is output, that very likely is the result of a PHP error.
-            if (trim($output)) {
+            if (trim($output) !== '' && trim($output) !== '0') {
                 throw new \Exception(Text::_('COM_FINDER_INDEXER_ERROR_PLUGIN_FAILURE'));
             }
 
@@ -254,7 +254,7 @@ class IndexerController extends BaseController
             $output = ob_get_contents();
 
             // Finder plugins should not create output of any kind. If there is output, that very likely is the result of a PHP error.
-            if (trim($output)) {
+            if (trim($output) !== '' && trim($output) !== '0') {
                 throw new \Exception(Text::_('COM_FINDER_AN_ERROR_HAS_OCCURRED'));
             }
 

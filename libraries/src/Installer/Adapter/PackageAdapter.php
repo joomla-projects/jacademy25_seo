@@ -123,7 +123,7 @@ class PackageAdapter extends InstallerAdapter
         if ($attributes) {
             $folder = (string) $attributes->folder;
 
-            if ($folder) {
+            if ($folder !== '' && $folder !== '0') {
                 $source .= '/' . $folder;
             }
         }
@@ -220,7 +220,7 @@ class PackageAdapter extends InstallerAdapter
         }
 
         // Set the package ID for each of the installed extensions to track the relationship
-        if (!empty($this->installedIds)) {
+        if ($this->installedIds !== []) {
             $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->update($db->quoteName('#__extensions'))
@@ -282,16 +282,14 @@ class PackageAdapter extends InstallerAdapter
             $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-            if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles([$path])) {
-                    // Install failed, rollback changes
-                    throw new \RuntimeException(
-                        Text::sprintf(
-                            'JLIB_INSTALLER_ABORT_MANIFEST',
-                            Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
-                        )
-                    );
-                }
+            if (($this->parent->isOverwrite() || !file_exists($path['dest'])) && !$this->parent->copyFiles([$path])) {
+                // Install failed, rollback changes
+                throw new \RuntimeException(
+                    Text::sprintf(
+                        'JLIB_INSTALLER_ABORT_MANIFEST',
+                        Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+                    )
+                );
             }
         }
     }
@@ -461,7 +459,7 @@ class PackageAdapter extends InstallerAdapter
     {
         $packagepath = (string) $this->getManifest()->packagename;
 
-        if (empty($packagepath)) {
+        if ($packagepath === '' || $packagepath === '0') {
             throw new \RuntimeException(
                 Text::sprintf(
                     'JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_PACK',
@@ -610,16 +608,14 @@ class PackageAdapter extends InstallerAdapter
                 case 'uninstall':
                 case 'update':
                     // The install, uninstall, and update methods only pass this object as a param
-                    if ($this->parent->manifestClass->$method($this) === false) {
-                        if ($method !== 'uninstall') {
-                            // The script failed, rollback changes
-                            throw new \RuntimeException(
-                                Text::sprintf(
-                                    'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
-                                    Text::_('JLIB_INSTALLER_' . $this->route)
-                                )
-                            );
-                        }
+                    if ($this->parent->manifestClass->$method($this) === false && $method !== 'uninstall') {
+                        // The script failed, rollback changes
+                        throw new \RuntimeException(
+                            Text::sprintf(
+                                'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
+                                Text::_('JLIB_INSTALLER_' . $this->route)
+                            )
+                        );
                     }
 
                     break;

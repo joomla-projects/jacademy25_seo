@@ -80,7 +80,7 @@ $wa->useScript('joomla.treeselectmenu')
                                 <div class="treeselect-item">
                                     <input type="checkbox" <?php echo $link->value > 1 ? ' name="jform[params][hideitems][]" ' : ''; ?>
                                         id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>" class="novalidate checkbox-toggle"
-                                        <?php echo $selected ? ' checked="checked"' : ''; ?>>
+                                        <?php echo $selected !== 0 ? ' checked="checked"' : ''; ?>>
 
                                     <?php if ($link->value == 1) : ?>
                                         <label for="<?php echo $id . $link->value; ?>" class="btn btn-sm btn-info"><?php echo Text::_('JALL') ?></label>

@@ -67,7 +67,7 @@ $data .= ' aria-valuenow="' . $value . '"';
 
 $attributes = [
     $class,
-    !empty($width) ? ' style="width:' . $width . ';"' : '',
+    empty($width) ? '' : ' style="width:' . $width . ';"',
     $data,
     $dataAttribute,
 ];
@@ -78,5 +78,5 @@ $value = ((float) ($value - $min) * 100) / ($max - $min);
     <div
         role="progressbar"
         <?php echo implode(' ', $attributes); ?>
-        style="width:<?php echo (string) $value; ?>%;<?php echo !empty($color) ? ' background-color:' . $color . ';' : ''; ?>"></div>
+        style="width:<?php echo (string) $value; ?>%;<?php echo empty($color) ? '' : ' background-color:' . $color . ';'; ?>"></div>
 </div>

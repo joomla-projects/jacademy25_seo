@@ -51,7 +51,7 @@ class LanguageclientField extends ListField
     protected function getOptions()
     {
         // Try to load the data from our mini-cache.
-        if (!empty($this->cache)) {
+        if ($this->cache !== []) {
             return $this->cache;
         }
 

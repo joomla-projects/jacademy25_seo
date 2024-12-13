@@ -440,7 +440,7 @@ class ArticlesModel extends ListModel
                 $query->where($db->quoteName('a.catid') . $type . ':categoryId');
                 $query->bind(':categoryId', $categoryId, ParameterType::INTEGER);
             }
-        } elseif (\is_array($categoryId) && (\count($categoryId) > 0)) {
+        } elseif (\is_array($categoryId) && ($categoryId !== [])) {
             $categoryId = ArrayHelper::toInteger($categoryId);
 
             if (!empty($categoryId)) {
@@ -464,7 +464,7 @@ class ArticlesModel extends ListModel
         } elseif (\is_array($authorId)) {
             $authorId = array_values(array_filter($authorId, 'is_numeric'));
 
-            if ($authorId) {
+            if ($authorId !== []) {
                 $type        = $this->getState('filter.author_id.include', true) ? ' IN' : ' NOT IN';
                 $authorWhere = $db->quoteName('a.created_by') . $type . ' (' . implode(',', $query->bindArray($authorId)) . ')';
             }
@@ -478,15 +478,15 @@ class ArticlesModel extends ListModel
             $type             = $this->getState('filter.author_alias.include', true) ? ' = ' : ' <> ';
             $authorAliasWhere = $db->quoteName('a.created_by_alias') . $type . ':authorAlias';
             $query->bind(':authorAlias', $authorAlias);
-        } elseif (\is_array($authorAlias) && !empty($authorAlias)) {
+        } elseif (\is_array($authorAlias) && $authorAlias !== []) {
             $type             = $this->getState('filter.author_alias.include', true) ? ' IN' : ' NOT IN';
             $authorAliasWhere = $db->quoteName('a.created_by_alias') . $type
                 . ' (' . implode(',', $query->bindArray($authorAlias, ParameterType::STRING)) . ')';
         }
 
-        if (!empty($authorWhere) && !empty($authorAliasWhere)) {
+        if ($authorWhere !== '' && $authorWhere !== '0' && ($authorAliasWhere !== '' && $authorAliasWhere !== '0')) {
             $query->where('(' . $authorWhere . ' OR ' . $authorAliasWhere . ')');
-        } elseif (!empty($authorWhere) || !empty($authorAliasWhere)) {
+        } elseif ($authorWhere !== '' && $authorWhere !== '0' || $authorAliasWhere !== '' && $authorAliasWhere !== '0') {
             // One of these is empty, the other is not so we just add both
             $query->where($authorWhere . $authorAliasWhere);
         }
@@ -623,7 +623,7 @@ class ArticlesModel extends ListModel
                     $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
                 );
             }
-        } elseif ($tagId = (int) $tagId) {
+        } elseif ($tagId = (int) $tagId !== 0) {
             $query->join(
                 'INNER',
                 $db->quoteName('#__contentitem_tag_map', 'tagmap'),
@@ -692,18 +692,12 @@ class ArticlesModel extends ListModel
                 foreach ($menuParamsArray as $key => $value) {
                     if ($value === 'use_article') {
                         // If the article has a value, use it
-                        if ($articleParams->get($key) != '') {
-                            // Get the value from the article
-                            $articleArray[$key] = $articleParams->get($key);
-                        } else {
-                            // Otherwise, use the global value
-                            $articleArray[$key] = $globalParams->get($key);
-                        }
+                        $articleArray[$key] = $articleParams->get($key) != '' ? $articleParams->get($key) : $globalParams->get($key);
                     }
                 }
 
                 // Merge the selected article params
-                if (\count($articleArray) > 0) {
+                if ($articleArray !== []) {
                     $articleParams = new Registry($articleArray);
                     $item->params->merge($articleParams);
                 }
@@ -752,13 +746,11 @@ class ArticlesModel extends ListModel
             if ($access) {
                 // If the access filter has been set, we already have only the articles this user can view.
                 $item->params->set('access-view', true);
-            } else {
+            } elseif ($item->catid == 0 || $item->category_access === null) {
                 // If no access filter is set, the layout takes some responsibility for display of limited information.
-                if ($item->catid == 0 || $item->category_access === null) {
-                    $item->params->set('access-view', \in_array($item->access, $groups));
-                } else {
-                    $item->params->set('access-view', \in_array($item->access, $groups) && \in_array($item->category_access, $groups));
-                }
+                $item->params->set('access-view', \in_array($item->access, $groups));
+            } else {
+                $item->params->set('access-view', \in_array($item->access, $groups) && \in_array($item->category_access, $groups));
             }
 
             // Some contexts may not use tags data at all, so we allow callers to disable loading tag data
@@ -773,7 +765,7 @@ class ArticlesModel extends ListModel
         }
 
         // Load tags of all items.
-        if ($taggedItems) {
+        if ($taggedItems !== []) {
             $tagsHelper = new TagsHelper();
             $itemIds    = array_keys($taggedItems);
 

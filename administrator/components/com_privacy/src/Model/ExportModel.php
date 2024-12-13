@@ -52,7 +52,7 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
      */
     public function collectDataForExportRequest($id = null)
     {
-        $id = !empty($id) ? $id : (int) $this->getState($this->getName() . '.request_id');
+        $id = empty($id) ? (int) $this->getState($this->getName() . '.request_id') : $id;
 
         if (!$id) {
             $this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_EXPORT'));
@@ -93,7 +93,7 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
                 ->setLimit(1)
         )->loadResult();
 
-        $user = $userId ? $this->getUserFactory()->loadUserById($userId) : null;
+        $user = $userId !== 0 ? $this->getUserFactory()->loadUserById($userId) : null;
 
         // Log the export
         $this->logExport($table);
@@ -127,7 +127,7 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
      */
     public function emailDataExport($id = null)
     {
-        $id = !empty($id) ? $id : (int) $this->getState($this->getName() . '.request_id');
+        $id = empty($id) ? (int) $this->getState($this->getName() . '.request_id') : $id;
 
         if (!$id) {
             $this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_EXPORT'));
@@ -188,7 +188,7 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
             1
         )->loadResult();
 
-        if ($userId) {
+        if ($userId !== 0) {
             $receiver = $this->getUserFactory()->loadUserById($userId);
 
             /*
@@ -206,8 +206,9 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
         }
 
         // Ensure the right language files have been loaded
-        $lang->load('com_privacy', JPATH_ADMINISTRATOR)
-            || $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
+        if (!$lang->load('com_privacy', JPATH_ADMINISTRATOR)) {
+            $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
+        }
 
         // The mailer can be set to either throw Exceptions or return boolean false, account for both
         try {

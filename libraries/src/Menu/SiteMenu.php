@@ -72,7 +72,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
         $this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : Factory::getLanguage();
 
         if (!isset($options['db']) || !($options['db'] instanceof DatabaseDriver)) {
-            @trigger_error(\sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
+            @trigger_error('Database will be mandatory in 5.0.', E_USER_DEPRECATED);
             $options['db'] = Factory::getContainer()->get(DatabaseDriver::class);
         }
 
@@ -278,5 +278,6 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
         if (\array_key_exists('*', $this->default)) {
             return $items[$this->default['*']];
         }
+        return null;
     }
 }

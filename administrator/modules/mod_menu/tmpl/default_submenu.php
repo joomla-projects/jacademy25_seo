@@ -81,7 +81,7 @@ $itemImage = $currentParams->get('menu_image');
 // Get the menu icon
 $icon      = $this->getIconClass($current);
 $iconClass = ($icon != '' && $current->level == 1) ? '<span class="' . $icon . '" aria-hidden="true"></span>' : '';
-$ajax      = !empty($current->ajaxbadge) ? '<span class="menu-badge"><span class="icon-spin icon-spinner mt-1 system-counter" data-url="' . $current->ajaxbadge . '"></span></span>' : '';
+$ajax      = empty($current->ajaxbadge) ? '' : '<span class="menu-badge"><span class="icon-spin icon-spinner mt-1 system-counter" data-url="' . $current->ajaxbadge . '"></span></span>';
 $iconImage = $current->icon;
 $homeImage = '';
 
@@ -90,7 +90,7 @@ if ($iconClass === '' && $itemIconClass) {
 }
 
 if ($iconImage) {
-    if (str_starts_with($iconImage, 'class:') && substr($iconImage, 6) == 'icon-home') {
+    if (str_starts_with($iconImage, 'class:') && substr($iconImage, 6) === 'icon-home') {
         $iconImage = '<span class="home-image icon-home" aria-hidden="true"></span>';
         $iconImage .= '<span class="visually-hidden">' . Text::_('JDEFAULT') . '</span>';
     } elseif (str_starts_with($iconImage, 'image:')) {
@@ -103,7 +103,7 @@ if ($iconImage) {
 $itemImage = (empty($itemIconClass) && $itemImage) ? '&nbsp;<img src="' . Uri::root() . $itemImage . '" alt="">&nbsp;' : '';
 
 // If the item image is not set, the item title would not have margin. Here we add it.
-if ($icon == '' && $iconClass == '' && $current->level == 1 && $current->target == '') {
+if ($icon == '' && $iconClass === '' && $current->level == 1 && $current->target == '') {
     $iconClass = '<span aria-hidden="true" class="icon-fw"></span>';
 }
 

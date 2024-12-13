@@ -389,12 +389,10 @@ final class Debug extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        switch ($this->getApplication()->getInput()->get('action')) {
-            case 'openhandler':
-                $handler = new OpenHandler($this->debugBar);
-                $result  = $handler->handle($this->getApplication()->getInput()->request->getArray(), false, false);
-
-                $event->addResult($result);
+        if ($this->getApplication()->getInput()->get('action') === 'openhandler') {
+            $handler = new OpenHandler($this->debugBar);
+            $result  = $handler->handle($this->getApplication()->getInput()->request->getArray(), false, false);
+            $event->addResult($result);
         }
     }
 
@@ -416,7 +414,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
         // If the user is not allowed to view the output then end here.
         $filterGroups = (array) $this->params->get('filter_groups', []);
 
-        if (!empty($filterGroups)) {
+        if ($filterGroups !== []) {
             $userGroups = $this->getApplication()->getIdentity()->get('groups');
 
             if (!array_intersect($filterGroups, $userGroups)) {

@@ -436,14 +436,14 @@ abstract class ToolbarButton
     {
         // Getter
         if (stripos($name, 'get') === 0) {
-            $fieldName = static::findOptionName(lcfirst(substr($name, 3)));
+            $fieldName = $this->findOptionName(lcfirst(substr($name, 3)));
 
             if ($fieldName !== false) {
                 return $this->getOption($fieldName);
             }
         } else {
             // Setter
-            $fieldName = static::findOptionName($name);
+            $fieldName = $this->findOptionName($name);
 
             if ($fieldName !== false) {
                 if (!\array_key_exists(0, $args)) {
@@ -478,7 +478,7 @@ abstract class ToolbarButton
      *
      * @since  4.0.0
      */
-    private static function findOptionName(string $name)
+    private function findOptionName(string $name)
     {
         $accessors = static::getAccessors();
 

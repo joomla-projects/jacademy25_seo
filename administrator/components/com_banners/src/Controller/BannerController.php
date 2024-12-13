@@ -71,14 +71,14 @@ class BannerController extends FormController
      */
     protected function allowEdit($data = [], $key = 'id')
     {
-        $recordId   = (int) isset($data[$key]) ? $data[$key] : 0;
+        $recordId   = (int) isset($data[$key]) !== 0 ? $data[$key] : 0;
         $categoryId = 0;
 
         if ($recordId) {
             $categoryId = (int) $this->getModel()->getItem($recordId)->catid;
         }
 
-        if ($categoryId) {
+        if ($categoryId !== 0) {
             // The category has been set. Check the category permissions.
             return $this->app->getIdentity()->authorise('core.edit', $this->option . '.category.' . $categoryId);
         }

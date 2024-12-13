@@ -77,7 +77,7 @@ class MenuParentField extends ListField
         }
 
         // Prevent parenting to children of this item.
-        if ($id = (int) $this->form->getValue('id')) {
+        if ($id = (int) $this->form->getValue('id') !== 0) {
             $query->join('LEFT', $db->quoteName('#__menu', 'p'), $db->quoteName('p.id') . ' = :id')
                 ->bind(':id', $id, ParameterType::INTEGER)
                 ->where(

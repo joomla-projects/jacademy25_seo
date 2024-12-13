@@ -76,7 +76,7 @@ class CategoryField extends ModalSelectField
         $language  = (string) $this->element['language'];
 
         // Prepare enabled actions
-        $this->canDo['propagate']  = ((string) $this->element['propagate'] == 'true') && \count($languages) > 2;
+        $this->canDo['propagate']  = ((string) $this->element['propagate'] === 'true') && \count($languages) > 2;
 
         // Prepare Urls
         $linkItems = (new Uri())->setPath(Uri::base(true) . '/index.php');
@@ -98,7 +98,7 @@ class CategoryField extends ModalSelectField
             Session::getFormToken() => 1,
         ]);
 
-        if ($language) {
+        if ($language !== '' && $language !== '0') {
             $linkItems->setVar('forcedLanguage', $language);
             $linkItem->setVar('forcedLanguage', $language);
 

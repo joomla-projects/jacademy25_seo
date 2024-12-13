@@ -36,7 +36,7 @@ trait SiteTemplateTrait
         $app           = Factory::getApplication();
         $templateStyle = (int) ComponentHelper::getParams('com_users')->get('captive_template', '');
 
-        if (empty($templateStyle) || !$app->isClient('site')) {
+        if ($templateStyle === 0 || !$app->isClient('site')) {
             return;
         }
 

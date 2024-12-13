@@ -332,7 +332,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         // Social media accounts
         $socialMedia = (array) $this->params->get('socialmedia', []);
 
-        if (!empty($socialMedia)) {
+        if ($socialMedia !== []) {
             $siteSchema['sameAs'] = [];
         }
 

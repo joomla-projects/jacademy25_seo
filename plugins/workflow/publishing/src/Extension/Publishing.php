@@ -325,7 +325,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
         $value = $transition->options->get('publishing');
 
         if (!is_numeric($value)) {
-            return;
+            return null;
         }
 
         $options = [
@@ -339,6 +339,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
         $model = $component->getMVCFactory()->createModel($modelName, $this->getApplication()->getName(), $options);
 
         $model->publish($pks, $value);
+        return null;
     }
 
     /**
@@ -523,12 +524,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
         }
 
         $table = $model->getTable();
-
-        if (!$table instanceof TableInterface || !$table->hasField('published')) {
-            return false;
-        }
-
-        return true;
+        return $table instanceof TableInterface && $table->hasField('published');
     }
 
     /**

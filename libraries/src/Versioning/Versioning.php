@@ -101,7 +101,7 @@ class Versioning
         $aliasParts = explode('.', $typeAlias);
 
         // Don't store unless we have a non-zero item id
-        if (!$historyTable->item_id) {
+        if ($historyTable->item_id === '' || $historyTable->item_id === '0') {
             return true;
         }
 

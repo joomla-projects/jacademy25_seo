@@ -43,7 +43,7 @@ final class User extends FieldsPlugin implements SubscriberInterface
     {
         if ($this->getApplication()->isClient('site')) {
             // The user field is not working on the front end
-            return;
+            return null;
         }
 
         return parent::onCustomFieldsPrepareDom($field, $parent, $form);

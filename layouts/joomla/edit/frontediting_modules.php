@@ -53,7 +53,7 @@ if ($menusEditing && $mod->module === 'mod_menu') {
     $regex = '/\bitem-(\d+)\b/';
 
     preg_match_all($regex, (string) $moduleHtml, $menuItemids);
-    if ($menuItemids) {
+    if ($menuItemids !== []) {
         foreach ($menuItemids[1] as $menuItemid) {
                 $menuitemEditUrl = Uri::base() . 'administrator/index.php?option=com_menus&view=item&client_id=0&layout=edit&id=' . (int) $menuItemid;
                 $moduleHtml = preg_replace(

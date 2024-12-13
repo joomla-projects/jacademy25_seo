@@ -246,10 +246,12 @@ EOF;
             $language = Factory::getLanguage();
         }
 
-        $language->load('', JPATH_ADMINISTRATOR, null, false, false) ||
-        $language->load('', JPATH_ADMINISTRATOR, null, true);
-        $language->load('finder_cli', JPATH_SITE, null, false, false) ||
-        $language->load('finder_cli', JPATH_SITE, null, true);
+        if (!$language->load('', JPATH_ADMINISTRATOR, null, false, false)) {
+            $language->load('', JPATH_ADMINISTRATOR, null, true);
+        }
+        if (!$language->load('finder_cli', JPATH_SITE, null, false, false)) {
+            $language->load('finder_cli', JPATH_SITE, null, true);
+        }
     }
 
     /**
@@ -401,15 +403,11 @@ EOF;
 
                 if ($this->pause !== 0) {
                     // Pausing Section
-                    $skip  = !($processingTime >= $this->minimumBatchProcessingTime);
+                    $skip  = $processingTime < $this->minimumBatchProcessingTime;
                     $pause = 0;
 
                     if ($this->pause === 'division' && $this->divisor > 0) {
-                        if (!$skip) {
-                            $pause = round($processingTime / $this->divisor);
-                        } else {
-                            $pause = 1;
-                        }
+                        $pause = $skip ? 1 : round($processingTime / $this->divisor);
                     } elseif ($this->pause > 0) {
                         $pause = $this->pause;
                     }
@@ -489,7 +487,7 @@ EOF;
             }
 
             // Construct a comma-separated string from the taxonomy ids.
-            $taxonomyIds = empty($tids) ? '' : implode(',', $tids);
+            $taxonomyIds = $tids === [] ? '' : implode(',', $tids);
 
             // Update the filter with the new taxonomy ids.
             $query = $db->getQuery(true);

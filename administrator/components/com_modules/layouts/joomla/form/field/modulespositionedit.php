@@ -61,7 +61,7 @@ $attributes = [
 $selectAttr = [
     $disabled ? 'disabled' : '',
     $readonly ? 'readonly' : '',
-    strlen($hint) ? 'placeholder="' . $this->escape($hint) . '"' : '',
+    strlen($hint) !== 0 ? 'placeholder="' . $this->escape($hint) . '"' : '',
     $onchange ? ' onchange="' . $onchange . '"' : '',
     $autofocus ? ' autofocus' : '',
 ];

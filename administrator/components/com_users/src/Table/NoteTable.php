@@ -69,7 +69,7 @@ class NoteTable extends Table implements VersionableTableInterface, CurrentUserI
         $date   = Factory::getDate()->toSql();
         $userId = $this->getCurrentUser()->id;
 
-        if (!((int) $this->review_time)) {
+        if ((int) $this->review_time === 0) {
             $this->review_time = null;
         }
 

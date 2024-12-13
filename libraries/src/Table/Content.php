@@ -197,30 +197,30 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
             return false;
         }
 
-        if (trim($this->title) == '') {
+        if (trim($this->title) === '') {
             $this->setError(Text::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
 
             return false;
         }
 
-        if (trim($this->alias) == '') {
+        if (trim($this->alias) === '') {
             $this->alias = $this->title;
         }
 
         $this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
 
-        if (trim(str_replace('-', '', $this->alias)) == '') {
+        if (trim(str_replace('-', '', $this->alias)) === '') {
             $this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
         }
 
         // Check for a valid category.
-        if (!$this->catid = (int) $this->catid) {
+        if ($this->catid = (int) $this->catid === 0) {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
 
             return false;
         }
 
-        if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '') {
+        if (trim(str_replace('&nbsp;', '', $this->fulltext)) === '') {
             $this->fulltext = '';
         }
 
@@ -230,22 +230,22 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
          */
         if (!$this->id) {
             // Images can be an empty json string
-            if (!isset($this->images)) {
+            if ($this->images === null) {
                 $this->images = '{}';
             }
 
             // URLs can be an empty json string
-            if (!isset($this->urls)) {
+            if ($this->urls === null) {
                 $this->urls = '{}';
             }
 
             // Attributes (article params) can be an empty json string
-            if (!isset($this->attribs)) {
+            if ($this->attribs === null) {
                 $this->attribs = '{}';
             }
 
             // Metadata can be an empty json string
-            if (!isset($this->metadata)) {
+            if ($this->metadata === null) {
                 $this->metadata = '{}';
             }
 
@@ -288,7 +288,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
             $cleanKeys = [];
 
             foreach ($keys as $key) {
-                if (trim($key)) {
+                if (trim($key) !== '' && trim($key) !== '0') {
                     // Ignore blank keywords
                     $cleanKeys[] = trim($key);
                 }
@@ -322,7 +322,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         $user = $this->getCurrentUser();
 
         // Set created date if not set.
-        if (!(int) $this->created) {
+        if ((int) $this->created === 0) {
             $this->created = $date;
         }
 
@@ -340,7 +340,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
             }
 
             // Set modified to created date if not set
-            if (!(int) $this->modified) {
+            if ((int) $this->modified === 0) {
                 $this->modified = $this->created;
             }
 

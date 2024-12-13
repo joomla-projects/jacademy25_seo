@@ -60,7 +60,7 @@ class ComponentHelper
         }
 
         $result          = new ComponentRecord();
-        $result->enabled = $strict ? false : true;
+        $result->enabled = !$strict;
         $result->setParams(new Registry());
 
         return $result;
@@ -177,7 +177,7 @@ class ComponentHelper
                 foreach ($tags as $tag) {
                     $tag = trim($tag);
 
-                    if ($tag) {
+                    if ($tag !== '' && $tag !== '0') {
                         $tempTags[] = $tag;
                     }
                 }
@@ -185,7 +185,7 @@ class ComponentHelper
                 foreach ($attributes as $attribute) {
                     $attribute = trim($attribute);
 
-                    if ($attribute) {
+                    if ($attribute !== '' && $attribute !== '0') {
                         $tempAttributes[] = $attribute;
                     }
                 }
@@ -225,11 +225,11 @@ class ComponentHelper
                 $filter = InputFilter::getInstance([], [], 1, 1);
 
                 // Override filter's default forbidden tags and attributes
-                if ($customListTags) {
+                if ($customListTags !== []) {
                     $filter->blockedTags = $customListTags;
                 }
 
-                if ($customListAttributes) {
+                if ($customListAttributes !== []) {
                     $filter->blockedAttributes = $customListAttributes;
                 }
             } elseif ($forbiddenList) {
@@ -246,12 +246,12 @@ class ComponentHelper
                 );
 
                 // Remove the allowed tags from filter's default forbidden list.
-                if ($allowedListTags) {
+                if ($allowedListTags !== []) {
                     $filter->blockedTags = array_diff($filter->blockedTags, $allowedListTags);
                 }
 
                 // Remove the allowed attributes from filter's default forbidden list.
-                if ($allowedListAttributes) {
+                if ($allowedListAttributes !== []) {
                     $filter->blockedAttributes = array_diff($filter->blockedAttributes, $allowedListAttributes);
                 }
             } elseif ($allowedList) {
@@ -288,8 +288,9 @@ class ComponentHelper
         if (!$app->isClient('api')) {
             // Load template language files.
             $template = $app->getTemplate(true)->template;
-            $lang->load('tpl_' . $template, JPATH_BASE)
-                || $lang->load('tpl_' . $template, JPATH_THEMES . "/$template");
+            if (!$lang->load('tpl_' . $template, JPATH_BASE)) {
+                $lang->load('tpl_' . $template, JPATH_THEMES . "/$template");
+            }
         }
 
         if (empty($option)) {

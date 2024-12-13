@@ -83,7 +83,7 @@ class MenuTable extends Menu
                 return false;
             }
 
-            if ((int) $this->home) {
+            if ((int) $this->home !== 0) {
                 // Set the publish down/up always for home.
                 $this->publish_up   = null;
                 $this->publish_down = null;

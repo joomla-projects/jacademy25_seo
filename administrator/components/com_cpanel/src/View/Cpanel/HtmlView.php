@@ -75,8 +75,9 @@ class HtmlView extends BaseHtmlView
 
             // Need to load the language file
             $lang = $this->getLanguage();
-            $lang->load($component, JPATH_BASE)
-            || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+            if (!$lang->load($component, JPATH_BASE)) {
+                $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+            }
             $lang->load($component);
 
             // Lookup dashboard attributes from component manifest file
@@ -101,7 +102,7 @@ class HtmlView extends BaseHtmlView
                 // Try building a title
                 $prefix = strtoupper($component) . '_DASHBOARD';
 
-                $sectionkey = !empty($parts[1]) ? '_' . strtoupper($parts[1]) : '';
+                $sectionkey = empty($parts[1]) ? '' : '_' . strtoupper($parts[1]);
                 $key        = $prefix . $sectionkey . '_TITLE';
                 $keyIcon    = $prefix . $sectionkey . '_ICON';
 

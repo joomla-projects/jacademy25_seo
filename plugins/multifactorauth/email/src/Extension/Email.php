@@ -448,7 +448,7 @@ class Email extends CMSPlugin implements SubscriberInterface
             fn(MfaTable $record) => $record->method == 'email'
         );
 
-        if (\count($emailRecords)) {
+        if ($emailRecords !== []) {
             return;
         }
 

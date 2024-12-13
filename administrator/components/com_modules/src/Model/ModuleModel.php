@@ -128,10 +128,8 @@ class ModuleModel extends AdminModel
         // Load the User state.
         $pk = $app->getInput()->getInt('id');
 
-        if (!$pk) {
-            if ($extensionId = (int) $app->getUserState('com_modules.add.module.extension_id')) {
-                $this->setState('extension.id', $extensionId);
-            }
+        if (!$pk && $extensionId = (int) $app->getUserState('com_modules.add.module.extension_id')) {
+            $this->setState('extension.id', $extensionId);
         }
 
         $this->setState('module.id', $pk);
@@ -343,7 +341,7 @@ class ModuleModel extends AdminModel
                 if (!$user->authorise('core.delete', 'com_modules.module.' . (int) $pk) || $table->published != -2) {
                     Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 
-                    return;
+                    return null;
                 }
 
                 // Trigger the before delete event.
@@ -443,7 +441,7 @@ class ModuleModel extends AdminModel
             }
         }
 
-        if (!empty($tuples)) {
+        if ($tuples !== []) {
             // Module-Menu Mapping: Do it in one query
             $query = $db->getQuery(true)
                 ->insert($db->quoteName('#__modules_menu'))
@@ -600,9 +598,9 @@ class ModuleModel extends AdminModel
                 $clientId = $input->getInt('client_id', 0);
                 $filters  = (array) $app->getUserState('com_modules.modules.' . $clientId . '.filter');
                 $data->set('published', $input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
-                $data->set('position', $input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
-                $data->set('language', $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-                $data->set('access', $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access'))));
+                $data->set('position', $input->getInt('position', (empty($filters['position']) ? null : $filters['position'])));
+                $data->set('language', $input->getString('language', (empty($filters['language']) ? null : $filters['language'])));
+                $data->set('access', $input->getInt('access', (empty($filters['access']) ? $app->get('access') : $filters['access'])));
             }
 
             // Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.
@@ -632,7 +630,7 @@ class ModuleModel extends AdminModel
      */
     public function getItem($pk = null)
     {
-        $pk = (!empty($pk)) ? (int) $pk : (int) $this->getState('module.id');
+        $pk = (empty($pk)) ? (int) $this->getState('module.id') : (int) $pk;
         $db = $this->getDatabase();
 
         if (!isset($this->_cache[$pk])) {
@@ -650,8 +648,8 @@ class ModuleModel extends AdminModel
             }
 
             // Check if we are creating a new extension.
-            if (empty($pk)) {
-                if ($extensionId = (int) $this->getState('extension.id')) {
+            if ($pk === 0) {
+                if ($extensionId = (int) $this->getState('extension.id') !== 0) {
                     $query = $db->getQuery(true)
                         ->select($db->quoteName(['element', 'client_id']))
                         ->from($db->quoteName('#__extensions'))
@@ -707,14 +705,12 @@ class ModuleModel extends AdminModel
             } elseif (empty($assigned)) {
                 // For an existing module it is assigned to none.
                 $assignment = '-';
+            } elseif ($assigned[0] > 0) {
+                $assignment = 1;
+            } elseif ($assigned[0] < 0) {
+                $assignment = -1;
             } else {
-                if ($assigned[0] > 0) {
-                    $assignment = 1;
-                } elseif ($assigned[0] < 0) {
-                    $assignment = -1;
-                } else {
-                    $assignment = 0;
-                }
+                $assignment = 0;
             }
 
             $this->_cache[$pk]->assigned   = $assigned;
@@ -724,11 +720,7 @@ class ModuleModel extends AdminModel
             $client = ApplicationHelper::getClientInfo($table->client_id);
             $path   = Path::clean($client->path . '/modules/' . $table->module . '/' . $table->module . '.xml');
 
-            if (file_exists($path)) {
-                $this->_cache[$pk]->xml = simplexml_load_file($path);
-            } else {
-                $this->_cache[$pk]->xml = null;
-            }
+            $this->_cache[$pk]->xml = file_exists($path) ? simplexml_load_file($path) : null;
         }
 
         return $this->_cache[$pk];
@@ -799,8 +791,9 @@ class ModuleModel extends AdminModel
         $formFile = Path::clean($client->path . '/modules/' . $module . '/' . $module . '.xml');
 
         // Load the core and/or local language file(s).
-        $lang->load($module, $client->path)
-            || $lang->load($module, $client->path . '/modules/' . $module);
+        if (!$lang->load($module, $client->path)) {
+            $lang->load($module, $client->path . '/modules/' . $module);
+        }
 
         if (file_exists($formFile)) {
             // Get the module form.
@@ -880,10 +873,8 @@ class ModuleModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
-        if (!$this->getCurrentUser()->authorise('core.admin', 'com_modules')) {
-            if (isset($data['rules'])) {
-                unset($data['rules']);
-            }
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_modules') && isset($data['rules'])) {
+            unset($data['rules']);
         }
 
         return parent::validate($form, $data, $group);
@@ -902,7 +893,7 @@ class ModuleModel extends AdminModel
     {
         $input      = Factory::getApplication()->getInput();
         $table      = $this->getTable();
-        $pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('module.id');
+        $pk         = (empty($data['id'])) ? (int) $this->getState('module.id') : $data['id'];
         $isNew      = true;
         $context    = $this->option . '.' . $this->name;
 

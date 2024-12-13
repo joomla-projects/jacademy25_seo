@@ -67,7 +67,7 @@ class PositionsModel extends ListModel
     {
         // Special case for the client id.
         $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-        $clientId = (!\in_array((int) $clientId, [0, 1])) ? 0 : (int) $clientId;
+        $clientId = (\in_array((int) $clientId, [0, 1])) ? (int) $clientId : 0;
         $this->setState('client_id', $clientId);
 
         // Load the parameters.
@@ -87,7 +87,7 @@ class PositionsModel extends ListModel
      */
     public function getItems()
     {
-        if (!isset($this->items)) {
+        if (!property_exists($this, 'items') || $this->items === null) {
             $lang            = Factory::getLanguage();
             $search          = $this->getState('filter.search');
             $state           = $this->getState('filter.state');
@@ -142,14 +142,14 @@ class PositionsModel extends ListModel
                     $xml = simplexml_load_file($path);
 
                     if (isset($xml->positions[0])) {
-                        $lang->load('tpl_' . $template->element . '.sys', $client->path)
-                        || $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element);
-
+                        if (!$lang->load('tpl_' . $template->element . '.sys', $client->path)) {
+                            $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element);
+                        }
                         foreach ($xml->positions[0] as $position) {
                             $value = (string) $position['value'];
                             $label = (string) $position;
 
-                            if (!$value) {
+                            if ($value === '' || $value === '0') {
                                 $value    = $label;
                                 $label    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . $template->element . '_POSITION_' . $value);
                                 $altlabel = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'COM_MODULES_POSITION_' . $value);
@@ -186,12 +186,10 @@ class PositionsModel extends ListModel
                 } else {
                     krsort($positions);
                 }
+            } elseif ($direction == 'asc') {
+                asort($positions);
             } else {
-                if ($direction == 'asc') {
-                    asort($positions);
-                } else {
-                    arsort($positions);
-                }
+                arsort($positions);
             }
 
             $this->items = \array_slice($positions, $limitstart, $limit ?: null);
@@ -209,7 +207,7 @@ class PositionsModel extends ListModel
      */
     public function getTotal()
     {
-        if (!isset($this->total)) {
+        if (!property_exists($this, 'total') || $this->total === null) {
             $this->getItems();
         }
 

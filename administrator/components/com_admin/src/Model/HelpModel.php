@@ -163,7 +163,7 @@ class HelpModel extends BaseDatabaseModel
 
             $title = trim($m[1]);
 
-            if (!$title) {
+            if ($title === '' || $title === '0') {
                 continue;
             }
 

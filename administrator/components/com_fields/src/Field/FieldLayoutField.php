@@ -48,7 +48,7 @@ class FieldLayoutField extends FormField
         $extension = explode('.', (string) $this->form->getValue('context'));
         $extension = $extension[0];
 
-        if ($extension) {
+        if ($extension !== '' && $extension !== '0') {
             // Get the database object and a new query object.
             $db    = $this->getDatabase();
             $query = $db->getQuery(true);
@@ -123,7 +123,7 @@ class FieldLayoutField extends FormField
                         }
                     }
 
-                    if (\count($files)) {
+                    if ($files !== []) {
                         // Create the group for the template
                         $groups[$template->name]          = [];
                         $groups[$template->name]['id']    = $this->id . '_' . $template->element;

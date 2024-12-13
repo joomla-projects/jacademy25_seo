@@ -335,7 +335,7 @@ class CategoryModel extends ListModel
     public function getCategory()
     {
         if (!\is_object($this->_item)) {
-            if (isset($this->state->params)) {
+            if (property_exists($this->state, 'params') && $this->state->params !== null) {
                 $params                = $this->state->params;
                 $options               = [];
                 $options['countItems'] = $params->get('show_cat_num_articles', 1) || !$params->get('show_empty_categories_cat', 0);
@@ -464,7 +464,7 @@ class CategoryModel extends ListModel
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {
-            $pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
+            $pk = (empty($pk)) ? (int) $this->getState('category.id') : $pk;
 
             $table = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
             $table->hit($pk);

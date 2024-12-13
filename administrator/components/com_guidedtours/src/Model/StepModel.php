@@ -92,7 +92,7 @@ class StepModel extends AdminModel
         if ($pk > 0) {
             $table->load($pk);
 
-            if ((int) $table->tour_id) {
+            if ((int) $table->tour_id !== 0) {
                 $data['tour_id'] = (int) $table->tour_id;
             }
         }
@@ -258,7 +258,7 @@ class StepModel extends AdminModel
                 $tour   = $tourModel->getItem($tourId);
 
                 // Sets step language to parent tour language
-                $result->language = !empty($tour->language) ? $tour->language : '*';
+                $result->language = empty($tour->language) ? '*' : $tour->language;
 
                 // Set the step's tour id
                 $result->tour_id = $tourId;

@@ -27,6 +27,7 @@ use Joomla\CMS\UCM\UCMType;
  */
 class CategoryFeedView extends AbstractView
 {
+    public $viewName;
     /**
      * Execute and display a template script.
      *

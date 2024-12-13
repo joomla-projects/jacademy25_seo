@@ -83,7 +83,7 @@ final class UserGroupsHelper
     {
         $this->mode = (int) $mode;
 
-        if ($groups) {
+        if ($groups !== []) {
             $this->setGroups($groups);
         }
     }
@@ -113,7 +113,7 @@ final class UserGroupsHelper
             // Only here to avoid code style issues...
             $groups = [];
 
-            static::$instance = new static($groups, static::MODE_SINGLETON);
+            static::$instance = new self($groups, self::MODE_SINGLETON);
         }
 
         return static::$instance;
@@ -183,7 +183,7 @@ final class UserGroupsHelper
      */
     private function isSingleton()
     {
-        return $this->mode === static::MODE_SINGLETON;
+        return $this->mode === self::MODE_SINGLETON;
     }
 
     /**

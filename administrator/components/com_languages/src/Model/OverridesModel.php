@@ -91,17 +91,15 @@ class OverridesModel extends ListModel
 
         // Consider the ordering
         if ($this->getState('list.ordering') == 'text') {
-            if (strtoupper((string) $this->getState('list.direction')) == 'DESC') {
+            if (strtoupper((string) $this->getState('list.direction')) === 'DESC') {
                 arsort($strings);
             } else {
                 asort($strings);
             }
+        } elseif (strtoupper((string) $this->getState('list.direction')) === 'DESC') {
+            krsort($strings);
         } else {
-            if (strtoupper((string) $this->getState('list.direction')) == 'DESC') {
-                krsort($strings);
-            } else {
-                ksort($strings);
-            }
+            ksort($strings);
         }
 
         // Consider the pagination.
@@ -170,7 +168,7 @@ class OverridesModel extends ListModel
         $this->setState('filter.search', $search);
 
         $this->setState('language_client', $language . $client);
-        $this->setState('filter.client', $client ? 'administrator' : 'site');
+        $this->setState('filter.client', $client !== '' && $client !== '0' ? 'administrator' : 'site');
         $this->setState('filter.language', $language);
 
         // Add the 'language_client' value to the session to display a message if none selected
@@ -233,7 +231,7 @@ class OverridesModel extends ListModel
     /**
      * Removes all of the cached strings from the table.
      *
-     * @return  void|\RuntimeException
+     * @return null|\RuntimeException
      *
      * @since   3.4.2
      */
@@ -250,5 +248,6 @@ class OverridesModel extends ListModel
         }
 
         Factory::getApplication()->enqueueMessage(Text::_('COM_LANGUAGES_VIEW_OVERRIDES_PURGE_SUCCESS'));
+        return null;
     }
 }

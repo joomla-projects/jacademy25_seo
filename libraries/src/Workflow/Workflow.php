@@ -109,14 +109,14 @@ class Workflow
         $this->extension = $extension;
 
         // Initialise default objects if none have been provided
-        if ($app === null) {
+        if (!$app instanceof \Joomla\CMS\Application\CMSApplication) {
             @trigger_error('From 6.0 declaring the app dependency will be mandatory.', E_USER_DEPRECATED);
             $app = Factory::getApplication();
         }
 
         $this->app = $app;
 
-        if ($db === null) {
+        if (!$db instanceof \Joomla\Database\DatabaseDriver) {
             @trigger_error('From 6.0 declaring the database dependency will be mandatory.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseDriver::class);
         }
@@ -198,7 +198,7 @@ class Workflow
         }
 
         // Check if the workflow exists
-        if ($workflow_id = (int) $workflow_id) {
+        if ($workflow_id = (int) $workflow_id !== 0) {
             $query = $this->db->getQuery(true);
 
             $query->select(
@@ -227,7 +227,7 @@ class Workflow
 
             $stage_id = (int) $this->db->setQuery($query)->loadResult();
 
-            if (!empty($stage_id)) {
+            if ($stage_id !== 0) {
                 return $stage_id;
             }
         }
@@ -261,7 +261,7 @@ class Workflow
         $stage_id = (int) $this->db->setQuery($query)->loadResult();
 
         // Last check if we have a workflow ID
-        if (!empty($stage_id)) {
+        if ($stage_id !== 0) {
             return $stage_id;
         }
 
@@ -281,7 +281,7 @@ class Workflow
         $pks = ArrayHelper::toInteger($pks);
         $pks = array_filter($pks);
 
-        if (!\count($pks)) {
+        if ($pks === []) {
             return null;
         }
 
@@ -348,7 +348,7 @@ class Workflow
         $pks = ArrayHelper::toInteger($pks);
         $pks = array_filter($pks);
 
-        if (!\count($pks)) {
+        if ($pks === []) {
             return true;
         }
 

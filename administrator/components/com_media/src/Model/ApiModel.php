@@ -457,7 +457,7 @@ class ApiModel extends BaseDatabaseModel
             $extensions = [];
 
             // Default to showing all supported formats
-            if (\count($mediaTypes) === 0) {
+            if ($mediaTypes === []) {
                 $mediaTypes = ['0', '1', '2', '3'];
             }
 

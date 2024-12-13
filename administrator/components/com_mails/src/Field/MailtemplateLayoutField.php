@@ -90,7 +90,7 @@ class MailtemplateLayoutField extends FormField
                     }
                 }
 
-                if (\count($files)) {
+                if ($files !== []) {
                     // Create the group for the template
                     $groups[$template->name]          = [];
                     $groups[$template->name]['id']    = $this->id . '_' . $template->element;

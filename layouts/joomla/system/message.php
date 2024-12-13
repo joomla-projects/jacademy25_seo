@@ -46,7 +46,7 @@ $document->getWebAssetManager()
     ->useStyle('webcomponent.joomla-alert')
     ->useScript('messages');
 
-if (is_array($msgList) && !empty($msgList)) {
+if (is_array($msgList) && $msgList !== []) {
     $messages = [];
 
     foreach ($msgList as $type => $msgs) {

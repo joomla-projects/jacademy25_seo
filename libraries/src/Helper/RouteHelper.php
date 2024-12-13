@@ -82,7 +82,7 @@ class RouteHelper
 
         $needles = [];
 
-        if (isset($this->view)) {
+        if ($this->view !== null) {
             $needles[$this->view] = [(int) $id];
         }
 
@@ -201,7 +201,7 @@ class RouteHelper
         // If not found, return language specific home link
         $default = $menus->getDefault($language);
 
-        return !empty($default->id) ? $default->id : null;
+        return empty($default->id) ? null : $default->id;
     }
 
     /**

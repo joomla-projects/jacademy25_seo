@@ -243,12 +243,7 @@ final class PhpVersionCheck extends CMSPlugin implements SubscriberInterface
         if ($this->getApplication()->getInput()->getCmd('tmpl', 'index') === 'component') {
             return false;
         }
-
         // Only to com_cpanel
-        if ($this->getApplication()->getInput()->get('option') !== 'com_cpanel') {
-            return false;
-        }
-
-        return true;
+        return $this->getApplication()->getInput()->get('option') === 'com_cpanel';
     }
 }

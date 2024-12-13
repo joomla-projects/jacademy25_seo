@@ -31,6 +31,10 @@ use Joomla\Component\Associations\Administrator\Model\AssociationsModel;
 class HtmlView extends BaseHtmlView
 {
     /**
+     * @var string
+     */
+    public $editUri;
+    /**
      * An array of items
      *
      * @var   array
@@ -207,11 +211,9 @@ class HtmlView extends BaseHtmlView
                 if (empty($support['catid'])) {
                     $this->filterForm->setFieldAttribute('category_id', 'extension', $extensionName, 'filter');
 
-                    if ($this->getLayout() == 'modal') {
-                        // We need to change the category filter to only show categories tagged to All or to the forced language.
-                        if ($forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
-                            $this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
-                        }
+                    // We need to change the category filter to only show categories tagged to All or to the forced language.
+                    if ($this->getLayout() == 'modal' && $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
+                        $this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
                     }
                 }
 
@@ -249,7 +251,7 @@ class HtmlView extends BaseHtmlView
     {
         $user = $this->getCurrentUser();
 
-        if (isset($this->typeName) && isset($this->extensionName)) {
+        if ($this->typeName !== null && $this->extensionName !== null) {
             $helper = AssociationsHelper::getExtensionHelper($this->extensionName);
             $title  = $helper->getTypeTitle($this->typeName);
 
@@ -274,7 +276,7 @@ class HtmlView extends BaseHtmlView
         $toolbar = $this->getDocument()->getToolbar();
 
         if ($user->authorise('core.admin', 'com_associations') || $user->authorise('core.options', 'com_associations')) {
-            if (!isset($this->typeName)) {
+            if ($this->typeName === null) {
                 $toolbar->standardButton('', 'COM_ASSOCIATIONS_PURGE', 'associations.purge')
                     ->icon('icon-purge')
                     ->listCheck(false);

@@ -70,7 +70,7 @@ class GroupparentField extends ListField
         $currentGroupId = (int) Factory::getApplication()->getInput()->get('id', 0, 'int');
 
         // Prevent to set yourself as parent
-        if ($currentGroupId) {
+        if ($currentGroupId !== 0) {
             unset($options[$currentGroupId]);
         }
 

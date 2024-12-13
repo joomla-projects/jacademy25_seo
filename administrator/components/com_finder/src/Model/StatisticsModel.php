@@ -78,8 +78,9 @@ class StatisticsModel extends BaseDatabaseModel
         $plugins = PluginHelper::getPlugin('finder');
 
         foreach ($plugins as $plugin) {
-            $lang->load('plg_finder_' . $plugin->name . '.sys', JPATH_ADMINISTRATOR)
-            || $lang->load('plg_finder_' . $plugin->name . '.sys', JPATH_PLUGINS . '/finder/' . $plugin->name);
+            if (!$lang->load('plg_finder_' . $plugin->name . '.sys', JPATH_ADMINISTRATOR)) {
+                $lang->load('plg_finder_' . $plugin->name . '.sys', JPATH_PLUGINS . '/finder/' . $plugin->name);
+            }
         }
 
         return $data;

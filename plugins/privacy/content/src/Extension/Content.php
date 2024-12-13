@@ -41,7 +41,7 @@ final class Content extends PrivacyPlugin
      */
     public function onPrivacyExportRequest(RequestTable $request, ?User $user = null)
     {
-        if (!$user) {
+        if (!$user instanceof \Joomla\CMS\User\User) {
             return [];
         }
 

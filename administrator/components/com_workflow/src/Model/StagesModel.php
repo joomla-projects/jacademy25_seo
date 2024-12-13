@@ -150,7 +150,7 @@ class StagesModel extends ListModel
             ->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('s.checked_out'));
 
         // Filter by extension
-        if ($workflowID = (int) $this->getState('filter.workflow_id')) {
+        if ($workflowID = (int) $this->getState('filter.workflow_id') !== 0) {
             $query->where($db->quoteName('s.workflow_id') . ' = :id')
                 ->bind(':id', $workflowID, ParameterType::INTEGER);
         }

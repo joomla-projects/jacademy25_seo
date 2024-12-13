@@ -39,6 +39,10 @@ use Joomla\Filesystem\Path;
  */
 class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
 {
+    /**
+     * @var mixed[]
+     */
+    public $sortOrderFields;
     use SiteRouterAwareTrait;
 
     /**
@@ -145,15 +149,25 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         // Get view data.
         $this->state = $model->getState();
         $this->query = $model->getQuery();
-        \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderQuery') : null;
+        if (\JDEBUG) {
+            Profiler::getInstance('Application')->mark('afterFinderQuery');
+        }
         $this->results = $model->getItems();
-        \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderResults') : null;
+        if (\JDEBUG) {
+            Profiler::getInstance('Application')->mark('afterFinderResults');
+        }
         $this->sortOrderFields = $model->getSortOrderFields();
-        \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderSortOrderFields') : null;
+        if (\JDEBUG) {
+            Profiler::getInstance('Application')->mark('afterFinderSortOrderFields');
+        }
         $this->total = $model->getTotal();
-        \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderTotal') : null;
+        if (\JDEBUG) {
+            Profiler::getInstance('Application')->mark('afterFinderTotal');
+        }
         $this->pagination = $model->getPagination();
-        \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderPagination') : null;
+        if (\JDEBUG) {
+            Profiler::getInstance('Application')->mark('afterFinderPagination');
+        }
 
         // Flag indicates to not add limitstart=0 to URL
         $this->pagination->hideEmptyLimitstart = true;
@@ -240,11 +254,15 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
 
         $this->prepareDocument();
 
-        \JDEBUG ? Profiler::getInstance('Application')->mark('beforeFinderLayout') : null;
+        if (\JDEBUG) {
+            Profiler::getInstance('Application')->mark('beforeFinderLayout');
+        }
 
         parent::display($tpl);
 
-        \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderLayout') : null;
+        if (\JDEBUG) {
+            Profiler::getInstance('Application')->mark('afterFinderLayout');
+        }
     }
 
     /**

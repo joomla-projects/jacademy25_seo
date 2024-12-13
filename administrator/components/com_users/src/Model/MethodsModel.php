@@ -61,7 +61,7 @@ class MethodsModel extends BaseDatabaseModel
         // Put the user MFA records into the Methods array
         $userMfaRecords = MfaHelper::getUserMfaRecords($user->id);
 
-        if (!empty($userMfaRecords)) {
+        if ($userMfaRecords !== []) {
             foreach ($userMfaRecords as $record) {
                 if (!isset($methods[$record->method])) {
                     continue;
@@ -119,7 +119,7 @@ class MethodsModel extends BaseDatabaseModel
      */
     public function formatRelative(?string $dateTimeText): string
     {
-        if (empty($dateTimeText)) {
+        if ($dateTimeText === null || $dateTimeText === '' || $dateTimeText === '0') {
             return Text::_('JNEVER');
         }
 
@@ -152,7 +152,7 @@ class MethodsModel extends BaseDatabaseModel
             $checkNow  = $jNow->format('Ymd', true);
             $checkDate = $jDate->format('Ymd', true);
 
-            if ($checkDate == $checkNow) {
+            if ($checkDate === $checkNow) {
                 $formatString    = Text::_('COM_USERS_MFA_LBL_DATE_FORMAT_TODAY');
                 $containerString = Text::_('COM_USERS_MFA_LBL_TODAY');
             } else {
@@ -163,7 +163,7 @@ class MethodsModel extends BaseDatabaseModel
                 $jYesterday->sub($oneSecond);
                 $checkYesterday = $jYesterday->format('Ymd', true);
 
-                if ($checkDate == $checkYesterday) {
+                if ($checkDate === $checkYesterday) {
                     $formatString    = Text::_('COM_USERS_MFA_LBL_DATE_FORMAT_YESTERDAY');
                     $containerString = Text::_('COM_USERS_MFA_LBL_YESTERDAY');
                 }

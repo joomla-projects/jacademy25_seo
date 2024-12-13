@@ -331,7 +331,7 @@ class StyleModel extends AdminModel
      */
     public function getItem($pk = null)
     {
-        $pk = (!empty($pk)) ? $pk : (int) $this->getState('style.id');
+        $pk = (empty($pk)) ? (int) $this->getState('style.id') : $pk;
 
         if (!isset($this->_cache[$pk])) {
             // Get a row instance.
@@ -359,11 +359,7 @@ class StyleModel extends AdminModel
             $client = ApplicationHelper::getClientInfo($table->client_id);
             $path   = Path::clean($client->path . '/templates/' . $table->template . '/templateDetails.xml');
 
-            if (file_exists($path)) {
-                $this->_cache[$pk]->xml = simplexml_load_file($path);
-            } else {
-                $this->_cache[$pk]->xml = null;
-            }
+            $this->_cache[$pk]->xml = file_exists($path) ? simplexml_load_file($path) : null;
         }
 
         return $this->_cache[$pk];
@@ -396,18 +392,18 @@ class StyleModel extends AdminModel
 
         // Load the core and/or local language file(s).
         // Default to using parent template language constants
-        $lang->load('tpl_' . $data->parent, $client->path)
-            || $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent);
+        if (!$lang->load('tpl_' . $data->parent, $client->path)) {
+            $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent);
+        }
 
         // Apply any, optional, overrides for child template language constants
-        $lang->load('tpl_' . $template, $client->path)
-            || $lang->load('tpl_' . $template, $client->path . '/templates/' . $template);
+        if (!$lang->load('tpl_' . $template, $client->path)) {
+            $lang->load('tpl_' . $template, $client->path . '/templates/' . $template);
+        }
 
-        if (file_exists($formFile)) {
-            // Get the template form.
-            if (!$form->loadFile($formFile, false, '//config')) {
-                throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
-            }
+        // Get the template form.
+        if (file_exists($formFile) && !$form->loadFile($formFile, false, '//config')) {
+            throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
         }
 
         // Disable home field if it is default style
@@ -464,7 +460,7 @@ class StyleModel extends AdminModel
 
         $app        = Factory::getApplication();
         $table      = $this->getTable();
-        $pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('style.id');
+        $pk         = (empty($data['id'])) ? (int) $this->getState('style.id') : $data['id'];
         $isNew      = true;
 
         // Include the extension plugins for the save events.
@@ -725,7 +721,7 @@ class StyleModel extends AdminModel
                 ]
             );
 
-        if ($styleId) {
+        if ($styleId !== 0) {
             $query->extendWhere(
                 'OR',
                 [

@@ -128,11 +128,7 @@ class PostgresqlChangeItem extends ChangeItem
                         $type = substr($type, 0, $pos);
                     }
 
-                    if ($pos = strpos($type, '(')) {
-                        $datatype = substr($type, 0, $pos);
-                    } else {
-                        $datatype = $type;
-                    }
+                    $datatype = $pos = strpos($type, '(') ? substr($type, 0, $pos) : $type;
 
                     if ($datatype === 'varchar') {
                         $datatype = 'character varying';
@@ -264,13 +260,7 @@ class PostgresqlChangeItem extends ChangeItem
         }
 
         // Set fields based on results
-        if ($this->checkQuery = $result) {
-            // Unchecked status
-            $this->checkStatus = 0;
-        } else {
-            // Skipped
-            $this->checkStatus = -1;
-        }
+        $this->checkStatus = $this->checkQuery = $result ? 0 : -1;
     }
 
     /**

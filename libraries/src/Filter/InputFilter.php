@@ -258,10 +258,8 @@ class InputFilter extends BaseInputFilter
                 $intendedName = array_shift($intendedNames);
 
                 // 1. Null byte check
-                if ($options['null_byte']) {
-                    if (strstr((string) $intendedName, "\x00")) {
-                        return false;
-                    }
+                if ($options['null_byte'] && strstr((string) $intendedName, "\x00")) {
+                    return false;
                 }
 
                 // 2. PHP-in-extension check (.php, .php.xxx[.yyy[.zzz[...]]], .xxx[.yyy[.zzz[...]]].php)
@@ -288,7 +286,7 @@ class InputFilter extends BaseInputFilter
                     || $options['shorttag_in_content'] || $options['phar_stub_in_content']
                     || ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions']))
                 ) {
-                    $fp = \strlen((string) $tempName) ? @fopen($tempName, 'r') : false;
+                    $fp = \strlen((string) $tempName) !== 0 ? @fopen($tempName, 'r') : false;
 
                     if ($fp !== false) {
                         $data = '';
@@ -327,11 +325,9 @@ class InputFilter extends BaseInputFilter
                                     }
                                 }
 
-                                if ($collide) {
-                                    // These are suspicious text files which may have the short tag (<?) in them
-                                    if (strstr($data, '<?')) {
-                                        return false;
-                                    }
+                                // These are suspicious text files which may have the short tag (<?) in them
+                                if ($collide && strstr($data, '<?')) {
+                                    return false;
                                 }
                             }
 
@@ -401,7 +397,7 @@ class InputFilter extends BaseInputFilter
         $result = [];
 
         if (\is_array($data[0])) {
-            foreach ($data[0] as $k => $v) {
+            foreach (array_keys($data[0]) as $k) {
                 $result[$k] = static::decodeFileData([$data[0][$k], $data[1][$k], $data[2][$k], $data[3][$k], $data[4][$k]]);
             }
 
@@ -424,7 +420,7 @@ class InputFilter extends BaseInputFilter
     {
         static $ttr = [];
 
-        if (!\count($ttr)) {
+        if (\count($ttr) === 0) {
             // Entity decode
             $trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT, 'ISO-8859-1');
 

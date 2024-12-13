@@ -32,11 +32,7 @@ use Joomla\CMS\Router\Route;
                     }
                 }
 
-                if ($count === $keyArrayCount) {
-                    $class = 'folder show';
-                } else {
-                    $class = 'folder';
-                }
+                $class = $count === $keyArrayCount ? 'folder show' : 'folder';
             } else {
                 $class = 'folder';
             }

@@ -204,9 +204,9 @@ class PasswordField extends FormField
             $meter              = (string) $this->element['strengthmeter'];
             $this->meter        = ($meter === 'true' || $meter === 'on' || $meter === '1');
             $force              = (string) $this->element['forcePassword'];
-            $this->force        = (($force === 'true' || $force === 'on' || $force === '1') && $this->meter === true);
+            $this->force        = (($force === 'true' || $force === 'on' || $force === '1') && $this->meter);
             $rules              = (string) $this->element['rules'];
-            $this->rules        = (($rules === 'true' || $rules === 'on' || $rules === '1') && $this->meter === true);
+            $this->rules        = (($rules === 'true' || $rules === 'on' || $rules === '1') && $this->meter);
 
             // Set some initial values
             $this->minLength    = 12;

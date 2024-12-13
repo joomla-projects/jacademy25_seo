@@ -170,7 +170,7 @@ class TasksModel extends ListModel
             $query,
             &$filterCount
         ) {
-            if ($filterCount++) {
+            if ($filterCount++ !== 0) {
                 $query->extendWhere($outerGlue, $conditions, $innerGlue);
             } else {
                 $query->where($conditions, $innerGlue);

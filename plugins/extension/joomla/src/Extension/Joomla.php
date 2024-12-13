@@ -101,7 +101,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $update_site_id = (int) $db->loadResult();
 
         // If it doesn't exist, add it!
-        if (!$update_site_id) {
+        if ($update_site_id === 0) {
             $enabled = (int) $enabled;
             $query->clear()
                 ->insert($db->quoteName('#__update_sites'))
@@ -140,7 +140,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
             $tmpid = (int) $db->loadResult();
 
-            if (!$tmpid) {
+            if ($tmpid === 0) {
                 // Link this extension to the relevant update site
                 $query->clear()
                     ->insert($db->quoteName('#__update_sites_extensions'))
@@ -223,7 +223,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                     ->from($db->quoteName('#__update_sites'));
 
                 // If we get results back then we can exclude them
-                if (\count($results)) {
+                if ($results !== []) {
                     $updatesite_query->whereNotIn($db->quoteName('update_site_id'), $results);
                     $updatesite_delete->whereNotIn($db->quoteName('update_site_id'), $results);
                 }
@@ -293,11 +293,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $manifest      = $this->installer->getManifest();
         $updateservers = $manifest->updateservers;
 
-        if ($updateservers) {
-            $children = $updateservers->children();
-        } else {
-            $children = [];
-        }
+        $children = $updateservers ? $updateservers->children() : [];
 
         if (\count($children)) {
             foreach ($children as $child) {

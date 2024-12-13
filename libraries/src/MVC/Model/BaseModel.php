@@ -60,11 +60,7 @@ abstract class BaseModel implements ModelInterface, StatefulModelInterface
     {
         // Set the view name
         if (empty($this->name)) {
-            if (\array_key_exists('name', $config)) {
-                $this->name = $config['name'];
-            } else {
-                $this->name = $this->getName();
-            }
+            $this->name = \array_key_exists('name', $config) ? $config['name'] : $this->getName();
         }
 
         // Set the model state

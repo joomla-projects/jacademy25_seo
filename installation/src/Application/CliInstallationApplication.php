@@ -74,7 +74,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
      * @var Integer
      * @since 5.0.2
      */
-    protected $clientId;
+    protected $clientId = 2;
 
     /**
      * Class constructor.
@@ -107,9 +107,6 @@ final class CliInstallationApplication extends Application implements CMSApplica
         $this->setName('Joomla CLI installation');
         $version = new Version();
         $this->setVersion($version->getShortVersion());
-
-        // Register the client ID.
-        $this->clientId = 2;
 
         // Run the parent constructor.
         parent::__construct($input, $output, $config);
@@ -220,7 +217,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
         $langfiles = [];
 
         // If db connection, fetch them from the database.
-        if ($db) {
+        if ($db instanceof \Joomla\Database\DatabaseInterface) {
             foreach (LanguageHelper::getInstalledLanguages(null, null, null, null, null, null, $db) as $clientId => $language) {
                 $clientName = $clientId === 0 ? 'site' : 'admin';
 

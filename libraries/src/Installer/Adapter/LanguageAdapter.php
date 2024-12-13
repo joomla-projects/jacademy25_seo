@@ -251,9 +251,11 @@ class LanguageAdapter extends InstallerAdapter
         }
 
         $this->setManifest($this->parent->getManifest());
+        // Get the client application target
+        $cname = (string) $this->getManifest()->attributes()->client;
 
         // Get the client application target
-        if ($cname = (string) $this->getManifest()->attributes()->client) {
+        if ($cname !== '' && $cname !== '0') {
             // Attempt to map the client to a base path
             $client = ApplicationHelper::getClientInfo($cname, true);
 
@@ -303,7 +305,7 @@ class LanguageAdapter extends InstallerAdapter
         $tag = (string) $this->getManifest()->tag;
 
         // Check if we found the tag - if we didn't, we may be trying to install from an older language package
-        if (!$tag) {
+        if ($tag === '' || $tag === '0') {
             $this->parent->abort(Text::sprintf('JLIB_INSTALLER_ABORT', Text::_('JLIB_INSTALLER_ERROR_NO_LANGUAGE_TAG')));
 
             return false;
@@ -410,7 +412,7 @@ class LanguageAdapter extends InstallerAdapter
         // Get the language description
         $description = (string) $this->getManifest()->description;
 
-        if ($description) {
+        if ($description !== '' && $description !== '0') {
             $this->parent->set('message', Text::_($description));
         } else {
             $this->parent->set('message', '');
@@ -533,7 +535,7 @@ class LanguageAdapter extends InstallerAdapter
         $tag = (string) $xml->tag;
 
         // Check if we found the tag - if we didn't, we may be trying to install from an older language package
-        if (!$tag) {
+        if ($tag === '' || $tag === '0') {
             $this->parent->abort(Text::sprintf('JLIB_INSTALLER_ABORT', Text::_('JLIB_INSTALLER_ERROR_NO_LANGUAGE_TAG')));
 
             return false;
@@ -545,7 +547,7 @@ class LanguageAdapter extends InstallerAdapter
         $this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
 
         // Do we have a meta file in the file list?  In other words... is this a core language pack?
-        if (\count($xml->files->children())) {
+        if (\count($xml->files->children()) > 0) {
             foreach ($xml->files->children() as $file) {
                 if ((string) $file->attributes()->file === 'meta') {
                     $this->core = true;
@@ -775,11 +777,7 @@ class LanguageAdapter extends InstallerAdapter
         $db->setQuery($query);
         $users = $db->loadObjectList();
 
-        if ($client->name === 'administrator') {
-            $param_name = 'admin_language';
-        } else {
-            $param_name = 'language';
-        }
+        $param_name = $client->name === 'administrator' ? 'admin_language' : 'language';
 
         $count = 0;
 
@@ -805,7 +803,7 @@ class LanguageAdapter extends InstallerAdapter
             }
         }
 
-        if (!empty($count)) {
+        if ($count !== 0) {
             Log::add(Text::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count), Log::NOTICE, 'jerror');
         }
     }

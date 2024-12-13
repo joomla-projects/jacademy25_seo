@@ -57,7 +57,7 @@ class Crypt extends JCrypt
         $safeLen = \strlen($known);
         $userLen = \strlen($unknown);
 
-        if ($userLen != $safeLen) {
+        if ($userLen !== $safeLen) {
             return false;
         }
 
@@ -130,11 +130,7 @@ class Crypt extends JCrypt
         if ($exists) {
             // In PHP 5.3 mb_substr($str, 0, NULL, '8bit') returns an empty string, so we have to find the length ourselves.
             if ($length === null) {
-                if ($start >= 0) {
-                    $length = static::safeStrlen($str) - $start;
-                } else {
-                    $length = -$start;
-                }
+                $length = $start >= 0 ? static::safeStrlen($str) - $start : -$start;
             }
 
             return mb_substr($str, $start, $length, '8bit');

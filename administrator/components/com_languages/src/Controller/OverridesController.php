@@ -51,7 +51,7 @@ class OverridesController extends AdminController
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
 
-        if (empty($cid)) {
+        if ($cid === []) {
             $this->setMessage(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
         } else {
             // Get the model.

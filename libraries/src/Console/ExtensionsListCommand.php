@@ -138,11 +138,7 @@ class ExtensionsListCommand extends AbstractCommand
      */
     public function setExtensions($extensions = null): void
     {
-        if (!$extensions) {
-            $this->extensions = $this->getAllExtensionsFromDB();
-        } else {
-            $this->extensions = $extensions;
-        }
+        $this->extensions = $extensions ?: $this->getAllExtensionsFromDB();
     }
 
     /**

@@ -56,10 +56,8 @@ class BannersHelper
 
         $banners = $model->getItems();
 
-        if ($banners) {
-            if ($config->get('track_robots_impressions', 1) == 1 || !Browser::getInstance()->isRobot()) {
-                $model->impress();
-            }
+        if ($banners && ($config->get('track_robots_impressions', 1) == 1 || !Browser::getInstance()->isRobot())) {
+            $model->impress();
         }
 
         return $banners;

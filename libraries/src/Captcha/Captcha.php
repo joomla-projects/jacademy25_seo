@@ -226,11 +226,11 @@ class Captcha implements DispatcherAwareInterface
     {
         if ($this->provider) {
             $this->provider->setupField($field, $element);
-            return;
+            return null;
         }
 
         if ($this->captcha === null) {
-            return;
+            return null;
         }
 
         $arg = ['field' => $field, 'element' => $element];

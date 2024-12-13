@@ -192,11 +192,7 @@ class MenuHelper
     public static function getBase(&$params)
     {
         // Get base menu item from parameters
-        if ($params->get('base')) {
-            $base = Factory::getApplication()->getMenu()->getItem($params->get('base'));
-        } else {
-            $base = false;
-        }
+        $base = $params->get('base') ? Factory::getApplication()->getMenu()->getItem($params->get('base')) : false;
 
         // Use active menu item if no base found
         if (!$base) {

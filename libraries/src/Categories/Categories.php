@@ -232,7 +232,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         try {
             $db = $this->getDatabase();
         } catch (DatabaseNotFoundException) {
-            @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+            @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
@@ -370,7 +370,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $results        = $db->loadObjectList('id');
         $childrenLoaded = false;
 
-        if (\count($results)) {
+        if (\count($results) > 0) {
             // Foreach categories
             foreach ($results as $result) {
                 // Deal with root category
@@ -396,7 +396,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
 
                     // If the node's parent id is not in the _nodes list and the node is not root (doesn't have parent_id == 0),
                     // then remove the node from the list
-                    if (!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0)) {
+                    if (!isset($this->_nodes[$result->parent_id]) && $result->parent_id != 0) {
                         unset($this->_nodes[$result->id]);
                         continue;
                     }
@@ -416,7 +416,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
 
                     // If the node's parent id is not in the _nodes list and the node is not root (doesn't have parent_id == 0),
                     // then remove the node from the list
-                    if (!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0)) {
+                    if (!isset($this->_nodes[$result->parent_id]) && $result->parent_id != 0) {
                         unset($this->_nodes[$result->id]);
                         continue;
                     }

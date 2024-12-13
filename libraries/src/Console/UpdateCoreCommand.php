@@ -347,7 +347,7 @@ class UpdateCoreCommand extends AbstractCommand
      */
     public function getUpdateModel()
     {
-        if (!isset($this->updateModel)) {
+        if ($this->updateModel === null) {
             $this->setUpdateModel();
         }
 

@@ -92,7 +92,7 @@ trait DisplayTrait
         // Render Editor markup
         $editor = '<div class="js-editor-tinymce">';
         $editor .= LayoutHelper::render('joomla.tinymce.textarea', $textarea);
-        $editor .= !$app->client->mobile ? LayoutHelper::render('joomla.tinymce.togglebutton') : '';
+        $editor .= $app->client->mobile ? '' : LayoutHelper::render('joomla.tinymce.togglebutton');
         $editor .= '</div>';
 
         // Prepare the instance specific options
@@ -184,15 +184,13 @@ trait DisplayTrait
         if (!$levelParams->get('lang_mode', 1)) {
             // Admin selected language
             $langPrefix = $levelParams->get('lang_code', 'en');
-        } else {
+        } elseif (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . $language->getTag() . '.js')) {
             // Reflect the current language
-            if (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . $language->getTag() . '.js')) {
-                $langPrefix = $language->getTag();
-            } elseif (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . '.js')) {
-                $langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-'));
-            } else {
-                $langPrefix = 'en';
-            }
+            $langPrefix = $language->getTag();
+        } elseif (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . '.js')) {
+            $langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-'));
+        } else {
+            $langPrefix = 'en';
         }
 
         $use_content_css    = $levelParams->get('content_css', 1);
@@ -220,10 +218,10 @@ trait DisplayTrait
             // Use filters from com_config
             $filter            = static::getGlobalFilters($user);
             $ignore_filter     = $filter === false;
-            $blockedTags       = !empty($filter->blockedTags) ? $filter->blockedTags : [];
-            $blockedAttributes = !empty($filter->blockedAttributes) ? $filter->blockedAttributes : [];
-            $tagArray          = !empty($filter->tagsArray) ? $filter->tagsArray : [];
-            $attrArray         = !empty($filter->attrArray) ? $filter->attrArray : [];
+            $blockedTags       = $filter->blockedTags;
+            $blockedAttributes = $filter->blockedAttributes;
+            $tagArray          = $filter->tagsArray;
+            $attrArray         = $filter->attrArray;
             $invalid_elements  = implode(',', array_merge($blockedTags, $blockedAttributes, $tagArray, $attrArray));
 
             // Valid elements are all entries listed as allowed in com_config, which are now missing in the filter blocked properties
@@ -260,7 +258,7 @@ trait DisplayTrait
         $elements = [
             'hr[id|title|alt|class|width|size|noshade]',
         ];
-        $elements = $extended_elements ? array_merge($elements, explode(',', $extended_elements)) : $elements;
+        $elements = $extended_elements !== '' && $extended_elements !== '0' ? array_merge($elements, explode(',', $extended_elements)) : $elements;
 
         // Prepare the toolbar/menubar
         $knownButtons = static::getKnownButtons();
@@ -375,11 +373,11 @@ trait DisplayTrait
         $custom_plugin = trim($levelParams->get('custom_plugin', ''));
         $custom_button = trim($levelParams->get('custom_button', ''));
 
-        if ($custom_plugin) {
+        if ($custom_plugin !== '' && $custom_plugin !== '0') {
             $plugins   = array_merge($plugins, explode(str_contains($custom_plugin, ',') ? ',' : ' ', $custom_plugin));
         }
 
-        if ($custom_button) {
+        if ($custom_button !== '' && $custom_button !== '0') {
             $toolbar1  = array_merge($toolbar1, explode(str_contains($custom_button, ',') ? ',' : ' ', $custom_button));
         }
 
@@ -398,7 +396,7 @@ trait DisplayTrait
 
                 // Create an array for the link classes
                 foreach ($linksClassesList as $linksClassList) {
-                    array_push($linkClasses, ['title' => $linksClassList->class_name, 'value' => $linksClassList->class_list]);
+                    $linkClasses[] = ['title' => $linksClassList->class_name, 'value' => $linksClassList->class_list];
                 }
             }
         }
@@ -421,8 +419,8 @@ trait DisplayTrait
                 'end_container_on_empty_block' => true,
 
                 // Toolbars
-                'menubar' => empty($menubar) ? false : implode(' ', array_unique($menubar)),
-                'toolbar' => empty($toolbar) ? null : 'jxtdbuttons ' . implode(' ', $toolbar),
+                'menubar' => $menubar === [] ? false : implode(' ', array_unique($menubar)),
+                'toolbar' => $toolbar === [] ? null : 'jxtdbuttons ' . implode(' ', $toolbar),
 
                 'plugins' => implode(',', array_unique($plugins)),
 
@@ -460,7 +458,7 @@ trait DisplayTrait
                 'width'             => $this->params->get('html_width', ''),
                 'elementpath'       => (bool) $levelParams->get('element_path', true),
                 'resize'            => $resizing,
-                'external_plugins'  => empty($externalPlugins) ? null : $externalPlugins,
+                'external_plugins'  => $externalPlugins === [] ? null : $externalPlugins,
                 'contextmenu'       => (bool) $levelParams->get('contextmenu', true) ? null : false,
                 'toolbar_sticky'    => true,
                 'toolbar_mode'      => $levelParams->get('toolbar_mode', 'sliding'),

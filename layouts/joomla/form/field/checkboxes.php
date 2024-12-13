@@ -71,12 +71,12 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
             // In case there is no stored value, use the option's default state.
             $checked        = (!$hasValue && $option->checked) ? 'checked' : $checked;
-            $optionClass    = !empty($option->class) ? 'class="form-check-input ' . $option->class . '"' : ' class="form-check-input"';
+            $optionClass    = empty($option->class) ? ' class="form-check-input"' : 'class="form-check-input ' . $option->class . '"';
             $optionDisabled = !empty($option->disable) || $disabled ? 'disabled' : '';
 
             // Initialize some JavaScript option attributes.
-            $onclick  = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
-            $onchange = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
+            $onclick  = empty($option->onclick) ? '' : 'onclick="' . $option->onclick . '"';
+            $onchange = empty($option->onchange) ? '' : 'onchange="' . $option->onchange . '"';
 
             $oid        = $id . $i;
             $value      = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');

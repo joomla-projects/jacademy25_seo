@@ -41,7 +41,7 @@ class StylesController extends AdminController
         $pks = array_filter($pks);
 
         try {
-            if (empty($pks)) {
+            if ($pks === []) {
                 throw new \Exception(Text::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
             }
 
@@ -89,7 +89,7 @@ class StylesController extends AdminController
         $pks = array_filter($pks);
 
         try {
-            if (empty($pks)) {
+            if ($pks === []) {
                 throw new \Exception(Text::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
             }
 
@@ -125,7 +125,7 @@ class StylesController extends AdminController
         $pks = array_filter($pks);
 
         try {
-            if (empty($pks)) {
+            if ($pks === []) {
                 throw new \Exception(Text::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
             }
 

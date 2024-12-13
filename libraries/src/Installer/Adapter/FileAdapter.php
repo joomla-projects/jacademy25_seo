@@ -148,16 +148,14 @@ class FileAdapter extends InstallerAdapter
             $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-            if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles([$path])) {
-                    // Install failed, rollback changes
-                    throw new \RuntimeException(
-                        Text::sprintf(
-                            'JLIB_INSTALLER_ABORT_MANIFEST',
-                            Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
-                        )
-                    );
-                }
+            if (($this->parent->isOverwrite() || !file_exists($path['dest'])) && !$this->parent->copyFiles([$path])) {
+                // Install failed, rollback changes
+                throw new \RuntimeException(
+                    Text::sprintf(
+                        'JLIB_INSTALLER_ABORT_MANIFEST',
+                        Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+                    )
+                );
             }
         }
     }
@@ -271,11 +269,7 @@ class FileAdapter extends InstallerAdapter
             $target = (string) $eFiles->attributes()->target;
 
             // Create folder path
-            if (empty($target)) {
-                $targetFolder = JPATH_ROOT;
-            } else {
-                $targetFolder = JPATH_ROOT . '/' . $target;
-            }
+            $targetFolder = $target === '' || $target === '0' ? JPATH_ROOT : JPATH_ROOT . '/' . $target;
 
             $folderList = [];
 
@@ -472,12 +466,7 @@ class FileAdapter extends InstallerAdapter
         }
 
         $id = $db->loadResult();
-
-        if (empty($id)) {
-            return false;
-        }
-
-        return true;
+        return !empty($id);
     }
 
     /**
@@ -509,7 +498,7 @@ class FileAdapter extends InstallerAdapter
             $folderName = $jRootPath;
 
             foreach ($arrList as $dir) {
-                if (empty($dir)) {
+                if ($dir === '' || $dir === '0') {
                     continue;
                 }
 
@@ -522,8 +511,8 @@ class FileAdapter extends InstallerAdapter
             }
 
             // Create folder path
-            $sourceFolder = empty($folder) ? $packagePath : $packagePath . '/' . $folder;
-            $targetFolder = empty($target) ? $jRootPath : $jRootPath . '/' . $target;
+            $sourceFolder = $folder === '' || $folder === '0' ? $packagePath : $packagePath . '/' . $folder;
+            $targetFolder = $target === '' || $target === '0' ? $jRootPath : $jRootPath . '/' . $target;
 
             // Check if source folder exists
             if (!is_dir(Path::clean($sourceFolder))) {
@@ -536,7 +525,7 @@ class FileAdapter extends InstallerAdapter
             }
 
             // Check if all children exists
-            if (\count($eFiles->children())) {
+            if (\count($eFiles->children()) > 0) {
                 // Loop through all filenames elements
                 foreach ($eFiles->children() as $eFileName) {
                     $path         = [];

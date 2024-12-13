@@ -123,11 +123,11 @@ class ColorProcessor implements ProcessorInterface
     {
         preg_match_all($this->tagFilter, $string, $matches);
 
-        if (!$matches) {
+        if ($matches === []) {
             return $string;
         }
 
-        foreach ($matches[0] as $i => $m) {
+        foreach (array_keys($matches[0]) as $i) {
             if (\array_key_exists($matches[1][$i], $this->styles)) {
                 $string = $this->replaceColors($string, $matches[1][$i], $matches[2][$i], $this->styles[$matches[1][$i]]);
             } elseif (strpos($matches[1][$i], '=')) {

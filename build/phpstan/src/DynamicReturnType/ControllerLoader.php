@@ -34,7 +34,7 @@ class ControllerLoader extends NamespaceBased
         $name   = '';
         $prefix = '';
 
-        if (\count($methodCall->getArgs()) === 0) {
+        if ($methodCall->getArgs() === []) {
             $name = str_replace('Controller', '', $scope->getClassReflection()->getNativeReflection()->getShortName());
         }
 
@@ -42,7 +42,7 @@ class ControllerLoader extends NamespaceBased
             $prefix = strpos((string) $scope->getNamespace(), 'Site') ? 'Site' : 'Administrator';
         }
 
-        if (\count($methodCall->getArgs()) > 0) {
+        if ($methodCall->getArgs() !== []) {
             $name = str_replace("'", '', $methodCall->getArgs()[0]->value->getAttribute('rawValue'));
         }
 
@@ -55,7 +55,7 @@ class ControllerLoader extends NamespaceBased
         }
 
         // Search in namespaces which belong to the defined prefix
-        foreach ($this->findNamespaces($prefix) as $ns => $path) {
+        foreach (array_keys($this->findNamespaces($prefix)) as $ns) {
             foreach (['Model', 'View'] as $type) {
                 if (($methodReflection->getName() !== 'create' . $type && $methodReflection->getName() !== 'get' . $type)
                     || !class_exists($ns . $type . '\\' . $name . $type)) {
@@ -67,7 +67,7 @@ class ControllerLoader extends NamespaceBased
         }
 
         // Search in all namespaces, eg. when an admin model is loaded on site
-        foreach ($this->getNamespaces() as $ns => $path) {
+        foreach (array_keys($this->getNamespaces()) as $ns) {
             foreach (['Model', 'View'] as $type) {
                 if (($methodReflection->getName() !== 'create' . $type && $methodReflection->getName() !== 'get' . $type)
                     || !class_exists($ns . $type . '\\' . $name . $type)) {

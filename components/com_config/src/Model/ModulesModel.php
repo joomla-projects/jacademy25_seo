@@ -89,8 +89,9 @@ class ModulesModel extends FormModel
         $formFile = Path::clean($basePath . '/modules/' . $module . '/' . $module . '.xml');
 
         // Load the core and/or local language file(s).
-        $lang->load($module, $basePath)
-            || $lang->load($module, $basePath . '/modules/' . $module);
+        if (!$lang->load($module, $basePath)) {
+            $lang->load($module, $basePath . '/modules/' . $module);
+        }
 
         if (file_exists($formFile)) {
             // Get the module form.
@@ -133,15 +134,15 @@ class ModulesModel extends FormModel
 
             if (isset($xml->positions[0])) {
                 // Load language files
-                $lang->load('tpl_' . $templateName . '.sys', JPATH_BASE)
-                || $lang->load('tpl_' . $templateName . '.sys', JPATH_BASE . '/templates/' . $templateName);
-
+                if (!$lang->load('tpl_' . $templateName . '.sys', JPATH_BASE)) {
+                    $lang->load('tpl_' . $templateName . '.sys', JPATH_BASE . '/templates/' . $templateName);
+                }
                 foreach ($xml->positions[0] as $position) {
                     $value = (string) $position;
                     $text  = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . strtoupper((string) $templateName) . '_POSITION_' . strtoupper($value));
 
                     // Construct list of positions
-                    $currentTemplatePositions[] = self::createOption($value, Text::_($text) . ' [' . $value . ']');
+                    $currentTemplatePositions[] = $this->createOption($value, Text::_($text) . ' [' . $value . ']');
                 }
             }
         }
@@ -149,17 +150,17 @@ class ModulesModel extends FormModel
         $templateGroups = [];
 
         // Add an empty value to be able to deselect a module position
-        $option             = self::createOption();
-        $templateGroups[''] = self::createOptionGroup('', [$option]);
+        $option             = $this->createOption();
+        $templateGroups[''] = $this->createOptionGroup('', [$option]);
 
-        $templateGroups[$templateName] = self::createOptionGroup($templateName, $currentTemplatePositions);
+        $templateGroups[$templateName] = $this->createOptionGroup($templateName, $currentTemplatePositions);
 
         // Add custom position to options
         $customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
 
         $editPositions                    = true;
         $customPositions                  = self::getActivePositions(0, $editPositions);
-        $templateGroups[$customGroupText] = self::createOptionGroup($customGroupText, $customPositions);
+        $templateGroups[$customGroupText] = $this->createOptionGroup($customGroupText, $customPositions);
 
         return $templateGroups;
     }
@@ -191,7 +192,7 @@ class ModulesModel extends FormModel
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-            return;
+            return null;
         }
 
         // Build the list
@@ -218,7 +219,7 @@ class ModulesModel extends FormModel
      *
      * @since   3.6.3
      */
-    private static function createOption($value = '', $text = '')
+    private function createOption($value = '', $text = '')
     {
         if (empty($text)) {
             $text = $value;
@@ -241,13 +242,8 @@ class ModulesModel extends FormModel
      *
      * @since   3.6.3
      */
-    private static function createOptionGroup($label = '', $options = [])
+    private function createOptionGroup($label = '', $options = [])
     {
-        $group          = [];
-        $group['value'] = $label;
-        $group['text']  = $label;
-        $group['items'] = $options;
-
-        return $group;
+        return ['value' => $label, 'text' => $label, 'items' => $options];
     }
 }

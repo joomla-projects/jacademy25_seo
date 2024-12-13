@@ -95,7 +95,7 @@ class LevelModel extends AdminModel
             }
         }
 
-        if (!empty($levelsInUse)) {
+        if ($levelsInUse !== []) {
             $app = Factory::getApplication();
             $app->enqueueMessage(Text::_('COM_USERS_ERROR_VIEW_LEVEL_IN_USE'), 'error');
 
@@ -105,7 +105,7 @@ class LevelModel extends AdminModel
             }
         }
 
-        if (empty($pks)) {
+        if ($pks === []) {
             // Nothing left to delete
             return true;
         }

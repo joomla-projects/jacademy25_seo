@@ -48,7 +48,7 @@ class ToursController extends AdminController
         $pks = (array) $this->input->post->get('cid', [], 'int');
         $pks = array_filter($pks);
         try {
-            if (empty($pks)) {
+            if ($pks === []) {
                 throw new \Exception(Text::_('COM_GUIDEDTOURS_ERROR_NO_GUIDEDTOURS_SELECTED'));
             }
             $model = $this->getModel();

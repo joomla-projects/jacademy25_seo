@@ -91,7 +91,7 @@ class TasksRunCommand extends AbstractCommand
             return Status::NO_TASK;
         }
 
-        if (!$records) {
+        if ($records === []) {
             $this->ioStyle->writeln('<error>No tasks due!</error>');
 
             return Status::NO_TASK;
@@ -104,7 +104,7 @@ class TasksRunCommand extends AbstractCommand
         foreach ($records as $record) {
             $cStart   = microtime(true);
             $task     = $scheduler->runTask(['id' => $record->id, 'allowDisabled' => true, 'allowConcurrent' => true]);
-            $exit     = empty($task) ? Status::NO_RUN : $task->getContent()['status'];
+            $exit     = $task instanceof \Joomla\Component\Scheduler\Administrator\Task\Task ? $task->getContent()['status'] : Status::NO_RUN;
             $duration = microtime(true) - $cStart;
             $key      = (\array_key_exists($exit, $outTextMap)) ? $exit : 'N/A';
             $this->ioStyle->writeln(\sprintf($outTextMap[$key], $record->id, $record->title, $duration, $exit));

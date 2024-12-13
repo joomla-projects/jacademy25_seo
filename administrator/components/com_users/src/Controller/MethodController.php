@@ -352,7 +352,7 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
         $title = $this->input->getString('title', null);
         $title = trim($title);
 
-        if (empty($title)) {
+        if ($title === '' || $title === '0') {
             $method = $model->getMethod($record->method);
             $title  = $method['display'];
         }
@@ -468,7 +468,7 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
         /** @var MethodModel $model */
         $model = $this->getModel('Method');
 
-        if (empty($method) || !$model->methodExists($method)) {
+        if ($method === null || $method === '' || $method === '0' || !$model->methodExists($method)) {
             throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
     }

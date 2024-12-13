@@ -59,7 +59,7 @@ class SpacerField extends FormField
     protected function getLabel()
     {
         $html   = [];
-        $class  = !empty($this->class) ? ' class="' . $this->class . '"' : '';
+        $class  = empty($this->class) ? '' : ' class="' . $this->class . '"';
         $html[] = '<span class="spacer">';
         $html[] = '<span class="before"></span>';
         $html[] = '<span' . $class . '>';
@@ -74,7 +74,7 @@ class SpacerField extends FormField
             $text = $this->translateLabel ? Text::_($text) : $text;
 
             // Build the class for the label.
-            $class = !empty($this->description) ? 'hasPopover' : '';
+            $class = empty($this->description) ? '' : 'hasPopover';
             $class = $this->required == true ? $class . ' required' : $class;
 
             // Add the opening label tag and main attributes attributes.

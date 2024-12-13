@@ -69,7 +69,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
                         <h2>
                             <?php
                             if ($this->item->xml) {
-                                echo ($text = (string) $this->item->xml->name) ? Text::_($text) : $this->item->module;
+                                echo ($text = (string) $this->item->xml->name !== '' && $text = (string) $this->item->xml->name !== '0') ? Text::_($text) : $this->item->module;
                             } else {
                                 echo Text::_('COM_MODULES_ERR_XML');
                             }

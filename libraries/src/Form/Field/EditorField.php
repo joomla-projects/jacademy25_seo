@@ -164,7 +164,7 @@ class EditorField extends TextareaField
 
             case 'hide':
                 $value      = (string) $value;
-                $this->hide = $value ? explode(',', $value) : [];
+                $this->hide = $value !== '' && $value !== '0' ? explode(',', $value) : [];
                 break;
 
             case 'editorType':
@@ -211,11 +211,11 @@ class EditorField extends TextareaField
             } elseif ($buttons === 'false' || $buttons === 'no' || $buttons === '0') {
                 $this->buttons = false;
             } else {
-                $this->buttons = !empty($hide) ? explode(',', $buttons) : [];
+                $this->buttons = $hide === '' || $hide === '0' ? [] : explode(',', $buttons);
             }
 
-            $this->hide        = !empty($hide) ? explode(',', (string) $this->element['hide']) : [];
-            $this->editorType  = !empty($editorType) ? explode('|', trim($editorType)) : [];
+            $this->hide        = $hide === '' || $hide === '0' ? [] : explode(',', (string) $this->element['hide']);
+            $this->editorType  = $editorType === '' || $editorType === '0' ? [] : explode('|', trim($editorType));
         }
 
         return $result;

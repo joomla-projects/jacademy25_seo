@@ -267,6 +267,7 @@ class Users
         if (!\is_array($value)) {
             return htmlspecialchars((string) $value, ENT_COMPAT, 'UTF-8');
         }
+        return null;
     }
 
     /**
@@ -413,10 +414,10 @@ class Users
         $title = $db->loadResult();
 
         if ($title) {
-            $lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR)
-            || $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value);
+            if (!$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR)) {
+                $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value);
+            }
             $lang->load($title . '.sys');
-
             return Text::_($title);
         }
 

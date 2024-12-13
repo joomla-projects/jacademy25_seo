@@ -28,6 +28,12 @@ use Joomla\Registry\Registry;
 class HtmlView extends CategoryView
 {
     /**
+     * @var bool
+     */
+    public $vote;
+    public $menu;
+    public $pathway;
+    /**
      * @var    array  Array of leading items for blog display
      * @since  3.2
      */

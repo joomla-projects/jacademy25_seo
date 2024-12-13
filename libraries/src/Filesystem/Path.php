@@ -84,7 +84,7 @@ class Path extends FilesystemPath
             File::write($test, $blank, false);
 
             // Test ownership
-            $return = (fileowner($test) == fileowner($path));
+            $return = (fileowner($test) === fileowner($path));
 
             // Delete the test file
             File::delete($test);

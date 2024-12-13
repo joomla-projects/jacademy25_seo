@@ -30,6 +30,10 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
 class HtmlView extends InstallerViewDefault
 {
     /**
+     * @var mixed[]
+     */
+    public $installedLang;
+    /**
      * @var object item list
      */
     protected $items;

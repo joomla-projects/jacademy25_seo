@@ -98,7 +98,7 @@ abstract class TemplateHelper
 
         $allowable = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
 
-        if ($format == '' || $format == false || (!\in_array($format, $allowable))) {
+        if ($format === '' || $format == false || (!\in_array($format, $allowable))) {
             $app = Factory::getApplication();
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_WARNFILETYPE'), 'error');
 
@@ -113,7 +113,7 @@ abstract class TemplateHelper
                     $entry     = $zip->getNameIndex($i);
                     $endString = substr($entry, -1);
 
-                    if ($endString != DIRECTORY_SEPARATOR) {
+                    if ($endString !== DIRECTORY_SEPARATOR) {
                         $explodeArray = explode('.', $entry);
                         $ext          = end($explodeArray);
 

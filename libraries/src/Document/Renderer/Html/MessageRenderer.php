@@ -80,7 +80,7 @@ class MessageRenderer extends DocumentRenderer
         $messages = Factory::getApplication()->getMessageQueue();
 
         // Build the sorted message list
-        if (\is_array($messages) && !empty($messages)) {
+        if (\is_array($messages) && $messages !== []) {
             foreach ($messages as $msg) {
                 if (isset($msg['type']) && isset($msg['message'])) {
                     $lists[$msg['type']][] = $msg['message'];

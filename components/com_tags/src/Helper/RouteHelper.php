@@ -120,7 +120,7 @@ class RouteHelper extends CMSRouteHelper
 
         $id = array_values(array_filter($id));
 
-        if (!\count($id)) {
+        if ($id === []) {
             return '';
         }
 
@@ -207,7 +207,7 @@ class RouteHelper extends CMSRouteHelper
 
                         // Only match menu items that list one tag
                         if (isset($item->query['id']) && \is_array($item->query['id'])) {
-                            foreach ($item->query['id'] as $position => $tagId) {
+                            foreach (array_keys($item->query['id']) as $position) {
                                 if (!isset(self::$lookup[$lang][$view][$item->query['id'][$position]]) || \count($item->query['id']) == 1) {
                                     self::$lookup[$lang][$view][$item->query['id'][$position]] = $item->id;
                                 }

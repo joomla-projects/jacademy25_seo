@@ -52,7 +52,7 @@ class ApplicationHelper
         $input  = Factory::getApplication()->getInput();
         $option = strtolower((string) $input->get('option', ''));
 
-        if (empty($option)) {
+        if ($option === '' || $option === '0') {
             $option = $default;
         }
 
@@ -120,7 +120,7 @@ class ApplicationHelper
     public static function getClientInfo($id = null, $byName = false)
     {
         // Only create the array if it is empty
-        if (empty(self::$_clients)) {
+        if (self::$_clients === []) {
             $obj = new \stdClass();
 
             // Site Client

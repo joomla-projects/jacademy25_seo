@@ -53,17 +53,10 @@ class StreamTransport extends AbstractTransport implements TransportInterface
         // If data exists let's encode it and make sure our Content-Type header is set.
         if (isset($data)) {
             // If the data is a scalar value simply add it to the stream context options.
-            if (\is_scalar($data)) {
-                $options['content'] = $data;
-            } else {
-                // Otherwise we need to encode the value first.
-                $options['content'] = http_build_query($data);
-            }
-
+            $options['content'] = \is_scalar($data) ? $data : http_build_query($data);
             if (!isset($headers['Content-Type'])) {
                 $headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
             }
-
             // Add the relevant headers.
             $headers['Content-Length'] = \strlen($options['content']);
         }
@@ -157,7 +150,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
                 throw new \Exception(\sprintf('Could not connect to resource: %s', $uri));
             }
         } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage());
+            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
         } finally {
             restore_error_handler();
         }
@@ -196,7 +189,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
     protected function getResponse(array $headers, $body)
     {
         // Get the response code from the first offset of the response headers.
-        preg_match('/[0-9]{3}/', (string) array_shift($headers), $matches);
+        preg_match('/\d{3}/', (string) array_shift($headers), $matches);
         $code = $matches[0];
 
         if (!is_numeric($code)) {

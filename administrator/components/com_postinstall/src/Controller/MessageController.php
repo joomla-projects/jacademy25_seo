@@ -66,7 +66,7 @@ class MessageController extends BaseController
 
         $eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId());
 
-        if (empty($eid)) {
+        if ($eid === 0) {
             $eid = $model->getJoomlaFilesExtensionId();
         }
 
@@ -93,7 +93,7 @@ class MessageController extends BaseController
 
         $eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId());
 
-        if (empty($eid)) {
+        if ($eid === 0) {
             $eid = $model->getJoomlaFilesExtensionId();
         }
 
@@ -120,7 +120,7 @@ class MessageController extends BaseController
 
         $eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId());
 
-        if (empty($eid)) {
+        if ($eid === 0) {
             $eid = $model->getJoomlaFilesExtensionId();
         }
 

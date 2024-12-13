@@ -156,7 +156,7 @@ class Pagination
             $this->limitstart = 0;
         }
 
-        if (!$this->limit) {
+        if ($this->limit === 0) {
             $this->limit      = $total;
             $this->limitstart = 0;
         }
@@ -186,11 +186,7 @@ class Pagination
         if ($this->pagesStart + $displayedPages > $this->pagesTotal) {
             $this->pagesStop = $this->pagesTotal;
 
-            if ($this->pagesTotal < $displayedPages) {
-                $this->pagesStart = 1;
-            } else {
-                $this->pagesStart = $this->pagesTotal - $displayedPages + 1;
-            }
+            $this->pagesStart = $this->pagesTotal < $displayedPages ? 1 : $this->pagesTotal - $displayedPages + 1;
         } else {
             $this->pagesStop = $this->pagesStart + $displayedPages - 1;
         }
@@ -337,11 +333,7 @@ class Pagination
         $fromResult = $this->limitstart + 1;
 
         // If the limit is reached before the end of the list.
-        if ($this->limitstart + $this->limit < $this->total) {
-            $toResult = $this->limitstart + $this->limit;
-        } else {
-            $toResult = $this->total;
-        }
+        $toResult = $this->limitstart + $this->limit < $this->total ? $this->limitstart + $this->limit : $this->total;
 
         // If there are results found.
         if ($this->total > 0) {

@@ -311,7 +311,7 @@ class CssMenu
              * processing. It is needed for links from menu items of third party extensions link to Joomla! core
              * components like com_categories, com_fields...
              */
-            $item->element = !empty($uri->getVar('option')) ? $uri->getVar('option') : '';
+            $item->element = empty($uri->getVar('option')) ? '' : $uri->getVar('option');
 
             // Exclude item if is not enabled
             if ($item->element !== '' && !ComponentHelper::isEnabled($item->element)) {
@@ -458,8 +458,7 @@ class CssMenu
             }
 
             // Ok we passed everything, load language at last only
-            if (!empty($item->element)) {
-                $language->load($item->element . '.sys', JPATH_ADMINISTRATOR) ||
+            if (!empty($item->element) && !$language->load($item->element . '.sys', JPATH_ADMINISTRATOR)) {
                 $language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element);
             }
 
@@ -490,10 +489,10 @@ class CssMenu
      */
     public function getIconClass($node)
     {
-        $identifier = !empty($node->class) ? $node->class : '';
+        $identifier = empty($node->class) ? '' : $node->class;
 
         // Top level is special
-        if (trim($identifier) == '') {
+        if (trim($identifier) === '') {
             return null;
         }
 

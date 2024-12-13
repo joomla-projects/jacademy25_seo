@@ -118,7 +118,7 @@ abstract class LatestHelper
         $type  = $params->get('ordering') === 'c_dsc' ? '_CREATED' : '_MODIFIED';
         $title = '';
 
-        if ($catid) {
+        if ($catid !== 0) {
             $category = Categories::getInstance('Content')->get($catid);
             $title    = Text::_('MOD_POPULAR_UNEXISTING');
 
@@ -128,7 +128,7 @@ abstract class LatestHelper
         }
 
         return Text::plural(
-            'MOD_LATEST_TITLE' . $type . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''),
+            'MOD_LATEST_TITLE' . $type . ($catid !== 0 ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''),
             (int) $params->get('count', 5),
             $title
         );

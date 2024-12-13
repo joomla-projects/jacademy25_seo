@@ -200,12 +200,7 @@ class OpenSSL extends AbstractAES implements AesInterface
         }
 
         $algorithms = hash_algos();
-
-        if (!\in_array('sha256', $algorithms)) {
-            return false;
-        }
-
-        return true;
+        return \in_array('sha256', $algorithms);
     }
 
     /**

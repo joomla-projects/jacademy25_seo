@@ -118,7 +118,7 @@ class BannersModel extends ListModel
             )
             ->bind([':nowDate1', ':nowDate2'], $nowDate);
 
-        if ($cid) {
+        if ($cid !== 0) {
             $query->where(
                 [
                     $db->quoteName('a.cid') . ' = :clientId',
@@ -169,7 +169,7 @@ class BannersModel extends ListModel
                 $query->where($db->quoteName('a.catid') . $type . ':categoryId')
                     ->bind(':categoryId', $categoryId, ParameterType::INTEGER);
             }
-        } elseif (\is_array($categoryId) && (\count($categoryId) > 0)) {
+        } elseif (\is_array($categoryId) && ($categoryId !== [])) {
             $categoryId = ArrayHelper::toInteger($categoryId);
 
             if ($this->getState('filter.category_id.include', true)) {
@@ -262,7 +262,7 @@ class BannersModel extends ListModel
             $this->setState('filter.keywords', $keywords);
 
             // If no keywords are provided, avoid running the query.
-            if (!$keywords) {
+            if ($keywords === []) {
                 $this->cache['items'] = [];
 
                 return $this->cache['items'];
@@ -314,7 +314,7 @@ class BannersModel extends ListModel
         try {
             $db->execute();
         } catch (ExecutionFailureException $e) {
-            throw new \Exception($e->getMessage(), 500);
+            throw new \Exception($e->getMessage(), 500, $e);
         }
 
         foreach ($items as $item) {
@@ -351,7 +351,7 @@ class BannersModel extends ListModel
                 try {
                     $db->execute();
                 } catch (ExecutionFailureException $e) {
-                    throw new \Exception($e->getMessage(), 500);
+                    throw new \Exception($e->getMessage(), 500, $e);
                 }
 
                 if ($db->getAffectedRows() === 0) {
@@ -375,7 +375,7 @@ class BannersModel extends ListModel
                     try {
                         $db->execute();
                     } catch (ExecutionFailureException $e) {
-                        throw new \Exception($e->getMessage(), 500);
+                        throw new \Exception($e->getMessage(), 500, $e);
                     }
                 }
             }

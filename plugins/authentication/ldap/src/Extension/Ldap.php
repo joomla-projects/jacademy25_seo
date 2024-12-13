@@ -303,9 +303,10 @@ final class Ldap extends CMSPlugin implements SubscriberInterface
         foreach (explode(';', $search) as $key => $result) {
             $results = $ldap->query($dn, '(' . str_replace('\3b', ';', $result) . ')')->execute();
 
-            if (\count($results)) {
+            if (\count($results) > 0) {
                 return $results[0];
             }
         }
+        return null;
     }
 }

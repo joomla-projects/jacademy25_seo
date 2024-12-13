@@ -98,7 +98,7 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
     {
         $enableGC = (int) $event->getArgument('params')->enable_session_gc ?? 1;
 
-        if ($enableGC) {
+        if ($enableGC !== 0) {
             $this->getApplication()->getSession()->gc();
         }
 

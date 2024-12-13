@@ -361,7 +361,7 @@ class ArticlesModel extends ListModel
         }
 
         // Case: Using both categories filter and by level filter
-        if (\count($categoryId)) {
+        if ($categoryId !== []) {
             $categoryId       = ArrayHelper::toInteger($categoryId);
             $categoryTable    = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
             $subCatItemsWhere = [];
@@ -372,7 +372,7 @@ class ArticlesModel extends ListModel
                 // Because values to $query->bind() are passed by reference, using $query->bindArray() here instead to prevent overwriting.
                 $valuesToBind = [$categoryTable->lft, $categoryTable->rgt];
 
-                if ($level) {
+                if ($level !== 0) {
                     $valuesToBind[] = $level + $categoryTable->level - 1;
                 }
 
@@ -381,7 +381,7 @@ class ArticlesModel extends ListModel
 
                 $categoryWhere = $db->quoteName('c.lft') . ' >= ' . $bounded[0] . ' AND ' . $db->quoteName('c.rgt') . ' <= ' . $bounded[1];
 
-                if ($level) {
+                if ($level !== 0) {
                     $categoryWhere .= ' AND ' . $db->quoteName('c.level') . ' <= ' . $bounded[2];
                 }
 
@@ -389,7 +389,7 @@ class ArticlesModel extends ListModel
             }
 
             $query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
-        } elseif ($level = (int) $level) {
+        } elseif ($level = (int) $level !== 0) {
             // Case: Using only the by level filter
             $query->where($db->quoteName('c.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
@@ -477,7 +477,7 @@ class ArticlesModel extends ListModel
                 '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
                 $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
             );
-        } elseif ($tag = (int) $tag) {
+        } elseif ($tag = (int) $tag !== 0) {
             $query->join(
                 'INNER',
                 $db->quoteName('#__contentitem_tag_map', 'tagmap'),
@@ -578,11 +578,11 @@ class ArticlesModel extends ListModel
 
                 $where = [];
 
-                if (\count($stage_ids)) {
+                if ($stage_ids !== []) {
                     $where[] = $db->quoteName('t.from_stage_id') . ' IN (' . implode(',', $query->bindArray($stage_ids)) . ')';
                 }
 
-                if (\count($workflow_ids)) {
+                if ($workflow_ids !== []) {
                     $where[] = '(' . $db->quoteName('t.from_stage_id') . ' = -1 AND ' . $db->quoteName('t.workflow_id') . ' IN (' . implode(',', $query->bindArray($workflow_ids)) . '))';
                 }
 

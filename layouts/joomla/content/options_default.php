@@ -19,7 +19,7 @@ $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
 ?>
 
-<fieldset class="<?php echo !empty($displayData->formclass) ? $displayData->formclass : ''; ?>">
+<fieldset class="<?php echo empty($displayData->formclass) ? '' : $displayData->formclass; ?>">
     <legend><?php echo $displayData->name; ?></legend>
     <?php if (!empty($displayData->description)) : ?>
         <div class="alert alert-info">

@@ -119,7 +119,7 @@ class InstallerExtension
      */
     public function __construct(?\SimpleXMLElement $element = null)
     {
-        if ($element) {
+        if ($element instanceof \SimpleXMLElement) {
             $this->type = (string) $element->attributes()->type;
             $this->id   = (string) $element->attributes()->id;
 

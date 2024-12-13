@@ -203,7 +203,7 @@ abstract class Mfa
         $neverMFAGroups = ComponentHelper::getParams('com_users')->get('neverMFAUserGroups', []);
         $neverMFAGroups = \is_array($neverMFAGroups) ? $neverMFAGroups : [];
 
-        if (\count(array_intersect($user->getAuthorisedGroups(), $neverMFAGroups))) {
+        if (array_intersect($user->getAuthorisedGroups(), $neverMFAGroups) !== []) {
             return false;
         }
 
@@ -257,7 +257,7 @@ abstract class Mfa
      */
     public static function getUserMfaRecords(?int $userId): array
     {
-        if (empty($userId)) {
+        if ($userId === null || $userId === 0) {
             $user   = Factory::getApplication()->getIdentity() ?: Factory::getUser();
             $userId = $user->id ?: 0;
         }
@@ -331,7 +331,7 @@ abstract class Mfa
     public static function canShowConfigurationInterface(?User $user = null): bool
     {
         // If I have no user to check against that's all the checking I can do.
-        if (empty($user)) {
+        if (!$user instanceof \Joomla\CMS\User\User) {
             return false;
         }
 

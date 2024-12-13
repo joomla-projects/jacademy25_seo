@@ -58,7 +58,7 @@ class ComponentsFieldgroupField extends ListField
 
         $options = [];
 
-        if (\count($items)) {
+        if (\count($items) > 0) {
             $lang = Factory::getLanguage();
 
             $components = [];
@@ -73,8 +73,9 @@ class ComponentsFieldgroupField extends ListField
                 if (!empty($availableActions)) {
                     // Load language
                     $source = JPATH_ADMINISTRATOR . '/components/' . $item->value;
-                    $lang->load($item->value . 'sys', JPATH_ADMINISTRATOR)
-                        || $lang->load($item->value . 'sys', $source);
+                    if (!$lang->load($item->value . 'sys', JPATH_ADMINISTRATOR)) {
+                        $lang->load($item->value . 'sys', $source);
+                    }
 
                     // Translate component name
                     $item->text = Text::_($item->text);
@@ -83,7 +84,7 @@ class ComponentsFieldgroupField extends ListField
                 }
             }
 
-            if (empty($components)) {
+            if ($components === []) {
                 return [];
             }
 

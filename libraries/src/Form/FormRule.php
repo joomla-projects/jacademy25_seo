@@ -87,12 +87,7 @@ class FormRule
         if ($unicodePropertiesSupport) {
             $this->modifiers = (str_contains($this->modifiers, 'u')) ? $this->modifiers : $this->modifiers . 'u';
         }
-
         // Test the value against the regular expression.
-        if (preg_match(\chr(1) . $this->regex . \chr(1) . $this->modifiers, (string) $value)) {
-            return true;
-        }
-
-        return false;
+        return (bool) preg_match(\chr(1) . $this->regex . \chr(1) . $this->modifiers, (string) $value);
     }
 }

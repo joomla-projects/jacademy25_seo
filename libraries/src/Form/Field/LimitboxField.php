@@ -88,7 +88,7 @@ class LimitboxField extends ListField
                 $limits[] = 0;
             }
 
-            if (!empty($limits)) {
+            if ($limits !== []) {
                 foreach ($limits as $value) {
                     $options[] = (object) [
                         'value' => $value,

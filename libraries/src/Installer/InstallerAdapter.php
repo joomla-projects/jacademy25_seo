@@ -308,16 +308,14 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // If the extension directory does not exist, lets create it
         $created = false;
 
-        if (!file_exists($this->parent->getPath('extension_root'))) {
-            if (!$created = Folder::create($this->parent->getPath('extension_root'))) {
-                throw new \RuntimeException(
-                    Text::sprintf(
-                        'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
-                        Text::_('JLIB_INSTALLER_' . $this->route),
-                        $this->parent->getPath('extension_root')
-                    )
-                );
-            }
+        if (!file_exists($this->parent->getPath('extension_root')) && !$created = Folder::create($this->parent->getPath('extension_root'))) {
+            throw new \RuntimeException(
+                Text::sprintf(
+                    'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
+                    Text::_('JLIB_INSTALLER_' . $this->route),
+                    $this->parent->getPath('extension_root')
+                )
+            );
         }
 
         /*
@@ -348,11 +346,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // Get the extension's description
         $description = (string) $this->getManifest()->description;
 
-        if ($description) {
-            $this->parent->message = Text::_($description);
-        } else {
-            $this->parent->message = '';
-        }
+        $this->parent->message = $description !== '' && $description !== '0' ? Text::_($description) : '';
 
         // Set the extension's name and element
         $this->name    = $this->getName();
@@ -466,7 +460,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         $route = $this->route === 'discover_install' ? 'install' : $this->route;
 
         // Let's run the install queries for the component
-        if (isset($this->getManifest()->{$route}->sql)) {
+        if (property_exists($this->getManifest()->{$route}, 'sql') && $this->getManifest()->{$route}->sql !== null) {
             $result = $this->parent->parseSQLFiles($this->getManifest()->{$route}->sql);
 
             if ($result === false) {
@@ -479,7 +473,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
             }
 
             // If installing with success and there is an uninstall script, add an installer rollback step to rollback if needed
-            if ($route === 'install' && isset($this->getManifest()->uninstall->sql)) {
+            if ($route === 'install' && (property_exists($this->getManifest()->uninstall, 'sql') && $this->getManifest()->uninstall->sql !== null)) {
                 $this->parent->pushStep(['type' => 'query', 'script' => $this->getManifest()->uninstall->sql]);
             }
         }
@@ -501,7 +495,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
     protected function doLoadLanguage($extension, $source, $base = JPATH_ADMINISTRATOR)
     {
         $lang = Factory::getLanguage();
-        $lang->load($extension . '.sys', $source) || $lang->load($extension . '.sys', $base);
+        if (!$lang->load($extension . '.sys', $source)) {
+            $lang->load($extension . '.sys', $base);
+        }
     }
 
     /**
@@ -645,7 +641,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         $description           = (string) $this->getManifest()->description;
         $this->parent->message = '';
 
-        if ($description) {
+        if ($description !== '' && $description !== '0') {
             $this->parent->message = Text::_($description);
         }
 
@@ -931,7 +927,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         $manifestScript = (string) $this->getManifest()->scriptfile;
 
         // When no script file, do nothing
-        if (!$manifestScript) {
+        if ($manifestScript === '' || $manifestScript === '0') {
             return;
         }
 
@@ -1055,19 +1051,16 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
                 case 'preflight':
                 case 'postflight':
                     // The preflight and postflight take the route as a param
-                    if ($this->parent->manifestClass->$method($this->route, $this) === false) {
-                        if ($method !== 'postflight') {
-                            // Clean and close the output buffer
-                            ob_end_clean();
-
-                            // The script failed, rollback changes
-                            throw new \RuntimeException(
-                                Text::sprintf(
-                                    'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
-                                    Text::_('JLIB_INSTALLER_' . $this->route)
-                                )
-                            );
-                        }
+                    if ($this->parent->manifestClass->$method($this->route, $this) === false && $method !== 'postflight') {
+                        // Clean and close the output buffer
+                        ob_end_clean();
+                        // The script failed, rollback changes
+                        throw new \RuntimeException(
+                            Text::sprintf(
+                                'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
+                                Text::_('JLIB_INSTALLER_' . $this->route)
+                            )
+                        );
                     }
                     break;
 
@@ -1075,19 +1068,16 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
                 case 'uninstall':
                 case 'update':
                     // The install, uninstall, and update methods only pass this object as a param
-                    if ($this->parent->manifestClass->$method($this) === false) {
-                        if ($method !== 'uninstall') {
-                            // Clean and close the output buffer
-                            ob_end_clean();
-
-                            // The script failed, rollback changes
-                            throw new \RuntimeException(
-                                Text::sprintf(
-                                    'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
-                                    Text::_('JLIB_INSTALLER_' . $this->route)
-                                )
-                            );
-                        }
+                    if ($this->parent->manifestClass->$method($this) === false && $method !== 'uninstall') {
+                        // Clean and close the output buffer
+                        ob_end_clean();
+                        // The script failed, rollback changes
+                        throw new \RuntimeException(
+                            Text::sprintf(
+                                'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
+                                Text::_('JLIB_INSTALLER_' . $this->route)
+                            )
+                        );
                     }
                     break;
             }
@@ -1122,13 +1112,13 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         }
 
         // Joomla 4: Locked extensions cannot be removed.
-        if (isset($this->extension->locked) && $this->extension->locked) {
+        if ($this->extension->locked !== null && $this->extension->locked) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_LOCKED_EXTENSION'), Log::WARNING, 'jerror');
 
             return false;
         }
 
-        if (!isset($this->extension->locked) && $this->extension->protected) {
+        if ($this->extension->locked === null && $this->extension->protected) {
             // Joomla 3 ('locked' property does not exist yet): Protected extensions cannot be removed.
             Log::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_PROTECTED_EXTENSION'), Log::WARNING, 'jerror');
 

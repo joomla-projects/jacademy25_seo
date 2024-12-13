@@ -85,11 +85,7 @@ class TagField extends ListField
 
         if (!\is_array($this->value) && !empty($this->value)) {
             if ($this->value instanceof TagsHelper) {
-                if (empty($this->value->tags)) {
-                    $this->value = [];
-                } else {
-                    $this->value = $this->value->tags;
-                }
+                $this->value = empty($this->value->tags) ? [] : $this->value->tags;
             }
 
             // String in format 2,5,4
@@ -291,14 +287,9 @@ class TagField extends ListField
      */
     public function isNested()
     {
-        if ($this->isNested === null) {
-            // If mode="nested" || ( mode not set & config = nested )
-            if (
-                isset($this->element['mode']) && (string) $this->element['mode'] === 'nested'
-                || !isset($this->element['mode']) && $this->comParams->get('tag_field_ajax_mode', 1) == 0
-            ) {
-                $this->isNested = true;
-            }
+        // If mode="nested" || ( mode not set & config = nested )
+        if ($this->isNested === null && (isset($this->element['mode']) && (string) $this->element['mode'] === 'nested' || !isset($this->element['mode']) && $this->comParams->get('tag_field_ajax_mode', 1) == 0)) {
+            $this->isNested = true;
         }
 
         return $this->isNested;

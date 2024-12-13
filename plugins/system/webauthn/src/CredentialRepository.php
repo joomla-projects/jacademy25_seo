@@ -407,7 +407,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
     {
         $publicKeyCredentialSource = $this->findOneByCredentialId($credentialId);
 
-        if (empty($publicKeyCredentialSource)) {
+        if (!$publicKeyCredentialSource instanceof \Webauthn\PublicKeyCredentialSource) {
             return '';
         }
 
@@ -456,7 +456,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      */
     public function getUserIdFromHandle(?string $userHandle): ?int
     {
-        if (empty($userHandle)) {
+        if ($userHandle === null || $userHandle === '' || $userHandle === '0') {
             return null;
         }
 
@@ -511,7 +511,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
                 $data       = \sprintf('%010u', $userId);
                 $thisHandle = hash_hmac('sha256', $data, $key, false);
 
-                if ($thisHandle == $userHandle) {
+                if ($thisHandle === $userHandle) {
                     return $userId;
                 }
             }
@@ -533,7 +533,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
     {
         $key = $this->getEncryptionKey();
 
-        if (empty($key)) {
+        if ($key === '' || $key === '0') {
             return $credential;
         }
 
@@ -555,7 +555,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
     {
         $key = $this->getEncryptionKey();
 
-        if (empty($key)) {
+        if ($key === '' || $key === '0') {
             return $credential;
         }
 
@@ -614,7 +614,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         // Which timezone should I use?
         $tz = null;
 
-        if ($tzAware !== false) {
+        if ($tzAware) {
             $userId = \is_bool($tzAware) ? null : (int) $tzAware;
 
             try {
@@ -637,7 +637,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             }
         }
 
-        if (empty($format)) {
+        if ($format === null || $format === '' || $format === '0') {
             $format = Text::_('DATE_FORMAT_LC6');
         }
 

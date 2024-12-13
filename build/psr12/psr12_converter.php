@@ -23,7 +23,7 @@ $tasks     = [
 
 $script = array_shift($argv);
 
-if (empty($argv)) {
+if ($argv === []) {
     echo <<<TEXT
         Joomla! PSR-12 Converter
         =======================
@@ -77,7 +77,7 @@ foreach ($argv as $arg) {
         $argi = explode('=', $arg, 2);
         switch ($argi[0]) {
             case '--task':
-                foreach ($tasks as $task => $value) {
+                foreach (array_keys($tasks) as $task) {
                     if (stripos($argi[1], $task) !== false) {
                         $tasks[$task] = true;
                     }
@@ -120,7 +120,7 @@ if ($tasks['BRANCH']) {
     }
 
     $checkPath = implode(',', $output);
-    if (empty($checkPath)) {
+    if ($checkPath === '' || $checkPath === '0') {
         die(0);
     }
 }
@@ -158,10 +158,8 @@ if ($checkPath) {
             if (($entry === ".") || ($entry === "..")) {
                 continue;
             }
-            if (!is_dir($dir->path . '/' . $entry)) {
-                if (!str_ends_with($entry, '.php')) {
-                    continue;
-                }
+            if (!is_dir($dir->path . '/' . $entry) && !str_ends_with($entry, '.php')) {
+                continue;
             }
             if (
                 $folder === 'libraries'
@@ -200,7 +198,7 @@ echo <<<TEXT
 // Recreate temp dir
 $cleanItems = glob($tmpDir . '/{,.}*', GLOB_MARK | GLOB_BRACE);
 foreach ($cleanItems as $item) {
-    if (basename($item) == '.' || basename($item) == '..') {
+    if (basename($item) === '.' || basename($item) === '..') {
         continue;
     }
     unlink($item);

@@ -127,7 +127,7 @@ class FormattedtextLogger extends Logger
     public function __destruct()
     {
         // Nothing to do
-        if (!$this->defer || empty($this->deferredEntries)) {
+        if (!$this->defer || $this->deferredEntries === []) {
             return;
         }
 
@@ -153,7 +153,7 @@ class FormattedtextLogger extends Logger
      */
     public function __wakeup()
     {
-        if ($this->defer && !empty($this->deferredEntries)) {
+        if ($this->defer && $this->deferredEntries !== []) {
             throw new \RuntimeException('Can not unserialize in defer mode');
         }
     }
@@ -202,7 +202,7 @@ class FormattedtextLogger extends Logger
     protected function formatLine(LogEntry $entry)
     {
         // Set some default field values if not already set.
-        if (!isset($entry->clientIP)) {
+        if (!property_exists($entry, 'clientIP') || $entry->clientIP === null) {
             $ip = IpHelper::getIp();
 
             if ($ip !== '') {
@@ -211,7 +211,7 @@ class FormattedtextLogger extends Logger
         }
 
         // If the time field is missing or the date field isn't only the date we need to rework it.
-        if ((\strlen($entry->date) != 10) || !isset($entry->time)) {
+        if ((\strlen($entry->date) != 10) || (!property_exists($entry, 'time') || $entry->time === null)) {
             // Get the date and time strings in GMT.
             $entry->datetime = $entry->date->toISO8601();
             $entry->time     = $entry->date->format('H:i:s', false);

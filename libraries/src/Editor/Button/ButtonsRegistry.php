@@ -139,7 +139,7 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
                         continue;
                     }
 
-                    $options = !empty($props['options']) ? $props['options'] : [];
+                    $options = empty($props['options']) ? [] : $props['options'];
                     // Some very old buttons use string for options, but this does not work since Joomla 3, so we reset it here
                     $options = \is_array($options) ? $options : [];
                     unset($props['options']);

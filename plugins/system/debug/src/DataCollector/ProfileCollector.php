@@ -68,11 +68,7 @@ class ProfileCollector extends AbstractDataCollector
      */
     public function __construct(Registry $params)
     {
-        if (isset($_SERVER['REQUEST_TIME_FLOAT'])) {
-            $this->requestStartTime = $_SERVER['REQUEST_TIME_FLOAT'];
-        } else {
-            $this->requestStartTime = microtime(true);
-        }
+        $this->requestStartTime = $_SERVER['REQUEST_TIME_FLOAT'] ?? microtime(true);
 
         parent::__construct($params);
     }

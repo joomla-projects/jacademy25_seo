@@ -112,7 +112,7 @@ final class Recipe extends CMSPlugin implements SubscriberInterface
                     $result[] = $value;
                 }
 
-                $entry['recipeIngredient'] = !empty($result) ? $result : null;
+                $entry['recipeIngredient'] = $result === [] ? null : $result;
             }
         }
 

@@ -139,7 +139,7 @@ final class InstallationApplication extends CMSApplication
 
             $guesses = [];
 
-            foreach ($orphans as $key => $occurrence) {
+            foreach (array_keys($orphans) as $key) {
                 $guess = str_replace('_', ' ', $key);
 
                 $parts = explode(' ', $guess);
@@ -351,7 +351,7 @@ final class InstallationApplication extends CMSApplication
         $langfiles = [];
 
         // If db connection, fetch them from the database.
-        if ($db) {
+        if ($db instanceof \Joomla\Database\DatabaseInterface) {
             foreach (LanguageHelper::getInstalledLanguages(null, null, null, null, null, null, $db) as $clientId => $language) {
                 $clientName = $clientId === 0 ? 'site' : 'admin';
 
@@ -479,7 +479,7 @@ final class InstallationApplication extends CMSApplication
      */
     public function loadDocument(?Document $document = null)
     {
-        if ($document === null) {
+        if (!$document instanceof \Joomla\CMS\Document\Document) {
             $lang = $this->getLanguage();
             $type = $this->input->get('format', 'html', 'word');
             $date = new Date('now');

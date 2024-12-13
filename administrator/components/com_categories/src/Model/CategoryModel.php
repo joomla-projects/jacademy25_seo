@@ -344,10 +344,10 @@ class CategoryModel extends AdminModel
                         ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
                     )
                 );
-                $data->set('language', $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+                $data->set('language', $app->getInput()->getString('language', (empty($filters['language']) ? null : $filters['language'])));
                 $data->set(
                     'access',
-                    $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
+                    $app->getInput()->getInt('access', (empty($filters['access']) ? $app->get('access') : $filters['access']))
                 );
             }
         }
@@ -372,10 +372,8 @@ class CategoryModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
-        if (!$this->getCurrentUser()->authorise('core.admin', $data['extension'])) {
-            if (isset($data['rules'])) {
-                unset($data['rules']);
-            }
+        if (!$this->getCurrentUser()->authorise('core.admin', $data['extension']) && isset($data['rules'])) {
+            unset($data['rules']);
         }
 
         return parent::validate($form, $data, $group);
@@ -443,12 +441,12 @@ class CategoryModel extends AdminModel
                 \JLoader::register($cName, $path);
 
                 if (class_exists($cName) && \is_callable([$cName, 'onPrepareForm'])) {
-                    $lang->load($component, JPATH_BASE, null, false, false)
+                    if (!($lang->load($component, JPATH_BASE, null, false, false)
                         || $lang->load($component, JPATH_BASE . '/components/' . $component, null, false, false)
-                        || $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
-                        || $lang->load($component, JPATH_BASE . '/components/' . $component, $lang->getDefault(), false, false);
+                        || $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false))) {
+                        $lang->load($component, JPATH_BASE . '/components/' . $component, $lang->getDefault(), false, false);
+                    }
                     \call_user_func_array([$cName, 'onPrepareForm'], [&$form]);
-
                     // Check for an error.
                     if ($form instanceof \Exception) {
                         $this->setError($form->getMessage());
@@ -495,6 +493,7 @@ class CategoryModel extends AdminModel
 
         // Trigger the default form events.
         parent::preprocessForm($form, $data, $group);
+        return null;
     }
 
     /**
@@ -510,7 +509,7 @@ class CategoryModel extends AdminModel
     {
         $table      = $this->getTable();
         $input      = Factory::getApplication()->getInput();
-        $pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
+        $pk         = (empty($data['id'])) ? (int) $this->getState($this->getName() . '.id') : $data['id'];
         $isNew      = true;
         $context    = $this->option . '.' . $this->name;
 
@@ -541,10 +540,8 @@ class CategoryModel extends AdminModel
                 [$title, $alias] = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
                 $data['title']   = $title;
                 $data['alias']   = $alias;
-            } else {
-                if ($data['alias'] == $origTable->alias) {
-                    $data['alias'] = '';
-                }
+            } elseif ($data['alias'] == $origTable->alias) {
+                $data['alias'] = '';
             }
 
             $data['published'] = 0;
@@ -857,7 +854,7 @@ class CategoryModel extends AdminModel
             }
         }
 
-        return empty($successful) ? false : $successful;
+        return $successful === [] ? false : $successful;
     }
 
     /**
@@ -885,7 +882,7 @@ class CategoryModel extends AdminModel
         $newIds    = [];
 
         // Check that the parent exists
-        if ($parentId) {
+        if ($parentId !== 0) {
             if (!$this->table->load($parentId)) {
                 if ($error = $this->table->getError()) {
                     // Fatal error
@@ -915,7 +912,7 @@ class CategoryModel extends AdminModel
         }
 
         // If the parent is 0, set it to the ID of the root item in the tree
-        if (empty($parentId)) {
+        if ($parentId === 0) {
             if (!$parentId = $this->table->getRootId()) {
                 $this->setError($this->table->getError());
 
@@ -1089,7 +1086,7 @@ class CategoryModel extends AdminModel
         $extension = Factory::getApplication()->getInput()->get('extension', '', 'word');
 
         // Check that the parent exists.
-        if ($parentId) {
+        if ($parentId !== 0) {
             if (!$this->table->load($parentId)) {
                 if ($error = $this->table->getError()) {
                     // Fatal error.
@@ -1205,7 +1202,7 @@ class CategoryModel extends AdminModel
         }
 
         // Process the child rows
-        if (!empty($children)) {
+        if ($children !== []) {
             // Remove any duplicates and sanitize ids.
             $children = array_unique($children);
             $children = ArrayHelper::toInteger($children);

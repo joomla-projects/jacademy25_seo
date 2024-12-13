@@ -61,7 +61,7 @@ abstract class DraggableList
         $doc = Factory::getDocument();
 
         // Please consider using data attributes instead of passing arguments here!
-        if (!empty($tableId) && !empty($saveOrderingUrl) && !empty($formId) && !empty($sortDir)) {
+        if ($tableId !== '' && $tableId !== '0' && ($saveOrderingUrl !== '' && $saveOrderingUrl !== '0') && ($formId !== '' && $formId !== '0') && ($sortDir !== '' && $sortDir !== '0')) {
             $doc->addScriptOptions(
                 'draggable-list',
                 [

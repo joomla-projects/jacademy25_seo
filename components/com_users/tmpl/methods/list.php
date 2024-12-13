@@ -37,8 +37,8 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
         $methodClass = 'com-users-methods-list-method-name-' . htmlentities((string) $method['name'])
             . ($this->defaultMethod == $methodName ? ' com-users-methods-list-method-default' : '');
         ?>
-        <div class="com-users-methods-list-method <?php echo $methodClass?> mx-1 my-3 card <?php echo count($method['active']) ? 'border-secondary' : '' ?>">
-            <div class="com-users-methods-list-method-header card-header <?php echo count($method['active']) ? 'border-secondary bg-secondary text-white' : '' ?> d-flex flex-wrap align-items-center gap-2">
+        <div class="com-users-methods-list-method <?php echo $methodClass?> mx-1 my-3 card <?php echo count($method['active']) > 0 ? 'border-secondary' : '' ?>">
+            <div class="com-users-methods-list-method-header card-header <?php echo count($method['active']) > 0 ? 'border-secondary bg-secondary text-white' : '' ?> d-flex flex-wrap align-items-center gap-2">
                 <div class="com-users-methods-list-method-image pt-1 px-3 pb-2 bg-light rounded-2">
                     <img src="<?php echo Uri::root() . $method['image'] ?>"
                          alt="<?php echo $this->escape($method['display']) ?>"
@@ -64,7 +64,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
                     <?php echo $method['shortinfo'] ?>
                 </div>
 
-                <?php if (count($method['active'])) : ?>
+                <?php if (count($method['active']) > 0) : ?>
                     <div class="com-users-methods-list-method-records pt-2 my-2">
                         <?php foreach ($method['active'] as $record) : ?>
                             <div class="com-users-methods-list-method-record d-flex flex-row flex-wrap justify-content-start border-top py-2">

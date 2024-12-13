@@ -29,6 +29,15 @@ use Joomla\Component\Media\Administrator\Model\FileModel;
 class HtmlView extends BaseHtmlView
 {
     /**
+     * @var \Joomla\CMS\Form\Form|bool
+     */
+    public $form;
+    /**
+     * @var \Joomla\Registry\Registry
+     */
+    public $params;
+    public $file;
+    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.

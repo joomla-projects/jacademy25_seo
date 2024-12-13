@@ -191,7 +191,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
             $this->modified_by = 0;
         }
 
-        if (!(int) $this->created) {
+        if ((int) $this->created === 0) {
             $this->created = $date->toSql();
         }
 
@@ -199,7 +199,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
             $this->created_by = $user->id;
         }
 
-        if (!(int) $this->modified) {
+        if ((int) $this->modified === 0) {
             $this->modified = $this->created;
         }
 
@@ -207,19 +207,15 @@ class WorkflowTable extends Table implements CurrentUserInterface
             $this->modified_by = $this->created_by;
         }
 
-        if ((int) $this->default === 1) {
-            // Verify that the default is unique for this workflow
-            if (
-                $table->load(
-                    [
-                    'default'   => '1',
-                    'extension' => $this->extension,
-                    ]
-                )
-            ) {
-                $table->default = 0;
-                $table->store();
-            }
+        // Verify that the default is unique for this workflow
+        if ((int) $this->default === 1 && $table->load(
+            [
+            'default'   => '1',
+            'extension' => $this->extension,
+            ]
+        )) {
+            $table->default = 0;
+            $table->store();
         }
 
         return parent::store($updateNulls);

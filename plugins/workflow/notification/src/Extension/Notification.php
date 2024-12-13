@@ -159,12 +159,12 @@ final class Notification extends CMSPlugin implements SubscriberInterface
         }
 
         // Remove users with locked input box from the list of receivers
-        if (!empty($userIds)) {
+        if ($userIds !== []) {
             $userIds = $this->removeLocked($userIds);
         }
 
         // If there are no receivers, stop here
-        if (empty($userIds)) {
+        if ($userIds === []) {
             $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_('PLG_WORKFLOW_NOTIFICATION_NO_RECEIVER'), 'error');
 
             return;
@@ -194,7 +194,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
 
             if ($hasGetItem) {
                 $item  = $model->getItem($pk);
-                $title = !empty($item->title) ? $item->title : $title;
+                $title = empty($item->title) ? $title : $item->title;
             }
 
             // Send Email to receivers
@@ -301,12 +301,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
         }
 
         $component = $this->getApplication()->bootComponent($parts[0]);
-
-        if (!$component instanceof WorkflowServiceInterface || !$component->isWorkflowActive($context)) {
-            return false;
-        }
-
-        return true;
+        return $component instanceof WorkflowServiceInterface && $component->isWorkflowActive($context);
     }
 
     /**
@@ -320,7 +315,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
      */
     private function removeLocked(array $userIds): array
     {
-        if (empty($userIds)) {
+        if ($userIds === []) {
             return [];
         }
 

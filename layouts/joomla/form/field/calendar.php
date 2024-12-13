@@ -77,8 +77,12 @@ $attributes = [];
 empty($size)      ? null : $attributes['size'] = $size;
 empty($maxlength) ? null : $attributes['maxlength'] = $maxLength;
 empty($class)     ? $attributes['class'] = 'form-control' : $attributes['class'] = 'form-control ' . $class;
-!$readonly        ? null : $attributes['readonly'] = 'readonly';
-!$disabled        ? null : $attributes['disabled'] = 'disabled';
+if ($readonly) {
+    $attributes['readonly'] = 'readonly';
+}
+if ($disabled) {
+    $attributes['disabled'] = 'disabled';
+}
 empty($onchange)  ? null : $attributes['onchange'] = $onchange;
 
 if ($required) {
@@ -155,10 +159,10 @@ $document->getWebAssetManager()
             id="<?php echo $id; ?>"
             name="<?php echo $name; ?>"
             value="<?php echo htmlspecialchars(($value !== '0000-00-00 00:00:00') ? $value : '', ENT_COMPAT, 'UTF-8'); ?>"
-            <?php echo !empty($description) ? ' aria-describedby="' . ($id ?: $name) . '-desc"' : ''; ?>
+            <?php echo empty($description) ? '' : ' aria-describedby="' . ($id ?: $name) . '-desc"'; ?>
             <?php echo $attributes; ?>
             <?php echo $dataAttribute ?? ''; ?>
-            <?php echo !empty($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ''; ?>
+            <?php echo empty($hint) ? '' : 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"'; ?>
             data-alt-value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" autocomplete="off">
         <button type="button" class="<?php echo ($readonly || $disabled) ? 'hidden ' : ''; ?>btn btn-primary"
             id="<?php echo $id; ?>_btn"

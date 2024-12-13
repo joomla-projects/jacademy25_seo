@@ -66,7 +66,7 @@ class ApplicationController extends BaseController
     /**
      * Saves the form
      *
-     * @return  void|boolean  Void on success. Boolean false on fail.
+     * @return bool|null Void on success. Boolean false on fail.
      *
      * @since  4.0.0
      */
@@ -185,6 +185,7 @@ class ApplicationController extends BaseController
             'apply' => $this->setRedirect(Route::_('index.php?option=com_config', false)),
             default => $this->setRedirect(Route::_('index.php', false)),
         };
+        return null;
     }
 
     /**

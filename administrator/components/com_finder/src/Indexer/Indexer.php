@@ -121,8 +121,8 @@ class Indexer
      */
     public function __construct(?DatabaseInterface $db = null)
     {
-        if ($db === null) {
-            @trigger_error(\sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
+        if (!$db instanceof \Joomla\Database\DatabaseInterface) {
+            @trigger_error('Database will be mandatory in 5.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
@@ -279,8 +279,9 @@ class Indexer
      */
     public function index($item, $format = 'html')
     {
-        // Mark beforeIndexing in the profiler.
-        static::$profiler ? static::$profiler->mark('beforeIndexing') : null;
+        if (static::$profiler) {
+            static::$profiler->mark('beforeIndexing');
+        }
         $db         = $this->db;
         $serverType = strtolower($db->getServerType());
 
@@ -327,8 +328,9 @@ class Indexer
             Taxonomy::removeMaps($linkId);
         }
 
-        // Mark afterUnmapping in the profiler.
-        static::$profiler ? static::$profiler->mark('afterUnmapping') : null;
+        if (static::$profiler) {
+            static::$profiler->mark('afterUnmapping');
+        }
 
         // Perform cleanup on the item data.
         $item->publish_start_date = (int) $item->publish_start_date != 0 ? $item->publish_start_date : null;
@@ -377,8 +379,9 @@ class Indexer
         // Set up the variables we will need during processing.
         $count = 0;
 
-        // Mark afterLinking in the profiler.
-        static::$profiler ? static::$profiler->mark('afterLinking') : null;
+        if (static::$profiler) {
+            static::$profiler->mark('afterLinking');
+        }
 
         // Truncate the tokens tables.
         $db->truncateTable('#__finder_tokens');
@@ -468,8 +471,9 @@ class Indexer
             }
         }
 
-        // Mark afterProcessing in the profiler.
-        static::$profiler ? static::$profiler->mark('afterProcessing') : null;
+        if (static::$profiler) {
+            static::$profiler->mark('afterProcessing');
+        }
 
         /*
          * At this point, all of the item's content has been parsed, tokenized
@@ -510,8 +514,9 @@ class Indexer
             $db->execute();
         }
 
-        // Mark afterAggregating in the profiler.
-        static::$profiler ? static::$profiler->mark('afterAggregating') : null;
+        if (static::$profiler) {
+            static::$profiler->mark('afterAggregating');
+        }
 
         /*
          * When we pulled down all of the aggregate data, we did a LEFT JOIN
@@ -546,7 +551,7 @@ class Indexer
             ->innerJoin($db->quoteName('#__finder_terms', 't'), 't.term = ta.term AND t.language = ta.language')
             ->where('ta.term_id = 0');
 
-        if ($serverType == 'mysql') {
+        if ($serverType === 'mysql') {
             $query->set($db->quoteName('ta.term_id') . ' = ' . $db->quoteName('t.term_id'));
         } else {
             $query->set($db->quoteName('term_id') . ' = ' . $db->quoteName('t.term_id'));
@@ -555,8 +560,9 @@ class Indexer
         $db->setQuery($query);
         $db->execute();
 
-        // Mark afterTerms in the profiler.
-        static::$profiler ? static::$profiler->mark('afterTerms') : null;
+        if (static::$profiler) {
+            static::$profiler->mark('afterTerms');
+        }
 
         /*
          * After we've made sure that all of the terms are in the terms table
@@ -567,7 +573,7 @@ class Indexer
             ->update($db->quoteName('#__finder_terms', 't'))
             ->innerJoin($db->quoteName('#__finder_tokens_aggregate', 'ta'), 'ta.term_id = t.term_id');
 
-        if ($serverType == 'mysql') {
+        if ($serverType === 'mysql') {
             $query->set($db->quoteName('t.links') . ' = t.links + 1');
         } else {
             $query->set($db->quoteName('links') . ' = t.links + 1');
@@ -576,8 +582,9 @@ class Indexer
         $db->setQuery($query);
         $db->execute();
 
-        // Mark afterTerms in the profiler.
-        static::$profiler ? static::$profiler->mark('afterTerms') : null;
+        if (static::$profiler) {
+            static::$profiler->mark('afterTerms');
+        }
 
         /*
          * At this point, the aggregate table contains a record for each
@@ -599,8 +606,9 @@ class Indexer
         );
         $db->execute();
 
-        // Mark afterMapping in the profiler.
-        static::$profiler ? static::$profiler->mark('afterMapping') : null;
+        if (static::$profiler) {
+            static::$profiler->mark('afterMapping');
+        }
 
         // Update the signature.
         $object = serialize($item);
@@ -615,8 +623,9 @@ class Indexer
         $db->setQuery($query);
         $db->execute();
 
-        // Mark afterSigning in the profiler.
-        static::$profiler ? static::$profiler->mark('afterSigning') : null;
+        if (static::$profiler) {
+            static::$profiler->mark('afterSigning');
+        }
 
         // Truncate the tokens tables.
         $db->truncateTable('#__finder_tokens');
@@ -627,8 +636,9 @@ class Indexer
         // Toggle the token tables back to memory tables.
         $this->toggleTables(true);
 
-        // Mark afterTruncating in the profiler.
-        static::$profiler ? static::$profiler->mark('afterTruncating') : null;
+        if (static::$profiler) {
+            static::$profiler->mark('afterTruncating');
+        }
 
         // Trigger a plugin event after indexing
         PluginHelper::importPlugin('finder');
@@ -774,7 +784,7 @@ class Indexer
         ];
 
         foreach ($tables as $table) {
-            if ($serverType == 'mysql') {
+            if ($serverType === 'mysql') {
                 $db->setQuery('OPTIMIZE TABLE ' . $db->quoteName($table));
                 $db->execute();
             } else {
@@ -987,7 +997,7 @@ class Indexer
             return true;
         }
 
-        if (strtolower($this->db->getServerType()) != 'mysql') {
+        if (strtolower($this->db->getServerType()) !== 'mysql') {
             $supported = false;
 
             return true;

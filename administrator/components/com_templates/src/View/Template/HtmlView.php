@@ -33,6 +33,15 @@ use Joomla\Component\Templates\Administrator\Model\TemplateModel;
  */
 class HtmlView extends BaseHtmlView
 {
+    public $updatedList;
+    /**
+     * @var mixed[]
+     */
+    public $styles;
+    /**
+     * @var string
+     */
+    public $stylesHTML;
     /**
      * The Model state
      *
@@ -154,7 +163,7 @@ class HtmlView extends BaseHtmlView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  void|boolean
+     * @return bool|null
      */
     public function display($tpl = null)
     {
@@ -222,6 +231,7 @@ class HtmlView extends BaseHtmlView
         }
 
         parent::display($tpl);
+        return null;
     }
 
     /**

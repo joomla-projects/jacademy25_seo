@@ -127,7 +127,7 @@ class ListField extends FormField
             }
 
             $value = (string) $option['value'];
-            $text  = trim((string) $option) != '' ? trim((string) $option) : $value;
+            $text  = trim((string) $option) !== '' ? trim((string) $option) : $value;
 
             $disabled = (string) $option['disabled'];
             $disabled = ($disabled === 'true' || $disabled === 'disabled' || $disabled === '1');
@@ -152,7 +152,7 @@ class ListField extends FormField
             $tmp['onclick']  = (string) $option['onclick'];
             $tmp['onchange'] = (string) $option['onchange'];
 
-            if ((string) $option['showon']) {
+            if ((string) $option['showon'] !== '' && (string) $option['showon'] !== '0') {
                 $encodedConditions = json_encode(
                     FormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
                 );

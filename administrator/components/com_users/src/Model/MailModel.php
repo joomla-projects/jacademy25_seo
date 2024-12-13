@@ -115,7 +115,7 @@ class MailModel extends AdminModel
         $message_body = \array_key_exists('message', $data) ? $data['message'] : '';
 
         // Automatically removes html formatting
-        if (!$mode) {
+        if ($mode === 0) {
             $message_body = InputFilter::getInstance()->clean($message_body, 'string');
         }
 
@@ -186,14 +186,14 @@ class MailModel extends AdminModel
             ];
             $mailer->addTemplateData($data);
 
-            $recipientType = $bcc ? 'bcc' : 'to';
+            $recipientType = $bcc !== 0 ? 'bcc' : 'to';
 
             // Add recipients
             foreach ($rows as $row) {
                 $mailer->addRecipient($row->email, $row->name, $recipientType);
             }
 
-            if ($bcc) {
+            if ($bcc !== 0) {
                 $mailer->addRecipient($app->get('mailfrom'), $app->get('fromname'));
             }
 
@@ -219,7 +219,7 @@ class MailModel extends AdminModel
             return false;
         }
 
-        if (empty($rs)) {
+        if ($rs === false) {
             $app->setUserState('com_users.display.mail.data', $data);
             $this->setError(Text::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
 

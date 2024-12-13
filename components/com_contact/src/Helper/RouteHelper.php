@@ -66,11 +66,7 @@ abstract class RouteHelper
      */
     public static function getCategoryRoute($catid, $language = 0)
     {
-        if ($catid instanceof CategoryNode) {
-            $id = $catid->id;
-        } else {
-            $id       = (int) $catid;
-        }
+        $id = $catid instanceof CategoryNode ? $catid->id : (int) $catid;
 
         if ($id < 1) {
             $link = '';

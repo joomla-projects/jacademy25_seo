@@ -142,7 +142,7 @@ class SqlField extends ListField
             // Check if its using the old way
             $this->query = (string) $this->element['query'];
 
-            if (empty($this->query)) {
+            if ($this->query === null || ($this->query === '' || $this->query === '0')) {
                 // Get the query from the form
                 $query    = [];
                 $defaults = [];
@@ -166,7 +166,7 @@ class SqlField extends ListField
                         $name   = "sql_default_{$filter}";
                         $attrib = (string) $this->element[$name];
 
-                        if (!empty($attrib)) {
+                        if ($attrib !== '' && $attrib !== '0') {
                             $defaults[$filter] = $attrib;
                         }
                     }

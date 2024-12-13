@@ -48,7 +48,7 @@ class BackupcodesModel extends BaseDatabaseModel
     public function getBackupCodesRecord(?User $user = null): ?MfaTable
     {
         // Make sure I have a user
-        if (empty($user)) {
+        if (!$user instanceof \Joomla\CMS\User\User) {
             $user = $this->getCurrentUser();
         }
 
@@ -81,7 +81,7 @@ class BackupcodesModel extends BaseDatabaseModel
     public function regenerateBackupCodes(?User $user = null): void
     {
         // Make sure I have a user
-        if (empty($user)) {
+        if (!$user instanceof \Joomla\CMS\User\User) {
             $user = $this->getCurrentUser();
         }
 
@@ -110,7 +110,7 @@ class BackupcodesModel extends BaseDatabaseModel
     public function saveBackupCodes(array $codes, ?User $user = null): bool
     {
         // Make sure I have a user
-        if (empty($user)) {
+        if (!$user instanceof \Joomla\CMS\User\User) {
             $user = $this->getCurrentUser();
         }
 
@@ -170,7 +170,7 @@ class BackupcodesModel extends BaseDatabaseModel
     public function getBackupCodes(?User $user = null): ?array
     {
         // Make sure I have a user
-        if (empty($user)) {
+        if (!$user instanceof \Joomla\CMS\User\User) {
             $user = $this->getCurrentUser();
         }
 

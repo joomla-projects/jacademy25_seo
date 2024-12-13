@@ -206,10 +206,8 @@ class FilelistField extends ListField
         if (\is_array($files)) {
             foreach ($files as $file) {
                 // Check to see if the file is in the exclude mask.
-                if ($this->exclude) {
-                    if (preg_match(\chr(1) . $this->exclude . \chr(1), (string) $file)) {
-                        continue;
-                    }
+                if ($this->exclude && preg_match(\chr(1) . $this->exclude . \chr(1), (string) $file)) {
+                    continue;
                 }
 
                 // If the extension is to be stripped, do it.

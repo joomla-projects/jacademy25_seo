@@ -16,10 +16,6 @@ if ($value == '') {
     return;
 }
 
-if (is_array($value)) {
-    $value = implode(', ', array_map('intval', $value));
-} else {
-    $value = (int) $value;
-}
+$value = is_array($value) ? implode(', ', array_map('intval', $value)) : (int) $value;
 
 echo $value;

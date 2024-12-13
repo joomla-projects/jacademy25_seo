@@ -41,7 +41,7 @@ class CallbackController extends CacheController
     public function get($callback, $args = [], $id = false, $wrkarounds = false, $woptions = [])
     {
         if (!\is_array($args)) {
-            $referenceArgs = !empty($args) ? [&$args] : [];
+            $referenceArgs = empty($args) ? [] : [&$args];
         } else {
             $referenceArgs = &$args;
         }
@@ -122,11 +122,7 @@ class CallbackController extends CacheController
 
         $data = ['result' => $result];
 
-        if ($wrkarounds) {
-            $data['output'] = Cache::setWorkarounds($output, $coptions);
-        } else {
-            $data['output'] = $output;
-        }
+        $data['output'] = $wrkarounds ? Cache::setWorkarounds($output, $coptions) : $output;
 
         // Restore document head data and merge module head data.
         if ($coptions['modulemode'] == 1) {

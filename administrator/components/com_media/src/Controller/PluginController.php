@@ -69,7 +69,7 @@ class PluginController extends BaseController
             $eventResults = (array) $this->app->triggerEvent('onFileSystemOAuthCallback', $event);
 
             // If event was not triggered in the selected Plugin, raise a warning and fallback to Control Panel
-            if (!$eventResults) {
+            if ($eventResults === []) {
                 throw new \Exception(
                     'Plugin ' . $pluginName . ' should have implemented onFileSystemOAuthCallback method'
                 );

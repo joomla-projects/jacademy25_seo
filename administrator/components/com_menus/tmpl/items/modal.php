@@ -92,10 +92,8 @@ if (!empty($editor)) {
                 <?php foreach ($this->items as $i => $item) : ?>
                     <?php
                     $language = '';
-                    if ($item->language && $multilang) {
-                        if ($item->language !== '*') {
-                            $language = $item->language;
-                        }
+                    if ($item->language && $multilang && $item->language !== '*') {
+                        $language = $item->language;
                     }
 
                     $link     = 'index.php?Itemid=' . $item->id;

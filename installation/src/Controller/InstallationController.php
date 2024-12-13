@@ -241,7 +241,7 @@ class InstallationController extends JSONController
         // Remove zero values resulting from input filter
         $lids = array_filter($lids);
 
-        if (empty($lids)) {
+        if ($lids === []) {
             // No languages have been selected
             $this->app->enqueueMessage(Text::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'), 'warning');
         } else {

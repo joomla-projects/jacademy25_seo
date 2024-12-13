@@ -48,7 +48,7 @@ class RemoveModel extends BaseDatabaseModel implements UserFactoryAwareInterface
      */
     public function removeDataForRequest($id = null)
     {
-        $id = !empty($id) ? $id : (int) $this->getState($this->getName() . '.request_id');
+        $id = empty($id) ? (int) $this->getState($this->getName() . '.request_id') : $id;
 
         if (!$id) {
             $this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_REMOVE'));
@@ -89,7 +89,7 @@ class RemoveModel extends BaseDatabaseModel implements UserFactoryAwareInterface
                 ->setLimit(1)
         )->loadResult();
 
-        $user = $userId ? $this->getUserFactory()->loadUserById($userId) : null;
+        $user = $userId !== 0 ? $this->getUserFactory()->loadUserById($userId) : null;
 
         $canRemove  = true;
         $dispatcher = $this->getDispatcher();

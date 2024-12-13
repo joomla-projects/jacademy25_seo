@@ -117,7 +117,7 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $checkedOut = !\is_null($this->item->checked_out) && $this->item->checked_out != $userId;
         $toolbar    = $this->getDocument()->getToolbar();
 
         $canDo = ContentHelper::getActions('com_tags');

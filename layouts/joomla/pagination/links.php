@@ -39,11 +39,7 @@ if (!empty($pages['pages'])) {
 }
 
 if ($currentPage >= $step) {
-    if ($currentPage % $step === 0) {
-        $range = ceil($currentPage / $step) + 1;
-    } else {
-        $range = ceil($currentPage / $step);
-    }
+    $range = $currentPage % $step === 0 ? ceil($currentPage / $step) + 1 : ceil($currentPage / $step);
 }
 $first = ($currentPage - 1) * $list['limit'] + 1;
 $last  = $first + $list['limit'] - 1;

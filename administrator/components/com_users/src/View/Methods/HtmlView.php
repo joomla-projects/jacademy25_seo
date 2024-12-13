@@ -125,7 +125,7 @@ class HtmlView extends BaseHtmlView
         foreach ($this->methods as $methodName => $method) {
             $methodActiveRecords = \count($method['active']);
 
-            if (!$methodActiveRecords) {
+            if ($methodActiveRecords === 0) {
                 continue;
             }
 

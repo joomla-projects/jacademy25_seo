@@ -300,7 +300,7 @@ class ContactsModel extends ListModel
                 '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
                 $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
             );
-        } elseif ($tag = (int) $tag) {
+        } elseif ($tag = (int) $tag !== 0) {
             $query->join(
                 'INNER',
                 $db->quoteName('#__contentitem_tag_map', 'tagmap'),
@@ -324,7 +324,7 @@ class ContactsModel extends ListModel
         }
 
         // Case: Using both categories filter and by level filter
-        if (\count($categoryId)) {
+        if ($categoryId !== []) {
             $categoryId       = ArrayHelper::toInteger($categoryId);
             $categoryTable    = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
             $subCatItemsWhere = [];

@@ -323,7 +323,7 @@ final class PrivacyConsent extends CMSPlugin
 
         $articleId = (int) $this->params->get('privacy_article');
 
-        if (!$articleId) {
+        if ($articleId === 0) {
             return;
         }
 
@@ -364,7 +364,7 @@ final class PrivacyConsent extends CMSPlugin
     {
         $messageOnRedirect = trim((string) $this->params->get('messageOnRedirect', ''));
 
-        if (empty($messageOnRedirect)) {
+        if ($messageOnRedirect === '' || $messageOnRedirect === '0') {
             return $this->getApplication()->getLanguage()->_('PLG_SYSTEM_PRIVACYCONSENT_REDIRECT_MESSAGE_DEFAULT');
         }
 

@@ -99,25 +99,25 @@ class BannerTable extends Table implements VersionableTableInterface
         $this->name = htmlspecialchars_decode($this->name, ENT_QUOTES);
 
         // Set alias
-        if (trim($this->alias) == '') {
+        if (trim($this->alias) === '') {
             $this->alias = $this->name;
         }
 
         $this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
 
-        if (trim(str_replace('-', '', $this->alias)) == '') {
+        if (trim(str_replace('-', '', $this->alias)) === '') {
             $this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
         }
 
         // Check for a valid category.
-        if (!$this->catid = (int) $this->catid) {
+        if ($this->catid = (int) $this->catid === 0) {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
 
             return false;
         }
 
         // Set created date if not set.
-        if (!(int) $this->created) {
+        if ((int) $this->created === 0) {
             $this->created = Factory::getDate()->toSql();
         }
 

@@ -93,7 +93,7 @@ class StagesController extends AdminController
 
             $this->extension = array_shift($parts);
 
-            if (!empty($parts)) {
+            if ($parts !== []) {
                 $this->section = array_shift($parts);
             }
 
@@ -155,7 +155,7 @@ class StagesController extends AdminController
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
 
-        if (empty($cid)) {
+        if ($cid === []) {
             $this->setMessage(Text::_('COM_WORKFLOW_NO_ITEM_SELECTED'), 'warning');
         } elseif (\count($cid) > 1) {
             $this->setMessage(Text::_('COM_WORKFLOW_TOO_MANY_STAGES'), 'error');

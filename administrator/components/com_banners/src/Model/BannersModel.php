@@ -196,7 +196,7 @@ class BannersModel extends ListModel
         }
 
         // Filter on the level.
-        if ($level = (int) $this->getState('filter.level')) {
+        if ($level = (int) $this->getState('filter.level') !== 0) {
             $query->where($db->quoteName('c.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
         }

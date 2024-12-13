@@ -440,14 +440,14 @@ abstract class WebApplication extends AbstractWebApplication
         // Get an explicitly set media URI is present.
         $mediaURI = trim((string) $this->get('media_uri', ''));
 
-        if ($mediaURI) {
+        if ($mediaURI !== '' && $mediaURI !== '0') {
             if (str_contains($mediaURI, '://')) {
                 $this->set('uri.media.full', $mediaURI);
                 $this->set('uri.media.path', $mediaURI);
             } else {
                 // Normalise slashes.
                 $mediaURI = trim($mediaURI, '/\\');
-                $mediaURI = !empty($mediaURI) ? '/' . $mediaURI . '/' : '/';
+                $mediaURI = $mediaURI === '' || $mediaURI === '0' ? '/' : '/' . $mediaURI . '/';
                 $this->set('uri.media.full', $this->get('uri.base.host') . $mediaURI);
                 $this->set('uri.media.path', $mediaURI);
             }

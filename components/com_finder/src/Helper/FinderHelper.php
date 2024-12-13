@@ -42,7 +42,7 @@ class FinderHelper
             return;
         }
 
-        if (trim($searchquery->input) == '' && !$searchquery->empty) {
+        if (trim($searchquery->input) === '' && !$searchquery->empty) {
             return;
         }
 
@@ -71,7 +71,7 @@ class FinderHelper
         $query->clear();
 
         // Update the table based on the results
-        if ($hits) {
+        if ($hits !== 0) {
             $query->update($db->quoteName('#__finder_logging'))
                 ->set('hits = (hits + 1)')
                 ->where($db->quoteName('md5sum') . ' = ' . $db->quote($entry->md5sum));

@@ -178,7 +178,7 @@ if ($this->type == 'font') {
                                     <?php if (substr($file, -1) === DIRECTORY_SEPARATOR) : ?>
                                         <span class="icon-folder icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
                                     <?php endif; ?>
-                                    <?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
+                                    <?php if (substr($file, -1) !== DIRECTORY_SEPARATOR) : ?>
                                         <span class="icon-file icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
                                     <?php endif; ?>
                                 </li>

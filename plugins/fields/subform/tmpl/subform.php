@@ -41,7 +41,7 @@ foreach ($field->subform_rows as $subform_row) {
         }
 
         // Generate the output for this sub field and row
-        $row_output[] = '<span class="field-entry' . ($class ? (' ' . $class) : '') . '">' . $content . '</span>';
+        $row_output[] = '<span class="field-entry' . ($class !== '' && $class !== '0' ? (' ' . $class) : '') . '">' . $content . '</span>';
     }
 
     // Skip empty rows
@@ -53,7 +53,7 @@ foreach ($field->subform_rows as $subform_row) {
 }
 ?>
 
-<?php if (trim($result) != '') : ?>
+<?php if (trim($result) !== '') : ?>
     <ul class="fields-container">
         <?php echo $result; ?>
     </ul>

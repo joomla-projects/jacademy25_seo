@@ -149,20 +149,18 @@ class UpdateModel extends ListModel
                 $sid = (int) substr((string) $search, 4);
                 $query->where($db->quoteName('u.extension_id') . ' = :sid')
                     ->bind(':sid', $sid, ParameterType::INTEGER);
+            } elseif (stripos((string) $search, 'uid:') !== false) {
+                $suid = (int) substr((string) $search, 4);
+                $query->where($db->quoteName('u.update_site_id') . ' = :suid')
+                    ->bind(':suid', $suid, ParameterType::INTEGER);
+            } elseif (stripos((string) $search, 'id:') !== false) {
+                $uid = (int) substr((string) $search, 3);
+                $query->where($db->quoteName('u.update_id') . ' = :uid')
+                    ->bind(':uid', $uid, ParameterType::INTEGER);
             } else {
-                if (stripos((string) $search, 'uid:') !== false) {
-                    $suid = (int) substr((string) $search, 4);
-                    $query->where($db->quoteName('u.update_site_id') . ' = :suid')
-                        ->bind(':suid', $suid, ParameterType::INTEGER);
-                } elseif (stripos((string) $search, 'id:') !== false) {
-                    $uid = (int) substr((string) $search, 3);
-                    $query->where($db->quoteName('u.update_id') . ' = :uid')
-                        ->bind(':uid', $uid, ParameterType::INTEGER);
-                } else {
-                    $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
-                    $query->where($db->quoteName('u.name') . ' LIKE :search')
-                        ->bind(':search', $search);
-                }
+                $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
+                $query->where($db->quoteName('u.name') . ' LIKE :search')
+                    ->bind(':search', $search);
             }
         }
 
@@ -421,7 +419,7 @@ class UpdateModel extends ListModel
         $sources = $update->get('downloadSources', []);
 
         if ($extra_query = $update->get('extra_query')) {
-            $url .= (!str_contains($url, '?')) ? '?' : '&amp;';
+            $url .= (str_contains($url, '?')) ? '&amp;' : '?';
             $url .= $extra_query;
         }
 
@@ -432,7 +430,7 @@ class UpdateModel extends ListModel
             $url  = trim($name->url);
 
             if ($extra_query) {
-                $url .= (!str_contains($url, '?')) ? '?' : '&amp;';
+                $url .= (str_contains($url, '?')) ? '&amp;' : '?';
                 $url .= $extra_query;
             }
 

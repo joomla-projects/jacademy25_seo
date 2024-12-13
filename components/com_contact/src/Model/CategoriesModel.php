@@ -117,22 +117,14 @@ class CategoriesModel extends ListModel
             $menu   = $app->getMenu();
             $active = $menu->getActive();
 
-            if ($active) {
-                $params = $active->getParams();
-            } else {
-                $params = new Registry();
-            }
+            $params = $active ? $active->getParams() : new Registry();
 
             $options               = [];
             $options['countItems'] = $params->get('show_cat_items_cat', 1) || !$params->get('show_empty_categories_cat', 0);
             $categories            = Categories::getInstance('Contact', $options);
             $this->_parent         = $categories->get($this->getState('filter.parentId', 'root'));
 
-            if (\is_object($this->_parent)) {
-                $this->_items = $this->_parent->getChildren();
-            } else {
-                $this->_items = false;
-            }
+            $this->_items = \is_object($this->_parent) ? $this->_parent->getChildren() : false;
         }
 
         return $this->_items;

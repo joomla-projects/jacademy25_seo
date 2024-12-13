@@ -40,7 +40,7 @@ if ($parts) {
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.ordering');
-$saveOrder = ($listOrder == 'a.ordering' && strtolower((string) $listDirn) == 'asc');
+$saveOrder = ($listOrder == 'a.ordering' && strtolower((string) $listDirn) === 'asc');
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_fields&task=groups.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';

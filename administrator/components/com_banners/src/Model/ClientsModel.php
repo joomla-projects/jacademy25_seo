@@ -162,9 +162,11 @@ class ClientsModel extends ListModel
                 $db->quoteName('uc.name'),
             ]
         );
+        // Filter by search in title
+        $search = trim((string) $this->getState('filter.search', ''));
 
         // Filter by search in title
-        if ($search = trim((string) $this->getState('filter.search', ''))) {
+        if ($search !== '' && $search !== '0') {
             if (stripos($search, 'id:') === 0) {
                 $search = (int) substr($search, 3);
                 $query->where($db->quoteName('a.id') . ' = :search')
@@ -177,7 +179,7 @@ class ClientsModel extends ListModel
         }
 
         // Filter by purchase type
-        if ($purchaseType = (int) $this->getState('filter.purchase_type')) {
+        if ($purchaseType = (int) $this->getState('filter.purchase_type') !== 0) {
             if ($defaultPurchase === $purchaseType) {
                 $query->where('(' . $db->quoteName('a.purchase_type') . ' = :type OR ' . $db->quoteName('a.purchase_type') . ' = -1)');
             } else {

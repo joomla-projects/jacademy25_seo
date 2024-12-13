@@ -105,7 +105,7 @@ class User extends Table
         $this->_db->setQuery($query);
         $data = (array) $this->_db->loadAssoc();
 
-        if (!\count($data)) {
+        if ($data === []) {
             return false;
         }
 
@@ -368,7 +368,7 @@ class User extends Table
             $result = $this->_db->loadObjectList();
 
             // Loop through them and check if database contains something $this->groups does not
-            if (\count($result)) {
+            if (\count($result) > 0) {
                 $mapGroupId = [];
 
                 foreach ($result as $map) {
@@ -380,7 +380,7 @@ class User extends Table
                     }
                 }
 
-                if (\count($mapGroupId)) {
+                if ($mapGroupId !== []) {
                     $query->clear()
                         ->delete($this->_db->quoteName('#__user_usergroup_map'))
                         ->where($this->_db->quoteName('user_id') . ' = :uid')

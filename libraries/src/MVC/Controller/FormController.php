@@ -35,6 +35,7 @@ use Joomla\Input\Input;
  */
 class FormController extends BaseController implements FormFactoryAwareInterface
 {
+    public $extension;
     use FormFactoryAwareTrait;
 
     /**
@@ -858,10 +859,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
                     if (isset($filteredData[$field->group][$fieldName])) {
                         $data[$field->group][$fieldName] = $filteredData[$field->group][$fieldName];
                     }
-                } else {
-                    if (isset($filteredData[$fieldName])) {
-                        $data[$fieldName] = $filteredData[$fieldName];
-                    }
+                } elseif (isset($filteredData[$fieldName])) {
+                    $data[$fieldName] = $filteredData[$fieldName];
                 }
             }
         }

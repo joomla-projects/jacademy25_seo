@@ -224,7 +224,7 @@ class TagModel extends ListModel
 
         $itemid   = $pkString . ':' . $app->getInput()->get('Itemid', 0, 'int');
         $orderCol = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
-        $orderCol = !$orderCol ? $this->state->params->get('tag_list_orderby', 'c.core_title') : $orderCol;
+        $orderCol = $orderCol ?: $this->state->params->get('tag_list_orderby', 'c.core_title');
 
         if (!\in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'c.core_title';
@@ -233,7 +233,7 @@ class TagModel extends ListModel
         $this->setState('list.ordering', $orderCol);
 
         $listOrder = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order_direction', 'filter_order_Dir', '', 'string');
-        $listOrder = !$listOrder ? $this->state->params->get('tag_list_orderby_direction', 'ASC') : $listOrder;
+        $listOrder = $listOrder ?: $this->state->params->get('tag_list_orderby_direction', 'ASC');
 
         if (!\in_array(strtoupper((string) $listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
@@ -276,10 +276,8 @@ class TagModel extends ListModel
                     $table->load($id);
 
                     // Check published state.
-                    if ($published = $this->getState('tag.state')) {
-                        if ($table->published != $published) {
-                            continue;
-                        }
+                    if (($published = $this->getState('tag.state')) && $table->published != $published) {
+                        continue;
                     }
 
                     if (!\in_array($table->access, $this->getCurrentUser()->getAuthorisedViewLevels())) {
@@ -315,7 +313,7 @@ class TagModel extends ListModel
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {
-            $pk    = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
+            $pk    = (empty($pk)) ? (int) $this->getState('tag.id') : $pk;
 
             /** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
             $table = $this->getTable();

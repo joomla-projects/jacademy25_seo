@@ -127,7 +127,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
         // If we're here, we have updates. First, get a link to the Joomla! Update component.
         $baseURL  = Uri::base();
         $baseURL  = rtrim($baseURL, '/');
-        $baseURL .= (!str_ends_with($baseURL, 'administrator')) ? '/administrator/' : '/';
+        $baseURL .= (str_ends_with($baseURL, 'administrator')) ? '/' : '/administrator/';
         $baseURL .= 'index.php?option=com_joomlaupdate';
         $uri      = new Uri($baseURL);
 
@@ -260,7 +260,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
                 }
             }
 
-            if (empty($groups)) {
+            if ($groups === []) {
                 return $ret;
             }
         } catch (\Exception) {
@@ -293,7 +293,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
                 ->where($db->quoteName('block') . ' = 0')
                 ->where($db->quoteName('sendEmail') . ' = 1');
 
-            if (!empty($emails)) {
+            if ($emails !== []) {
                 $lowerCaseEmails = array_map('strtolower', $emails);
                 $query->whereIn('LOWER(' . $db->quoteName('email') . ')', $lowerCaseEmails, ParameterType::STRING);
             }

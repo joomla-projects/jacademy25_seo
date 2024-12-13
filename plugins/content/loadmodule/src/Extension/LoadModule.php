@@ -87,7 +87,7 @@ final class LoadModule extends CMSPlugin
             preg_match_all($regex, $article->text, $matches, PREG_SET_ORDER);
 
             // No matches, skip this
-            if ($matches) {
+            if ($matches !== []) {
                 foreach ($matches as $match) {
                     $matcheslist = explode(',', $match[1]);
 
@@ -114,7 +114,7 @@ final class LoadModule extends CMSPlugin
             preg_match_all($regexmod, $article->text, $matchesmod, PREG_SET_ORDER);
 
             // If no matches, skip this
-            if ($matchesmod) {
+            if ($matchesmod !== []) {
                 foreach ($matchesmod as $matchmod) {
                     $matchesmodlist = explode(',', $matchmod[1]);
 
@@ -150,7 +150,7 @@ final class LoadModule extends CMSPlugin
             preg_match_all($regexmodid, $article->text, $matchesmodid, PREG_SET_ORDER);
 
             // If no matches, skip this
-            if ($matchesmodid) {
+            if ($matchesmodid !== []) {
                 foreach ($matchesmodid as $match) {
                     $id     = trim($match[1]);
                     $output = $this->loadID($id);

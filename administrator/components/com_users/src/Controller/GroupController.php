@@ -62,11 +62,9 @@ class GroupController extends FormController
     protected function allowEdit($data = [], $key = 'id')
     {
         // Check if this group is a Super Admin
-        if (Access::checkGroup($data[$key], 'core.admin')) {
-            // If I'm not a Super Admin, then disallow the edit.
-            if (!$this->app->getIdentity()->authorise('core.admin')) {
-                return false;
-            }
+        // If I'm not a Super Admin, then disallow the edit.
+        if (Access::checkGroup($data[$key], 'core.admin') && !$this->app->getIdentity()->authorise('core.admin')) {
+            return false;
         }
 
         return parent::allowEdit($data, $key);

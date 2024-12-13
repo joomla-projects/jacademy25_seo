@@ -291,12 +291,10 @@ class BannerModel extends AdminModel
 
         // Access checks.
         foreach ($pks as $i => $pk) {
-            if ($table->load($pk)) {
-                if (!$this->canEditState($table)) {
-                    // Prune items that you can't change.
-                    unset($pks[$i]);
-                    Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
-                }
+            if ($table->load($pk) && !$this->canEditState($table)) {
+                // Prune items that you can't change.
+                unset($pks[$i]);
+                Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
             }
         }
 
@@ -450,10 +448,8 @@ class BannerModel extends AdminModel
                 [$name, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
                 $data['name']       = $name;
                 $data['alias']      = $alias;
-            } else {
-                if ($data['alias'] == $origTable->alias) {
-                    $data['alias'] = '';
-                }
+            } elseif ($data['alias'] == $origTable->alias) {
+                $data['alias'] = '';
             }
 
             $data['state'] = 0;

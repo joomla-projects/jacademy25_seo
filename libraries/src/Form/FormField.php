@@ -424,7 +424,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         }
 
         // Detect the field type if not set
-        if (!isset($this->type)) {
+        if ($this->type === null) {
             $parts = Normalise::fromCamelCase(static::class, true);
 
             if ($parts[0] === 'J') {
@@ -501,6 +501,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                     return $this->dataAttributes[$name];
                 }
         }
+        return null;
     }
 
     /**
@@ -556,7 +557,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             case 'multiple':
                 // Allow for field classes to force the multiple values option.
                 $value = (string) $value;
-                $value = $value === '' && isset($this->forceMultiple) ? (string) $this->forceMultiple : $value;
+                $value = $value === '' && (property_exists($this, 'forceMultiple') && $this->forceMultiple !== null) ? (string) $this->forceMultiple : $value;
 
                 // No break
 
@@ -595,12 +596,10 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 // Detect data attribute(s)
                 if (str_starts_with($name, 'data-')) {
                     $this->dataAttributes[$name] = $value;
+                } elseif (property_exists(self::class, $name)) {
+                    Log::add("Cannot access protected / private property $name of " . self::class);
                 } else {
-                    if (property_exists(self::class, $name)) {
-                        Log::add("Cannot access protected / private property $name of " . self::class);
-                    } else {
-                        $this->$name = $value;
-                    }
+                    $this->$name = $value;
                 }
         }
     }
@@ -688,7 +687,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         // Set the visibility.
         $this->hidden = ($this->hidden || strtolower((string) $this->element['type']) === 'hidden');
 
-        $this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
+        $this->layout = empty($this->element['layout']) ? $this->layout : (string) $this->element['layout'];
 
         $this->parentclass = isset($this->element['parentclass']) ? (string) $this->element['parentclass'] : $this->parentclass;
 
@@ -736,7 +735,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         // If the field is in a group add the group control to the field id.
         if ($this->group) {
             // If we already have an id segment add the group control as another level.
-            if ($id) {
+            if ($id !== '' && $id !== '0') {
                 $id .= '_' . str_replace('.', '_', $this->group);
             } else {
                 $id .= str_replace('.', '_', $this->group);
@@ -858,7 +857,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             // If we already have a name segment add the group control as another level.
             $groups = explode('.', $this->group);
 
-            if ($name) {
+            if ($name !== '' && $name !== '0') {
                 foreach ($groups as $group) {
                     $name .= '[' . $group . ']';
                 }
@@ -872,7 +871,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         }
 
         // If we already have a name segment add the field name as another level.
-        if ($name) {
+        if ($name !== '' && $name !== '0') {
             $name .= '[' . $fieldName . ']';
         } else {
             $name .= $fieldName;
@@ -1029,16 +1028,16 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             }
         }
 
-        $options['inlineHelp'] = isset($this->form, $this->form->getXml()->config->inlinehelp['button'])
-            ? ((string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false)
+        $options['inlineHelp'] = $this->form !== null
+            ? ((string) $this->form->getXml()->config->inlinehelp['button'] === 'show' ?: false)
             : false;
 
         // Check if the field has showon in nested option
         $hasOptionShowOn = false;
 
-        if (!empty((array) $this->element->xpath('option'))) {
+        if ((array) $this->element->xpath('option') !== []) {
             foreach ($this->element->xpath('option') as $option) {
-                if ((string) $option['showon']) {
+                if ((string) $option['showon'] !== '' && (string) $option['showon'] !== '0') {
                     $hasOptionShowOn = true;
 
                     break;
@@ -1184,7 +1183,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         // Check if the field is required.
         $required = ((string) $this->element['required'] === 'true' || (string) $this->element['required'] === 'required');
 
-        if ($this->element['label']) {
+        if ($this->element['label'] instanceof \SimpleXMLElement) {
             $fieldLabel = $this->element['label'];
 
             // Try to translate label if not set to false
@@ -1203,9 +1202,11 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 
             return new \RuntimeException($message);
         }
+        // Get the field validation rule.
+        $type = (string) $this->element['validate'];
 
         // Get the field validation rule.
-        if ($type = (string) $this->element['validate']) {
+        if ($type !== '' && $type !== '0') {
             // Load the FormRule object for the field.
             $rule = FormHelper::loadRuleType($type);
 
@@ -1218,7 +1219,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 try {
                     $rule->setDatabase($this->getDatabase());
                 } catch (DatabaseNotFoundException) {
-                    @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+                    @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
                     $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
                 }
             }
@@ -1243,7 +1244,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 try {
                     $rule->setDatabase($this->getDatabase());
                 } catch (DatabaseNotFoundException) {
-                    @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+                    @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
                     $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
                 }
             }
@@ -1265,7 +1266,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             // Does the field have a defined error message?
             $message = (string) $this->element['message'];
 
-            if ($message) {
+            if ($message !== '' && $message !== '0') {
                 $message = Text::_($this->element['message']);
             } else {
                 $message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $fieldLabel);
@@ -1303,9 +1304,9 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      */
     protected function getLayoutData()
     {
-        $label       = !empty($this->element['label']) ? (string) $this->element['label'] : null;
+        $label       = empty($this->element['label']) ? null : (string) $this->element['label'];
         $label       = $label && $this->translateLabel ? Text::_($label) : $label;
-        $description = !empty($this->description) ? $this->description : null;
+        $description = empty($this->description) ? null : $this->description;
         $description = !empty($description) && $this->translateDescription ? Text::_($description) : $description;
         $alt         = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
         $options     = [

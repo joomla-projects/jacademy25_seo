@@ -35,7 +35,7 @@ trait SchemaorgPrepareDurationTrait
             return null;
         }
 
-        $newDuration = 'PT' . (!empty($duration['hour']) ? (int) $duration['hour'] . 'H' : '') . (!empty($duration['min']) ? (int) $duration['min'] . 'M' : '');
+        $newDuration = 'PT' . (empty($duration['hour']) ? '' : (int) $duration['hour'] . 'H') . (empty($duration['min']) ? '' : (int) $duration['min'] . 'M');
 
         return $newDuration !== 'PT' ? $newDuration : null;
     }

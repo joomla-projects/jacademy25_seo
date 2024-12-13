@@ -188,12 +188,7 @@ class Aes
         }
 
         $algorithms = hash_algos();
-
-        if (!\in_array('sha256', $algorithms)) {
-            return false;
-        }
-
-        return true;
+        return \in_array('sha256', $algorithms);
     }
 
     /**
@@ -259,7 +254,7 @@ if (!\function_exists('hash_pbkdf2')) {
         }
 
         $output      = '';
-        $block_count = $length ? ceil($length / \strlen(hash($algo, '', $rawOutput))) : 1;
+        $block_count = $length !== 0 ? ceil($length / \strlen(hash($algo, '', $rawOutput))) : 1;
 
         for ($i = 1; $i <= $block_count; $i++) {
             $last = $xorsum = hash_hmac($algo, $salt . pack('N', $i), $password, true);
@@ -275,6 +270,6 @@ if (!\function_exists('hash_pbkdf2')) {
             $output = bin2hex($output);
         }
 
-        return $length ? substr($output, 0, $length) : $output;
+        return $length !== 0 ? substr($output, 0, $length) : $output;
     }
 }

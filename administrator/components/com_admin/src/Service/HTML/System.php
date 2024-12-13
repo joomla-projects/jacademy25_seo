@@ -32,6 +32,6 @@ class System
      */
     public function server($val)
     {
-        return !empty($val) ? $val : Text::_('COM_ADMIN_NA');
+        return empty($val) ? Text::_('COM_ADMIN_NA') : $val;
     }
 }

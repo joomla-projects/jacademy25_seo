@@ -61,9 +61,9 @@ class TosField extends RadioField
         $this->required = true;
 
         // Build the class for the label.
-        $class = !empty($this->description) ? 'hasPopover' : '';
+        $class = empty($this->description) ? '' : 'hasPopover';
         $class .= ' required';
-        $class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
+        $class = empty($this->labelClass) ? $class : $class . ' ' . $this->labelClass;
 
         // Add the opening label tag and main attributes attributes.
         $label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';
@@ -84,7 +84,7 @@ class TosField extends RadioField
 
         $tosArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
 
-        if ($tosArticle) {
+        if ($tosArticle !== 0) {
             $attribs                   = [];
             $attribs['data-bs-toggle'] = 'modal';
             $attribs['data-bs-target'] = '#tosModal';

@@ -105,7 +105,7 @@ abstract class AuthenticationHelper
 
         foreach ($results as $result) {
             // Did we get garbage back from the plugin?
-            if (!\is_array($result) || empty($result)) {
+            if (!\is_array($result) || $result === []) {
                 continue;
             }
 

@@ -50,11 +50,7 @@ class Files extends Input
      */
     public function __construct(?array $source = null, array $options = [])
     {
-        if (isset($options['filter'])) {
-            $this->filter = $options['filter'];
-        } else {
-            $this->filter = InputFilter::getInstance();
-        }
+        $this->filter = $options['filter'] ?? InputFilter::getInstance();
 
         // Set the data source.
         $this->data = &$_FILES;
@@ -123,7 +119,7 @@ class Files extends Input
         $result = [];
 
         if (\is_array($data[0])) {
-            foreach ($data[0] as $k => $v) {
+            foreach (array_keys($data[0]) as $k) {
                 $result[$k] = $this->decodeData([$data[0][$k], $data[1][$k], $data[2][$k], $data[3][$k], $data[4][$k]]);
             }
 

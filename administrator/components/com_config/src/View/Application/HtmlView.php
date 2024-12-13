@@ -30,6 +30,23 @@ use Joomla\Component\Config\Administrator\Model\ApplicationModel;
 class HtmlView extends BaseHtmlView
 {
     /**
+     * @var \Joomla\CMS\User\User
+     */
+    public $user;
+    /**
+     * @var \Joomla\Registry\Registry
+     */
+    public $usersParams;
+    /**
+     * @var \Joomla\Registry\Registry
+     */
+    public $mediaParams;
+    public $components;
+    /**
+     * @var bool
+     */
+    public $userIsSuperAdmin;
+    /**
      * The model state
      *
      * @var   \Joomla\Registry\Registry

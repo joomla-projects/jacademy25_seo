@@ -112,11 +112,7 @@ class MailTemplate
      */
     protected $language, ?Mail $mailer = null)
     {
-        if ($mailer) {
-            $this->mailer = $mailer;
-        } else {
-            $this->mailer = Factory::getMailer();
-        }
+        $this->mailer = $mailer ?: Factory::getMailer();
     }
 
     /**
@@ -335,7 +331,7 @@ class MailTemplate
                 }
 
                 // Add the logo to the mail as inline attachment
-                if ($logo) {
+                if ($logo !== '' && $logo !== '0') {
                     $logo = Path::check(JPATH_ROOT . '/' . HTMLHelper::_('cleanImageURL', $logo)->url);
                     if (is_file(urldecode($logo))) {
                         # Attach the logo as inline attachment
@@ -392,7 +388,7 @@ class MailTemplate
             $this->mailer->addReplyTo($replyTo, $replyToName);
         }
 
-        if (trim((string) $config->get('attachment_folder', ''))) {
+        if (trim((string) $config->get('attachment_folder', '')) !== '' && trim((string) $config->get('attachment_folder', '')) !== '0') {
             $folderPath = rtrim(Path::check(JPATH_ROOT . '/' . $config->get('attachment_folder')), \DIRECTORY_SEPARATOR);
 
             if ($folderPath && $folderPath !== Path::clean(JPATH_ROOT) && is_dir($folderPath)) {
@@ -609,7 +605,7 @@ class MailTemplate
     protected function getAttachmentName(string $file, string $name): string
     {
         // If no name is given, do not process it further
-        if (!trim($name)) {
+        if (trim($name) === '' || trim($name) === '0') {
             return '';
         }
 

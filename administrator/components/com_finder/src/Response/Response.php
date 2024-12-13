@@ -170,8 +170,8 @@ class Response
             $this->startTime = $state->startTime;
             $this->endTime   = Factory::getDate()->toSql();
 
-            $this->start    = !empty($state->start) ? (int) $state->start : 0;
-            $this->complete = !empty($state->complete) ? (int) $state->complete : 0;
+            $this->start    = empty($state->start) ? 0 : (int) $state->start;
+            $this->complete = empty($state->complete) ? 0 : (int) $state->complete;
 
             // Set the appropriate messages.
             if ($this->totalItems <= 0 && $this->complete) {

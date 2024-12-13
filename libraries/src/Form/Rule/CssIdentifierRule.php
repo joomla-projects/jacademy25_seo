@@ -77,7 +77,7 @@ class CssIdentifierRule extends FormRule
             /**
              * Full identifiers cannot start with a digit, two hyphens, or a hyphen followed by a digit.
              */
-            if (preg_match('/^[0-9]/', $identifier) || preg_match('/^(-[0-9])|^(--)/', $identifier)) {
+            if (preg_match('/^\d/', $identifier) || preg_match('/^(-\d)|^(--)/', $identifier)) {
                 return false;
             }
         }

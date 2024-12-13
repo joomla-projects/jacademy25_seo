@@ -60,7 +60,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
      */
     public function __construct(int $userId = 0)
     {
-        if (empty($userId)) {
+        if ($userId === 0) {
             $user = Factory::getApplication()->getIdentity()
                 ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
@@ -105,11 +105,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
      */
     public function findAllForUserEntity(PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array
     {
-        if (empty($publicKeyCredentialUserEntity)) {
-            $userId = $this->userId;
-        } else {
-            $userId = $publicKeyCredentialUserEntity->getId();
-        }
+        $userId = empty($publicKeyCredentialUserEntity) ? $this->userId : $publicKeyCredentialUserEntity->getId();
 
         $return = [];
 
@@ -123,7 +119,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
         foreach ($results as $result) {
             $options = $result->options;
 
-            if (!\is_array($options) || empty($options)) {
+            if (!\is_array($options) || $options === []) {
                 continue;
             }
 

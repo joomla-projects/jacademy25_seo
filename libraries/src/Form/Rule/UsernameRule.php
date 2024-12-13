@@ -68,11 +68,6 @@ class UsernameRule extends FormRule implements DatabaseAwareInterface
         // Set and query the database.
         $db->setQuery($query);
         $duplicate = (bool) $db->loadResult();
-
-        if ($duplicate) {
-            return false;
-        }
-
-        return true;
+        return !$duplicate;
     }
 }

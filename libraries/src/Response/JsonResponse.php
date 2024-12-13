@@ -87,7 +87,7 @@ class JsonResponse implements \Stringable
             }
 
             // If messages exist add them to the output
-            if (\count($lists)) {
+            if ($lists !== []) {
                 $this->messages = $lists;
             }
         }

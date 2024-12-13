@@ -24,6 +24,8 @@ use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
  */
 class HtmlView extends CategoryView
 {
+    public $menu;
+    public $pathway;
     /**
      * @var    string  Default title to use for page title
      * @since  3.2
@@ -88,7 +90,7 @@ class HtmlView extends CategoryView
             $category = $this->category->getParent();
 
             while (
-                isset($category->id) && $category->id > 1
+                property_exists($category, 'id') && $category->id !== null && $category->id > 1
                 && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
                 || $id != $category->id)
             ) {

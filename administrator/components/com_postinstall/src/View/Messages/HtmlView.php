@@ -28,6 +28,19 @@ use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
 class HtmlView extends BaseHtmlView
 {
     /**
+     * @var int
+     */
+    public $joomlaFilesExtensionId;
+    public $eid;
+    /**
+     * @var string
+     */
+    public $token;
+    /**
+     * @var mixed[]
+     */
+    public $extension_options;
+    /**
      * An array of items
      *
      * @var   array
@@ -59,7 +72,7 @@ class HtmlView extends BaseHtmlView
         $this->joomlaFilesExtensionId = $model->getJoomlaFilesExtensionId();
         $this->eid                    = (int) $model->getState('eid', $this->joomlaFilesExtensionId);
 
-        if (empty($this->eid)) {
+        if ($this->eid === 0) {
             $this->eid = $this->joomlaFilesExtensionId;
         }
 

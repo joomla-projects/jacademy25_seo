@@ -142,7 +142,7 @@ class PluginsModel extends ListModel
             }
 
             $orderingDirection = strtolower((string) $this->getState('list.direction'));
-            $direction         = ($orderingDirection == 'desc') ? -1 : 1;
+            $direction         = ($orderingDirection === 'desc') ? -1 : 1;
             $result            = ArrayHelper::sortObjects($result, $ordering, $direction, true, true);
 
             $total                                      = \count($result);
@@ -188,8 +188,9 @@ class PluginsModel extends ListModel
         foreach ($items as &$item) {
             $source    = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
             $extension = 'plg_' . $item->folder . '_' . $item->element;
-            $lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
-                || $lang->load($extension . '.sys', $source);
+            if (!$lang->load($extension . '.sys', JPATH_ADMINISTRATOR)) {
+                $lang->load($extension . '.sys', $source);
+            }
             $item->name = Text::_($item->name);
         }
     }
@@ -260,12 +261,10 @@ class PluginsModel extends ListModel
         // Filter by search in name or id.
         $search = $this->getState('filter.search');
 
-        if (!empty($search)) {
-            if (stripos((string) $search, 'id:') === 0) {
-                $ids = (int) substr((string) $search, 3);
-                $query->where($db->quoteName('a.extension_id') . ' = :id');
-                $query->bind(':id', $ids, ParameterType::INTEGER);
-            }
+        if (!empty($search) && stripos((string) $search, 'id:') === 0) {
+            $ids = (int) substr((string) $search, 3);
+            $query->where($db->quoteName('a.extension_id') . ' = :id');
+            $query->bind(':id', $ids, ParameterType::INTEGER);
         }
 
         return $query;

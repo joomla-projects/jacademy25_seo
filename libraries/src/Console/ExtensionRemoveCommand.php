@@ -126,10 +126,12 @@ class ExtensionRemoveCommand extends AbstractCommand
         $this->cliInput = $input;
         $this->ioStyle  = new SymfonyStyle($input, $output);
         $language       = Factory::getLanguage();
-        $language->load('', JPATH_ADMINISTRATOR, null, false, false) ||
-        $language->load('', JPATH_ADMINISTRATOR, null, true);
-        $language->load('com_installer', JPATH_ADMINISTRATOR, null, false, false) ||
-        $language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
+        if (!$language->load('', JPATH_ADMINISTRATOR, null, false, false)) {
+            $language->load('', JPATH_ADMINISTRATOR, null, true);
+        }
+        if (!$language->load('com_installer', JPATH_ADMINISTRATOR, null, false, false)) {
+            $language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
+        }
     }
 
     /**

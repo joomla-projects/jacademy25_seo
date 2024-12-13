@@ -176,18 +176,14 @@ class Associations
         // Status of language filter parameter.
         static $enabled = false;
 
-        if (Multilanguage::isEnabled()) {
-            // If already tested, don't test again.
-            if (!$tested) {
-                $plugin = PluginHelper::getPlugin('system', 'languagefilter');
-
-                if (!empty($plugin)) {
-                    $params   = new Registry($plugin->params);
-                    $enabled  = (bool) $params->get('item_associations', true);
-                }
-
-                $tested = true;
+        // If already tested, don't test again.
+        if (Multilanguage::isEnabled() && !$tested) {
+            $plugin = PluginHelper::getPlugin('system', 'languagefilter');
+            if (!empty($plugin)) {
+                $params   = new Registry($plugin->params);
+                $enabled  = (bool) $params->get('item_associations', true);
             }
+            $tested = true;
         }
 
         return $enabled;

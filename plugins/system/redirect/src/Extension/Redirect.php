@@ -108,11 +108,9 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
                     $skipUrl = true;
                     break;
                 }
-            } else {
-                if (StringHelper::strpos($orgurlRel, $exclude->term) !== false) {
-                    $skipUrl = true;
-                    break;
-                }
+            } elseif (StringHelper::strpos($orgurlRel, $exclude->term) !== false) {
+                $skipUrl = true;
+                break;
             }
         }
 
@@ -187,7 +185,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
         }
 
         // A redirect object was found and, if published, will be used
-        if ($redirect !== null && ((int) $redirect->published === 1)) {
+        if ($redirect instanceof \stdClass && ((int) $redirect->published === 1)) {
             if (!$redirect->header || (bool) ComponentHelper::getParams('com_redirect')->get('mode', false) === false) {
                 $redirect->header = 301;
             }
@@ -222,7 +220,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
             }
 
             $event->setError(new \RuntimeException($event->getError()->getMessage(), $redirect->header, $event->getError()));
-        } elseif ($redirect === null) {
+        } elseif (!$redirect instanceof \stdClass) {
             // No redirect object was found so we create an entry in the redirect table
             if ((bool) $this->params->get('collect_urls', 1)) {
                 if (!$this->params->get('includeUrl', 1)) {

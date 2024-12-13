@@ -106,11 +106,7 @@ class Date extends \DateTime implements \Stringable
 
         // If the time zone object is not set, attempt to build it.
         if (!($tz instanceof \DateTimeZone)) {
-            if (\is_string($tz)) {
-                $tz = new \DateTimeZone($tz);
-            } else {
-                $tz = new \DateTimeZone('UTC');
-            }
+            $tz = \is_string($tz) ? new \DateTimeZone($tz) : new \DateTimeZone('UTC');
         }
 
         // Backup active time zone
@@ -339,7 +335,7 @@ class Date extends \DateTime implements \Stringable
      */
     public function getOffsetFromGmt($hours = false)
     {
-        return (float) $hours ? ($this->tz->getOffset($this) / 3600) : $this->tz->getOffset($this);
+        return (float) $hours !== 0.0 ? ($this->tz->getOffset($this) / 3600) : $this->tz->getOffset($this);
     }
 
     /**
@@ -417,7 +413,7 @@ class Date extends \DateTime implements \Stringable
      */
     public function toSql($local = false, ?DatabaseDriver $db = null)
     {
-        if ($db === null) {
+        if (!$db instanceof \Joomla\Database\DatabaseDriver) {
             $db = Factory::getDbo();
         }
 

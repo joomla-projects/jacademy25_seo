@@ -106,7 +106,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
 
         $extId = (int) $db->loadResult();
 
-        if ($extId) {
+        if ($extId !== 0) {
             $updater = Updater::getInstance();
 
             /*
@@ -351,11 +351,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
             // If current then set published.
             $params = ComponentHelper::getParams('com_languages');
 
-            if ($params->get($client->name, 'en-GB') == $row->language) {
-                $row->published = 1;
-            } else {
-                $row->published = 0;
-            }
+            $row->published = $params->get($client->name, 'en-GB') == $row->language ? 1 : 0;
 
             $row->checked_out = null;
             $data[]           = $row;
@@ -522,7 +518,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
         $data = (array) $this->getOptions();
 
         // Bind the form data if present.
-        if (!empty($data)) {
+        if ($data !== []) {
             $form->bind($data);
         }
 

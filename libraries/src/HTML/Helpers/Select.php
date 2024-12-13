@@ -385,7 +385,7 @@ abstract class Select
 
         $obj                            = new \stdClass();
         $obj->{$options['option.key']}  = $value;
-        $obj->{$options['option.text']} = trim($text) ? $text : $value;
+        $obj->{$options['option.text']} = trim($text) !== '' && trim($text) !== '0' ? $text : $value;
 
         /*
          * If a label is provided, save it. If no label is provided and there is
@@ -569,11 +569,7 @@ abstract class Select
                     $label = htmlentities((string) $label);
                 }
 
-                if (\is_array($attr)) {
-                    $attr = ArrayHelper::toString($attr);
-                } else {
-                    $attr = trim((string) $attr);
-                }
+                $attr = \is_array($attr) ? ArrayHelper::toString($attr) : trim((string) $attr);
 
                 $extra = ($id ? ' id="' . $id . '"' : '') . ($label ? ' label="' . $label . '"' : '') . ($attr ? ' ' . $attr : '') . $extra;
 

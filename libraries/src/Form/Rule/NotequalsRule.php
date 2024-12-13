@@ -48,19 +48,14 @@ class NotequalsRule extends FormRule
         $field = (string) $element['field'];
 
         // Check that a validation field is set.
-        if (!$field) {
+        if ($field === '' || $field === '0') {
             throw new \UnexpectedValueException(\sprintf('$field empty in %s::test', static::class));
         }
 
-        if ($input === null) {
+        if (!$input instanceof \Joomla\Registry\Registry) {
             throw new \InvalidArgumentException(\sprintf('The value for $input must not be null in %s', static::class));
         }
-
         // Test the two values against each other.
-        if ($value != $input->get($field)) {
-            return true;
-        }
-
-        return false;
+        return $value != $input->get($field);
     }
 }

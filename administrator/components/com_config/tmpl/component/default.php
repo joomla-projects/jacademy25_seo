@@ -78,7 +78,7 @@ $xml = $this->form->getXml();
                             <legend><?php echo Text::_($fieldSet->label); ?></legend>
                             <div class="form-grid">
                     <?php elseif (!$hasParent) : ?>
-                        <?php if ($opentab) : ?>
+                        <?php if ($opentab !== 0) : ?>
                             <?php if ($opentab > 1) : ?>
                                 </div>
                                 </fieldset>
@@ -117,7 +117,7 @@ $xml = $this->form->getXml();
                     <?php endif; ?>
                 <?php endforeach; ?>
 
-                <?php if ($opentab) : ?>
+                <?php if ($opentab !== 0) : ?>
                     <?php if ($opentab > 1) : ?>
                         </div>
                         </fieldset>

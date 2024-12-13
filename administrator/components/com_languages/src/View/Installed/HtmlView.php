@@ -29,6 +29,10 @@ use Joomla\Component\Languages\Administrator\Model\InstalledModel;
 class HtmlView extends BaseHtmlView
 {
     /**
+     * @var int
+     */
+    public $total;
+    /**
      * Option (component) name
      *
      * @var string

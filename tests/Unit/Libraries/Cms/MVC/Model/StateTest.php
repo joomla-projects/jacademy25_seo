@@ -85,7 +85,7 @@ class StateTest extends UnitTestCase
         $state       = new State();
         $state->unit = 'test';
 
-        $this->assertTrue(isset($state->unit));
+        $this->assertTrue(property_exists($state, 'unit') && $state->unit !== null);
     }
 
     /**
@@ -99,7 +99,7 @@ class StateTest extends UnitTestCase
     {
         $state = new State();
 
-        $this->assertFalse(isset($state->unit));
+        $this->assertFalse(property_exists($state, 'unit') && $state->unit !== null);
     }
 
     /**

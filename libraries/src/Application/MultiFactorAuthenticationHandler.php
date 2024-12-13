@@ -166,7 +166,7 @@ trait MultiFactorAuthenticationHandler
 
         if (
             !$isMFAPending && !$isMFADisallowed && ($userOptions->get('mfaredirectonlogin', 0) == 1)
-            && !$user->guest && !$hasRejectedMultiFactorAuthenticationSetup && !empty(MfaHelper::getMfaMethods())
+            && !$user->guest && !$hasRejectedMultiFactorAuthenticationSetup && MfaHelper::getMfaMethods() !== []
         ) {
             $this->redirect(
                 $userOptions->get('mfaredirecturl', '') ?:
@@ -204,7 +204,7 @@ trait MultiFactorAuthenticationHandler
         $mfaMethods = MfaHelper::getMfaMethods();
 
         // If no MFA Method is active we can't really display a Captive login page.
-        if (empty($mfaMethods)) {
+        if ($mfaMethods === []) {
             return false;
         }
 
@@ -280,21 +280,16 @@ trait MultiFactorAuthenticationHandler
         $task         = strtolower($this->input->getCmd('task', ''));
 
         // Allow the frontend user to log out (in case they forgot their MFA code or something)
-        if (!$isAdmin && ($option == 'com_users') && \in_array($task, ['user.logout', 'user.menulogout'])) {
+        if (!$isAdmin && ($option === 'com_users') && \in_array($task, ['user.logout', 'user.menulogout'])) {
             return false;
         }
 
         // Allow the backend user to log out (in case they forgot their MFA code or something)
-        if ($isAdmin && ($option == 'com_login') && ($task == 'logout')) {
+        if ($isAdmin && ($option === 'com_login') && ($task === 'logout')) {
             return false;
         }
-
         // Allow the Joomla update finalisation to run
-        if ($isAdmin && $option === 'com_joomlaupdate' && \in_array($task, ['update.finalise', 'update.cleanup', 'update.finaliseconfirm'])) {
-            return false;
-        }
-
-        return true;
+        return !($isAdmin && $option === 'com_joomlaupdate' && \in_array($task, ['update.finalise', 'update.cleanup', 'update.finaliseconfirm']));
     }
 
     /**
@@ -503,13 +498,13 @@ trait MultiFactorAuthenticationHandler
         $aes       = new Aes($secret, 256);
         $decrypted = $aes->decryptString($stringToDecrypt);
 
-        if (!\is_string($decrypted) || empty($decrypted)) {
+        if (!\is_string($decrypted) || ($decrypted === '' || $decrypted === '0')) {
             $aes->setPassword($secret, true);
 
             $decrypted = $aes->decryptString($stringToDecrypt);
         }
 
-        if (!\is_string($decrypted) || empty($decrypted)) {
+        if (!\is_string($decrypted) || ($decrypted === '' || $decrypted === '0')) {
             return '';
         }
 

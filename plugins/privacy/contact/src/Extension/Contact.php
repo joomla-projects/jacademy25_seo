@@ -56,7 +56,7 @@ final class Contact extends PrivacyPlugin
             ->from($db->quoteName('#__contact_details'))
             ->order($db->quoteName('ordering') . ' ASC');
 
-        if ($user) {
+        if ($user instanceof \Joomla\CMS\User\User) {
             $query->where($db->quoteName('user_id') . ' = :id')
                 ->bind(':id', $user->id, ParameterType::INTEGER);
         } else {

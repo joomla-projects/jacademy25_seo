@@ -70,11 +70,7 @@ class AuthenticationEvent extends UserEvent
 
         // Check Response status
         $response = $this->getAuthenticationResponse();
-        if ($response->status === Authentication::STATUS_SUCCESS) {
-            return true;
-        }
-
-        return false;
+        return $response->status === Authentication::STATUS_SUCCESS;
     }
 
     /**

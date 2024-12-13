@@ -26,7 +26,7 @@ $tmpl = $input->getCmd('tmpl') ? '1' : '';
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_menus.admin-item-modal');
 
-if ($tmpl) {
+if ($tmpl !== '' && $tmpl !== '0') {
     $wa->useScript('modal-content-select');
 }
 
@@ -40,7 +40,7 @@ if ($tmpl) {
                     $menutype = ['id' => $this->recordId, 'title' => $item->type ?? $item->title, 'request' => $item->request];
                     $encoded  = base64_encode(json_encode($menutype));
 
-                    if ($tmpl) {
+                    if ($tmpl !== '' && $tmpl !== '0') {
                         $attrs = 'data-content-select data-content-type="com_menus.menutype" data-message-type="joomla:content-select-menutype"'
                             . ' data-item-id="' . (int) $this->recordId . '"'
                             . ' data-type="' . $this->escape($item->type ?? $item->title) . '"'

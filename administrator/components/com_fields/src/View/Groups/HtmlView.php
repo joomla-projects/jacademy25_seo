@@ -141,8 +141,9 @@ class HtmlView extends BaseHtmlView
 
         // Load component language file
         $lang = $this->getLanguage();
-        $lang->load($component, JPATH_ADMINISTRATOR)
-        || $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
+        if (!$lang->load($component, JPATH_ADMINISTRATOR)) {
+            $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
+        }
 
         $title = Text::sprintf('COM_FIELDS_VIEW_GROUPS_TITLE', Text::_(strtoupper((string) $component)));
 

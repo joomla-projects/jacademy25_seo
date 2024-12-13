@@ -669,7 +669,7 @@ class El extends Language
 
             if (
                 (preg_match($exept18, $token) || preg_match($exept19, $token))
-                && !(preg_match($exept17, $token) || preg_match($exept20, $token))
+                && (!preg_match($exept17, $token) && !preg_match($exept20, $token))
             ) {
                 $token .= "ΑΓ";
             }

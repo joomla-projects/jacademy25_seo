@@ -49,13 +49,13 @@ $html = [];
 $attr = '';
 
 // Initialize the field attributes.
-$attr .= !empty($class) ? ' class="form-select ' . $class . '"' : ' class="form-select"';
-$attr .= !empty($size) ? ' size="' . $size . '"' : '';
+$attr .= empty($class) ? ' class="form-select"' : ' class="form-select ' . $class . '"';
+$attr .= empty($size) ? '' : ' size="' . $size . '"';
 $attr .= $multiple ? ' multiple' : '';
 $attr .= $required ? ' required' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
-$attr .= !empty($description) ? ' aria-describedby="' . ($id ?: $name) . '-desc"' : '';
+$attr .= empty($description) ? '' : ' aria-describedby="' . ($id ?: $name) . '-desc"';
 $attr .= $dataAttribute;
 
 // To avoid user's confusion, readonly="readonly" should imply disabled="disabled".
@@ -69,7 +69,7 @@ if ($readonly) {
 
     // E.g. form field type tag sends $this->value as array
     if ($multiple && is_array($value)) {
-        if (!count($value)) {
+        if ($value === []) {
             $value[] = '';
         }
 

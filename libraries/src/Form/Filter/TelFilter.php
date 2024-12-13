@@ -44,7 +44,7 @@ class TelFilter implements FormFilterInterface
         $value = trim((string) $value);
 
         // Does it match the NANP pattern?
-        if (preg_match('/^(?:\+?1[-. ]?)?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$/', $value) == 1) {
+        if (preg_match('/^(?:\+?1[-. ]?)?\(?([2-9][0-8]\d)\)?[-. ]?([2-9]\d{2})[-. ]?(\d{4})$/', $value) == 1) {
             $number = (string) preg_replace('/[^\d]/', '', $value);
 
             if (str_starts_with($number, '1')) {
@@ -56,14 +56,14 @@ class TelFilter implements FormFilterInterface
             }
 
             $result = '1.' . $number;
-        } elseif (preg_match('/^\+(?:[0-9] ?){6,14}[0-9]$/', $value) == 1) {
+        } elseif (preg_match('/^\+(?:\d ?){6,14}\d$/', $value) == 1) {
             // If not, does it match ITU-T?
             $countrycode = substr($value, 0, strpos($value, ' '));
             $countrycode = (string) preg_replace('/[^\d]/', '', $countrycode);
             $number      = strstr($value, ' ');
             $number      = (string) preg_replace('/[^\d]/', '', $number);
             $result      = $countrycode . '.' . $number;
-        } elseif (preg_match('/^\+[0-9]{1,3}\.[0-9]{4,14}(?:x.+)?$/', $value) == 1) {
+        } elseif (preg_match('/^\+\d{1,3}\.\d{4,14}(?:x.+)?$/', $value) == 1) {
             // If not, does it match EPP?
             if (strstr($value, 'x')) {
                 $xpos  = strpos($value, 'x');
@@ -71,7 +71,7 @@ class TelFilter implements FormFilterInterface
             }
 
             $result = str_replace('+', '', $value);
-        } elseif (preg_match('/[0-9]{1,3}\.[0-9]{4,14}$/', $value) == 1) {
+        } elseif (preg_match('/\d{1,3}\.\d{4,14}$/', $value) == 1) {
             // Maybe it is already ccc.nnnnnnn?
             $result = $value;
         } else {

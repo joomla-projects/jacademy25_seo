@@ -110,7 +110,7 @@ class TermsField extends RadioField
         }
 
         $extraData = [
-            'termsnote'            => !empty($this->element['note']) ? $this->element['note'] : Text::_('PLG_USER_TERMS_NOTE_FIELD_DEFAULT'),
+            'termsnote'            => empty($this->element['note']) ? Text::_('PLG_USER_TERMS_NOTE_FIELD_DEFAULT') : $this->element['note'],
             'options'              => $this->getOptions(),
             'value'                => (string) $this->value,
             'translateLabel'       => $this->translateLabel,

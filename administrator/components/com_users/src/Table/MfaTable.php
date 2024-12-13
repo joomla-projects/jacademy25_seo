@@ -109,7 +109,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
         $this->options = $this->encryptService->encrypt(json_encode($this->options ?: []));
 
         // Set last_used date to null if empty or zero date
-        if (!((int) $this->last_used)) {
+        if ((int) $this->last_used === 0) {
             $this->last_used = null;
         }
 

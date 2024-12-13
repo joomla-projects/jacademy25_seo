@@ -46,13 +46,10 @@ class DisplayController extends BaseController
         $layout = $this->input->get('layout', 'default');
 
         // Check for edit form.
-        if ($layout === 'edit') {
-            if (!$this->validateEntry()) {
-                $tasksViewUrl = Route::_('index.php?option=com_scheduler&view=tasks', false);
-                $this->setRedirect($tasksViewUrl);
-
-                return false;
-            }
+        if ($layout === 'edit' && !$this->validateEntry()) {
+            $tasksViewUrl = Route::_('index.php?option=com_scheduler&view=tasks', false);
+            $this->setRedirect($tasksViewUrl);
+            return false;
         }
 
         // Let the parent method take over

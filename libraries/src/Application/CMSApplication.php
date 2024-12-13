@@ -281,7 +281,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         // Stop when there are invalid variables
-        if ($invalidInputVariables) {
+        if ($invalidInputVariables !== []) {
             throw new \RuntimeException('Invalid input, aborting application.');
         }
     }
@@ -389,23 +389,16 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             // Check task or option/view/layout
             if (!empty($task)) {
                 $tasks = explode(',', (string) $tasks);
-
                 // Check full task version "option/task"
-                if (array_search($this->input->getCmd('option', '') . '/' . $task, $tasks) === false) {
-                    // Check short task version, must be on the same option of the view
-                    if ($this->input->getCmd('option', '') !== $option || array_search($task, $tasks) === false) {
-                        // Not permitted task
-                        $redirect = true;
-                    }
-                }
-            } else {
-                if (
-                    $this->input->getCmd('option', '') !== $option || $this->input->getCmd('view', '') !== $view
-                    || $this->input->getCmd('layout', '') !== $layout
-                ) {
-                    // Requested a different option/view/layout
+                // Check short task version, must be on the same option of the view
+                if (!in_array($this->input->getCmd('option', '') . '/' . $task, $tasks) && ($this->input->getCmd('option', '') !== $option || !in_array($task, $tasks))) {
+                    // Not permitted task
                     $redirect = true;
                 }
+            } elseif ($this->input->getCmd('option', '') !== $option || $this->input->getCmd('view', '') !== $view
+            || $this->input->getCmd('layout', '') !== $layout) {
+                // Requested a different option/view/layout
+                $redirect = true;
             }
 
             if ($redirect) {
@@ -489,7 +482,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             // Create a CmsApplication object.
             $classname = $prefix . ucfirst((string) $name);
 
-            if (!$container) {
+            if (!$container instanceof \Joomla\DI\Container) {
                 $container = Factory::getContainer();
             }
 
@@ -784,12 +777,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         if ($clientId === 0 && $forceSsl === 2) {
             return true;
         }
-
-        if ($clientId === 1 && $forceSsl >= 1) {
-            return true;
-        }
-
-        return false;
+        return $clientId === 1 && $forceSsl >= 1;
     }
 
     /**
@@ -856,7 +844,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $denied_states  = Authentication::STATUS_EXPIRED | Authentication::STATUS_DENIED;
 
             foreach ($authorisations as $authorisation) {
-                if ((int) $authorisation->status & $denied_states) {
+                if (((int) $authorisation->status & $denied_states) !== 0) {
                     // Trigger onUserAuthorisationFailure Event.
                     $dispatcher->dispatch('onUserAuthorisationFailure', new AuthorisationFailureEvent('onUserAuthorisationFailure', [
                         'subject' => (array) $authorisation,
@@ -1079,8 +1067,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             new AfterRenderEvent('onAfterRender', ['subject' => $this])
         );
 
-        // Mark afterRender in the profiler.
-        JDEBUG ? $this->profiler->mark('afterRender') : null;
+        if (JDEBUG) {
+            $this->profiler->mark('afterRender');
+        }
     }
 
     /**

@@ -178,9 +178,11 @@ class MenusModel extends ListModel
                 ]
             )
             ->bind(':clientId', $clientId, ParameterType::INTEGER);
+        // Filter by search in title or menutype
+        $search = trim((string) $this->getState('filter.search', ''));
 
         // Filter by search in title or menutype
-        if ($search = trim((string) $this->getState('filter.search', ''))) {
+        if ($search !== '' && $search !== '0') {
             $search = '%' . str_replace(' ', '%', $search) . '%';
             $query->extendWhere(
                 'AND',

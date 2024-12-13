@@ -178,7 +178,7 @@ class SiteRouter extends Router
         $route = $uri->getPath();
 
         // Identify format
-        if (!(str_ends_with($route, 'index.php') || str_ends_with($route, '/')) && $suffix = pathinfo($route, PATHINFO_EXTENSION)) {
+        if (!str_ends_with($route, 'index.php') && !str_ends_with($route, '/') && $suffix = pathinfo($route, PATHINFO_EXTENSION)) {
             $uri->setVar('format', $suffix);
             $route = str_replace('.' . $suffix, '', $route);
             $uri->setPath($route);
@@ -280,7 +280,7 @@ class SiteRouter extends Router
         if (!empty($route) && $uri->getVar('option')) {
             $segments = explode('/', $route);
 
-            if (\count($segments)) {
+            if ($segments !== []) {
                 // Handle component route
                 $component = preg_replace('/[^A-Z0-9_\.-]/i', '', (string) $uri->getVar('option'));
                 $crouter   = $this->getComponentRouter($component);
@@ -376,10 +376,8 @@ class SiteRouter extends Router
         }
 
         // If Itemid is given, but no option, set the option from the menu item
-        if ($itemid && !$uri->getVar('option')) {
-            if ($item = $this->menu->getItem($itemid)) {
-                $uri->setVar('option', $item->component);
-            }
+        if ($itemid && !$uri->getVar('option') && $item = $this->menu->getItem($itemid)) {
+            $uri->setVar('option', $item->component);
         }
     }
 
@@ -453,7 +451,7 @@ class SiteRouter extends Router
         // Build the application route
         if ($item !== null && $query['option'] === $item->component) {
             if (!$item->home) {
-                $tmp = $tmp ? $item->route . '/' . $tmp : $item->route;
+                $tmp = $tmp !== '' && $tmp !== '0' ? $item->route . '/' . $tmp : $item->route;
             }
 
             unset($query['Itemid']);
@@ -509,7 +507,7 @@ class SiteRouter extends Router
         $route = $uri->getPath();
 
         // Identify format
-        if (!(str_ends_with($route, 'index.php') || str_ends_with($route, '/')) && $format = $uri->getVar('format', 'html')) {
+        if (!str_ends_with($route, 'index.php') && !str_ends_with($route, '/') && $format = $uri->getVar('format', 'html')) {
             $route .= '.' . $format;
             $uri->setPath($route);
             $uri->delVar('format');
@@ -532,11 +530,7 @@ class SiteRouter extends Router
         $route = $uri->getPath();
 
         // Transform the route
-        if ($route === 'index.php') {
-            $route = '';
-        } else {
-            $route = str_replace('index.php/', '', $route);
-        }
+        $route = $route === 'index.php' ? '' : str_replace('index.php/', '', $route);
 
         $uri->setPath($route);
     }

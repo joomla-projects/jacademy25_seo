@@ -97,12 +97,12 @@ abstract class MailsHelper
                 break;
         }
 
-        $lang->load($extension, JPATH_ADMINISTRATOR, $language, true)
-        || $lang->load($extension, $source, $language, true);
+        if (!$lang->load($extension, JPATH_ADMINISTRATOR, $language, true)) {
+            $lang->load($extension, $source, $language, true);
+        }
 
-        if (!$lang->hasKey(strtoupper($extension))) {
-            $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $language, true)
-            || $lang->load($extension . '.sys', $source, $language, true);
+        if (!$lang->hasKey(strtoupper($extension)) && !$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $language, true)) {
+            $lang->load($extension . '.sys', $source, $language, true);
         }
 
         $cache[$extension] = true;

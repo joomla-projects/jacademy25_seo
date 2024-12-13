@@ -43,11 +43,7 @@ class SitePathway extends Pathway
             $menus = $menu->getMenu();
 
             // Look for the home menu
-            if (Multilanguage::isEnabled()) {
-                $home = $menu->getDefault($lang->getTag());
-            } else {
-                $home  = $menu->getDefault();
-            }
+            $home = Multilanguage::isEnabled() ? $menu->getDefault($lang->getTag()) : $menu->getDefault();
 
             if (\is_object($home) && ($item->id != $home->id)) {
                 foreach ($item->tree as $menupath) {

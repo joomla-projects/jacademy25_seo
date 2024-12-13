@@ -41,21 +41,21 @@ class Query
 
         // Process the required tokens.
         foreach ($query->included as $token) {
-            if ($token->required && (!isset($token->derived) || $token->derived == false)) {
+            if ($token->required && ($token->derived === null || $token->derived == false)) {
                 $parts[] = '<span class="query-required">' . Text::sprintf('COM_FINDER_QUERY_TOKEN_REQUIRED', $token->term) . '</span>';
             }
         }
 
         // Process the optional tokens.
         foreach ($query->included as $token) {
-            if (!$token->required && (!isset($token->derived) || $token->derived == false)) {
+            if (!$token->required && ($token->derived === null || $token->derived == false)) {
                 $parts[] = '<span class="query-optional">' . Text::sprintf('COM_FINDER_QUERY_TOKEN_OPTIONAL', $token->term) . '</span>';
             }
         }
 
         // Process the excluded tokens.
         foreach ($query->excluded as $token) {
-            if (!isset($token->derived) || $token->derived === false) {
+            if ($token->derived === null || $token->derived === false) {
                 $parts[] = '<span class="query-excluded">' . Text::sprintf('COM_FINDER_QUERY_TOKEN_EXCLUDED', $token->term) . '</span>';
             }
         }
@@ -75,7 +75,7 @@ class Query
         }
 
         // Process the taxonomy filters.
-        if (!empty($query->filters)) {
+        if ($query->filters !== []) {
             // Get the filters in the request.
             $t = Factory::getApplication()->getInput()->request->get('t', [], 'array');
 
@@ -133,14 +133,14 @@ class Query
 
             // Replace the ignored keyword suggestions.
             foreach (array_reverse($query->ignored) as $token) {
-                if (isset($token->suggestion)) {
+                if ($token->suggestion !== null) {
                     $suggested = str_ireplace($token->term, $token->suggestion, $suggested);
                 }
             }
 
             // Replace the included keyword suggestions.
             foreach (array_reverse($query->included) as $token) {
-                if (isset($token->suggestion)) {
+                if ($token->suggestion !== null) {
                     $suggested = str_ireplace($token->term, $token->suggestion, $suggested);
                 }
             }

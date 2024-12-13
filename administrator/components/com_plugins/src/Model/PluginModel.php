@@ -157,7 +157,7 @@ class PluginModel extends AdminModel
      */
     public function getItem($pk = null)
     {
-        $pk = (!empty($pk)) ? $pk : (int) $this->getState('plugin.id');
+        $pk = (empty($pk)) ? (int) $this->getState('plugin.id') : $pk;
 
         $cacheId = $pk;
 
@@ -188,11 +188,7 @@ class PluginModel extends AdminModel
             // Get the plugin XML.
             $path = Path::clean(JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element . '/' . $table->element . '.xml');
 
-            if (file_exists($path)) {
-                $this->_cache[$cacheId]->xml = simplexml_load_file($path);
-            } else {
-                $this->_cache[$cacheId]->xml = null;
-            }
+            $this->_cache[$cacheId]->xml = file_exists($path) ? simplexml_load_file($path) : null;
         }
 
         return $this->_cache[$cacheId];
@@ -264,8 +260,9 @@ class PluginModel extends AdminModel
         $elements = $db->loadColumn();
 
         foreach ($elements as $elementa) {
-            $lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_ADMINISTRATOR)
-                || $lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa);
+            if (!$lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_ADMINISTRATOR)) {
+                $lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa);
+            }
         }
 
         if (empty($folder) || empty($element)) {
@@ -280,14 +277,13 @@ class PluginModel extends AdminModel
         }
 
         // Load the core and/or local language file(s).
-        $lang->load('plg_' . $folder . '_' . $element, JPATH_ADMINISTRATOR)
-            || $lang->load('plg_' . $folder . '_' . $element, JPATH_PLUGINS . '/' . $folder . '/' . $element);
+        if (!$lang->load('plg_' . $folder . '_' . $element, JPATH_ADMINISTRATOR)) {
+            $lang->load('plg_' . $folder . '_' . $element, JPATH_PLUGINS . '/' . $folder . '/' . $element);
+        }
 
-        if (file_exists($formFile)) {
-            // Get the plugin form.
-            if (!$form->loadFile($formFile, false, '//config')) {
-                throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
-            }
+        // Get the plugin form.
+        if (file_exists($formFile) && !$form->loadFile($formFile, false, '//config')) {
+            throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
         }
 
         // Attempt to load the xml file.

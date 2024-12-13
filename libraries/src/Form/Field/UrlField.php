@@ -64,7 +64,7 @@ class UrlField extends TextField
         $data = parent::getLayoutData();
 
         // Initialize some field attributes.
-        $maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
+        $maxLength    = empty($this->maxLength) ? '' : ' maxlength="' . $this->maxLength . '"';
 
         // Note that the input type "url" is suitable only for external URLs, so if internal URLs are allowed
         // we have to use the input type "text" instead.

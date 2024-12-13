@@ -66,7 +66,7 @@ class WorkflowstageField extends GroupedlistField
         $result = parent::setup($element, $value, $group);
 
         if ($result) {
-            if (\strlen($element['extension'])) {
+            if (\strlen($element['extension']) !== 0) {
                 $this->extension = (string) $element['extension'];
             } else {
                 $this->extension = Factory::getApplication()->getInput()->getCmd('extension');

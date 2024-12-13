@@ -74,7 +74,7 @@ class Router extends RouterBase
         // View is always the first element of the array
         $count = \count($segments);
 
-        if ($count) {
+        if ($count !== 0) {
             $count--;
             $segment = array_shift($segments);
 
@@ -85,7 +85,7 @@ class Router extends RouterBase
             }
         }
 
-        if ($count) {
+        if ($count !== 0) {
             $segment = array_shift($segments);
 
             if (is_numeric($segment)) {

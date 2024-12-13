@@ -36,14 +36,14 @@ $currentJoomlaVersion = $this->updateInfo['installed'] ?? JVERSION;
 <div class="alert alert-info">
     <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
     <?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', 'https://downloads.joomla.org/latest'); ?>
-    <?php if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof Update)) : ?>
+    <?php if ($this->updateInfo['object'] instanceof Update) : ?>
         <br><br>
         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
         <?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PACKAGE_INFO', $this->updateInfo['object']->downloadurl->_data); ?>
     <?php endif; ?>
 </div>
 
-<?php if (count($this->warnings)) : ?>
+<?php if (count($this->warnings) > 0) : ?>
     <h3><?php echo Text::_('COM_INSTALLER_SUBMENU_WARNINGS'); ?></h3>
     <?php foreach ($this->warnings as $warning) : ?>
         <div class="alert alert-warning">
@@ -77,7 +77,7 @@ $currentJoomlaVersion = $this->updateInfo['installed'] ?? JVERSION;
         <?php $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes); ?>
         <input id="max_upload_size" name="max_upload_size" type="hidden" value="<?php echo $maxSizeBytes; ?>"/>
         <div class="form-text"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></div>
-        <div class="form-text hidden" id="file_size"><?php echo Text::sprintf('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', '&#x200E;' . ''); ?></div>
+        <div class="form-text hidden" id="file_size"><?php echo Text::sprintf('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', '&#x200E;'); ?></div>
         <div class="alert alert-warning hidden" id="max_upload_size_warn">
             <?php echo Text::_('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'); ?>
         </div>

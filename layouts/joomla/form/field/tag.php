@@ -69,7 +69,7 @@ if ($readonly || $disabled) {
 }
 
 $attr2  = '';
-$attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
+$attr2 .= empty($class) ? '' : ' class="' . $class . '"';
 $attr2 .= ' placeholder="' . $this->escape($hint ?: Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_TAGS')) . '" ';
 $attr2 .= $dataAttribute;
 
@@ -96,7 +96,7 @@ if ($readonly) {
 
     // E.g. form field type tag sends $this->value as array
     if ($multiple && is_array($value)) {
-        if (!count($value)) {
+        if ($value === []) {
             $value[] = '';
         }
 

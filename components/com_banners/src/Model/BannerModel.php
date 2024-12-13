@@ -68,7 +68,7 @@ class BannerModel extends BaseDatabaseModel
         try {
             $db->execute();
         } catch (\RuntimeException $e) {
-            throw new \Exception($e->getMessage(), 500);
+            throw new \Exception($e->getMessage(), 500, $e);
         }
 
         // Track clicks
@@ -106,7 +106,7 @@ class BannerModel extends BaseDatabaseModel
             try {
                 $db->execute();
             } catch (\RuntimeException $e) {
-                throw new \Exception($e->getMessage(), 500);
+                throw new \Exception($e->getMessage(), 500, $e);
             }
 
             $count = $db->loadResult();
@@ -147,7 +147,7 @@ class BannerModel extends BaseDatabaseModel
             try {
                 $db->execute();
             } catch (\RuntimeException $e) {
-                throw new \Exception($e->getMessage(), 500);
+                throw new \Exception($e->getMessage(), 500, $e);
             }
         }
     }
@@ -161,7 +161,7 @@ class BannerModel extends BaseDatabaseModel
      */
     public function &getItem()
     {
-        if (!isset($this->_item)) {
+        if ($this->_item === null) {
             /** @var \Joomla\CMS\Cache\Controller\CallbackController $cache */
             $cache = Factory::getCache('com_banners', 'callback');
 

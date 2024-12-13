@@ -307,11 +307,7 @@ class Microdata
         }
 
         // Control if the $Property exist in the given $Type and setup it, otherwise leave it 'NULL'
-        if (static::isPropertyInType($this->fallbackType, $property)) {
-            $this->fallbackProperty = $property;
-        } else {
-            $this->fallbackProperty = null;
-        }
+        $this->fallbackProperty = static::isPropertyInType($this->fallbackType, $property) ? $property : null;
 
         return $this;
     }
@@ -792,14 +788,10 @@ class Microdata
         }
 
         // Depending on the case, the $scope must precede the $property, or otherwise
-        if ($invert) {
-            $tmp = implode(' ', [$property, $scope]);
-        } else {
-            $tmp = implode(' ', [$scope, $property]);
-        }
+        $tmp = $invert ? implode(' ', [$property, $scope]) : implode(' ', [$scope, $property]);
 
         $tmp = trim($tmp);
-        $tmp = ($tmp) ? ' ' . $tmp : '';
+        $tmp = ($tmp !== '' && $tmp !== '0') ? ' ' . $tmp : '';
 
         // Control if it is an empty element without a closing tag
         if ($tag === 'meta') {

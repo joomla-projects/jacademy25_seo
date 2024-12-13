@@ -107,7 +107,7 @@ class InstallerModel extends ListModel
                     }
 
                     // If search string was not found in any of the fields searched remove it from results array.
-                    if (!$found) {
+                    if ($found === 0) {
                         unset($result[$i]);
                     }
                 }
@@ -115,7 +115,7 @@ class InstallerModel extends ListModel
 
             // Process ordering.
             // Sort array object by selected ordering and selected direction. Sort is case insensitive and using locale sorting.
-            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower((string) $listDirn) == 'desc' ? -1 : 1, false, true);
+            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower((string) $listDirn) === 'desc' ? -1 : 1, false, true);
 
             // Process pagination.
             $total                                      = \count($result);
@@ -172,7 +172,9 @@ class InstallerModel extends ListModel
                 case 'component':
                     $extension = $item->element;
                     $source    = JPATH_ADMINISTRATOR . '/components/' . $extension;
-                    $lang->load("$extension.sys", JPATH_ADMINISTRATOR) || $lang->load("$extension.sys", $source);
+                    if (!$lang->load("$extension.sys", JPATH_ADMINISTRATOR)) {
+                        $lang->load("$extension.sys", $source);
+                    }
                     break;
                 case 'file':
                     $extension = 'files_' . $item->element;
@@ -191,17 +193,23 @@ class InstallerModel extends ListModel
                 case 'module':
                     $extension = $item->element;
                     $source    = $path . '/modules/' . $extension;
-                    $lang->load("$extension.sys", $path) || $lang->load("$extension.sys", $source);
+                    if (!$lang->load("$extension.sys", $path)) {
+                        $lang->load("$extension.sys", $source);
+                    }
                     break;
                 case 'plugin':
                     $extension = 'plg_' . $item->folder . '_' . $item->element;
                     $source    = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
-                    $lang->load("$extension.sys", JPATH_ADMINISTRATOR) || $lang->load("$extension.sys", $source);
+                    if (!$lang->load("$extension.sys", JPATH_ADMINISTRATOR)) {
+                        $lang->load("$extension.sys", $source);
+                    }
                     break;
                 case 'template':
                     $extension = 'tpl_' . $item->element;
                     $source    = $path . '/templates/' . $item->element;
-                    $lang->load("$extension.sys", $path) || $lang->load("$extension.sys", $source);
+                    if (!$lang->load("$extension.sys", $path)) {
+                        $lang->load("$extension.sys", $source);
+                    }
                     break;
                 case 'package':
                 default:
@@ -213,9 +221,9 @@ class InstallerModel extends ListModel
             // Translate the extension name if possible
             $item->name = Text::_($item->name);
 
-            settype($item->description, 'string');
+            $item->description = (string) $item->description;
 
-            if (!\in_array($item->type, ['language'])) {
+            if ($item->type != 'language') {
                 $item->description = Text::_($item->description);
             }
         }

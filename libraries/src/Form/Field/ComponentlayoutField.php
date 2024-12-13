@@ -62,7 +62,7 @@ class ComponentlayoutField extends FormField
         // Get the extension.
         $extension = (string) $this->element['extension'];
 
-        if (empty($extension) && ($this->form instanceof Form)) {
+        if (($extension === '' || $extension === '0') && ($this->form instanceof Form)) {
             $extension = $this->form->getValue('extension');
         }
 
@@ -85,8 +85,9 @@ class ComponentlayoutField extends FormField
         if ($extension && $view && $client) {
             // Load language file
             $lang = Factory::getLanguage();
-            $lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
-            || $lang->load($extension . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extension);
+            if (!$lang->load($extension . '.sys', JPATH_ADMINISTRATOR)) {
+                $lang->load($extension . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extension);
+            }
 
             // Get the database object and a new query object.
             $db    = $this->getDatabase();
@@ -114,7 +115,7 @@ class ComponentlayoutField extends FormField
                     ->bind(':template', $template);
             }
 
-            if ($template_style_id) {
+            if ($template_style_id !== 0) {
                 $query->join('LEFT', $db->quoteName('#__template_styles', 's'), $db->quoteName('s.template') . ' = ' . $db->quoteName('e.element'))
                     ->where($db->quoteName('s.id') . ' = :style')
                     ->bind(':style', $template_style_id, ParameterType::INTEGER);
@@ -180,8 +181,9 @@ class ComponentlayoutField extends FormField
             if ($templates) {
                 foreach ($templates as $template) {
                     // Load language file
-                    $lang->load('tpl_' . $template->element . '.sys', $client->path)
-                        || $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element);
+                    if (!$lang->load('tpl_' . $template->element . '.sys', $client->path)) {
+                        $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element);
+                    }
 
                     $template_path = Path::clean(
                         $client->path

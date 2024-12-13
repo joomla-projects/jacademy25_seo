@@ -34,6 +34,10 @@ use Joomla\Component\Contact\Site\Model\ContactModel;
  */
 class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 {
+    /**
+     * @var \Joomla\CMS\User\User|null
+     */
+    public $contactUser;
     use UserFactoryAwareTrait;
 
     /**
@@ -133,7 +137,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  void|boolean
+     * @return bool|null
      */
     public function display($tpl = null)
     {
@@ -345,7 +349,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
             $contactUser->text = '';
             $app->triggerEvent('onContentPrepare', ['com_users.user', &$contactUser, &$item->params, 0]);
 
-            if (!isset($contactUser->jcfields)) {
+            if (!property_exists($contactUser, 'jcfields') || $contactUser->jcfields === null) {
                 $contactUser->jcfields = [];
             }
         }
@@ -377,6 +381,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         $this->_prepareDocument();
 
         parent::display($tpl);
+        return null;
     }
 
     /**

@@ -240,7 +240,7 @@ class UCMType implements UCM
      */
     public function __get($ucmField)
     {
-        if (!isset($this->fieldmap)) {
+        if (!property_exists($this, 'fieldmap') || $this->fieldmap === null) {
             $this->fieldmapExpand(false);
         }
 

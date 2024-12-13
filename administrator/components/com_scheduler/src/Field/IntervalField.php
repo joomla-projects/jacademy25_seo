@@ -88,7 +88,7 @@ class IntervalField extends NumberField
         $parentResult = FormField::setup($element, $value, $group);
         $subtype      = ((string) $element['subtype'] ?? '') ?: null;
 
-        if (empty($subtype) || !\array_key_exists($subtype, self::SUBTYPES)) {
+        if ($subtype === null || $subtype === '' || $subtype === '0' || !\array_key_exists($subtype, self::SUBTYPES)) {
             return false;
         }
 

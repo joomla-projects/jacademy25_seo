@@ -760,7 +760,7 @@ class TaskModel extends AdminModel
         }
 
         // Check if there are items to change.
-        if (!\count($pks)) {
+        if ($pks === []) {
             return true;
         }
 

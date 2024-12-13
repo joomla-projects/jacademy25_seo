@@ -151,7 +151,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     <?php endif; ?>
                                 </td>
                                 <td class="d-none d-md-table-cell">
-                                    <?php echo !empty($item->author) ? $item->author : '&#160;'; ?>
+                                    <?php echo empty($item->author) ? '&#160;' : $item->author; ?>
                                 </td>
                                 <td class="d-none d-md-table-cell">
                                     <?php echo $item->folder_translated; ?>

@@ -140,7 +140,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         }
 
         // Enforce SEF URLs
-        if ($this->params->get('strictrouting') && $app->getInput()->getMethod() == 'GET') {
+        if ($this->params->get('strictrouting') && $app->getInput()->getMethod() === 'GET') {
             $this->enforceSEF();
         }
     }
@@ -343,7 +343,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             $this->getApplication()->redirect($origUri->toString(), 301);
         }
 
-        if (!$suffix) {
+        if ($suffix === '' || $suffix === '0') {
             // We don't have a suffix, so we default to .html at the end
             $origUri->setPath($route . '.html');
             $this->getApplication()->redirect($origUri->toString(), 301);

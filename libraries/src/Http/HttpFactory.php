@@ -70,7 +70,7 @@ class HttpFactory
         if (\is_null($default)) {
             $availableAdapters = static::getHttpTransports();
         } else {
-            settype($default, 'array');
+            $default = (array) $default;
             $availableAdapters = $default;
         }
 

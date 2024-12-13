@@ -157,11 +157,7 @@ abstract class DatabaseHelper
 
         // Get minimum database version required by the CMS
         if (\in_array($options->db_type, ['mysql', 'mysqli'])) {
-            if ($db->isMariaDb()) {
-                $minDbVersionCms = self::$dbMinimumMariaDb;
-            } else {
-                $minDbVersionCms = self::$dbMinimumMySql;
-            }
+            $minDbVersionCms = $db->isMariaDb() ? self::$dbMinimumMariaDb : self::$dbMinimumMySql;
         } else {
             $minDbVersionCms = self::$dbMinimumPostgreSql;
         }
@@ -207,7 +203,7 @@ abstract class DatabaseHelper
         }
 
         // Validate database table prefix.
-        if (empty($options->db_prefix) || !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix)) {
+        if (empty($options->db_prefix) || !preg_match('#^[a-zA-Z]+\w*$#', $options->db_prefix)) {
             return Text::_('INSTL_DATABASE_PREFIX_MSG');
         }
 
@@ -226,10 +222,8 @@ abstract class DatabaseHelper
         }
 
         // Workaround for UPPERCASE table prefix for postgresql
-        if (\in_array($options->db_type, ['pgsql', 'postgresql'])) {
-            if (strtolower($options->db_prefix) != $options->db_prefix) {
-                return Text::_('INSTL_DATABASE_FIX_LOWERCASE');
-            }
+        if (\in_array($options->db_type, ['pgsql', 'postgresql']) && strtolower($options->db_prefix) != $options->db_prefix) {
+            return Text::_('INSTL_DATABASE_FIX_LOWERCASE');
         }
 
         // Validate and clean up database connection encryption options
@@ -272,16 +266,13 @@ abstract class DatabaseHelper
                 if (empty($options->db_sslca)) {
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL'));
                 }
-
                 if (!is_file(Path::clean($options->db_sslca))) {
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL'));
                 }
-            } else {
+            } elseif (!empty($options->db_sslca)) {
                 // Reset unused option
-                if (!empty($options->db_sslca)) {
-                    $options->db_sslca = '';
-                    $optionsChanged    = true;
-                }
+                $options->db_sslca = '';
+                $optionsChanged    = true;
             }
 
             // Check key and certificate if two-way encryption
@@ -340,7 +331,7 @@ abstract class DatabaseHelper
             && !\defined('_JCLI_INSTALLATION');
 
         // Per default allowed DB hosts: localhost / 127.0.0.1 / ::1 (optionally with port)
-        $localhost = '/^(((localhost|127\.0\.0\.1|\[\:\:1\])(\:[1-9]{1}[0-9]{0,4})?)|(\:\:1))$/';
+        $localhost = '/^(((localhost|127\.0\.0\.1|\[\:\:1\])(\:[1-9]{1}\d{0,4})?)|(\:\:1))$/';
 
         // Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
         if ($shouldCheckLocalhost && preg_match($localhost, $options->db_host) !== 1) {

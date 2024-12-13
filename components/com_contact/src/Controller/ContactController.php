@@ -128,18 +128,13 @@ class ContactController extends FormController implements UserFactoryAwareInterf
         }
 
         // Check for a valid session cookie
-        if ($contact->params->get('validate_session', 0)) {
-            if (Factory::getSession()->getState() !== 'active') {
-                $this->app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_INVALID'), 'warning');
-
-                // Save the data in the session.
-                $this->app->setUserState('com_contact.contact.data', $data);
-
-                // Redirect back to the contact form.
-                $this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub . '&catid=' . $contact->catid, false));
-
-                return false;
-            }
+        if ($contact->params->get('validate_session', 0) && Factory::getSession()->getState() !== 'active') {
+            $this->app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_INVALID'), 'warning');
+            // Save the data in the session.
+            $this->app->setUserState('com_contact.contact.data', $data);
+            // Redirect back to the contact form.
+            $this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub . '&catid=' . $contact->catid, false));
+            return false;
         }
 
         // Contact plugins
@@ -344,7 +339,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
      */
     protected function allowEdit($data = [], $key = 'id')
     {
-        $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+        $recordId = (int) isset($data[$key]) !== 0 ? $data[$key] : 0;
 
         if (!$recordId) {
             return false;
@@ -354,7 +349,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
         $record     = $this->getModel()->getItem($recordId);
         $categoryId = (int) $record->catid;
 
-        if ($categoryId) {
+        if ($categoryId !== 0) {
             $user = $this->app->getIdentity();
 
             // The category has been set. Check the category permissions.

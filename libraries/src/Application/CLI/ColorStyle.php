@@ -105,7 +105,7 @@ final class ColorStyle implements \Stringable
      */
     public function __construct(string $fg = '', string $bg = '', array $options = [])
     {
-        if ($fg) {
+        if ($fg !== '' && $fg !== '0') {
             if (\array_key_exists($fg, static::$knownColors) == false) {
                 throw new \InvalidArgumentException(
                     \sprintf(
@@ -119,7 +119,7 @@ final class ColorStyle implements \Stringable
             $this->fgColor = static::$fgBase + static::$knownColors[$fg];
         }
 
-        if ($bg) {
+        if ($bg !== '' && $bg !== '0') {
             if (\array_key_exists($bg, static::$knownColors) == false) {
                 throw new \InvalidArgumentException(
                     \sprintf(

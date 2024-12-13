@@ -380,7 +380,7 @@ class ItemController extends FormController
             $args = array_merge($args, $data['request']);
 
             // Remove the unused request params
-            if (!empty($args) && !empty($removeArgs)) {
+            if ($args !== [] && $removeArgs !== []) {
                 $args = array_diff_key($args, $removeArgs);
             }
 

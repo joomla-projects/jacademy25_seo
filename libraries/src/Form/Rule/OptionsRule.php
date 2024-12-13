@@ -58,7 +58,7 @@ class OptionsRule extends FormRule
         // Create the field
         $field = null;
 
-        if ($form) {
+        if ($form instanceof \Joomla\CMS\Form\Form) {
             $field = $form->getField((string) $element->attributes()->name, $group);
         }
 
@@ -79,7 +79,7 @@ class OptionsRule extends FormRule
             // If all values are in the $options array, $diff will be empty and the options valid.
             $diff = array_diff($value, $options);
 
-            return empty($diff);
+            return $diff === [];
         }
 
         // In this case value must be a string

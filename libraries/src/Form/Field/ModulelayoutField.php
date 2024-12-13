@@ -61,7 +61,7 @@ class ModulelayoutField extends FormField
         // Get the module.
         $module = (string) $this->element['module'];
 
-        if (empty($module) && ($this->form instanceof Form)) {
+        if (($module === '' || $module === '0') && ($this->form instanceof Form)) {
             $module = $this->form->getValue('module');
         }
 
@@ -83,8 +83,9 @@ class ModulelayoutField extends FormField
         if ($module && $client) {
             // Load language file
             $lang = Factory::getLanguage();
-            $lang->load($module . '.sys', $client->path)
-                || $lang->load($module . '.sys', $client->path . '/modules/' . $module);
+            if (!$lang->load($module . '.sys', $client->path)) {
+                $lang->load($module . '.sys', $client->path . '/modules/' . $module);
+            }
 
             // Get the database object and a new query object.
             $db    = $this->getDatabase();
@@ -112,7 +113,7 @@ class ModulelayoutField extends FormField
                     ->bind(':template', $template);
             }
 
-            if ($template_style_id) {
+            if ($template_style_id !== 0) {
                 $query->join('LEFT', $db->quoteName('#__template_styles', 's'), $db->quoteName('s.template') . ' = ' . $db->quoteName('e.element'))
                     ->where($db->quoteName('s.id') . ' = :style')
                     ->bind(':style', $template_style_id, ParameterType::INTEGER);
@@ -151,8 +152,9 @@ class ModulelayoutField extends FormField
             if ($templates) {
                 foreach ($templates as $template) {
                     // Load language file
-                    $lang->load('tpl_' . $template->element . '.sys', $client->path)
-                        || $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element);
+                    if (!$lang->load('tpl_' . $template->element . '.sys', $client->path)) {
+                        $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element);
+                    }
 
                     $template_path = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $module);
 

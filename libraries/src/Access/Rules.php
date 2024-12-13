@@ -156,6 +156,7 @@ class Rules implements \Stringable
         if (isset($this->data[$action])) {
             return $this->data[$action]->allow($identity);
         }
+        return null;
     }
 
     /**

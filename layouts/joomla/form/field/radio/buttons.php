@@ -84,8 +84,8 @@ if ($dataAttribute) {
         <?php foreach ($options as $i => $option) : ?>
             <?php echo $blockStart; ?>
                 <?php
-                $disabled = !empty($option->disable) ? 'disabled' : '';
-                $style    = $disabled ? ' style="pointer-events: none"' : '';
+                $disabled = empty($option->disable) ? '' : 'disabled';
+                $style    = $disabled !== '' && $disabled !== '0' ? ' style="pointer-events: none"' : '';
 
                 // Initialize some option attributes.
                 if ($isBtnYesNo) {
@@ -97,13 +97,13 @@ if ($dataAttribute) {
                     };
                 }
 
-                $optionClass = !empty($option->class) ? $option->class : $btnClass;
+                $optionClass = empty($option->class) ? $btnClass : $option->class;
                 $optionClass = trim($optionClass . ' ' . $disabled);
                 $checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
 
                 // Initialize some JavaScript option attributes.
-                $onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
-                $onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
+                $onclick    = empty($option->onclick) ? '' : 'onclick="' . $option->onclick . '"';
+                $onchange   = empty($option->onchange) ? '' : 'onchange="' . $option->onchange . '"';
                 $oid        = $id . $i;
                 $ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
                 $attributes = array_filter([$checked, $disabled, ltrim($style), $onchange, $onclick]);

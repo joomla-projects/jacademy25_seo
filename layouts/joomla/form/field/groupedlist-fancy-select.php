@@ -51,7 +51,7 @@ $html = [];
 $attr = '';
 
 // Initialize some field attributes.
-$attr .= !empty($size) ? ' size="' . $size . '"' : '';
+$attr .= empty($size) ? '' : ' size="' . $size . '"';
 $attr .= $multiple ? ' multiple' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $dataAttribute;
@@ -62,10 +62,10 @@ if ($readonly || $disabled) {
 }
 
 // Initialize JavaScript field attributes.
-$attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
+$attr .= empty($onchange) ? '' : ' onchange="' . $onchange . '"';
 
 $attr2  = '';
-$attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
+$attr2 .= empty($class) ? '' : ' class="' . $class . '"';
 $attr2 .= ' placeholder="' . $this->escape($hint ?: Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" ';
 
 if ($required) {
@@ -87,7 +87,7 @@ if ($readonly) {
 
     // E.g. form field type tag sends $this->value as array
     if ($multiple && \is_array($value)) {
-        if (!\count($value)) {
+        if ($value === []) {
             $value[] = '';
         }
 

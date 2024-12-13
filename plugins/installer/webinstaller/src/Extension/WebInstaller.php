@@ -111,7 +111,7 @@ final class WebInstaller extends CMSPlugin implements SubscriberInterface
 
         $devLevel = Version::PATCH_VERSION;
 
-        if (!empty(Version::EXTRA_VERSION)) {
+        if (Version::EXTRA_VERSION !== '' && Version::EXTRA_VERSION !== '0') {
             $devLevel .= '-' . Version::EXTRA_VERSION;
         }
 
@@ -179,7 +179,7 @@ final class WebInstaller extends CMSPlugin implements SubscriberInterface
                 $update->loadFromXml($installfrom);
                 $package_url = trim($update->get('downloadurl', false)->_data);
 
-                if ($package_url) {
+                if ($package_url !== '' && $package_url !== '0') {
                     $installfrom = $package_url;
                 }
             }

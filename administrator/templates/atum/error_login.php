@@ -89,7 +89,7 @@ if ($colorScheme) {
     $themeModes   = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
     // Check for User choose, for now this have a priority over the parameters
     $userLastMode = $app->getInput()->cookie->get('userColorScheme', '');
-    if ($userLastMode && !empty($themeModes[$userLastMode])) {
+    if ($userLastMode && (isset($themeModes[$userLastMode]) && ($themeModes[$userLastMode] !== '' && $themeModes[$userLastMode] !== '0'))) {
         $themeModeAttr = $themeModes[$userLastMode];
     } else {
         // Check parameters first (User and Template), then look if we have detected the OS color scheme (if it set to 'os')
@@ -150,7 +150,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
                                 <div>
                                     <?php echo $this->renderBacktrace(); ?>
                                     <?php // Check if there are more Exceptions and render their data as well ?>
-                                    <?php if ($this->error->getPrevious()) : ?>
+                                    <?php if ($this->error->getPrevious() instanceof \Throwable) : ?>
                                         <?php $loop = true; ?>
                                         <?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
                                         <?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>

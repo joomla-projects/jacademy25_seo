@@ -42,6 +42,6 @@ class FinderHelper
     {
         $pluginRecord = ExtensionHelper::getExtensionRecord('finder', 'plugin', null, 'content');
 
-        return $pluginRecord !== null ? $pluginRecord->extension_id : 0;
+        return $pluginRecord instanceof \stdClass ? $pluginRecord->extension_id : 0;
     }
 }

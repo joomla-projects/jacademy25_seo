@@ -170,7 +170,7 @@ class HtmlView extends BaseHtmlView
         $toolbar   = $this->getDocument()->getToolbar();
 
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $checkedOut = !\is_null($this->item->checked_out) && $this->item->checked_out != $userId;
 
         // Avoid nonsense situation.
         if ($extension == 'com_categories') {
@@ -185,8 +185,9 @@ class HtmlView extends BaseHtmlView
 
         // Need to load the menu language file as mod_menu hasn't been loaded yet.
         $lang = $this->getLanguage();
-        $lang->load($component, JPATH_BASE)
-            || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+        if (!$lang->load($component, JPATH_BASE)) {
+            $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+        }
 
         // Get the results for each action.
         $canDo = $this->canDo;
@@ -297,7 +298,7 @@ class HtmlView extends BaseHtmlView
         $ref_key = (string) $this->form->getXml()->help['key'];
 
         // Try with a language string
-        if (!$ref_key) {
+        if ($ref_key === '' || $ref_key === '0') {
             // Compute the ref_key if it does exist in the component
             $languageKey = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY';
 
@@ -323,12 +324,10 @@ class HtmlView extends BaseHtmlView
          */
         $url = (string) $this->form->getXml()->help['url'];
 
-        if (!$url) {
-            if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL')) {
-                $debug = $lang->setDebug(false);
-                $url   = Text::_($lang_help_url);
-                $lang->setDebug($debug);
-            }
+        if (($url === '' || $url === '0') && $lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL')) {
+            $debug = $lang->setDebug(false);
+            $url   = Text::_($lang_help_url);
+            $lang->setDebug($debug);
         }
 
         $toolbar->help($ref_key, $componentParams->exists('helpURL'), $url, $component);
@@ -362,8 +361,9 @@ class HtmlView extends BaseHtmlView
 
         // Need to load the menu language file as mod_menu hasn't been loaded yet.
         $lang = $this->getLanguage();
-        $lang->load($component, JPATH_BASE)
-            || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+        if (!$lang->load($component, JPATH_BASE)) {
+            $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+        }
 
         // Build the actions for new and existing records.
         $canDo = $this->canDo;

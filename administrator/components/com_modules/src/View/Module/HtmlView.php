@@ -127,7 +127,7 @@ class HtmlView extends BaseHtmlView
 
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
+        $checkedOut = !\is_null($this->item->checked_out) && $this->item->checked_out != $user->id;
         $canDo      = $this->canDo;
         $toolbar    = $this->getDocument()->getToolbar();
 

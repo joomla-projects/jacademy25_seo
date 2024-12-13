@@ -132,7 +132,7 @@ class NotesModel extends ListModel
         // Filter by a single category.
         $categoryId = (int) $this->getState('filter.category_id');
 
-        if ($categoryId) {
+        if ($categoryId !== 0) {
             $query->where($db->quoteName('a.catid') . ' = :catid')
                 ->bind(':catid', $categoryId, ParameterType::INTEGER);
         }
@@ -140,7 +140,7 @@ class NotesModel extends ListModel
         // Filter by a single user.
         $userId = (int) $this->getState('filter.user_id');
 
-        if ($userId) {
+        if ($userId !== 0) {
             // Add the body and where filter.
             $query->select('a.body')
                 ->where($db->quoteName('a.user_id') . ' = :user_id')

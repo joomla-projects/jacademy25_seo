@@ -72,7 +72,7 @@ class UCMBase implements UCM
      */
     protected function store($data, ?TableInterface $table = null, $primaryKey = null)
     {
-        if (!$table) {
+        if (!$table instanceof \Joomla\CMS\Table\TableInterface) {
             $table = Table::getInstance('Ucm');
         }
 

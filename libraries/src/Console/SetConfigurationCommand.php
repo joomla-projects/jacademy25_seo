@@ -105,10 +105,12 @@ class SetConfigurationCommand extends AbstractCommand
     private function configureIO(InputInterface $input, OutputInterface $output)
     {
         $language = Factory::getLanguage();
-        $language->load('', JPATH_INSTALLATION, null, false, false) ||
-        $language->load('', JPATH_INSTALLATION, null, true);
-        $language->load('com_config', JPATH_ADMINISTRATOR, null, false, false) ||
-        $language->load('com_config', JPATH_ADMINISTRATOR, null, true);
+        if (!$language->load('', JPATH_INSTALLATION, null, false, false)) {
+            $language->load('', JPATH_INSTALLATION, null, true);
+        }
+        if (!$language->load('com_config', JPATH_ADMINISTRATOR, null, false, false)) {
+            $language->load('com_config', JPATH_ADMINISTRATOR, null, true);
+        }
         $this->cliInput = $input;
         $this->ioStyle  = new SymfonyStyle($input, $output);
     }
@@ -283,7 +285,7 @@ class SetConfigurationCommand extends AbstractCommand
         }
 
         // Validate database table prefix.
-        if (isset($options['dbprefix']) && !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', (string) $options['dbprefix'])) {
+        if (isset($options['dbprefix']) && !preg_match('#^[a-zA-Z]+\w*$#', (string) $options['dbprefix'])) {
             $this->ioStyle->error(Text::_('INSTL_DATABASE_PREFIX_MSG'));
 
             return false;
@@ -317,12 +319,9 @@ class SetConfigurationCommand extends AbstractCommand
         }
 
         // Workaround for UPPERCASE table prefix for PostgreSQL
-        if (\in_array($options['dbtype'], ['pgsql', 'postgresql'])) {
-            if (isset($options['dbprefix']) && strtolower((string) $options['dbprefix']) !== $options['dbprefix']) {
-                $this->ioStyle->error(Text::_('INSTL_DATABASE_FIX_LOWERCASE'));
-
-                return false;
-            }
+        if (\in_array($options['dbtype'], ['pgsql', 'postgresql']) && (isset($options['dbprefix']) && strtolower((string) $options['dbprefix']) !== $options['dbprefix'])) {
+            $this->ioStyle->error(Text::_('INSTL_DATABASE_FIX_LOWERCASE'));
+            return false;
         }
 
         $app = $this->getApplication();

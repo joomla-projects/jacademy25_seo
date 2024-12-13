@@ -29,6 +29,10 @@ use Joomla\Component\Contact\Site\Model\FeaturedModel;
  */
 class HtmlView extends BaseHtmlView
 {
+    public $maxLevel;
+    public $category;
+    public $children;
+    public $parent;
     /**
      * The item model state
      *
@@ -116,7 +120,7 @@ class HtmlView extends BaseHtmlView
             if ($item->params->get('show_email', 0) == 1) {
                 $item->email_to = trim($item->email_to);
 
-                if (!empty($item->email_to) && MailHelper::isEmailAddress($item->email_to)) {
+                if ($item->email_to !== '' && $item->email_to !== '0' && MailHelper::isEmailAddress($item->email_to)) {
                     $item->email_to = HTMLHelper::_('email.cloak', $item->email_to);
                 } else {
                     $item->email_to = '';

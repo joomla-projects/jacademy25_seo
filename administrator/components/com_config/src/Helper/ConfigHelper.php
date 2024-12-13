@@ -146,7 +146,8 @@ class ConfigHelper extends ContentHelper
 
         // Load the core file then
         // Load extension-local file.
-        $lang->load($component . '.sys', JPATH_BASE)
-        || $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component);
+        if (!$lang->load($component . '.sys', JPATH_BASE)) {
+            $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component);
+        }
     }
 }

@@ -101,23 +101,18 @@ class ApiRouter extends Router
 
         // Iterate through all of the known routes looking for a match.
         foreach ($this->routes as $route) {
-            if (\in_array($method, $route->getMethods())) {
-                if (preg_match($route->getRegex(), ltrim($routePath, '/'), $matches)) {
-                    // If we have gotten this far then we have a positive match.
-                    $vars = $route->getDefaults();
-
-                    foreach ($route->getRouteVariables() as $i => $var) {
-                        $vars[$var] = $matches[$i + 1];
-                    }
-
-                    $controller = preg_split("/[.]+/", (string) $route->getController());
-
-                    return [
-                        'controller' => $controller[0],
-                        'task'       => $controller[1],
-                        'vars'       => $vars,
-                    ];
+            if (\in_array($method, $route->getMethods()) && preg_match($route->getRegex(), ltrim($routePath, '/'), $matches)) {
+                // If we have gotten this far then we have a positive match.
+                $vars = $route->getDefaults();
+                foreach ($route->getRouteVariables() as $i => $var) {
+                    $vars[$var] = $matches[$i + 1];
                 }
+                $controller = preg_split("/[.]+/", (string) $route->getController());
+                return [
+                    'controller' => $controller[0],
+                    'task'       => $controller[1],
+                    'vars'       => $vars,
+                ];
             }
         }
 

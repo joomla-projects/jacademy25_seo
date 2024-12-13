@@ -57,11 +57,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         $params = $app->getParams();
         $this->setState('params', $params);
 
-        if ($params && $params->get('enable_category') == 1 && $params->get('catid')) {
-            $catId = $params->get('catid');
-        } else {
-            $catId = 0;
-        }
+        $catId = $params && $params->get('enable_category') == 1 && $params->get('catid') ? $params->get('catid') : 0;
 
         // Load state from the request.
         $pk = $input->getInt('a_id');
@@ -84,7 +80,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
      */
     public function getItem($itemId = null)
     {
-        $itemId = (int) (!empty($itemId)) ? $itemId : $this->getState('article.id');
+        $itemId = (int) (!empty($itemId)) !== 0 ? $itemId : $this->getState('article.id');
 
         // Get a row instance.
         $table = $this->getTable();
@@ -129,7 +125,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
             // New item.
             $catId = (int) $this->getState('article.catid');
 
-            if ($catId) {
+            if ($catId !== 0) {
                 $value->params->set('access-change', $user->authorise('core.edit.state', 'com_content.category.' . $catId));
                 $value->catid = $catId;
             } else {

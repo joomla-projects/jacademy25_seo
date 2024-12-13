@@ -141,7 +141,7 @@ class ItemsController extends AdminController
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
 
-        if (empty($cid)) {
+        if ($cid === []) {
             $this->setMessage(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
         } else {
             // Get the model.
@@ -151,12 +151,7 @@ class ItemsController extends AdminController
             if (!$model->setHome($cid, $value)) {
                 $this->setMessage($model->getError(), 'warning');
             } else {
-                if ($value == 1) {
-                    $ntext = 'COM_MENUS_ITEMS_SET_HOME';
-                } else {
-                    $ntext = 'COM_MENUS_ITEMS_UNSET_HOME';
-                }
-
+                $ntext = $value == 1 ? 'COM_MENUS_ITEMS_SET_HOME' : 'COM_MENUS_ITEMS_UNSET_HOME';
                 $this->setMessage(Text::plural($ntext, \count($cid)));
             }
         }
@@ -191,7 +186,7 @@ class ItemsController extends AdminController
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
 
-        if (empty($cid)) {
+        if ($cid === []) {
             try {
                 Log::add(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), Log::WARNING, 'jerror');
             } catch (\RuntimeException) {

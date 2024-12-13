@@ -29,6 +29,10 @@ use Joomla\Component\Templates\Administrator\View\Style\JsonView;
 class HtmlView extends BaseHtmlView
 {
     /**
+     * @var mixed
+     */
+    public $data;
+    /**
      * The data to be displayed in the form
      *
      * @var   array

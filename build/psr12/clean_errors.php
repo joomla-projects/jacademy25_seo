@@ -105,11 +105,11 @@ foreach ($data as $error) {
             // We skip blank lines
             do {
                 $nextLine = ltrim($fileContent[$lineNo]);
-                if (empty($nextLine)) {
-                    $lineNo   = $lineNo + 1;
+                if ($nextLine === '' || $nextLine === '0') {
+                    $lineNo += 1;
                     $nextLine = ltrim($fileContent[$lineNo]);
                 }
-            } while (empty($nextLine));
+            } while ($nextLine === '' || $nextLine === '0');
 
             $sourceLineStartNo = $lineNo;
             $sourceLineEndNo   = $lineNo;
@@ -120,14 +120,12 @@ foreach ($data as $error) {
                 $found = true;
             }
 
-            if ($sourceLineStartNo === $sourceLineEndNo) {
-                if (str_starts_with(ltrim($fileContent[$sourceLineStartNo]), '/*')) {
-                    while (!str_starts_with(ltrim($fileContent[$sourceLineEndNo]), '*/')) {
-                        $sourceLineEndNo++;
-                    }
+            if ($sourceLineStartNo === $sourceLineEndNo && str_starts_with(ltrim($fileContent[$sourceLineStartNo]), '/*')) {
+                while (!str_starts_with(ltrim($fileContent[$sourceLineEndNo]), '*/')) {
                     $sourceLineEndNo++;
-                    $found = true;
                 }
+                $sourceLineEndNo++;
+                $found = true;
             }
 
             if (!$found) {

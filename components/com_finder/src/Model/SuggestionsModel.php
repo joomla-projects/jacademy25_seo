@@ -89,7 +89,7 @@ class SuggestionsModel extends ListModel
         $termIds = $db->setQuery($termIdQuery, 0, 100)->loadColumn();
 
         // Early return on term mismatch
-        if (!\count($termIds)) {
+        if (\count($termIds) === 0) {
             return $termIdQuery;
         }
 

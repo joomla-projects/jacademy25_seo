@@ -222,10 +222,8 @@ class NewsfeedModel extends AdminModel
                 [$name, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
                 $data['name']       = $name;
                 $data['alias']      = $alias;
-            } else {
-                if ($data['alias'] == $origTable->alias) {
-                    $data['alias'] = '';
-                }
+            } elseif ($data['alias'] == $origTable->alias) {
+                $data['alias'] = '';
             }
 
             $data['published'] = 0;

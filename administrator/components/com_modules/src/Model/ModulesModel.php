@@ -106,7 +106,7 @@ class ModulesModel extends ListModel
             $clientId = 0;
         } else {
             $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-            $clientId = (!\in_array($clientId, [0, 1])) ? 0 : $clientId;
+            $clientId = (\in_array($clientId, [0, 1])) ? $clientId : 0;
             $this->setState('client_id', $clientId);
         }
 
@@ -175,7 +175,7 @@ class ModulesModel extends ListModel
             $this->translate($result);
 
             // Sort the array of translated objects.
-            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower((string) $listDirn) == 'desc' ? -1 : 1, true, true);
+            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower((string) $listDirn) === 'desc' ? -1 : 1, true, true);
 
             // Process pagination.
             $total                                      = \count($result);
@@ -224,8 +224,9 @@ class ModulesModel extends ListModel
         foreach ($items as $item) {
             $extension = $item->module;
             $source    = $clientPath . "/modules/$extension";
-            $lang->load("$extension.sys", $clientPath)
-                || $lang->load("$extension.sys", $source);
+            if (!$lang->load("$extension.sys", $clientPath)) {
+                $lang->load("$extension.sys", $source);
+            }
             $item->name = Text::_($item->name);
 
             if (\is_null($item->pages)) {

@@ -343,6 +343,7 @@ class JoomlaInstallerScript
                 throw $e;
             }
         }
+        return null;
     }
 
     /**
@@ -3148,11 +3149,9 @@ class JoomlaInstallerScript
                         File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
                         File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
                     }
-                } else {
+                } elseif (is_file(JPATH_ROOT . $old)) {
                     // On Unix with both files: Delete the incorrectly cased file.
-                    if (is_file(JPATH_ROOT . $old)) {
-                        File::delete(JPATH_ROOT . $old);
-                    }
+                    File::delete(JPATH_ROOT . $old);
                 }
             }
         }

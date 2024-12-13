@@ -167,11 +167,7 @@ class UsersModel extends ListModel
             $groups  = $this->getState('filter.groups');
             $groupId = $this->getState('filter.group_id');
 
-            if (isset($groups) && (empty($groups) || $groupId && !\in_array($groupId, $groups))) {
-                $items = [];
-            } else {
-                $items = parent::getItems();
-            }
+            $items = isset($groups) && (empty($groups) || $groupId && !\in_array($groupId, $groups)) ? [] : parent::getItems();
 
             // Bail out on an error or empty list.
             if (empty($items)) {
@@ -437,15 +433,10 @@ class UsersModel extends ListModel
 
         // Apply the range filter.
         if ($range || ($registrationStart && $registrationEnd)) {
-            if ($range) {
-                $dates = $this->buildDateRange($range);
-            } else {
-                $dates = [
-                    'dNow'   => $registrationEnd,
-                    'dStart' => $registrationStart,
-                ];
-            }
-
+            $dates = $range ? $this->buildDateRange($range) : [
+                'dNow'   => $registrationEnd,
+                'dStart' => $registrationStart,
+            ];
             if ($dates['dStart'] !== false) {
                 $dStart = $dates['dStart']->format('Y-m-d H:i:s');
 

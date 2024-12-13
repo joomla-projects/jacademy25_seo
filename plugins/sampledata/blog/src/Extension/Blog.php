@@ -56,14 +56,14 @@ final class Blog extends CMSPlugin
     /**
      * Get an overview of the proposed sampledata.
      *
-     * @return  \stdClass|void  Will be converted into the JSON response to the module.
+     * @return \stdClass|null Will be converted into the JSON response to the module.
      *
      * @since  3.8.0
      */
     public function onSampledataGetOverview()
     {
         if (!$this->getApplication()->getIdentity()->authorise('core.create', 'com_content')) {
-            return;
+            return null;
         }
 
         $data              = new \stdClass();
@@ -79,22 +79,18 @@ final class Blog extends CMSPlugin
     /**
      * First step to enter the sampledata. Content.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @return mixed[]|null Will be converted into the JSON response to the module.
      *
      * @since  3.8.0
      */
     public function onAjaxSampledataApplyStep1()
     {
         if (!Session::checkToken('get') || $this->getApplication()->getInput()->get('type') != $this->_name) {
-            return;
+            return null;
         }
 
         if (!ComponentHelper::isEnabled('com_tags')) {
-            $response            = [];
-            $response['success'] = true;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_tags');
-
-            return $response;
+            return ['success' => true, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_tags')];
         }
 
         // Get some metadata.
@@ -134,22 +130,14 @@ final class Blog extends CMSPlugin
                     throw new \Exception($this->getApplication()->getLanguage()->_($modelTag->getError()));
                 }
             } catch (\Exception $e) {
-                $response            = [];
-                $response['success'] = false;
-                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
-
-                return $response;
+                return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage())];
             }
 
             $tagIds[] = $modelTag->getItem()->id;
         }
 
         if (!ComponentHelper::isEnabled('com_content') || !$this->getApplication()->getIdentity()->authorise('core.create', 'com_content')) {
-            $response            = [];
-            $response['success'] = true;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_content');
-
-            return $response;
+            return ['success' => true, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_content')];
         }
 
         if (ComponentHelper::isEnabled('com_fields') && $user->authorise('core.create', 'com_fields')) {
@@ -179,11 +167,7 @@ final class Blog extends CMSPlugin
                     throw new \Exception($groupModel->getError());
                 }
             } catch (\Exception $e) {
-                $response            = [];
-                $response['success'] = false;
-                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
-
-                return $response;
+                return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage())];
             }
 
             $groupId = $groupModel->getItem()->id;
@@ -242,11 +226,7 @@ final class Blog extends CMSPlugin
                         throw new \Exception($fieldModel->getError());
                     }
                 } catch (\Exception $e) {
-                    $response            = [];
-                    $response['success'] = false;
-                    $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
-
-                    return $response;
+                    return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage())];
                 }
 
                 // Get ID from the field we just added
@@ -269,11 +249,7 @@ final class Blog extends CMSPlugin
             $workflowTable->extension       = 'com_content.article';
 
             if (!$workflowTable->store()) {
-                $response            = [];
-                $response['success'] = false;
-                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($workflowTable->getError()));
-
-                return $response;
+                return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($workflowTable->getError()))];
             }
 
             // Get ID from workflow we just added
@@ -295,11 +271,7 @@ final class Blog extends CMSPlugin
                 $stageTable->workflow_id = $workflowId;
 
                 if (!$stageTable->store()) {
-                    $response            = [];
-                    $response['success'] = false;
-                    $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($stageTable->getError()));
-
-                    return $response;
+                    return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($stageTable->getError()))];
                 }
             }
 
@@ -445,11 +417,7 @@ final class Blog extends CMSPlugin
                 $trTable->workflow_id = $workflowId;
 
                 if (!$trTable->store()) {
-                    $response            = [];
-                    $response['success'] = false;
-                    $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($trTable->getError()));
-
-                    return $response;
+                    return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($trTable->getError()))];
                 }
             }
         }
@@ -465,7 +433,7 @@ final class Blog extends CMSPlugin
             $categoryAlias = ApplicationHelper::stringURLSafe($categoryTitle);
 
             // Set unicodeslugs if alias is empty
-            if (trim(str_replace('-', '', $categoryAlias) == '')) {
+            if (trim(str_replace('-', '', $categoryAlias) === '') !== '' && trim(str_replace('-', '', $categoryAlias) === '') !== '0') {
                 $unicode       = $this->getApplication()->set('unicodeslugs', 1);
                 $categoryAlias = ApplicationHelper::stringURLSafe($categoryTitle);
                 $this->getApplication()->set('unicodeslugs', $unicode);
@@ -496,11 +464,7 @@ final class Blog extends CMSPlugin
                     throw new \Exception($categoryModel->getError());
                 }
             } catch (\Exception $e) {
-                $response            = [];
-                $response['success'] = false;
-                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
-
-                return $response;
+                return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage())];
             }
 
             // Get ID from category we just added
@@ -686,7 +650,7 @@ final class Blog extends CMSPlugin
             $article['alias']            = ApplicationHelper::stringURLSafe($article['title']);
 
             // Set unicodeslugs if alias is empty
-            if (trim(str_replace('-', '', $alias) == '')) {
+            if (trim(str_replace('-', '', $alias) === '') !== '' && trim(str_replace('-', '', $alias) === '') !== '0') {
                 $unicode          = $this->getApplication()->set('unicodeslugs', 1);
                 $article['alias'] = ApplicationHelper::stringURLSafe($article['title']);
                 $this->getApplication()->set('unicodeslugs', $unicode);
@@ -714,11 +678,7 @@ final class Blog extends CMSPlugin
             }
 
             if (!$articleModel->save($article)) {
-                $response            = [];
-                $response['success'] = false;
-                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($articleModel->getError()));
-
-                return $response;
+                return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($articleModel->getError()))];
             }
 
             // Get ID from article we just added
@@ -744,18 +704,14 @@ final class Blog extends CMSPlugin
             }
 
             // Add a value to the custom field if a value is given
-            if (ComponentHelper::isEnabled('com_fields') && $this->getApplication()->getIdentity()->authorise('core.create', 'com_fields')) {
-                if (!empty($article['authorValue'])) {
-                    // Store a field value
-
-                    $valueAuthor = (object) [
-                        'item_id'  => $articleModel->getItem()->id,
-                        'field_id' => $fieldIds[0],
-                        'value'    => $article['authorValue'],
-                    ];
-
-                    $this->getDatabase()->insertObject('#__fields_values', $valueAuthor);
-                }
+            if (ComponentHelper::isEnabled('com_fields') && $this->getApplication()->getIdentity()->authorise('core.create', 'com_fields') && (isset($article['authorValue']) && ($article['authorValue'] !== '' && $article['authorValue'] !== '0'))) {
+                // Store a field value
+                $valueAuthor = (object) [
+                    'item_id'  => $articleModel->getItem()->id,
+                    'field_id' => $fieldIds[0],
+                    'value'    => $article['authorValue'],
+                ];
+                $this->getDatabase()->insertObject('#__fields_values', $valueAuthor);
             }
         }
 
@@ -772,22 +728,18 @@ final class Blog extends CMSPlugin
     /**
      * Second step to enter the sampledata. Menus.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @return mixed[]|null Will be converted into the JSON response to the module.
      *
      * @since  3.8.0
      */
     public function onAjaxSampledataApplyStep2()
     {
         if (!Session::checkToken('get') || $this->getApplication()->getInput()->get('type') != $this->_name) {
-            return;
+            return null;
         }
 
         if (!ComponentHelper::isEnabled('com_menus') || !$this->getApplication()->getIdentity()->authorise('core.create', 'com_menus')) {
-            $response            = [];
-            $response['success'] = true;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 2, 'com_menus');
-
-            return $response;
+            return ['success' => true, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 2, 'com_menus')];
         }
 
         // Detect language to be used.
@@ -821,11 +773,7 @@ final class Blog extends CMSPlugin
 
                 $menuTable->store();
             } catch (\Exception $e) {
-                $response            = [];
-                $response['success'] = false;
-                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
-
-                return $response;
+                return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage())];
             }
 
             $menuTypes[] = $menuTable->menutype;
@@ -1049,11 +997,7 @@ final class Blog extends CMSPlugin
         try {
             $menuIdsLevel1 = $this->addMenuItems($menuItems, 1);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage())];
         }
 
         // Insert level 1 (Link in the footer as alias)
@@ -1118,11 +1062,7 @@ final class Blog extends CMSPlugin
         try {
             $menuIdsLevel1 = array_merge($menuIdsLevel1, $this->addMenuItems($menuItems, 1));
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage())];
         }
 
         $this->getApplication()->setUserState('sampledata.blog.menuIdsLevel1', $menuIdsLevel1);
@@ -1255,11 +1195,7 @@ final class Blog extends CMSPlugin
         try {
             $menuIdsLevel2 = $this->addMenuItems($menuItems, 2);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage())];
         }
 
         // Add a third level of menuItems - use article title also for menuItem title
@@ -1302,11 +1238,7 @@ final class Blog extends CMSPlugin
         try {
             $this->addMenuItems($menuItems, 3);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage())];
         }
 
         $response            = [];
@@ -1319,24 +1251,20 @@ final class Blog extends CMSPlugin
     /**
      * Third step to enter the sampledata. Modules.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @return mixed[]|null Will be converted into the JSON response to the module.
      *
      * @since  3.8.0
      */
     public function onAjaxSampledataApplyStep3()
     {
         if (!Session::checkToken('get') || $this->getApplication()->getInput()->get('type') != $this->_name) {
-            return;
+            return null;
         }
 
         $this->getApplication()->getLanguage()->load('com_modules');
 
         if (!ComponentHelper::isEnabled('com_modules') || !$this->getApplication()->getIdentity()->authorise('core.create', 'com_modules')) {
-            $response            = [];
-            $response['success'] = true;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 3, 'com_modules');
-
-            return $response;
+            return ['success' => true, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 3, 'com_modules')];
         }
 
         // Detect language to be used.
@@ -1808,11 +1736,7 @@ final class Blog extends CMSPlugin
             }
 
             if (!$model->save($module)) {
-                $response            = [];
-                $response['success'] = false;
-                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 3, $this->getApplication()->getLanguage()->_($model->getError()));
-
-                return $response;
+                return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 3, $this->getApplication()->getLanguage()->_($model->getError()))];
             }
         }
 
@@ -1840,11 +1764,7 @@ final class Blog extends CMSPlugin
                 $lm['assigned']   = [$loginId];
 
                 if (!$modelModule->save($lm)) {
-                    $response            = [];
-                    $response['success'] = false;
-                    $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 3, $this->getApplication()->getLanguage()->_($model->getError()));
-
-                    return $response;
+                    return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 3, $this->getApplication()->getLanguage()->_($model->getError()))];
                 }
             }
         }
@@ -1859,14 +1779,14 @@ final class Blog extends CMSPlugin
     /**
      * Final step to show completion of sampledata.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @return mixed[]|null Will be converted into the JSON response to the module.
      *
      * @since  4.0.0
      */
     public function onAjaxSampledataApplyStep4()
     {
         if ($this->getApplication()->getInput()->get('type') != $this->_name) {
-            return;
+            return null;
         }
 
         $response['success'] = true;
@@ -1907,7 +1827,7 @@ final class Blog extends CMSPlugin
             $menuItem['alias']           = ApplicationHelper::stringURLSafe($menuItem['title']);
 
             // Set unicodeslugs if alias is empty
-            if (trim(str_replace('-', '', $menuItem['alias']) == '')) {
+            if (trim(str_replace('-', '', $menuItem['alias']) === '') !== '' && trim(str_replace('-', '', $menuItem['alias']) === '') !== '0') {
                 $unicode           = $this->getApplication()->set('unicodeslugs', 1);
                 $menuItem['alias'] = ApplicationHelper::stringURLSafe($menuItem['title']);
                 $this->getApplication()->set('unicodeslugs', $unicode);

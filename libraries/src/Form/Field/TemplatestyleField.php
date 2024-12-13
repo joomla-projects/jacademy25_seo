@@ -176,8 +176,9 @@ class TemplatestyleField extends GroupedlistField
         if ($styles) {
             foreach ($styles as $style) {
                 $template = $style->template;
-                $lang->load('tpl_' . $template . '.sys', $client->path)
-                    || $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template);
+                if (!$lang->load('tpl_' . $template . '.sys', $client->path)) {
+                    $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template);
+                }
                 $name = Text::_($style->name);
 
                 // Initialize the group if necessary.

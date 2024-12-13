@@ -32,6 +32,10 @@ use Joomla\Component\Scheduler\Administrator\Model\TasksModel;
 class HtmlView extends BaseHtmlView
 {
     /**
+     * @var bool
+     */
+    public $hasDueTasks;
+    /**
      * Array of task items.
      *
      * @var    array

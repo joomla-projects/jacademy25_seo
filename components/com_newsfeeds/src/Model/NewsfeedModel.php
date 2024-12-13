@@ -214,7 +214,7 @@ class NewsfeedModel extends ItemModel
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {
-            $pk = (!empty($pk)) ? $pk : (int) $this->getState('newsfeed.id');
+            $pk = (empty($pk)) ? (int) $this->getState('newsfeed.id') : $pk;
 
             $table = $this->getTable('Newsfeed', 'Administrator');
             $table->hit($pk);

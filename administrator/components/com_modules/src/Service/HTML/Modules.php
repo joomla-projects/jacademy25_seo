@@ -56,11 +56,7 @@ class Modules
      */
     public function types()
     {
-        $options   = [];
-        $options[] = HTMLHelper::_('select.option', 'user', 'COM_MODULES_OPTION_POSITION_USER_DEFINED');
-        $options[] = HTMLHelper::_('select.option', 'template', 'COM_MODULES_OPTION_POSITION_TEMPLATE_DEFINED');
-
-        return $options;
+        return [HTMLHelper::_('select.option', 'user', 'COM_MODULES_OPTION_POSITION_USER_DEFINED'), HTMLHelper::_('select.option', 'template', 'COM_MODULES_OPTION_POSITION_TEMPLATE_DEFINED')];
     }
 
     /**
@@ -70,11 +66,7 @@ class Modules
      */
     public function templateStates()
     {
-        $options   = [];
-        $options[] = HTMLHelper::_('select.option', '1', 'JENABLED');
-        $options[] = HTMLHelper::_('select.option', '0', 'JDISABLED');
-
-        return $options;
+        return [HTMLHelper::_('select.option', '1', 'JENABLED'), HTMLHelper::_('select.option', '0', 'JDISABLED')];
     }
 
     /**
@@ -248,10 +240,8 @@ class Modules
         }
 
         // Pop the first item off the array if it's blank
-        if (\count($options)) {
-            if (\strlen($options[0]->text) < 1) {
-                array_shift($options);
-            }
+        if (\count($options) > 0 && \strlen($options[0]->text) < 1) {
+            array_shift($options);
         }
 
         return $options;

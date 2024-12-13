@@ -149,7 +149,7 @@ final class Stats extends CMSPlugin
             throw new \Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
         }
 
-        $this->params->set('mode', static::MODE_ALLOW_ALWAYS);
+        $this->params->set('mode', self::MODE_ALLOW_ALWAYS);
 
         if (!$this->saveParams()) {
             throw new \RuntimeException('Unable to save plugin settings', 500);
@@ -174,7 +174,7 @@ final class Stats extends CMSPlugin
             throw new \Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
         }
 
-        $this->params->set('mode', static::MODE_ALLOW_NEVER);
+        $this->params->set('mode', self::MODE_ALLOW_NEVER);
 
         if (!$this->saveParams()) {
             throw new \RuntimeException('Unable to save plugin settings', 500);
@@ -205,7 +205,7 @@ final class Stats extends CMSPlugin
         }
 
         // User has not selected the mode. Show message.
-        if ((int) $this->params->get('mode') !== static::MODE_ALLOW_ALWAYS) {
+        if ((int) $this->params->get('mode') !== self::MODE_ALLOW_ALWAYS) {
             $data = [
                 'sent' => 0,
                 'html' => $this->getRenderer('message')->render($this->getLayoutData()),
@@ -384,7 +384,7 @@ final class Stats extends CMSPlugin
         $interval = (int) $this->params->get('interval', 12);
         $mode     = (int) $this->params->get('mode', 0);
 
-        if ($mode === static::MODE_ALLOW_NEVER) {
+        if ($mode === self::MODE_ALLOW_NEVER) {
             return false;
         }
 

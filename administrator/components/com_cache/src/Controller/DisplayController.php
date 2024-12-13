@@ -80,7 +80,7 @@ class DisplayController extends BaseController
 
         $cid = (array) $this->input->post->get('cid', [], 'string');
 
-        if (empty($cid)) {
+        if ($cid === []) {
             $this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'warning');
         } else {
             $result = $this->getModel('cache')->cleanlist($cid);

@@ -79,7 +79,7 @@ final class EditorNoneProvider extends AbstractEditorProvider
         $buttons  = $params['buttons'] ?? true;
         $asset    = $params['asset'] ?? 0;
         $author   = $params['author'] ?? 0;
-        $readonly = !empty($params['readonly']) ? ' readonly disabled' : '';
+        $readonly = empty($params['readonly']) ? '' : ' readonly disabled';
 
         if (!$id) {
             $id = $name;

@@ -37,7 +37,7 @@ class ChecksModel extends BaseInstallationModel
     {
         $disabled_functions = \ini_get('disable_functions');
 
-        if (!empty($disabled_functions)) {
+        if (!($disabled_functions === '' || $disabled_functions === '0' || $disabled_functions === false)) {
             // Attempt to detect them in the PHP INI disable_functions variable.
             $disabled_functions           = explode(',', trim($disabled_functions));
             $number_of_disabled_functions = \count($disabled_functions);
@@ -87,7 +87,7 @@ class ChecksModel extends BaseInstallationModel
         $option->label  = Text::_('INSTL_DATABASE_SUPPORT');
         $option->label .= '<br>(' . implode(', ', $available) . ')';
         $option->state  = \count($available);
-        $option->notice = $option->state ? null : Text::_('INSTL_NOTICE_DATABASE_SUPPORT');
+        $option->notice = $option->state !== 0 ? null : Text::_('INSTL_NOTICE_DATABASE_SUPPORT');
         $options[]      = $option;
 
         // Check for mbstring options.
@@ -95,7 +95,7 @@ class ChecksModel extends BaseInstallationModel
             // Check for default MB language.
             $option         = new \stdClass();
             $option->label  = Text::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
-            $option->state  = (strtolower(\ini_get('mbstring.language')) == 'neutral');
+            $option->state  = (strtolower(\ini_get('mbstring.language')) === 'neutral');
             $option->notice = $option->state ? null : Text::_('INSTL_NOTICE_MBLANG_NOTDEFAULT');
             $options[]      = $option;
         }
@@ -247,7 +247,7 @@ class ChecksModel extends BaseInstallationModel
         $data = (array) $this->getOptions();
 
         // Bind the form data if present.
-        if (!empty($data)) {
+        if ($data !== []) {
             $form->bind($data);
         }
 

@@ -53,12 +53,12 @@ extract($displayData);
 $attr = '';
 
 // Initialize some field attributes.
-$attr .= !empty($class) ? ' class="form-control field-media-input ' . $class . '"' : ' class="form-control field-media-input"';
-$attr .= !empty($size) ? ' size="' . $size . '"' : '';
+$attr .= empty($class) ? ' class="form-control field-media-input"' : ' class="form-control field-media-input ' . $class . '"';
+$attr .= empty($size) ? '' : ' size="' . $size . '"';
 $attr .= $dataAttribute;
 
 // Initialize JavaScript field attributes.
-$attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
+$attr .= empty($onchange) ? '' : ' onchange="' . $onchange . '"';
 
 $showPreview = match ($preview) {
     'no', 'false', 'none' => false,
@@ -69,11 +69,7 @@ $showPreview = match ($preview) {
 if ($showPreview) {
     $cleanValue = MediaHelper::getCleanMediaFieldValue($value);
 
-    if ($cleanValue && file_exists(JPATH_ROOT . '/' . $cleanValue)) {
-        $src = Uri::root() . $value;
-    } else {
-        $src = '';
-    }
+    $src = $cleanValue && file_exists(JPATH_ROOT . '/' . $cleanValue) ? Uri::root() . $value : '';
 
     $width  = $previewWidth;
     $height = $previewHeight;
@@ -88,7 +84,7 @@ if ($showPreview) {
     $img = HTMLHelper::_('image', $src, Text::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
 
     $previewImg      = '<div class="preview_img">' . $img . '</div>';
-    $previewImgEmpty = '<div class="preview_empty"' . ($src ? ' class="hidden"' : '') . '>'
+    $previewImgEmpty = '<div class="preview_empty"' . ($src !== '' && $src !== '0' ? ' class="hidden"' : '') . '>'
         . Text::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
 
     $showPreview = 'static';

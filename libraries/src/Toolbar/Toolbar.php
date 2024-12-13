@@ -100,7 +100,7 @@ class Toolbar
     protected $_name = 'toolbar', ?ToolbarFactoryInterface $factory = null)
     {
         // At 5.0, require the factory to be injected
-        if (!$factory) {
+        if (!$factory instanceof \Joomla\CMS\Toolbar\ToolbarFactoryInterface) {
             @trigger_error(
                 \sprintf(
                     'As of Joomla! 5.0, a %1$s must be provided to a %2$s object when creating it.',

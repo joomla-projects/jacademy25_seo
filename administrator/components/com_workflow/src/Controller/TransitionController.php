@@ -83,7 +83,7 @@ class TransitionController extends FormController
 
             $this->extension = array_shift($parts);
 
-            if (!empty($parts)) {
+            if ($parts !== []) {
                 $this->section = array_shift($parts);
             }
 

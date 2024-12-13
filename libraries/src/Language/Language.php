@@ -106,8 +106,6 @@ class Language extends BaseLanguage
      */
     public function __construct($lang = null, $debug = false)
     {
-        $this->strings = [];
-
         if ($lang == null) {
             $lang = $this->default;
         }
@@ -242,7 +240,6 @@ class Language extends BaseLanguage
 
         if (isset($this->strings[$key])) {
             $string = $this->strings[$key];
-
             // Store debug information
             if ($this->debug) {
                 $value  = Factory::getApplication()->get('debug_lang_const', true) ? $string : $key;
@@ -256,21 +253,16 @@ class Language extends BaseLanguage
 
                 $this->used[$key][] = $caller;
             }
-        } else {
-            if ($this->debug) {
-                $info           = [];
-                $info['trace']  = $this->getTrace();
-                $info['key']    = $key;
-                $info['string'] = $string;
-
-                if (!\array_key_exists($key, $this->orphans)) {
-                    $this->orphans[$key] = [];
-                }
-
-                $this->orphans[$key][] = $info;
-
-                $string = '??' . $string . '??';
+        } elseif ($this->debug) {
+            $info           = [];
+            $info['trace']  = $this->getTrace();
+            $info['key']    = $key;
+            $info['string'] = $string;
+            if (!\array_key_exists($key, $this->orphans)) {
+                $this->orphans[$key] = [];
             }
+            $this->orphans[$key][] = $info;
+            $string = '??' . $string . '??';
         }
 
         if ($jsSafe) {
@@ -713,11 +705,9 @@ class Language extends BaseLanguage
             $strings = [];
 
             // Debug the ini file if needed.
-            if ($this->debug && is_file($fileName)) {
-                if (!$this->debugFile($fileName)) {
-                    // We didn't find any errors but there's a parser warning.
-                    $this->errorfiles[$fileName] = 'PHP parser errors :' . $e->getMessage();
-                }
+            if ($this->debug && is_file($fileName) && !$this->debugFile($fileName)) {
+                // We didn't find any errors but there's a parser warning.
+                $this->errorfiles[$fileName] = 'PHP parser errors :' . $e->getMessage();
             }
         }
 
@@ -794,7 +784,7 @@ class Language extends BaseLanguage
         }
 
         // Check if we encountered any errors.
-        if (\count($errors)) {
+        if ($errors !== []) {
             $this->errorfiles[$filename] = $errors;
         }
 

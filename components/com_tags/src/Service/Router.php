@@ -73,11 +73,7 @@ class Router extends RouterBase
 
         $sefPlugin       = PluginHelper::getPlugin('system', 'sef');
 
-        if ($sefPlugin) {
-            $this->sefparams = new Registry($sefPlugin->params);
-        } else {
-            $this->sefparams = new Registry();
-        }
+        $this->sefparams = $sefPlugin ? new Registry($sefPlugin->params) : new Registry();
 
         $this->buildLookup();
     }
@@ -183,14 +179,11 @@ class Router extends RouterBase
         }
 
         // TODO: Remove this whole block in 6.0 as it is a bug
-        if (!$this->sefparams->get('strictrouting', 0)) {
-            // If not found, return language specific home link
-            if (!isset($query['Itemid'])) {
-                $default = $this->menu->getDefault($lang);
-
-                if (!empty($default->id)) {
-                    $query['Itemid'] = $default->id;
-                }
+        // If not found, return language specific home link
+        if (!$this->sefparams->get('strictrouting', 0) && !isset($query['Itemid'])) {
+            $default = $this->menu->getDefault($lang);
+            if (!empty($default->id)) {
+                $query['Itemid'] = $default->id;
             }
         }
 
@@ -210,7 +203,7 @@ class Router extends RouterBase
     {
         $segments = [];
 
-        $menuItem = !empty($query['Itemid']) ? $this->menu->getItem($query['Itemid']) : false;
+        $menuItem = empty($query['Itemid']) ? false : $this->menu->getItem($query['Itemid']);
 
         if ($menuItem && $menuItem->query['option'] == 'com_tags') {
             if ($menuItem->query['view'] == 'tags') {
@@ -236,7 +229,7 @@ class Router extends RouterBase
                  * We check if there is a difference between the tags of the menu item and the query.
                  * If they are identical, we exactly match the menu item. Otherwise we append all tags to the URL
                  */
-                if (\count(array_diff($int_ids, $mIds)) > 0 || \count(array_diff($mIds, $int_ids)) > 0) {
+                if (array_diff($int_ids, $mIds) !== [] || array_diff($mIds, $int_ids) !== []) {
                     foreach ($ids as $id) {
                         $segments[] = $id;
                     }
@@ -306,7 +299,7 @@ class Router extends RouterBase
             $ids[] = $this->fixSegment($id);
         }
 
-        if (\count($ids)) {
+        if (\count($ids) > 0) {
             $vars['id']   = $ids;
             $vars['view'] = 'tag';
         }

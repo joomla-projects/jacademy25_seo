@@ -44,7 +44,7 @@ class ConsentsController extends FormController
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
 
-        if (empty($ids)) {
+        if ($ids === []) {
             $this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), CMSApplication::MSG_ERROR);
         } else {
             /** @var ConsentsModel $model */

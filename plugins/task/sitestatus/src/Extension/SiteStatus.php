@@ -125,11 +125,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
         $toggle    = self::TASKS_MAP[$event->getRoutineId()]['toggle'];
         $oldStatus = $config['offline'] ? 'offline' : 'online';
 
-        if ($toggle) {
-            $config['offline'] = !$config['offline'];
-        } else {
-            $config['offline'] = self::TASKS_MAP[$event->getRoutineId()]['offline'];
-        }
+        $config['offline'] = $toggle ? !$config['offline'] : self::TASKS_MAP[$event->getRoutineId()]['offline'];
 
         $newStatus = $config['offline'] ? 'offline' : 'online';
         $exit      = $this->writeConfigFile(new Registry($config));

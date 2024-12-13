@@ -176,7 +176,7 @@ class DatabaseModel extends InstallerModel
                     $result->type === 'plugin' ? $result->folder : null
                 );
 
-                if ($installationXML !== null) {
+                if ($installationXML instanceof \SimpleXMLElement) {
                     $folderTmp = (string) $installationXML->update->schemas->schemapath[0];
                     $a         = explode('/', $folderTmp);
                     array_pop($a);
@@ -530,11 +530,7 @@ class DatabaseModel extends InstallerModel
      */
     private function getOtherInformationMessage($status)
     {
-        $problemsMessage   = [];
-        $problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', \count($status['ok']));
-        $problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', \count($status['skipped']));
-
-        return $problemsMessage;
+        return [Text::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', \count($status['ok'])), Text::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', \count($status['skipped']))];
     }
 
     /**

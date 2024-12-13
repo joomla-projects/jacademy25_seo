@@ -205,7 +205,7 @@ class NewsfeedsModel extends ListModel
         }
 
         // Filter by access level.
-        if ($access = (int) $this->getState('filter.access')) {
+        if ($access = (int) $this->getState('filter.access') !== 0) {
             $query->where($db->quoteName('a.access') . ' = :access')
                 ->bind(':access', $access, ParameterType::INTEGER);
         }
@@ -236,7 +236,7 @@ class NewsfeedsModel extends ListModel
         }
 
         // Filter on the level.
-        if ($level = (int) $this->getState('filter.level')) {
+        if ($level = (int) $this->getState('filter.level') !== 0) {
             $query->where($db->quoteName('c.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
         }
@@ -286,7 +286,7 @@ class NewsfeedsModel extends ListModel
                 '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
                 $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
             );
-        } elseif ($tag = (int) $tag) {
+        } elseif ($tag = (int) $tag !== 0) {
             $query->join(
                 'INNER',
                 $db->quoteName('#__contentitem_tag_map', 'tagmap'),

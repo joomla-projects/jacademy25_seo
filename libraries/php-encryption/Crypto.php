@@ -248,7 +248,7 @@ class Crypto
                 throw new CryptoTestFailedException();
             }
 
-            if (self::ENCRYPTION_INFO == self::AUTHENTICATION_INFO) {
+            if (self::ENCRYPTION_INFO === self::AUTHENTICATION_INFO) {
                 throw new CryptoTestFailedException();
             }
         } catch (CryptoTestFailedException $ex) {
@@ -529,7 +529,7 @@ class Crypto
         $key = str_repeat("\x0b", 20);
         $data = "Hi There";
         $correct = "b0344c61d8db38535ca8afceaf0bf12b881dc200c9833da726e9376c2e32cff7";
-        if (hash_hmac(self::HASH_FUNCTION, $data, $key) != $correct) {
+        if (hash_hmac(self::HASH_FUNCTION, $data, $key) !== $correct) {
             throw new CryptoTestFailedException();
         }
     }
@@ -610,11 +610,7 @@ class Crypto
             // mb_substr($str, 0, NULL, '8bit') returns an empty string on PHP
             // 5.3, so we have to find the length ourselves.
             if (!isset($length)) {
-                if ($start >= 0) {
-                    $length = self::our_strlen($str) - $start;
-                } else {
-                    $length = -$start;
-                }
+                $length = $start >= 0 ? self::our_strlen($str) - $start : -$start;
             }
 
             return mb_substr((string) $str, $start, $length, '8bit');

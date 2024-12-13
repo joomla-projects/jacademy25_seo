@@ -127,7 +127,7 @@ class MemcachedStorage extends CacheStorage
         $length   = \strlen($prefix);
         $cache_id = parent::_getCacheId($id, $group);
 
-        if ($length) {
+        if ($length !== 0) {
             // Memcached use suffix instead of prefix
             $cache_id = substr($cache_id, $length) . strrev($prefix);
         }
@@ -193,11 +193,7 @@ class MemcachedStorage extends CacheStorage
                 if ($namearr !== false && $namearr[0] == $secret && $namearr[1] === 'cache') {
                     $group = $namearr[2];
 
-                    if (!isset($data[$group])) {
-                        $item = new CacheStorageHelper($group);
-                    } else {
-                        $item = $data[$group];
-                    }
+                    $item = $data[$group] ?? new CacheStorageHelper($group);
 
                     $item->updateSize($key->size);
 

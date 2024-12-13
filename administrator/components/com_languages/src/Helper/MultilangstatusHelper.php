@@ -295,6 +295,7 @@ abstract class MultilangstatusHelper
 
             return true;
         }
+        return null;
     }
 
     /**

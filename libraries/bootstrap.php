@@ -58,7 +58,7 @@ $errorHandler = \Symfony\Component\ErrorHandler\ErrorHandler::register();
 \Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer::setTemplate(__DIR__ . '/../templates/system/fatal.php');
 
 // Register the error handler which processes E_USER_DEPRECATED errors
-if (error_reporting() & E_USER_DEPRECATED) {
+if ((error_reporting() & E_USER_DEPRECATED) !== 0) {
     set_error_handler(\Joomla\CMS\Exception\ExceptionHandler::handleUserDeprecatedErrors(...), E_USER_DEPRECATED);
 }
 

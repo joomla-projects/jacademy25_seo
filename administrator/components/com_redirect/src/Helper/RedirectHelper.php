@@ -42,15 +42,7 @@ class RedirectHelper
      */
     public static function publishedOptions()
     {
-        // Build the active state filter options.
-        $options   = [];
-        $options[] = HTMLHelper::_('select.option', '*', 'JALL');
-        $options[] = HTMLHelper::_('select.option', '1', 'JENABLED');
-        $options[] = HTMLHelper::_('select.option', '0', 'JDISABLED');
-        $options[] = HTMLHelper::_('select.option', '2', 'JARCHIVED');
-        $options[] = HTMLHelper::_('select.option', '-2', 'JTRASHED');
-
-        return $options;
+        return [HTMLHelper::_('select.option', '*', 'JALL'), HTMLHelper::_('select.option', '1', 'JENABLED'), HTMLHelper::_('select.option', '0', 'JDISABLED'), HTMLHelper::_('select.option', '2', 'JARCHIVED'), HTMLHelper::_('select.option', '-2', 'JTRASHED')];
     }
 
     /**

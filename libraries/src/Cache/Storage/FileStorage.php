@@ -110,29 +110,26 @@ class FileStorage extends CacheStorage
         $path  = $this->_getFilePath($id, $group);
         $close = false;
 
-        if ($checkTime == false || ($checkTime == true && $this->_checkExpire($id, $group) === true)) {
-            if (file_exists($path)) {
-                if (isset($this->_locked_files[$path])) {
-                    $_fileopen = $this->_locked_files[$path];
-                } else {
-                    $_fileopen = @fopen($path, 'rb');
+        if (($checkTime == false || $checkTime == true && $this->_checkExpire($id, $group) === true) && file_exists($path)) {
+            if (isset($this->_locked_files[$path])) {
+                $_fileopen = $this->_locked_files[$path];
+            } else {
+                $_fileopen = @fopen($path, 'rb');
 
-                    // There is no lock, we have to close file after store data
-                    $close = true;
+                // There is no lock, we have to close file after store data
+                $close = true;
+            }
+            if ($_fileopen) {
+                // On Windows system we can not use file_get_contents on the file locked by yourself
+                $data = stream_get_contents($_fileopen);
+
+                if ($close) {
+                    @fclose($_fileopen);
                 }
 
-                if ($_fileopen) {
-                    // On Windows system we can not use file_get_contents on the file locked by yourself
-                    $data = stream_get_contents($_fileopen);
-
-                    if ($close) {
-                        @fclose($_fileopen);
-                    }
-
-                    if ($data !== false) {
-                        // Remove the initial die() statement
-                        return str_replace('<?php die("Access Denied"); ?>#x#', '', $data);
-                    }
+                if ($data !== false) {
+                    // Remove the initial die() statement
+                    return str_replace('<?php die("Access Denied"); ?>#x#', '', $data);
                 }
             }
         }
@@ -227,11 +224,7 @@ class FileStorage extends CacheStorage
         $path = $this->_getFilePath($id, $group);
 
         File::invalidateFileCache($path);
-        if (!@unlink($path)) {
-            return false;
-        }
-
-        return true;
+        return @unlink($path);
     }
 
     /**
@@ -252,7 +245,7 @@ class FileStorage extends CacheStorage
         $return = true;
         $folder = $group;
 
-        if (trim($folder) == '') {
+        if (trim($folder) === '') {
             $mode = 'notgroup';
         }
 
@@ -297,7 +290,7 @@ class FileStorage extends CacheStorage
         foreach ($files as $file) {
             $time = @filemtime($file);
 
-            if (($time + $this->_lifetime) < $this->_now || empty($time)) {
+            if (($time + $this->_lifetime) < $this->_now || ($time === 0 || $time === false)) {
                 File::invalidateFileCache($file);
                 $result |= @unlink($file);
             }
@@ -352,7 +345,7 @@ class FileStorage extends CacheStorage
             $returning->locklooped = true;
         }
 
-        if ($data_lock === true) {
+        if ($data_lock) {
             // Remember resource, flock release lock if you unset/close resource
             $this->_locked_files[$path] = $_fileopen;
         }
@@ -408,19 +401,14 @@ class FileStorage extends CacheStorage
         if (file_exists($path)) {
             $time = @filemtime($path);
 
-            if (($time + $this->_lifetime) < $this->_now || empty($time)) {
+            if (($time + $this->_lifetime) < $this->_now || ($time === 0 || $time === false)) {
                 File::invalidateFileCache($path);
                 @unlink($path);
 
                 return false;
             }
-
             // If, right now, the file does not exist then return false
-            if (@filesize($path) == 0) {
-                return false;
-            }
-
-            return true;
+            return @filesize($path) != 0;
         }
 
         return false;
@@ -445,7 +433,9 @@ class FileStorage extends CacheStorage
         if (!is_dir($dir)) {
             // Make sure the index file is there
             $indexFile = $dir . '/index.html';
-            @mkdir($dir) && file_put_contents($indexFile, '<!DOCTYPE html><title></title>');
+            if (@mkdir($dir)) {
+                file_put_contents($indexFile, '<!DOCTYPE html><title></title>');
+            }
         }
 
         // Make sure the folder exists
@@ -491,7 +481,7 @@ class FileStorage extends CacheStorage
 
         if (!empty($files) && !\is_array($files)) {
             File::invalidateFileCache($files);
-            if (@unlink($files) !== true) {
+            if (!@unlink($files)) {
                 return false;
             }
         } elseif (!empty($files) && \is_array($files)) {
@@ -501,7 +491,7 @@ class FileStorage extends CacheStorage
                 // In case of restricted permissions we delete it one way or the other as long as the owner is either the webserver or the ftp
                 File::invalidateFileCache($file);
 
-                if (@unlink($file) !== true) {
+                if (!@unlink($file)) {
                     Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', basename($file)), Log::WARNING, 'jerror');
 
                     return false;
@@ -515,7 +505,7 @@ class FileStorage extends CacheStorage
         foreach ($folders as $folder) {
             if (is_link($folder)) {
                 // Don't descend into linked directories, just delete the link.
-                if (@unlink($folder) !== true) {
+                if (!@unlink($folder)) {
                     return false;
                 }
             } elseif ($this->_deleteFolder($folder) !== true) {
@@ -547,7 +537,7 @@ class FileStorage extends CacheStorage
     {
         $path = trim($path);
 
-        if (empty($path)) {
+        if ($path === '' || $path === '0') {
             return $this->_root;
         }
 
@@ -596,14 +586,10 @@ class FileStorage extends CacheStorage
             return $arr;
         }
 
-        if (\count($excludefilter)) {
-            $excludefilter = '/(' . implode('|', $excludefilter) . ')/';
-        } else {
-            $excludefilter = '';
-        }
+        $excludefilter = \count($excludefilter) ? '/(' . implode('|', $excludefilter) . ')/' : '';
 
         while (($file = readdir($handle)) !== false) {
-            if (($file != '.') && ($file != '..') && (!\in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file))) {
+            if (($file !== '.') && ($file !== '..') && (!\in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file))) {
                 $dir   = $path . '/' . $file;
                 $isDir = is_dir($dir);
 
@@ -617,14 +603,8 @@ class FileStorage extends CacheStorage
 
                         $arr = array_merge($arr, $arr2);
                     }
-                } else {
-                    if (preg_match("/$filter/", $file)) {
-                        if ($fullpath) {
-                            $arr[] = $path . '/' . $file;
-                        } else {
-                            $arr[] = $file;
-                        }
-                    }
+                } elseif (preg_match("/$filter/", $file)) {
+                    $arr[] = $fullpath ? $path . '/' . $file : $file;
                 }
             }
         }
@@ -673,17 +653,13 @@ class FileStorage extends CacheStorage
             return $arr;
         }
 
-        if (\count($excludefilter)) {
-            $excludefilter_string = '/(' . implode('|', $excludefilter) . ')/';
-        } else {
-            $excludefilter_string = '';
-        }
+        $excludefilter_string = \count($excludefilter) ? '/(' . implode('|', $excludefilter) . ')/' : '';
 
         while (($file = readdir($handle)) !== false) {
             if (
-                ($file != '.') && ($file != '..')
+                ($file !== '.') && ($file !== '..')
                 && (!\in_array($file, $exclude))
-                && (empty($excludefilter_string) || !preg_match($excludefilter_string, $file))
+                && ($excludefilter_string === '' || $excludefilter_string === '0' || !preg_match($excludefilter_string, $file))
             ) {
                 $dir   = $path . '/' . $file;
                 $isDir = is_dir($dir);
@@ -691,11 +667,7 @@ class FileStorage extends CacheStorage
                 if ($isDir) {
                     // Removes filtered directories
                     if (preg_match("/$filter/", $file)) {
-                        if ($fullpath) {
-                            $arr[] = $dir;
-                        } else {
-                            $arr[] = $file;
-                        }
+                        $arr[] = $fullpath ? $dir : $file;
                     }
 
                     if ($recurse) {

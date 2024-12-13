@@ -49,51 +49,42 @@ abstract class AssociationHelper extends CategoryAssociationHelper
             $layout = $jinput->get('layout', '', 'string');
         }
 
-        if ($view === 'article') {
-            if ($id) {
-                $user      = Factory::getUser();
-                $groups    = implode(',', $user->getAuthorisedViewLevels());
-                $db        = Factory::getDbo();
-                $advClause = [];
+        if ($view === 'article' && $id) {
+            $user      = Factory::getUser();
+            $groups    = implode(',', $user->getAuthorisedViewLevels());
+            $db        = Factory::getDbo();
+            $advClause = [];
+            // Filter by user groups
+            $advClause[] = 'c2.access IN (' . $groups . ')';
+            // Filter by current language
+            $advClause[] = 'c2.language != ' . $db->quote(Factory::getLanguage()->getTag());
+            if (!$user->authorise('core.edit.state', 'com_content') && !$user->authorise('core.edit', 'com_content')) {
+                // Filter by start and end dates.
+                $date = Factory::getDate();
 
-                // Filter by user groups
-                $advClause[] = 'c2.access IN (' . $groups . ')';
+                $nowDate = $db->quote($date->toSql());
 
-                // Filter by current language
-                $advClause[] = 'c2.language != ' . $db->quote(Factory::getLanguage()->getTag());
+                $advClause[] = '(c2.publish_up IS NULL OR c2.publish_up <= ' . $nowDate . ')';
+                $advClause[] = '(c2.publish_down IS NULL OR c2.publish_down >= ' . $nowDate . ')';
 
-                if (!$user->authorise('core.edit.state', 'com_content') && !$user->authorise('core.edit', 'com_content')) {
-                    // Filter by start and end dates.
-                    $date = Factory::getDate();
-
-                    $nowDate = $db->quote($date->toSql());
-
-                    $advClause[] = '(c2.publish_up IS NULL OR c2.publish_up <= ' . $nowDate . ')';
-                    $advClause[] = '(c2.publish_down IS NULL OR c2.publish_down >= ' . $nowDate . ')';
-
-                    // Filter by published
-                    $advClause[] = 'c2.state = 1';
-                }
-
-                $associations = Associations::getAssociations(
-                    'com_content',
-                    '#__content',
-                    'com_content.item',
-                    $id,
-                    'id',
-                    'alias',
-                    'catid',
-                    $advClause
-                );
-
-                $return = [];
-
-                foreach ($associations as $tag => $item) {
-                    $return[$tag] = RouteHelper::getArticleRoute($item->id, (int) $item->catid, $item->language, $layout);
-                }
-
-                return $return;
+                // Filter by published
+                $advClause[] = 'c2.state = 1';
             }
+            $associations = Associations::getAssociations(
+                'com_content',
+                '#__content',
+                'com_content.item',
+                $id,
+                'id',
+                'alias',
+                'catid',
+                $advClause
+            );
+            $return = [];
+            foreach ($associations as $tag => $item) {
+                $return[$tag] = RouteHelper::getArticleRoute($item->id, (int) $item->catid, $item->language, $layout);
+            }
+            return $return;
         }
 
         if ($view === 'category' || $view === 'categories') {

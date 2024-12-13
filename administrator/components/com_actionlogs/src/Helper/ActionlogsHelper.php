@@ -134,12 +134,12 @@ class ActionlogsHelper
                 break;
         }
 
-        $lang->load($extension, JPATH_ADMINISTRATOR)
-            || $lang->load($extension, $source);
+        if (!$lang->load($extension, JPATH_ADMINISTRATOR)) {
+            $lang->load($extension, $source);
+        }
 
-        if (!$lang->hasKey(strtoupper($extension))) {
-            $lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
-                || $lang->load($extension . '.sys', $source);
+        if (!$lang->hasKey(strtoupper($extension)) && !$lang->load($extension . '.sys', JPATH_ADMINISTRATOR)) {
+            $lang->load($extension . '.sys', $source);
         }
 
         $cache[$extension] = true;
@@ -329,8 +329,9 @@ class ActionlogsHelper
                 continue;
             }
 
-            $lang->load($extension, JPATH_ADMINISTRATOR)
-                || $lang->load($extension, JPATH_PLUGINS . '/' . $type . '/' . $name);
+            if (!$lang->load($extension, JPATH_ADMINISTRATOR)) {
+                $lang->load($extension, JPATH_PLUGINS . '/' . $type . '/' . $name);
+            }
         }
 
         // Load plg_system_actionlogs too

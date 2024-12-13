@@ -85,7 +85,7 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
         }
 
         // Check for valid name.
-        if (trim($this->title) == '') {
+        if (trim($this->title) === '') {
             throw new \UnexpectedValueException('The title is empty');
         }
 
@@ -95,7 +95,7 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
 
         $this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
 
-        if (trim(str_replace('-', '', $this->alias)) == '') {
+        if (trim(str_replace('-', '', $this->alias)) === '') {
             $this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
         }
 
@@ -143,15 +143,15 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
             $this->images = '{}';
         }
 
-        if (!(int) $this->checked_out_time) {
+        if ((int) $this->checked_out_time === 0) {
             $this->checked_out_time = null;
         }
 
-        if (!(int) $this->publish_up) {
+        if ((int) $this->publish_up === 0) {
             $this->publish_up = null;
         }
 
-        if (!(int) $this->publish_down) {
+        if ((int) $this->publish_down === 0) {
             $this->publish_down = null;
         }
 
@@ -179,7 +179,7 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
         } else {
             // New tag. A tag created and created_by field can be set by the user,
             // so we don't touch either of these if they are set.
-            if (!(int) $this->created_time) {
+            if ((int) $this->created_time === 0) {
                 $this->created_time = $date->toSql();
             }
 
@@ -187,7 +187,7 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
                 $this->created_user_id = $user->id;
             }
 
-            if (!(int) $this->modified_time) {
+            if ((int) $this->modified_time === 0) {
                 $this->modified_time = $this->created_time;
             }
 

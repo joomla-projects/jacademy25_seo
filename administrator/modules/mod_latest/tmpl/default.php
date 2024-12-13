@@ -31,7 +31,7 @@ $moduleId = str_replace(' ', '', $module->title) . $module->id;
         </tr>
     </thead>
     <tbody>
-        <?php if (count($list)) : ?>
+        <?php if (count($list) > 0) : ?>
             <?php foreach ($list as $i => $item) : ?>
         <tr>
             <th scope="row">

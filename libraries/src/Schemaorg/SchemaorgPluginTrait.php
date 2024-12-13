@@ -121,7 +121,7 @@ trait SchemaorgPluginTrait
                 $result[] = $value;
             }
 
-            if (empty($result)) {
+            if ($result === []) {
                 unset($schema[$repeatableField]);
 
                 continue;
@@ -173,23 +173,9 @@ trait SchemaorgPluginTrait
     {
         $allowedlist   = array_filter((array) $this->params->get('allowedlist', []));
         $forbiddenlist = array_filter((array) $this->params->get('forbiddenlist', []));
-
-        if (!empty($allowedlist)) {
-            foreach ($allowedlist as $allowed) {
-                if ($context === $allowed) {
-                    return true;
-                }
-            }
-
-            return false;
+        if ($allowedlist !== []) {
+            return in_array($context, $allowedlist, true);
         }
-
-        foreach ($forbiddenlist as $forbidden) {
-            if ($context === $forbidden) {
-                return false;
-            }
-        }
-
-        return true;
+        return !in_array($context, $forbiddenlist, true);
     }
 }

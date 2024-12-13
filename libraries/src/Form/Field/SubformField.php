@@ -134,9 +134,9 @@ class SubformField extends FormField
                 $this->layout = (string) $value;
 
                 // Make sure the layout is not empty.
-                if (!$this->layout) {
+                if ($this->layout === '' || $this->layout === '0') {
                     // Set default value depend from "multiple" mode
-                    $this->layout = !$this->multiple ? 'joomla.form.field.subform.default' : 'joomla.form.field.subform.repeatable';
+                    $this->layout = $this->multiple ? 'joomla.form.field.subform.repeatable' : 'joomla.form.field.subform.default';
                 }
 
                 break;
@@ -195,7 +195,7 @@ class SubformField extends FormField
             $this->__set($attributeName, $element[$attributeName]);
         }
 
-        if ((string) $element['fieldname']) {
+        if ((string) $element['fieldname'] !== '' && (string) $element['fieldname'] !== '0') {
             $this->__set('fieldname', $element['fieldname']);
         }
 
@@ -298,7 +298,7 @@ class SubformField extends FormField
             // If we already have a name segment add the group control as another level.
             $groups = explode('.', $this->group);
 
-            if ($name) {
+            if ($name !== '' && $name !== '0') {
                 foreach ($groups as $group) {
                     $name .= '[' . $group . ']';
                 }
@@ -312,7 +312,7 @@ class SubformField extends FormField
         }
 
         // If we already have a name segment add the field name as another level.
-        if ($name) {
+        if ($name !== '' && $name !== '0') {
             $name .= '[' . $fieldName . ']';
         } else {
             $name .= $fieldName;

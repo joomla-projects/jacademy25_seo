@@ -26,6 +26,11 @@ use Joomla\Registry\Registry;
 class CategoriesView extends HtmlView
 {
     /**
+     * @var string
+     */
+    public $pageclass_sfx;
+    public $maxLevelcat;
+    /**
      * State data
      *
      * @var    \Joomla\Registry\Registry
@@ -70,7 +75,7 @@ class CategoriesView extends HtmlView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  void|boolean
+     * @return bool|null
      *
      * @since   3.2
      * @throws  \Exception
@@ -84,7 +89,7 @@ class CategoriesView extends HtmlView
         $app = Factory::getApplication();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors')) > 0) {
             $app->enqueueMessage($errors, 'error');
 
             return false;
@@ -117,6 +122,7 @@ class CategoriesView extends HtmlView
         $this->prepareDocument();
 
         parent::display($tpl);
+        return null;
     }
 
     /**

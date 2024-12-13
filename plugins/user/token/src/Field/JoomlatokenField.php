@@ -96,7 +96,7 @@ class JoomlatokenField extends TextField
      */
     private function getTokenForDisplay(string $tokenSeed): string
     {
-        if (empty($tokenSeed)) {
+        if ($tokenSeed === '' || $tokenSeed === '0') {
             return '';
         }
 

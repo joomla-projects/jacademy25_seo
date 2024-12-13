@@ -39,13 +39,13 @@ Factory::getApplication()->getDocument()->getWebAssetManager()
 $tagName ??= 'button';
 
 $taskAttr = '';
-$idAttr   = !empty($id)             ? ' id="' . $id . '"' : '';
-$listAttr = !empty($listCheck)      ? ' list-selection' : '';
-$formAttr = !empty($form)           ? ' form="' . $this->escape($form) . '"' : '';
-$validate = !empty($formValidation) ? ' form-validation' : '';
-$msgAttr  = !empty($message)        ? ' confirm-message="' . $this->escape($message) . '"' : '';
+$idAttr   = empty($id)             ? '' : ' id="' . $id . '"';
+$listAttr = empty($listCheck)      ? '' : ' list-selection';
+$formAttr = empty($form)           ? '' : ' form="' . $this->escape($form) . '"';
+$validate = empty($formValidation) ? '' : ' form-validation';
+$msgAttr  = empty($message)        ? '' : ' confirm-message="' . $this->escape($message) . '"';
 
-if ($msgAttr) {
+if ($msgAttr !== '' && $msgAttr !== '0') {
     Text::script('WARNING');
     Text::script('JYES');
     Text::script('JNO');

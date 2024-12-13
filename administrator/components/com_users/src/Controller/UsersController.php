@@ -92,7 +92,7 @@ class UsersController extends AdminController
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
 
-        if (empty($ids)) {
+        if ($ids === []) {
             $this->setMessage(Text::_('COM_USERS_USERS_NO_ITEM_SELECTED'), 'warning');
         } else {
             // Get the model.
@@ -101,12 +101,10 @@ class UsersController extends AdminController
             // Change the state of the records.
             if (!$model->block($ids, $value)) {
                 $this->setMessage($model->getError(), 'error');
-            } else {
-                if ($value == 1) {
-                    $this->setMessage(Text::plural('COM_USERS_N_USERS_BLOCKED', \count($ids)));
-                } elseif ($value == 0) {
-                    $this->setMessage(Text::plural('COM_USERS_N_USERS_UNBLOCKED', \count($ids)));
-                }
+            } elseif ($value == 1) {
+                $this->setMessage(Text::plural('COM_USERS_N_USERS_BLOCKED', \count($ids)));
+            } elseif ($value == 0) {
+                $this->setMessage(Text::plural('COM_USERS_N_USERS_UNBLOCKED', \count($ids)));
             }
         }
 
@@ -130,7 +128,7 @@ class UsersController extends AdminController
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
 
-        if (empty($ids)) {
+        if ($ids === []) {
             $this->setMessage(Text::_('COM_USERS_USERS_NO_ITEM_SELECTED'), 'error');
         } else {
             // Get the model.

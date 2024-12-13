@@ -223,13 +223,13 @@ class AtomParser extends FeedParser
         if (filter_var($entry->uri, FILTER_VALIDATE_URL) === false && !\is_null($el->link) && $el->link) {
             $link = $el->link;
 
-            if ($link->count()) {
+            if ($link->count() !== 0) {
                 $link = $this->bestLinkForUri($link);
             }
 
             $uri = (string) $link['href'];
 
-            if ($uri) {
+            if ($uri !== '' && $uri !== '0') {
                 $entry->uri = $uri;
             }
         }

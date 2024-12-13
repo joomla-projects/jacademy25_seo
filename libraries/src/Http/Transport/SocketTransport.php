@@ -163,7 +163,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         $body = empty($response[1]) ? '' : $response[1];
 
         // Get the response code from the first offset of the response headers.
-        preg_match('/[0-9]{3}/', array_shift($headers), $matches);
+        preg_match('/\d{3}/', array_shift($headers), $matches);
         $code = $matches[0];
 
         if (!is_numeric($code)) {
@@ -241,14 +241,14 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 
             if (!$connection) {
                 // Error but nothing from php? Create our own
-                if (!$err) {
+                if ($err === '' || $err === '0') {
                     $err = \sprintf('Could not connect to host: %s:%s', $host, $port);
                 }
 
                 throw new \Exception($err);
             }
         } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage());
+            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
         } finally {
             restore_error_handler();
         }

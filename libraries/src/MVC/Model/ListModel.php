@@ -152,7 +152,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
          * @deprecated  4.0 will be removed in 6.0
          *              Use $this->filterForbiddenList instead
          */
-        if (!empty($this->filterBlacklist)) {
+        if ($this->filterBlacklist !== []) {
             $this->filterForbiddenList = array_merge($this->filterBlacklist, $this->filterForbiddenList);
         }
 
@@ -160,7 +160,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
          * @deprecated  4.0 will be removed in 6.0
          *              Use $this->listForbiddenList instead
          */
-        if (!empty($this->listBlacklist)) {
+        if ($this->listBlacklist !== []) {
             $this->listForbiddenList = array_merge($this->listBlacklist, $this->listForbiddenList);
         }
     }

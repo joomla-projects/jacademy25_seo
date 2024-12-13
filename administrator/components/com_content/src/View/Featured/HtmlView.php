@@ -34,6 +34,11 @@ use Joomla\Component\Content\Administrator\Model\FeaturedModel;
 class HtmlView extends BaseHtmlView
 {
     /**
+     * @var bool
+     */
+    public $vote;
+    public $hits;
+    /**
      * An array of items
      *
      * @var  array

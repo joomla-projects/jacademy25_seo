@@ -44,7 +44,7 @@ abstract class AdminLanguage
      */
     public static function existing($all = false, $translate = false)
     {
-        if (empty(static::$items)) {
+        if (static::$items === []) {
             $languages       = [];
             $admin_languages = LanguageHelper::getKnownLanguages(JPATH_ADMINISTRATOR);
 

@@ -140,13 +140,11 @@ class ExtensionAdapter extends UpdateAdapter
                         $supportedDbs = $this->currentUpdate->supported_databases;
 
                         // MySQL and MariaDB use the same database driver but not the same version numbers
-                        if ($dbType === 'mysql') {
-                            // Check whether we have a MariaDB version string and extract the proper version from it
-                            if (stripos($dbVersion, 'mariadb') !== false) {
-                                // MariaDB: Strip off any leading '5.5.5-', if present
-                                $dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
-                                $dbType    = 'mariadb';
-                            }
+                        // Check whether we have a MariaDB version string and extract the proper version from it
+                        if ($dbType === 'mysql' && stripos($dbVersion, 'mariadb') !== false) {
+                            // MariaDB: Strip off any leading '5.5.5-', if present
+                            $dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
+                            $dbType    = 'mariadb';
                         }
 
                         // $supportedDbs has uppercase keys because they are XML attribute names
@@ -210,7 +208,7 @@ class ExtensionAdapter extends UpdateAdapter
 
                     // If the PHP version and minimum stability checks pass, consider this version as a possible update
                     if ($phpMatch && $stabilityMatch && $dbMatch) {
-                        if (isset($this->latest)) {
+                        if ($this->latest !== null) {
                             // We already have a possible update. Check the version.
                             if (version_compare($this->currentUpdate->version, $this->latest->version, '>') == 1) {
                                 $this->latest = $this->currentUpdate;
@@ -284,7 +282,7 @@ class ExtensionAdapter extends UpdateAdapter
         xml_set_element_handler($this->xmlParser, '_startElement', '_endElement');
         xml_set_character_data_handler($this->xmlParser, '_characterData');
 
-        if (!xml_parse($this->xmlParser, $response->body)) {
+        if (xml_parse($this->xmlParser, $response->body) === 0) {
             // If the URL is missing the .xml extension, try appending it and retry loading the update
             if (!$this->appendExtension && (!str_ends_with($this->_url, '.xml'))) {
                 $options['append_extension'] = true;
@@ -301,7 +299,7 @@ class ExtensionAdapter extends UpdateAdapter
 
         xml_parser_free($this->xmlParser);
 
-        if (isset($this->latest)) {
+        if ($this->latest !== null) {
             if (isset($this->latest->client) && \strlen($this->latest->client)) {
                 /**
                  * The client_id in the update XML manifest can be either an integer (backwards

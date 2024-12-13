@@ -131,7 +131,7 @@ class ItemModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $menuTypeId = !empty($record->menutype) ? $this->getMenuTypeId($record->menutype) : 0;
+        $menuTypeId = empty($record->menutype) ? 0 : $this->getMenuTypeId($record->menutype);
         $assetKey   = $menuTypeId ? 'com_menus.menu.' . (int) $menuTypeId : 'com_menus';
 
         return $this->getCurrentUser()->authorise('core.edit.state', $assetKey);
@@ -161,28 +161,22 @@ class ItemModel extends AdminModel
         $newIds = [];
 
         // Check that the parent exists
-        if ($parentId) {
-            if (!$table->load($parentId)) {
-                if ($error = $table->getError()) {
-                    // Fatal error
-                    $this->setError($error);
-
-                    return false;
-                }
-
-                // Non-fatal error
-                $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
-                $parentId = 0;
-            }
-        }
-
-        // If the parent is 0, set it to the ID of the root item in the tree
-        if (empty($parentId)) {
-            if (!$parentId = $table->getRootId()) {
-                $this->setError($table->getError());
+        if ($parentId && !$table->load($parentId)) {
+            if ($error = $table->getError()) {
+                // Fatal error
+                $this->setError($error);
 
                 return false;
             }
+            // Non-fatal error
+            $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+            $parentId = 0;
+        }
+
+        // If the parent is 0, set it to the ID of the root item in the tree
+        if (empty($parentId) && !$parentId = $table->getRootId()) {
+            $this->setError($table->getError());
+            return false;
         }
 
         // Check that user has create permission for menus
@@ -349,19 +343,16 @@ class ItemModel extends AdminModel
         $db    = $this->getDatabase();
 
         // Check that the parent exists.
-        if ($parentId) {
-            if (!$table->load($parentId)) {
-                if ($error = $table->getError()) {
-                    // Fatal error
-                    $this->setError($error);
+        if ($parentId && !$table->load($parentId)) {
+            if ($error = $table->getError()) {
+                // Fatal error
+                $this->setError($error);
 
-                    return false;
-                }
-
-                // Non-fatal error
-                $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
-                $parentId = 0;
+                return false;
             }
+            // Non-fatal error
+            $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+            $parentId = 0;
         }
 
         // Check that user has create and edit permission for menus
@@ -442,7 +433,7 @@ class ItemModel extends AdminModel
         }
 
         // Process the child rows
-        if (!empty($children)) {
+        if ($children !== []) {
             // Remove any duplicates and sanitize ids.
             $children = array_unique($children);
             $children = ArrayHelper::toInteger($children);
@@ -621,7 +612,7 @@ class ItemModel extends AdminModel
      */
     public function getItem($pk = null)
     {
-        $pk = (!empty($pk)) ? $pk : (int) $this->getState('item.id');
+        $pk = (empty($pk)) ? (int) $this->getState('item.id') : $pk;
 
         // Get a level row instance.
         $table = $this->getTable();
@@ -650,11 +641,9 @@ class ItemModel extends AdminModel
         }
 
         // If the link has been set in the state, possibly changing link type.
-        if ($link = $this->getState('item.link')) {
-            // Check if we are changing away from the actual link type.
-            if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id === (int) $this->getState('item.id')) {
-                $table->link = $link;
-            }
+        // Check if we are changing away from the actual link type.
+        if (($link = $this->getState('item.link')) && (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id === (int) $this->getState('item.id'))) {
+            $table->link = $link;
         }
 
         switch ($table->type) {
@@ -699,13 +688,14 @@ class ItemModel extends AdminModel
                 if (isset($args['option'])) {
                     // Load the language file for the component.
                     $lang = Factory::getLanguage();
-                    $lang->load($args['option'], JPATH_ADMINISTRATOR)
-                        || $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option']);
+                    if (!$lang->load($args['option'], JPATH_ADMINISTRATOR)) {
+                        $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option']);
+                    }
 
                     // Determine the component id.
                     $component = ComponentHelper::getComponent($args['option']);
 
-                    if (isset($component->id)) {
+                    if ($component->id !== null) {
                         $table->component_id = $component->id;
                     }
                 }
@@ -1074,7 +1064,7 @@ class ItemModel extends AdminModel
             // Parse the link arguments.
             $args = [];
 
-            if ($link) {
+            if ($link !== '' && $link !== '0') {
                 parse_str(parse_url(htmlspecialchars_decode($link), PHP_URL_QUERY), $args);
             }
 
@@ -1178,7 +1168,7 @@ class ItemModel extends AdminModel
 
             $this->helpKey   = $helpKey ?: $this->helpKey;
             $this->helpURL   = $helpURL ?: $this->helpURL;
-            $this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local'));
+            $this->helpLocal = (($helpLoc === 'true') || ($helpLoc === '1') || ($helpLoc === 'local'));
         }
 
         if (!$form->loadFile($typeFile, true, false)) {
@@ -1428,7 +1418,7 @@ class ItemModel extends AdminModel
         }
 
         // Process the child rows
-        if (!empty($children)) {
+        if ($children !== []) {
             // Remove any duplicates and sanitize ids.
             $children = array_unique($children);
             $children = ArrayHelper::toInteger($children);
@@ -1709,7 +1699,7 @@ class ItemModel extends AdminModel
         $this->cleanCache();
 
         // Ensure that previous checks doesn't empty the array
-        if (empty($pks)) {
+        if ($pks === []) {
             return true;
         }
 

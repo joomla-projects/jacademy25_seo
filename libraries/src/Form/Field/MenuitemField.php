@@ -113,7 +113,7 @@ class MenuitemField extends GroupedlistField
             case 'published':
             case 'disable':
                 $value       = (string) $value;
-                $this->$name = $value ? explode(',', $value) : [];
+                $this->$name = $value !== '' && $value !== '0' ? explode(',', $value) : [];
                 break;
 
             default:
@@ -191,11 +191,7 @@ class MenuitemField extends GroupedlistField
                 $levelPrefix = str_repeat('- ', max(0, $link->level - 1));
 
                 // Displays language code if not set to All
-                if ($link->language !== '*') {
-                    $lang = ' (' . $link->language . ')';
-                } else {
-                    $lang = '';
-                }
+                $lang = $link->language !== '*' ? ' (' . $link->language . ')' : '';
 
                 $groups[$menuTitle][] = HTMLHelper::_(
                     'select.option',
@@ -218,11 +214,7 @@ class MenuitemField extends GroupedlistField
                     $levelPrefix = str_repeat('- ', max(0, $link->level - 1));
 
                     // Displays language code if not set to All
-                    if ($link->language !== '*') {
-                        $lang = ' (' . $link->language . ')';
-                    } else {
-                        $lang = '';
-                    }
+                    $lang = $link->language !== '*' ? ' (' . $link->language . ')' : '';
 
                     $groups[$menu->title][] = HTMLHelper::_(
                         'select.option',

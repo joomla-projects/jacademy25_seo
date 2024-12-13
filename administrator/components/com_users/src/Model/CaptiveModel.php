@@ -90,7 +90,7 @@ class CaptiveModel extends BaseDatabaseModel
         $records = MfaHelper::getUserMfaRecords($user->id);
 
         // No MFA Methods? Then we obviously don't need to display a Captive login page.
-        if (empty($records)) {
+        if ($records === []) {
             return [];
         }
 
@@ -136,7 +136,7 @@ class CaptiveModel extends BaseDatabaseModel
         $mfaMethods = MfaHelper::getMfaMethods();
 
         // If no MFA Method is active we can't really display a Captive login page.
-        if (empty($mfaMethods)) {
+        if ($mfaMethods === []) {
             $this->activeMFAMethodNames = [];
 
             return $this->activeMFAMethodNames;
@@ -209,7 +209,7 @@ class CaptiveModel extends BaseDatabaseModel
     {
         $renderOptions = new CaptiveRenderOptions();
 
-        if (empty($record)) {
+        if (!$record instanceof \Joomla\Component\Users\Administrator\Table\MfaTable) {
             return $renderOptions;
         }
 
@@ -279,14 +279,14 @@ class CaptiveModel extends BaseDatabaseModel
             $map        = [];
             $mfaMethods = MfaHelper::getMfaMethods();
 
-            if (!empty($mfaMethods)) {
+            if ($mfaMethods !== []) {
                 foreach ($mfaMethods as $mfaMethod) {
                     $map[$mfaMethod['name']] = $mfaMethod['display'];
                 }
             }
         }
 
-        if ($name == 'backupcodes') {
+        if ($name === 'backupcodes') {
             return Text::_('COM_USERS_USER_BACKUPCODES');
         }
 
@@ -309,14 +309,14 @@ class CaptiveModel extends BaseDatabaseModel
             $map        = [];
             $mfaMethods = MfaHelper::getMfaMethods();
 
-            if (!empty($mfaMethods)) {
+            if ($mfaMethods !== []) {
                 foreach ($mfaMethods as $mfaMethod) {
                     $map[$mfaMethod['name']] = $mfaMethod['image'];
                 }
             }
         }
 
-        if ($name == 'backupcodes') {
+        if ($name === 'backupcodes') {
             return 'media/com_users/images/emergency.svg';
         }
 
@@ -343,7 +343,7 @@ class CaptiveModel extends BaseDatabaseModel
     {
         $modules = $event->getModules();
 
-        if (empty($modules)) {
+        if ($modules === []) {
             return;
         }
 
@@ -365,7 +365,7 @@ class CaptiveModel extends BaseDatabaseModel
     {
         $allowedPositions = $this->getAllowedModulePositions();
 
-        if (empty($allowedPositions)) {
+        if ($allowedPositions === []) {
             $modules = [];
 
             return;

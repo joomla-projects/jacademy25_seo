@@ -188,36 +188,28 @@ abstract class JLoader
             $success = false;
             $parts   = explode('.', $key);
             $class   = array_pop($parts);
-            $base    = (!empty($base)) ? $base : __DIR__;
+            $base    = (empty($base)) ? __DIR__ : $base;
             $path    = str_replace('.', DIRECTORY_SEPARATOR, $key);
 
             // Handle special case for helper classes.
-            if ($class === 'helper') {
-                $class = ucfirst((string) array_pop($parts)) . ucfirst($class);
-            } else {
-                // Standard class.
-                $class = ucfirst($class);
-            }
+            $class = $class === 'helper' ? ucfirst((string) array_pop($parts)) . ucfirst($class) : ucfirst($class);
 
             // If we are importing a library from the Joomla namespace set the class to autoload.
             if (str_starts_with($path, 'joomla')) {
                 // Since we are in the Joomla namespace prepend the classname with J.
                 $class = 'J' . $class;
-
                 // Only register the class for autoloading if the file exists.
                 if (is_file($base . '/' . $path . '.php')) {
                     self::$classes[strtolower($class)] = $base . '/' . $path . '.php';
                     $success = true;
                 }
-            } else {
+            } elseif (is_file($base . '/' . $path . '.php')) {
                 /**
                  * If we are not importing a library from the Joomla namespace directly include the
                  * file since we cannot assert the file/folder naming conventions.
                  */
                 // If the file exists attempt to include it.
-                if (is_file($base . '/' . $path . '.php')) {
-                    $success = (bool) include_once $base . '/' . $path . '.php';
-                }
+                $success = (bool) include_once $base . '/' . $path . '.php';
             }
 
             // Add the import key to the memory cache container.
@@ -297,11 +289,9 @@ abstract class JLoader
         $class = strtolower($class);
 
         // Only attempt to register the class if the name and file exist.
-        if (!empty($class) && is_file($path)) {
-            // Register the class with the autoloader if not already registered or the force flag is set.
-            if ($force || empty(self::$classes[$class])) {
-                self::$classes[$class] = $path;
-            }
+        // Register the class with the autoloader if not already registered or the force flag is set.
+        if ($class !== '' && $class !== '0' && is_file($path) && ($force || empty(self::$classes[$class]))) {
+            self::$classes[$class] = $path;
         }
     }
 
@@ -335,13 +325,11 @@ abstract class JLoader
         // If the prefix is not yet registered or we have an explicit reset flag then set set the path.
         if ($reset || !isset(self::$prefixes[$prefix])) {
             self::$prefixes[$prefix] = [$path];
-        } else {
+        } elseif ($prepend) {
             // Otherwise we want to simply add the path to the prefix.
-            if ($prepend) {
-                array_unshift(self::$prefixes[$prefix], $path);
-            } else {
-                self::$prefixes[$prefix][] = $path;
-            }
+            array_unshift(self::$prefixes[$prefix], $path);
+        } else {
+            self::$prefixes[$prefix][] = $path;
         }
     }
 
@@ -413,13 +401,11 @@ abstract class JLoader
         // If the namespace is not yet registered or we have an explicit reset flag then set the path.
         if ($reset || !isset(self::$namespaces[$namespace])) {
             self::$namespaces[$namespace] = [$path];
-        } else {
+        } elseif ($prepend) {
             // Otherwise we want to simply add the path to the namespace.
-            if ($prepend) {
-                array_unshift(self::$namespaces[$namespace], $path);
-            } else {
-                self::$namespaces[$namespace][] = $path;
-            }
+            array_unshift(self::$namespaces[$namespace], $path);
+        } else {
+            self::$namespaces[$namespace][] = $path;
         }
     }
 

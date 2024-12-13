@@ -28,6 +28,10 @@ use Joomla\Component\Config\Site\Model\ModulesModel;
 class HtmlView extends BaseHtmlView
 {
     /**
+     * @var mixed[]
+     */
+    public $positions;
+    /**
      * The module to be rendered
      *
      * @var   array

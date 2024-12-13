@@ -133,7 +133,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
             ->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $model->logTask($data);
 
-        if (!(int) $task->get('params.notifications.failure_mail', 1)) {
+        if ((int) $task->get('params.notifications.failure_mail', 1) === 0) {
             return;
         }
 
@@ -160,7 +160,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         /** @var Task $task */
         $task = $event->getArgument('subject');
 
-        if (!(int) $task->get('params.notifications.orphan_mail', 1)) {
+        if ((int) $task->get('params.notifications.orphan_mail', 1) === 0) {
             return;
         }
 
@@ -193,7 +193,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
             ->getMVCFactory()->createModel('Logs', 'Administrator', ['ignore_request' => true]);
         $model->logTask($data);
 
-        if (!(int) $task->get('params.notifications.success_mail', 0)) {
+        if ((int) $task->get('params.notifications.success_mail', 0) === 0) {
             return;
         }
 
@@ -240,7 +240,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         /** @var Task $task */
         $task = $event->getArgument('subject');
 
-        if (!(int) $task->get('params.notifications.fatal_failure_mail', 1)) {
+        if ((int) $task->get('params.notifications.fatal_failure_mail', 1) === 0) {
             return;
         }
 
@@ -321,7 +321,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
                     $mailer->addRecipient($user->email);
 
                     if (
-                        !empty($attachment)
+                        $attachment !== '' && $attachment !== '0'
                         && is_file($attachment)
                     ) {
                         // @todo we allow multiple files [?]

@@ -28,6 +28,15 @@ use Joomla\CMS\Router\Route;
 class CategoryView extends HtmlView
 {
     /**
+     * @var string
+     */
+    public $pageclass_sfx;
+    public $maxLevel;
+    public $parent;
+    public $user;
+    public $pathway;
+    public $menu;
+    /**
      * State data
      *
      * @var    \Joomla\Registry\Registry
@@ -169,7 +178,7 @@ class CategoryView extends HtmlView
         $pagination = $this->get('Pagination');
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors')) > 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -191,7 +200,7 @@ class CategoryView extends HtmlView
                 $itemElement->event = new \stdClass();
 
                 // For some plugins.
-                !empty($itemElement->description) ? $itemElement->text = $itemElement->description : $itemElement->text = '';
+                empty($itemElement->description) ? $itemElement->text = '' : $itemElement->text = $itemElement->description;
 
                 Factory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', $itemElement, $itemElement->params, 0]);
 

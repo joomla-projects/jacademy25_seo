@@ -51,16 +51,16 @@ class CategoryField extends ListField
         $language  = (string) $this->element['language'];
 
         // Load the category options for a given extension.
-        if (!empty($extension)) {
+        if ($extension !== '' && $extension !== '0') {
             // Filter over published state or not depending upon if it is present.
             $filters = [];
 
-            if ($published) {
+            if ($published !== '' && $published !== '0') {
                 $filters['filter.published'] = explode(',', $published);
             }
 
             // Filter over language depending upon if it is present.
-            if ($language) {
+            if ($language !== '' && $language !== '0') {
                 $filters['filter.language'] = explode(',', $language);
             }
 
@@ -71,7 +71,7 @@ class CategoryField extends ListField
             }
 
             // Verify permissions.  If the action attribute is set, then we scan the options.
-            if ((string) $this->element['action']) {
+            if ((string) $this->element['action'] !== '' && (string) $this->element['action'] !== '0') {
                 // Get the current user object.
                 $user = $this->getCurrentUser();
 

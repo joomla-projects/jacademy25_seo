@@ -94,7 +94,7 @@ class ModulesController extends ApiController
                 ['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
             );
         } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage());
+            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
         }
 
         /** @var SelectModel $model */

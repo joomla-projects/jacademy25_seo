@@ -103,7 +103,7 @@ class TemplateController extends BaseController
         $task   = $this->getTask();
         $value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
-        if (empty($ids)) {
+        if ($ids === []) {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_NO_FILE_SELECTED'), 'warning');
         } else {
             /* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
@@ -427,11 +427,11 @@ class TemplateController extends BaseController
             return;
         }
 
-        if (base64_decode(urldecode($file)) == '/index.php') {
+        if (base64_decode(urldecode($file)) === '/index.php') {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_INDEX_DELETE'), 'warning');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
-        } elseif (base64_decode(urldecode($file)) == '/joomla.asset.json') {
+        } elseif (base64_decode(urldecode($file)) === '/joomla.asset.json') {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_ASSET_FILE_DELETE'), 'warning');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
@@ -480,7 +480,7 @@ class TemplateController extends BaseController
             return;
         }
 
-        if ($type == 'null') {
+        if ($type === 'null') {
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_TYPE'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
@@ -623,7 +623,7 @@ class TemplateController extends BaseController
             return;
         }
 
-        if (empty($location)) {
+        if ($location === '' || $location === '0') {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_ROOT_DELETE'), 'warning');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $isMedia;
             $this->setRedirect(Route::_($url, false));
@@ -669,11 +669,11 @@ class TemplateController extends BaseController
             return;
         }
 
-        if (base64_decode(urldecode($file)) == '/index.php') {
+        if (base64_decode(urldecode($file)) === '/index.php') {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_RENAME_INDEX'), 'warning');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $isMedia;
             $this->setRedirect(Route::_($url, false));
-        } elseif (base64_decode(urldecode($file)) == '/joomla.asset.json') {
+        } elseif (base64_decode(urldecode($file)) === '/joomla.asset.json') {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_RENAME_ASSET_FILE'), 'warning');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $isMedia;
             $this->setRedirect(Route::_($url, false));
@@ -932,7 +932,7 @@ class TemplateController extends BaseController
         $model->setState('to_path', $this->app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 
         // Process only if we have a new name entered
-        if (!\strlen((string) $newName)) {
+        if ((string) (string) $newName === '') {
             $this->setMessage(Text::sprintf('COM_TEMPLATES_ERROR_INVALID_TEMPLATE_NAME'), 'error');
 
             return false;
@@ -992,7 +992,7 @@ class TemplateController extends BaseController
         $this->setMessage(Text::sprintf('COM_TEMPLATES_CHILD_SUCCESS', $newName));
         $model->cleanup();
 
-        if (\count($extraStyles) > 0) {
+        if ($extraStyles !== []) {
             $model->setState('stylesToCopy', $extraStyles);
             $model->copyStyles();
         }

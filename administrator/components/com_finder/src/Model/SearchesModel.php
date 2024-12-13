@@ -140,11 +140,7 @@ class SearchesModel extends ListModel
         $items = parent::getItems();
 
         foreach ($items as $item) {
-            if (\is_resource($item->query)) {
-                $item->query = unserialize(stream_get_contents($item->query));
-            } else {
-                $item->query = unserialize($item->query);
-            }
+            $item->query = \is_resource($item->query) ? unserialize(stream_get_contents($item->query)) : unserialize($item->query);
         }
 
         return $items;

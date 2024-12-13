@@ -175,12 +175,7 @@ class Mcrypt extends AbstractAES implements AesInterface
         }
 
         $algorigthms = hash_algos();
-
-        if (!\in_array('sha256', $algorigthms)) {
-            return false;
-        }
-
-        return true;
+        return \in_array('sha256', $algorigthms);
     }
 
     /**

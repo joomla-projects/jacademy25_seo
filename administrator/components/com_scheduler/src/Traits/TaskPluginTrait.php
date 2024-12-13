@@ -133,7 +133,7 @@ trait TaskPluginTrait
         $enhancementFormName = self::TASKS_MAP[$routineId]['form'] ?? '';
 
         // Return if routine is not supported by the plugin or the routine does not have a form linked in TASKS_MAP.
-        if (!$isSupported || \strlen((string) $enhancementFormName) === 0) {
+        if (!$isSupported || (string) $enhancementFormName === '') {
             return true;
         }
 
@@ -272,12 +272,12 @@ trait TaskPluginTrait
         $exitCode   = Status::NO_EXIT;
 
         // We call the mapped method if it exists and confirms to the ($event) -> int signature.
-        if (!empty($methodName) && ($staticReflection = new \ReflectionClass($this))->hasMethod($methodName)) {
+        if ($methodName !== '' && $methodName !== '0' && ($staticReflection = new \ReflectionClass($this))->hasMethod($methodName)) {
             $method = $staticReflection->getMethod($methodName);
 
             // Might need adjustments here for PHP8 named parameters.
             if (
-                !($method->getNumberOfRequiredParameters() === 1)
+                $method->getNumberOfRequiredParameters() !== 1
                 || !$method->getParameters()[0]->hasType()
                 || $method->getParameters()[0]->getType()->getName() !== ExecuteTaskEvent::class
                 || !$method->hasReturnType()

@@ -50,7 +50,7 @@ class TaskController extends FormController
         $taskType   = $input->get('type');
         $taskOption = $validTaskOptions->findOption($taskType) ?: null;
 
-        if (!$taskOption) {
+        if (!$taskOption instanceof \Joomla\Component\Scheduler\Administrator\Task\TaskOption) {
             // ? : Is this the right redirect [review]
             $redirectUrl = 'index.php?option=' . $this->option . '&view=select&layout=edit';
             $this->setRedirect(Route::_($redirectUrl, false));

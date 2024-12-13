@@ -58,7 +58,7 @@ class BeforeStoreEvent extends AbstractEvent
      */
     protected function setUpdateNulls($value)
     {
-        return $value ? true : false;
+        return (bool) $value;
     }
 
     /**

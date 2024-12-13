@@ -68,7 +68,7 @@ class ComponentController extends ApiController
                 ['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
             );
         } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage());
+            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
         }
 
         /** @var ComponentModel $model */
@@ -131,11 +131,7 @@ class ComponentController extends ApiController
             $messages = [];
 
             for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
-                if ($errors[$i] instanceof \Exception) {
-                    $messages[] = "{$errors[$i]->getMessage()}";
-                } else {
-                    $messages[] = "{$errors[$i]}";
-                }
+                $messages[] = $errors[$i] instanceof \Exception ? "{$errors[$i]->getMessage()}" : "{$errors[$i]}";
             }
 
             throw new InvalidParameterException(implode("\n", $messages));

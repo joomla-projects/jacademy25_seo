@@ -237,7 +237,7 @@ $popupOptionsAdd = [
                                                 <?php endforeach; ?>
                                             </div>
                                          </div>
-                                    <?php elseif ($modMenuId) : ?>
+                                    <?php elseif ($modMenuId !== 0) : ?>
                                         <?php $popupOptionsAdd['src'] = Route::_('index.php?option=com_modules&task=module.add&tmpl=component&layout=modal&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype, false); ?>
                                         <button type="button" class="btn btn-sm btn-primary"
                                             data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptionsAdd, JSON_UNESCAPED_SLASHES)) ?>"

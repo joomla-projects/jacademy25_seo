@@ -106,6 +106,7 @@ class FilesystemHelper
 
             return $ftpsize;
         }
+        return null;
     }
 
     /**

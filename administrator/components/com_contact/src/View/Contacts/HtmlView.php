@@ -105,26 +105,21 @@ class HtmlView extends BaseHtmlView
         // We don't need toolbar in the modal window.
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();
-
             // We do not need to filter by language when multilingual is disabled
             if (!Multilanguage::isEnabled()) {
                 unset($this->activeFilters['language']);
                 $this->filterForm->removeField('language', 'filter');
             }
-        } else {
+        } elseif ($forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
             // In article associations modal we need to remove language filter if forcing a language.
             // We also need to change the category filter to show show categories with All or the forced language.
-            if ($forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
-                // If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
-                $languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
-                $this->filterForm->setField($languageXml, 'filter', true);
-
-                // Also, unset the active language filter so the search tools is not open by default with this filter.
-                unset($this->activeFilters['language']);
-
-                // One last changes needed is to change the category filter to just show categories with All language or with the forced language.
-                $this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
-            }
+            // If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
+            $languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
+            $this->filterForm->setField($languageXml, 'filter', true);
+            // Also, unset the active language filter so the search tools is not open by default with this filter.
+            unset($this->activeFilters['language']);
+            // One last changes needed is to change the category filter to just show categories with All language or with the forced language.
+            $this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
         }
 
         parent::display($tpl);

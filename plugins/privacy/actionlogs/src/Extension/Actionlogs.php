@@ -55,7 +55,7 @@ final class Actionlogs extends PrivacyPlugin implements SubscriberInterface
         $user = $event->getUser();
 
         // RequestTable $request, User $user = null
-        if (!$user) {
+        if (!$user instanceof \Joomla\CMS\User\User) {
             return;
         }
 
@@ -74,7 +74,7 @@ final class Actionlogs extends PrivacyPlugin implements SubscriberInterface
 
         $data = $db->loadObjectList();
 
-        if (!\count($data)) {
+        if (\count($data) === 0) {
             return;
         }
 

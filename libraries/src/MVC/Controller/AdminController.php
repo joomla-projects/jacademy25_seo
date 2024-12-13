@@ -114,7 +114,7 @@ class AdminController extends BaseController
 
             $r = [0 => '', 1 => '', 2 => $reflect->getShortName()];
 
-            if ($reflect->getNamespaceName()) {
+            if ($reflect->getNamespaceName() !== '' && $reflect->getNamespaceName() !== '0') {
                 $r[2] = str_replace('Controller', '', $r[2]);
             } elseif (!preg_match('/(.*)Controller(.*)/i', $reflect->getShortName(), $r)) {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
@@ -142,7 +142,7 @@ class AdminController extends BaseController
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
 
-        if (empty($cid)) {
+        if ($cid === []) {
             $this->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), ['category' => 'jerror']);
         } else {
             // Get the model.
@@ -204,7 +204,7 @@ class AdminController extends BaseController
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
 
-        if (empty($cid)) {
+        if ($cid === []) {
             $this->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), ['category' => 'jerror']);
         } else {
             // Get the model.
@@ -233,7 +233,7 @@ class AdminController extends BaseController
                     $ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
                 }
 
-                if (\count($cid)) {
+                if ($cid !== []) {
                     $this->setMessage(Text::plural($ntext, \count($cid)));
                 }
             } catch (\Exception $e) {
@@ -439,7 +439,7 @@ class AdminController extends BaseController
         // Remove zero values resulting from input filter
         $pks = array_filter($pks);
 
-        if (!\count($pks)) {
+        if ($pks === []) {
             return false;
         }
 

@@ -42,11 +42,11 @@ class RegexRule extends FormRule
      */
     public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
-        if ((string) $element['validate_regex']) {
+        if ((string) $element['validate_regex'] !== '' && (string) $element['validate_regex'] !== '0') {
             $this->regex = (string) $element['validate_regex'];
         }
 
-        if ((string) $element['validate_modifier']) {
+        if ((string) $element['validate_modifier'] !== '' && (string) $element['validate_modifier'] !== '0') {
             $this->modifiers = (string) $element['validate_modifier'];
         }
 

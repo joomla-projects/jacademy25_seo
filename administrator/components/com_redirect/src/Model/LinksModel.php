@@ -248,11 +248,7 @@ class LinksModel extends ListModel
             $old_url = $batch_url[0];
 
             // Destination URL can also be an external URL
-            if (!empty($batch_url[1])) {
-                $new_url = $batch_url[1];
-            } else {
-                $new_url = '';
-            }
+            $new_url = empty($batch_url[1]) ? '' : $batch_url[1];
 
             $db->execute();
         }

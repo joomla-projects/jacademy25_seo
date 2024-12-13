@@ -666,7 +666,7 @@ abstract class Bootstrap
         $opt           = [];
         $opt['parent'] = isset($options['parent']) ?
             ($options['parent'] == true ? '#' . preg_replace('/^[\.#]/', '', $selector) : $options['parent']) : '';
-        $opt['toggle'] = isset($options['toggle']) ? (bool) $options['toggle'] : !($opt['parent'] === false || isset($options['active']));
+        $opt['toggle'] = isset($options['toggle']) ? (bool) $options['toggle'] : $opt['parent'] !== false && !isset($options['active']);
         $opt['active'] = (string) ($options['active'] ?? '');
 
         // Initialise with the Joomla specifics
@@ -709,7 +709,7 @@ abstract class Bootstrap
         $collapsed = static::$loaded[self::class . '::startAccordion'][$selector]['active'] === $id ? '' : ' collapsed';
         $parent    = static::$loaded[self::class . '::startAccordion'][$selector]['parent'] ?
             'data-bs-parent="' . static::$loaded[self::class . '::startAccordion'][$selector]['parent'] . '"' : '';
-        $class        = (!empty($class)) ? ' ' . $class : '';
+        $class        = (empty($class)) ? '' : ' ' . $class;
         $ariaExpanded = $in === 'show';
 
         return <<<HTMLSTR

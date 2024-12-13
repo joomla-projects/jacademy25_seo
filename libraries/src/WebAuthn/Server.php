@@ -105,7 +105,7 @@ final class Server
      * @var string[]
      * @since 5.0.0
      */
-    private array $selectedAlgorithms;
+    private array $selectedAlgorithms = ['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512', 'Ed25519'];
 
     /**
      * Constructor
@@ -146,8 +146,6 @@ final class Server
         $this->coseAlgorithmManagerFactory->add('ES384', new ECDSA\ES384());
         $this->coseAlgorithmManagerFactory->add('ES512', new ECDSA\ES512());
         $this->coseAlgorithmManagerFactory->add('Ed25519', new EdDSA\Ed25519());
-
-        $this->selectedAlgorithms                  = ['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512', 'Ed25519'];
         $this->tokenBindingHandler                 = new IgnoreTokenBindingHandler();
         $this->extensionOutputCheckerHandler       = new ExtensionOutputCheckerHandler();
     }
@@ -311,7 +309,7 @@ final class Server
          *
          * BTW, the documentation of the library is wrong...
          */
-        if (!empty($this->metadataStatementRepository)) {
+        if ($this->metadataStatementRepository instanceof \Webauthn\MetadataService\MetadataStatementRepository) {
             $refObj  = new \ReflectionObject($authenticatorAttestationResponseValidator);
             $refProp = $refObj->getProperty('metadataStatementRepository');
             $refProp->setAccessible(true);

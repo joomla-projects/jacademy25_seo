@@ -67,7 +67,7 @@ final class Module extends CMSPlugin implements SubscriberInterface
      *
      * @param   string  $name  The name of the button to add
      *
-     * @return  Button|void  The button options as Button object
+     * @return Button|null The button options as Button object
      *
      * @since   3.5
      *
@@ -105,5 +105,6 @@ final class Module extends CMSPlugin implements SubscriberInterface
 
             return $button;
         }
+        return null;
     }
 }

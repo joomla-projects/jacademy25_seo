@@ -85,7 +85,7 @@ foreach ($rulesetLines as $line => $text) {
 
 echo "... done." . PHP_EOL;
 
-if (!\count($obsoleteLineIdxs)) {
+if ($obsoleteLineIdxs === []) {
     echo "No obsolete lines found." . PHP_EOL;
 
     exit(0);

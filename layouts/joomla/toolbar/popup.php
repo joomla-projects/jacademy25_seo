@@ -60,8 +60,8 @@ if (!empty($popupType)) {
     $modalAttrs['data-bs-target'] = '#' . $selector;
 }
 
-$idAttr   = !empty($id)        ? ' id="' . $id . '"' : '';
-$listAttr = !empty($listCheck) ? ' list-selection' : '';
+$idAttr   = empty($id)        ? '' : ' id="' . $id . '"';
+$listAttr = empty($listCheck) ? '' : ' list-selection';
 
 ?>
 <joomla-toolbar-button <?php echo $idAttr . $listAttr; ?>>

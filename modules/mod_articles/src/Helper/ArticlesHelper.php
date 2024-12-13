@@ -110,17 +110,17 @@ class ArticlesHelper implements DatabaseAwareInterface
                                 }
                             } else {
                                 // Return right away if show_on_article_page option is off
-                                return;
+                                return null;
                             }
                             break;
 
                         default:
                             // Return right away if not on the category or article views
-                            return;
+                            return null;
                     }
                 } else {
                     // Return right away if not on a com_content page
-                    return;
+                    return null;
                 }
 
                 break;
@@ -251,13 +251,13 @@ class ArticlesHelper implements DatabaseAwareInterface
         if (
             $ex_or_include_articles === 1
             && $isArticleAndShouldExcluded
-            && empty($articlesList)
+            && $articlesList === []
         ) {
             $filterInclude  = false;
             $articlesList[] = $currentArticleId;
         }
 
-        if (!empty($articlesList)) {
+        if ($articlesList !== []) {
             $articles->setState('filter.article_id', $articlesList);
             $articles->setState('filter.article_id.include', $filterInclude);
         }
@@ -292,11 +292,7 @@ class ArticlesHelper implements DatabaseAwareInterface
         $option = $input->get('option');
         $view   = $input->get('view');
 
-        if ($option === 'com_content' && $view === 'article') {
-            $active_article_id = $input->getInt('id');
-        } else {
-            $active_article_id = 0;
-        }
+        $active_article_id = $option === 'com_content' && $view === 'article' ? $input->getInt('id') : 0;
 
         // Prepare data for display using display options
         foreach ($items as &$item) {
@@ -470,11 +466,7 @@ class ArticlesHelper implements DatabaseAwareInterface
                 $grouped[$item->$fieldName] = [];
             }
 
-            if ($fieldNameToKeep === null) {
-                $grouped[$item->$fieldName][$key] = $item;
-            } else {
-                $grouped[$item->$fieldName][$key] = $item->$fieldNameToKeep;
-            }
+            $grouped[$item->$fieldName][$key] = $fieldNameToKeep === null ? $item : $item->$fieldNameToKeep;
 
             unset($list[$key]);
         }
@@ -581,7 +573,7 @@ class ArticlesHelper implements DatabaseAwareInterface
 
         $direction($grouped);
 
-        if ($untagged) {
+        if ($untagged !== []) {
             $grouped['MOD_ARTICLES_UNTAGGED'] = $untagged;
         }
 

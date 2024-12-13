@@ -94,7 +94,7 @@ class UpdateModel extends BaseDatabaseModel
             case 'custom':
                 // "Custom"
                 // @todo: check if the customurl is valid and not just "not empty".
-                if (trim((string) $params->get('customurl', '')) != '') {
+                if (trim((string) $params->get('customurl', '')) !== '') {
                     $updateURL = trim((string) $params->get('customurl', ''));
                 } else {
                     Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
@@ -436,7 +436,7 @@ class UpdateModel extends BaseDatabaseModel
             // Is it a 0-byte file? If so, re-download please.
             $filesize = @filesize($target);
 
-            if (empty($filesize)) {
+            if ($filesize === 0 || $filesize === false) {
                 $mirror = 0;
 
                 while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror])) {
@@ -859,7 +859,7 @@ ENDDATA;
             return false;
         }
 
-        if ($msg) {
+        if ($msg !== '' && $msg !== '0') {
             $installer->set('extension_message', $msg);
         }
 
@@ -1023,7 +1023,7 @@ ENDDATA;
         $username = $credentials['username'] ?? null;
         $user     = $this->getCurrentUser();
 
-        if (strtolower($user->username) != strtolower((string) $username)) {
+        if (strtolower($user->username) !== strtolower((string) $username)) {
             return false;
         }
 
@@ -1035,12 +1035,7 @@ ENDDATA;
         // Get the global Authentication object.
         $authenticate = Authentication::getInstance();
         $response     = $authenticate->authenticate($credentials);
-
-        if ($response->status !== Authentication::STATUS_SUCCESS) {
-            return false;
-        }
-
-        return true;
+        return $response->status === Authentication::STATUS_SUCCESS;
     }
 
     /**
@@ -1053,12 +1048,7 @@ ENDDATA;
     public function captiveFileExists()
     {
         $file = Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
-
-        if (empty($file) || !is_file($file)) {
-            return false;
-        }
-
-        return true;
+        return !empty($file) && is_file($file);
     }
 
     /**
@@ -1317,7 +1307,7 @@ ENDDATA;
     {
         $disabledFunctions = \ini_get('disable_functions');
 
-        if (!empty($disabledFunctions)) {
+        if (!($disabledFunctions === '' || $disabledFunctions === '0' || $disabledFunctions === false)) {
             // Attempt to detect them in the PHP INI disable_functions variable.
             $disabledFunctions         = explode(',', trim($disabledFunctions));
 
@@ -1375,14 +1365,9 @@ ENDDATA;
         if ($changeInformation['errorsCount'] !== 0) {
             return false;
         }
-
         // Check if database schema version does not match CMS version
-        if ($model->getSchemaVersion($coreExtensionInfo->extension_id) != $changeInformation['schema']) {
-            return false;
-        }
-
         // No database problems found
-        return true;
+        return $model->getSchemaVersion($coreExtensionInfo->extension_id) == $changeInformation['schema'];
     }
 
     /**
@@ -1710,10 +1695,12 @@ ENDDATA;
                 $source    = $path . '/templates/' . $item->element;
         }
 
-        $lang->load("$extension.sys", JPATH_ADMINISTRATOR)
-            || $lang->load("$extension.sys", $source);
-        $lang->load($extension, JPATH_ADMINISTRATOR)
-            || $lang->load($extension, $source);
+        if (!$lang->load("$extension.sys", JPATH_ADMINISTRATOR)) {
+            $lang->load("$extension.sys", $source);
+        }
+        if (!$lang->load($extension, JPATH_ADMINISTRATOR)) {
+            $lang->load($extension, $source);
+        }
 
         // Translate the extension name if possible
         $item->name = strip_tags(Text::_($item->name));
@@ -1913,7 +1900,7 @@ ENDDATA;
             // Look for installation/index.php
             while (($pos = strpos($fileChunk, 'installation/index.php', $offset)) !== false) {
                 // Check if entry is a central directory file header and the file name is exactly 22 bytes long
-                if (substr($fileChunk, $pos - 46, 4) == $headerSignature && substr($fileChunk, $pos - 18, 2) == $sizeSignatureIndexPhp) {
+                if (substr($fileChunk, $pos - 46, 4) === $headerSignature && substr($fileChunk, $pos - 18, 2) === $sizeSignatureIndexPhp) {
                     @fclose($fp);
 
                     throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_INSTALL_PACKAGE', $packageName), 500);
@@ -1927,7 +1914,7 @@ ENDDATA;
             // Look for administrator/manifests/files/joomla.xml if not found yet
             while ($headerInfo === false && ($pos = strpos($fileChunk, 'administrator/manifests/files/joomla.xml', $offset)) !== false) {
                 // Check if entry is inside a ZIP central directory header and the file name is exactly 40 bytes long
-                if (substr($fileChunk, $pos - 46, 4) == $headerSignature && substr($fileChunk, $pos - 18, 2) == $sizeSignatureJoomlaXml) {
+                if (substr($fileChunk, $pos - 46, 4) === $headerSignature && substr($fileChunk, $pos - 18, 2) === $sizeSignatureJoomlaXml) {
                     $headerInfo = unpack('VOffset', substr($fileChunk, $pos - 4, 4));
 
                     break;
@@ -2028,7 +2015,7 @@ ENDDATA;
 
         $versionPackage = (string) $manifestXml->version ?: '';
 
-        if (!$versionPackage) {
+        if ($versionPackage === '' || $versionPackage === '0') {
             throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_VERSION_FOUND', $packageName), 500);
         }
 

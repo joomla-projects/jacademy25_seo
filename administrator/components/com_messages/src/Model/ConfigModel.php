@@ -129,7 +129,7 @@ class ConfigModel extends FormModel
     {
         $db = $this->getDatabase();
 
-        if ($userId = (int) $this->getState('user.id')) {
+        if ($userId = (int) $this->getState('user.id') !== 0) {
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__messages_cfg'))
                 ->where($db->quoteName('user_id') . ' = :userid')

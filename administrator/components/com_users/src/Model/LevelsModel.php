@@ -150,7 +150,7 @@ class LevelsModel extends ListModel
     public function reorder($pk, $direction = 0)
     {
         // Sanitize the id and adjustment.
-        $pk   = (!empty($pk)) ? $pk : (int) $this->getState('level.id');
+        $pk   = (empty($pk)) ? (int) $this->getState('level.id') : $pk;
         $user = $this->getCurrentUser();
 
         // Get an instance of the record's table.

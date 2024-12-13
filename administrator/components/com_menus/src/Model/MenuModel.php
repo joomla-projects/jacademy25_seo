@@ -127,7 +127,7 @@ class MenuModel extends AdminModel
      */
     public function getItem($itemId = null)
     {
-        $itemId = (!empty($itemId)) ? $itemId : (int) $this->getState('menu.id');
+        $itemId = (empty($itemId)) ? (int) $this->getState('menu.id') : $itemId;
 
         // Get a menu item row instance.
         $table = $this->getTable();
@@ -216,10 +216,8 @@ class MenuModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
-        if (!$this->getCurrentUser()->authorise('core.admin', 'com_menus')) {
-            if (isset($data['rules'])) {
-                unset($data['rules']);
-            }
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_menus') && isset($data['rules'])) {
+            unset($data['rules']);
         }
 
         return parent::validate($form, $data, $group);
@@ -236,7 +234,7 @@ class MenuModel extends AdminModel
      */
     public function save($data)
     {
-        $id         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('menu.id');
+        $id         = (empty($data['id'])) ? (int) $this->getState('menu.id') : $data['id'];
         $isNew      = true;
 
         // Get a row instance.

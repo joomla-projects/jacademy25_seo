@@ -81,22 +81,18 @@ final class Testing extends CMSPlugin
     /**
      * First step to enter the sampledata. Tags
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @return mixed[]|null Will be converted into the JSON response to the module.
      *
      * @since  3.8.0
      */
     public function onAjaxSampledataApplyStep1()
     {
         if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
-            return;
+            return null;
         }
 
         if (!ComponentHelper::isEnabled('com_tags')) {
-            $response            = [];
-            $response['success'] = true;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 1, 'com_tags');
-
-            return $response;
+            return ['success' => true, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 1, 'com_tags')];
         }
 
         /** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
@@ -126,11 +122,7 @@ final class Testing extends CMSPlugin
                     throw new \Exception($this->getApplication()->getLanguage()->_($model->getError()));
                 }
             } catch (\Exception $e) {
-                $response            = [];
-                $response['success'] = false;
-                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 1, $e->getMessage());
-
-                return $response;
+                return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 1, $e->getMessage())];
             }
 
             $tagIds[] = $model->getState('tag.id');
@@ -156,11 +148,7 @@ final class Testing extends CMSPlugin
                 throw new \Exception($this->getApplication()->getLanguage()->_($model->getError()));
             }
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 1, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 1, $e->getMessage())];
         }
 
         $tagIds[] = $model->getState('tag.id');
@@ -178,22 +166,18 @@ final class Testing extends CMSPlugin
     /**
      * Second step to enter the sampledata. Banners
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @return mixed[]|null Will be converted into the JSON response to the module.
      *
      * @since  3.8.0
      */
     public function onAjaxSampledataApplyStep2()
     {
         if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
-            return;
+            return null;
         }
 
         if (!ComponentHelper::isEnabled('com_banners')) {
-            $response            = [];
-            $response['success'] = true;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 2, 'com_banners');
-
-            return $response;
+            return ['success' => true, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 2, 'com_banners')];
         }
 
         $factory = $this->getApplication()->bootComponent('com_banners')->getMVCFactory();
@@ -216,11 +200,7 @@ final class Testing extends CMSPlugin
         try {
             $catIds = $this->addCategories($categories, 'com_banners', 1);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 2, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 2, $e->getMessage())];
         }
 
         $this->getApplication()->setUserState('sampledata.testing.banners.catids', $catIds);
@@ -265,11 +245,7 @@ final class Testing extends CMSPlugin
                     throw new \Exception($this->getApplication()->getLanguage()->_($clientModel->getError()));
                 }
             } catch (\Exception $e) {
-                $response            = [];
-                $response['success'] = false;
-                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 2, $e->getMessage());
-
-                return $response;
+                return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 2, $e->getMessage())];
             }
 
             $clientIds[] = $clientModel->getState('banner.id');
@@ -324,11 +300,7 @@ final class Testing extends CMSPlugin
                     throw new \Exception($this->getApplication()->getLanguage()->_($bannerModel->getError()));
                 }
             } catch (\Exception $e) {
-                $response            = [];
-                $response['success'] = false;
-                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 2, $e->getMessage());
-
-                return $response;
+                return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 2, $e->getMessage())];
             }
         }
 
@@ -342,22 +314,18 @@ final class Testing extends CMSPlugin
     /**
      * Third step to enter the sampledata. Content 1/2
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @return mixed[]|null Will be converted into the JSON response to the module.
      *
      * @since  3.8.0
      */
     public function onAjaxSampledataApplyStep3()
     {
         if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
-            return;
+            return null;
         }
 
         if (!ComponentHelper::isEnabled('com_content')) {
-            $response            = [];
-            $response['success'] = true;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 3, 'com_content');
-
-            return $response;
+            return ['success' => true, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 3, 'com_content')];
         }
 
         // Insert first level of categories.
@@ -370,11 +338,7 @@ final class Testing extends CMSPlugin
         try {
             $catIdsLevel1 = $this->addCategories($categories, 'com_content', 1);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage())];
         }
 
         // Insert second level of categories.
@@ -396,11 +360,7 @@ final class Testing extends CMSPlugin
         try {
             $catIdsLevel2 = $this->addCategories($categories, 'com_content', 2);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage())];
         }
 
         // Insert third level of categories.
@@ -437,11 +397,7 @@ final class Testing extends CMSPlugin
         try {
             $catIdsLevel3 = $this->addCategories($categories, 'com_content', 3);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage())];
         }
 
         // Insert fourth level of categories.
@@ -485,11 +441,7 @@ final class Testing extends CMSPlugin
         try {
             $catIdsLevel4 = $this->addCategories($categories, 'com_content', 4);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage())];
         }
 
         // Insert fifth level of categories.
@@ -538,11 +490,7 @@ final class Testing extends CMSPlugin
         try {
             $catIdsLevel5 = $this->addCategories($categories, 'com_content', 5);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage())];
         }
 
         $this->getApplication()->setUserState('sampledata.testing.articles.catids1', $catIdsLevel1);
@@ -561,22 +509,18 @@ final class Testing extends CMSPlugin
     /**
      * Fourth step to enter the sampledata. Content 2/2
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @return mixed[]|null Will be converted into the JSON response to the module.
      *
      * @since  4.0.0
      */
     public function onAjaxSampledataApplyStep4()
     {
         if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
-            return;
+            return null;
         }
 
         if (!ComponentHelper::isEnabled('com_content')) {
-            $response            = [];
-            $response['success'] = true;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 4, 'com_content');
-
-            return $response;
+            return ['success' => true, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 4, 'com_content')];
         }
 
         ComponentHelper::getParams('com_content')->set('workflow_enabled', 0);
@@ -963,11 +907,7 @@ final class Testing extends CMSPlugin
         try {
             $ids = $this->addArticles($articles);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 4, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 4, $e->getMessage())];
         }
 
         $articleNamespace = (array) $this->getApplication()->getUserState('sampledata.testing.articles');
@@ -983,22 +923,18 @@ final class Testing extends CMSPlugin
     /**
      * Fifth step to enter the sampledata. Contacts
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @return mixed[]|null Will be converted into the JSON response to the module.
      *
      * @since  3.8.0
      */
     public function onAjaxSampledataApplyStep5()
     {
         if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
-            return;
+            return null;
         }
 
         if (!ComponentHelper::isEnabled('com_contact')) {
-            $response            = [];
-            $response['success'] = true;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 5, 'com_contact');
-
-            return $response;
+            return ['success' => true, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 5, 'com_contact')];
         }
 
         $model  = $this->getApplication()->bootComponent('com_contact')->getMVCFactory()->createModel('Contact', 'Administrator', ['ignore_request' => true]);
@@ -1015,11 +951,7 @@ final class Testing extends CMSPlugin
         try {
             $catIdsLevel1 = $this->addCategories($categories, 'com_contact', 1);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage())];
         }
 
         // Insert second level of categories.
@@ -1036,11 +968,7 @@ final class Testing extends CMSPlugin
         try {
             $catIdsLevel2 = $this->addCategories($categories, 'com_contact', 2);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage())];
         }
 
         // Insert third level of categories.
@@ -1059,11 +987,7 @@ final class Testing extends CMSPlugin
         try {
             $catIdsLevel3 = $this->addCategories($categories, 'com_contact', 3);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage())];
         }
 
         // Insert fourth level of categories.
@@ -1080,11 +1004,7 @@ final class Testing extends CMSPlugin
         try {
             $catIdsLevel4 = $this->addCategories($categories, 'com_contact', 4);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage())];
         }
 
         $contacts   = [
@@ -1282,11 +1202,7 @@ final class Testing extends CMSPlugin
                     throw new \Exception($this->getApplication()->getLanguage()->_($model->getError()));
                 }
             } catch (\Exception $e) {
-                $response            = [];
-                $response['success'] = false;
-                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
-
-                return $response;
+                return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage())];
             }
 
             // Get ID from category we just added
@@ -1310,22 +1226,18 @@ final class Testing extends CMSPlugin
     /**
      * Sixth step to enter the sampledata. Newsfeed.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @return mixed[]|null Will be converted into the JSON response to the module.
      *
      * @since  3.8.0
      */
     public function onAjaxSampledataApplyStep6()
     {
         if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
-            return;
+            return null;
         }
 
         if (!ComponentHelper::isEnabled('com_newsfeeds')) {
-            $response            = [];
-            $response['success'] = true;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 6, 'com_newsfeed');
-
-            return $response;
+            return ['success' => true, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 6, 'com_newsfeed')];
         }
 
         /** @var \Joomla\Component\Newsfeeds\Administrator\Model\NewsfeedModel $model */
@@ -1343,11 +1255,7 @@ final class Testing extends CMSPlugin
         try {
             $catIdsLevel1 = $this->addCategories($categories, 'com_newsfeeds', 1);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage())];
         }
 
         $newsfeeds    = [
@@ -1403,11 +1311,7 @@ final class Testing extends CMSPlugin
                     throw new \Exception($this->getApplication()->getLanguage()->_($model->getError()));
                 }
             } catch (\Exception $e) {
-                $response            = [];
-                $response['success'] = false;
-                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage());
-
-                return $response;
+                return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage())];
             }
 
             // Get ID from category we just added
@@ -1428,22 +1332,18 @@ final class Testing extends CMSPlugin
     /**
      * Seventh step to enter the sampledata. Menus.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @return mixed[]|null Will be converted into the JSON response to the module.
      *
      * @since  3.8.0
      */
     public function onAjaxSampledataApplyStep7()
     {
         if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
-            return;
+            return null;
         }
 
         if (!ComponentHelper::isEnabled('com_menus')) {
-            $response            = [];
-            $response['success'] = true;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 7, 'com_menus');
-
-            return $response;
+            return ['success' => true, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 7, 'com_menus')];
         }
 
         /** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
@@ -1536,11 +1436,7 @@ final class Testing extends CMSPlugin
         try {
             $userMenuIds = $this->addMenuItems($userMenuItems, 1);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage())];
         }
 
         // Insert Park Menu Items
@@ -1689,11 +1585,7 @@ final class Testing extends CMSPlugin
         try {
             $parkMenuIds = $this->addMenuItems($parkMenuItems, 1);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage())];
         }
 
         // Insert Fruitshop Menu Items
@@ -1858,11 +1750,7 @@ final class Testing extends CMSPlugin
         try {
             $fruitshopMenuIds = $this->addMenuItems($fruitshopMenuItems, 1);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage())];
         }
 
         // Insert Frontend Views & Modules Menu Items
@@ -2227,11 +2115,7 @@ final class Testing extends CMSPlugin
         try {
             $aboutMenuIds = $this->addMenuItems($aboutMenuItems, 1);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage())];
         }
 
         // Insert Main Menu Testing Menu Items
@@ -2326,11 +2210,7 @@ final class Testing extends CMSPlugin
         try {
             $mainMenuIds = $this->addMenuItems($mainMenuItems, 1);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage())];
         }
 
         // Insert Top Menu Items
@@ -2389,11 +2269,7 @@ final class Testing extends CMSPlugin
         try {
             $topMenuIds = $this->addMenuItems($topMenuItems, 1);
         } catch (\Exception $e) {
-            $response            = [];
-            $response['success'] = false;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
-
-            return $response;
+            return ['success' => false, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage())];
         }
 
         $this->getApplication()->setUserState('sampledata.testing.menus.user', $userMenuIds);
@@ -3220,22 +3096,18 @@ final class Testing extends CMSPlugin
     /**
      * Eighth step to enter the sampledata. Modules.
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @return mixed[]|null Will be converted into the JSON response to the module.
      *
      * @since  3.8.0
      */
     public function onAjaxSampledataApplyStep8()
     {
         if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
-            return;
+            return null;
         }
 
         if (!ComponentHelper::isEnabled('com_modules')) {
-            $response            = [];
-            $response['success'] = true;
-            $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 8, 'com_modules');
-
-            return $response;
+            return ['success' => true, 'message' => Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 8, 'com_modules')];
         }
 
         $model  = $this->getApplication()->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
@@ -4299,12 +4171,7 @@ final class Testing extends CMSPlugin
             }
 
             // Set images to empty if not set.
-            if (!isset($article['images'])) {
-                $article['images'] = '';
-            } else {
-                // JSON Encode it when set.
-                $article['images'] = json_encode($article['images']);
-            }
+            $article['images'] = isset($article['images']) ? json_encode($article['images']) : '';
 
             if (!$model->save($article)) {
                 $this->getApplication()->getLanguage()->load('com_content');

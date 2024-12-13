@@ -371,7 +371,7 @@ abstract class UserHelper
         $id = (int) $db->loadResult();
 
         // Is it a valid user to activate?
-        if ($id) {
+        if ($id !== 0) {
             $user = User::getInstance($id);
 
             $user->block      = 0;
@@ -549,11 +549,7 @@ abstract class UserHelper
         $uaString       = $ua->userAgent;
         $browserVersion = $ua->browserVersion;
 
-        if ($browserVersion) {
-            $uaShort = str_replace($browserVersion, 'abcd', $uaString);
-        } else {
-            $uaShort = $uaString;
-        }
+        $uaShort = $browserVersion ? str_replace($browserVersion, 'abcd', $uaString) : $uaString;
 
         return md5(Uri::base() . $uaShort);
     }

@@ -30,6 +30,10 @@ use Joomla\Component\Templates\Administrator\Model\StylesModel;
 class HtmlView extends BaseHtmlView
 {
     /**
+     * @var int
+     */
+    public $total;
+    /**
      * An array of items
      *
      * @var  array

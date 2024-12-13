@@ -95,7 +95,7 @@ class FieldController extends FormController
      */
     protected function allowEdit($data = [], $key = 'id')
     {
-        $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+        $recordId = (int) isset($data[$key]) !== 0 ? $data[$key] : 0;
         $user     = $this->app->getIdentity();
 
         // Zero record (id:0), return component edit permission by calling parent controller method

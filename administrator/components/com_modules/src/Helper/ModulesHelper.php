@@ -34,14 +34,7 @@ abstract class ModulesHelper
      */
     public static function getStateOptions()
     {
-        // Build the filter options.
-        $options   = [];
-        $options[] = HTMLHelper::_('select.option', '1', Text::_('JPUBLISHED'));
-        $options[] = HTMLHelper::_('select.option', '0', Text::_('JUNPUBLISHED'));
-        $options[] = HTMLHelper::_('select.option', '-2', Text::_('JTRASHED'));
-        $options[] = HTMLHelper::_('select.option', '*', Text::_('JALL'));
-
-        return $options;
+        return [HTMLHelper::_('select.option', '1', Text::_('JPUBLISHED')), HTMLHelper::_('select.option', '0', Text::_('JUNPUBLISHED')), HTMLHelper::_('select.option', '-2', Text::_('JTRASHED')), HTMLHelper::_('select.option', '*', Text::_('JALL'))];
     }
 
     /**
@@ -51,12 +44,7 @@ abstract class ModulesHelper
      */
     public static function getClientOptions()
     {
-        // Build the filter options.
-        $options   = [];
-        $options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
-        $options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
-
-        return $options;
+        return [HTMLHelper::_('select.option', '0', Text::_('JSITE')), HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'))];
     }
 
     /**
@@ -86,7 +74,7 @@ abstract class ModulesHelper
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-            return;
+            return null;
         }
 
         // Build the list
@@ -174,8 +162,9 @@ abstract class ModulesHelper
             $extension = $module->value;
             $path      = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
             $source    = $path . "/modules/$extension";
-            $lang->load("$extension.sys", $path)
-            || $lang->load("$extension.sys", $source);
+            if (!$lang->load("$extension.sys", $path)) {
+                $lang->load("$extension.sys", $source);
+            }
             $module->text = Text::_($module->text);
         }
 
@@ -225,11 +214,10 @@ abstract class ModulesHelper
         $loaded = $lang->getPaths('tpl_' . $template . '.sys');
 
         // Only load the template's language file if it hasn't been already
-        if (!$loaded) {
-            $lang->load('tpl_' . $template . '.sys', $path, null, false, false)
-            || $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
-            || $lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false)
-            || $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
+        if (!$loaded && !($lang->load('tpl_' . $template . '.sys', $path, null, false, false)
+        || $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
+        || $lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false))) {
+            $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
         }
 
         $langKey = strtoupper('TPL_' . $template . '_POSITION_' . $position);
@@ -302,11 +290,6 @@ abstract class ModulesHelper
      */
     public static function createOptionGroup($label = '', $options = [])
     {
-        $group          = [];
-        $group['value'] = $label;
-        $group['text']  = $label;
-        $group['items'] = $options;
-
-        return $group;
+        return ['value' => $label, 'text' => $label, 'items' => $options];
     }
 }

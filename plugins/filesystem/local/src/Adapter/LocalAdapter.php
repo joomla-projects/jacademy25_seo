@@ -256,7 +256,7 @@ class LocalAdapter implements AdapterInterface
         if ($this->thumbnails && MediaHelper::isImage(pathinfo($localPath)['basename'])) {
             $thumbnailPaths = $this->getLocalThumbnailPaths($localPath);
 
-            if (empty($thumbnailPaths)) {
+            if ($thumbnailPaths === []) {
                 return $name;
             }
 
@@ -389,9 +389,9 @@ class LocalAdapter implements AdapterInterface
         $obj->type      = $isDir ? 'dir' : 'file';
         $obj->name      = $this->getFileName($path);
         $obj->path      = str_replace($this->rootPath, '', $path);
-        $obj->extension = !$isDir ? File::getExt($obj->name) : '';
-        $obj->size      = !$isDir ? filesize($path) : '';
-        $obj->mime_type = !$isDir ? (string) MediaHelper::getMimeType($path, MediaHelper::isImage($obj->name)) : '';
+        $obj->extension = $isDir ? '' : File::getExt($obj->name);
+        $obj->size      = $isDir ? '' : filesize($path);
+        $obj->mime_type = $isDir ? '' : (string) MediaHelper::getMimeType($path, MediaHelper::isImage($obj->name));
         $obj->width     = 0;
         $obj->height    = 0;
 
@@ -482,7 +482,7 @@ class LocalAdapter implements AdapterInterface
         $safeName = $this->getSafeName($name);
 
         // If the safe name is different normalise the file name
-        if ($safeName != $name) {
+        if ($safeName !== $name) {
             $destinationPath = substr($destinationPath, 0, -\strlen($name)) . '/' . $safeName;
         }
 
@@ -595,7 +595,7 @@ class LocalAdapter implements AdapterInterface
         }
 
         // If the safe name is different normalise the file name
-        if ($safeName != $name) {
+        if ($safeName !== $name) {
             $destinationPath = substr($destinationPath, 0, -\strlen($name)) . $safeName;
         }
 
@@ -733,11 +733,7 @@ class LocalAdapter implements AdapterInterface
     {
         $pattern = Path::clean($this->getLocalPath($path) . '/*' . $needle . '*');
 
-        if ($recursive) {
-            $results = $this->rglob($pattern);
-        } else {
-            $results = glob($pattern);
-        }
+        $results = $recursive ? $this->rglob($pattern) : glob($pattern);
 
         $searchResults = [];
 

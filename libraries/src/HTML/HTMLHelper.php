@@ -178,10 +178,8 @@ abstract class HTMLHelper
         }
 
         // If calling a method from this class, do not allow access to internal methods
-        if ($className === self::class) {
-            if (!((new \ReflectionMethod($className, $func))->isPublic())) {
-                throw new \InvalidArgumentException('Access to internal class methods is not allowed.');
-            }
+        if ($className === self::class && !((new \ReflectionMethod($className, $func))->isPublic())) {
+            throw new \InvalidArgumentException('Access to internal class methods is not allowed.');
         }
 
         $toCall = [$className, $func];
@@ -770,7 +768,7 @@ abstract class HTMLHelper
         // If only path is required
         if ($options['pathOnly']) {
             if (\count($includes) === 0) {
-                return;
+                return null;
             }
 
             if (\count($includes) === 1) {
@@ -791,6 +789,7 @@ abstract class HTMLHelper
 
             $document->addStyleSheet($include, $options, $attribs);
         }
+        return null;
     }
 
     /**
@@ -817,7 +816,7 @@ abstract class HTMLHelper
         // If only path is required
         if ($options['pathOnly']) {
             if (\count($includes) === 0) {
-                return;
+                return null;
             }
 
             if (\count($includes) === 1) {
@@ -838,6 +837,7 @@ abstract class HTMLHelper
 
             $document->addScript($include, $options, $attribs);
         }
+        return null;
     }
 
     /**
@@ -955,11 +955,7 @@ abstract class HTMLHelper
             $text = static::image($image, $alt, null, true);
         }
 
-        if ($href) {
-            $tip = '<a href="' . $href . '">' . $text . '</a>';
-        } else {
-            $tip = $text;
-        }
+        $tip = $href ? '<a href="' . $href . '">' . $text . '</a>' : $text;
 
         if ($class === 'hasTip') {
             // Still using MooTools tooltips!
@@ -996,7 +992,7 @@ abstract class HTMLHelper
         // Don't process empty strings
         if ($content !== '' || $title !== '') {
             // Split title into title and content if the title contains '::' (old Mootools format).
-            if ($content === '' && !(!str_contains($title, '::'))) {
+            if ($content === '' && (bool) str_contains($title, '::')) {
                 [$title, $content] = explode('::', $title, 2);
             }
 

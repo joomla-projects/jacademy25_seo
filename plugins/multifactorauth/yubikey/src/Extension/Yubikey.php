@@ -347,7 +347,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
         $secretKey   = $this->params->get('secret', '');
         $serverQueue = trim((string) $this->params->get('servers', ''));
 
-        if (!empty($serverQueue)) {
+        if ($serverQueue !== '' && $serverQueue !== '0') {
             $serverQueue = explode("\r", $serverQueue);
         }
 
@@ -370,7 +370,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
         $nonce    = md5($token . uniqid(random_int(0, mt_getrandmax())));
         $response = null;
 
-        while (!$gotResponse && !empty($serverQueue)) {
+        while (!$gotResponse && $serverQueue !== []) {
             $server = array_shift($serverQueue);
             $uri    = new Uri($server);
 
@@ -457,16 +457,11 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
         }
 
         // Validate the response - The OTP must match
-        if ($data['otp'] != $otp) {
+        if ($data['otp'] !== $otp) {
             return false;
         }
-
         // Validate the response - The token must match
-        if ($data['nonce'] != $nonce) {
-            return false;
-        }
-
-        return true;
+        return $data['nonce'] === $nonce;
     }
 
     /**
@@ -485,7 +480,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
         // Make sure we have an encoding secret
         $secret = trim($secret);
 
-        if (empty($secret)) {
+        if ($secret === '' || $secret === '0') {
             return;
         }
 
@@ -597,7 +592,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
         }
 
         // If the submitted code is empty throw an error
-        if (empty($code)) {
+        if ($code === '' || $code === '0') {
             return false;
         }
 

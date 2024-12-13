@@ -81,7 +81,7 @@ final class Highlight extends CMSPlugin
         $doc = $this->getApplication()->getDocument();
 
         // Activate the highlighter.
-        if (!empty($cleanTerms)) {
+        if ($cleanTerms !== []) {
             $doc->getWebAssetManager()->useScript('highlight');
             $doc->addScriptOptions(
                 'highlight',

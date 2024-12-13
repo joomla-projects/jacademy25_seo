@@ -53,6 +53,7 @@ class FeedHelper
         if ($rssDoc) {
             return $rssDoc;
         }
+        return null;
     }
 
     /**

@@ -50,13 +50,13 @@ extract($displayData);
 // Initialize some field attributes.
 $attributes = [
     $class ? 'class="form-range ' . $class . '"' : 'class="form-range"',
-    !empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
+    empty($description) ? '' : 'aria-describedby="' . ($id ?: $name) . '-desc"',
     $disabled ? 'disabled' : '',
     $readonly ? 'readonly' : '',
-    !empty($onchange) ? 'onchange="' . $onchange . '"' : '',
-    !empty($max) ? 'max="' . $max . '"' : '',
-    !empty($step) ? 'step="' . $step . '"' : '',
-    !empty($min) ? 'min="' . $min . '"' : '',
+    empty($onchange) ? '' : 'onchange="' . $onchange . '"',
+    empty($max) ? '' : 'max="' . $max . '"',
+    empty($step) ? '' : 'step="' . $step . '"',
+    empty($min) ? '' : 'min="' . $min . '"',
     $autofocus ? 'autofocus' : '',
     $dataAttribute,
 ];

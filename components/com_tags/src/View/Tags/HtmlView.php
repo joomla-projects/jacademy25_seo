@@ -122,11 +122,9 @@ class HtmlView extends BaseHtmlView
             if (isset($active->query['layout'])) {
                 $this->setLayout($active->query['layout']);
             }
-        } else {
+        } elseif ($layout = $this->params->get('tags_layout')) {
             // Load default All Tags layout from component
-            if ($layout = $this->params->get('tags_layout')) {
-                $this->setLayout($layout);
-            }
+            $this->setLayout($layout);
         }
 
         $this->_prepareDocument();

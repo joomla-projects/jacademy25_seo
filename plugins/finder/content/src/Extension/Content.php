@@ -191,11 +191,9 @@ final class Content extends Adapter implements SubscriberInterface
         }
 
         // Check for access changes in the category.
-        if ($context === 'com_categories.category') {
-            // Check if the access levels are different.
-            if (!$isNew && $this->old_cataccess != $row->access) {
-                $this->categoryAccessChange($row);
-            }
+        // Check if the access levels are different.
+        if ($context === 'com_categories.category' && (!$isNew && $this->old_cataccess != $row->access)) {
+            $this->categoryAccessChange($row);
         }
     }
 
@@ -217,19 +215,15 @@ final class Content extends Adapter implements SubscriberInterface
         $isNew   = $event->getIsNew();
 
         // We only want to handle articles here.
-        if ($context === 'com_content.article' || $context === 'com_content.form') {
-            // Query the database for the old access level if the item isn't new.
-            if (!$isNew) {
-                $this->checkItemAccess($row);
-            }
+        // Query the database for the old access level if the item isn't new.
+        if (($context === 'com_content.article' || $context === 'com_content.form') && !$isNew) {
+            $this->checkItemAccess($row);
         }
 
         // Check for access levels from the category.
-        if ($context === 'com_categories.category') {
-            // Query the database for the old access level if the item isn't new.
-            if (!$isNew) {
-                $this->checkCategoryAccess($row);
-            }
+        // Query the database for the old access level if the item isn't new.
+        if ($context === 'com_categories.category' && !$isNew) {
+            $this->checkCategoryAccess($row);
         }
     }
 
@@ -338,7 +332,7 @@ final class Content extends Adapter implements SubscriberInterface
 
         // Add the author taxonomy data.
         if (\in_array('author', $taxonomies) && (!empty($item->author) || !empty($item->created_by_alias))) {
-            $item->addTaxonomy('Author', !empty($item->created_by_alias) ? $item->created_by_alias : $item->author, $item->state);
+            $item->addTaxonomy('Author', empty($item->created_by_alias) ? $item->author : $item->created_by_alias, $item->state);
         }
 
         // Add the category taxonomy data.

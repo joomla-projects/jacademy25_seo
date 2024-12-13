@@ -65,7 +65,7 @@ class TelephoneField extends TextField
         $data = parent::getLayoutData();
 
         // Initialize some field attributes.
-        $maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
+        $maxLength    = empty($this->maxLength) ? '' : ' maxlength="' . $this->maxLength . '"';
 
         $extraData = [
             'maxLength' => $maxLength,

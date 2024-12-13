@@ -90,7 +90,7 @@ abstract class Folder
 
                 switch (filetype($sfid)) {
                     case 'dir':
-                        if ($file != '.' && $file != '..') {
+                        if ($file !== '.' && $file !== '..') {
                             $ret = self::copy($sfid, $dfid, null, $force);
 
                             if ($ret !== true) {
@@ -121,7 +121,7 @@ abstract class Folder
 
                 switch (filetype($sfid)) {
                     case 'dir':
-                        if ($file != '.' && $file != '..') {
+                        if ($file !== '.' && $file !== '..') {
                             $ret = self::copy($sfid, $dfid, null, $force, $useStreams);
 
                             if ($ret !== true) {
@@ -133,7 +133,6 @@ abstract class Folder
                     case 'file':
                         if ($useStreams) {
                             $stream = Factory::getStream();
-
                             if (!$stream->copy($sfid, $dfid)) {
                                 throw new \RuntimeException(
                                     \sprintf(
@@ -143,10 +142,8 @@ abstract class Folder
                                     -1
                                 );
                             }
-                        } else {
-                            if (!@copy($sfid, $dfid)) {
-                                throw new \RuntimeException('Copy file failed', -1);
-                            }
+                        } elseif (!@copy($sfid, $dfid)) {
+                            throw new \RuntimeException('Copy file failed', -1);
                         }
                         break;
                 }
@@ -223,16 +220,10 @@ abstract class Folder
 
             // If open_basedir is set we need to get the open_basedir that the path is in
             if ($obd != null) {
-                if (IS_WIN) {
-                    $obdSeparator = ';';
-                } else {
-                    $obdSeparator = ':';
-                }
-
+                $obdSeparator = IS_WIN ? ';' : ':';
                 // Create the array of open_basedir paths
                 $obdArray  = explode($obdSeparator, $obd);
                 $inBaseDir = false;
-
                 // Iterate through open_basedir paths looking for a match
                 foreach ($obdArray as $test) {
                     $test = Path::clean($test);
@@ -242,7 +233,6 @@ abstract class Folder
                         break;
                     }
                 }
-
                 if ($inBaseDir == false) {
                     // Return false for JFolder::create because the path to be created is not in open_basedir
                     Log::add(__METHOD__ . ': ' . Text::_('JLIB_FILESYSTEM_ERROR_FOLDER_PATH'), Log::WARNING, 'jerror');
@@ -314,11 +304,9 @@ abstract class Folder
         // Remove all the files in folder if they exist; disable all filtering
         $files = self::files($path, '.', false, true, [], []);
 
-        if (!empty($files)) {
-            if (File::delete($files) !== true) {
-                // File::delete throws an error
-                return false;
-            }
+        if (!empty($files) && File::delete($files) !== true) {
+            // File::delete throws an error
+            return false;
         }
 
         // Remove sub-folders of folder; disable all filtering
@@ -394,34 +382,27 @@ abstract class Folder
 
         if ($useStreams) {
             $stream = Factory::getStream();
-
             if (!$stream->move($src, $dest)) {
                 return Text::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_RENAME', $stream->getError());
             }
-
+            $ret = true;
+        } elseif ($FTPOptions['enabled'] == 1) {
+            // Connect the FTP client
+            $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
+            // Translate path for the FTP account
+            $src  = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
+            $dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+            // Use FTP rename to simulate move
+            if (!$ftp->rename($src, $dest)) {
+                return Text::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE');
+            }
             $ret = true;
         } else {
-            if ($FTPOptions['enabled'] == 1) {
-                // Connect the FTP client
-                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
-
-                // Translate path for the FTP account
-                $src  = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
-                $dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
-
-                // Use FTP rename to simulate move
-                if (!$ftp->rename($src, $dest)) {
-                    return Text::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE');
-                }
-
-                $ret = true;
-            } else {
-                if (!@rename($src, $dest)) {
-                    return Text::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE');
-                }
-
-                $ret = true;
+            if (!@rename($src, $dest)) {
+                return Text::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE');
             }
+
+            $ret = true;
         }
 
         return $ret;
@@ -481,11 +462,7 @@ abstract class Folder
         }
 
         // Compute the excludefilter string
-        if (\count($excludeFilter)) {
-            $excludeFilterString = '/(' . implode('|', $excludeFilter) . ')/';
-        } else {
-            $excludeFilterString = '';
-        }
+        $excludeFilterString = \count($excludeFilter) ? '/(' . implode('|', $excludeFilter) . ')/' : '';
 
         // Get the files
         $arr = self::_items($path, $filter, $recurse, $full, $exclude, $excludeFilterString, true);
@@ -536,11 +513,7 @@ abstract class Folder
         }
 
         // Compute the excludefilter string
-        if (\count($excludeFilter)) {
-            $excludeFilterString = '/(' . implode('|', $excludeFilter) . ')/';
-        } else {
-            $excludeFilterString = '';
-        }
+        $excludeFilterString = \count($excludeFilter) ? '/(' . implode('|', $excludeFilter) . ')/' : '';
 
         // Get the folders
         $arr = self::_items($path, $filter, $recurse, $full, $exclude, $excludeFilterString, false);
@@ -583,7 +556,7 @@ abstract class Folder
 
         while (($file = readdir($handle)) !== false) {
             if (
-                $file != '.' && $file != '..' && !\in_array($file, $exclude)
+                $file !== '.' && $file !== '..' && !\in_array($file, $exclude)
                 && (empty($excludeFilterString) || !preg_match($excludeFilterString, $file))
             ) {
                 // Compute the fullpath
@@ -594,13 +567,7 @@ abstract class Folder
 
                 if (($isDir xor $findFiles) && preg_match("/$filter/", $file)) {
                     // (fullpath is dir and folders are searched or fullpath is not dir and files are searched) and file matches the filter
-                    if ($full) {
-                        // Full path is requested
-                        $arr[] = $fullpath;
-                    } else {
-                        // Filename is requested
-                        $arr[] = $file;
-                    }
+                    $arr[] = $full ? $fullpath : $file;
                 }
 
                 if ($isDir && $recurse) {

@@ -121,10 +121,10 @@ class TinymcebuilderField extends FormField
                  * Set 0: for Administrator, Editor, Super Users (4,7,8)
                  * Set 1: for Registered, Manager (2,6), all else are public
                  */
-                $formValues->access = !$num ? [4, 7, 8] : ($num === 1 ? [2, 6] : []);
+                $formValues->access = $num ? ($num === 1 ? [2, 6] : []) : ([4, 7, 8]);
 
                 // Assign Public to the new Set, but only when it not in use already
-                if (empty($formValues->access) && !\in_array(1, $groupsInUse)) {
+                if ($formValues->access === [] && !\in_array(1, $groupsInUse)) {
                     $formValues->access = [1];
                 }
             } else {

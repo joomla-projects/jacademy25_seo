@@ -123,11 +123,7 @@ class ListView extends HtmlView
             $this->toolbarTitle = strtoupper($this->option . '_MANAGER_' . $this->getName());
         }
 
-        if (isset($config['toolbar_icon'])) {
-            $this->toolbarIcon = $config['toolbar_icon'];
-        } else {
-            $this->toolbarIcon = strtolower($this->getName());
-        }
+        $this->toolbarIcon = $config['toolbar_icon'] ?? strtolower($this->getName());
 
         if (isset($config['supports_batch'])) {
             $this->supportsBatch = $config['supports_batch'];
@@ -157,7 +153,7 @@ class ListView extends HtmlView
         $this->initializeView();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors')) > 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

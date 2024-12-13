@@ -79,7 +79,7 @@ class TasksStateCommand extends AbstractCommand
         $state = (string) $input->getOption('state');
 
         // Try to validate and process ID, if passed
-        if (\strlen($id)) {
+        if (\strlen($id) !== 0) {
             if (!Task::isValidId($id)) {
                 $this->ioStyle->error('Invalid id passed!');
 
@@ -90,7 +90,7 @@ class TasksStateCommand extends AbstractCommand
         }
 
         // Try to validate and process state, if passed
-        if (\strlen($state)) {
+        if (\strlen($state) !== 0) {
             // If we get the logical state, we try to get the enumeration (but as a string)
             if (!is_numeric($state)) {
                 $state = (string) ArrayHelper::arraySearch($state, Task::STATE_MAP);

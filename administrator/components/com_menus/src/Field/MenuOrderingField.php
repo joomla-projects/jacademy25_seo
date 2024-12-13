@@ -49,7 +49,7 @@ class MenuOrderingField extends ListField
         // Get the parent
         $parent_id = (int) $this->form->getValue('parent_id', 0);
 
-        if (!$parent_id) {
+        if ($parent_id === 0) {
             return false;
         }
 

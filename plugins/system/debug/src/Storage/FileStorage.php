@@ -81,7 +81,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
         $files = [];
 
         foreach (new \DirectoryIterator($this->dirname) as $file) {
-            if ($file->getExtension() == 'php') {
+            if ($file->getExtension() === 'php') {
                 $files[] = [
                     'time' => $file->getMTime(),
                     'id'   => $file->getBasename('.php'),
@@ -101,7 +101,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 
         foreach ($files as $file) {
             // When filter is empty, skip loading the offset
-            if ($i++ < $offset && empty($filters)) {
+            if ($i++ < $offset && $filters === []) {
                 $results[] = null;
                 continue;
             }
@@ -175,12 +175,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
         /** @var \Joomla\CMS\User\User $user */
         $user = Factory::getContainer()->get(UserFactoryInterface::class)
             ->loadUserById($data['juser']['user_id']);
-
         // Super users are allowed to look at other users requests. Otherwise users can only see their own requests.
-        if ($currentUserSuperAdmin || $user->id === $currentUserId) {
-            return true;
-        }
-
-        return false;
+        return $currentUserSuperAdmin || $user->id === $currentUserId;
     }
 }

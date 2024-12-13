@@ -61,11 +61,7 @@ class FeaturedModel extends ArticlesModel
 
         $params = $this->state->params;
 
-        if ($menu = $app->getMenu()->getActive()) {
-            $menuParams = $menu->getParams();
-        } else {
-            $menuParams = new Registry();
-        }
+        $menuParams = $menu = $app->getMenu()->getActive() ? $menu->getParams() : new Registry();
 
         $mergedParams = clone $menuParams;
         $mergedParams->merge($params);

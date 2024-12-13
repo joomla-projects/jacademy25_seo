@@ -286,7 +286,7 @@ class Taxonomy
         $db->execute();
         $id = (int) $db->loadResult();
 
-        if (!$id) {
+        if ($id === 0) {
             $map          = new \stdClass();
             $map->link_id = (int) $linkId;
             $map->node_id = (int) $nodeId;
@@ -439,7 +439,7 @@ class Taxonomy
             $db->setQuery($query);
             $nodes = $db->loadColumn();
 
-            if (!\count($nodes)) {
+            if (\count($nodes) === 0) {
                 break;
             }
 

@@ -236,11 +236,7 @@ class StreamString
      */
     public function stream_eof()
     {
-        if ($this->pos > $this->len) {
-            return true;
-        }
-
-        return false;
+        return $this->pos > $this->len;
     }
 
     /**

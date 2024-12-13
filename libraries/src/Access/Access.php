@@ -833,7 +833,7 @@ class Access
             $guestUsergroup = (int) ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 
             // Guest user (if only the actually assigned group is requested)
-            if (empty($userId) && !$recursive) {
+            if ($userId === 0 && !$recursive) {
                 $result = [$guestUsergroup];
             } else {
                 // Registered user and guest if all groups are requested
@@ -843,7 +843,7 @@ class Access
                 $query = $db->getQuery(true)
                     ->select($db->quoteName($recursive ? 'b.id' : 'a.id'));
 
-                if (empty($userId)) {
+                if ($userId === 0) {
                     $query->from($db->quoteName('#__usergroups', 'a'))
                         ->where($db->quoteName('a.id') . ' = :guest')
                         ->bind(':guest', $guestUsergroup, ParameterType::INTEGER);
@@ -870,11 +870,7 @@ class Access
                 // Clean up any NULL or duplicate values, just in case
                 $result = ArrayHelper::toInteger($result);
 
-                if (empty($result)) {
-                    $result = [1];
-                } else {
-                    $result = array_unique($result);
-                }
+                $result = empty($result) ? [1] : array_unique($result);
             }
 
             self::$groupsByUser[$storeId] = $result;
@@ -939,7 +935,7 @@ class Access
     public static function getAuthorisedViewLevels($userId)
     {
         // Only load the view levels once.
-        if (empty(self::$viewLevels)) {
+        if (self::$viewLevels === []) {
             // Get a database object.
             $db = Factory::getDbo();
 

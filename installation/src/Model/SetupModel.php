@@ -104,7 +104,7 @@ class SetupModel extends BaseInstallationModel
         $data = (array) $this->getOptions();
 
         // Bind the form data if present.
-        if (!empty($data)) {
+        if ($data !== []) {
             $form->bind($data);
         }
 

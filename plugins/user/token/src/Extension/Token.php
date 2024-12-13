@@ -218,7 +218,7 @@ final class Token extends CMSPlugin
         $userTokenSeed = $this->getTokenSeedForUser($userId);
         $currentUser   = $this->getApplication()->getIdentity();
 
-        if (empty($userTokenSeed)) {
+        if ($userTokenSeed === null || $userTokenSeed === '' || $userTokenSeed === '0') {
             $form->removeField('notokenforotherpeople', 'joomlatoken');
             $form->removeField('reset', 'joomlatoken');
             $form->removeField('token', 'joomlatoken');
@@ -233,7 +233,7 @@ final class Token extends CMSPlugin
             $form->removeField('notokenforotherpeople', 'joomlatoken');
         }
 
-        if (($userId != $currentUser->id) && empty($userTokenSeed)) {
+        if (($userId != $currentUser->id) && ($userTokenSeed === null || $userTokenSeed === '' || $userTokenSeed === '0')) {
             $form->removeField('saveme', 'joomlatoken');
         } else {
             $form->removeField('savemeforotherpeople', 'joomlatoken');
@@ -308,7 +308,7 @@ final class Token extends CMSPlugin
             $noToken       = true;
             $existingToken = $this->getTokenSeedForUser($userId);
 
-            if (!empty($existingToken)) {
+            if ($existingToken !== null && $existingToken !== '' && $existingToken !== '0') {
                 $noToken                                = false;
                 $data[$this->profileKeyPrefix]['token'] = $existingToken;
             }
@@ -498,14 +498,14 @@ final class Token extends CMSPlugin
         }
 
         // No specifically allowed user groups: allow ALL user groups.
-        if (empty($allowedUserGroups)) {
+        if ($allowedUserGroups === []) {
             return true;
         }
 
         $groups       = $user->getAuthorisedGroups();
         $intersection = array_intersect($groups, $allowedUserGroups);
 
-        return !empty($intersection);
+        return $intersection !== [];
     }
 
     /**
@@ -523,7 +523,7 @@ final class Token extends CMSPlugin
         string $tokenSeed,
         string $algorithm = 'sha256'
     ): string {
-        if (empty($tokenSeed)) {
+        if ($tokenSeed === '' || $tokenSeed === '0') {
             return '';
         }
 

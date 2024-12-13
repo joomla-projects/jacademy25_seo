@@ -120,7 +120,7 @@ class CategoryModel extends ListModel
 
         // Convert the params field into an object, saving original in _params
         foreach ($items as $item) {
-            if (!isset($this->_params)) {
+            if (!property_exists($this, '_params') || $this->_params === null) {
                 $item->params = new Registry($item->params);
             }
 
@@ -132,7 +132,7 @@ class CategoryModel extends ListModel
         }
 
         // Load tags of all items.
-        if ($taggedItems) {
+        if ($taggedItems !== []) {
             $tagsHelper = new TagsHelper();
             $itemIds    = array_keys($taggedItems);
 
@@ -167,7 +167,7 @@ class CategoryModel extends ListModel
             ->whereIn($db->quoteName('a.access'), $groups);
 
         // Filter by category.
-        if ($categoryId = (int) $this->getState('category.id')) {
+        if ($categoryId = (int) $this->getState('category.id') !== 0) {
             $query->where($db->quoteName('a.catid') . ' = :categoryId')
                 ->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
                 ->whereIn($db->quoteName('c.access'), $groups)
@@ -304,11 +304,7 @@ class CategoryModel extends ListModel
             $menu   = $app->getMenu();
             $active = $menu->getActive();
 
-            if ($active) {
-                $params = $active->getParams();
-            } else {
-                $params = new Registry();
-            }
+            $params = $active ? $active->getParams() : new Registry();
 
             $options               = [];
             $options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
@@ -403,7 +399,7 @@ class CategoryModel extends ListModel
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {
-            $pk    = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
+            $pk    = (empty($pk)) ? (int) $this->getState('category.id') : $pk;
             $table = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
             $table->hit($pk);
         }

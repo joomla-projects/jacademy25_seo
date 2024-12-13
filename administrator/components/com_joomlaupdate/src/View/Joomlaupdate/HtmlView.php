@@ -30,6 +30,14 @@ use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 class HtmlView extends BaseHtmlView
 {
     /**
+     * @var string
+     */
+    public $langKey;
+    /**
+     * @var string
+     */
+    public $updateSourceKey;
+    /**
      * An array with the Joomla! update information.
      *
      * @var    array

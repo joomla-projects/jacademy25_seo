@@ -167,8 +167,8 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
                                     <?php $result = []; ?>
                                     <?php // Get the group, group parent id, and group global config recursive calculated permission for the chosen action. ?>
                                     <?php $inheritedGroupRule   = Access::checkGroup((int) $group->value, $action->name, $assetId);
-                                    $inheritedGroupParentAssetRule = !empty($parentAssetId) ? Access::checkGroup($group->value, $action->name, $parentAssetId) : null;
-                                    $inheritedParentGroupRule      = !empty($group->parent_id) ? Access::checkGroup($group->parent_id, $action->name, $assetId) : null;
+                                    $inheritedGroupParentAssetRule = empty($parentAssetId) ? null : Access::checkGroup($group->value, $action->name, $parentAssetId);
+                                    $inheritedParentGroupRule      = empty($group->parent_id) ? null : Access::checkGroup($group->parent_id, $action->name, $assetId);
 
                                     // Current group is a Super User group, so calculated setting is "Allowed (Super User)".
                                     if ($isSuperUserGroup) {

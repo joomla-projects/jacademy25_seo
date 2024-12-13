@@ -69,18 +69,14 @@ class SubformRule extends FormRule
                     return false;
                 }
             }
-        } else {
+        } elseif ($subForm->validate($value) === false) {
             // Single value.
-            if ($subForm->validate($value) === false) {
-                // Pass the first error that occurred on the subform validation.
-                $errors = $subForm->getErrors();
-
-                if (!empty($errors[0])) {
-                    return $errors[0];
-                }
-
-                return false;
+            // Pass the first error that occurred on the subform validation.
+            $errors = $subForm->getErrors();
+            if (!empty($errors[0])) {
+                return $errors[0];
             }
+            return false;
         }
 
         return true;

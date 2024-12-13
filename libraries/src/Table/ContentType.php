@@ -57,13 +57,13 @@ class ContentType extends Table
 
         // Check for valid name.
         if (trim($this->type_title) === '') {
-            throw new \UnexpectedValueException(\sprintf('The title is empty'));
+            throw new \UnexpectedValueException('The title is empty');
         }
 
         $this->type_title = ucfirst($this->type_title);
 
         if (empty($this->type_alias)) {
-            throw new \UnexpectedValueException(\sprintf('The type_alias is empty'));
+            throw new \UnexpectedValueException('The type_alias is empty');
         }
 
         return true;
@@ -142,17 +142,13 @@ class ContentType extends Table
         $result    = false;
         $tableInfo = json_decode($this->table);
 
-        if (\is_object($tableInfo) && isset($tableInfo->special)) {
-            if (\is_object($tableInfo->special) && isset($tableInfo->special->type) && isset($tableInfo->special->prefix)) {
-                $class = $tableInfo->special->class ?? \Joomla\CMS\Table\Table::class;
-
-                if (!class_implements($class, \Joomla\CMS\Table\TableInterface::class)) {
-                    // This isn't an instance of TableInterface. Stop.
-                    throw new \RuntimeException('Class must be an instance of Joomla\\CMS\\Table\\TableInterface');
-                }
-
-                $result = $class::getInstance($tableInfo->special->type, $tableInfo->special->prefix);
+        if (\is_object($tableInfo) && isset($tableInfo->special) && (\is_object($tableInfo->special) && isset($tableInfo->special->type) && isset($tableInfo->special->prefix))) {
+            $class = $tableInfo->special->class ?? \Joomla\CMS\Table\Table::class;
+            if (!class_implements($class, \Joomla\CMS\Table\TableInterface::class)) {
+                // This isn't an instance of TableInterface. Stop.
+                throw new \RuntimeException('Class must be an instance of Joomla\\CMS\\Table\\TableInterface');
             }
+            $result = $class::getInstance($tableInfo->special->type, $tableInfo->special->prefix);
         }
 
         return $result;

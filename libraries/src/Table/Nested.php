@@ -208,7 +208,7 @@ class Nested extends Table
         // Get the node by primary key.
         if (empty($node)) {
             // Error message set in getNode method.
-            return;
+            return null;
         }
 
         // The node is a leaf node.
@@ -738,23 +738,18 @@ class Nested extends Table
                         ->from($this->_tbl)
                         ->where('parent_id = 0')
                         ->order('lft DESC');
-
                     $query->setLimit(1);
                     $this->_db->setQuery($query);
                     $reference = $this->_db->loadObject();
-
                     if ($this->_debug) {
                         $this->_logtable(false);
                     }
-                } else {
+                } elseif (!$reference = $this->_getNode($this->_location_id)) {
                     // We have a real node set as a location reference.
                     // Get the reference node by primary key.
-                    if (!$reference = $this->_getNode($this->_location_id)) {
-                        // Error message set in getNode method.
-                        $this->_unlock();
-
-                        return false;
-                    }
+                    // Error message set in getNode method.
+                    $this->_unlock();
+                    return false;
                 }
 
                 // Get the reposition data for shifting the tree and re-inserting the node.
@@ -798,12 +793,10 @@ class Nested extends Table
              * or just updating its data fields.
              */
             // If the location has been set, move the node to its new location.
-            if ($this->_location_id > 0) {
-                // Skip recursiveUpdatePublishedColumn method, it will be called later.
-                if (!$this->moveByReference($this->_location_id, $this->_location, $this->$k, false)) {
-                    // Error message set in move method.
-                    return false;
-                }
+            // Skip recursiveUpdatePublishedColumn method, it will be called later.
+            if ($this->_location_id > 0 && !$this->moveByReference($this->_location_id, $this->_location, $this->$k, false)) {
+                // Error message set in move method.
+                return false;
             }
 
             // Lock the table for writing.
@@ -825,10 +818,8 @@ class Nested extends Table
         // Restore previous callable dispatcher state:
         $this->setDispatcher($oldDispatcher);
 
-        if ($result) {
-            if ($this->_debug) {
-                $this->_logtable();
-            }
+        if ($result && $this->_debug) {
+            $this->_logtable();
         }
 
         // Unlock the table for writing.
@@ -1372,7 +1363,7 @@ class Nested extends Table
             $query = $this->_db->getQuery(true);
 
             // Validate arguments
-            if (\is_array($idArray) && \is_array($lftArray) && \count($idArray) == \count($lftArray)) {
+            if (\is_array($idArray) && \is_array($lftArray) && \count($idArray) === \count($lftArray)) {
                 for ($i = 0, $count = \count($idArray); $i < $count; $i++) {
                     // Do an update to change the lft values in the table for each id
                     $query->clear()

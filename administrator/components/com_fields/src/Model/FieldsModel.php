@@ -228,7 +228,7 @@ class FieldsModel extends ListModel
                     }
                 )();
 
-                if ($cat) {
+                if ($cat instanceof \Joomla\CMS\Categories\CategoryInterface) {
                     foreach ($categories as $assignedCatIds) {
                         // Check if we have the actual category
                         $parent = $cat->get($assignedCatIds);

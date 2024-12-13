@@ -109,7 +109,7 @@ abstract class PopularHelper
         $catid = (int) $params->get('catid', null);
         $title = '';
 
-        if ($catid) {
+        if ($catid !== 0) {
             $category = Categories::getInstance('Content')->get($catid);
             $title    = Text::_('MOD_POPULAR_UNEXISTING');
 
@@ -119,7 +119,7 @@ abstract class PopularHelper
         }
 
         return Text::plural(
-            'MOD_POPULAR_TITLE' . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''),
+            'MOD_POPULAR_TITLE' . ($catid !== 0 ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''),
             (int) $params->get('count', 5),
             $title
         );

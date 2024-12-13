@@ -160,7 +160,7 @@ class ApiController extends BaseController
                 ['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
             );
         } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage());
+            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
         }
 
         $modelName = $this->input->get('model', Inflector::singularize($this->contentType));
@@ -175,7 +175,7 @@ class ApiController extends BaseController
         try {
             $modelName = $model->getName();
         } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage());
+            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
         }
 
         $model->setState($modelName . '.id', $id);
@@ -228,7 +228,7 @@ class ApiController extends BaseController
                 ['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
             );
         } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage());
+            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
         }
 
         $modelName = $this->input->get('model', $this->contentType);
@@ -348,7 +348,7 @@ class ApiController extends BaseController
         try {
             $table = $model->getTable();
         } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage());
+            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
         }
 
         $recordId = $this->input->getInt('id');
@@ -397,7 +397,7 @@ class ApiController extends BaseController
         try {
             $table = $model->getTable();
         } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage());
+            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
         }
 
         $key        = $table->getKeyName();
@@ -405,17 +405,14 @@ class ApiController extends BaseController
         $checkin    = property_exists($table, $table->getColumnAlias('checked_out'));
         $data[$key] = $recordKey;
 
-        if ($this->input->getMethod() === 'PATCH') {
-            if ($recordKey && $table->load($recordKey)) {
-                $fields = $table->getFields();
-
-                foreach ($fields as $field) {
-                    if (\array_key_exists($field->Field, $data)) {
-                        continue;
-                    }
-
-                    $data[$field->Field] = $table->{$field->Field};
+        if ($this->input->getMethod() === 'PATCH' && ($recordKey && $table->load($recordKey))) {
+            $fields = $table->getFields();
+            foreach ($fields as $field) {
+                if (\array_key_exists($field->Field, $data)) {
+                    continue;
                 }
+
+                $data[$field->Field] = $table->{$field->Field};
             }
         }
 
@@ -444,11 +441,7 @@ class ApiController extends BaseController
 
             // Push up to three validation messages out to the user.
             for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
-                if ($errors[$i] instanceof \Exception) {
-                    $messages[] = "{$errors[$i]->getMessage()}";
-                } else {
-                    $messages[] = "{$errors[$i]}";
-                }
+                $messages[] = $errors[$i] instanceof \Exception ? "{$errors[$i]->getMessage()}" : "{$errors[$i]}";
             }
 
             throw new InvalidParameterException(implode("\n", $messages));
@@ -466,7 +459,7 @@ class ApiController extends BaseController
         try {
             $modelName = $model->getName();
         } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage());
+            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
         }
 
         // Ensure we have the record ID in case we created a new article

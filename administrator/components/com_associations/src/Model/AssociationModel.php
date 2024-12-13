@@ -38,6 +38,6 @@ class AssociationModel extends ListModel
         // Get the form.
         $form = $this->loadForm('com_associations.association', 'association', ['control' => 'jform', 'load_data' => $loadData]);
 
-        return !empty($form) ? $form : false;
+        return empty($form) ? false : $form;
     }
 }

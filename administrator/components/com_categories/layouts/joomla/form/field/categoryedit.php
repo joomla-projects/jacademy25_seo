@@ -58,7 +58,7 @@ $attr    = '';
 $attr2   = '';
 
 // Initialize some field attributes.
-$attr .= !empty($size) ? ' size="' . $size . '"' : '';
+$attr .= empty($size) ? '' : ' size="' . $size . '"';
 $attr .= $multiple ? ' multiple' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
@@ -68,7 +68,7 @@ if ($readonly || $disabled) {
     $attr .= ' disabled="disabled"';
 }
 
-$attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
+$attr2 .= empty($class) ? '' : ' class="' . $class . '"';
 
 $placeholder = $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY'));
 
@@ -94,7 +94,7 @@ if ($readonly) {
 
     // E.g. form field type tag sends $this->value as array
     if ($multiple && is_array($value)) {
-        if (!count($value)) {
+        if ($value === []) {
             $value[] = '';
         }
 

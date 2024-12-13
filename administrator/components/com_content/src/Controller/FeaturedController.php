@@ -55,7 +55,7 @@ class FeaturedController extends ArticlesController
             }
         }
 
-        if (empty($ids)) {
+        if ($ids === []) {
             $this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
         } else {
             /** @var \Joomla\Component\Content\Administrator\Model\FeatureModel $model */

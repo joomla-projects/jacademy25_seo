@@ -90,8 +90,9 @@ class ContenttypeField extends ListField
             $comp  = array_shift($parts);
 
             // Make sure the component sys.ini is loaded
-            $lang->load($comp . '.sys', JPATH_ADMINISTRATOR)
-            || $lang->load($comp . '.sys', JPATH_ADMINISTRATOR . '/components/' . $comp);
+            if (!$lang->load($comp . '.sys', JPATH_ADMINISTRATOR)) {
+                $lang->load($comp . '.sys', JPATH_ADMINISTRATOR . '/components/' . $comp);
+            }
 
             $option->string = implode('_', $parts);
             $option->string = $comp . '_CONTENT_TYPE_' . $option->string;

@@ -76,7 +76,7 @@ trait LegacyModelLoaderTrait
 
         $type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 
-        if ($model = self::createModelFromComponent($type, $prefix, $config)) {
+        if ($model = self::createModelFromComponent($type, $prefix, $config) instanceof \Joomla\CMS\MVC\Model\ModelInterface) {
             return $model;
         }
 

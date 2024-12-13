@@ -511,19 +511,13 @@ class UpdateController extends BaseController
                     array_intersect($upgradeCompatibilityStatus->compatibleVersions, $currentCompatibilityStatus->compatibleVersions)
                 );
 
-                if (!empty($bothCompatibleVersions)) {
+                if ($bothCompatibleVersions !== []) {
                     $upgradeOldestVersion = $bothCompatibleVersions[0];
                     $upgradeUpdateVersion = end($bothCompatibleVersions);
                 }
             }
 
-            if (version_compare($upgradeOldestVersion, $extensionVersion, '>')) {
-                // Installed version is empty or older than the oldest compatible update: Update required
-                $resultGroup = 2;
-            } else {
-                // Current version is compatible
-                $resultGroup = 3;
-            }
+            $resultGroup = version_compare($upgradeOldestVersion, $extensionVersion, '>') ? 2 : 3;
 
             if ($currentUpdateVersion !== false && version_compare($upgradeUpdateVersion, $currentUpdateVersion, '<')) {
                 // Special case warning when version compatible with target is lower than current
@@ -624,19 +618,13 @@ class UpdateController extends BaseController
                         array_intersect($upgradeCompatibilityStatus->compatibleVersions, $currentCompatibilityStatus->compatibleVersions)
                     );
 
-                    if (!empty($bothCompatibleVersions)) {
+                    if ($bothCompatibleVersions !== []) {
                         $upgradeOldestVersion = $bothCompatibleVersions[0];
                         $upgradeUpdateVersion = end($bothCompatibleVersions);
                     }
                 }
 
-                if (version_compare($upgradeOldestVersion, $extensionVersion, '>')) {
-                    // Installed version is empty or older than the oldest compatible update: Update required
-                    $resultGroup = 2;
-                } else {
-                    // Current version is compatible
-                    $resultGroup = 3;
-                }
+                $resultGroup = version_compare($upgradeOldestVersion, $extensionVersion, '>') ? 2 : 3;
 
                 if ($currentUpdateVersion !== false && version_compare($upgradeUpdateVersion, $currentUpdateVersion, '<')) {
                     // Special case warning when version compatible with target is lower than current

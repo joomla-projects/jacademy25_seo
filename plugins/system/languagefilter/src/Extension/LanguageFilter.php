@@ -261,11 +261,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
     {
         $lang = $uri->getVar('lang');
 
-        if (isset($this->lang_codes[$lang])) {
-            $sef = $this->lang_codes[$lang]->sef;
-        } else {
-            $sef = $this->lang_codes[$this->current_lang]->sef;
-        }
+        $sef = isset($this->lang_codes[$lang]) ? $this->lang_codes[$lang]->sef : $this->lang_codes[$this->current_lang]->sef;
 
         if (
             !$this->params->get('remove_default_prefix', 0)
@@ -336,13 +332,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             if (!isset($this->sefs[$sef])) {
                 // Check if remove default URL language code is set
                 if ($this->params->get('remove_default_prefix', 0)) {
-                    if ($parts[0]) {
-                        // We load a default site language page
-                        $lang_code = $this->default_lang;
-                    } else {
-                        // We check for an existing language cookie
-                        $lang_code = $this->getLanguageCookie();
-                    }
+                    $lang_code = $parts[0] !== '' && $parts[0] !== '0' ? $this->default_lang : $this->getLanguageCookie();
                 } else {
                     $lang_code = $this->getLanguageCookie();
                 }
@@ -504,8 +494,9 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                 if (str_contains($extension, 'plg_system')) {
                     $extension_name = substr($extension, 11);
 
-                    $language_new->load($extension, JPATH_ADMINISTRATOR)
-                    || $language_new->load($extension, JPATH_PLUGINS . '/system/' . $extension_name);
+                    if (!$language_new->load($extension, JPATH_ADMINISTRATOR)) {
+                        $language_new->load($extension, JPATH_PLUGINS . '/system/' . $extension_name);
+                    }
 
                     continue;
                 }
@@ -599,14 +590,11 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                 if ($this->getApplication()->isClient('site')) {
                     $this->getApplication()->setUserState('com_users.edit.profile.redirect', null);
                 }
-            } else {
-                if ($this->getApplication()->isClient('site')) {
-                    $this->getApplication()->setUserState('com_users.edit.profile.redirect', 'index.php?Itemid='
-                        . $this->getApplication()->getMenu()->getDefault($lang_code)->id . '&lang=' . $this->lang_codes[$lang_code]->sef);
-
-                    // Create a cookie.
-                    $this->setLanguageCookie($lang_code);
-                }
+            } elseif ($this->getApplication()->isClient('site')) {
+                $this->getApplication()->setUserState('com_users.edit.profile.redirect', 'index.php?Itemid='
+                    . $this->getApplication()->getMenu()->getDefault($lang_code)->id . '&lang=' . $this->lang_codes[$lang_code]->sef);
+                // Create a cookie.
+                $this->setLanguageCookie($lang_code);
             }
         }
     }
@@ -631,12 +619,10 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             if ($this->params->get('automatic_change', 1)) {
                 $assoc     = Associations::isEnabled();
                 $lang_code = $user['language'];
-
                 // If no language is specified for this user, we set it to the site default language
                 if (empty($lang_code)) {
                     $lang_code = $this->default_lang;
                 }
-
                 // The language has been deleted/disabled or the related content language does not exist/has been unpublished
                 // or the related home page does not exist/has been unpublished
                 if (
@@ -646,12 +632,9 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                 ) {
                     $lang_code = $this->current_lang;
                 }
-
                 // Try to get association from the current active menu item
                 $active = $menu->getActive();
-
                 $foundAssociation = false;
-
                 /**
                  * Looking for associations.
                  * If the login menu item form contains an internal URL redirection,
@@ -698,7 +681,6 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                         }
                     }
                 }
-
                 if ($foundAssociation && $lang_code !== $this->current_lang) {
                     // Change language.
                     $this->current_lang = $lang_code;
@@ -709,10 +691,8 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                     // Change the language code.
                     $this->languageFactory->createLanguage($lang_code);
                 }
-            } else {
-                if ($this->getApplication()->getUserState('users.login.form.return')) {
-                    $this->getApplication()->setUserState('users.login.form.return', Route::_($this->getApplication()->getUserState('users.login.form.return'), false));
-                }
+            } elseif ($this->getApplication()->getUserState('users.login.form.return')) {
+                $this->getApplication()->setUserState('users.login.form.return', Route::_($this->getApplication()->getUserState('users.login.form.return'), false));
             }
         }
     }

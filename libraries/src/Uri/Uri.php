@@ -128,21 +128,21 @@ class Uri extends \Joomla\Uri\Uri
     public static function base($pathonly = false)
     {
         // Get the base request path.
-        if (empty(static::$base)) {
+        if (static::$base === []) {
             $config    = Factory::getContainer()->get('config');
             $uri       = static::getInstance();
             $live_site = ($uri->isSsl()) ? str_replace('http://', 'https://', $config->get('live_site', '')) : $config->get('live_site', '');
 
-            if (trim((string) $live_site) != '') {
+            if (trim((string) $live_site) !== '') {
                 $uri                    = static::getInstance($live_site);
                 static::$base['prefix'] = $uri->toString(['scheme', 'host', 'port']);
                 static::$base['path']   = rtrim($uri->toString(['path']), '/\\');
 
-                if (\defined('JPATH_BASE') && \defined('JPATH_ADMINISTRATOR') && JPATH_BASE == JPATH_ADMINISTRATOR) {
+                if (\defined('JPATH_BASE') && \defined('JPATH_ADMINISTRATOR') && JPATH_BASE === JPATH_ADMINISTRATOR) {
                     static::$base['path'] .= '/administrator';
                 }
 
-                if (\defined('JPATH_BASE') && \defined('JPATH_API') && JPATH_BASE == JPATH_API) {
+                if (\defined('JPATH_BASE') && \defined('JPATH_API') && JPATH_BASE === JPATH_API) {
                     static::$base['path'] .= '/api';
                 }
             } else {
@@ -245,18 +245,8 @@ class Uri extends \Joomla\Uri\Uri
         $uri  = static::getInstance($url);
         $base = $uri->toString(['scheme', 'host', 'port', 'path']);
         $host = $uri->toString(['scheme', 'host', 'port']);
-
         // @see UriTest
-        if (
-            empty($host) && str_starts_with($uri->path, 'index.php')
-            || !empty($host) && preg_match('#^' . preg_quote(static::base(), '#') . '#', $base)
-            || !empty($host) && $host === static::getInstance(static::base())->host && str_contains($uri->path, 'index.php')
-            || !empty($host) && $base === $host && preg_match('#^' . preg_quote($base, '#') . '#', static::base())
-        ) {
-            return true;
-        }
-
-        return false;
+        return empty($host) && str_starts_with($uri->path, 'index.php') || !empty($host) && preg_match('#^' . preg_quote(static::base(), '#') . '#', $base) || !empty($host) && $host === static::getInstance(static::base())->host && str_contains($uri->path, 'index.php') || !empty($host) && $base === $host && preg_match('#^' . preg_quote($base, '#') . '#', static::base());
     }
 
     /**

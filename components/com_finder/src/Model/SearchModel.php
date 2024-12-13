@@ -115,11 +115,7 @@ class SearchModel extends ListModel
         // Convert the rows to result objects.
         foreach ($items as $rk => $row) {
             // Build the result object.
-            if (\is_resource($row->object)) {
-                $result = unserialize(stream_get_contents($row->object));
-            } else {
-                $result = unserialize($row->object);
-            }
+            $result = \is_resource($row->object) ? unserialize(stream_get_contents($row->object)) : unserialize($row->object);
 
             $result->cleanURL = $result->route;
 
@@ -189,7 +185,7 @@ class SearchModel extends ListModel
          * groups. Within each group there can be an array of values that will
          * use OR clauses.
          */
-        if (!empty($this->searchquery->filters)) {
+        if ($this->searchquery->filters !== []) {
             // Convert the associative array to a numerically indexed array.
             $groups     = array_values($this->searchquery->filters);
             $taxonomies = \call_user_func_array('array_merge', array_values($this->searchquery->filters));
@@ -314,7 +310,7 @@ class SearchModel extends ListModel
          */
         if (\count($this->requiredTerms)) {
             foreach ($this->requiredTerms as $terms) {
-                if (\count($terms)) {
+                if (\count($terms) > 0) {
                     $query->having('SUM(CASE WHEN m.term_id IN (' . implode(',', $terms) . ') THEN 1 ELSE 0 END) > 0');
                 } else {
                     $query->where('false');

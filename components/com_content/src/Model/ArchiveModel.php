@@ -114,17 +114,17 @@ class ArchiveModel extends ArticlesModel
         // First, get the date field
         $queryDate = QueryHelper::getQueryDate($articleOrderDate, $this->getDatabase());
 
-        if ($month = (int) $this->getState('filter.month')) {
+        if ($month = (int) $this->getState('filter.month') !== 0) {
             $query->where($query->month($queryDate) . ' = :month')
                 ->bind(':month', $month, ParameterType::INTEGER);
         }
 
-        if ($year = (int) $this->getState('filter.year')) {
+        if ($year = (int) $this->getState('filter.year') !== 0) {
             $query->where($query->year($queryDate) . ' = :year')
                 ->bind(':year', $year, ParameterType::INTEGER);
         }
 
-        if (\count($catids) > 0) {
+        if ($catids !== []) {
             $query->whereIn($db->quoteName('c.id'), $catids);
         }
 

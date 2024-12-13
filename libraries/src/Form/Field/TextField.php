@@ -129,7 +129,7 @@ class TextField extends FormField
 
             case 'dirname':
                 $value         = (string) $value;
-                $this->dirname = ($value == $name || $value === 'true' || $value === '1');
+                $this->dirname = ($value === $name || $value === 'true' || $value === '1');
                 break;
 
             case 'inputmode':
@@ -285,9 +285,9 @@ class TextField extends FormField
         $data = parent::getLayoutData();
 
         // Initialize some field attributes.
-        $maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
-        $inputmode    = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
-        $dirname      = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
+        $maxLength    = empty($this->maxLength) ? '' : ' maxlength="' . $this->maxLength . '"';
+        $inputmode    = empty($this->inputmode) ? '' : ' inputmode="' . $this->inputmode . '"';
+        $dirname      = empty($this->dirname) ? '' : ' dirname="' . $this->dirname . '"';
 
         // Get the field options for the datalist.
         $options  = (array) $this->getOptions();

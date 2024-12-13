@@ -141,7 +141,7 @@ class CoreContent extends Table implements CurrentUserInterface
             $clean_keys = [];
 
             foreach ($keys as $key) {
-                if (trim($key)) {
+                if (trim($key) !== '' && trim($key) !== '0') {
                     // Ignore blank keywords
                     $clean_keys[] = trim($key);
                 }
@@ -238,7 +238,7 @@ class CoreContent extends Table implements CurrentUserInterface
         } else {
             // New content item. A content item core_created_time and core_created_user_id field can be set by the user,
             // so we don't touch either of these if they are set.
-            if (!(int) $this->core_created_time) {
+            if ((int) $this->core_created_time === 0) {
                 $this->core_created_time = $date->toSql();
             }
 
@@ -246,7 +246,7 @@ class CoreContent extends Table implements CurrentUserInterface
                 $this->core_created_user_id = $user->id;
             }
 
-            if (!(int) $this->core_modified_time) {
+            if ((int) $this->core_modified_time === 0) {
                 $this->core_modified_time = $this->core_created_time;
             }
 

@@ -75,7 +75,7 @@ class Menus
             try {
                 $items = $db->loadObjectList('id');
             } catch (\RuntimeException $e) {
-                throw new \Exception($e->getMessage(), 500);
+                throw new \Exception($e->getMessage(), 500, $e);
             }
 
             // Construct html

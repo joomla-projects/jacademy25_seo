@@ -74,11 +74,7 @@ class JsonView extends AbstractView
         }
 
         // Set a base path for use by the view
-        if (\array_key_exists('base_path', $config)) {
-            $this->_basePath = $config['base_path'];
-        } else {
-            $this->_basePath = JPATH_COMPONENT;
-        }
+        $this->_basePath = \array_key_exists('base_path', $config) ? $config['base_path'] : JPATH_COMPONENT;
     }
 
     /**

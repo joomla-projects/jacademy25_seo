@@ -131,7 +131,7 @@ class LanguagesModel extends ListModel
         if (empty($updateSite)) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
 
-            return;
+            return null;
         }
 
         try {
@@ -143,7 +143,7 @@ class LanguagesModel extends ListModel
         if ($response === null || $response->code !== 200) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_ERROR_CANT_CONNECT_TO_UPDATESERVER', $updateSite), 'error');
 
-            return;
+            return null;
         }
 
         $updateSiteXML = simplexml_load_string($response->body);
@@ -151,7 +151,7 @@ class LanguagesModel extends ListModel
         if (!$updateSiteXML) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_ERROR_CANT_RETRIEVE_XML', $updateSite), 'error');
 
-            return;
+            return null;
         }
 
         $languages     = [];
@@ -164,13 +164,8 @@ class LanguagesModel extends ListModel
                 $language->$key = (string) $value;
             }
 
-            if ($search) {
-                if (
-                    !str_contains(strtolower($language->name), $search)
-                    && !str_contains(strtolower($language->element), $search)
-                ) {
-                    continue;
-                }
+            if ($search !== '' && $search !== '0' && (!str_contains(strtolower($language->name), $search) && !str_contains(strtolower($language->element), $search))) {
+                continue;
             }
 
             $languages[$language->name] = $language;

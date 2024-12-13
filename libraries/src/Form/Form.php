@@ -275,12 +275,7 @@ class Form implements CurrentUserInterface
         $fields = [];
 
         // Get all of the field elements in the fieldset.
-        if ($set) {
-            $elements = $this->findFieldsByFieldset($set);
-        } else {
-            // Get all fields.
-            $elements = $this->findFieldsByGroup();
-        }
+        $elements = $set ? $this->findFieldsByFieldset($set) : $this->findFieldsByGroup();
 
         // If no field elements were found return empty.
         if (empty($elements)) {
@@ -349,7 +344,7 @@ class Form implements CurrentUserInterface
             }
 
             // Are we dealing with a fieldset element?
-            if ((string) $set['name']) {
+            if ((string) $set['name'] !== '' && (string) $set['name'] !== '0') {
                 // Only create it if it doesn't already exist.
                 if (empty($fieldsets[(string) $set['name']])) {
                     // Build the fieldset object.
@@ -362,28 +357,24 @@ class Form implements CurrentUserInterface
                     // Add the fieldset object to the list.
                     $fieldsets[$fieldset->name] = $fieldset;
                 }
-            } else {
+            } elseif (empty($fieldsets[(string) $set])) {
                 // Must be dealing with a fieldset attribute.
                 // Only create it if it doesn't already exist.
-                if (empty($fieldsets[(string) $set])) {
-                    // Attempt to get the fieldset element for data (throughout the entire form document).
-                    $tmp = $this->xml->xpath('//fieldset[@name="' . (string) $set . '"]');
+                // Attempt to get the fieldset element for data (throughout the entire form document).
+                $tmp = $this->xml->xpath('//fieldset[@name="' . (string) $set . '"]');
+                // If no element was found, build a very simple fieldset object.
+                if (empty($tmp)) {
+                    $fieldset = (object) ['name' => (string) $set, 'label' => '', 'description' => ''];
+                } else {
+                    // Build the fieldset object from the element.
+                    $fieldset = (object) ['name' => '', 'label' => '', 'description' => ''];
 
-                    // If no element was found, build a very simple fieldset object.
-                    if (empty($tmp)) {
-                        $fieldset = (object) ['name' => (string) $set, 'label' => '', 'description' => ''];
-                    } else {
-                        // Build the fieldset object from the element.
-                        $fieldset = (object) ['name' => '', 'label' => '', 'description' => ''];
-
-                        foreach ($tmp[0]->attributes() as $name => $value) {
-                            $fieldset->$name = (string) $value;
-                        }
+                    foreach ($tmp[0]->attributes() as $name => $value) {
+                        $fieldset->$name = (string) $value;
                     }
-
-                    // Add the fieldset object to the list.
-                    $fieldsets[$fieldset->name] = $fieldset;
                 }
+                // Add the fieldset object to the list.
+                $fieldsets[$fieldset->name] = $fieldset;
             }
         }
 
@@ -512,11 +503,7 @@ class Form implements CurrentUserInterface
     public function getValue($name, $group = null, $default = null)
     {
         // If a group is set use it.
-        if ($group) {
-            $return = $this->data->get($group . '.' . $name, $default);
-        } else {
-            $return = $this->data->get($name, $default);
-        }
+        $return = $group ? $this->data->get($group . '.' . $name, $default) : $this->data->get($name, $default);
 
         return $return;
     }
@@ -1041,7 +1028,7 @@ class Form implements CurrentUserInterface
             $groups    = array_map('strval', $attrs ?: []);
             $attrGroup = implode('.', $groups);
 
-            $key = $attrGroup ? $attrGroup . '.' . $name : $name;
+            $key = $attrGroup !== '' && $attrGroup !== '0' ? $attrGroup . '.' . $name : $name;
 
             // Filter the value if it exists.
             if ($input->exists($key)) {
@@ -1123,7 +1110,7 @@ class Form implements CurrentUserInterface
             $groups    = array_map('strval', $attrs ?: []);
             $attrGroup = implode('.', $groups);
 
-            $key = $attrGroup ? $attrGroup . '.' . $name : $name;
+            $key = $attrGroup !== '' && $attrGroup !== '0' ? $attrGroup . '.' . $name : $name;
 
             $fieldObj = $this->loadField($field, $attrGroup);
 
@@ -1184,7 +1171,7 @@ class Form implements CurrentUserInterface
             $groups    = array_map('strval', $attrs ?: []);
             $attrGroup = implode('.', $groups);
 
-            $key = $attrGroup ? $attrGroup . '.' . $name : $name;
+            $key = $attrGroup !== '' && $attrGroup !== '0' ? $attrGroup . '.' . $name : $name;
 
             // Filter the value if it exists.
             if ($input->exists($key)) {
@@ -1230,7 +1217,7 @@ class Form implements CurrentUserInterface
             }
 
             // Make sure something was found.
-            if (!$fields) {
+            if ($fields === []) {
                 return false;
             }
 
@@ -1383,7 +1370,7 @@ class Form implements CurrentUserInterface
         // Make sure there is actually a group to find.
         $group = explode('.', $group);
 
-        if (\count($group)) {
+        if ($group !== []) {
             // Get any fields elements with the correct group name.
             $elements = $this->xml->xpath('//fields[@name="' . (string) $group[0] . '" and not(ancestor::field/form/*)]');
 
@@ -1414,7 +1401,7 @@ class Form implements CurrentUserInterface
 
                         // If the group names for the fields element match the valid names at this
                         // level add the fields element.
-                        if ($validNames == $names) {
+                        if ($validNames === $names) {
                             $tmp[] = $fields;
                         }
                     }
@@ -1451,7 +1438,7 @@ class Form implements CurrentUserInterface
         }
 
         // Get the field type.
-        $type = $element['type'] ? (string) $element['type'] : 'text';
+        $type = $element['type'] instanceof \SimpleXMLElement ? (string) $element['type'] : 'text';
 
         // Load the FormField object for the field.
         $field = FormHelper::loadFieldType($type);
@@ -1460,7 +1447,7 @@ class Form implements CurrentUserInterface
             try {
                 $field->setDatabase($this->getDatabase());
             } catch (DatabaseNotFoundException) {
-                @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+                @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
                 $field->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }
@@ -1691,7 +1678,7 @@ class Form implements CurrentUserInterface
         if (!isset($forms[$name])) {
             $data = trim((string) $data);
 
-            if (empty($data)) {
+            if ($data === '' || $data === '0') {
                 throw new \InvalidArgumentException(\sprintf('%1$s(%2$s, *%3$s*)', __METHOD__, $name, \gettype($data)));
             }
 
@@ -1703,10 +1690,8 @@ class Form implements CurrentUserInterface
                 if ($forms[$name]->load($data, $replace, $xpath) == false) {
                     throw new \RuntimeException(\sprintf('%s() could not load form', __METHOD__));
                 }
-            } else {
-                if ($forms[$name]->loadFile($data, $replace, $xpath) == false) {
-                    throw new \RuntimeException(\sprintf('%s() could not load file', __METHOD__));
-                }
+            } elseif ($forms[$name]->loadFile($data, $replace, $xpath) == false) {
+                throw new \RuntimeException(\sprintf('%s() could not load file', __METHOD__));
             }
         }
 

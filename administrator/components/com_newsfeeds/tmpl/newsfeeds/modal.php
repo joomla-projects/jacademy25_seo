@@ -94,7 +94,7 @@ $multilang = Multilanguage::isEnabled();
                     }
 
                     $link     = RouteHelper::getNewsfeedRoute($item->id, $item->catid, $item->language);
-                    $itemHtml = '<a href="' . $this->escape($link) . '"' . ($lang ? ' hreflang="' . $lang . '"' : '') . '>' . $item->name . '</a>';
+                    $itemHtml = '<a href="' . $this->escape($link) . '"' . ($lang !== '' && $lang !== '0' ? ' hreflang="' . $lang . '"' : '') . '>' . $item->name . '</a>';
                     ?>
                     <tr class="row<?php echo $i % 2; ?>">
                         <td class="text-center">

@@ -147,7 +147,7 @@ abstract class UpdateAdapter extends AdapterInstance
         $updateSiteId = (int) $updateSiteId;
         $enabled      = (bool) $enabled ? 1 : 0;
 
-        if (empty($updateSiteId)) {
+        if ($updateSiteId === 0) {
             return;
         }
 
@@ -178,7 +178,7 @@ abstract class UpdateAdapter extends AdapterInstance
     {
         $updateSiteId = (int) $updateSiteId;
 
-        if (empty($updateSiteId)) {
+        if ($updateSiteId === 0) {
             return '';
         }
 

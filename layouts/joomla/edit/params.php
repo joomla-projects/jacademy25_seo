@@ -104,7 +104,7 @@ foreach ($fieldSets as $name => $fieldSet) {
     $isGrandchild = $xml->xpath('//fieldset//fieldset//fieldset[@name="' . $name . '"]');
 
     if (!$isGrandchild && $hasParent) {
-        echo '<fieldset id="fieldset-' . $name . '" class="options-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
+        echo '<fieldset id="fieldset-' . $name . '" class="options-form ' . (empty($fieldSet->class) ? '' : $fieldSet->class) . '">';
         echo '<legend>' . $label . '</legend>';
 
         // Include the description when available
@@ -135,7 +135,7 @@ foreach ($fieldSets as $name => $fieldSet) {
 
         // Directly add a fieldset if we have no children
         if (!$hasChildren) {
-            echo '<fieldset id="fieldset-' . $name . '" class="options-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
+            echo '<fieldset id="fieldset-' . $name . '" class="options-form ' . (empty($fieldSet->class) ? '' : $fieldSet->class) . '">';
             echo '<legend>' . $label . '</legend>';
 
             // Include the description when available

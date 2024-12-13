@@ -108,7 +108,7 @@ class LevelController extends FormController
             throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        if (empty($ids)) {
+        if ($ids === []) {
             $this->setMessage(Text::_('COM_USERS_NO_LEVELS_SELECTED'), 'warning');
         } else {
             // Get the model.

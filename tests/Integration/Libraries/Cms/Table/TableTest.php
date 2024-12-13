@@ -143,8 +143,8 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
         $this->assertEquals(42, $this->object->hits);
         $this->assertEquals(1, $this->object->published);
         $this->assertEquals(23, $this->object->ordering);
-        $this->assertNotTrue(isset($this->object->fakefield));
-        $this->assertNotTrue(isset($this->object->fakefield2));
+        $this->assertNotTrue($this->object->fakefield !== null);
+        $this->assertNotTrue($this->object->fakefield2 !== null);
     }
 
     /**

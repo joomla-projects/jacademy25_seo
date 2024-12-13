@@ -51,7 +51,7 @@ abstract class NamespaceBased implements DynamicMethodReturnTypeExtension
      */
     protected function findNamespace(string $name): string
     {
-        foreach ($this->getNamespaces() as $ns => $path) {
+        foreach (array_keys($this->getNamespaces()) as $ns) {
             if (!stripos($ns, $name)) {
                 continue;
             }

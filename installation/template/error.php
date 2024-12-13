@@ -79,7 +79,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
                                 <div>
                                     <?php echo $this->renderBacktrace(); ?>
                                     <?php // Check if there are more Exceptions and render their data as well?>
-                                    <?php if ($this->error->getPrevious()) : ?>
+                                    <?php if ($this->error->getPrevious() instanceof \Throwable) : ?>
                                         <?php $loop = true; ?>
                                         <?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly?>
                                         <?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions?>

@@ -260,7 +260,7 @@ class Router extends RouterView
             $id = (int) $this->db->loadResult();
 
             // Do we have a URL with ID?
-            if ($id) {
+            if ($id !== 0) {
                 return $id;
             }
 
@@ -269,7 +269,7 @@ class Router extends RouterView
 
         $id = (int) $segment;
 
-        if ($id) {
+        if ($id !== 0) {
             $dbquery = $this->db->getQuery(true);
             $dbquery->select($this->db->quoteName('alias'))
                 ->from($this->db->quoteName('#__contact_details'))

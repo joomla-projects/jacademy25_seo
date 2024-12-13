@@ -335,15 +335,18 @@ class ItemsModel extends ListModel
         } elseif ($published === '') {
             $query->where($db->quoteName('a.published') . ' IN (0, 1)');
         }
+        // Filter by search in title, alias or id
+        $search = trim((string) $this->getState('filter.search', ''));
 
         // Filter by search in title, alias or id
-        if ($search = trim((string) $this->getState('filter.search', ''))) {
+        if ($search !== '' && $search !== '0') {
             if (stripos($search, 'id:') === 0) {
                 $search = (int) substr($search, 3);
                 $query->where($db->quoteName('a.id') . ' = :search')
                     ->bind(':search', $search, ParameterType::INTEGER);
             } elseif (stripos($search, 'link:') === 0) {
-                if ($search = str_replace(' ', '%', trim(substr($search, 5)))) {
+                $search = str_replace(' ', '%', trim(substr($search, 5)));
+                if ($search !== '' && $search !== '0') {
                     $query->where($db->quoteName('a.link') . ' LIKE :search')
                         ->bind(':search', $search);
                 }
@@ -366,7 +369,7 @@ class ItemsModel extends ListModel
         $parentId = (int) $this->getState('filter.parent_id');
         $level    = (int) $this->getState('filter.level');
 
-        if ($parentId) {
+        if ($parentId !== 0) {
             // Create a subquery for the sub-items list
             $subQuery = $db->getQuery(true)
                 ->select($db->quoteName('sub.id'))
@@ -379,7 +382,7 @@ class ItemsModel extends ListModel
                 )
                 ->where($db->quoteName('this.id') . ' = :parentId1');
 
-            if ($level) {
+            if ($level !== 0) {
                 $subQuery->where($db->quoteName('sub.level') . ' <= ' . $db->quoteName('this.level') . ' + :level - 1');
                 $query->bind(':level', $level, ParameterType::INTEGER);
             }
@@ -394,7 +397,7 @@ class ItemsModel extends ListModel
                 'OR'
             )
                 ->bind([':parentId1', ':parentId2'], $parentId, ParameterType::INTEGER);
-        } elseif ($level) {
+        } elseif ($level !== 0) {
             // Filter on the level.
             $query->where($db->quoteName('a.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
@@ -432,13 +435,13 @@ class ItemsModel extends ListModel
                     }
                 }
 
-                if ($types) {
+                if ($types !== []) {
                     $query->whereIn($db->quoteName('a.menutype'), $types);
                 } else {
                     $query->where(0);
                 }
             }
-        } elseif (\strlen((string) $menuType)) {
+        } elseif (\strlen((string) $menuType) !== 0) {
             // Default behavior => load all items from a specific menu
             $query->where($db->quoteName('a.menutype') . ' = :menuType')
                 ->bind(':menuType', $menuType);
@@ -448,16 +451,14 @@ class ItemsModel extends ListModel
         }
 
         // Filter on the access level.
-        if ($access = (int) $this->getState('filter.access')) {
+        if ($access = (int) $this->getState('filter.access') !== 0) {
             $query->where($db->quoteName('a.access') . ' = :access')
                 ->bind(':access', $access, ParameterType::INTEGER);
         }
 
         // Implement View Level Access
-        if (!$user->authorise('core.admin')) {
-            if ($groups = $user->getAuthorisedViewLevels()) {
-                $query->whereIn($db->quoteName('a.access'), $groups);
-            }
+        if (!$user->authorise('core.admin') && $groups = $user->getAuthorisedViewLevels()) {
+            $query->whereIn($db->quoteName('a.access'), $groups);
         }
 
         // Filter on the language.
@@ -564,9 +565,8 @@ class ItemsModel extends ListModel
 
             if ($items) {
                 foreach ($items as $item) {
-                    if ($extension = $item->componentname) {
-                        $lang->load("$extension.sys", JPATH_ADMINISTRATOR)
-                        || $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension);
+                    if (($extension = $item->componentname) && !$lang->load("$extension.sys", JPATH_ADMINISTRATOR)) {
+                        $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension);
                     }
 
                     // Translate component name

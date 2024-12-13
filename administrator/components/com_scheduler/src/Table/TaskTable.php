@@ -112,7 +112,7 @@ class TaskTable extends Table implements CurrentUserInterface
 
         // Set created date if not set.
         // ? Might not need since the constructor already sets this
-        if (!(int) $this->created) {
+        if ((int) $this->created === 0) {
             $this->created = Factory::getDate()->toSql();
         }
 
@@ -258,7 +258,7 @@ class TaskTable extends Table implements CurrentUserInterface
         $this->getDispatcher()->dispatch('onTaskBeforeUnlock', $event);
 
         // Some pre-processing before we can work with the keys.
-        if (!empty($pks)) {
+        if ($pks !== []) {
             foreach ($pks as $key => $pk) {
                 if (!\is_array($pk)) {
                     $pks[$key] = [$this->_tbl_key => $pk];
@@ -267,7 +267,7 @@ class TaskTable extends Table implements CurrentUserInterface
         }
 
         // If there are no primary keys set check to see if the instance key is set and use that.
-        if (empty($pks)) {
+        if ($pks === []) {
             $pk = [];
 
             foreach ($this->_tbl_keys as $key) {

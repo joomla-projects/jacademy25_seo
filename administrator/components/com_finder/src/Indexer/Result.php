@@ -395,7 +395,7 @@ class Result implements \Serializable
     public function addTaxonomy($branch, $title, $state = 1, $access = 1, $language = '*')
     {
         // We can't add taxonomies with empty titles
-        if (!trim($title)) {
+        if (trim($title) === '' || trim($title) === '0') {
             return;
         }
 
@@ -430,7 +430,7 @@ class Result implements \Serializable
     public function addNestedTaxonomy($branch, ImmutableNodeInterface $contentNode, $state = 1, $access = 1, $language = '*')
     {
         // We can't add taxonomies with empty titles
-        if (!trim($contentNode->title)) {
+        if (trim($contentNode->title) === '' || trim($contentNode->title) === '0') {
             return;
         }
 

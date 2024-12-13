@@ -110,7 +110,7 @@ class AssociationsController extends AdminController
 
         $cid = (array) $this->input->get('cid', [], 'int');
 
-        if (empty($cid)) {
+        if ($cid === []) {
             // Seems we don't have an id to work with.
             return;
         }

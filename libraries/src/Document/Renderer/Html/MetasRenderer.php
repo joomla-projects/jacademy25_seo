@@ -182,10 +182,8 @@ class MetasRenderer extends DocumentRenderer
         foreach ($this->_doc->_links as $link => $linkAtrr) {
             $buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
 
-            if (\is_array($linkAtrr['attribs'])) {
-                if ($temp = ArrayHelper::toString($linkAtrr['attribs'])) {
-                    $buffer .= ' ' . $temp;
-                }
+            if (\is_array($linkAtrr['attribs']) && $temp = ArrayHelper::toString($linkAtrr['attribs'])) {
+                $buffer .= ' ' . $temp;
             }
 
             $buffer .= '>' . $lnEnd;

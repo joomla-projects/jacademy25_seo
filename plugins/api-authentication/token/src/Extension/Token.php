@@ -185,7 +185,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
         }
 
         $referenceTokenData = $this->getTokenSeedForUser($userId);
-        $referenceTokenData = empty($referenceTokenData) ? '' : $referenceTokenData;
+        $referenceTokenData = $referenceTokenData === null || $referenceTokenData === '' || $referenceTokenData === '0' ? '' : $referenceTokenData;
         $referenceTokenData = base64_decode($referenceTokenData);
         $referenceHMAC      = hash_hmac($algo, $referenceTokenData, (string) $siteSecret);
 
@@ -235,7 +235,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
         $user = $this->getUserFactory()->loadUserById($userId);
 
         // Disallow login for blocked, inactive or password reset required users
-        if ($user->block || !empty(trim($user->activation)) || $user->requireReset) {
+        if ($user->block || !in_array(trim($user->activation), ['', '0'], true) || $user->requireReset) {
             $response->status = Authentication::STATUS_DENIED;
 
             return;
@@ -383,13 +383,13 @@ final class Token extends CMSPlugin implements SubscriberInterface
         }
 
         // No specifically allowed user groups: allow ALL user groups.
-        if (empty($allowedUserGroups)) {
+        if ($allowedUserGroups === []) {
             return true;
         }
 
         $groups       = $user->getAuthorisedGroups();
         $intersection = array_intersect($groups, $allowedUserGroups);
 
-        return !empty($intersection);
+        return $intersection !== [];
     }
 }

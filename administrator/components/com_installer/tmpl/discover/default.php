@@ -98,13 +98,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     <?php echo $item->type_translated; ?>
                                 </td>
                                 <td class="d-none d-md-table-cell">
-                                    <?php echo !empty($item->version) ? $item->version : '&#160;'; ?>
+                                    <?php echo empty($item->version) ? '&#160;' : $item->version; ?>
                                 </td>
                                 <td class="d-none d-md-table-cell">
-                                    <?php echo !empty($item->creationDate) ? $item->creationDate : '&#160;'; ?>
+                                    <?php echo empty($item->creationDate) ? '&#160;' : $item->creationDate; ?>
                                 </td>
                                 <td class="d-none d-md-table-cell">
-                                    <?php echo !empty($item->author) ? $item->author : '&#160;'; ?>
+                                    <?php echo empty($item->author) ? '&#160;' : $item->author; ?>
                                 </td>
                                 <td class="d-none d-md-table-cell">
                                     <?php echo $item->folder_translated; ?>

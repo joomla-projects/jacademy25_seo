@@ -32,7 +32,7 @@ $userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.lft');
-$saveOrder = ($listOrder == 'a.lft' && strtolower((string) $listDirn) == 'asc');
+$saveOrder = ($listOrder == 'a.lft' && strtolower((string) $listDirn) === 'asc');
 $menuType  = (string) $app->getUserState('com_menus.items.menutype', '');
 
 if ($saveOrder && $menuType && !empty($this->items)) {
@@ -62,7 +62,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                             <td class="w-1 text-center">
                                 <?php echo HTMLHelper::_('grid.checkall'); ?>
                             </td>
-                            <?php if ($menuType) : ?>
+                            <?php if ($menuType !== '' && $menuType !== '0') : ?>
                                 <th scope="col" class="w-1 text-center d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
                                 </th>
@@ -140,7 +140,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                 <td class="text-center">
                                     <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
                                 </td>
-                                <?php if ($menuType) : ?>
+                                <?php if ($menuType !== '' && $menuType !== '0') : ?>
                                     <td class="text-center d-none d-md-table-cell">
                                         <?php
                                         $iconClass = '';

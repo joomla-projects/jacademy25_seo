@@ -453,11 +453,7 @@ class ConfigurationModel extends BaseInstallationModel
         $path = JPATH_CONFIGURATION . '/configuration.php';
 
         // Determine if the configuration file path is writable.
-        if (file_exists($path)) {
-            $canWrite = is_writable($path);
-        } else {
-            $canWrite = is_writable(JPATH_CONFIGURATION . '/');
-        }
+        $canWrite = file_exists($path) ? is_writable($path) : is_writable(JPATH_CONFIGURATION . '/');
 
         /*
          * If the file exists but isn't writable OR if the file doesn't exist and the parent directory

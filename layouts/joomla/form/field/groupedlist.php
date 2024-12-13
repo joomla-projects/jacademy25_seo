@@ -49,8 +49,8 @@ $html = [];
 $attr = '';
 
 // Initialize some field attributes.
-$attr .= !empty($class) ? ' class="form-select ' . $class . '"' : ' class="form-select"';
-$attr .= !empty($size) ? ' size="' . $size . '"' : '';
+$attr .= empty($class) ? ' class="form-select"' : ' class="form-select ' . $class . '"';
+$attr .= empty($size) ? '' : ' size="' . $size . '"';
 $attr .= $multiple ? ' multiple' : '';
 $attr .= $required ? ' required' : '';
 $attr .= $autofocus ? ' autofocus' : '';
@@ -62,7 +62,7 @@ if ($readonly || $disabled) {
 }
 
 // Initialize JavaScript field attributes.
-$attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
+$attr .= empty($onchange) ? '' : ' onchange="' . $onchange . '"';
 
 // Create a read-only list (no name) with a hidden input to store the value.
 if ($readonly) {
@@ -78,7 +78,7 @@ if ($readonly) {
 
     // E.g. form field type tag sends $this->value as array
     if ($multiple && \is_array($value)) {
-        if (!\count($value)) {
+        if ($value === []) {
             $value[] = '';
         }
 

@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
     </div>
     <?php endif; ?>
 
-    <?php if (!empty($this->lead_items)) : ?>
+    <?php if ($this->lead_items !== []) : ?>
         <div class="blog-items items-leading <?php echo $this->params->get('blog_class_leading'); ?>">
             <?php foreach ($this->lead_items as &$item) : ?>
                 <div class="blog-item">
@@ -34,7 +34,7 @@ defined('_JEXEC') or die;
         </div>
     <?php endif; ?>
 
-    <?php if (!empty($this->intro_items)) : ?>
+    <?php if ($this->intro_items !== []) : ?>
         <?php $blogClass = $this->params->get('blog_class', ''); ?>
         <?php if ((int) $this->params->get('num_columns') > 1) : ?>
             <?php $blogClass .= (int) $this->params->get('multi_column_order', 0) === 0 ? ' masonry-' : ' columns-'; ?>
@@ -52,7 +52,7 @@ defined('_JEXEC') or die;
         </div>
     <?php endif; ?>
 
-    <?php if (!empty($this->link_items)) : ?>
+    <?php if ($this->link_items !== []) : ?>
         <div class="items-more">
             <?php echo $this->loadTemplate('links'); ?>
         </div>

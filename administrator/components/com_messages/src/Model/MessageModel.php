@@ -129,7 +129,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
      */
     public function getItem($pk = null)
     {
-        if (!isset($this->item)) {
+        if ($this->item === null) {
             if ($this->item = parent::getItem($pk)) {
                 // Invalid message_id returns 0
                 if ($this->item->user_id_to === '0') {
@@ -141,7 +141,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                 // Prime required properties.
                 if (empty($this->item->message_id)) {
                     // Prepare data for a new record.
-                    if ($replyId = (int) $this->getState('reply.id')) {
+                    if ($replyId = (int) $this->getState('reply.id') !== 0) {
                         // If replying to a message, preload some data.
                         $db    = $this->getDatabase();
                         $query = $db->getQuery(true)
@@ -259,19 +259,15 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
         foreach ($pks as $i => $pk) {
             $table->reset();
 
-            if ($table->load($pk)) {
-                if ($table->user_id_to != $user->id) {
-                    // Prune items that you can't change.
-                    unset($pks[$i]);
-
-                    try {
-                        Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                    } catch (\RuntimeException) {
-                        Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
-                    }
-
-                    return false;
+            if ($table->load($pk) && $table->user_id_to != $user->id) {
+                // Prune items that you can't change.
+                unset($pks[$i]);
+                try {
+                    Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+                } catch (\RuntimeException) {
+                    Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
                 }
+                return false;
             }
         }
 
@@ -452,7 +448,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                 }
             }
 
-            if (empty($groups)) {
+            if ($groups === []) {
                 $this->setError(Text::_('COM_MESSAGES_ERROR_NO_GROUPS_SET_AS_SUPER_USER'));
 
                 return false;

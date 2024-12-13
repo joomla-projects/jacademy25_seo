@@ -129,7 +129,7 @@ class XmlView extends BaseHtmlView
             $node['link'] = $item->link;
         }
 
-        if (isset($item->class) && trim($item->class)) {
+        if ($item->class !== null && trim($item->class)) {
             $node['class'] = htmlentities(trim($item->class), ENT_XML1);
         }
 

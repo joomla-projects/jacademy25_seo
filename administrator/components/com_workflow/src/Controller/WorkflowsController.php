@@ -68,7 +68,7 @@ class WorkflowsController extends AdminController
 
             $this->extension = array_shift($parts);
 
-            if (!empty($parts)) {
+            if ($parts !== []) {
                 $this->section = array_shift($parts);
             }
 
@@ -130,7 +130,7 @@ class WorkflowsController extends AdminController
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
 
-        if (empty($cid)) {
+        if ($cid === []) {
             $this->setMessage(Text::_('COM_WORKFLOW_NO_ITEM_SELECTED'), 'warning');
         } elseif (\count($cid) > 1) {
             $this->setMessage(Text::_('COM_WORKFLOW_TOO_MANY_WORKFLOWS'), 'error');
@@ -145,12 +145,7 @@ class WorkflowsController extends AdminController
             if (!$model->setDefault($id, $value)) {
                 $this->setMessage($model->getError(), 'warning');
             } else {
-                if ($value === 1) {
-                    $ntext = 'COM_WORKFLOW_SET_DEFAULT';
-                } else {
-                    $ntext = 'COM_WORKFLOW_ITEM_UNSET_DEFAULT';
-                }
-
+                $ntext = $value === 1 ? 'COM_WORKFLOW_SET_DEFAULT' : 'COM_WORKFLOW_ITEM_UNSET_DEFAULT';
                 $this->setMessage(Text::_($ntext, \count($cid)));
             }
         }

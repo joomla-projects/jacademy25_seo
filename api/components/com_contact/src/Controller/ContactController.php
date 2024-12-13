@@ -75,8 +75,9 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
     {
         foreach (FieldsHelper::getFields('com_contact.contact') as $field) {
             if (isset($data[$field->name])) {
-                !isset($data['com_fields']) && $data['com_fields'] = [];
-
+                if (!isset($data['com_fields'])) {
+                    $data['com_fields'] = [];
+                }
                 $data['com_fields'][$field->name] = $data[$field->name];
                 unset($data[$field->name]);
             }
@@ -140,11 +141,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
             $messages = [];
 
             for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
-                if ($errors[$i] instanceof \Exception) {
-                    $messages[] = "{$errors[$i]->getMessage()}";
-                } else {
-                    $messages[] = "{$errors[$i]}";
-                }
+                $messages[] = $errors[$i] instanceof \Exception ? "{$errors[$i]->getMessage()}" : "{$errors[$i]}";
             }
 
             throw new InvalidParameterException(implode("\n", $messages));

@@ -275,7 +275,7 @@ class HtmlView extends BaseHtmlView
         if (array_pop($typeNameExploded) === 'category') {
             $this->typeName = 'category';
 
-            if ($typeNameExploded) {
+            if ($typeNameExploded !== []) {
                 $extensionName .= '.' . implode('.', $typeNameExploded);
             }
 

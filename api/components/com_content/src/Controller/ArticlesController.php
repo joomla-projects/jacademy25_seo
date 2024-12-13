@@ -108,8 +108,9 @@ class ArticlesController extends ApiController
     {
         foreach (FieldsHelper::getFields('com_content.article') as $field) {
             if (isset($data[$field->name])) {
-                !isset($data['com_fields']) && $data['com_fields'] = [];
-
+                if (!isset($data['com_fields'])) {
+                    $data['com_fields'] = [];
+                }
                 $data['com_fields'][$field->name] = $data[$field->name];
                 unset($data[$field->name]);
             }

@@ -8,10 +8,8 @@ function insertDefineOrDie($file, $keyword)
 
     $realfile           = \dirname(__DIR__) . '/' . $file;
 
-    if (!file_exists($realfile)) {
-        if ($file === 'plugins/task/checkfiles/checkfiles.php') {
-            return;
-        }
+    if (!file_exists($realfile) && $file === 'plugins/task/checkfiles/checkfiles.php') {
+        return;
     }
 
     $currentcontent     = file($realfile);
@@ -44,9 +42,9 @@ function insertDefineOrDie($file, $keyword)
     $insert = max($lastUse, $lastComment, $lastNamespace);
 
     $distance = 0;
-    if (empty(trim($currentcontent[$insert + 2]))) {
+    if (in_array(trim($currentcontent[$insert + 2]), ['', '0'], true)) {
         $distance++;
-        if (empty(trim($currentcontent[$insert + 3]))) {
+        if (in_array(trim($currentcontent[$insert + 3]), ['', '0'], true)) {
             $distance++;
         }
     }

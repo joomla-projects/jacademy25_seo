@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 
 ?>
 
-<fieldset class="<?php echo !empty($displayData->formclass) ? $displayData->formclass : 'form-horizontal'; ?>">
+<fieldset class="<?php echo empty($displayData->formclass) ? 'form-horizontal' : $displayData->formclass; ?>">
     <legend><?php echo $displayData->name; ?></legend>
     <details>
         <summary class="filter-notes"><?php echo Text::_('COM_CONFIG_TEXT_FILTERS_SUMMARY'); ?></summary>

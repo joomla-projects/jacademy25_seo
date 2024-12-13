@@ -99,9 +99,15 @@ class ItemsController extends ApiController
             $this->input->set('com_menus.items.menutype', $data['menutype']);
         }
 
-        isset($data['type']) && $this->input->set('type', $data['type']);
-        isset($data['parent_id']) && $this->input->set('parent_id', $data['parent_id']);
-        isset($data['link']) && $this->input->set('link', $data['link']);
+        if (isset($data['type'])) {
+            $this->input->set('type', $data['type']);
+        }
+        if (isset($data['parent_id'])) {
+            $this->input->set('parent_id', $data['parent_id']);
+        }
+        if (isset($data['link'])) {
+            $this->input->set('link', $data['link']);
+        }
 
         $this->input->set('id', '0');
 
@@ -124,9 +130,15 @@ class ItemsController extends ApiController
             $this->input->set('com_menus.items.menutype', $data['menutype']);
         }
 
-        isset($data['type']) && $this->input->set('type', $data['type']);
-        isset($data['parent_id']) && $this->input->set('parent_id', $data['parent_id']);
-        isset($data['link']) && $this->input->set('link', $data['link']);
+        if (isset($data['type'])) {
+            $this->input->set('type', $data['type']);
+        }
+        if (isset($data['parent_id'])) {
+            $this->input->set('parent_id', $data['parent_id']);
+        }
+        if (isset($data['link'])) {
+            $this->input->set('link', $data['link']);
+        }
 
         return parent::edit();
     }
@@ -153,7 +165,7 @@ class ItemsController extends ApiController
                 ['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
             );
         } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage());
+            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
         }
 
         /** @var ListModel $model */

@@ -93,7 +93,7 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
 
         $discovered_extensions = $this->filterExtensionsBasedOnState($extensions, $state);
 
-        if (empty($discovered_extensions)) {
+        if ($discovered_extensions === []) {
             $this->ioStyle->note("There are no pending discovered extensions to install. Perhaps you need to run extension:discover first?");
 
             return Command::SUCCESS;

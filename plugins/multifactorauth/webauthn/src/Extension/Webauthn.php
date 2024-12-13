@@ -239,7 +239,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         try {
             $publicKeyCredentialSource = Credentials::verifyAttestation($code);
         } catch (\Exception $err) {
-            throw new \RuntimeException($err->getMessage(), 403);
+            throw new \RuntimeException($err->getMessage(), 403, $err);
         } finally {
             // Unset the request data from the session.
             $session->set('plg_multifactorauth_webauthn.publicKeyCredentialCreationOptions', null);

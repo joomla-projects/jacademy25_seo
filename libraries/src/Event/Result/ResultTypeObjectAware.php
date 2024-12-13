@@ -82,7 +82,7 @@ trait ResultTypeObjectAware
         }
 
         foreach ($this->resultAcceptableClasses as $className) {
-            if (is_a($data, $className)) {
+            if ($data instanceof $className) {
                 return;
             }
         }

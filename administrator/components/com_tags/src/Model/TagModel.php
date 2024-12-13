@@ -130,7 +130,7 @@ class TagModel extends AdminModel
             // Convert the modified date to local user time for display in the form.
             $tz = new \DateTimeZone(Factory::getApplication()->get('offset'));
 
-            if ((int) $result->modified_time) {
+            if ((int) $result->modified_time !== 0) {
                 $date = new Date($result->modified_time);
                 $date->setTimezone($tz);
                 $result->modified_time = $date->toSql(true);
@@ -214,7 +214,7 @@ class TagModel extends AdminModel
         /** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
         $table      = $this->getTable();
         $input      = Factory::getApplication()->getInput();
-        $pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
+        $pk         = (empty($data['id'])) ? (int) $this->getState($this->getName() . '.id') : $data['id'];
         $isNew      = true;
         $context    = $this->option . '.' . $this->name;
 

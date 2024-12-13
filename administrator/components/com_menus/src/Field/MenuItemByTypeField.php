@@ -117,7 +117,7 @@ class MenuItemByTypeField extends GroupedlistField
             case 'published':
             case 'disable':
                 $value       = (string) $value;
-                $this->$name = $value ? explode(',', $value) : [];
+                $this->$name = $value !== '' && $value !== '0' ? explode(',', $value) : [];
                 break;
 
             default:
@@ -146,7 +146,7 @@ class MenuItemByTypeField extends GroupedlistField
         if ($result == true) {
             $menuType = (string) $this->element['menu_type'];
 
-            if (!$menuType) {
+            if ($menuType === '' || $menuType === '0') {
                 $app             = Factory::getApplication();
                 $currentMenuType = $app->getUserState('com_menus.items.menutype', '');
                 $menuType        = $app->getInput()->getString('menutype', $currentMenuType);
@@ -209,11 +209,7 @@ class MenuItemByTypeField extends GroupedlistField
                 $levelPrefix = str_repeat('- ', max(0, $link->level - 1));
 
                 // Displays language code if not set to All
-                if ($link->language !== '*') {
-                    $lang = ' (' . $link->language . ')';
-                } else {
-                    $lang = '';
-                }
+                $lang = $link->language !== '*' ? ' (' . $link->language . ')' : '';
 
                 $text = Text::_($link->text);
 
@@ -238,11 +234,7 @@ class MenuItemByTypeField extends GroupedlistField
                     $levelPrefix = str_repeat('- ', max(0, $link->level - 1));
 
                     // Displays language code if not set to All
-                    if ($link->language !== '*') {
-                        $lang = ' (' . $link->language . ')';
-                    } else {
-                        $lang = '';
-                    }
+                    $lang = $link->language !== '*' ? ' (' . $link->language . ')' : '';
 
                     $text = Text::_($link->text);
 

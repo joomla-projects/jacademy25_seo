@@ -425,13 +425,11 @@ class Update
                         $supportedDbs = $this->currentUpdate->supported_databases;
 
                         // MySQL and MariaDB use the same database driver but not the same version numbers
-                        if ($dbType === 'mysql') {
-                            // Check whether we have a MariaDB version string and extract the proper version from it
-                            if (stripos($dbVersion, 'mariadb') !== false) {
-                                // MariaDB: Strip off any leading '5.5.5-', if present
-                                $dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
-                                $dbType    = 'mariadb';
-                            }
+                        // Check whether we have a MariaDB version string and extract the proper version from it
+                        if ($dbType === 'mysql' && stripos($dbVersion, 'mariadb') !== false) {
+                            // MariaDB: Strip off any leading '5.5.5-', if present
+                            $dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
+                            $dbType    = 'mariadb';
                         }
 
                         // Do we have an entry for the database?
@@ -464,13 +462,13 @@ class Update
                         }
 
                         if (
-                            !isset($this->latest)
+                            $this->latest === null
                             || version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>')
                         ) {
                             $this->latest = $this->currentUpdate;
                         }
                     } elseif (
-                        !isset($this->otherUpdateInfo)
+                        $this->otherUpdateInfo === null
                         || version_compare($otherUpdateInfo->version, $this->otherUpdateInfo->version, '>')
                     ) {
                         $this->otherUpdateInfo = $otherUpdateInfo;
@@ -479,7 +477,7 @@ class Update
                 break;
             case 'UPDATES':
                 // If the latest item is set then we transfer it to where we want to
-                if (isset($this->latest)) {
+                if ($this->latest !== null) {
                     // This is an optional tag and therefore we need to be sure that this is gone and only used when set by the update itself
                     unset($this->downloadSources);
 
@@ -489,7 +487,7 @@ class Update
 
                     unset($this->latest);
                     unset($this->currentUpdate);
-                } elseif (isset($this->currentUpdate)) {
+                } elseif ($this->currentUpdate !== null) {
                     // The update might be for an older version of j!
                     unset($this->currentUpdate);
                 }
@@ -564,7 +562,7 @@ class Update
 
         foreach ($data['signed']['targets'] as $target) {
             // Check if this target is newer than the current version
-            if (isset($this->latest) && version_compare($target['custom']['version'], $this->latest->version, '<')) {
+            if ($this->latest !== null && version_compare($target['custom']['version'], $this->latest->version, '<')) {
                 continue;
             }
 
@@ -607,7 +605,7 @@ class Update
         }
 
         // If the latest item is set then we transfer it to where we want to
-        if (isset($this->latest)) {
+        if ($this->latest !== null) {
             foreach ($this->downloadSources as $source) {
                 $this->downloadurl = (object) [
                     '_data'  => $source->url,
@@ -662,7 +660,7 @@ class Update
         xml_set_element_handler($this->xmlParser, '_startElement', '_endElement');
         xml_set_character_data_handler($this->xmlParser, '_characterData');
 
-        if (!xml_parse($this->xmlParser, $response->body)) {
+        if (xml_parse($this->xmlParser, $response->body) === 0) {
             Log::add(
                 \sprintf(
                     'XML error: %s at line %d',

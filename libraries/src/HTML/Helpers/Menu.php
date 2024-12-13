@@ -161,10 +161,10 @@ abstract class Menu
 
             $user = Factory::getUser();
 
-            $aclcheck = !empty($config['checkacl']) ? (int) $config['checkacl'] : 0;
+            $aclcheck = empty($config['checkacl']) ? 0 : (int) $config['checkacl'];
 
             foreach ($menus as &$menu) {
-                if ($aclcheck) {
+                if ($aclcheck !== 0) {
                     $action = $aclcheck == $menu->id ? 'edit' : 'create';
 
                     if (!$user->authorise('core.' . $action, 'com_menus.menu.' . $menu->id)) {
@@ -344,7 +344,7 @@ abstract class Menu
         // Code that adds menu name to Display of Page(s)
         $mitems = [];
 
-        if ($all | $unassigned) {
+        if (($all | $unassigned) !== 0) {
             $mitems[] = HTMLHelper::_('select.option', '<OPTGROUP>', Text::_('JOPTION_MENUS'));
 
             if ($all) {
@@ -411,11 +411,7 @@ abstract class Menu
             foreach ($children[$id] as $v) {
                 $id = $v->id;
 
-                if ($v->parent_id == 0) {
-                    $txt = $v->title;
-                } else {
-                    $txt = $pre . $v->title;
-                }
+                $txt = $v->parent_id == 0 ? $v->title : $pre . $v->title;
 
                 $list[$id]           = $v;
                 $list[$id]->treename = $indent . $txt;

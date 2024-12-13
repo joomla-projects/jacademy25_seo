@@ -57,7 +57,7 @@ final class ContactCreator extends CMSPlugin
         $user_id = (int) $user['id'];
 
         // If the user id appears invalid then bail out just in case
-        if (empty($user_id)) {
+        if ($user_id === 0) {
             return;
         }
 

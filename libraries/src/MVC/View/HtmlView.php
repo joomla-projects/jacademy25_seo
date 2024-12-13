@@ -32,6 +32,12 @@ use Joomla\Filesystem\Path;
  */
 class HtmlView extends AbstractView implements CurrentUserInterface
 {
+    /**
+     * @var string
+     */
+    public $baseurl;
+    public $this;
+    public $form;
     use CurrentUserTrait;
 
     /**
@@ -126,11 +132,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         }
 
         // Set a base path for use by the view
-        if (\array_key_exists('base_path', $config)) {
-            $this->_basePath = $config['base_path'];
-        } else {
-            $this->_basePath = JPATH_COMPONENT;
-        }
+        $this->_basePath = \array_key_exists('base_path', $config) ? $config['base_path'] : JPATH_COMPONENT;
 
         // Set the default template search path
         if (\array_key_exists('template_path', $config)) {
@@ -181,11 +183,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
     {
         $app = Factory::getApplication();
 
-        if ($this->option) {
-            $component = $this->option;
-        } else {
-            $component = ApplicationHelper::getComponentName();
-        }
+        $component = $this->option ?: ApplicationHelper::getComponentName();
 
         $context = $component . '.' . $this->getName();
 
@@ -376,9 +374,9 @@ class HtmlView extends AbstractView implements CurrentUserInterface
             $lang = Factory::getApplication()->getLanguage();
         }
 
-        $lang->load('tpl_' . $template->template, JPATH_BASE)
-            || $lang->load('tpl_' . $template->parent, JPATH_THEMES . '/' . $template->parent)
-            || $lang->load('tpl_' . $template->template, JPATH_THEMES . '/' . $template->template);
+        if (!$lang->load('tpl_' . $template->template, JPATH_BASE) && !$lang->load('tpl_' . $template->parent, JPATH_THEMES . '/' . $template->parent)) {
+            $lang->load('tpl_' . $template->template, JPATH_THEMES . '/' . $template->template);
+        }
 
         // Change the template folder if alternative layout is in different template
         if (isset($layoutTemplate) && $layoutTemplate !== '_' && $layoutTemplate != $template->template) {
@@ -404,7 +402,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
             unset($tpl, $file);
 
             // Never allow a 'this' property
-            if (isset($this->this)) {
+            if (property_exists($this, 'this') && $this->this !== null) {
                 unset($this->this);
             }
 
@@ -460,11 +458,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
      */
     protected function _setPath($type, $path)
     {
-        if ($this->option) {
-            $component = $this->option;
-        } else {
-            $component = ApplicationHelper::getComponentName();
-        }
+        $component = $this->option ?: ApplicationHelper::getComponentName();
 
         $app = Factory::getApplication();
 
@@ -477,30 +471,22 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         // Get the active template object
         $template = $app->getTemplate(true);
 
-        // Always add the fallback directories as last resort
-        switch (strtolower($type)) {
-            case 'template':
-                // Set the alternative template search dir
-                if (isset($app)) {
-                    if ($component) {
-                        $component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
-                    }
+        // Set the alternative template search dir
+        if (strtolower($type) === 'template' && isset($app)) {
+            if ($component) {
+                $component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
+            }
+            $name = $this->getName();
+            if (!empty($template->parent)) {
+                // Parent template's overrides
+                $this->_addPath('template', JPATH_THEMES . '/' . $template->parent . '/html/' . $component . '/' . $name);
 
-                    $name = $this->getName();
+                // Child template's overrides
+                $this->_addPath('template', JPATH_THEMES . '/' . $template->template . '/html/' . $component . '/' . $name);
 
-                    if (!empty($template->parent)) {
-                        // Parent template's overrides
-                        $this->_addPath('template', JPATH_THEMES . '/' . $template->parent . '/html/' . $component . '/' . $name);
-
-                        // Child template's overrides
-                        $this->_addPath('template', JPATH_THEMES . '/' . $template->template . '/html/' . $component . '/' . $name);
-
-                        break;
-                    }
-
-                    $this->_addPath('template', JPATH_THEMES . '/' . $template->template . '/html/' . $component . '/' . $name);
-                }
-                break;
+                return;
+            }
+            $this->_addPath('template', JPATH_THEMES . '/' . $template->template . '/html/' . $component . '/' . $name);
         }
     }
 

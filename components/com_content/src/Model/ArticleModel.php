@@ -292,7 +292,7 @@ class ArticleModel extends ItemModel
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {
-            $pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
+            $pk = (empty($pk)) ? (int) $this->getState('article.id') : $pk;
 
             $table = Table::getInstance('Content', '\\Joomla\\CMS\\Table\\');
             $table->hit($pk);
@@ -342,7 +342,6 @@ class ArticleModel extends ItemModel
             // There are no ratings yet, so lets insert our rating
             if (!$rating) {
                 $query = $db->getQuery(true);
-
                 // Create the base insert statement.
                 $query->insert($db->quoteName('#__content_rating'))
                     ->columns(
@@ -357,10 +356,32 @@ class ArticleModel extends ItemModel
                     ->bind(':pk', $pk, ParameterType::INTEGER)
                     ->bind(':ip', $userIP)
                     ->bind(':rate', $rate, ParameterType::INTEGER);
-
                 // Set the query and execute the insert.
                 $db->setQuery($query);
+                try {
+                    $db->execute();
+                } catch (\RuntimeException $e) {
+                    Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
+                    return false;
+                }
+            } elseif ($userIP != $rating->lastip) {
+                $query = $db->getQuery(true);
+                // Create the base update statement.
+                $query->update($db->quoteName('#__content_rating'))
+                    ->set(
+                        [
+                            $db->quoteName('rating_count') . ' = ' . $db->quoteName('rating_count') . ' + 1',
+                            $db->quoteName('rating_sum') . ' = ' . $db->quoteName('rating_sum') . ' + :rate',
+                            $db->quoteName('lastip') . ' = :ip',
+                        ]
+                    )
+                    ->where($db->quoteName('content_id') . ' = :pk')
+                    ->bind(':rate', $rate, ParameterType::INTEGER)
+                    ->bind(':ip', $userIP)
+                    ->bind(':pk', $pk, ParameterType::INTEGER);
+                // Set the query and execute the update.
+                $db->setQuery($query);
                 try {
                     $db->execute();
                 } catch (\RuntimeException $e) {
@@ -369,36 +390,7 @@ class ArticleModel extends ItemModel
                     return false;
                 }
             } else {
-                if ($userIP != $rating->lastip) {
-                    $query = $db->getQuery(true);
-
-                    // Create the base update statement.
-                    $query->update($db->quoteName('#__content_rating'))
-                        ->set(
-                            [
-                                $db->quoteName('rating_count') . ' = ' . $db->quoteName('rating_count') . ' + 1',
-                                $db->quoteName('rating_sum') . ' = ' . $db->quoteName('rating_sum') . ' + :rate',
-                                $db->quoteName('lastip') . ' = :ip',
-                            ]
-                        )
-                        ->where($db->quoteName('content_id') . ' = :pk')
-                        ->bind(':rate', $rate, ParameterType::INTEGER)
-                        ->bind(':ip', $userIP)
-                        ->bind(':pk', $pk, ParameterType::INTEGER);
-
-                    // Set the query and execute the update.
-                    $db->setQuery($query);
-
-                    try {
-                        $db->execute();
-                    } catch (\RuntimeException $e) {
-                        Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
+                return false;
             }
 
             $this->cleanCache();

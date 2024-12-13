@@ -164,7 +164,7 @@ class HtmlView extends BaseHtmlView
 
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
+        $checkedOut = !\is_null($this->item->checked_out) && $this->item->checked_out != $user->id;
         $canDo      = $this->canDo;
         $clientId   = $this->state->get('item.client_id', 0);
         $toolbar    = $this->getDocument()->getToolbar();
@@ -172,10 +172,8 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::title(Text::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
 
         // If a new item, can save the item.  Allow users with edit permissions to apply changes to prevent returning to grid.
-        if ($isNew && $canDo->get('core.create')) {
-            if ($canDo->get('core.edit')) {
-                $toolbar->apply('item.apply');
-            }
+        if ($isNew && $canDo->get('core.create') && $canDo->get('core.edit')) {
+            $toolbar->apply('item.apply');
         }
 
         // If not checked out, can save the item.
@@ -254,7 +252,7 @@ class HtmlView extends BaseHtmlView
     {
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
+        $checkedOut = !\is_null($this->item->checked_out) && $this->item->checked_out != $user->id;
         $canDo      = $this->canDo;
         $toolbar    = $this->getDocument()->getToolbar();
 

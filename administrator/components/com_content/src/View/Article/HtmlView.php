@@ -163,7 +163,7 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $checkedOut = !\is_null($this->item->checked_out) && $this->item->checked_out != $userId;
         $toolbar    = $this->getDocument()->getToolbar();
 
         // Built the actions for new and existing records.
@@ -273,7 +273,7 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $checkedOut = !\is_null($this->item->checked_out) && $this->item->checked_out != $userId;
         $toolbar    = $this->getDocument()->getToolbar();
 
         // Build the actions for new and existing records.

@@ -43,11 +43,7 @@ class MailController extends BaseController
 
         $model = $this->getModel('Mail');
 
-        if ($model->send()) {
-            $type = 'message';
-        } else {
-            $type = 'error';
-        }
+        $type = $model->send() ? 'message' : 'error';
 
         $msg = $model->getError();
         $this->setRedirect('index.php?option=com_users&view=mail', $msg, $type);

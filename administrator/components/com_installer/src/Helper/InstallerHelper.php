@@ -91,13 +91,7 @@ class InstallerHelper
      */
     public static function getClientOptions()
     {
-        // Build the filter options.
-        $options   = [];
-        $options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
-        $options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
-        $options[] = HTMLHelper::_('select.option', '3', Text::_('JAPI'));
-
-        return $options;
+        return [HTMLHelper::_('select.option', '0', Text::_('JSITE')), HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR')), HTMLHelper::_('select.option', '3', Text::_('JAPI'))];
     }
 
     /**
@@ -109,14 +103,7 @@ class InstallerHelper
      */
     public static function getStateOptions()
     {
-        // Build the filter options.
-        $options   = [];
-        $options[] = HTMLHelper::_('select.option', '0', Text::_('JDISABLED'));
-        $options[] = HTMLHelper::_('select.option', '1', Text::_('JENABLED'));
-        $options[] = HTMLHelper::_('select.option', '2', Text::_('JPROTECTED'));
-        $options[] = HTMLHelper::_('select.option', '3', Text::_('JUNPROTECTED'));
-
-        return $options;
+        return [HTMLHelper::_('select.option', '0', Text::_('JDISABLED')), HTMLHelper::_('select.option', '1', Text::_('JENABLED')), HTMLHelper::_('select.option', '2', Text::_('JPROTECTED')), HTMLHelper::_('select.option', '3', Text::_('JUNPROTECTED'))];
     }
 
     /**
@@ -246,14 +233,14 @@ class InstallerHelper
             $extension->get('folder')
         );
 
-        if (!$installXmlFile) {
+        if (!$installXmlFile instanceof \SimpleXMLElement) {
             return [
                 'supported' => false,
                 'valid'     => false,
             ];
         }
 
-        if (!isset($installXmlFile->dlid)) {
+        if (!property_exists($installXmlFile, 'dlid') || $installXmlFile->dlid === null) {
             return [
                 'supported' => false,
                 'valid'     => false,
@@ -264,7 +251,7 @@ class InstallerHelper
         $suffix = (string) $installXmlFile->dlid['suffix'];
         $value  = substr((string) $extension->get('extra_query'), \strlen($prefix));
 
-        if ($suffix) {
+        if ($suffix !== '' && $suffix !== '0') {
             $value = substr($value, 0, -\strlen($suffix));
         }
 

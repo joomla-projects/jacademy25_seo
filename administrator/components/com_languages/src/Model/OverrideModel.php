@@ -97,7 +97,7 @@ class OverrideModel extends AdminModel
     public function getItem($pk = null)
     {
         $input    = Factory::getApplication()->getInput();
-        $pk       = !empty($pk) ? $pk : $input->get('id');
+        $pk       = empty($pk) ? $input->get('id') : $pk;
         $fileName = \constant('JPATH_' . strtoupper((string) $this->getState('filter.client')))
             . '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
         $strings  = LanguageHelper::parseIniFile($fileName);

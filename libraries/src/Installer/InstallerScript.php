@@ -134,11 +134,7 @@ class InstallerScript
         $extensionType   = substr($this->extension, 0, 3);
 
         // Modules parameters are located in the module table - else in the extension table
-        if ($extensionType === 'mod') {
-            $this->paramTable = '#__modules';
-        } else {
-            $this->paramTable = '#__extensions';
-        }
+        $this->paramTable = $extensionType === 'mod' ? '#__modules' : '#__extensions';
 
         // Abort if the extension being installed is not newer than the currently installed version
         if (!$this->allowDowngrades && strtolower($type) === 'update') {
@@ -242,12 +238,7 @@ class InstallerScript
             foreach ($paramArray as $name => $value) {
                 if ($type === 'edit') {
                     // Add or edit the new variable(s) to the existing params
-                    if (\is_array($value)) {
-                        // Convert an array into a json encoded string
-                        $params[(string) $name] = array_values($value);
-                    } else {
-                        $params[(string) $name] = (string) $value;
-                    }
+                    $params[(string) $name] = \is_array($value) ? array_values($value) : (string) $value;
                 } elseif ($type === 'remove') {
                     // Unset the parameter from the array
                     unset($params[(string) $name]);
@@ -316,7 +307,7 @@ class InstallerScript
      */
     public function removeFiles()
     {
-        if (!empty($this->deleteFiles)) {
+        if ($this->deleteFiles !== []) {
             foreach ($this->deleteFiles as $file) {
                 if (is_file(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file)) {
                     echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br>';
@@ -324,7 +315,7 @@ class InstallerScript
             }
         }
 
-        if (!empty($this->deleteFolders)) {
+        if ($this->deleteFolders !== []) {
             foreach ($this->deleteFolders as $folder) {
                 if (is_dir(Path::clean(JPATH_ROOT . $folder)) && !Folder::delete(JPATH_ROOT . $folder)) {
                     echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br>';
@@ -342,7 +333,7 @@ class InstallerScript
      */
     public function moveCliFiles()
     {
-        if (!empty($this->cliScriptFiles)) {
+        if ($this->cliScriptFiles !== []) {
             foreach ($this->cliScriptFiles as $file) {
                 $name = basename((string) $file);
 

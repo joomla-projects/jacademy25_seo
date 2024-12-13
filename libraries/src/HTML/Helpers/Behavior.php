@@ -165,7 +165,7 @@ abstract class Behavior
     {
         $terms = array_filter($terms, 'strlen');
 
-        if (!empty($terms)) {
+        if ($terms !== []) {
             $doc = Factory::getDocument();
 
             $doc->getWebAssetManager()->useScript('highlight');

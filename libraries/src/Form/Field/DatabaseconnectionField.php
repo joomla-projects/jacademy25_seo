@@ -76,7 +76,7 @@ class DatabaseconnectionField extends ListField
 
         // This will come into play if an application is installed that requires
         // a database that is not available on the server.
-        if (empty($options)) {
+        if ($options === []) {
             $options[''] = Text::_('JNONE');
         }
 

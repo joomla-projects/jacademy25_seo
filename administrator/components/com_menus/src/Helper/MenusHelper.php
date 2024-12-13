@@ -336,12 +336,12 @@ class MenusHelper extends ContentHelper
             $exId = array_map('intval', array_filter($exclude, 'is_numeric'));
             $exEl = array_filter($exclude, 'is_string');
 
-            if ($exId) {
+            if ($exId !== []) {
                 $query->whereNotIn($db->quoteName('m.id'), $exId)
                     ->whereNotIn($db->quoteName('m.parent_id'), $exId);
             }
 
-            if ($exEl) {
+            if ($exEl !== []) {
                 $query->whereNotIn($db->quoteName('e.element'), $exEl, ParameterType::STRING);
             }
         }
@@ -364,8 +364,9 @@ class MenusHelper extends ContentHelper
                 if ($menuitem->type == 'alias') {
                     static::resolveAlias($menuitem);
                 }
+                $menuitem->link = \in_array($menuitem->type, ['separator', 'heading', 'container']) ? '#' : trim($menuitem->link);
 
-                if ($menuitem->link = \in_array($menuitem->type, ['separator', 'heading', 'container']) ? '#' : trim($menuitem->link)) {
+                if ($menuitem->link !== '' && $menuitem->link !== '0') {
                     $menuitem->submenu = [];
                     $menuitem->class   = $menuitem->img ?? '';
                     $menuitem->scope ??= null;
@@ -619,8 +620,9 @@ class MenusHelper extends ContentHelper
                     continue;
                 }
 
-                $lang->load($component->option . '.sys', JPATH_ADMINISTRATOR)
-                || $lang->load($component->option . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component->option);
+                if (!$lang->load($component->option . '.sys', JPATH_ADMINISTRATOR)) {
+                    $lang->load($component->option . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component->option);
+                }
 
                 $presets = Folder::files($folder, '.xml');
 
@@ -747,8 +749,9 @@ class MenusHelper extends ContentHelper
         if ($item->type == 'alias') {
             static::resolveAlias($item);
         }
+        $item->link = \in_array($item->type, ['separator', 'heading', 'container']) ? '#' : trim($item->link);
 
-        if ($item->link = \in_array($item->type, ['separator', 'heading', 'container']) ? '#' : trim($item->link)) {
+        if ($item->link !== '' && $item->link !== '0') {
             $item->class  = $item->img ?? '';
             $item->scope ??= null;
             $item->target = $item->browserNav ? '_blank' : '';
@@ -769,7 +772,7 @@ class MenusHelper extends ContentHelper
     protected static function loadXml($elements, $parent, $replace = [])
     {
         foreach ($elements as $element) {
-            if ($element->getName() != 'menuitem') {
+            if ($element->getName() !== 'menuitem') {
                 continue;
             }
 
@@ -793,23 +796,23 @@ class MenusHelper extends ContentHelper
                 $query = $db->getQuery(true);
                 $query->select($select)->from($from);
 
-                if ($where) {
+                if ($where !== '' && $where !== '0') {
                     $query->where($where);
                 }
 
-                if ($order) {
+                if ($order !== '' && $order !== '0') {
                     $query->order($order);
                 }
 
-                if ($group) {
+                if ($group !== '' && $group !== '0') {
                     $query->group($group);
                 }
 
-                if ($lJoin) {
+                if ($lJoin !== '' && $lJoin !== '0') {
                     $query->join('LEFT', $lJoin);
                 }
 
-                if ($iJoin) {
+                if ($iJoin !== '' && $iJoin !== '0') {
                     $query->join('INNER', $iJoin);
                 }
 
@@ -824,7 +827,7 @@ class MenusHelper extends ContentHelper
                     }
 
                     // Iterate over the matching records, items goes in the same level (not $item->submenu) as this node.
-                    if ('self' == (string) $element['sql_target']) {
+                    if ('self' === (string) $element['sql_target']) {
                         foreach ($results as $result) {
                             static::loadXml($element->menuitem, $child, $result);
                         }
@@ -876,26 +879,26 @@ class MenusHelper extends ContentHelper
         $params = new Registry(trim($node->params));
         $params->set('menu-permission', (string) $node['permission']);
 
-        if ($item->type == 'separator' && trim($item->title, '- ')) {
+        if ($item->type === 'separator' && trim($item->title, '- ')) {
             $params->set('text_separator', 1);
         }
 
-        if ($item->type == 'heading' || $item->type == 'container') {
+        if ($item->type === 'heading' || $item->type === 'container') {
             $item->link = '#';
         }
 
-        if ((string) $node['quicktask']) {
+        if ((string) $node['quicktask'] !== '' && (string) $node['quicktask'] !== '0') {
             $params->set('menu-quicktask', (string) $node['quicktask']);
             $params->set('menu-quicktask-title', (string) $node['quicktask-title']);
             $params->set('menu-quicktask-icon', (string) $node['quicktask-icon']);
             $params->set('menu-quicktask-permission', (string) $node['quicktask-permission']);
         }
 
-        if ($item->ajaxbadge) {
+        if ($item->ajaxbadge !== '' && $item->ajaxbadge !== '0') {
             $params->set('ajax-badge', $item->ajaxbadge);
         }
 
-        if ($item->dashboard) {
+        if ($item->dashboard !== '' && $item->dashboard !== '0') {
             $params->set('dashboard', $item->dashboard);
         }
 

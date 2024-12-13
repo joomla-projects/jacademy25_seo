@@ -116,7 +116,7 @@ class Scheduler
         );
 
         // ? Should this be logged? (probably, if an ID is passed?)
-        if (empty($task)) {
+        if (!$task instanceof \Joomla\Component\Scheduler\Administrator\Task\Task) {
             return null;
         }
 

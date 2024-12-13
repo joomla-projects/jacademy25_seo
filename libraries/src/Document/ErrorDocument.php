@@ -111,8 +111,8 @@ class ErrorDocument extends HtmlDocument
     public function render($cache = false, $params = [])
     {
         // If no error object is set return null
-        if (!isset($this->_error)) {
-            return;
+        if ($this->_error === null) {
+            return null;
         }
 
         // Set the status header
@@ -149,8 +149,8 @@ class ErrorDocument extends HtmlDocument
     public function renderBacktrace()
     {
         // If no error object is set return null
-        if (!isset($this->_error)) {
-            return;
+        if ($this->_error === null) {
+            return null;
         }
 
         // The back trace

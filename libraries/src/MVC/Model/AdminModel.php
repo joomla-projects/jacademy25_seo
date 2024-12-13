@@ -458,9 +458,9 @@ abstract class AdminModel extends FormModel
             $this->table->id = 0;
 
             // Unpublish because we are making a copy
-            if (isset($this->table->published)) {
+            if ($this->table->published !== null) {
                 $this->table->published = 0;
-            } elseif (isset($this->table->state)) {
+            } elseif ($this->table->state !== null) {
                 $this->table->state = 0;
             }
 
@@ -779,7 +779,7 @@ abstract class AdminModel extends FormModel
         $table = $this->getTable();
         $count = 0;
 
-        if (empty($pks)) {
+        if ($pks === []) {
             $pks = [(int) $this->getState($this->getName() . '.id')];
         }
 
@@ -816,7 +816,7 @@ abstract class AdminModel extends FormModel
      */
     public function checkout($pk = null)
     {
-        $pk = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
+        $pk = (empty($pk)) ? (int) $this->getState($this->getName() . '.id') : $pk;
 
         return parent::checkout($pk);
     }
@@ -985,7 +985,7 @@ abstract class AdminModel extends FormModel
      */
     public function getItem($pk = null)
     {
-        $pk    = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
+        $pk    = (empty($pk)) ? (int) $this->getState($this->getName() . '.id') : $pk;
         $table = $this->getTable();
 
         if ($pk > 0) {
@@ -1123,7 +1123,7 @@ abstract class AdminModel extends FormModel
         }
 
         // Check if there are items to change
-        if (!\count($pks)) {
+        if ($pks === []) {
             return true;
         }
 
@@ -1219,7 +1219,7 @@ abstract class AdminModel extends FormModel
             }
         }
 
-        if ($allowed === false && empty($pks)) {
+        if ($allowed === false && $pks === []) {
             $result = null;
         }
 
@@ -1689,11 +1689,7 @@ abstract class AdminModel extends FormModel
             $targetLang = implode(',', $targetLang);
             $targetId   = $data['associations'][$targetLang];
 
-            if ($targetId) {
-                $target = '&target=' . $targetLang . '%3A' . $targetId . '%3Aedit';
-            } else {
-                $target = '&target=' . $targetLang . '%3A0%3Aadd';
-            }
+            $target = $targetId ? '&target=' . $targetLang . '%3A' . $targetId . '%3Aedit' : '&target=' . $targetLang . '%3A0%3Aadd';
         }
 
         $app->redirect(

@@ -90,7 +90,7 @@ final class Fields extends CMSPlugin
         $regex = '/{(field|fieldgroup)\s+(.*?)}/i';
         preg_match_all($regex, $string, $matches, PREG_SET_ORDER);
 
-        if (!$matches) {
+        if ($matches === []) {
             return $string;
         }
 
@@ -119,7 +119,7 @@ final class Fields extends CMSPlugin
 
             if ($match[1] === 'field' && $id) {
                 if (isset($fieldsById[$id])) {
-                    $layout = !empty($explode[1]) ? trim($explode[1]) : $fieldsById[$id]->params->get('layout', 'render');
+                    $layout = empty($explode[1]) ? $fieldsById[$id]->params->get('layout', 'render') : trim($explode[1]);
                     $output = FieldsHelper::render(
                         $context,
                         'field.' . $layout,
@@ -139,7 +139,7 @@ final class Fields extends CMSPlugin
                 }
 
                 if ($renderFields) {
-                    $layout = !empty($explode[1]) ? trim($explode[1]) : 'render';
+                    $layout = empty($explode[1]) ? 'render' : trim($explode[1]);
                     $output = FieldsHelper::render(
                         $context,
                         'fields.' . $layout,

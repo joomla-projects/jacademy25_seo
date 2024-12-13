@@ -160,7 +160,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
         $params = $this->getActionLogParams($context);
 
         // Not found a valid content type, don't process further
-        if ($params === null) {
+        if (!$params instanceof \stdClass) {
             return;
         }
 
@@ -220,7 +220,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
         $params = $this->getActionLogParams($context);
 
         // Not found a valid content type, don't process further
-        if ($params === null) {
+        if (!$params instanceof \stdClass) {
             return;
         }
 
@@ -268,7 +268,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
         $params = $this->getActionLogParams($context);
 
         // Not found a valid content type, don't process further
-        if ($params === null) {
+        if (!$params instanceof \stdClass) {
             return;
         }
 
@@ -540,7 +540,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
         $params = $this->getActionLogParams($context);
 
         // Not found a valid content type, don't process further
-        if ($params === null) {
+        if (!$params instanceof \stdClass) {
             return;
         }
 
@@ -595,7 +595,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
         $params = $this->getActionLogParams($context);
 
         // Not found a valid content type, don't process further
-        if ($params === null) {
+        if (!$params instanceof \stdClass) {
             return;
         }
 

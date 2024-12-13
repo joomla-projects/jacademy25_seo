@@ -82,7 +82,7 @@ class CheckboxField extends FormField
     {
         if ($name === 'checked') {
             $value         = (string) $value;
-            $this->checked = ($value === 'true' || $value == $name || $value === '1');
+            $this->checked = ($value === 'true' || $value === $name || $value === '1');
 
             return;
         }
@@ -109,7 +109,7 @@ class CheckboxField extends FormField
         // Handle the default attribute
         $default = (string) $element['default'];
 
-        if ($default) {
+        if ($default !== '' && $default !== '0') {
             $test = $this->form->getValue((string) $element['name'], $group);
 
             $value = ($test == $default) ? $default : null;

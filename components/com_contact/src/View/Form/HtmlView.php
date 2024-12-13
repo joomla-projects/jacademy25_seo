@@ -70,7 +70,7 @@ class HtmlView extends BaseHtmlView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  void|boolean
+     * @return bool|null
      *
      * @throws \Exception
      * @since  4.0.0
@@ -95,7 +95,7 @@ class HtmlView extends BaseHtmlView
             $authorised = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by === $user->id);
         }
 
-        if ($authorised !== true) {
+        if (!$authorised) {
             $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
             $app->setHeader('status', 403, true);
 
@@ -133,6 +133,7 @@ class HtmlView extends BaseHtmlView
         $this->_prepareDocument();
 
         parent::display($tpl);
+        return null;
     }
 
     /**

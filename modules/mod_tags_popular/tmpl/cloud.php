@@ -20,7 +20,7 @@ $maxsize = $params->get('maxsize', 2);
 ?>
 <div class="mod-tagspopular-cloud tagspopular tagscloud">
 <?php
-if (!count($list)) : ?>
+if (count($list) === 0) : ?>
     <div class="alert alert-info">
         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
         <?php echo Text::_('MOD_TAGS_POPULAR_NO_ITEMS_FOUND'); ?>
@@ -40,11 +40,7 @@ if (!count($list)) : ?>
     $countdiff = $maxcount - $mincount;
 
     foreach ($list as $item) :
-        if ($countdiff === 0) :
-            $fontsize = $minsize;
-        else :
-            $fontsize = $minsize + (($maxsize - $minsize) / $countdiff) * ($item->count - $mincount);
-        endif;
+        $fontsize = $countdiff === 0 ? $minsize : $minsize + (($maxsize - $minsize) / $countdiff) * ($item->count - $mincount);
         ?>
         <span class="tag">
             <a class="tag-name" style="font-size: <?php echo $fontsize . 'em'; ?>" href="<?php echo Route::_(RouteHelper::getComponentTagRoute($item->tag_id . ':' . $item->alias, $item->language)); ?>">

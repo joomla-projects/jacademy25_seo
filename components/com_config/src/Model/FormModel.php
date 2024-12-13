@@ -147,12 +147,7 @@ abstract class FormModel extends BaseForm
             // Get the form.
             $form = Form::getInstance($name, $source, $options, false, $xpath);
 
-            if (isset($options['load_data']) && $options['load_data']) {
-                // Get the data for the form.
-                $data = $this->loadFormData();
-            } else {
-                $data = [];
-            }
+            $data = isset($options['load_data']) && $options['load_data'] ? $this->loadFormData() : [];
 
             // Allow for additional modification of the form, and events to be triggered.
             // We pass the data because plugins may require it.

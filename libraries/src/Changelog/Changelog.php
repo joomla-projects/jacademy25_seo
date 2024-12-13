@@ -274,7 +274,7 @@ class Changelog
                 $this->items                         = [];
                 break;
             case 'CHANGELOG':
-                if (version_compare($this->currentChangelog->version->data, $this->matchVersion, '==') === true) {
+                if (version_compare($this->currentChangelog->version->data, $this->matchVersion, '==')) {
                     $this->latest = $this->currentChangelog;
                 }
 
@@ -283,14 +283,14 @@ class Changelog
                 break;
             case 'CHANGELOGS':
                 // If the latest item is set then we transfer it to where we want to
-                if (isset($this->latest)) {
+                if ($this->latest !== null) {
                     foreach (get_object_vars($this->latest) as $key => $val) {
                         $this->$key = $val;
                     }
 
                     unset($this->latest);
                     unset($this->currentChangelog);
-                } elseif (isset($this->currentChangelog)) {
+                } elseif ($this->currentChangelog !== null) {
                     // The update might be for an older version of j!
                     unset($this->currentChangelog);
                 }
@@ -372,7 +372,7 @@ class Changelog
         xml_set_element_handler($this->xmlParser, 'startElement', 'endElement');
         xml_set_character_data_handler($this->xmlParser, 'characterData');
 
-        if (!xml_parse($this->xmlParser, $response->body)) {
+        if (xml_parse($this->xmlParser, $response->body) === 0) {
             Log::add(
                 \sprintf(
                     'XML error: %s at line %d',

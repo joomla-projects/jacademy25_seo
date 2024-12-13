@@ -84,7 +84,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      * @var    string
      * @since  3.0
      */
-    protected $message;
+    protected $message = null;
 
     /**
      * Redirect message type.
@@ -92,7 +92,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      * @var    string
      * @since  3.0
      */
-    protected $messageType;
+    protected $messageType = 'message';
 
     /**
      * Array of class methods
@@ -100,7 +100,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      * @var    array
      * @since  3.0
      */
-    protected $methods;
+    protected $methods = [];
 
     /**
      * The name of the controller
@@ -124,7 +124,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      * @var    array
      * @since  3.0
      */
-    protected $paths;
+    protected $paths = [];
 
     /**
      * URL for redirection.
@@ -132,7 +132,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      * @var    string
      * @since  3.0
      */
-    protected $redirect;
+    protected $redirect = null;
 
     /**
      * Current or most recently performed task.
@@ -148,7 +148,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      * @var    array
      * @since  3.0
      */
-    protected $taskMap;
+    protected $taskMap = [];
 
     /**
      * Hold a JInput object for easier access to the input variables.
@@ -225,11 +225,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         switch ($type) {
             case 'controller':
                 if (!empty($parts['format'])) {
-                    if ($parts['format'] === 'html') {
-                        $parts['format'] = '';
-                    } else {
-                        $parts['format'] = '.' . $parts['format'];
-                    }
+                    $parts['format'] = $parts['format'] === 'html' ? '' : '.' . $parts['format'];
                 } else {
                     $parts['format'] = '';
                 }
@@ -238,11 +234,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                 break;
 
             case 'view':
-                if (!empty($parts['type'])) {
-                    $parts['type'] = '.' . $parts['type'];
-                } else {
-                    $parts['type'] = '';
-                }
+                $parts['type'] = empty($parts['type']) ? '' : '.' . $parts['type'];
 
                 $filename = strtolower($parts['name'] . '/view' . $parts['type'] . '.php');
                 break;
@@ -367,13 +359,6 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      */
     public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?CMSApplicationInterface $app = null, ?Input $input = null)
     {
-        $this->methods     = [];
-        $this->message     = null;
-        $this->messageType = 'message';
-        $this->paths       = [];
-        $this->redirect    = null;
-        $this->taskMap     = [];
-
         $this->app   = $app ?: Factory::getApplication();
         $this->input = $input ?: $this->app->getInput();
 
@@ -411,19 +396,11 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
 
         // Set the view name
         if (empty($this->name)) {
-            if (\array_key_exists('name', $config)) {
-                $this->name = $config['name'];
-            } else {
-                $this->name = $this->getName();
-            }
+            $this->name = \array_key_exists('name', $config) ? $config['name'] : $this->getName();
         }
 
         // Set a base path for use by the controller
-        if (\array_key_exists('base_path', $config)) {
-            $this->basePath = $config['base_path'];
-        } else {
-            $this->basePath = JPATH_COMPONENT;
-        }
+        $this->basePath = \array_key_exists('base_path', $config) ? $config['base_path'] : JPATH_COMPONENT;
 
         // If the default task is set, register it as such
         if (\array_key_exists('default_task', $config)) {
@@ -672,17 +649,11 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
             $option = $this->input->get('option');
 
             if (\is_array($urlparams)) {
-                if (!empty($this->app->registeredurlparams)) {
-                    $registeredurlparams = $this->app->registeredurlparams;
-                } else {
-                    $registeredurlparams = new \stdClass();
-                }
-
+                $registeredurlparams = empty($this->app->registeredurlparams) ? new \stdClass() : $this->app->registeredurlparams;
                 foreach ($urlparams as $key => $value) {
                     // Add your safe URL parameters with variable type as value {@see InputFilter::clean()}.
                     $registeredurlparams->$key = $value;
                 }
-
                 $this->app->registeredurlparams = $registeredurlparams;
             }
 

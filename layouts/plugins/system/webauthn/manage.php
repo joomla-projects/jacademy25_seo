@@ -73,7 +73,7 @@ HTMLHelper::_('bootstrap.tooltip', '.plg_system_webauth-has-tooltip');
 ?>
 <div class="plg_system_webauthn" id="plg_system_webauthn-management-interface">
     <?php
-    if (is_string($error) && !empty($error)) : ?>
+    if (is_string($error) && ($error !== '' && $error !== '0')) : ?>
         <div class="alert alert-danger">
             <?php echo htmlentities($error) ?>
         </div>

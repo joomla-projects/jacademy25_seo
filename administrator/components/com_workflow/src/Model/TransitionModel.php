@@ -161,7 +161,7 @@ class TransitionModel extends AdminModel
         if ($pk > 0) {
             $table->load($pk);
 
-            if ((int) $table->workflow_id) {
+            if ((int) $table->workflow_id !== 0) {
                 $data['workflow_id'] = (int) $table->workflow_id;
             }
         }

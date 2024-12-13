@@ -231,7 +231,7 @@ class MethodModel extends BaseDatabaseModel
         $this->mfaMethods = [];
         $mfaMethods       = MfaHelper::getMfaMethods();
 
-        if (empty($mfaMethods)) {
+        if ($mfaMethods === []) {
             return;
         }
 

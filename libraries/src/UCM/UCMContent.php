@@ -55,7 +55,7 @@ class UCMContent extends UCMBase
     {
         parent::__construct($alias, $type);
 
-        if ($table) {
+        if ($table instanceof \Joomla\CMS\Table\TableInterface) {
             $this->table = $table;
         } else {
             $tableObject = json_decode($this->type->type->table);

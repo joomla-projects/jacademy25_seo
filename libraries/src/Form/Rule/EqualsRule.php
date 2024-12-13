@@ -48,7 +48,7 @@ class EqualsRule extends FormRule
         $field = (string) $element['field'];
 
         // Check that a validation field is set.
-        if (!$field) {
+        if ($field === '' || $field === '0') {
             throw new \UnexpectedValueException(\sprintf('$field empty in %s::test', static::class));
         }
 

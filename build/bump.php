@@ -98,12 +98,12 @@ if (empty($opts['v'])) {
 // Check version string (exit if not correct).
 $versionParts = explode('-', $opts['v']);
 
-if (!preg_match('#^[0-9]+\.[0-9]+\.[0-9]+$#', $versionParts[0])) {
+if (!preg_match('#^\d+\.\d+\.\d+$#', $versionParts[0])) {
     usage($argv[0]);
     die();
 }
 
-if (isset($versionParts[1]) && !preg_match('#(dev|alpha|beta|rc)[0-9]*#', $versionParts[1])) {
+if (isset($versionParts[1]) && !preg_match('#(dev|alpha|beta|rc)\d*#', $versionParts[1])) {
     usage($argv[0]);
     die();
 }
@@ -125,16 +125,14 @@ $dev_status = 'Stable';
 
 if (!isset($versionParts[1])) {
     $versionParts[1] = '';
-} else {
-    if (preg_match('#^dev#', $versionParts[1])) {
-        $dev_status = 'Development';
-    } elseif (preg_match('#^alpha#', $versionParts[1])) {
-        $dev_status = 'Alpha';
-    } elseif (preg_match('#^beta#', $versionParts[1])) {
-        $dev_status = 'Beta';
-    } elseif (preg_match('#^rc#', $versionParts[1])) {
-        $dev_status = 'Release Candidate';
-    }
+} elseif (preg_match('#^dev#', $versionParts[1])) {
+    $dev_status = 'Development';
+} elseif (preg_match('#^alpha#', $versionParts[1])) {
+    $dev_status = 'Alpha';
+} elseif (preg_match('#^beta#', $versionParts[1])) {
+    $dev_status = 'Beta';
+} elseif (preg_match('#^rc#', $versionParts[1])) {
+    $dev_status = 'Release Candidate';
 }
 
 if (!isset($versionParts[2])) {
@@ -155,9 +153,9 @@ $version = [
     'major'      => $versionSubParts[0],
     'minor'      => $versionSubParts[1],
     'patch'      => $versionSubParts[2],
-    'extra'      => (!empty($versionParts[1]) ? $versionParts[1] : '') . (!empty($versionParts[2]) ? (!empty($versionParts[1]) ? '-' : '') . $versionParts[2] : ''),
+    'extra'      => (empty($versionParts[1]) ? '' : $versionParts[1]) . (empty($versionParts[2]) ? '' : (empty($versionParts[1]) ? '' : '-') . $versionParts[2]),
     'release'    => $versionSubParts[0] . '.' . $versionSubParts[1] . '.' . $versionSubParts[2],
-    'dev_devel'  => $versionSubParts[2] . (!empty($versionParts[1]) ? '-' . $versionParts[1] : '') . (!empty($versionParts[2]) ? '-' . $versionParts[2] : ''),
+    'dev_devel'  => $versionSubParts[2] . (empty($versionParts[1]) ? '' : '-' . $versionParts[1]) . (empty($versionParts[2]) ? '' : '-' . $versionParts[2]),
     'dev_status' => $dev_status,
     'build'      => '',
     'reldate'    => $date->format('j-F-Y'),
@@ -185,7 +183,7 @@ echo '- Release time:' . PHP_TAB . PHP_TAB . $version['reltime'] . PHP_EOL;
 echo '- Release timezone:' . PHP_TAB . $version['reltz'] . PHP_EOL;
 echo '- Creation date:' . PHP_TAB . $version['credate'] . PHP_EOL;
 
-if (!empty($version['codename'])) {
+if (isset($version['codename']) && ($version['codename'] !== '' && $version['codename'] !== '0')) {
     echo '- Codename:' . PHP_TAB . PHP_TAB . $version['codename'] . PHP_EOL;
 }
 
@@ -208,7 +206,7 @@ if (file_exists($rootPath . $versionFile)) {
     $fileContents = preg_replace("#RELTIME\s*=\s*'[^\']*'#", "RELTIME = '" . $version['reltime'] . "'", (string) $fileContents);
     $fileContents = preg_replace("#RELTZ\s*=\s*'[^\']*'#", "RELTZ = '" . $version['reltz'] . "'", (string) $fileContents);
 
-    if (!empty($version['codename'])) {
+    if (isset($version['codename']) && ($version['codename'] !== '' && $version['codename'] !== '0')) {
         $fileContents = preg_replace("#CODENAME\s*=\s*'[^\']*'#", "CODENAME = '" . $version['codename'] . "'", (string) $fileContents);
     }
 
@@ -265,8 +263,8 @@ foreach ($packageJsonFiles as $packageJsonFile) {
 foreach ($readMeFiles as $readMeFile) {
     if (file_exists($rootPath . $readMeFile)) {
         $fileContents = file_get_contents($rootPath . $readMeFile);
-        $fileContents = preg_replace('#Joomla! [0-9]+\.[0-9]+ (|\[)version#', 'Joomla! ' . $version['main'] . ' $1version', $fileContents);
-        $fileContents = preg_replace('#Joomla_[0-9]+\.[0-9]+_version#', 'Joomla_' . $version['main'] . '_version', (string) $fileContents);
+        $fileContents = preg_replace('#Joomla! \d+\.\d+ (|\[)version#', 'Joomla! ' . $version['main'] . ' $1version', $fileContents);
+        $fileContents = preg_replace('#Joomla_\d+\.\d+_version#', 'Joomla_' . $version['main'] . '_version', (string) $fileContents);
         file_put_contents($rootPath . $readMeFile, $fileContents);
     }
 }

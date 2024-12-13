@@ -116,15 +116,13 @@ class TemplateAdapter extends InstallerAdapter
             $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-            if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles([$path])) {
-                    throw new \RuntimeException(
-                        Text::sprintf(
-                            'JLIB_INSTALLER_ABORT_MANIFEST',
-                            Text::_('JLIB_INSTALLER_' . strtoupper($this->getRoute()))
-                        )
-                    );
-                }
+            if (($this->parent->isOverwrite() || !file_exists($path['dest'])) && !$this->parent->copyFiles([$path])) {
+                throw new \RuntimeException(
+                    Text::sprintf(
+                        'JLIB_INSTALLER_ABORT_MANIFEST',
+                        Text::_('JLIB_INSTALLER_' . strtoupper($this->getRoute()))
+                    )
+                );
             }
         }
     }
@@ -156,16 +154,14 @@ class TemplateAdapter extends InstallerAdapter
         }
 
         // Lastly, we will copy the manifest file to its appropriate place.
-        if ($this->route !== 'discover_install') {
-            if (!$this->parent->copyManifest(-1)) {
-                // Install failed, rollback changes
-                throw new \RuntimeException(
-                    Text::sprintf(
-                        'JLIB_INSTALLER_ABORT_COPY_SETUP',
-                        Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
-                    )
-                );
-            }
+        if ($this->route !== 'discover_install' && !$this->parent->copyManifest(-1)) {
+            // Install failed, rollback changes
+            throw new \RuntimeException(
+                Text::sprintf(
+                    'JLIB_INSTALLER_ABORT_COPY_SETUP',
+                    Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+                )
+            );
         }
     }
 
@@ -279,7 +275,7 @@ class TemplateAdapter extends InstallerAdapter
         $client = (string) $this->getManifest()->attributes()->client;
 
         // Load administrator language if not set.
-        if (!$client) {
+        if ($client === '' || $client === '0') {
             $client = 'ADMINISTRATOR';
         }
 
@@ -413,7 +409,7 @@ class TemplateAdapter extends InstallerAdapter
         // Get the client application target
         $cname = (string) $this->getManifest()->attributes()->client;
 
-        if ($cname) {
+        if ($cname !== '' && $cname !== '0') {
             // Attempt to map the client to a base path
             $client = ApplicationHelper::getClientInfo($cname, true);
 

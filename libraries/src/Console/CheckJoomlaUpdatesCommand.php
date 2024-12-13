@@ -122,11 +122,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
      */
     public function setUpdateInfo($info = null): void
     {
-        if (!$info) {
-            $this->updateInfo = $this->getUpdateInformationFromModel();
-        } else {
-            $this->updateInfo = $info;
-        }
+        $this->updateInfo = $info ?: $this->getUpdateInformationFromModel();
     }
 
     /**

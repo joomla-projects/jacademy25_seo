@@ -106,7 +106,7 @@ class LanguageModel extends AdminModel
      */
     public function getItem($langId = null)
     {
-        $langId = (!empty($langId)) ? $langId : (int) $this->getState('language.id');
+        $langId = (empty($langId)) ? (int) $this->getState('language.id') : $langId;
 
         // Get a member row instance.
         $table = $this->getTable();
@@ -186,7 +186,7 @@ class LanguageModel extends AdminModel
      */
     public function save($data)
     {
-        $langId = (!empty($data['lang_id'])) ? $data['lang_id'] : (int) $this->getState('language.id');
+        $langId = (empty($data['lang_id'])) ? (int) $this->getState('language.id') : $data['lang_id'];
         $isNew  = true;
 
         PluginHelper::importPlugin($this->events_map['save']);

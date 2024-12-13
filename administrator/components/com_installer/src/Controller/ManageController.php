@@ -71,7 +71,7 @@ class ManageController extends BaseController
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
 
-        if (empty($ids)) {
+        if ($ids === []) {
             $this->setMessage(Text::_('COM_INSTALLER_ERROR_NO_EXTENSIONS_SELECTED'), 'warning');
         } else {
             /** @var ManageModel $model */
@@ -81,12 +81,7 @@ class ManageController extends BaseController
             if (!$model->publish($ids, $value)) {
                 $this->setMessage(implode('<br>', $model->getErrors()), 'warning');
             } else {
-                if ($value == 1) {
-                    $ntext = 'COM_INSTALLER_N_EXTENSIONS_PUBLISHED';
-                } else {
-                    $ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
-                }
-
+                $ntext = $value == 1 ? 'COM_INSTALLER_N_EXTENSIONS_PUBLISHED' : 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
                 $this->setMessage(Text::plural($ntext, \count($ids)));
             }
         }
@@ -113,7 +108,7 @@ class ManageController extends BaseController
         // Remove zero values resulting from input filter
         $eid = array_filter($eid);
 
-        if (!empty($eid)) {
+        if ($eid !== []) {
             /** @var ManageModel $model */
             $model = $this->getModel('manage');
 
@@ -142,7 +137,7 @@ class ManageController extends BaseController
         // Remove zero values resulting from input filter
         $uid = array_filter($uid);
 
-        if (!empty($uid)) {
+        if ($uid !== []) {
             /** @var ManageModel $model */
             $model = $this->getModel('manage');
 

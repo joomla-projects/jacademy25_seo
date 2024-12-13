@@ -173,14 +173,16 @@ class AdministratorApplication extends CMSApplication
         // Initialise the application
         $this->initialiseApp($options);
 
-        // Mark afterInitialise in the profiler.
-        JDEBUG ? $this->profiler->mark('afterInitialise') : null;
+        if (JDEBUG) {
+            $this->profiler->mark('afterInitialise');
+        }
 
         // Route the application
         $this->route();
 
-        // Mark afterRoute in the profiler.
-        JDEBUG ? $this->profiler->mark('afterRoute') : null;
+        if (JDEBUG) {
+            $this->profiler->mark('afterRoute');
+        }
 
         /*
          * Check if the user is required to reset their password
@@ -194,8 +196,9 @@ class AdministratorApplication extends CMSApplication
         // Dispatch the application
         $this->dispatch();
 
-        // Mark afterDispatch in the profiler.
-        JDEBUG ? $this->profiler->mark('afterDispatch') : null;
+        if (JDEBUG) {
+            $this->profiler->mark('afterDispatch');
+        }
     }
 
     /**
@@ -309,12 +312,7 @@ class AdministratorApplication extends CMSApplication
         if (!LanguageHelper::exists($options['language'])) {
             $lang = $this->get('language', 'en-GB');
 
-            if (LanguageHelper::exists($lang)) {
-                $options['language'] = $lang;
-            } else {
-                // As a last ditch fail to english
-                $options['language'] = 'en-GB';
-            }
+            $options['language'] = LanguageHelper::exists($lang) ? $lang : 'en-GB';
         }
 
         // Finish initialisation
@@ -496,7 +494,7 @@ class AdministratorApplication extends CMSApplication
          * component. This allows the /administrator URL to display something meaningful after logging in instead of an
          * error.
          */
-        if (empty($option)) {
+        if ($option === '' || $option === '0') {
             $option = 'com_cpanel';
         }
 

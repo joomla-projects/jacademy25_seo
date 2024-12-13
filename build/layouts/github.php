@@ -28,11 +28,11 @@ foreach (['FULL', 'UPGRADE', 'MINOR', 'POINT'] as $type) {
     foreach($githubContent[$type] as $packageName => $hashes) {
         if (str_ends_with((string) $packageName, '.zip')) {
             $table[$type] .= "| [ZIP Archive (.zip)]";
-        } else if (str_ends_with((string) $packageName, '.tar.gz')) {
+        } elseif (str_ends_with((string) $packageName, '.tar.gz')) {
             $table[$type] .= "| [GNU Zip Archive (.tar.gz)]";
-        } else if (str_ends_with((string) $packageName, '.tar.bz2')) {
+        } elseif (str_ends_with((string) $packageName, '.tar.bz2')) {
             $table[$type] .= "| [Bzip2 Archive (.tar.zst)]";
-        } else if (str_ends_with((string) $packageName, '.tar.zst')) {
+        } elseif (str_ends_with((string) $packageName, '.tar.zst')) {
             $table[$type] .= "| [Zstandard Archive (.tar.zst)]";
         } else {
             // Unknown file types
@@ -68,7 +68,7 @@ $output .= <<<MD
 MD;
 
 // Installation Packages
-if (!empty($table['FULL'])):
+if (isset($table['FULL']) && ($table['FULL'] !== '' && $table['FULL'] !== '0')):
 
 $output .= <<<MD
 
@@ -84,7 +84,7 @@ MD;
 endif;
 
 // Update Packages
-if (!empty($table['UPGRADE'])):
+if (isset($table['UPGRADE']) && ($table['UPGRADE'] !== '' && $table['UPGRADE'] !== '0')):
 
 $output .= <<<MD
 

@@ -135,7 +135,7 @@ class PrivacyStatusHelper
                 $db->setQuery($query);
 
                 $homeId = (int) $db->loadResult();
-                $itemId = $homeId ? '&Itemid=' . $homeId : '';
+                $itemId = $homeId !== 0 ? '&Itemid=' . $homeId : '';
             } else {
                 $itemId = '';
             }

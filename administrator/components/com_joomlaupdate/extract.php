@@ -567,7 +567,7 @@ class ZIPExtraction
     public function setFilename(string $value)
     {
         // Security check: disallow remote filenames
-        if (!empty($value) && str_contains($value, '://')) {
+        if ($value !== '' && $value !== '0' && str_contains($value, '://')) {
             $this->setError('Invalid archive location');
 
             return;
@@ -591,7 +591,7 @@ class ZIPExtraction
         $this->addPath = str_replace('\\', '/', $this->addPath);
         $this->addPath = rtrim($this->addPath, '/');
 
-        if (!empty($this->addPath)) {
+        if ($this->addPath !== '' && $this->addPath !== '0') {
             $this->addPath .= '/';
         }
     }
@@ -638,7 +638,7 @@ class ZIPExtraction
 
         $this->readArchiveHeader();
 
-        if (!empty($this->getError())) {
+        if (!in_array($this->getError(), [null, '', '0'], true)) {
             $this->debugMsg(\sprintf('Error: %s', $this->getError()), self::LOG_ERROR);
 
             return;
@@ -727,12 +727,12 @@ class ZIPExtraction
 
         $error = $this->getError();
 
-        if (!empty($error)) {
+        if ($error !== null && $error !== '' && $error !== '0') {
             $this->debugMsg(\sprintf('Step failed with error: %s', $error), self::LOG_ERROR);
         }
 
         // Did we just finish or run into an error?
-        if (!empty($error) || $this->runState === self::AK_STATE_FINISHED) {
+        if ($error !== null && $error !== '' && $error !== '0' || $this->runState === self::AK_STATE_FINISHED) {
             $this->debugMsg('Returning true (must stop running) from step()', self::LOG_DEBUG);
 
             // Reset internal state, prevents __wakeup from trying to open a non-existent file
@@ -1002,7 +1002,7 @@ class ZIPExtraction
         $headerData   = unpack($format, $headerBinary);
 
         // Check signature
-        if (!($headerData['sig'] == 0x04034b50)) {
+        if ($headerData['sig'] != 0x04034b50) {
             // The signature is not the one used for files. Is this a central directory record (i.e. we're done)?
             if ($headerData['sig'] == 0x02014b50) {
                 $this->debugMsg('Found Central Directory header; the extraction is complete', self::LOG_DEBUG);
@@ -1083,7 +1083,7 @@ class ZIPExtraction
         }
 
         // Find hard-coded banned files
-        if ((basename($this->fileHeader->file) == ".") || (basename($this->fileHeader->file) == "..")) {
+        if ((basename($this->fileHeader->file) === ".") || (basename($this->fileHeader->file) === "..")) {
             $isBannedFile = true;
         }
 
@@ -1128,10 +1128,10 @@ class ZIPExtraction
         }
 
         // Get the translated path name
-        if ($this->fileHeader->type == 'file') {
+        if ($this->fileHeader->type === 'file') {
             $this->fileHeader->realFile = $this->fileHeader->file;
             $this->setLastExtractedFilename($this->fileHeader->file);
-        } elseif ($this->fileHeader->type == 'dir') {
+        } elseif ($this->fileHeader->type === 'dir') {
             $this->fileHeader->timestamp = 0;
 
             $dir = $this->fileHeader->file;
@@ -1354,14 +1354,11 @@ class ZIPExtraction
             $data .= $mydata;
             $leftBytes -= $reallyReadBytes;
 
-            if ($reallyReadBytes < $toReadBytes) {
-                // We read less than requested!
-                if ($this->isEOF()) {
-                    $this->debugMsg('EOF when reading symlink data', self::LOG_WARNING);
-                    $this->setError('The archive file is corrupt or truncated');
-
-                    return false;
-                }
+            // We read less than requested!
+            if ($reallyReadBytes < $toReadBytes && $this->isEOF()) {
+                $this->debugMsg('EOF when reading symlink data', self::LOG_WARNING);
+                $this->setError('The archive file is corrupt or truncated');
+                return false;
             }
         }
 
@@ -1443,22 +1440,19 @@ class ZIPExtraction
             $leftBytes -= $reallyReadBytes;
             $this->dataReadLength += $reallyReadBytes;
 
-            if ($reallyReadBytes < $toReadBytes) {
-                // We read less than requested! Why? Did we hit local EOF?
-                if ($this->isEOF()) {
-                    // Nope. The archive is corrupt
-                    $this->debugMsg('EOF when reading stored file data', self::LOG_WARNING);
-                    $this->setError('The archive file is corrupt or truncated');
-
-                    return false;
-                }
+            // We read less than requested! Why? Did we hit local EOF?
+            if ($reallyReadBytes < $toReadBytes && $this->isEOF()) {
+                // Nope. The archive is corrupt
+                $this->debugMsg('EOF when reading stored file data', self::LOG_WARNING);
+                $this->setError('The archive file is corrupt or truncated');
+                return false;
             }
 
             if (\is_resource($outfp)) {
                 @fwrite($outfp, $data);
             }
 
-            if ($this->getTimeLeft()) {
+            if ($this->getTimeLeft() !== 0.0) {
                 $this->debugMsg('Out of time; will resume extraction in the next step', self::LOG_DEBUG);
             }
         }
@@ -1610,7 +1604,7 @@ class ZIPExtraction
         }
 
         $phpMaxTime = @\ini_get("maximum_execution_time");
-        $phpMaxTime = (!is_numeric($phpMaxTime) ? 10 : @\intval($phpMaxTime)) ?: 10;
+        $phpMaxTime = (is_numeric($phpMaxTime) ? @\intval($phpMaxTime) : 10) ?: 10;
 
         return max(1, $phpMaxTime);
     }
@@ -1737,7 +1731,7 @@ function timingSafeEquals($known, $user)
     $safeLen = \strlen($known);
     $userLen = \strlen($user);
 
-    if ($userLen != $safeLen) {
+    if ($userLen !== $safeLen) {
         return false;
     }
 
@@ -1814,9 +1808,9 @@ function getConfiguration(): ?array
      */
     $password     = $extractionSetup['security.password'] ?? null;
     $userPassword = $_REQUEST['password'] ?? '';
-    $userPassword = !\is_string($userPassword) ? '' : trim($userPassword);
+    $userPassword = \is_string($userPassword) ? trim($userPassword) : '';
 
-    if (empty($password) || !\is_string($password) || (trim($password) == '') || (\strlen(trim($password)) < 32)) {
+    if (empty($password) || !\is_string($password) || (trim($password) === '') || (\strlen(trim($password)) < 32)) {
         return null;
     }
 
@@ -1828,7 +1822,7 @@ function getConfiguration(): ?array
     // An "instance" variable will resume the engine from the serialised instance
     $serialized = $_REQUEST['instance'] ?? null;
 
-    if (!\is_null($serialized) && empty(ZIPExtraction::unserialiseInstance($serialized))) {
+    if (!\is_null($serialized) && !ZIPExtraction::unserialiseInstance($serialized) instanceof \ZIPExtraction) {
         // The serialised instance is corrupt or someone tries to trick us. YOU SHALL NOT PASS!
         return null;
     }
@@ -1843,7 +1837,7 @@ $retArray = [
 ];
 
 $configuration = getConfiguration();
-$enabled       = !empty($configuration);
+$enabled       = $configuration !== null && $configuration !== [];
 
 /**
  * Sets the PHP timeout to 3600 seconds
@@ -1884,7 +1878,7 @@ if ($enabled) {
     $sourceFile = $configuration['setup.sourcefile'] ?? '';
     $destDir    = ($configuration['setup.destdir'] ?? null) ?: __DIR__;
     $basePath   = rtrim(str_replace('\\', '/', __DIR__), '/');
-    $basePath   = empty($basePath) ? $basePath : ($basePath . '/');
+    $basePath   = $basePath === '' || $basePath === '0' ? $basePath : ($basePath . '/');
     $sourceFile = (empty($sourcePath) ? '' : (rtrim((string) $sourcePath, '/\\') . '/')) . $sourceFile;
     $engine     = ZIPExtraction::getInstance();
 

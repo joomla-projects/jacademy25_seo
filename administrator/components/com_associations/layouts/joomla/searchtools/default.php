@@ -20,7 +20,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 $data = $displayData;
 
 // Receive overridable options
-$data['options'] = !empty($data['options']) ? $data['options'] : [];
+$data['options'] = empty($data['options']) ? [] : $data['options'];
 
 $noResultsText     = '';
 $hideActiveFilters = false;
@@ -69,8 +69,8 @@ $customOptions = [
     'showSelector'        => $showSelector,
     'orderFieldSelector'  => '#list_fullordering',
     'showNoResults'       => !empty($noResultsText),
-    'noResultsText'       => !empty($noResultsText) ? $noResultsText : '',
-    'formSelector'        => !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm',
+    'noResultsText'       => empty($noResultsText) ? '' : $noResultsText,
+    'formSelector'        => empty($data['options']['formSelector']) ? '#adminForm' : $data['options']['formSelector'],
 ];
 
 // Merge custom options in the options array.

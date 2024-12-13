@@ -48,17 +48,9 @@ abstract class RouterBase implements RouterInterface
      */
     public function __construct($app = null, $menu = null)
     {
-        if ($app) {
-            $this->app = $app;
-        } else {
-            $this->app = Factory::getApplication();
-        }
+        $this->app = $app ?: Factory::getApplication();
 
-        if ($menu) {
-            $this->menu = $menu;
-        } else {
-            $this->menu = $this->app->getMenu();
-        }
+        $this->menu = $menu ?: $this->app->getMenu();
     }
 
     /**

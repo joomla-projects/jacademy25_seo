@@ -166,7 +166,7 @@ abstract class PluginHelper
         // Check for the default args, if so we can optimise cheaply
         $defaults = false;
 
-        if ($plugin === null && $autocreate === true && $dispatcher === null) {
+        if ($plugin === null && $autocreate === true && !$dispatcher instanceof \Joomla\Event\DispatcherInterface) {
             $defaults = true;
         }
 

@@ -90,7 +90,7 @@ class BannersController extends AdminController
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
 
-        if (empty($ids)) {
+        if ($ids === []) {
             $this->app->enqueueMessage(Text::_('COM_BANNERS_NO_BANNERS_SELECTED'), 'warning');
         } else {
             // Get the model.
@@ -101,12 +101,7 @@ class BannersController extends AdminController
             if (!$model->stick($ids, $value)) {
                 $this->app->enqueueMessage($model->getError(), 'warning');
             } else {
-                if ($value == 1) {
-                    $ntext = 'COM_BANNERS_N_BANNERS_STUCK';
-                } else {
-                    $ntext = 'COM_BANNERS_N_BANNERS_UNSTUCK';
-                }
-
+                $ntext = $value == 1 ? 'COM_BANNERS_N_BANNERS_STUCK' : 'COM_BANNERS_N_BANNERS_UNSTUCK';
                 $this->setMessage(Text::plural($ntext, \count($ids)));
             }
         }

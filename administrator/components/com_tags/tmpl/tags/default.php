@@ -31,7 +31,7 @@ $user      = $this->getCurrentUser();
 $userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$saveOrder = ($listOrder == 'a.lft' && strtolower((string) $listDirn) == 'asc');
+$saveOrder = ($listOrder == 'a.lft' && strtolower((string) $listDirn) === 'asc');
 $extension = $this->escape($this->state->get('filter.extension'));
 $parts     = explode('.', (string) $extension);
 $component = $parts[0];

@@ -282,11 +282,9 @@ abstract class AbstractMenu
                         $test = false;
                         break;
                     }
-                } else {
-                    if ($item->{$attributes[$i]} != $values[$i]) {
-                        $test = false;
-                        break;
-                    }
+                } elseif ($item->{$attributes[$i]} != $values[$i]) {
+                    $test = false;
+                    break;
                 }
             }
 

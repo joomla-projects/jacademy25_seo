@@ -216,7 +216,7 @@ class MediaController extends ApiController
             $missingParameters[] = 'content';
         }
 
-        if (\count($missingParameters)) {
+        if ($missingParameters !== []) {
             throw new InvalidParameterException(
                 Text::sprintf('WEBSERVICE_COM_MEDIA_MISSING_REQUIRED_PARAMETERS', implode(' & ', $missingParameters))
             );
@@ -320,9 +320,11 @@ class MediaController extends ApiController
         $model = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
 
         $json = $this->input->json;
+        // Decode content, if any
+        $content = base64_decode((string) $json->get('content', '', 'raw'));
 
         // Decode content, if any
-        if ($content = base64_decode((string) $json->get('content', '', 'raw'))) {
+        if ($content !== '' && $content !== '0') {
             $this->checkContent();
         }
 

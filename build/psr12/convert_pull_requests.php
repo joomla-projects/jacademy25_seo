@@ -22,7 +22,7 @@ $baseBranches      = '4.2-dev'; // '4.1-dev,4.2-dev,4.3-dev'; We only check for 
 
 $script = array_shift($argv);
 
-if (empty($argv)) {
+if ($argv === []) {
     echo <<<TEXT
         Joomla! PSR-12 Converter
         =======================
@@ -141,7 +141,7 @@ $fieldList = [
 $branches = 'base:' . implode(' base:', explode(',', $baseBranches));
 
 
-if (!empty($prNumber)) {
+if (!($prNumber === '' || $prNumber === '0' || $prNumber === false)) {
     echo "Retrieving Pull Request " . $prNumber . "...\n";
     $cmd = $gh . ' pr view ' . $prNumber . ' --json ' . implode(',', $fieldList);
 } else {
@@ -158,7 +158,7 @@ if ($result !== 0) {
 
 $json = $output[0];
 
-if (!empty($prNumber)) {
+if (!($prNumber === '' || $prNumber === '0' || $prNumber === false)) {
     $json = '[' . $json . ']';
 }
 

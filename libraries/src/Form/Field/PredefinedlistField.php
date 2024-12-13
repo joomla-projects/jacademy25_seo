@@ -101,7 +101,7 @@ abstract class PredefinedlistField extends ListField
         $hash = md5($this->element);
         $type = strtolower($this->type);
 
-        if (!isset(static::$options[$type][$hash]) && !empty($this->predefinedOptions)) {
+        if (!isset(static::$options[$type][$hash]) && $this->predefinedOptions !== []) {
             static::$options[$type][$hash] = parent::getOptions();
 
             $options = [];
@@ -109,7 +109,7 @@ abstract class PredefinedlistField extends ListField
             foreach ($this->predefinedOptions as $value => $text) {
                 $val = (string) $value;
 
-                if (empty($this->optionsFilter) || \in_array($val, $this->optionsFilter, true)) {
+                if ($this->optionsFilter === [] || \in_array($val, $this->optionsFilter, true)) {
                     $text = $this->translate ? Text::_($text) : $text;
 
                     $options[] = (object) [

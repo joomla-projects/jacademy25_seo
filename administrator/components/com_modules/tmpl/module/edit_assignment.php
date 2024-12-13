@@ -65,7 +65,7 @@ $this->getDocument()->getWebAssetManager()
         <div class="card-body">
             <ul class="treeselect">
                 <?php foreach ($menuTypes as &$type) : ?>
-                    <?php if (count($type->links)) : ?>
+                    <?php if (count($type->links) > 0) : ?>
                         <?php $prevlevel = 0; ?>
                     <li>
                         <div class="treeselect-item treeselect-header">

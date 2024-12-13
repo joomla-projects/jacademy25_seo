@@ -24,7 +24,7 @@ if ($hideLinks) {
 
 $tParams           = $app->getTemplate(true)->params;
 // Not all templates support a colorScheme
-$colorSchemeSwitch = !!$tParams->get('colorScheme');
+$colorSchemeSwitch = (bool) $tParams->get('colorScheme');
 
 // Load the Bootstrap Dropdown
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');

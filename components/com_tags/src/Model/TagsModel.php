@@ -111,7 +111,7 @@ class TagsModel extends ListModel
             ->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('a.created_user_id') . ' = ' . $db->quoteName('u.id'))
             ->whereIn($db->quoteName('a.access'), $groups);
 
-        if (!empty($pid)) {
+        if ($pid !== 0) {
             $query->where($db->quoteName('a.parent_id') . ' = :pid')
                 ->bind(':pid', $pid, ParameterType::INTEGER);
         }
@@ -137,12 +137,10 @@ class TagsModel extends ListModel
 
         if ($format === 'feed') {
             $limit = $app->get('feed_limit');
+        } elseif ($this->state->params->get('show_pagination_limit')) {
+            $limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
         } else {
-            if ($this->state->params->get('show_pagination_limit')) {
-                $limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
-            } else {
-                $limit = $this->state->params->get('maximum', 20);
-            }
+            $limit = $this->state->params->get('maximum', 20);
         }
 
         $this->setState('list.limit', $limit);

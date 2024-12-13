@@ -97,18 +97,11 @@ trait FormBehaviorTrait
             if ($form->load($source, false, $xpath) == false) {
                 throw new \RuntimeException('Form::loadForm could not load form');
             }
-        } else {
-            if ($form->loadFile($source, false, $xpath) == false) {
-                throw new \RuntimeException('Form::loadForm could not load file');
-            }
+        } elseif ($form->loadFile($source, false, $xpath) == false) {
+            throw new \RuntimeException('Form::loadForm could not load file');
         }
 
-        if (isset($options['load_data']) && $options['load_data']) {
-            // Get the data for the form.
-            $data = $this->loadFormData();
-        } else {
-            $data = [];
-        }
+        $data = isset($options['load_data']) && $options['load_data'] ? $this->loadFormData() : [];
 
         // Allow for additional modification of the form, and events to be triggered.
         // We pass the data because plugins may require it.

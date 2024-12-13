@@ -220,7 +220,7 @@ class ProfileModel extends FormModel
 
         // Get the user id.
         $userId = Factory::getApplication()->getUserState('com_users.edit.profile.id');
-        $userId = !empty($userId) ? $userId : (int) $this->getCurrentUser()->id;
+        $userId = empty($userId) ? (int) $this->getCurrentUser()->id : $userId;
 
         // Set the user id.
         $this->setState('user.id', $userId);
@@ -241,7 +241,7 @@ class ProfileModel extends FormModel
      */
     public function save($data)
     {
-        $userId = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
+        $userId = (empty($data['id'])) ? (int) $this->getState('user.id') : $data['id'];
 
         $user = new User($userId);
 

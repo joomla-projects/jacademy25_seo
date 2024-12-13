@@ -236,14 +236,16 @@ final class SiteApplication extends CMSApplication
         // Initialise the application
         $this->initialiseApp();
 
-        // Mark afterInitialise in the profiler.
-        JDEBUG ? $this->profiler->mark('afterInitialise') : null;
+        if (JDEBUG) {
+            $this->profiler->mark('afterInitialise');
+        }
 
         // Route the application
         $this->route();
 
-        // Mark afterRoute in the profiler.
-        JDEBUG ? $this->profiler->mark('afterRoute') : null;
+        if (JDEBUG) {
+            $this->profiler->mark('afterRoute');
+        }
 
         if (!$this->isHandlingMultiFactorAuthentication()) {
             /*
@@ -259,8 +261,9 @@ final class SiteApplication extends CMSApplication
         // Dispatch the application
         $this->dispatch();
 
-        // Mark afterDispatch in the profiler.
-        JDEBUG ? $this->profiler->mark('afterDispatch') : null;
+        if (JDEBUG) {
+            $this->profiler->mark('afterDispatch');
+        }
     }
 
     /**
@@ -394,10 +397,8 @@ final class SiteApplication extends CMSApplication
     {
         if (\is_object($this->template)) {
             if ($this->template->parent) {
-                if (!is_file(JPATH_THEMES . '/' . $this->template->template . '/index.php')) {
-                    if (!is_file(JPATH_THEMES . '/' . $this->template->parent . '/index.php')) {
-                        throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
-                    }
+                if (!is_file(JPATH_THEMES . '/' . $this->template->template . '/index.php') && !is_file(JPATH_THEMES . '/' . $this->template->parent . '/index.php')) {
+                    throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
                 }
             } elseif (!is_file(JPATH_THEMES . '/' . $this->template->template . '/index.php')) {
                 throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
@@ -434,11 +435,7 @@ final class SiteApplication extends CMSApplication
         /** @var OutputController $cache */
         $cache = $this->getCacheControllerFactory()->createCacheController('output', ['defaultgroup' => 'com_templates']);
 
-        if ($this->getLanguageFilter()) {
-            $tag = $this->getLanguage()->getTag();
-        } else {
-            $tag = '';
-        }
+        $tag = $this->getLanguageFilter() ? $this->getLanguage()->getTag() : '';
 
         $cacheId = 'templates0' . $tag;
 
@@ -475,13 +472,11 @@ final class SiteApplication extends CMSApplication
         $template_override = $this->input->getCmd('template', '');
 
         // Only set template override if it is a valid template (= it exists and is enabled)
-        if (!empty($template_override)) {
-            if (is_file(JPATH_THEMES . '/' . $template_override . '/index.php')) {
-                foreach ($templates as $tmpl) {
-                    if ($tmpl->template === $template_override) {
-                        $template = $tmpl;
-                        break;
-                    }
+        if (!empty($template_override) && is_file(JPATH_THEMES . '/' . $template_override . '/index.php')) {
+            foreach ($templates as $tmpl) {
+                if ($tmpl->template === $template_override) {
+                    $template = $tmpl;
+                    break;
                 }
             }
         }
@@ -491,24 +486,19 @@ final class SiteApplication extends CMSApplication
 
         // Fallback template
         if (!empty($template->parent)) {
-            if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php')) {
-                if (!is_file(JPATH_THEMES . '/' . $template->parent . '/index.php')) {
-                    $this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
-
-                    // Try to find data for 'cassiopeia' template
-                    $original_tmpl = $template->template;
-
-                    foreach ($templates as $tmpl) {
-                        if ($tmpl->template === 'cassiopeia') {
-                            $template = $tmpl;
-                            break;
-                        }
+            if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php') && !is_file(JPATH_THEMES . '/' . $template->parent . '/index.php')) {
+                $this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
+                // Try to find data for 'cassiopeia' template
+                $original_tmpl = $template->template;
+                foreach ($templates as $tmpl) {
+                    if ($tmpl->template === 'cassiopeia') {
+                        $template = $tmpl;
+                        break;
                     }
-
-                    // Check, the data were found and if template really exists
-                    if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php')) {
-                        throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
-                    }
+                }
+                // Check, the data were found and if template really exists
+                if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php')) {
+                    throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
                 }
             }
         } elseif (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php')) {
@@ -615,12 +605,7 @@ final class SiteApplication extends CMSApplication
         if (!LanguageHelper::exists($options['language'])) {
             $lang = $this->config->get('language', 'en-GB');
 
-            if (LanguageHelper::exists($lang)) {
-                $options['language'] = $lang;
-            } else {
-                // As a last ditch fail to english
-                $options['language'] = 'en-GB';
-            }
+            $options['language'] = LanguageHelper::exists($lang) ? $lang : 'en-GB';
         }
 
         // Finish initialisation
@@ -640,8 +625,9 @@ final class SiteApplication extends CMSApplication
          * Try the lib_joomla file in the current language (without allowing the loading of the file in the default language)
          * Fallback to the default language if necessary
          */
-        $this->getLanguage()->load('lib_joomla', JPATH_SITE)
-            || $this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
+        if (!$this->getLanguage()->load('lib_joomla', JPATH_SITE)) {
+            $this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
+        }
     }
 
     /**

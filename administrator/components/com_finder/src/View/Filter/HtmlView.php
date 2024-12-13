@@ -128,7 +128,7 @@ class HtmlView extends BaseHtmlView
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $isNew      = ($this->item->filter_id == 0);
-        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $this->getCurrentUser()->id);
+        $checkedOut = !\is_null($this->item->checked_out) && $this->item->checked_out != $this->getCurrentUser()->id;
         $canDo      = ContentHelper::getActions('com_finder');
         $toolbar    = $this->getDocument()->getToolbar();
 

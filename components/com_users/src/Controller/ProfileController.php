@@ -53,7 +53,7 @@ class ProfileController extends BaseController
         }
 
         // Check if the user logged in with a cookie
-        if (isset($user->cookieLogin) && !empty($user->cookieLogin)) {
+        if (property_exists($user, 'cookieLogin') && $user->cookieLogin !== null && !empty($user->cookieLogin)) {
             // If so, the user must login to edit the password and other data.
             $app->enqueueMessage(Text::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
             $this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
@@ -73,7 +73,7 @@ class ProfileController extends BaseController
     /**
      * Method to save a user's profile data.
      *
-     * @return  void|boolean
+     * @return bool|null
      *
      * @since   1.6
      * @throws  \Exception
@@ -207,6 +207,7 @@ class ProfileController extends BaseController
 
         // Flush the data from the session.
         $app->setUserState('com_users.edit.profile.data', null);
+        return null;
     }
 
     /**

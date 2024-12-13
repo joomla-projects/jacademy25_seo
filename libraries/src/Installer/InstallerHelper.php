@@ -118,11 +118,7 @@ abstract class InstallerHelper
         $tmpPath = Factory::getApplication()->get('tmp_path');
 
         // Set the target path if not given
-        if (!$target) {
-            $target = $tmpPath . '/' . self::getFilenameFromUrl($url);
-        } else {
-            $target = $tmpPath . '/' . basename($target);
-        }
+        $target = $target ? $tmpPath . '/' . basename($target) : $tmpPath . '/' . self::getFilenameFromUrl($url);
 
         // Fix Indirect Modification of Overloaded Property
         $body = $response->body;
@@ -207,10 +203,8 @@ abstract class InstallerHelper
          */
         $dirList = array_merge((array) Folder::files($extractdir, ''), (array) Folder::folders($extractdir, ''));
 
-        if (\count($dirList) === 1) {
-            if (is_dir(Path::clean($extractdir . '/' . $dirList[0]))) {
-                $extractdir = Path::clean($extractdir . '/' . $dirList[0]);
-            }
+        if (\count($dirList) === 1 && is_dir(Path::clean($extractdir . '/' . $dirList[0]))) {
+            $extractdir = Path::clean($extractdir . '/' . $dirList[0]);
         }
 
         /*

@@ -182,7 +182,7 @@ final class Version
     {
         $version = self::MAJOR_VERSION . '.' . self::MINOR_VERSION . '.' . self::PATCH_VERSION;
 
-        if (!empty(self::EXTRA_VERSION)) {
+        if (self::EXTRA_VERSION !== '' && self::EXTRA_VERSION !== '0') {
             $version .= '-' . self::EXTRA_VERSION;
         }
 
@@ -225,7 +225,7 @@ final class Version
         }
 
         // If masked pretend to look like Mozilla 5.0 but still identify ourselves.
-        return ($mask ? 'Mozilla/5.0 ' : '') . self::PRODUCT . '/' . $this->getShortVersion() . ($suffix ? ' ' . $suffix : '');
+        return ($mask ? 'Mozilla/5.0 ' : '') . self::PRODUCT . '/' . $this->getShortVersion() . ($suffix !== '' && $suffix !== '0' ? ' ' . $suffix : '');
     }
 
     /**
@@ -287,7 +287,7 @@ final class Version
     public function setMediaVersion(string $mediaVersion): Version
     {
         // Do not allow empty media versions
-        if (!empty($mediaVersion)) {
+        if ($mediaVersion !== '' && $mediaVersion !== '0') {
             self::$mediaVersion = $mediaVersion;
 
             $this->getMediaVersionCache()

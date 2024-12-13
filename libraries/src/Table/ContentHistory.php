@@ -36,7 +36,17 @@ class ContentHistory extends Table implements CurrentUserInterface
      * @var    array
      * @since  3.2
      */
-    public $ignoreChanges = [];
+    public $ignoreChanges = [
+        'modified_by',
+        'modified_user_id',
+        'modified',
+        'modified_time',
+        'checked_out',
+        'checked_out_time',
+        'version',
+        'hits',
+        'path',
+    ];
 
     /**
      * Array of object fields to convert to integers before calculating SHA1 hash. Some values are stored differently
@@ -46,7 +56,7 @@ class ContentHistory extends Table implements CurrentUserInterface
      * @var    array
      * @since  3.2
      */
-    public $convertToInt = [];
+    public $convertToInt = ['publish_up', 'publish_down', 'ordering', 'featured'];
 
     /**
      * Constructor
@@ -59,18 +69,6 @@ class ContentHistory extends Table implements CurrentUserInterface
     public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__history', 'version_id', $db, $dispatcher);
-        $this->ignoreChanges = [
-            'modified_by',
-            'modified_user_id',
-            'modified',
-            'modified_time',
-            'checked_out',
-            'checked_out_time',
-            'version',
-            'hits',
-            'path',
-        ];
-        $this->convertToInt  = ['publish_up', 'publish_down', 'ordering', 'featured'];
     }
 
     /**
@@ -90,7 +88,7 @@ class ContentHistory extends Table implements CurrentUserInterface
         array_pop($typeAlias);
         $typeTable->load(['type_alias' => implode('.', $typeAlias)]);
 
-        if (!isset($this->sha1_hash)) {
+        if ($this->sha1_hash === null) {
             $this->sha1_hash = $this->getSha1($this->version_data, $typeTable);
         }
 
@@ -118,7 +116,7 @@ class ContentHistory extends Table implements CurrentUserInterface
     {
         $object = \is_object($jsonData) ? $jsonData : json_decode((string) $jsonData);
 
-        if (isset($typeTable->content_history_options) && \is_object(json_decode($typeTable->content_history_options))) {
+        if ($typeTable->content_history_options !== null && \is_object(json_decode($typeTable->content_history_options))) {
             $options             = json_decode($typeTable->content_history_options);
             $this->ignoreChanges = $options->ignoreChanges ?? $this->ignoreChanges;
             $this->convertToInt  = $options->convertToInt ?? $this->convertToInt;

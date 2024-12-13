@@ -99,7 +99,7 @@ final class Authentication
      */
     public function getKnownAuthenticators(): array
     {
-        $return = (!empty($this->metadataRepository) && method_exists($this->metadataRepository, 'getKnownAuthenticators'))
+        $return = ($this->metadataRepository instanceof \Webauthn\MetadataService\MetadataStatementRepository && method_exists($this->metadataRepository, 'getKnownAuthenticators'))
             ? $this->metadataRepository->getKnownAuthenticators()
             : [];
 

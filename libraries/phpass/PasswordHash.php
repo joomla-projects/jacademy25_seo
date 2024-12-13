@@ -25,21 +25,21 @@
 # requirements (there can be none), but merely suggestions.
 #
 class PasswordHash {
-	public $itoa64;
+	public $itoa64 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 	public $iteration_count_log2;
 	public $random_state;
 
 	function __construct($iteration_count_log2, public $portable_hashes)
 	{
-		$this->itoa64 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-
-		if ($iteration_count_log2 < 4 || $iteration_count_log2 > 31)
-			$iteration_count_log2 = 8;
-		$this->iteration_count_log2 = $iteration_count_log2;
+		if ($iteration_count_log2 < 4 || $iteration_count_log2 > 31) {
+            $iteration_count_log2 = 8;
+        }
+        $this->iteration_count_log2 = $iteration_count_log2;
 
 		$this->random_state = microtime();
-		if (function_exists('getmypid'))
-			$this->random_state .= getmypid();
+		if (function_exists('getmypid')) {
+            $this->random_state .= getmypid();
+        }
 	}
 
 	function PasswordHash($iteration_count_log2, $portable_hashes)
@@ -76,16 +76,20 @@ class PasswordHash {
 		do {
 			$value = ord($input[$i++]);
 			$output .= $this->itoa64[$value & 0x3f];
-			if ($i < $count)
-				$value |= ord($input[$i]) << 8;
+			if ($i < $count) {
+                $value |= ord($input[$i]) << 8;
+            }
 			$output .= $this->itoa64[($value >> 6) & 0x3f];
-			if ($i++ >= $count)
-				break;
-			if ($i < $count)
-				$value |= ord($input[$i]) << 16;
+			if ($i++ >= $count) {
+                break;
+            }
+			if ($i < $count) {
+                $value |= ord($input[$i]) << 16;
+            }
 			$output .= $this->itoa64[($value >> 12) & 0x3f];
-			if ($i++ >= $count)
-				break;
+			if ($i++ >= $count) {
+                break;
+            }
 			$output .= $this->itoa64[($value >> 18) & 0x3f];
 		} while ($i < $count);
 
@@ -105,23 +109,27 @@ class PasswordHash {
 	function crypt_private($password, $setting)
 	{
 		$output = '*0';
-		if (substr((string) $setting, 0, 2) === $output)
-			$output = '*1';
+		if (substr((string) $setting, 0, 2) === $output) {
+            $output = '*1';
+        }
 
 		$id = substr((string) $setting, 0, 3);
 		# We use "$P$", phpBB3 uses "$H$" for the same thing
-		if ($id !== '$P$' && $id !== '$H$')
-			return $output;
+		if ($id !== '$P$' && $id !== '$H$') {
+            return $output;
+        }
 
 		$count_log2 = strpos((string) $this->itoa64, (string) $setting[3]);
-		if ($count_log2 < 7 || $count_log2 > 30)
-			return $output;
+		if ($count_log2 < 7 || $count_log2 > 30) {
+            return $output;
+        }
 
 		$count = 1 << $count_log2;
 
 		$salt = substr((string) $setting, 4, 8);
-		if (strlen($salt) !== 8)
-			return $output;
+		if (strlen($salt) !== 8) {
+            return $output;
+        }
 
 		# We were kind of forced to use MD5 here since it's the only
 		# cryptographic primitive that was available in all versions
@@ -189,17 +197,20 @@ class PasswordHash {
 			$random = $this->get_random_bytes(16);
 			$hash =
 			    crypt((string) $password, (string) $this->gensalt_blowfish($random));
-			if (strlen($hash) === 60)
-				return $hash;
+			if (strlen($hash) === 60) {
+                return $hash;
+            }
 		}
 
-		if (strlen((string) $random) < 6)
-			$random = $this->get_random_bytes(6);
+		if (strlen((string) $random) < 6) {
+            $random = $this->get_random_bytes(6);
+        }
 		$hash =
 		    $this->crypt_private($password,
 		    $this->gensalt_private($random));
-		if (strlen((string) $hash) === 34)
-			return $hash;
+		if (strlen((string) $hash) === 34) {
+            return $hash;
+        }
 
 		# Returning '*' on error is safe here, but would _not_ be safe
 		# in a crypt(3)-like function used _both_ for generating new
@@ -210,8 +221,9 @@ class PasswordHash {
 	function CheckPassword($password, $stored_hash)
 	{
 		$hash = $this->crypt_private($password, $stored_hash);
-		if ($hash[0] === '*')
-			$hash = crypt((string) $password, (string) $stored_hash);
+		if ($hash[0] === '*') {
+            $hash = crypt((string) $password, (string) $stored_hash);
+        }
 
 		# This is not constant-time.  In order to keep the code simple,
 		# for timing safety we currently rely on the salts being

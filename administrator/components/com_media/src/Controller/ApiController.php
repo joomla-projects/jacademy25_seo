@@ -197,7 +197,7 @@ class ApiController extends BaseController
         $mediaContent = base64_decode((string) $content->get('content', '', 'raw'));
         $override     = $content->get('override', false);
 
-        if ($mediaContent) {
+        if ($mediaContent !== '' && $mediaContent !== '0') {
             $this->checkFileSize(\strlen($mediaContent));
 
             // A file needs to be created

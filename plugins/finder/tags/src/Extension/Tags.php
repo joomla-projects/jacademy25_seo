@@ -183,11 +183,9 @@ final class Tags extends Adapter implements SubscriberInterface
         $isNew   = $event->getIsNew();
 
         // We only want to handle news feeds here
-        if ($context === 'com_tags.tag') {
-            // Query the database for the old access level if the item isn't new
-            if (!$isNew) {
-                $this->checkItemAccess($row);
-            }
+        // Query the database for the old access level if the item isn't new
+        if ($context === 'com_tags.tag' && !$isNew) {
+            $this->checkItemAccess($row);
         }
     }
 
@@ -280,7 +278,7 @@ final class Tags extends Adapter implements SubscriberInterface
 
         // Add the author taxonomy data.
         if (\in_array('author', $taxonomies) && (!empty($item->author) || !empty($item->created_by_alias))) {
-            $item->addTaxonomy('Author', !empty($item->created_by_alias) ? $item->created_by_alias : $item->author);
+            $item->addTaxonomy('Author', empty($item->created_by_alias) ? $item->author : $item->created_by_alias);
         }
 
         // Add the language taxonomy data.

@@ -56,7 +56,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         // If the user is not allowed to view the output then end here.
         $filterGroups = (array) $this->params->get('filter_groups', []);
 
-        if (!empty($filterGroups)) {
+        if ($filterGroups !== []) {
             $userGroups = $this->getApplication()
                 ->getIdentity()
                 ->get('groups');
@@ -173,11 +173,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         $extraProps = [];
         foreach ($getExtraProps as $prop) {
             $decodedValue = json_decode($prop->value);
-            if (is_numeric($decodedValue) || \is_bool($decodedValue)) {
-                $extraProps[$prop->key] = $decodedValue;
-            } else {
-                $extraProps[$prop->key] = "{$prop->value}";
-            }
+            $extraProps[$prop->key] = is_numeric($decodedValue) || \is_bool($decodedValue) ? $decodedValue : "{$prop->value}";
         }
 
         // Merge all options together and add to page

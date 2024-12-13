@@ -46,22 +46,17 @@ class ColorRule extends FormRule
         // If the field is empty and not required, the field is valid.
         $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
-        if (!$required && empty($value)) {
+        if (!$required && ($value === '' || $value === '0')) {
             return true;
         }
 
-        if ($value[0] != '#') {
+        if ($value[0] !== '#') {
             return false;
         }
 
         // Remove the leading # if present to validate the numeric part
         $value = ltrim($value, '#');
-
         // The value must be 6 or 3 characters long
-        if (!((\strlen($value) == 6 || \strlen($value) == 3) && ctype_xdigit($value))) {
-            return false;
-        }
-
-        return true;
+        return (\strlen($value) == 6 || \strlen($value) == 3) && ctype_xdigit($value);
     }
 }

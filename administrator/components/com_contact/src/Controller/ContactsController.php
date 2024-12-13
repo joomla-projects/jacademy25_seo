@@ -87,7 +87,7 @@ class ContactsController extends AdminController
             }
         }
 
-        if (empty($ids)) {
+        if ($ids === []) {
             $message = null;
 
             $this->app->enqueueMessage(Text::_('COM_CONTACT_NO_ITEM_SELECTED'), 'warning');

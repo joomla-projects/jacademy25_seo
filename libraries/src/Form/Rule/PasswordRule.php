@@ -115,8 +115,8 @@ class PasswordRule extends FormRule
         }
 
         // Minimum number of integers required
-        if (!empty($minimumIntegers)) {
-            $nInts = preg_match_all('/[0-9]/', (string) $value, $imatch);
+        if ($minimumIntegers !== 0) {
+            $nInts = preg_match_all('/\d/', (string) $value, $imatch);
 
             if ($nInts < $minimumIntegers) {
                 Factory::getApplication()->enqueueMessage(
@@ -129,7 +129,7 @@ class PasswordRule extends FormRule
         }
 
         // Minimum number of symbols required
-        if (!empty($minimumSymbols)) {
+        if ($minimumSymbols !== 0) {
             $nsymbols = preg_match_all('[\W]', (string) $value, $smatch);
 
             if ($nsymbols < $minimumSymbols) {
@@ -143,7 +143,7 @@ class PasswordRule extends FormRule
         }
 
         // Minimum number of upper case ASCII characters required
-        if (!empty($minimumUppercase)) {
+        if ($minimumUppercase !== 0) {
             $nUppercase = preg_match_all('/[A-Z]/', (string) $value, $umatch);
 
             if ($nUppercase < $minimumUppercase) {
@@ -157,7 +157,7 @@ class PasswordRule extends FormRule
         }
 
         // Minimum number of lower case ASCII characters required
-        if (!empty($minimumLowercase)) {
+        if ($minimumLowercase !== 0) {
             $nLowercase = preg_match_all('/[a-z]/', (string) $value, $umatch);
 
             if ($nLowercase < $minimumLowercase) {
@@ -171,22 +171,14 @@ class PasswordRule extends FormRule
         }
 
         // Minimum length option
-        if (!empty($minimumLength)) {
-            if (\strlen((string) $value) < $minimumLength) {
-                Factory::getApplication()->enqueueMessage(
-                    Text::plural('JFIELD_PASSWORD_TOO_SHORT_N', $minimumLength),
-                    'error'
-                );
-
-                $validPassword = false;
-            }
+        if ($minimumLength !== 0 && \strlen((string) $value) < $minimumLength) {
+            Factory::getApplication()->enqueueMessage(
+                Text::plural('JFIELD_PASSWORD_TOO_SHORT_N', $minimumLength),
+                'error'
+            );
+            $validPassword = false;
         }
-
         // If valid has violated any rules above return false.
-        if (!$validPassword) {
-            return false;
-        }
-
-        return true;
+        return $validPassword;
     }
 }

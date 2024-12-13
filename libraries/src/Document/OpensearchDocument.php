@@ -93,7 +93,7 @@ class OpensearchDocument extends Document
                 if ($path == '') {
                     $favicon->data = Uri::base() . 'favicon.ico';
                 } else {
-                    if ($path[0] == '/') {
+                    if ($path[0] === '/') {
                         $path = substr($path, 1);
                     }
 

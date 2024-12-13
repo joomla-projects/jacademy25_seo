@@ -49,7 +49,7 @@ class MessagesModel extends BaseDatabaseModel
 
         $eid = (int) Factory::getApplication()->getInput()->getInt('eid');
 
-        if ($eid) {
+        if ($eid !== 0) {
             $this->setState('eid', $eid);
         }
     }
@@ -435,7 +435,7 @@ class MessagesModel extends BaseDatabaseModel
             }
         }
 
-        if (!empty($unset_keys)) {
+        if ($unset_keys !== []) {
             foreach ($unset_keys as $key) {
                 unset($resultArray[$key]);
             }
@@ -571,7 +571,7 @@ class MessagesModel extends BaseDatabaseModel
         $allKeys     = array_keys($options);
         $extraKeys   = array_diff($allKeys, $defaultKeys);
 
-        if (!empty($extraKeys)) {
+        if ($extraKeys !== []) {
             foreach ($extraKeys as $key) {
                 unset($options[$key]);
             }
@@ -588,7 +588,7 @@ class MessagesModel extends BaseDatabaseModel
         }
 
         // Make sure there's an extension_id
-        if (!(int) $options['extension_id']) {
+        if ((int) $options['extension_id'] === 0) {
             throw new \Exception('Post-installation message definitions need an extension_id', 500);
         }
 
@@ -635,10 +635,8 @@ class MessagesModel extends BaseDatabaseModel
             }
         }
 
-        if ($options['type'] == 'link') {
-            if (empty($options['link'])) {
-                throw new \Exception('Post-installation message definitions need an action (URL) when they are of type "link"', 500);
-            }
+        if ($options['type'] == 'link' && empty($options['link'])) {
+            throw new \Exception('Post-installation message definitions need an action (URL) when they are of type "link"', 500);
         }
 
         // The condition file and method are only required when the type is not "message"

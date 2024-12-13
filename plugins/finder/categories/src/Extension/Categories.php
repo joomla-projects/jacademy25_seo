@@ -201,12 +201,10 @@ final class Categories extends Adapter implements SubscriberInterface
         $isNew   = $event->getIsNew();
 
         // We only want to handle categories here.
-        if ($context === 'com_categories.category') {
-            // Query the database for the old access level and the parent if the item isn't new.
-            if (!$isNew) {
-                $this->checkItemAccess($row);
-                $this->checkCategoryAccess($row);
-            }
+        // Query the database for the old access level and the parent if the item isn't new.
+        if ($context === 'com_categories.category' && !$isNew) {
+            $this->checkItemAccess($row);
+            $this->checkCategoryAccess($row);
         }
     }
 

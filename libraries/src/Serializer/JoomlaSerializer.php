@@ -109,13 +109,6 @@ class JoomlaSerializer extends AbstractSerializer
 
         /** @var Events\OnGetApiRelation $eventResult */
         $eventResult = Factory::getApplication()->getDispatcher()->dispatch('onGetApiRelation', $event);
-
-        $relationship = $eventResult->getRelationship();
-
-        if ($relationship instanceof Relationship) {
-            return $relationship;
-        }
-
-        return null;
+        return $eventResult->getRelationship();
     }
 }

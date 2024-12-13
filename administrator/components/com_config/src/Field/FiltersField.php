@@ -89,8 +89,8 @@ class FiltersField extends FormField
 
             $group_filter = $this->value[$group->value];
 
-            $group_filter['filter_tags']       = !empty($group_filter['filter_tags']) ? $group_filter['filter_tags'] : '';
-            $group_filter['filter_attributes'] = !empty($group_filter['filter_attributes']) ? $group_filter['filter_attributes'] : '';
+            $group_filter['filter_tags']       = empty($group_filter['filter_tags']) ? '' : $group_filter['filter_tags'];
+            $group_filter['filter_attributes'] = empty($group_filter['filter_attributes']) ? '' : $group_filter['filter_attributes'];
 
             $html[] = '	<tr>';
             $html[] = '		<th class="acl-groups left" scope="row">';

@@ -46,7 +46,7 @@ final class Url extends FieldsPlugin implements SubscriberInterface
 
         $fieldNode->setAttribute('validate', 'url');
 
-        if (! $fieldNode->getAttribute('relative')) {
+        if ($fieldNode->getAttribute('relative') === '' || $fieldNode->getAttribute('relative') === '0') {
             $fieldNode->removeAttribute('relative');
         }
 

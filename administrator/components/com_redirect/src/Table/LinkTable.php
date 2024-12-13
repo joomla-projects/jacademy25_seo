@@ -62,7 +62,7 @@ class LinkTable extends Table
         $this->new_url = trim(rawurldecode($this->new_url));
 
         // Check for valid name.
-        if (empty($this->old_url)) {
+        if ($this->old_url === '' || $this->old_url === '0') {
             $this->setError(Text::_('COM_REDIRECT_ERROR_SOURCE_URL_REQUIRED'));
 
             return false;
@@ -74,23 +74,20 @@ class LinkTable extends Table
         }
 
         // Check for valid name if not in advanced mode.
-        if (empty($this->new_url) && ComponentHelper::getParams('com_redirect')->get('mode', 0) == false) {
+        if (($this->new_url === '' || $this->new_url === '0') && ComponentHelper::getParams('com_redirect')->get('mode', 0) == false) {
             $this->setError(Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
 
             return false;
         }
 
-        if (empty($this->new_url) && ComponentHelper::getParams('com_redirect')->get('mode', 0) == true) {
-            // Else if an empty URL and in redirect mode only throw the same error if the code is a 3xx status code
-            if ($this->header < 400 && $this->header >= 300) {
-                $this->setError(Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
-
-                return false;
-            }
+        // Else if an empty URL and in redirect mode only throw the same error if the code is a 3xx status code
+        if (($this->new_url === '' || $this->new_url === '0') && ComponentHelper::getParams('com_redirect')->get('mode', 0) == true && ($this->header < 400 && $this->header >= 300)) {
+            $this->setError(Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
+            return false;
         }
 
         // Check for duplicates
-        if ($this->old_url == $this->new_url) {
+        if ($this->old_url === $this->new_url) {
             $this->setError(Text::_('COM_REDIRECT_ERROR_DUPLICATE_URLS'));
 
             return false;
@@ -109,7 +106,7 @@ class LinkTable extends Table
         $urls = $db->loadAssocList();
 
         foreach ($urls as $url) {
-            if ($url['old_url'] === $this->old_url && (int) $url['id'] != (int) $this->id) {
+            if ($url['old_url'] === $this->old_url && (int) $url['id'] !== (int) $this->id) {
                 $this->setError(Text::_('COM_REDIRECT_ERROR_DUPLICATE_OLD_URL'));
 
                 return false;

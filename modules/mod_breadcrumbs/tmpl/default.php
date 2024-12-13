@@ -114,7 +114,7 @@ use Joomla\CMS\WebAsset\WebAssetManager;
         }
     }
 
-    if ($itemsCounter) {
+    if ($itemsCounter !== 0) {
         /** @var WebAssetManager $wa */
         $wa = $app->getDocument()->getWebAssetManager();
         $prettyPrint = JDEBUG ? JSON_PRETTY_PRINT : 0;

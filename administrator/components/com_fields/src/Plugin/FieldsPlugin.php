@@ -153,7 +153,7 @@ abstract class FieldsPlugin extends CMSPlugin
             // The language key
             $key = strtoupper($layout);
 
-            if ($key != strtoupper($this->_name)) {
+            if ($key !== strtoupper($this->_name)) {
                 $key = strtoupper($this->_name) . '_' . $layout;
             }
 
@@ -288,7 +288,7 @@ abstract class FieldsPlugin extends CMSPlugin
         foreach ($params->toArray() as $key => $param) {
             if (\is_array($param)) {
                 // Multidimensional arrays (eg. list options) can't be transformed properly
-                $param = \count($param) == \count($param, COUNT_RECURSIVE) ? implode(',', $param) : '';
+                $param = \count($param) === \count($param, COUNT_RECURSIVE) ? implode(',', $param) : '';
             }
 
             if ($param === '' || (!\is_string($param) && !is_numeric($param))) {

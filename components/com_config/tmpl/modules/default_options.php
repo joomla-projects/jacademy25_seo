@@ -21,7 +21,7 @@ echo HTMLHelper::_('bootstrap.startAccordion', 'collapseTypes');
 $i = 0;
 
 foreach ($fieldSets as $name => $fieldSet) :
-    $label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MODULES_' . strtoupper($name) . '_FIELDSET_LABEL';
+    $label = empty($fieldSet->label) ? 'COM_MODULES_' . strtoupper($name) . '_FIELDSET_LABEL' : $fieldSet->label;
     $class = isset($fieldSet->class) && !empty($fieldSet->class) ? $fieldSet->class : '';
 
 

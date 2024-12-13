@@ -75,7 +75,7 @@ final class PageBreak extends CMSPlugin implements SubscriberInterface
      *
      * @param   string  $name  The name of the button to add
      *
-     * @return  Button|void  The button options as Button object
+     * @return Button|null The button options as Button object
      *
      * @since   1.5
      *
@@ -86,7 +86,7 @@ final class PageBreak extends CMSPlugin implements SubscriberInterface
         $app = $this->getApplication();
 
         if (!$app instanceof CMSWebApplicationInterface) {
-            return;
+            return null;
         }
 
         $user = $app->getIdentity();
@@ -102,7 +102,7 @@ final class PageBreak extends CMSPlugin implements SubscriberInterface
         // This ACL check is probably a double-check (form view already performed checks)
         $hasAccess = $canCreateRecords || $isEditingRecords;
         if (!$hasAccess) {
-            return;
+            return null;
         }
 
         $this->loadLanguage();

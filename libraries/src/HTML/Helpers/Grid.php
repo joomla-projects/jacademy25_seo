@@ -140,11 +140,7 @@ abstract class Grid
         $user   = Factory::getUser();
         $userid = $user->id;
 
-        if ($row instanceof Table) {
-            $result = $row->isCheckedOut($userid);
-        } else {
-            $result = false;
-        }
+        $result = $row instanceof Table ? $row->isCheckedOut($userid) : false;
 
         if ($result) {
             return static::_checkedOut($row);

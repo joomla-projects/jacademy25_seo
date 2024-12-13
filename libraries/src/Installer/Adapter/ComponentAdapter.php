@@ -220,15 +220,13 @@ class ComponentAdapter extends InstallerAdapter
             $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_administrator') . '/' . $this->manifest_script;
 
-            if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles([$path])) {
-                    throw new \RuntimeException(
-                        Text::sprintf(
-                            'JLIB_INSTALLER_ABORT_MANIFEST',
-                            Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
-                        )
-                    );
-                }
+            if (($this->parent->isOverwrite() || !file_exists($path['dest'])) && !$this->parent->copyFiles([$path])) {
+                throw new \RuntimeException(
+                    Text::sprintf(
+                        'JLIB_INSTALLER_ABORT_MANIFEST',
+                        Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+                    )
+                );
             }
         }
     }
@@ -246,16 +244,14 @@ class ComponentAdapter extends InstallerAdapter
         // If the component directory does not exist, let's create it
         $created = false;
 
-        if (!file_exists($this->parent->getPath('extension_site'))) {
-            if (!$created = Folder::create($this->parent->getPath('extension_site'))) {
-                throw new \RuntimeException(
-                    Text::sprintf(
-                        'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
-                        Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
-                        $this->parent->getPath('extension_site')
-                    )
-                );
-            }
+        if (!file_exists($this->parent->getPath('extension_site')) && !$created = Folder::create($this->parent->getPath('extension_site'))) {
+            throw new \RuntimeException(
+                Text::sprintf(
+                    'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
+                    Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+                    $this->parent->getPath('extension_site')
+                )
+            );
         }
 
         /*
@@ -274,16 +270,14 @@ class ComponentAdapter extends InstallerAdapter
         // If the component admin directory does not exist, let's create it
         $created = false;
 
-        if (!file_exists($this->parent->getPath('extension_administrator'))) {
-            if (!$created = Folder::create($this->parent->getPath('extension_administrator'))) {
-                throw new \RuntimeException(
-                    Text::sprintf(
-                        'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
-                        Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
-                        $this->parent->getPath('extension_administrator')
-                    )
-                );
-            }
+        if (!file_exists($this->parent->getPath('extension_administrator')) && !$created = Folder::create($this->parent->getPath('extension_administrator'))) {
+            throw new \RuntimeException(
+                Text::sprintf(
+                    'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
+                    Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+                    $this->parent->getPath('extension_administrator')
+                )
+            );
         }
 
         /*
@@ -302,16 +296,14 @@ class ComponentAdapter extends InstallerAdapter
         // If the component API directory does not exist, let's create it
         $created = false;
 
-        if (!file_exists($this->parent->getPath('extension_api'))) {
-            if (!$created = Folder::create($this->parent->getPath('extension_api'))) {
-                throw new \RuntimeException(
-                    Text::sprintf(
-                        'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
-                        Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
-                        $this->parent->getPath('extension_api')
-                    )
-                );
-            }
+        if (!file_exists($this->parent->getPath('extension_api')) && !$created = Folder::create($this->parent->getPath('extension_api'))) {
+            throw new \RuntimeException(
+                Text::sprintf(
+                    'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
+                    Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+                    $this->parent->getPath('extension_api')
+                )
+            );
         }
 
         /*
@@ -355,16 +347,14 @@ class ComponentAdapter extends InstallerAdapter
         }
 
         // We will copy the manifest file to its appropriate place.
-        if ($this->route !== 'discover_install') {
-            if (!$this->parent->copyManifest()) {
-                // Install failed, roll back changes
-                throw new \RuntimeException(
-                    Text::sprintf(
-                        'JLIB_INSTALLER_ABORT_COPY_SETUP',
-                        Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
-                    )
-                );
-            }
+        if ($this->route !== 'discover_install' && !$this->parent->copyManifest()) {
+            // Install failed, roll back changes
+            throw new \RuntimeException(
+                Text::sprintf(
+                    'JLIB_INSTALLER_ABORT_COPY_SETUP',
+                    Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+                )
+            );
         }
 
         // Time to build the admin menus
@@ -469,31 +459,25 @@ class ComponentAdapter extends InstallerAdapter
         }
 
         // Now we need to delete the installation directories. This is the final step in uninstalling the component.
-        if (trim($this->extension->element)) {
+        if (trim($this->extension->element) !== '' && trim($this->extension->element) !== '0') {
             $retval = true;
 
             // Delete the component site directory
-            if (is_dir($this->parent->getPath('extension_site'))) {
-                if (!Folder::delete($this->parent->getPath('extension_site'))) {
-                    Log::add(Text::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_SITE'), Log::WARNING, 'jerror');
-                    $retval = false;
-                }
+            if (is_dir($this->parent->getPath('extension_site')) && !Folder::delete($this->parent->getPath('extension_site'))) {
+                Log::add(Text::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_SITE'), Log::WARNING, 'jerror');
+                $retval = false;
             }
 
             // Delete the component admin directory
-            if (is_dir($this->parent->getPath('extension_administrator'))) {
-                if (!Folder::delete($this->parent->getPath('extension_administrator'))) {
-                    Log::add(Text::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_ADMIN'), Log::WARNING, 'jerror');
-                    $retval = false;
-                }
+            if (is_dir($this->parent->getPath('extension_administrator')) && !Folder::delete($this->parent->getPath('extension_administrator'))) {
+                Log::add(Text::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_ADMIN'), Log::WARNING, 'jerror');
+                $retval = false;
             }
 
             // Delete the component API directory
-            if (is_dir($this->parent->getPath('extension_api'))) {
-                if (!Folder::delete($this->parent->getPath('extension_api'))) {
-                    Log::add(Text::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_API'), Log::WARNING, 'jerror');
-                    $retval = false;
-                }
+            if (is_dir($this->parent->getPath('extension_api')) && !Folder::delete($this->parent->getPath('extension_api'))) {
+                Log::add(Text::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_API'), Log::WARNING, 'jerror');
+                $retval = false;
             }
 
             // Now we will no longer need the extension object, so let's delete it
@@ -876,7 +860,7 @@ class ComponentAdapter extends InstallerAdapter
         }
 
         // Namespace is optional
-        if (isset($this->manifest->namespace)) {
+        if (property_exists($this->manifest, 'namespace') && $this->manifest->namespace !== null) {
             $this->extension->namespace = (string) $this->manifest->namespace;
         }
 
@@ -1023,11 +1007,11 @@ class ComponentAdapter extends InstallerAdapter
         // Set the menu link
         $request = [];
 
-        if ((string) $menuElement->attributes()->task) {
+        if ((string) $menuElement->attributes()->task !== '' && (string) $menuElement->attributes()->task !== '0') {
             $request[] = 'task=' . $menuElement->attributes()->task;
         }
 
-        if ((string) $menuElement->attributes()->view) {
+        if ((string) $menuElement->attributes()->view !== '' && (string) $menuElement->attributes()->view !== '0') {
             $request[] = 'view=' . $menuElement->attributes()->view;
         }
 
@@ -1071,32 +1055,32 @@ class ComponentAdapter extends InstallerAdapter
             }
 
             // Set the sub menu link
-            if ((string) $child->attributes()->link) {
+            if ((string) $child->attributes()->link !== '' && (string) $child->attributes()->link !== '0') {
                 $data['link'] = 'index.php?' . $child->attributes()->link;
             } else {
                 $request = [];
 
-                if ((string) $child->attributes()->act) {
+                if ((string) $child->attributes()->act !== '' && (string) $child->attributes()->act !== '0') {
                     $request[] = 'act=' . $child->attributes()->act;
                 }
 
-                if ((string) $child->attributes()->task) {
+                if ((string) $child->attributes()->task !== '' && (string) $child->attributes()->task !== '0') {
                     $request[] = 'task=' . $child->attributes()->task;
                 }
 
-                if ((string) $child->attributes()->controller) {
+                if ((string) $child->attributes()->controller !== '' && (string) $child->attributes()->controller !== '0') {
                     $request[] = 'controller=' . $child->attributes()->controller;
                 }
 
-                if ((string) $child->attributes()->view) {
+                if ((string) $child->attributes()->view !== '' && (string) $child->attributes()->view !== '0') {
                     $request[] = 'view=' . $child->attributes()->view;
                 }
 
-                if ((string) $child->attributes()->layout) {
+                if ((string) $child->attributes()->layout !== '' && (string) $child->attributes()->layout !== '0') {
                     $request[] = 'layout=' . $child->attributes()->layout;
                 }
 
-                if ((string) $child->attributes()->sub) {
+                if ((string) $child->attributes()->sub !== '' && (string) $child->attributes()->sub !== '0') {
                     $request[] = 'sub=' . $child->attributes()->sub;
                 }
 

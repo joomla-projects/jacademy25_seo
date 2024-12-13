@@ -99,16 +99,14 @@ class ModuleAdapter extends InstallerAdapter
             $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-            if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles([$path])) {
-                    // Install failed, rollback changes
-                    throw new \RuntimeException(
-                        Text::sprintf(
-                            'JLIB_INSTALLER_ABORT_MANIFEST',
-                            Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
-                        )
-                    );
-                }
+            if (($this->parent->isOverwrite() || !file_exists($path['dest'])) && !$this->parent->copyFiles([$path])) {
+                // Install failed, rollback changes
+                throw new \RuntimeException(
+                    Text::sprintf(
+                        'JLIB_INSTALLER_ABORT_MANIFEST',
+                        Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+                    )
+                );
             }
         }
     }
@@ -188,16 +186,14 @@ class ModuleAdapter extends InstallerAdapter
         }
 
         // Lastly, we will copy the manifest file to its appropriate place.
-        if ($this->route !== 'discover_install') {
-            if (!$this->parent->copyManifest(-1)) {
-                // Install failed, rollback changes
-                throw new \RuntimeException(
-                    Text::sprintf(
-                        'JLIB_INSTALLER_ABORT_COPY_SETUP',
-                        Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
-                    )
-                );
-            }
+        if ($this->route !== 'discover_install' && !$this->parent->copyManifest(-1)) {
+            // Install failed, rollback changes
+            throw new \RuntimeException(
+                Text::sprintf(
+                    'JLIB_INSTALLER_ABORT_COPY_SETUP',
+                    Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+                )
+            );
         }
     }
 
@@ -244,7 +240,7 @@ class ModuleAdapter extends InstallerAdapter
         }
 
         // Do we have any module copies?
-        if (\count($modules)) {
+        if (\count($modules) > 0) {
             // Ensure the list is sane
             $modules = ArrayHelper::toInteger($modules);
 
@@ -317,16 +313,16 @@ class ModuleAdapter extends InstallerAdapter
         }
 
         // Joomla 4 Module.
-        if ((string) $this->getManifest()->element) {
+        if ((string) $this->getManifest()->element !== '' && (string) $this->getManifest()->element !== '0') {
             return (string) $this->getManifest()->element;
         }
 
-        if (!\count($this->getManifest()->files->children())) {
+        if (\count($this->getManifest()->files->children()) === 0) {
             return $element;
         }
 
         foreach ($this->getManifest()->files->children() as $file) {
-            if ((string) $file->attributes()->module) {
+            if ((string) $file->attributes()->module !== '' && (string) $file->attributes()->module !== '0') {
                 // Joomla 3 (legacy) Module.
                 return strtolower((string) $file->attributes()->module);
             }
@@ -455,7 +451,7 @@ class ModuleAdapter extends InstallerAdapter
         // Get the target application
         $cname = (string) $this->getManifest()->attributes()->client;
 
-        if ($cname) {
+        if ($cname !== '' && $cname !== '0') {
             // Attempt to map the client to a base path
             $client = ApplicationHelper::getClientInfo($cname, true);
 

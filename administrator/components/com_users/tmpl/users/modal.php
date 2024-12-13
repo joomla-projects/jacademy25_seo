@@ -33,7 +33,7 @@ $userRequired    = (int) $input->get('required', 0, 'int');
 ?>
 <div class="container-popup">
     <form action="<?php echo Route::_('index.php?option=com_users&view=users&layout=modal&tmpl=component&groups=' . $input->get('groups', '', 'BASE64') . '&excluded=' . $input->get('excluded', '', 'BASE64')); ?>" method="post" name="adminForm" id="adminForm">
-        <?php if (!$userRequired) : ?>
+        <?php if ($userRequired === 0) : ?>
         <div>
             <button type="button" class="btn btn-primary button-select"
                 data-content-select data-content-type="com_users.user" data-id="" data-name=""

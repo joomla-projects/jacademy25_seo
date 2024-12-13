@@ -103,20 +103,23 @@ final class ApiApplication extends CMSApplication
         // Initialise the application
         $this->initialiseApp();
 
-        // Mark afterInitialise in the profiler.
-        JDEBUG ? $this->profiler->mark('afterInitialise') : null;
+        if (JDEBUG) {
+            $this->profiler->mark('afterInitialise');
+        }
 
         // Route the application
         $this->route();
 
-        // Mark afterApiRoute in the profiler.
-        JDEBUG ? $this->profiler->mark('afterApiRoute') : null;
+        if (JDEBUG) {
+            $this->profiler->mark('afterApiRoute');
+        }
 
         // Dispatch the application
         $this->dispatch();
 
-        // Mark afterDispatch in the profiler.
-        JDEBUG ? $this->profiler->mark('afterDispatch') : null;
+        if (JDEBUG) {
+            $this->profiler->mark('afterDispatch');
+        }
     }
 
     /**
@@ -169,7 +172,7 @@ final class ApiApplication extends CMSApplication
 
         $forceCORS = (int) $this->get('cors');
 
-        if ($forceCORS) {
+        if ($forceCORS !== 0) {
             /**
              * Enable CORS (Cross-origin resource sharing)
              * Obtain allowed CORS origin from Global Settings.
@@ -312,10 +315,8 @@ final class ApiApplication extends CMSApplication
             new AfterApiRouteEvent('onAfterApiRoute', ['subject' => $this])
         );
 
-        if (!isset($route['vars']['public']) || $route['vars']['public'] === false) {
-            if (!$this->login(['username' => ''], ['silent' => true, 'action' => 'core.login.api'])) {
-                throw new AuthenticationFailed();
-            }
+        if ((!isset($route['vars']['public']) || $route['vars']['public'] === false) && !$this->login(['username' => ''], ['silent' => true, 'action' => 'core.login.api'])) {
+            throw new AuthenticationFailed();
         }
     }
 

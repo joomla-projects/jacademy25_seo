@@ -46,7 +46,7 @@ $results = null;
 $parts   = null;
 
 // Check for valid format
-if (!$format) {
+if ($format === '' || $format === '0') {
     $results = new InvalidArgumentException(Text::_('COM_AJAX_SPECIFY_FORMAT'), 404);
 } elseif ($input->get('module')) {
     /**
@@ -97,8 +97,9 @@ if (!$format) {
                 // Load language file for module
                 $basePath = JPATH_BASE;
                 $lang     = Factory::getLanguage();
-                $lang->load('mod_' . $module, $basePath)
-                || $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
+                if (!$lang->load('mod_' . $module, $basePath)) {
+                    $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
+                }
 
                 try {
                     $results = \call_user_func($class . '::' . $method . 'Ajax');
@@ -181,8 +182,9 @@ if (!$format) {
             if (method_exists($class, $method . 'Ajax')) {
                 // Load language file for template
                 $lang = Factory::getLanguage();
-                $lang->load('tpl_' . $template, $basePath)
-                || $lang->load('tpl_' . $template, $basePath . '/templates/' . $template);
+                if (!$lang->load('tpl_' . $template, $basePath)) {
+                    $lang->load('tpl_' . $template, $basePath . '/templates/' . $template);
+                }
 
                 try {
                     $results = \call_user_func($class . '::' . $method . 'Ajax');

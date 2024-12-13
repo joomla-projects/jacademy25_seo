@@ -58,9 +58,9 @@ class TelRule extends FormRule
          * @note that valid ITU-T and EPP must begin with +.
          */
         $regexarray = [
-            'NANP'  => '/^(?:\+?1[-. ]?)?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$/',
-            'ITU-T' => '/^\+(?:[0-9] ?){6,14}[0-9]$/',
-            'EPP'   => '/^\+[0-9]{1,3}\.[0-9]{4,14}(?:x.+)?$/',
+            'NANP'  => '/^(?:\+?1[-. ]?)?\(?([2-9][0-8]\d)\)?[-. ]?([2-9]\d{2})[-. ]?(\d{4})$/',
+            'ITU-T' => '/^\+(?:\d ?){6,14}\d$/',
+            'EPP'   => '/^\+\d{1,3}\.\d{4,14}(?:x.+)?$/',
         ];
 
         if (isset($element['plan'])) {
@@ -87,13 +87,8 @@ class TelRule extends FormRule
              * are allowed).
              */
             $cleanvalue = preg_replace('/[+. \-(\)]/', '', (string) $value);
-            $regex      = '/^[0-9]{7,15}?$/';
-
-            if (preg_match($regex, (string) $cleanvalue) == true) {
-                return true;
-            }
-
-            return false;
+            $regex      = '/^\d{7,15}?$/';
+            return preg_match($regex, (string) $cleanvalue) == true;
         }
 
         return true;

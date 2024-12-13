@@ -68,17 +68,9 @@ class TransitionField extends GroupedlistField
         if ($result) {
             $input = Factory::getApplication()->getInput();
 
-            if (\strlen($element['extension'])) {
-                $this->extension = (string) $element['extension'];
-            } else {
-                $this->extension = $input->getCmd('extension');
-            }
+            $this->extension = \strlen($element['extension']) !== 0 ? (string) $element['extension'] : $input->getCmd('extension');
 
-            if (\strlen($element['workflow_stage'])) {
-                $this->workflowStage = (int) $element['workflow_stage'];
-            } else {
-                $this->workflowStage = $input->getInt('id');
-            }
+            $this->workflowStage = \strlen($element['workflow_stage']) !== 0 ? (int) $element['workflow_stage'] : $input->getInt('id');
         }
 
         return $result;
@@ -134,7 +126,7 @@ class TransitionField extends GroupedlistField
 
         $component = reset($parts);
 
-        if (\count($items)) {
+        if (\count($items) > 0) {
             $user = $this->getCurrentUser();
 
             $items = array_filter(
@@ -160,7 +152,7 @@ class TransitionField extends GroupedlistField
 
         $groups = parent::getGroups();
 
-        if (\count($items)) {
+        if (\count($items) > 0) {
             $groups[Text::_('COM_CONTENT_RUN_TRANSITION')] = $items;
         }
 

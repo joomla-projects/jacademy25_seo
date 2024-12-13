@@ -198,16 +198,11 @@ class TourModel extends AdminModel
      */
     public function getItem($pk = null)
     {
-        $pk    = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
+        $pk    = (empty($pk)) ? (int) $this->getState($this->getName() . '.id') : $pk;
 
         $table = $this->getTable();
 
-        if (\is_int($pk)) {
-            $result = $table->load((int) $pk);
-        } else {
-            // Attempt to load the row by uid.
-            $result = $table->load([ 'uid' => $pk ]);
-        }
+        $result = \is_int($pk) ? $table->load((int) $pk) : $table->load([ 'uid' => $pk ]);
 
         // Check for a table object error.
         if ($result === false) {
@@ -547,7 +542,7 @@ class TourModel extends AdminModel
             ->from($db->quoteName('#__guidedtours'))
             ->where($db->quoteName('published') . ' = 1');
 
-        if (\is_integer($pk)) {
+        if (is_int($pk)) {
             $query->where($db->quoteName('id') . ' = :id')
                 ->bind(':id', $pk, ParameterType::INTEGER);
         } else {

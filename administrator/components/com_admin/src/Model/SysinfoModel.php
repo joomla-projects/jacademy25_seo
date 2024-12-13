@@ -220,11 +220,11 @@ class SysinfoModel extends BaseDatabaseModel
                 $sectionValues = 'xxxxxx';
             }
 
-            return \strlen((string) $sectionValues) ? 'xxxxxx' : '';
+            return \strlen((string) $sectionValues) !== 0 ? 'xxxxxx' : '';
         }
 
         foreach ($sectionValues as $setting => $value) {
-            $sectionValues[$setting] = \strlen((string) $value) ? 'xxxxxx' : '';
+            $sectionValues[$setting] = \strlen((string) $value) !== 0 ? 'xxxxxx' : '';
         }
 
         return $sectionValues;
@@ -239,7 +239,7 @@ class SysinfoModel extends BaseDatabaseModel
      */
     public function &getPhpSettings(): array
     {
-        if (!empty($this->php_settings)) {
+        if ($this->php_settings !== []) {
             return $this->php_settings;
         }
 
@@ -306,7 +306,7 @@ class SysinfoModel extends BaseDatabaseModel
      */
     public function &getInfo(): array
     {
-        if (!empty($this->info)) {
+        if ($this->info !== []) {
             return $this->info;
         }
 
@@ -336,7 +336,7 @@ class SysinfoModel extends BaseDatabaseModel
     {
         $record = ExtensionHelper::getExtensionRecord('compat', 'plugin', 0, 'behaviour');
 
-        if ($record) {
+        if ($record instanceof \stdClass) {
             $params = new Registry($record->params);
 
             return ArrayHelper::toString($params->toArray(), ':', ', ');
@@ -522,7 +522,7 @@ class SysinfoModel extends BaseDatabaseModel
      */
     public function getDirectory(bool $public = false): array
     {
-        if (!empty($this->directories)) {
+        if ($this->directories !== []) {
             return $this->directories;
         }
 
@@ -634,9 +634,11 @@ class SysinfoModel extends BaseDatabaseModel
 
         $this->addDirectory('templates', JPATH_SITE . '/templates');
         $this->addDirectory('configuration.php', JPATH_CONFIGURATION . '/configuration.php');
+        // Is there a cache path in configuration.php?
+        $cache_path = trim((string) $registry->get('cache_path', ''));
 
         // Is there a cache path in configuration.php?
-        if ($cache_path = trim((string) $registry->get('cache_path', ''))) {
+        if ($cache_path !== '' && $cache_path !== '0') {
             // Frontend and backend use same directory for caching.
             $this->addDirectory($cache_path, $cache_path, 'COM_ADMIN_CACHE_DIRECTORY');
         } else {

@@ -224,8 +224,7 @@ abstract class Menu
             }
 
             // Ok we passed everything, load language at last only
-            if ($item->element) {
-                $language->load($item->element . '.sys', JPATH_ADMINISTRATOR) ||
+            if ($item->element && !$language->load($item->element . '.sys', JPATH_ADMINISTRATOR)) {
                 $language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element);
             }
 

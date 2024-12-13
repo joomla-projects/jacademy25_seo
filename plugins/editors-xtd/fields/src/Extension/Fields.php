@@ -68,7 +68,7 @@ final class Fields extends CMSPlugin implements SubscriberInterface
      *
      * @param   string  $name  The name of the button to add
      *
-     * @return  Button|void  The button options as Button object
+     * @return Button|null The button options as Button object
      *
      * @since  3.7.0
      */
@@ -76,7 +76,7 @@ final class Fields extends CMSPlugin implements SubscriberInterface
     {
         // Check if com_fields is enabled
         if (!ComponentHelper::isEnabled('com_fields')) {
-            return;
+            return null;
         }
 
         $this->loadLanguage();

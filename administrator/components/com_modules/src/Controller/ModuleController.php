@@ -33,7 +33,7 @@ class ModuleController extends FormController
     /**
      * Override parent add method.
      *
-     * @return  \Exception|void  True if the record can be added, a \Exception object if not.
+     * @return \Exception|null True if the record can be added, a \Exception object if not.
      *
      * @since   1.6
      */
@@ -65,6 +65,7 @@ class ModuleController extends FormController
         // Parameters could be coming in for a new item, so let's set them.
         $params = $this->input->get('params', [], 'array');
         $app->setUserState('com_modules.add.module.params', $params);
+        return null;
     }
 
     /**
@@ -141,19 +142,14 @@ class ModuleController extends FormController
     protected function allowEdit($data = [], $key = 'id')
     {
         // Initialise variables.
-        $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+        $recordId = (int) isset($data[$key]) !== 0 ? $data[$key] : 0;
 
         // Zero record (id:0), return component edit permission by calling parent controller method
         if (!$recordId) {
             return parent::allowEdit($data, $key);
         }
-
         // Check edit on the record asset (explicit or inherited)
-        if ($this->app->getIdentity()->authorise('core.edit', 'com_modules.module.' . $recordId)) {
-            return true;
-        }
-
-        return false;
+        return $this->app->getIdentity()->authorise('core.edit', 'com_modules.module.' . $recordId);
     }
 
     /**
@@ -308,7 +304,7 @@ class ModuleController extends FormController
 
         $orders2 = [];
 
-        if (\count($orders)) {
+        if (\count($orders) > 0) {
             foreach ($orders as $order) {
                 if (!isset($orders2[$order->position])) {
                     $orders2[$order->position] = 0;

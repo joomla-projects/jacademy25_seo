@@ -398,7 +398,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             $registry   = new Registry($item->urls);
             $item->urls = $registry->toArray();
 
-            $item->articletext = ($item->fulltext !== null && trim($item->fulltext) != '') ? $item->introtext . '<hr id="system-readmore">' . $item->fulltext : $item->introtext;
+            $item->articletext = ($item->fulltext !== null && trim($item->fulltext) !== '') ? $item->introtext . '<hr id="system-readmore">' . $item->fulltext : $item->introtext;
 
             if (!empty($item->id)) {
                 $item->tags = new TagsHelper();
@@ -492,7 +492,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                 : (int) $assignedCatids;
 
             // Try to get the category from the category field
-            if (empty($assignedCatids)) {
+            if ($assignedCatids === 0) {
                 $assignedCatids = $formField->getAttribute('default', null);
 
                 if (!$assignedCatids) {
@@ -523,7 +523,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                     ? (int) reset($catIds)
                     : (int) $catIds;
 
-                if (!$catId) {
+                if ($catId === 0) {
                     $catId = (int) $form->getFieldAttribute('catid', 'default', 0);
                 }
             }
@@ -587,15 +587,15 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                         ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
                     )
                 );
-                $data->set('catid', $app->getInput()->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
+                $data->set('catid', $app->getInput()->getInt('catid', (empty($filters['category_id']) ? null : $filters['category_id'])));
 
                 if ($app->isClient('administrator')) {
-                    $data->set('language', $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+                    $data->set('language', $app->getInput()->getString('language', (empty($filters['language']) ? null : $filters['language'])));
                 }
 
                 $data->set(
                     'access',
-                    $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
+                    $app->getInput()->getInt('access', (empty($filters['access']) ? $app->get('access') : $filters['access']))
                 );
             }
         }
@@ -625,10 +625,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      */
     public function validate($form, $data, $group = null)
     {
-        if (!$this->getCurrentUser()->authorise('core.admin', 'com_content')) {
-            if (isset($data['rules'])) {
-                unset($data['rules']);
-            }
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_content') && isset($data['rules'])) {
+            unset($data['rules']);
         }
 
         return parent::validate($form, $data, $group);
@@ -731,15 +729,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             if ($app->isClient('site')) {
                 $origTable->load($input->getInt('a_id'));
 
-                if ($origTable->title === $data['title']) {
-                    /**
-                     * If title of article is not changed, set alias to original article alias so that Joomla! will generate
-                     * new Title and Alias for the copied article
-                     */
-                    $data['alias'] = $origTable->alias;
-                } else {
-                    $data['alias'] = '';
-                }
+                $data['alias'] = $origTable->title === $data['title'] ? $origTable->alias : '';
             } else {
                 $origTable->load($input->getInt('id'));
             }
@@ -754,42 +744,32 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         }
 
         // Automatic handling of alias for empty fields
-        if (\in_array($input->get('task'), ['apply', 'save', 'save2new']) && (!isset($data['id']) || (int) $data['id'] == 0)) {
-            if ($data['alias'] == null) {
-                if ($app->get('unicodeslugs') == 1) {
-                    $data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
-                } else {
-                    $data['alias'] = OutputFilter::stringURLSafe($data['title']);
-                }
-
-                $table = $this->getTable();
-
-                if ($table->load(['alias' => $data['alias'], 'catid' => $data['catid']])) {
-                    $msg = Text::_('COM_CONTENT_SAVE_WARNING');
-                }
-
-                [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-                $data['alias']       = $alias;
-
-                if (isset($msg)) {
-                    $app->enqueueMessage($msg, 'warning');
-                }
+        if (\in_array($input->get('task'), ['apply', 'save', 'save2new']) && (!isset($data['id']) || (int) $data['id'] == 0) && $data['alias'] == null) {
+            if ($app->get('unicodeslugs') == 1) {
+                $data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
+            } else {
+                $data['alias'] = OutputFilter::stringURLSafe($data['title']);
+            }
+            $table = $this->getTable();
+            if ($table->load(['alias' => $data['alias'], 'catid' => $data['catid']])) {
+                $msg = Text::_('COM_CONTENT_SAVE_WARNING');
+            }
+            [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+            $data['alias']       = $alias;
+            if (isset($msg)) {
+                $app->enqueueMessage($msg, 'warning');
             }
         }
 
         if (parent::save($data)) {
             // Check if featured is set and if not managed by workflow
-            if (isset($data['featured']) && !$this->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article')) {
-                if (
-                    !$this->featured(
-                        $this->getState($this->getName() . '.id'),
-                        $data['featured'],
-                        $data['featured_up'] ?? null,
-                        $data['featured_down'] ?? null
-                    )
-                ) {
-                    return false;
-                }
+            if (isset($data['featured']) && !$this->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article') && !$this->featured(
+                $this->getState($this->getName() . '.id'),
+                $data['featured'],
+                $data['featured_up'] ?? null,
+                $data['featured_down'] ?? null
+            )) {
+                return false;
             }
 
             $this->workflowAfterSave($data);
@@ -890,7 +870,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                 $oldFeatured = $db->loadColumn();
 
                 // Update old featured articles
-                if (\count($oldFeatured)) {
+                if (\count($oldFeatured) > 0) {
                     $query = $db->getQuery(true)
                         ->update($db->quoteName('#__content_frontpage'))
                         ->set(
@@ -910,7 +890,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                 $newFeatured = array_diff($pks, $oldFeatured);
 
                 // Featuring.
-                if ($newFeatured) {
+                if ($newFeatured !== []) {
                     $query = $db->getQuery(true)
                         ->insert($db->quoteName('#__content_frontpage'))
                         ->columns(

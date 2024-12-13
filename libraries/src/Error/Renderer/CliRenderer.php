@@ -43,7 +43,7 @@ class CliRenderer extends AbstractRenderer
     {
         $buffer = PHP_EOL . 'Error occurred: ' . $error->getMessage() . PHP_EOL . $this->getTrace($error);
 
-        if ($prev = $error->getPrevious()) {
+        if ($prev = $error->getPrevious() instanceof \Throwable) {
             $buffer .= PHP_EOL . PHP_EOL . 'Previous Exception: ' . $prev->getMessage() . PHP_EOL . $this->getTrace($prev);
         }
 

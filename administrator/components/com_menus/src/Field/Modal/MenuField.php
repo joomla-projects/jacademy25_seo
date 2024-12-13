@@ -194,7 +194,7 @@ class MenuField extends ModalSelectField
             Session::getFormToken() => 1,
         ]);
 
-        if ($language) {
+        if ($language !== '' && $language !== '0') {
             $linkItems->setVar('forcedLanguage', $language);
             $linkItem->setVar('forcedLanguage', $language);
 

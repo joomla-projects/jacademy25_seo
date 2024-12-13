@@ -122,7 +122,7 @@ class HtmlView extends BaseHtmlView
         $canDo     = $this->canDo;
 
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $checkedOut = !\is_null($this->item->checked_out) && $this->item->checked_out != $userId;
 
         // Avoid nonsense situation.
         if ($component == 'com_fields') {
@@ -131,8 +131,9 @@ class HtmlView extends BaseHtmlView
 
         // Load component language file
         $lang = $this->getLanguage();
-        $lang->load($component, JPATH_ADMINISTRATOR)
-        || $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
+        if (!$lang->load($component, JPATH_ADMINISTRATOR)) {
+            $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
+        }
 
         $title = Text::sprintf('COM_FIELDS_VIEW_GROUP_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', Text::_(strtoupper((string) $component)));
 

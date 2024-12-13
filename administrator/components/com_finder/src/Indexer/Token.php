@@ -135,11 +135,7 @@ class Token
      */
     public function __construct($term, $lang, $spacer = ' ')
     {
-        if (!$lang) {
-            $this->language = '*';
-        } else {
-            $this->language = $lang;
-        }
+        $this->language = $lang ?: '*';
 
         // Tokens can be a single word or an array of words representing a phrase.
         if (\is_array($term)) {
@@ -179,7 +175,7 @@ class Token
              */
             $this->weight = min($this->length, 15) / 15;
             $this->weight = $this->common === true ? $this->weight / 8 : $this->weight;
-            $this->weight = $this->numeric === true ? $this->weight * 1.5 : $this->weight;
+            $this->weight = $this->numeric ? $this->weight * 1.5 : $this->weight;
             $this->weight = round($this->weight, 4);
         }
     }

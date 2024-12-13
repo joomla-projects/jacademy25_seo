@@ -63,7 +63,7 @@ class MenuField extends GroupedlistField
                 ]
             );
 
-        if (\strlen($clientId)) {
+        if (\strlen($clientId) !== 0) {
             $client = (int) $clientId;
             $query->where($db->quoteName('client_id') . ' = :client')
                 ->bind(':client', $client, ParameterType::INTEGER);
@@ -71,7 +71,7 @@ class MenuField extends GroupedlistField
 
         $menus = $db->setQuery($query)->loadObjectList();
 
-        if ($accessType) {
+        if ($accessType !== '' && $accessType !== '0') {
             $user = $this->getCurrentUser();
 
             foreach ($menus as $key => $menu) {
@@ -109,7 +109,7 @@ class MenuField extends GroupedlistField
         $options = array_merge($opts, $menus);
         $groups  = [];
 
-        if (\strlen($clientId)) {
+        if (\strlen($clientId) !== 0) {
             $groups[0] = $options;
         } else {
             foreach ($options as $option) {

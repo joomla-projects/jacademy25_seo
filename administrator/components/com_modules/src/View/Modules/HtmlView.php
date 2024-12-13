@@ -33,6 +33,11 @@ use Joomla\Component\Modules\Administrator\Model\ModulesModel;
 class HtmlView extends BaseHtmlView
 {
     /**
+     * @var int
+     */
+    public $total;
+    public $clientId;
+    /**
      * An array of items
      *
      * @var  array

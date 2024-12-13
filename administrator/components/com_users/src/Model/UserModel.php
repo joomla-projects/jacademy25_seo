@@ -100,7 +100,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      */
     public function getItem($pk = null)
     {
-        $pk = (!empty($pk)) ? $pk : (int) $this->getState('user.id');
+        $pk = (empty($pk)) ? (int) $this->getState('user.id') : $pk;
 
         if ($this->_item === null) {
             $this->_item = [];
@@ -224,14 +224,14 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      */
     public function save($data)
     {
-        $pk   = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
+        $pk   = (empty($data['id'])) ? (int) $this->getState('user.id') : $data['id'];
         $user = $this->getUserFactory()->loadUserById($pk);
 
         $my            = $this->getCurrentUser();
         $iAmSuperAdmin = $my->authorise('core.admin');
 
         // User cannot modify own user groups
-        if ((int) $user->id == (int) $my->id && !$iAmSuperAdmin && isset($data['groups'])) {
+        if ((int) $user->id === (int) $my->id && !$iAmSuperAdmin && isset($data['groups'])) {
             // Form was probably tampered with
             Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_USERS_ERROR_CANNOT_EDIT_OWN_GROUP'), 'warning');
 
@@ -245,7 +245,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
         }
 
         // Make sure user groups is selected when add/edit an account
-        if (empty($data['groups']) && ((int) $user->id != (int) $my->id || $iAmSuperAdmin)) {
+        if (empty($data['groups']) && ((int) $user->id !== (int) $my->id || $iAmSuperAdmin)) {
             $this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_SAVE_ACCOUNT_WITHOUT_GROUPS'));
 
             return false;
@@ -445,7 +445,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                             return false;
                         }
 
-                        if ($table->block) {
+                        if ($table->block !== 0) {
                             UserHelper::destroyUserSessions($table->id);
                         }
 
@@ -635,16 +635,12 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
         }
 
         // Set the action to perform
-        if ($action === 'yes') {
-            $value = 1;
-        } else {
-            $value = 0;
-        }
+        $value = $action === 'yes' ? 1 : 0;
 
         // Prune out the current user if they are in the supplied user ID array
         $userIds = array_diff($userIds, [$this->getCurrentUser()->id]);
 
-        if (empty($userIds)) {
+        if ($userIds === []) {
             $this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_REQUIRERESET_SELF'));
 
             return false;
@@ -874,7 +870,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      */
     public function getAssignedGroups($userId = null)
     {
-        $userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
+        $userId = (empty($userId)) ? (int) $this->getState('user.id') : $userId;
 
         if (empty($userId)) {
             $result   = [];

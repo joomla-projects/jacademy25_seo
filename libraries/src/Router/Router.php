@@ -194,11 +194,7 @@ class Router
             return clone $this->cache[$key];
         }
 
-        if ($url instanceof Uri) {
-            $uri = $url;
-        } else {
-            $uri = $this->createUri($url);
-        }
+        $uri = $url instanceof Uri ? $url : $this->createUri($url);
 
         // Do the preprocess stage of the URL build process
         $this->processBuildRules($uri, self::PROCESS_BEFORE);
@@ -244,11 +240,7 @@ class Router
      */
     public function setVars($vars = [], $merge = true)
     {
-        if ($merge) {
-            $this->vars = array_merge($this->vars, $vars);
-        } else {
-            $this->vars = $vars;
-        }
+        $this->vars = $merge ? array_merge($this->vars, $vars) : $vars;
     }
 
     /**

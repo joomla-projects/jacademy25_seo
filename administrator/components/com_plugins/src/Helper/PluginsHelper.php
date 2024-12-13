@@ -36,12 +36,7 @@ class PluginsHelper
      */
     public static function publishedOptions()
     {
-        // Build the active state filter options.
-        $options   = [];
-        $options[] = HTMLHelper::_('select.option', '1', 'JENABLED');
-        $options[] = HTMLHelper::_('select.option', '0', 'JDISABLED');
-
-        return $options;
+        return [HTMLHelper::_('select.option', '1', 'JENABLED'), HTMLHelper::_('select.option', '0', 'JDISABLED')];
     }
 
     /**

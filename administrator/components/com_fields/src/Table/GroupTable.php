@@ -100,7 +100,7 @@ class GroupTable extends Table implements CurrentUserInterface
     public function check()
     {
         // Check for a title.
-        if (trim($this->title) == '') {
+        if (trim($this->title) === '') {
             $this->setError(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_GROUP'));
 
             return false;
@@ -110,7 +110,7 @@ class GroupTable extends Table implements CurrentUserInterface
         $user = $this->getCurrentUser();
 
         // Set created date if not set.
-        if (!(int) $this->created) {
+        if ((int) $this->created === 0) {
             $this->created = $date;
         }
 
@@ -118,7 +118,7 @@ class GroupTable extends Table implements CurrentUserInterface
             $this->modified    = $date;
             $this->modified_by = $user->id;
         } else {
-            if (!(int) $this->modified) {
+            if ((int) $this->modified === 0) {
                 $this->modified = $this->created;
             }
 
@@ -211,7 +211,7 @@ class GroupTable extends Table implements CurrentUserInterface
             ->bind(':name', $component[0]);
         $db->setQuery($query);
 
-        if ($assetId = (int) $db->loadResult()) {
+        if ($assetId = (int) $db->loadResult() !== 0) {
             return $assetId;
         }
 

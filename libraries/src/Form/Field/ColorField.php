@@ -276,7 +276,7 @@ class ColorField extends FormField
     {
         $colors = strtolower((string) $this->colors);
 
-        if (empty($colors)) {
+        if ($colors === '' || $colors === '0') {
             $colors = [
                 'none',
                 '#049cdb',
@@ -300,10 +300,8 @@ class ColorField extends FormField
 
             if ($count % 5 == 0) {
                 $split = 5;
-            } else {
-                if ($count % 4 == 0) {
-                    $split = 4;
-                }
+            } elseif ($count % 4 == 0) {
+                $split = 4;
             }
         }
 

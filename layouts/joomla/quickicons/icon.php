@@ -16,11 +16,7 @@ $id      = empty($displayData['id']) ? '' : (' id="' . $displayData['id'] . '"')
 $target  = empty($displayData['target']) ? '' : (' target="' . $displayData['target'] . '"');
 $onclick = empty($displayData['onclick']) ? '' : (' onclick="' . $displayData['onclick'] . '"');
 
-if (isset($displayData['ajaxurl'])) {
-    $dataUrl = 'data-url="' . $displayData['ajaxurl'] . '"';
-} else {
-    $dataUrl = '';
-}
+$dataUrl = isset($displayData['ajaxurl']) ? 'data-url="' . $displayData['ajaxurl'] . '"' : '';
 
 // The title for the link (a11y)
 $title = empty($displayData['title']) ? '' : (' title="' . $this->escape($displayData['title']) . '"');

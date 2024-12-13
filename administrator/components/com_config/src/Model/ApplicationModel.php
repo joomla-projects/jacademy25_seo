@@ -154,7 +154,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 $data['dbsslcert'] = '';
             }
 
-            if ((bool) $data['dbsslverifyservercert'] === true) {
+            if ((bool) $data['dbsslverifyservercert']) {
                 $data['dbsslverifyservercert'] = false;
             }
 
@@ -174,7 +174,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             }
 
             // Check CA file and folder depending on database type if server certificate verification
-            if ((bool) $data['dbsslverifyservercert'] === true) {
+            if ((bool) $data['dbsslverifyservercert']) {
                 if (empty($data['dbsslca'])) {
                     Factory::getApplication()->enqueueMessage(
                         Text::sprintf(
@@ -186,7 +186,6 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 
                     return false;
                 }
-
                 if (!is_file(Path::clean($data['dbsslca']))) {
                     Factory::getApplication()->enqueueMessage(
                         Text::sprintf(
@@ -198,11 +197,9 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 
                     return false;
                 }
-            } else {
+            } elseif (!empty($data['dbsslca'])) {
                 // Reset unused option
-                if (!empty($data['dbsslca'])) {
-                    $data['dbsslca'] = '';
-                }
+                $data['dbsslca'] = '';
             }
 
             // Check key and certificate if two-way encryption
@@ -495,29 +492,26 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 
             $data['session_filesystem_path'] = Path::clean($data['session_filesystem_path']);
 
-            if ($currentPath !== $data['session_filesystem_path']) {
-                if (!is_dir(Path::clean($data['session_filesystem_path'])) && !Folder::create($data['session_filesystem_path'])) {
-                    try {
-                        Log::add(
-                            Text::sprintf(
-                                'COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT',
-                                $data['session_filesystem_path']
-                            ),
-                            Log::WARNING,
-                            'jerror'
-                        );
-                    } catch (\RuntimeException) {
-                        $app->enqueueMessage(
-                            Text::sprintf(
-                                'COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT',
-                                $data['session_filesystem_path']
-                            ),
-                            'warning'
-                        );
-                    }
-
-                    $data['session_filesystem_path'] = $currentPath;
+            if ($currentPath !== $data['session_filesystem_path'] && (!is_dir(Path::clean($data['session_filesystem_path'])) && !Folder::create($data['session_filesystem_path']))) {
+                try {
+                    Log::add(
+                        Text::sprintf(
+                            'COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT',
+                            $data['session_filesystem_path']
+                        ),
+                        Log::WARNING,
+                        'jerror'
+                    );
+                } catch (\RuntimeException) {
+                    $app->enqueueMessage(
+                        Text::sprintf(
+                            'COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT',
+                            $data['session_filesystem_path']
+                        ),
+                        'warning'
+                    );
                 }
+                $data['session_filesystem_path'] = $currentPath;
             }
         }
 
@@ -1099,13 +1093,13 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         // Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
         $inheritedGroupRule = Access::checkGroup($permission['rule'], $permission['action'], $assetId);
 
-        if (!empty($parentAssetId)) {
+        if ($parentAssetId !== null && $parentAssetId !== 0) {
             $inheritedGroupParentAssetRule = Access::checkGroup($permission['rule'], $permission['action'], $parentAssetId);
         } else {
             $inheritedGroupParentAssetRule = null;
         }
 
-        $inheritedParentGroupRule = !empty($parentGroupId) ? Access::checkGroup($parentGroupId, $permission['action'], $assetId) : null;
+        $inheritedParentGroupRule = $parentGroupId === 0 ? null : Access::checkGroup($parentGroupId, $permission['action'], $assetId);
 
         // Current group is a Super User group, so calculated setting is "Allowed (Super User)".
         if ($isSuperUserGroupAfter) {
@@ -1146,7 +1140,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             // Third part: Overwrite the calculated permissions labels for special cases.
 
             // Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
-            if (empty($parentGroupId) && $isGlobalConfig === true && $assetRule === null) {
+            if ($parentGroupId === 0 && $isGlobalConfig && $assetRule === null) {
                 $result['class'] = 'badge bg-danger';
                 $result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
             } elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false) {

@@ -67,7 +67,7 @@ class FeaturedModel extends ListModel
 
         // Convert the params field into an object, saving original in _params
         foreach ($items as $item) {
-            if (!isset($this->_params)) {
+            if (!property_exists($this, '_params') || $this->_params === null) {
                 $item->params = new Registry($item->params);
             }
         }

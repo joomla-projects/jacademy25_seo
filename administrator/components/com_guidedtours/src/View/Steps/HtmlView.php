@@ -139,7 +139,7 @@ class HtmlView extends BaseHtmlView
             ->getMVCFactory()->createModel('Tour', 'Administrator', ['ignore_request' => true]);
 
         $tour  = $tourModel->getItem($this->state->get('filter.tour_id', -1));
-        $title = !empty($tour->title) ? $tour->title : '';
+        $title = empty($tour->title) ? '' : $tour->title;
 
         ToolbarHelper::title(Text::sprintf('COM_GUIDEDTOURS_STEPS_LIST', Text::_($title)), 'map-signs');
         $arrow  = $this->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';

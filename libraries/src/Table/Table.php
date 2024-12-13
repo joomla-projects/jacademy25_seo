@@ -175,11 +175,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
 
         $this->_tbl_keys = $key;
 
-        if (\count($key) == 1) {
-            $this->_autoincrement = true;
-        } else {
-            $this->_autoincrement = false;
-        }
+        $this->_autoincrement = \count($key) == 1;
 
         // Set the singular table key for backwards compatibility.
         $this->_tbl_key = $this->getKeyName();
@@ -356,11 +352,10 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             self::$_includePaths = [__DIR__];
         }
 
-        // Convert the passed path(s) to add to an array.
-        settype($path, 'array');
+        $path = (array) $path;
 
         // If we have new paths to add, do so.
-        if (!empty($path)) {
+        if ($path !== []) {
             // Check and add each individual new path.
             foreach ($path as $dir) {
                 // Sanitize path.
@@ -557,11 +552,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function setRules($input)
     {
-        if ($input instanceof Rules) {
-            $this->_rules = $input;
-        } else {
-            $this->_rules = new Rules($input);
-        }
+        $this->_rules = $input instanceof Rules ? $input : new Rules($input);
     }
 
     /**
@@ -673,10 +664,8 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         // Bind the source value, excluding the ignored fields.
         foreach ($this->getProperties() as $k => $v) {
             // Only process fields not in the ignore array.
-            if (!\in_array($k, $ignore)) {
-                if (isset($src[$k])) {
-                    $this->$k = $src[$k];
-                }
+            if (!\in_array($k, $ignore) && isset($src[$k])) {
+                $this->$k = $src[$k];
             }
         }
 
@@ -738,7 +727,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             // Load by primary key.
             $keyCount = \count($this->_tbl_keys);
 
-            if ($keyCount) {
+            if ($keyCount !== 0) {
                 if ($keyCount > 1) {
                     throw new \InvalidArgumentException('Table has multiple primary keys specified, only one primary key value provided.');
                 }
@@ -774,12 +763,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         $row = $this->_db->loadAssoc();
 
         // Check that we have a result.
-        if (empty($row)) {
-            $result = false;
-        } else {
-            // Bind the object with the row and return.
-            $result = $this->bind($row);
-        }
+        $result = empty($row) ? false : $this->bind($row);
 
         // Post-processing by observers
         $event = AbstractEvent::create(
@@ -1049,12 +1033,9 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             $name  = $this->_getAssetName();
             $asset = new Asset($this->getDbo(), $this->getDispatcher());
 
-            if ($asset->loadByName($name)) {
-                if (!$asset->delete()) {
-                    $this->setError($asset->getError());
-
-                    return false;
-                }
+            if ($asset->loadByName($name) && !$asset->delete()) {
+                $this->setError($asset->getError());
+                return false;
             }
         }
 
@@ -1275,11 +1256,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             $this->_db->setQuery($query);
             $count = $this->_db->loadResult();
 
-            if ($count == 1) {
-                $empty = false;
-            } else {
-                $empty = true;
-            }
+            $empty = $count != 1;
         }
 
         return !$empty;
@@ -1447,10 +1424,8 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     public function getPrimaryKey(array $keys = [])
     {
         foreach ($this->_tbl_keys as $key) {
-            if (!isset($keys[$key])) {
-                if (!empty($this->$key)) {
-                    $keys[$key] = $this->$key;
-                }
+            if (!isset($keys[$key]) && !empty($this->$key)) {
+                $keys[$key] = $this->$key;
             }
         }
 
@@ -1689,7 +1664,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         }
 
         // If there are no primary keys set check to see if the instance key is set.
-        if (empty($pks)) {
+        if ($pks === null || $pks === []) {
             $pk = [];
 
             foreach ($this->_tbl_keys as $key) {

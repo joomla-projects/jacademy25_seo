@@ -142,7 +142,7 @@ class DatabaseStorageTest extends UnitTestCase
 
         // Write mock data to mock table
         foreach (DatabaseStorage::METADATA_COLUMNS as $column) {
-            $table->$column = (!empty($mockData[$column])) ? $mockData[$column] : null;
+            $table->$column = (empty($mockData[$column])) ? null : $mockData[$column];
         }
 
         return $table;

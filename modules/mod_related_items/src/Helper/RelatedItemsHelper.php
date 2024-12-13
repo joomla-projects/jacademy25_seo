@@ -76,7 +76,7 @@ class RelatedItemsHelper implements DatabaseAwareInterface
         $related  = [];
         $query    = $db->getQuery(true);
 
-        if ($id) {
+        if ($id !== 0) {
             // Select the meta keywords from the item
             $query->select($db->quoteName('metakey'))
                 ->from($db->quoteName('#__content'))
@@ -100,12 +100,12 @@ class RelatedItemsHelper implements DatabaseAwareInterface
             foreach ($keys as $key) {
                 $key = trim($key);
 
-                if ($key) {
+                if ($key !== '' && $key !== '0') {
                     $likes[] = $db->escape($key);
                 }
             }
 
-            if (\count($likes)) {
+            if ($likes !== []) {
                 // Select other items based on the metakey field 'like' the keys found
                 $query->clear()
                     ->select($db->quoteName('a.id'))
@@ -156,7 +156,7 @@ class RelatedItemsHelper implements DatabaseAwareInterface
                     return [];
                 }
 
-                if (\count($articleIds)) {
+                if (\count($articleIds) > 0) {
                     $articles->setState('filter.article_id', $articleIds);
                     $articles->setState('filter.published', 1);
                     $related = $articles->getItems();
@@ -166,7 +166,7 @@ class RelatedItemsHelper implements DatabaseAwareInterface
             }
         }
 
-        if (\count($related)) {
+        if (\count($related) > 0) {
             // Prepare data for display using display options
             foreach ($related as &$item) {
                 $item->slug  = $item->id . ':' . $item->alias;

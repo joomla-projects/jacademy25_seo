@@ -34,15 +34,23 @@ $wa->useScript('core');
                     <?php else : ?>
                     <li>
                     <?php endif;
-                    if ($displayData->hide) : ?>
-                    <a class="nolink"><?php echo $item[0]; ?></a>
-                    <?php else :
-                        if ($item[1] !== '') : ?>
-                        <a href="<?php echo OutputFilter::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a>
-                        <?php else : ?>
+                    if ($displayData->hide) {
+                        ?>
+                    <a class="nolink"><?php 
+                        echo $item[0];
+                        ?></a>
+                    <?php 
+                    } elseif ($item[1] !== '') {
+                        ?>
+                        <a href="<?php 
+                        echo OutputFilter::ampReplace($item[1]);
+                        ?>"><?php 
+                        echo $item[0];
+                        ?></a>
+                        <?php 
+                    } else : ?>
                             <?php echo $item[0]; ?>
-                        <?php endif;
-                    endif; ?>
+                         ?>
                 </li>
                 <?php endforeach; ?>
             </ul>

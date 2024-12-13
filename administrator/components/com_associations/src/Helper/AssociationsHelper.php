@@ -193,7 +193,7 @@ class AssociationsHelper extends ContentHelper
      */
     private static function getExtensionRealName($extensionName)
     {
-        return !str_contains($extensionName, 'com_') ? $extensionName : substr($extensionName, 4);
+        return str_contains($extensionName, 'com_') ? substr($extensionName, 4) : $extensionName;
     }
 
     /**

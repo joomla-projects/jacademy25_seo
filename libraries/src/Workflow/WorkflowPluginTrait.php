@@ -68,7 +68,7 @@ trait WorkflowPluginTrait
     protected function getWorkflow(?int $workflowId = null)
     {
         $app        = $this->getApplication() ?? $this->app;
-        $workflowId = !empty($workflowId) ? $workflowId : $app->getInput()->getInt('workflow_id');
+        $workflowId = $workflowId === null || $workflowId === 0 ? $app->getInput()->getInt('workflow_id') : $workflowId;
 
         if (\is_array($workflowId)) {
             return false;
@@ -105,24 +105,10 @@ trait WorkflowPluginTrait
     {
         $allowedlist   = array_filter((array) $this->params->get('allowedlist', []));
         $forbiddenlist = array_filter((array) $this->params->get('forbiddenlist', []));
-
-        if (!empty($allowedlist)) {
-            foreach ($allowedlist as $allowed) {
-                if ($context === $allowed) {
-                    return true;
-                }
-            }
-
-            return false;
+        if ($allowedlist !== []) {
+            return in_array($context, $allowedlist, true);
         }
-
-        foreach ($forbiddenlist as $forbidden) {
-            if ($context === $forbidden) {
-                return false;
-            }
-        }
-
-        return true;
+        return !in_array($context, $forbiddenlist, true);
     }
 
     /**
@@ -138,15 +124,6 @@ trait WorkflowPluginTrait
         $parts = explode('.', $context);
 
         $component = ($this->getApplication() ?? $this->app)->bootComponent($parts[0]);
-
-        if (
-            !$component instanceof WorkflowServiceInterface
-            || !$component->isWorkflowActive($context)
-            || !$component->supportFunctionality($functionality, $context)
-        ) {
-            return false;
-        }
-
-        return true;
+        return !(!$component instanceof WorkflowServiceInterface || !$component->isWorkflowActive($context) || !$component->supportFunctionality($functionality, $context));
     }
 }

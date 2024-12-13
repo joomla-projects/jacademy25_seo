@@ -59,7 +59,7 @@ class HistoryController extends AdminController
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
 
-        if (empty($cid)) {
+        if ($cid === []) {
             $this->app->enqueueMessage(Text::_('COM_CONTENTHISTORY_NO_ITEM_SELECTED'), 'warning');
         } else {
             // Get the model.

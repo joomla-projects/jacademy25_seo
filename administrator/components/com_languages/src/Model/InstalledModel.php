@@ -103,7 +103,7 @@ class InstalledModel extends ListModel
     {
         // Special case for client id.
         $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-        $clientId = (!\in_array($clientId, [0, 1])) ? 0 : $clientId;
+        $clientId = (\in_array($clientId, [0, 1])) ? $clientId : 0;
         $this->setState('client_id', $clientId);
 
         // Load the parameters.
@@ -216,22 +216,14 @@ class InstalledModel extends ListModel
 
         foreach ($installedLanguages as $key => $installedLanguage) {
             // Filter by client id.
-            if (\in_array($clientId, [0, 1])) {
-                if ($installedLanguage->client_id !== $clientId) {
-                    unset($installedLanguages[$key]);
-                    continue;
-                }
+            if (\in_array($clientId, [0, 1]) && $installedLanguage->client_id !== $clientId) {
+                unset($installedLanguages[$key]);
+                continue;
             }
 
             // Filter by search term.
-            if (!empty($search)) {
-                if (
-                    stripos($installedLanguage->name, (string) $search) === false
-                    && stripos($installedLanguage->nativeName, (string) $search) === false
-                    && stripos($installedLanguage->language, (string) $search) === false
-                ) {
-                    unset($installedLanguages[$key]);
-                }
+            if (!empty($search) && (stripos($installedLanguage->name, (string) $search) === false && stripos($installedLanguage->nativeName, (string) $search) === false && stripos($installedLanguage->language, (string) $search) === false)) {
+                unset($installedLanguages[$key]);
             }
         }
 

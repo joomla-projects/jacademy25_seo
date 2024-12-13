@@ -85,7 +85,7 @@ trait GlobalFilters
                 foreach ($tags as $tag) {
                     $tag = trim($tag);
 
-                    if ($tag) {
+                    if ($tag !== '' && $tag !== '0') {
                         $tempTags[] = $tag;
                     }
                 }
@@ -93,7 +93,7 @@ trait GlobalFilters
                 foreach ($attributes as $attribute) {
                     $attribute = trim($attribute);
 
-                    if ($attribute) {
+                    if ($attribute !== '' && $attribute !== '0') {
                         $tempAttributes[] = $attribute;
                     }
                 }
@@ -143,11 +143,11 @@ trait GlobalFilters
             $filter = InputFilter::getInstance([], [], 1, 1);
 
             // Override filter's default forbidden tags and attributes
-            if ($customListTags) {
+            if ($customListTags !== []) {
                 $filter->blockedTags = $customListTags;
             }
 
-            if ($customListAttributes) {
+            if ($customListAttributes !== []) {
                 $filter->blockedAttributes = $customListAttributes;
             }
         } elseif ($forbiddenList) {
@@ -159,12 +159,12 @@ trait GlobalFilters
             $filter = InputFilter::getInstance($forbiddenListTags, $forbiddenListAttributes, 1, 1);
 
             // Remove allowed tags from filter's default forbidden list
-            if ($allowedListTags) {
+            if ($allowedListTags !== []) {
                 $filter->blockedTags = array_diff($filter->blockedTags, $allowedListTags);
             }
 
             // Remove allowed attributes from filter's default forbidden list
-            if ($allowedListAttributes) {
+            if ($allowedListAttributes !== []) {
                 $filter->blockedAttributes = array_diff($filter->blockedAttributes, $allowedListAttributes);
             }
         } elseif ($allowedList) {

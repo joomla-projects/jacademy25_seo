@@ -31,13 +31,14 @@ class ModelBootComponent extends NamespaceBased
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
-        if (\count($methodCall->getArgs()) === 0) {
+        if ($methodCall->getArgs() === []) {
             return null;
         }
 
         $name = str_replace("'", '', $methodCall->getArgs()[0]->value->getAttribute('rawValue'));
+        $namespace = $this->findNamespace('\\Component\\' . $name . '\\Administrator');
 
-        if ($namespace = $this->findNamespace('\\Component\\' . $name . '\\Administrator')) {
+        if ($namespace !== '' && $namespace !== '0') {
             return new ObjectType($namespace . 'Extension\\' . $name . 'Component');
         }
 

@@ -206,7 +206,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
 
         $task = $this->runScheduler($id);
 
-        if (!empty($task) && !empty($task->getContent()['exception'])) {
+        if ($task instanceof \Joomla\Component\Scheduler\Administrator\Task\Task && !empty($task->getContent()['exception'])) {
             throw $task->getContent()['exception'];
         }
     }
@@ -235,7 +235,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
 
         $user = $this->getApplication()->getIdentity();
 
-        if (empty($id) || !$user->authorise('core.testrun', 'com_scheduler.task.' . $id)) {
+        if ($id === 0 || !$user->authorise('core.testrun', 'com_scheduler.task.' . $id)) {
             throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
@@ -254,7 +254,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             ]
         );
 
-        if ($task) {
+        if ($task instanceof \Joomla\Component\Scheduler\Administrator\Task\Task) {
             $task->run();
             $event->addArgument('result', $task->getContent());
         } else {

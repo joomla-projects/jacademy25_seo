@@ -46,15 +46,16 @@ class DebugHelper
 
         $items = $db->setQuery($query)->loadObjectList();
 
-        if (\count($items)) {
+        if (\count($items) > 0) {
             $lang = Factory::getLanguage();
 
             foreach ($items as &$item) {
                 // Load language
                 $extension = $item->value;
                 $source    = JPATH_ADMINISTRATOR . '/components/' . $extension;
-                $lang->load("$extension.sys", JPATH_ADMINISTRATOR)
-                    || $lang->load("$extension.sys", $source);
+                if (!$lang->load("$extension.sys", JPATH_ADMINISTRATOR)) {
+                    $lang->load("$extension.sys", $source);
+                }
 
                 // Translate component name
                 $item->text = Text::_($item->text);
@@ -98,16 +99,16 @@ class DebugHelper
         }
 
         // Use default actions from configuration if no component selected or component doesn't have actions
-        if (empty($actions)) {
+        if ($actions === []) {
             $filename = JPATH_ADMINISTRATOR . '/components/com_config/forms/application.xml';
 
             if (is_file($filename)) {
                 $xml = simplexml_load_file($filename);
 
                 foreach ($xml->children()->fieldset as $fieldset) {
-                    if ('permissions' == (string) $fieldset['name']) {
+                    if ('permissions' === (string) $fieldset['name']) {
                         foreach ($fieldset->children() as $field) {
-                            if ('rules' == (string) $field['name']) {
+                            if ('rules' === (string) $field['name']) {
                                 foreach ($field->children() as $action) {
                                     $descr = (string) $action['title'];
 
@@ -132,10 +133,11 @@ class DebugHelper
                 $extension = 'com_config';
                 $source    = JPATH_ADMINISTRATOR . '/components/' . $extension;
 
-                $lang->load($extension, JPATH_ADMINISTRATOR, null, false, false)
+                if (!($lang->load($extension, JPATH_ADMINISTRATOR, null, false, false)
                     || $lang->load($extension, $source, null, false, false)
-                    || $lang->load($extension, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-                    || $lang->load($extension, $source, $lang->getDefault(), false, false);
+                    || $lang->load($extension, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false))) {
+                    $lang->load($extension, $source, $lang->getDefault(), false, false);
+                }
             }
         }
 
@@ -149,15 +151,6 @@ class DebugHelper
      */
     public static function getLevelsOptions()
     {
-        // Build the filter options.
-        $options   = [];
-        $options[] = HTMLHelper::_('select.option', '1', Text::sprintf('COM_USERS_OPTION_LEVEL_COMPONENT', 1));
-        $options[] = HTMLHelper::_('select.option', '2', Text::sprintf('COM_USERS_OPTION_LEVEL_CATEGORY', 2));
-        $options[] = HTMLHelper::_('select.option', '3', Text::sprintf('COM_USERS_OPTION_LEVEL_DEEPER', 3));
-        $options[] = HTMLHelper::_('select.option', '4', '4');
-        $options[] = HTMLHelper::_('select.option', '5', '5');
-        $options[] = HTMLHelper::_('select.option', '6', '6');
-
-        return $options;
+        return [HTMLHelper::_('select.option', '1', Text::sprintf('COM_USERS_OPTION_LEVEL_COMPONENT', 1)), HTMLHelper::_('select.option', '2', Text::sprintf('COM_USERS_OPTION_LEVEL_CATEGORY', 2)), HTMLHelper::_('select.option', '3', Text::sprintf('COM_USERS_OPTION_LEVEL_DEEPER', 3)), HTMLHelper::_('select.option', '4', '4'), HTMLHelper::_('select.option', '5', '5'), HTMLHelper::_('select.option', '6', '6')];
     }
 }

@@ -142,7 +142,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
     . $hasClass
     . ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-    <header class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; ?>">
+    <header class="header container-header full-width<?php echo $stickyHeader !== '' && $stickyHeader !== '0' ? ' ' . $stickyHeader : ''; ?>">
 
         <?php if ($this->countModules('topbar')) : ?>
             <div class="container-topbar">

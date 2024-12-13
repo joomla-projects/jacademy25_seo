@@ -55,7 +55,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
             @trigger_error(\sprintf('User ID must be an integer in %s.', __METHOD__), E_USER_DEPRECATED);
         }
 
-        $user   = $userId ? $this->getUserFactory()->loadUserById($userId) : $this->getCurrentUser();
+        $user   = $userId !== 0 ? $this->getUserFactory()->loadUserById($userId) : $this->getCurrentUser();
         $db     = $this->getDatabase();
         $date   = Factory::getDate();
         $params = ComponentHelper::getComponent('com_actionlogs')->getParams();
@@ -143,7 +143,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
             }
         }
 
-        if (empty($recipients)) {
+        if ($recipients === []) {
             return;
         }
 

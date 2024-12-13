@@ -107,35 +107,31 @@ class ContenthistoryHelper
         $expandedObjectArray = static::createObjectArray($object);
         static::loadLanguageFiles($typesTable->type_alias);
 
-        if ($formFile = static::getFormFile($typesTable)) {
-            if ($xml = simplexml_load_file($formFile)) {
-                // Now we need to get all of the labels from the form
-                $fieldArray = $xml->xpath('//field');
-                $fieldArray = array_merge($fieldArray, $xml->xpath('//fields'));
-
-                foreach ($fieldArray as $field) {
-                    if ($label = (string) $field->attributes()->label) {
-                        $labels[(string) $field->attributes()->name] = Text::_($label);
-                    }
+        if (($formFile = static::getFormFile($typesTable)) && $xml = simplexml_load_file($formFile)) {
+            // Now we need to get all of the labels from the form
+            $fieldArray = $xml->xpath('//field');
+            $fieldArray = array_merge($fieldArray, $xml->xpath('//fields'));
+            foreach ($fieldArray as $field) {
+                $label = (string) $field->attributes()->label;
+                if ($label !== '' && $label !== '0') {
+                    $labels[(string) $field->attributes()->name] = Text::_($label);
                 }
+            }
+            // Get values for any list type fields
+            $listFieldArray = $xml->xpath('//field[@type="list" or @type="radio"]');
+            foreach ($listFieldArray as $field) {
+                $name = (string) $field->attributes()->name;
 
-                // Get values for any list type fields
-                $listFieldArray = $xml->xpath('//field[@type="list" or @type="radio"]');
+                if (isset($expandedObjectArray[$name])) {
+                    $optionFieldArray = $field->xpath('option[@value="' . $expandedObjectArray[$name] . '"]');
 
-                foreach ($listFieldArray as $field) {
-                    $name = (string) $field->attributes()->name;
+                    $valueText = null;
 
-                    if (isset($expandedObjectArray[$name])) {
-                        $optionFieldArray = $field->xpath('option[@value="' . $expandedObjectArray[$name] . '"]');
-
-                        $valueText = null;
-
-                        if (\is_array($optionFieldArray) && \count($optionFieldArray)) {
-                            $valueText = trim((string) $optionFieldArray[0]);
-                        }
-
-                        $values[(string) $field->attributes()->name] = Text::_($valueText);
+                    if (\is_array($optionFieldArray) && \count($optionFieldArray)) {
+                        $valueText = trim((string) $optionFieldArray[0]);
                     }
+
+                    $values[(string) $field->attributes()->name] = Text::_($valueText);
                 }
             }
         }
@@ -165,7 +161,7 @@ class ContenthistoryHelper
             $result = JPATH_ROOT . '/' . $options->formFile;
         } else {
             $aliasArray = explode('.', $typesTable->type_alias);
-            $component  = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
+            $component  = ($aliasArray[1] === 'category') ? 'com_categories' : $aliasArray[0];
             $path       = Folder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
             array_shift($aliasArray);
             $file   = File::makeSafe(implode('.', $aliasArray) . '.xml');
@@ -222,11 +218,9 @@ class ContenthistoryHelper
      */
     public static function hideFields($object, ContentType $typeTable)
     {
-        if ($options = json_decode($typeTable->content_history_options)) {
-            if (isset($options->hideFields) && \is_array($options->hideFields)) {
-                foreach ($options->hideFields as $field) {
-                    unset($object->$field);
-                }
+        if (($options = json_decode($typeTable->content_history_options)) && (isset($options->hideFields) && \is_array($options->hideFields))) {
+            foreach ($options->hideFields as $field) {
+                unset($object->$field);
             }
         }
 
@@ -247,15 +241,16 @@ class ContenthistoryHelper
         $aliasArray = explode('.', $typeAlias);
 
         if (\is_array($aliasArray) && \count($aliasArray) == 2) {
-            $component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
+            $component = ($aliasArray[1] === 'category') ? 'com_categories' : $aliasArray[0];
             $lang      = Factory::getLanguage();
 
             /**
              * Loading language file from the administrator/language directory then
              * loading language file from the administrator/components/extension/language directory
              */
-            $lang->load($component, JPATH_ADMINISTRATOR)
-            || $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
+            if (!$lang->load($component, JPATH_ADMINISTRATOR)) {
+                $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
+            }
 
             // Force loading of backend global language file
             $lang->load('joomla', Path::clean(JPATH_ADMINISTRATOR));
@@ -345,15 +340,13 @@ class ContenthistoryHelper
      */
     public static function processLookupFields($object, ContentType $typesTable)
     {
-        if ($options = json_decode($typesTable->content_history_options)) {
-            if (isset($options->displayLookup) && \is_array($options->displayLookup)) {
-                foreach ($options->displayLookup as $lookup) {
-                    $sourceColumn = $lookup->sourceColumn ?? false;
-                    $sourceValue  = $object->$sourceColumn->value ?? false;
+        if (($options = json_decode($typesTable->content_history_options)) && (isset($options->displayLookup) && \is_array($options->displayLookup))) {
+            foreach ($options->displayLookup as $lookup) {
+                $sourceColumn = $lookup->sourceColumn ?? false;
+                $sourceValue  = $object->$sourceColumn->value ?? false;
 
-                    if ($sourceColumn && $sourceValue && ($lookupValue = static::getLookupValue($lookup, $sourceValue))) {
-                        $object->$sourceColumn->value = $lookupValue;
-                    }
+                if ($sourceColumn && $sourceValue && ($lookupValue = static::getLookupValue($lookup, $sourceValue))) {
+                    $object->$sourceColumn->value = $lookupValue;
                 }
             }
         }

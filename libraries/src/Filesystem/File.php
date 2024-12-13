@@ -155,25 +155,19 @@ class File
         if ($FTPOptions['enabled'] == 1) {
             // Connect the FTP client
             $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
-
             // If the parent folder doesn't exist we must create it
             if (!file_exists(\dirname($dest))) {
                 Folder::create(\dirname($dest));
             }
-
             // Translate the destination path for the FTP account
             $dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
-
             if (!$ftp->store($src, $dest)) {
                 // FTP connector throws an error
                 return false;
             }
-        } else {
-            if (!@ copy($src, $dest)) {
-                Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_COPY_FAILED_ERR01', $src, $dest), Log::WARNING, 'jerror');
-
-                return false;
-            }
+        } elseif (!@ copy($src, $dest)) {
+            Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_COPY_FAILED_ERR01', $src, $dest), Log::WARNING, 'jerror');
+            return false;
         }
 
         self::invalidateFileCache($dest);
@@ -364,23 +358,18 @@ class File
         if ($FTPOptions['enabled'] == 1) {
             // Connect the FTP client
             $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
-
             // Translate path for the FTP account
             $src  = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
             $dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
-
             // Use FTP rename to simulate move
             if (!$ftp->rename($src, $dest)) {
                 Log::add(Text::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'), Log::WARNING, 'jerror');
 
                 return false;
             }
-        } else {
-            if (!@ rename($src, $dest)) {
-                Log::add(Text::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'), Log::WARNING, 'jerror');
-
-                return false;
-            }
+        } elseif (!@ rename($src, $dest)) {
+            Log::add(Text::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'), Log::WARNING, 'jerror');
+            return false;
         }
 
         self::invalidateFileCache($dest);
@@ -408,10 +397,8 @@ class File
         }
 
         // If the destination directory doesn't exist we need to create it
-        if (!file_exists(\dirname($file))) {
-            if (Folder::create(\dirname($file)) == false) {
-                return false;
-            }
+        if (!file_exists(\dirname($file)) && Folder::create(\dirname($file)) == false) {
+            return false;
         }
 
         if ($useStreams) {

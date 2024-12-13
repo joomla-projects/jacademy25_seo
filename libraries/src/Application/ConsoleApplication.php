@@ -186,6 +186,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
                     E_USER_NOTICE
                 );
         }
+        return null;
     }
 
     /**

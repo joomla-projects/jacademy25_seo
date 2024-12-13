@@ -187,6 +187,7 @@ abstract class CliApplication extends AbstractApplication implements CMSApplicat
                     E_USER_NOTICE
                 );
         }
+        return null;
     }
 
     /**

@@ -172,7 +172,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         if (!\is_string($content)) {
             $message = curl_error($ch);
 
-            if (empty($message)) {
+            if ($message === '' || $message === '0') {
                 // Error but nothing from cURL? Create our own
                 $message = 'No HTTP response received';
             }
@@ -246,7 +246,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         }
 
         // Get the response code from the first offset of the response headers.
-        preg_match('/[0-9]{3}/', array_shift($headers), $matches);
+        preg_match('/\d{3}/', array_shift($headers), $matches);
 
         $code = \count($matches) ? $matches[0] : null;
 
@@ -286,12 +286,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
     private function redirectsAllowed()
     {
         $curlVersion = curl_version();
-
         // If open_basedir is enabled we also need to check if libcurl version is 7.19.4 or higher
-        if (!\ini_get('open_basedir') || version_compare($curlVersion['version'], '7.19.4', '>=')) {
-            return true;
-        }
-
-        return false;
+        return !\ini_get('open_basedir') || version_compare($curlVersion['version'], '7.19.4', '>=');
     }
 }

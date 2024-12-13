@@ -42,7 +42,7 @@ foreach ($tours as $tour) :
     elseif (in_array($extension, $tour->extensions)) :
         if ($extension === 'com_categories') :
             // Special case for the categories page, where the context is complemented with the extension the categories apply to
-            if ($uri->getVar('option', '') === 'com_categories') :
+            if ($uri->getVar('option', '') === 'com_categories') {
                 if ($uri->getVar('extension', '') === $app->getInput()->get('extension', '')) :
                     if ($contextCount > 0) :
                         $contextTours[] = $tour;
@@ -52,17 +52,14 @@ foreach ($tours as $tour) :
                     $listTours[] = $tour;
                     $toursCount--;
                 endif;
-            else :
-                if (in_array($app->getInput()->get('extension', ''), $tour->extensions)) :
-                    if ($contextCount > 0) :
-                        $contextTours[] = $tour;
-                        $contextCount--;
-                    endif;
-                elseif ($toursCount > 0) :
-                    $listTours[] = $tour;
-                    $toursCount--;
+            } elseif (in_array($app->getInput()->get('extension', ''), $tour->extensions)) {
+                if ($contextCount > 0) :
+                    $contextTours[] = $tour;
+                    $contextCount--;
                 endif;
-            endif;
+            } elseif ($toursCount > 0) :
+                $listTours[] = $tour;
+                $toursCount--;
         elseif ($contextCount > 0) :
             $contextTours[] = $tour;
             $contextCount--;
@@ -111,7 +108,7 @@ $popupOptions = json_encode([
         <span class="icon-angle-down" aria-hidden="true"></span>
     </button>
     <div class="dropdown-menu dropdown-menu-end">
-        <?php if (count($contextTours) > 0) : ?>
+        <?php if ($contextTours !== []) : ?>
             <ul class="list-unstyled m-0">
                 <?php foreach ($contextTours as $tour) : ?>
                     <li>
@@ -124,7 +121,7 @@ $popupOptions = json_encode([
             </ul>
             <hr class="dropdown-divider m-0" role="separator" />
         <?php endif; ?>
-        <?php if (count($listTours) > 0) : ?>
+        <?php if ($listTours !== []) : ?>
             <ul class="list-unstyled m-0">
                 <?php foreach ($listTours as $tour) : ?>
                     <li>

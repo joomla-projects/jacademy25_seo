@@ -64,11 +64,7 @@ class SyslogLogger extends Logger
         }
 
         // If the option to add the process id to Syslog entries is set use it, otherwise default to true.
-        if (isset($this->options['sys_add_pid'])) {
-            $this->options['sys_add_pid'] = (bool) $this->options['sys_add_pid'];
-        } else {
-            $this->options['sys_add_pid'] = true;
-        }
+        $this->options['sys_add_pid'] = isset($this->options['sys_add_pid']) ? (bool) $this->options['sys_add_pid'] : true;
 
         // If the option to also send Syslog entries to STDERR is set use it, otherwise default to false.
         if (isset($this->options['sys_use_stderr'])) {

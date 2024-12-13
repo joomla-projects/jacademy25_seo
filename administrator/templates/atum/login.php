@@ -83,7 +83,7 @@ if ($colorScheme) {
     $themeModes   = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
     // Check for User choose, for now this have a priority over the parameters
     $userColorScheme = $app->getInput()->cookie->get('userColorScheme', '');
-    if ($userColorScheme && !empty($themeModes[$userColorScheme])) {
+    if ($userColorScheme && (isset($themeModes[$userColorScheme]) && ($themeModes[$userColorScheme] !== '' && $themeModes[$userColorScheme] !== '0'))) {
         $themeModeAttr = $themeModes[$userColorScheme];
     } else {
         // Check parameters first (User and Template), then look if we have detected the OS color scheme (if it set to 'os')

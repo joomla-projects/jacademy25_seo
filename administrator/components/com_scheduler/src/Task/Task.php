@@ -198,7 +198,7 @@ class Task implements LoggerAwareInterface
         }
 
         // Exit early if task routine is not available
-        if (!SchedulerHelper::getTaskOptions()->findOption($this->get('type'))) {
+        if (!SchedulerHelper::getTaskOptions()->findOption($this->get('type')) instanceof \Joomla\Component\Scheduler\Administrator\Task\TaskOption) {
             $this->snapshot['status'] = Status::NO_ROUTINE;
             $this->skipExecution();
             $this->dispatchExitEvent();
@@ -552,11 +552,6 @@ class Task implements LoggerAwareInterface
     public static function isValidId(string $id): bool
     {
         $id = is_numeric($id) ? ($id + 0) : $id;
-
-        if (!\is_int($id) || $id <= 0) {
-            return false;
-        }
-
-        return true;
+        return \is_int($id) && $id > 0;
     }
 }

@@ -109,16 +109,14 @@ class PluginAdapter extends InstallerAdapter
             $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-            if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles([$path])) {
-                    // Install failed, rollback changes
-                    throw new \RuntimeException(
-                        Text::sprintf(
-                            'JLIB_INSTALLER_ABORT_MANIFEST',
-                            Text::_('JLIB_INSTALLER_' . $this->route)
-                        )
-                    );
-                }
+            if (($this->parent->isOverwrite() || !file_exists($path['dest'])) && !$this->parent->copyFiles([$path])) {
+                // Install failed, rollback changes
+                throw new \RuntimeException(
+                    Text::sprintf(
+                        'JLIB_INSTALLER_ABORT_MANIFEST',
+                        Text::_('JLIB_INSTALLER_' . $this->route)
+                    )
+                );
             }
         }
     }
@@ -178,16 +176,14 @@ class PluginAdapter extends InstallerAdapter
         }
 
         // Lastly, we will copy the manifest file to its appropriate place.
-        if ($this->route !== 'discover_install') {
-            if (!$this->parent->copyManifest(-1)) {
-                // Install failed, rollback changes
-                throw new \RuntimeException(
-                    Text::sprintf(
-                        'JLIB_INSTALLER_ABORT_COPY_SETUP',
-                        Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
-                    )
-                );
-            }
+        if ($this->route !== 'discover_install' && !$this->parent->copyManifest(-1)) {
+            // Install failed, rollback changes
+            throw new \RuntimeException(
+                Text::sprintf(
+                    'JLIB_INSTALLER_ABORT_COPY_SETUP',
+                    Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+                )
+            );
         }
     }
 
@@ -239,14 +235,14 @@ class PluginAdapter extends InstallerAdapter
 
         // Backward Compatibility
         // @todo Deprecate in future version
-        if (!\count($this->getManifest()->files->children())) {
+        if (\count($this->getManifest()->files->children()) === 0) {
             return $element;
         }
 
         $type = (string) $this->getManifest()->attributes()->type;
 
         foreach ($this->getManifest()->files->children() as $file) {
-            if ((string) $file->attributes()->$type) {
+            if ((string) $file->attributes()->$type !== '' && (string) $file->attributes()->$type !== '0') {
                 $element = (string) $file->attributes()->$type;
 
                 break;
@@ -294,16 +290,16 @@ class PluginAdapter extends InstallerAdapter
             $group = strtolower((string) $this->getManifest()->attributes()->group);
             $name  = '';
 
-            if (\count($element->children())) {
+            if (\count($element->children()) > 0) {
                 foreach ($element->children() as $file) {
-                    if ((string) $file->attributes()->plugin) {
+                    if ((string) $file->attributes()->plugin !== '' && (string) $file->attributes()->plugin !== '0') {
                         $name = strtolower((string) $file->attributes()->plugin);
                         break;
                     }
                 }
             }
 
-            if ($name) {
+            if ($name !== '' && $name !== '0') {
                 $extension = "plg_{$group}_{$name}";
                 $source    = $path ?: JPATH_PLUGINS . "/$group/$name";
                 $folder    = (string) $element->attributes()->folder;
@@ -379,7 +375,7 @@ class PluginAdapter extends InstallerAdapter
     {
         $this->group = (string) $this->getManifest()->attributes()->group;
 
-        if (empty($this->element) && empty($this->group)) {
+        if (empty($this->element) && ($this->group === null || ($this->group === '' || $this->group === '0'))) {
             throw new \RuntimeException(
                 Text::sprintf(
                     'JLIB_INSTALLER_ABORT_PLG_INSTALL_NO_FILE',

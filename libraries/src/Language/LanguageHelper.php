@@ -116,11 +116,11 @@ class LanguageHelper
                     $Jinstall_lang = $systemLang->lang_code;
 
                     if (\strlen($Jinstall_lang) < 6) {
-                        if (strtolower($browserLang) == strtolower(substr($systemLang->lang_code, 0, \strlen($browserLang)))) {
+                        if (strtolower($browserLang) === strtolower(substr($systemLang->lang_code, 0, \strlen($browserLang)))) {
                             return $systemLang->lang_code;
                         }
 
-                        if ($primary_browserLang == substr($systemLang->lang_code, 0, 2)) {
+                        if ($primary_browserLang === substr($systemLang->lang_code, 0, 2)) {
                             $primaryDetectedLang = $systemLang->lang_code;
                         }
                     }
@@ -148,7 +148,7 @@ class LanguageHelper
     {
         static $languages = [];
 
-        if (!\count($languages)) {
+        if (\count($languages) === 0) {
             // Installation uses available languages
             if (Factory::getApplication()->isClient('installation')) {
                 $languages[$key] = [];
@@ -463,7 +463,7 @@ class LanguageHelper
             }
         } catch (\Exception $e) {
             if ($debug) {
-                throw new \RuntimeException($e->getMessage());
+                throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
             }
 
             return [];
@@ -558,7 +558,7 @@ class LanguageHelper
         }
 
         if (empty($result)) {
-            return;
+            return null;
         }
 
         return $result;
@@ -590,7 +590,7 @@ class LanguageHelper
      */
     public static function getLanguagePath($basePath = JPATH_BASE, $language = null)
     {
-        return $basePath . '/language' . (!empty($language) ? '/' . $language : '');
+        return $basePath . '/language' . (empty($language) ? '' : '/' . $language);
     }
 
     /**
@@ -655,12 +655,12 @@ class LanguageHelper
         $xml = simplexml_load_file($path);
 
         if (!$xml) {
-            return;
+            return null;
         }
 
         // Check that it's a metadata file
         if ((string) $xml->getName() !== 'metafile') {
-            return;
+            return null;
         }
 
         $metadata = [];

@@ -48,7 +48,7 @@ if (!$fields || reset($fields)->context !== 'com_contact.mail') {
 // Loop through the fields and print them
 foreach ($fields as $field) {
     // If the value is empty do nothing
-    if (!strlen($field->value)) {
+    if ((string) $field->value === '') {
         continue;
     }
 

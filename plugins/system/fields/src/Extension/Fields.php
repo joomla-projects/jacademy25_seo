@@ -138,12 +138,12 @@ final class Fields extends CMSPlugin
             }
 
             // If no value set (empty) remove value from database
-            if (\is_array($value) ? !\count($value) : !\strlen($value)) {
+            if (\is_array($value) ? $value === [] : !\strlen($value)) {
                 $value = null;
             }
 
             // JSON encode value for complex fields
-            if (\is_array($value) && (\count($value, COUNT_NORMAL) !== \count($value, COUNT_RECURSIVE) || !\count(array_filter(array_keys($value), 'is_numeric')))) {
+            if (\is_array($value) && (\count($value, COUNT_NORMAL) !== \count($value, COUNT_RECURSIVE) || array_filter(array_keys($value), 'is_numeric') === [])) {
                 $value = json_encode($value);
             }
 
@@ -357,7 +357,7 @@ final class Fields extends CMSPlugin
         $context = $parts[0] . '.' . $parts[1];
 
         // Convert tags
-        if ($context == 'com_tags.tag' && !empty($item->type_alias)) {
+        if ($context === 'com_tags.tag' && !empty($item->type_alias)) {
             // Set the context
             $context = $item->type_alias;
 
@@ -370,17 +370,14 @@ final class Fields extends CMSPlugin
 
         $fields = FieldsHelper::getFields($context, $item, $displayType);
 
-        if ($fields) {
-            if ($this->getApplication()->isClient('site') && Multilanguage::isEnabled() && isset($item->language) && $item->language === '*') {
-                $lang = $this->getApplication()->getLanguage()->getTag();
-
-                foreach ($fields as $key => $field) {
-                    if ($field->language === '*' || $field->language == $lang) {
-                        continue;
-                    }
-
-                    unset($fields[$key]);
+        if ($fields && ($this->getApplication()->isClient('site') && Multilanguage::isEnabled() && isset($item->language) && $item->language === '*')) {
+            $lang = $this->getApplication()->getLanguage()->getTag();
+            foreach ($fields as $key => $field) {
+                if ($field->language === '*' || $field->language == $lang) {
+                    continue;
                 }
+
+                unset($fields[$key]);
             }
         }
 
@@ -439,7 +436,7 @@ final class Fields extends CMSPlugin
         $context = $parts[0] . '.' . $parts[1];
 
         // Convert tags
-        if ($context == 'com_tags.tag' && !empty($item->type_alias)) {
+        if ($context === 'com_tags.tag' && !empty($item->type_alias)) {
             // Set the context
             $context = $item->type_alias;
 

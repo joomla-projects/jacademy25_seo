@@ -228,7 +228,7 @@ abstract class JGrid
             $tip = empty($tips) ? false : implode('<br>', $tips);
 
             // Add tips and special titles
-            foreach ($states as $key => $state) {
+            foreach (array_keys($states) as $key) {
                 // Create special titles for published items
                 if ($key == 1) {
                     $states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_ITEM';

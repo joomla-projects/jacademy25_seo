@@ -26,6 +26,8 @@ use Joomla\Component\Contact\Site\Helper\RouteHelper;
  */
 class HtmlView extends CategoryView
 {
+    public $menu;
+    public $pathway;
     /**
      * @var    string  The name of the extension for the category
      * @since  3.2
@@ -77,7 +79,7 @@ class HtmlView extends CategoryView
             if ($item->params->get('show_email_headings', 0) == 1) {
                 $item->email_to = trim($item->email_to);
 
-                if (!empty($item->email_to) && MailHelper::isEmailAddress($item->email_to)) {
+                if ($item->email_to !== '' && $item->email_to !== '0' && MailHelper::isEmailAddress($item->email_to)) {
                     $item->email_to = HTMLHelper::_('email.cloak', $item->email_to);
                 } else {
                     $item->email_to = '';

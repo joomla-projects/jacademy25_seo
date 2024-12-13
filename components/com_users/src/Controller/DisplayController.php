@@ -58,7 +58,7 @@ class DisplayController extends BaseController
                         // Redirect to profile page.
                         $this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
 
-                        return;
+                        return null;
                     }
 
                     // Check if user registration is enabled
@@ -66,7 +66,7 @@ class DisplayController extends BaseController
                         // Registration is disabled - Redirect to login page.
                         $this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 
-                        return;
+                        return null;
                     }
 
                     // The user is a guest, load the registration model and show the registration page.
@@ -82,7 +82,7 @@ class DisplayController extends BaseController
                         // Redirect to login page.
                         $this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 
-                        return;
+                        return null;
                     }
 
                     $model = $this->getModel($vName);
@@ -102,7 +102,7 @@ class DisplayController extends BaseController
                         // Redirect to profile page.
                         $this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
 
-                        return;
+                        return null;
                     }
 
                     $model = $this->getModel($vName);
@@ -135,5 +135,6 @@ class DisplayController extends BaseController
 
             $view->display();
         }
+        return null;
     }
 }

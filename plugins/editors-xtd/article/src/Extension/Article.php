@@ -69,7 +69,7 @@ final class Article extends CMSPlugin implements SubscriberInterface
      *
      * @param   string  $name  The name of the button to add
      *
-     * @return  Button|void  The button options as Button object, void if ACL check fails.
+     * @return Button|null The button options as Button object, void if ACL check fails.
      *
      * @since   1.5
      *
@@ -90,7 +90,7 @@ final class Article extends CMSPlugin implements SubscriberInterface
         // This ACL check is probably a double-check (form view already performed checks)
         $hasAccess = $canCreateRecords || $isEditingRecords;
         if (!$hasAccess) {
-            return;
+            return null;
         }
 
         $link = 'index.php?option=com_content&view=articles&layout=modal&tmpl=component&'

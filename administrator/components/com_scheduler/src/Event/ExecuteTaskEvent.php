@@ -57,7 +57,7 @@ class ExecuteTaskEvent extends AbstractEvent
     {
         $this->arguments['resultSnapshot'] = $snapshot;
 
-        if (!empty($snapshot)) {
+        if ($snapshot !== []) {
             $this->stopPropagation();
         }
     }

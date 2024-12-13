@@ -272,7 +272,7 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface
                 ->setLimit(1)
         )->loadResult();
 
-        if ($userId) {
+        if ($userId !== 0) {
             $receiver = $this->getUserFactory()->loadUserById($userId);
 
             /*
@@ -290,8 +290,9 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface
         }
 
         // Ensure the right language files have been loaded
-        $lang->load('com_privacy', JPATH_ADMINISTRATOR)
-            || $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
+        if (!$lang->load('com_privacy', JPATH_ADMINISTRATOR)) {
+            $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
+        }
 
         // Regenerate the confirmation token
         $token       = ApplicationHelper::getHash(UserHelper::genRandomPassword());
@@ -365,7 +366,7 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface
     {
         $table = $this->getTable();
         $key   = $table->getKeyName();
-        $pk    = !empty($data[$key]) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+        $pk    = empty($data[$key]) ? (int) $this->getState($this->getName() . '.id') : $data[$key];
 
         if (!$pk && !Factory::getApplication()->get('mailonline', 1)) {
             $this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));

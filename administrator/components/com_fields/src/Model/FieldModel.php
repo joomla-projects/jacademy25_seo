@@ -148,10 +148,8 @@ class FieldModel extends AdminModel
                 $data['title']      = $title;
                 $data['label']      = $title;
                 $data['name']       = $name;
-            } else {
-                if ($data['name'] == $origTable->name) {
-                    $data['name'] = '';
-                }
+            } elseif ($data['name'] == $origTable->name) {
+                $data['name'] = '';
             }
 
             $data['state'] = 0;
@@ -245,7 +243,7 @@ class FieldModel extends AdminModel
                     ->bind(':fieldid', $fieldId, ParameterType::INTEGER);
 
                 // If new values are set, delete only old values. Otherwise delete all values.
-                if ($names) {
+                if ($names !== []) {
                     $query->whereNotIn($db->quoteName('value'), $names, ParameterType::STRING);
                 }
 
@@ -295,7 +293,7 @@ class FieldModel extends AdminModel
         // Create the fields object
         $obj              = (object) $data;
         $obj->params      = new Registry($obj->params);
-        $obj->fieldparams = new Registry(!empty($obj->fieldparams) ? $obj->fieldparams : []);
+        $obj->fieldparams = new Registry(empty($obj->fieldparams) ? [] : $obj->fieldparams);
 
         // Prepare the dom
         $dom  = new \DOMDocument();
@@ -330,7 +328,7 @@ class FieldModel extends AdminModel
             try {
                 $rule->setDatabase($this->getDatabase());
             } catch (DatabaseNotFoundException) {
-                @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+                @trigger_error('Database must be set, this will not be caught anymore in 5.0.', E_USER_DEPRECATED);
                 $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }
@@ -489,7 +487,7 @@ class FieldModel extends AdminModel
             $pks = ArrayHelper::toInteger($pks);
             $pks = array_filter($pks);
 
-            if (!empty($pks)) {
+            if ($pks !== []) {
                 // Delete Values
                 $query = $db->getQuery(true);
 
@@ -627,7 +625,7 @@ class FieldModel extends AdminModel
         if ($oldValue === null) {
             // No records available, doing normal insert
             $needsInsert = true;
-        } elseif (\count($value) == 1 && \count((array) $oldValue) == 1) {
+        } elseif (\count($value) === 1 && \count((array) $oldValue) === 1) {
             // Only a single row value update can be done when not empty
             $needsUpdate = \is_array($value[0]) ? \count($value[0]) : \strlen($value[0]);
             $needsDelete = !$needsUpdate;
@@ -716,7 +714,7 @@ class FieldModel extends AdminModel
      */
     public function getFieldValues(array $fieldIds, $itemId)
     {
-        if (!$fieldIds) {
+        if ($fieldIds === []) {
             return [];
         }
 
@@ -939,19 +937,19 @@ class FieldModel extends AdminModel
                 $filters = (array) $app->getUserState('com_fields.fields.filter');
 
                 $data->set('state', $input->getInt('state', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
-                $data->set('language', $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-                $data->set('group_id', $input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
+                $data->set('language', $input->getString('language', (empty($filters['language']) ? null : $filters['language'])));
+                $data->set('group_id', $input->getString('group_id', (empty($filters['group_id']) ? null : $filters['group_id'])));
                 $data->set(
                     'assigned_cat_ids',
                     $input->get(
                         'assigned_cat_ids',
-                        (!empty($filters['assigned_cat_ids']) ? (array)$filters['assigned_cat_ids'] : [0]),
+                        (empty($filters['assigned_cat_ids']) ? [0] : (array)$filters['assigned_cat_ids']),
                         'array'
                     )
                 );
                 $data->set(
                     'access',
-                    $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
+                    $input->getInt('access', (empty($filters['access']) ? $app->get('access') : $filters['access']))
                 );
 
                 // Set the type if available from the request
@@ -983,10 +981,8 @@ class FieldModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
-        if (!$this->getCurrentUser()->authorise('core.admin', 'com_fields')) {
-            if (isset($data['rules'])) {
-                unset($data['rules']);
-            }
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_fields') && isset($data['rules'])) {
+            unset($data['rules']);
         }
 
         return parent::validate($form, $data, $group);

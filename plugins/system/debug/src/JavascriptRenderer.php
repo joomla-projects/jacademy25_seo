@@ -115,7 +115,7 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
             }
         }
 
-        $suffix = !$initialize ? '(ajax)' : null;
+        $suffix = $initialize ? null : '(ajax)';
         $js .= $this->getAddDatasetCode($this->debugBar->getCurrentRequestId(), $this->debugBar->getData(), $suffix);
 
         $nonce = '';

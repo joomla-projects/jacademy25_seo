@@ -283,10 +283,8 @@ class GroupModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
-        if (!$this->getCurrentUser()->authorise('core.admin', 'com_fields')) {
-            if (isset($data['rules'])) {
-                unset($data['rules']);
-            }
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_fields') && isset($data['rules'])) {
+            unset($data['rules']);
         }
 
         return parent::validate($form, $data, $group);
@@ -317,15 +315,15 @@ class GroupModel extends AdminModel
 
                 $data->set(
                     'state',
-                    $input->getInt('state', (!empty($filters['state']) ? $filters['state'] : null))
+                    $input->getInt('state', (empty($filters['state']) ? null : $filters['state']))
                 );
                 $data->set(
                     'language',
-                    $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null))
+                    $input->getString('language', (empty($filters['language']) ? null : $filters['language']))
                 );
                 $data->set(
                     'access',
-                    $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
+                    $input->getInt('access', (empty($filters['access']) ? $app->get('access') : $filters['access']))
                 );
             }
         }

@@ -310,12 +310,7 @@ final class Override extends CMSPlugin implements SubscriberInterface
 
         $db->setQuery($query);
         $results = $db->loadObjectList();
-
-        if (\count($results) === 1) {
-            return true;
-        }
-
-        return false;
+        return \count($results) === 1;
     }
 
     /**
@@ -353,11 +348,7 @@ final class Override extends CMSPlugin implements SubscriberInterface
             $date        = new Date('now');
             $createdDate = $date->toSql();
 
-            if (empty($pk->coreFile)) {
-                $modifiedDate = null;
-            } else {
-                $modifiedDate = $createdDate;
-            }
+            $modifiedDate = empty($pk->coreFile) ? null : $createdDate;
 
             if ($this->load($pk->id, $pk->extension_id)) {
                 $updateQuery = $db->getQuery(true)
@@ -410,7 +401,7 @@ final class Override extends CMSPlugin implements SubscriberInterface
             $insertQuery->values(implode(',', $bindArray));
         }
 
-        if (!empty($bindArray)) {
+        if ($bindArray !== []) {
             $db->setQuery($insertQuery);
             $db->execute();
         }

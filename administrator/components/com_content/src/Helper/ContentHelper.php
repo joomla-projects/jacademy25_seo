@@ -134,7 +134,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
             $option = Text::sprintf('COM_WORKFLOW_INHERIT_WORKFLOW', Text::_($defaulttitle));
 
-            if (!empty($categories)) {
+            if ($categories !== []) {
                 $categories = array_reverse($categories);
 
                 $query = $db->getQuery(true);
@@ -165,7 +165,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
                         break;
                     }
 
-                    if ($workflow_id = (int) $workflow_id) {
+                    if ($workflow_id = (int) $workflow_id !== 0) {
                         $title = $db->loadResult();
 
                         if (!\is_null($title)) {

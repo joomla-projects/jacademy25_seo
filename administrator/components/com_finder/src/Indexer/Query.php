@@ -207,8 +207,8 @@ class Query
      */
     public function __construct($options, ?DatabaseInterface $db = null)
     {
-        if ($db === null) {
-            @trigger_error(\sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
+        if (!$db instanceof \Joomla\Database\DatabaseInterface) {
+            @trigger_error('Database will be mandatory in 5.0.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
@@ -221,13 +221,13 @@ class Query
         $this->empty = !empty($options['empty']);
 
         // Get the input language.
-        $this->language = !empty($options['language']) ? $options['language'] : Helper::getDefaultLanguage();
+        $this->language = empty($options['language']) ? Helper::getDefaultLanguage() : $options['language'];
 
         // Get the matching mode.
         $this->mode = 'AND';
 
         // Set the word matching mode
-        $this->wordmode = !empty($options['word_match']) ? $options['word_match'] : 'exact';
+        $this->wordmode = empty($options['word_match']) ? 'exact' : $options['word_match'];
 
         // Initialize the temporary date storage.
         $this->dates = new Registry();
@@ -286,7 +286,7 @@ class Query
         // Check if we have a query string.
         if (!empty($this->input)) {
             $this->search = true;
-        } elseif ($this->empty && (!empty($this->filter) || !empty($this->filters) || !empty($this->date1) || !empty($this->date2))) {
+        } elseif ($this->empty && (!empty($this->filter) || $this->filters !== [] || !empty($this->date1) || !empty($this->date2))) {
             // Check if we can search without a query string.
             $this->search = true;
         } else {
@@ -418,7 +418,7 @@ class Query
         // Iterate through the included tokens and compile the matching terms.
         foreach ($this->included as $item) {
             // Check if we have any terms.
-            if (empty($item->matches)) {
+            if ($item->matches === []) {
                 continue;
             }
 
@@ -537,12 +537,12 @@ class Query
         $filters = ArrayHelper::toInteger($filters);
 
         // Remove any values of zero.
-        if (\in_array(0, $filters, true) !== false) {
+        if (\in_array(0, $filters, true)) {
             unset($filters[array_search(0, $filters, true)]);
         }
 
         // Check if we have any real input.
-        if (empty($filters)) {
+        if ($filters === []) {
             return true;
         }
 
@@ -597,12 +597,12 @@ class Query
         $filters = ArrayHelper::toInteger($filters);
 
         // Remove any values of zero.
-        if (\in_array(0, $filters, true) !== false) {
+        if (\in_array(0, $filters, true)) {
             unset($filters[array_search(0, $filters, true)]);
         }
 
         // Check if we have any real input.
-        if (empty($filters)) {
+        if ($filters === []) {
             return true;
         }
 
@@ -871,7 +871,7 @@ class Query
                     $len = StringHelper::strlen($matches[0][$key]);
 
                     // Add any terms that are before this phrase to the stack.
-                    if (trim(StringHelper::substr($input, 0, $pos))) {
+                    if (trim(StringHelper::substr($input, 0, $pos)) !== '' && trim(StringHelper::substr($input, 0, $pos)) !== '0') {
                         $terms = array_merge($terms, explode(' ', trim(StringHelper::substr($input, 0, $pos))));
                     }
 
@@ -892,7 +892,7 @@ class Query
                         $parts = \array_slice($parts, $tuplecount);
 
                         // If the chunk is not empty, add it as a phrase.
-                        if (\count($chunk)) {
+                        if ($chunk !== []) {
                             $phrases[] = implode(' ', $chunk);
                             $terms[]   = implode(' ', $chunk);
                         }
@@ -910,7 +910,7 @@ class Query
                             $chunk[] = array_shift($parts);
 
                             // If the chunk is not empty, add it as a phrase.
-                            if (\count($chunk)) {
+                            if ($chunk !== []) {
                                 $phrases[] = implode(' ', $chunk);
                                 $terms[]   = implode(' ', $chunk);
                             }
@@ -1292,7 +1292,7 @@ class Query
         }
 
         // If no matches were found, try to find a similar but better token.
-        if (empty($token->matches)) {
+        if ($token->matches === []) {
             // Create a database query to get the similar terms.
             $query->clear()
                 ->select('DISTINCT t.term_id AS id, t.term AS term')

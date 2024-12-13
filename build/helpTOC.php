@@ -186,7 +186,7 @@ $command = new class () extends AbstractCommand {
         // JSON encode the file and write it to JPATH_ADMINISTRATOR/help/en-GB/toc.json
         file_put_contents(JPATH_ADMINISTRATOR . '/help/en-GB/toc.json', json_encode($toc));
 
-        if (\count($missing)) {
+        if ($missing !== []) {
 
             $str_missing = '';
 

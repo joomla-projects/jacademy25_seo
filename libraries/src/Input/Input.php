@@ -162,12 +162,10 @@ class Input extends \Joomla\Input\Input
      */
     protected function getArrayRecursive(array $vars = [], $datasource = null, $defaultFilter = 'unknown', $recursion = false)
     {
-        if (empty($vars) && \is_null($datasource)) {
+        if ($vars === [] && \is_null($datasource)) {
             $vars = $this->data;
-        } else {
-            if (!$recursion) {
-                $defaultFilter = null;
-            }
+        } elseif (!$recursion) {
+            $defaultFilter = null;
         }
 
         $results = [];

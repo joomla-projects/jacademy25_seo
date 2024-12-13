@@ -23,7 +23,7 @@ $id = '';
 if ($data->order === $data->selected) :
     $icon = $data->orderIcon;
     $sort = $data->direction === 'asc' ? 'descending' : 'ascending';
-    $heading = !empty($data->title) ? Text::_($data->title) : Text::_('JGRID_HEADING_ORDERING');
+    $heading = empty($data->title) ? Text::_('JGRID_HEADING_ORDERING') : Text::_($data->title);
     $caption = Text::sprintf('JGRID_HEADING_CAPTION_' . ($data->direction === 'asc' ? 'desc' : 'asc'), $heading);
     $selected = ' selected';
     $id = 'id="sorted"';
@@ -37,7 +37,7 @@ Factory::getDocument()->getWebAssetManager()->useScript('list-view');
     data-order="<?php echo $data->order; ?>"
     data-direction="<?php echo strtoupper($data->direction); ?>"
     data-caption="<?php echo $caption; ?>"
-    <?php if (!empty($sort)) : ?>
+    <?php if ($sort !== '' && $sort !== '0') : ?>
         data-sort="<?php echo $sort; ?>"
     <?php endif; ?>>
     <?php // The following statement has been concatenated purposely to remove whitespace. ?>
@@ -49,6 +49,6 @@ Factory::getDocument()->getWebAssetManager()->useScript('list-view');
         aria-hidden="true"></span>
     <span class="visually-hidden">
         <?php echo Text::_('JGLOBAL_SORT_BY'); ?>
-        <?php echo (!empty($data->title)) ? Text::_($data->title) : Text::_('JGRID_HEADING_ORDERING'); ?>
+        <?php echo (empty($data->title)) ? Text::_('JGRID_HEADING_ORDERING') : Text::_($data->title); ?>
     </span>
 </a>

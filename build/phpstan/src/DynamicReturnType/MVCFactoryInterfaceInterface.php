@@ -31,14 +31,14 @@ class MVCFactoryInterfaceInterface extends NamespaceBased
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
-        if (\count($methodCall->getArgs()) === 0) {
+        if ($methodCall->getArgs() === []) {
             return null;
         }
 
         $name   = str_replace("'", '', $methodCall->getArgs()[0]->value->getAttribute('rawValue'));
         $prefix = str_replace("'", '', $methodCall->getArgs()[1]->value->getAttribute('rawValue'));
 
-        foreach ($this->findNamespaces($prefix) as $ns => $path) {
+        foreach (array_keys($this->findNamespaces($prefix)) as $ns) {
             foreach (['Controller', 'Model', 'View', 'Table'] as $type) {
                 if ($methodReflection->getName() !== 'create' . $type || !class_exists($ns . $type . '\\' . $name . $type)) {
                     continue;

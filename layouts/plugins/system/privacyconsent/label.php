@@ -59,7 +59,7 @@ $required = true;
 
 // Build the class for the label.
 $class = 'required';
-$class = !empty($labelclass) ? $class . ' ' . $labelclass : $class;
+$class = empty($labelclass) ? $class : $class . ' ' . $labelclass;
 
 if ($privacyLink) {
     $attribs = [

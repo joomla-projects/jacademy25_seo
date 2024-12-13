@@ -738,11 +738,7 @@ if ($includeExtraTextfiles) {
         if (str_contains($packageName, 'Full_Package')) {
             $type = 'FULL';
         } elseif (str_contains($packageName, 'Patch_Package')) {
-            if (str_contains($packageName, '.x_to')) {
-                $type = 'MINOR';
-            } else {
-                $type = 'POINT';
-            }
+            $type = str_contains($packageName, '.x_to') ? 'MINOR' : 'POINT';
         } elseif (str_contains($packageName, 'Update_Package')) {
             $type = 'UPGRADE';
         }

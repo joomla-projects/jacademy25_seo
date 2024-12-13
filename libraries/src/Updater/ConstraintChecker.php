@@ -147,16 +147,8 @@ class ConstraintChecker
     {
         // Lower case and remove the exclamation mark
         $product = strtolower((string) InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
-
         // Check that the product matches and that the version matches (optionally a regexp)
-        if (
-            $product === $targetPlatform["name"]
-            && preg_match('/^' . $targetPlatform["version"] . '/', (string) JVERSION)
-        ) {
-            return true;
-        }
-
-        return false;
+        return $product === $targetPlatform["name"] && preg_match('/^' . $targetPlatform["version"] . '/', (string) JVERSION);
     }
 
     /**
@@ -200,13 +192,11 @@ class ConstraintChecker
         $dbVersion = $db->getVersion();
 
         // MySQL and MariaDB use the same database driver but not the same version numbers
-        if ($dbType === 'mysql') {
-            // Check whether we have a MariaDB version string and extract the proper version from it
-            if (stripos($dbVersion, 'mariadb') !== false) {
-                // MariaDB: Strip off any leading '5.5.5-', if present
-                $dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
-                $dbType    = 'mariadb';
-            }
+        // Check whether we have a MariaDB version string and extract the proper version from it
+        if ($dbType === 'mysql' && stripos($dbVersion, 'mariadb') !== false) {
+            // MariaDB: Strip off any leading '5.5.5-', if present
+            $dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
+            $dbType    = 'mariadb';
         }
 
         // Do we have an entry for the database?
@@ -243,12 +233,7 @@ class ConstraintChecker
     protected function checkStability(string $stability, $minimumStability = Updater::STABILITY_STABLE)
     {
         $stabilityInt = $this->stabilityToInteger($stability);
-
-        if ($stabilityInt < $minimumStability) {
-            return false;
-        }
-
-        return true;
+        return $stabilityInt >= $minimumStability;
     }
 
     /**

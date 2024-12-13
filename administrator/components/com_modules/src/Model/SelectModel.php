@@ -136,16 +136,13 @@ class SelectModel extends ListModel
         foreach ($items as &$item) {
             $path = Path::clean($client->path . '/modules/' . $item->module . '/' . $item->module . '.xml');
 
-            if (file_exists($path)) {
-                $item->xml = simplexml_load_file($path);
-            } else {
-                $item->xml = null;
-            }
+            $item->xml = file_exists($path) ? simplexml_load_file($path) : null;
 
             // 1.5 Format; Core files or language packs then
             // 1.6 3PD Extension Support
-            $lang->load($item->module . '.sys', $client->path)
-                || $lang->load($item->module . '.sys', $client->path . '/modules/' . $item->module);
+            if (!$lang->load($item->module . '.sys', $client->path)) {
+                $lang->load($item->module . '.sys', $client->path . '/modules/' . $item->module);
+            }
             $item->name = Text::_($item->name);
 
             if (isset($item->xml) && $text = trim($item->xml->description)) {
