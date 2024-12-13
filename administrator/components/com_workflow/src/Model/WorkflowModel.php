@@ -207,7 +207,7 @@ class WorkflowModel extends AdminModel
         );
 
         if (empty($data)) {
-            $data = $this->getItem();
+            return $this->getItem();
         }
 
         return $data;

@@ -292,7 +292,7 @@ class ModuleAdapter extends InstallerAdapter
         // Remove the installation folder
         if (!Folder::delete($this->parent->getPath('extension_root'))) {
             // Folder should raise an error
-            $retval = false;
+            return false;
         }
 
         return $retval;

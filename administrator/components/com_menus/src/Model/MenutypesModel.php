@@ -173,7 +173,7 @@ class MenutypesModel extends BaseDatabaseModel
         }
 
         if ($client->id == 1 && empty($options)) {
-            $options = $this->getTypeOptionsFromManifest($component);
+            return $this->getTypeOptionsFromManifest($component);
         }
 
         return $options;

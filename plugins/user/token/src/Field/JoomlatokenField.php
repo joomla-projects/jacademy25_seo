@@ -116,13 +116,11 @@ class JoomlatokenField extends TextField
         $rawToken  = base64_decode($tokenSeed);
         $tokenHash = hash_hmac((string) $algorithm, $rawToken, (string) $siteSecret);
         $userId    = $this->form->getData()->get('id');
-        $message   = base64_encode(sprintf('%s:%s:%s', $algorithm, $userId, $tokenHash));
-
         if ($userId != $this->getCurrentUser()->id) {
-            $message = '';
+            return '';
         }
 
-        return $message;
+        return base64_encode(sprintf('%s:%s:%s', $algorithm, $userId, $tokenHash));
     }
 
     /**

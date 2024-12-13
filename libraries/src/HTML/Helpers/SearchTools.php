@@ -78,7 +78,7 @@ abstract class SearchTools
         }
 
         if (!($options instanceof Registry)) {
-            $options = new Registry();
+            return new Registry();
         }
 
         return $options;

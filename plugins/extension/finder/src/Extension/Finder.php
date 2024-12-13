@@ -150,7 +150,7 @@ final class Finder extends CMSPlugin implements SubscriberInterface
             function ($word) {
                 // Remove comments
                 if (StringHelper::strpos($word, ';') !== false) {
-                    $word = StringHelper::substr($word, 0, StringHelper::strpos($word, ';'));
+                    return StringHelper::substr($word, 0, StringHelper::strpos($word, ';'));
                 }
 
                 return $word;

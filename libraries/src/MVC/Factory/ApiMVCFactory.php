@@ -41,7 +41,7 @@ final class ApiMVCFactory extends MVCFactory
         $model = parent::createModel($name, $prefix, $config);
 
         if (!$model) {
-            $model = parent::createModel($name, 'Administrator', $config);
+            return parent::createModel($name, 'Administrator', $config);
         }
 
         return $model;
@@ -64,7 +64,7 @@ final class ApiMVCFactory extends MVCFactory
         $table = parent::createTable($name, $prefix, $config);
 
         if (!$table) {
-            $table = parent::createTable($name, 'Administrator', $config);
+            return parent::createTable($name, 'Administrator', $config);
         }
 
         return $table;

@@ -325,14 +325,11 @@ class FilesystemHelper
     {
         $unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
         $size = preg_replace('/[^0-9\.]/', '', $size);
-
-        $return = round($size);
-
         if ($unit) {
-            $return = round($size * 1024 ** stripos('bkmgtpezy', $unit[0]));
+            return round($size * 1024 ** stripos('bkmgtpezy', $unit[0]));
         }
 
-        return $return;
+        return round($size);
     }
 
     /**

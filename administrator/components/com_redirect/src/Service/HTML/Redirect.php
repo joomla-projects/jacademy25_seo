@@ -59,7 +59,7 @@ class Redirect
         $icon  = $state[0];
 
         if ($canChange) {
-            $html = '<a href="#" class="js-grid-item-action tbody-icon' . ($value == 1 ? ' active' : '')
+            return '<a href="#" class="js-grid-item-action tbody-icon' . ($value == 1 ? ' active' : '')
                 . '" aria-labelledby="cb' . $state[0] . $i . '-desc"'
                 . ' data-item-id="cb' . $i . '" data-item-task="' . $state[1] . '"'
                 . '><span class="icon-' . $icon . '" aria-hidden="true"></span></a>'

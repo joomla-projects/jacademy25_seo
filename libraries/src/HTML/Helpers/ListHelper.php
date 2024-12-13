@@ -139,26 +139,22 @@ abstract class ListHelper
         if (empty($attribs)) {
             $attribs = 'size="1"';
         }
-
         if (empty($neworder)) {
             $orders = HTMLHelper::_('list.genericordering', $query);
-            $html   = HTMLHelper::_(
+            return HTMLHelper::_(
                 'select.genericlist',
                 $orders,
                 $name,
                 ['list.attr' => $attribs, 'list.select' => (int) $selected, 'id' => $id ?? false]
             );
-        } else {
-            if ($neworder > 0) {
-                $text = Text::_('JGLOBAL_NEWITEMSLAST_DESC');
-            } elseif ($neworder <= 0) {
-                $text = Text::_('JGLOBAL_NEWITEMSFIRST_DESC');
-            }
-
-            $html = '<input type="hidden" name="' . $name . '" value="' . (int) $selected . '"><span class="readonly">' . $text . '</span>';
+        }
+        if ($neworder > 0) {
+            $text = Text::_('JGLOBAL_NEWITEMSLAST_DESC');
+        } elseif ($neworder <= 0) {
+            $text = Text::_('JGLOBAL_NEWITEMSFIRST_DESC');
         }
 
-        return $html;
+        return '<input type="hidden" name="' . $name . '" value="' . (int) $selected . '"><span class="readonly">' . $text . '</span>';
     }
 
     /**

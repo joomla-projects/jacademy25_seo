@@ -205,15 +205,12 @@ class Crypto
 
             return self::PlainDecrypt($ciphertext, $ekey, $iv);
         }
-        else
-        {
-            /*
-             * We throw an exception instead of returning FALSE because we want
-             * a script that doesn't handle this condition to CRASH, instead
-             * of thinking the ciphertext decrypted to the value FALSE.
-             */
-             throw new InvalidCiphertextException();
-        }
+        /*
+         * We throw an exception instead of returning FALSE because we want
+         * a script that doesn't handle this condition to CRASH, instead
+         * of thinking the ciphertext decrypted to the value FALSE.
+         */
+        throw new InvalidCiphertextException();
     }
 
     /*
@@ -349,9 +346,8 @@ class Crypto
         $random = mcrypt_create_iv($octets, MCRYPT_DEV_URANDOM);
         if ($random === FALSE) {
             throw new CannotPerformOperationException();
-        } else {
-            return $random;
         }
+        return $random;
     }
 
     /*
@@ -595,9 +591,8 @@ class Crypto
                 throw new CannotPerformOperationException();
             }
             return $length;
-        } else {
-            return strlen((string) $str);
         }
+        return strlen((string) $str);
     }
 
     private static function our_substr($str, $start, $length = NULL)
@@ -616,9 +611,8 @@ class Crypto
         // Unlike mb_substr(), substr() doesn't accept NULL for length
         if (isset($length)) {
             return substr((string) $str, $start, $length);
-        } else {
-            return substr((string) $str, $start);
         }
+        return substr((string) $str, $start);
     }
 
 }

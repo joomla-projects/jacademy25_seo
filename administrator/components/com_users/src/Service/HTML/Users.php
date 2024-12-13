@@ -166,7 +166,7 @@ class Users
     public function blockStates($self = false)
     {
         if ($self) {
-            $states = [
+            return [
                 1 => [
                     'task'           => 'unblock',
                     'text'           => '',
@@ -186,30 +186,28 @@ class Users
                     'inactive_class' => 'publish',
                 ],
             ];
-        } else {
-            $states = [
-                1 => [
-                    'task'           => 'unblock',
-                    'text'           => '',
-                    'active_title'   => 'COM_USERS_TOOLBAR_UNBLOCK',
-                    'inactive_title' => '',
-                    'tip'            => true,
-                    'active_class'   => 'unpublish',
-                    'inactive_class' => 'unpublish',
-                ],
-                0 => [
-                    'task'           => 'block',
-                    'text'           => '',
-                    'active_title'   => 'COM_USERS_TOOLBAR_BLOCK',
-                    'inactive_title' => '',
-                    'tip'            => true,
-                    'active_class'   => 'publish',
-                    'inactive_class' => 'publish',
-                ],
-            ];
         }
 
-        return $states;
+        return [
+            1 => [
+                'task'           => 'unblock',
+                'text'           => '',
+                'active_title'   => 'COM_USERS_TOOLBAR_UNBLOCK',
+                'inactive_title' => '',
+                'tip'            => true,
+                'active_class'   => 'unpublish',
+                'inactive_class' => 'unpublish',
+            ],
+            0 => [
+                'task'           => 'block',
+                'text'           => '',
+                'active_title'   => 'COM_USERS_TOOLBAR_BLOCK',
+                'inactive_title' => '',
+                'tip'            => true,
+                'active_class'   => 'publish',
+                'inactive_class' => 'publish',
+            ],
+        ];
     }
 
     /**

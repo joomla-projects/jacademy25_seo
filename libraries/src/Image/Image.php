@@ -1052,12 +1052,11 @@ class Image
 
         // If we were given a percentage, calculate the integer value.
         if (preg_match('/^\d+(\.\d+)?\%$/', (string) $height)) {
-            $height = (int) round($this->getHeight() * (float) str_replace('%', '', $height) / 100);
-        } else { // Else do some rounding so we come out with a sane integer value.
-            $height = (int) round((float) $height);
+            return (int) round($this->getHeight() * (float) str_replace('%', '', $height) / 100);
         }
 
-        return $height;
+        // Else do some rounding so we come out with a sane integer value.
+        return (int) round((float) $height);
     }
 
     /**
@@ -1091,12 +1090,11 @@ class Image
 
         // If we were given a percentage, calculate the integer value.
         if (preg_match('/^\d+(\.\d+)?\%$/', (string) $width)) {
-            $width = (int) round($this->getWidth() * (float) str_replace('%', '', $width) / 100);
-        } else { // Else do some rounding so we come out with a sane integer value.
-            $width = (int) round((float) $width);
+            return (int) round($this->getWidth() * (float) str_replace('%', '', $width) / 100);
         }
 
-        return $width;
+        // Else do some rounding so we come out with a sane integer value.
+        return (int) round((float) $width);
     }
 
     /**

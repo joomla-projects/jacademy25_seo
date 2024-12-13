@@ -61,19 +61,17 @@ trait CoreButtonsTrait
     public function preview(string $url, string $text = 'JGLOBAL_PREVIEW', $newWindow = false)
     {
         if ($newWindow === true) {
-            $button = $this->linkButton('link', $text)
+            return $this->linkButton('link', $text)
                 ->url($url)
                 ->attributes(['target' => '_blank'])
                 ->icon('icon-eye');
-        } else {
-            $button = $this->popupButton('preview', $text)
-                ->url($url)
-                ->iframeWidth(640)
-                ->iframeHeight(480)
-                ->icon('icon-eye');
         }
 
-        return $button;
+        return $this->popupButton('preview', $text)
+            ->url($url)
+            ->iframeWidth(640)
+            ->iframeHeight(480)
+            ->icon('icon-eye');
     }
 
     /**
@@ -90,19 +88,17 @@ trait CoreButtonsTrait
     public function jooa11y(string $url, string $text = 'JGLOBAL_JOOA11Y', $newWindow = false)
     {
         if ($newWindow === true) {
-            $button = $this->linkButton('jooa11y-link', $text)
+            return $this->linkButton('jooa11y-link', $text)
                 ->url($url)
                 ->attributes(['target' => '_blank'])
                 ->icon('icon-universal-access');
-        } else {
-            $button = $this->popupButton('jooa11y-preview', $text)
-                ->url($url)
-                ->iframeWidth(640)
-                ->iframeHeight(480)
-                ->icon('icon-universal-access');
         }
 
-        return $button;
+        return $this->popupButton('jooa11y-preview', $text)
+            ->url($url)
+            ->iframeWidth(640)
+            ->iframeHeight(480)
+            ->icon('icon-universal-access');
     }
 
     /**

@@ -41,7 +41,7 @@ $rectorConfig->withSets([
     SetList::CODE_QUALITY,
     SetList::CODING_STYLE,
     SetList::DEAD_CODE,
-    //SetList::EARLY_RETURN,
+    SetList::EARLY_RETURN,
     //SetList::INSTANCEOF,
     //SetList::NAMING,
     //SetList::PRIVATIZATION,

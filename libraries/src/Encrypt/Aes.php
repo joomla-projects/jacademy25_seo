@@ -125,7 +125,7 @@ class Aes
 
         // Optionally pass the result through Base64 encoding
         if ($base64encoded) {
-            $cipherText = base64_encode($cipherText);
+            return base64_encode($cipherText);
         }
 
         // Return the result

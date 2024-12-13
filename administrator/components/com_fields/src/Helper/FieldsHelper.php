@@ -284,7 +284,7 @@ class FieldsHelper
 
         if ($value == '') {
             // Trying to render the layout on Fields itself
-            $value = LayoutHelper::render($layoutFile, $displayData, null, ['component' => 'com_fields','client' => 0]);
+            return LayoutHelper::render($layoutFile, $displayData, null, ['component' => 'com_fields','client' => 0]);
         }
 
         return $value;

@@ -397,7 +397,7 @@ class Router extends RouterBase
         $id = $this->db->setQuery($query)->loadResult();
 
         if ($id) {
-            $segment = $id . ':' . $alias;
+            return $id . ':' . $alias;
         }
 
         return $segment;

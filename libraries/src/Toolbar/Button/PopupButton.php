@@ -224,7 +224,7 @@ JS
         $url ??= '';
 
         if (!str_starts_with($url, 'http')) {
-            $url = Uri::base() . $url;
+            return Uri::base() . $url;
         }
 
         return $url;

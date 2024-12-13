@@ -1040,7 +1040,7 @@ class TagsHelper extends CMSHelper
         }
 
         if (\is_array($newTags) && $newTags !== [] && $newTags[0] != '') {
-            $result = $result && $this->addTagMapping($ucmId, $table, $newTags);
+            return $result && $this->addTagMapping($ucmId, $table, $newTags);
         }
 
         return $result;

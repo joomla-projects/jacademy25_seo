@@ -62,7 +62,7 @@ class BackupcodesModel extends BaseDatabaseModel
         );
 
         if (!$loaded) {
-            $record = null;
+            return null;
         }
 
         return $record;

@@ -188,7 +188,7 @@ class Route
         $url = preg_replace('/\s/u', '%20', $url);
 
         if ($xhtml) {
-            $url = htmlspecialchars((string) $url, ENT_COMPAT, 'UTF-8');
+            return htmlspecialchars((string) $url, ENT_COMPAT, 'UTF-8');
         }
 
         return $url;

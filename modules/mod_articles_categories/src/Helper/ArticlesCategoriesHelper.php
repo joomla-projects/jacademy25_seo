@@ -65,7 +65,7 @@ class ArticlesCategoriesHelper implements DatabaseAwareInterface
         $count = $moduleParams->get('count', 0);
 
         if ($count > 0 && \count($childrenCategories) > $count) {
-            $childrenCategories = \array_slice($childrenCategories, 0, $count);
+            return \array_slice($childrenCategories, 0, $count);
         }
 
         return $childrenCategories;

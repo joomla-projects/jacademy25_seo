@@ -863,7 +863,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
 
         // Let's be sure we got a valid language code. Fallback to null.
         if (!\array_key_exists($languageCode, $this->lang_codes)) {
-            $languageCode = null;
+            return null;
         }
 
         return $languageCode;

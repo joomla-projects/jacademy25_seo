@@ -143,7 +143,7 @@ class Base32
         $rbits  = $length & 7;
 
         if ($rbits > 0) {
-            $str = substr((string) $str, 0, $length - $rbits);
+            return substr((string) $str, 0, $length - $rbits);
         }
 
         return $str;

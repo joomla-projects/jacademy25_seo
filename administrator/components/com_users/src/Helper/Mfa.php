@@ -355,8 +355,10 @@ abstract class Mfa
         if (!($app->getDocument() instanceof HtmlDocument)) {
             return false;
         }
-
         // I must be able to add, edit or delete the user's MFA settings
-        return self::canAddEditMethod($user) || self::canDeleteMethod($user);
+        if (self::canAddEditMethod($user)) {
+            return true;
+        }
+        return self::canDeleteMethod($user);
     }
 }

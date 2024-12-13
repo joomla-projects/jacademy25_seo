@@ -200,13 +200,10 @@ class ClientHelper
             if (!self::setCredentials($client, $user, $pass)) {
                 throw new \InvalidArgumentException('Invalid user credentials');
             }
-
-            $return = false;
-        } else {
-            // Just determine if the FTP input fields need to be shown
-            $return = !self::hasCredentials('ftp');
+            return false;
         }
 
-        return $return;
+        // Just determine if the FTP input fields need to be shown
+        return !self::hasCredentials('ftp');
     }
 }

@@ -394,7 +394,7 @@ class TasksModel extends ListModel
 
         // If ordering by non-db fields, we need to sort here in code
         if ($listOrder === 'j.type_title') {
-            $responseList = ArrayHelper::sortObjects($responseList, 'safeTypeTitle', $listDirectionN, true, false);
+            return ArrayHelper::sortObjects($responseList, 'safeTypeTitle', $listDirectionN, true, false);
         }
 
         return $responseList;

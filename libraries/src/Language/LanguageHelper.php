@@ -420,7 +420,7 @@ class LanguageHelper
 
         // Add the pivot, if needed.
         if ($pivot !== null) {
-            $languages = ArrayHelper::pivot($languages, $pivot);
+            return ArrayHelper::pivot($languages, $pivot);
         }
 
         return $languages;

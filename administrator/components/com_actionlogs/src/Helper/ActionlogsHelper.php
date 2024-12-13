@@ -363,7 +363,7 @@ class ActionlogsHelper
         }
 
         if (\in_array($value[0], self::$characters, true)) {
-            $value = ' ' . $value;
+            return ' ' . $value;
         }
 
         return $value;

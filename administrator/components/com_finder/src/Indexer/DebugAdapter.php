@@ -808,7 +808,7 @@ abstract class DebugAdapter extends CMSPlugin
 
         // Get the page title if it is set.
         if (isset($params->page_title) && $params->page_title) {
-            $return = $params->page_title;
+            return $params->page_title;
         }
 
         return $return;

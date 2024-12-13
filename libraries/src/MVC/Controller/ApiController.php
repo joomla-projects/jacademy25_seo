@@ -513,8 +513,10 @@ class ApiController extends BaseController
     protected function allowAdd($data = [])
     {
         $user = $this->app->getIdentity();
-
-        return $user->authorise('core.create', $this->option) || \count($user->getAuthorisedCategories($this->option, 'core.create'));
+        if ($user->authorise('core.create', $this->option)) {
+            return true;
+        }
+        return (bool) \count($user->getAuthorisedCategories($this->option, 'core.create'));
     }
 
     /**

@@ -129,7 +129,7 @@ class MemcachedStorage extends CacheStorage
 
         if ($length !== 0) {
             // Memcached use suffix instead of prefix
-            $cache_id = substr($cache_id, $length) . strrev($prefix);
+            return substr($cache_id, $length) . strrev($prefix);
         }
 
         return $cache_id;

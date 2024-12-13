@@ -68,7 +68,7 @@ class OutputController extends CacheController
         // Check again because we might get it from second attempt
         if ($data !== false) {
             // Trim to fix unserialize errors
-            $data = unserialize(trim((string) $data));
+            return unserialize(trim((string) $data));
         }
 
         return $data;

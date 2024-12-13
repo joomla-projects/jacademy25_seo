@@ -76,8 +76,10 @@ class CategoryController extends FormController
     protected function allowAdd($data = [])
     {
         $user = $this->app->getIdentity();
-
-        return ($user->authorise('core.create', $this->extension) || \count($user->getAuthorisedCategories($this->extension, 'core.create')));
+        if ($user->authorise('core.create', $this->extension)) {
+            return true;
+        }
+        return (bool) \count($user->getAuthorisedCategories($this->extension, 'core.create'));
     }
 
     /**

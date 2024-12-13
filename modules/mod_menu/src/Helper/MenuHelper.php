@@ -196,7 +196,7 @@ class MenuHelper
 
         // Use active menu item if no base found
         if (!$base) {
-            $base = self::getActive($params);
+            return self::getActive($params);
         }
 
         return $base;

@@ -156,19 +156,16 @@ class ContenthistoryHelper
     {
         // First, see if we have a file name in the $typesTable
         $options = json_decode($typesTable->content_history_options);
-
         if (\is_object($options) && isset($options->formFile) && is_file(JPATH_ROOT . '/' . $options->formFile)) {
-            $result = JPATH_ROOT . '/' . $options->formFile;
-        } else {
-            $aliasArray = explode('.', $typesTable->type_alias);
-            $component  = ($aliasArray[1] === 'category') ? 'com_categories' : $aliasArray[0];
-            $path       = Folder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
-            array_shift($aliasArray);
-            $file   = File::makeSafe(implode('.', $aliasArray) . '.xml');
-            $result = is_file($path . $file) ? $path . $file : false;
+            return JPATH_ROOT . '/' . $options->formFile;
         }
+        $aliasArray = explode('.', $typesTable->type_alias);
+        $component  = ($aliasArray[1] === 'category') ? 'com_categories' : $aliasArray[0];
+        $path       = Folder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
+        array_shift($aliasArray);
+        $file   = File::makeSafe(implode('.', $aliasArray) . '.xml');
 
-        return $result;
+        return is_file($path . $file) ? $path . $file : false;
     }
 
     /**

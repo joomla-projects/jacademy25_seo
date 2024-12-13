@@ -61,12 +61,9 @@ abstract class Debug
             $href = static::$xdebugLinkFormat;
             $href = str_replace('%f', $file, $href);
             $href = str_replace('%l', $line, $href);
-
-            $html = HTMLHelper::_('link', $href, $link);
-        } else {
-            $html = $link;
+            return HTMLHelper::_('link', $href, $link);
         }
 
-        return $html;
+        return $link;
     }
 }

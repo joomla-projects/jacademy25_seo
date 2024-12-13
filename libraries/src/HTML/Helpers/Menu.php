@@ -264,17 +264,15 @@ abstract class Menu
                 ->bind(':menutype', $row->menutype)
                 ->bind(':parent', $row->parent_id, ParameterType::INTEGER);
             $order    = HTMLHelper::_('list.genericordering', $query);
-            $ordering = HTMLHelper::_(
+            return HTMLHelper::_(
                 'select.genericlist',
                 $order,
                 'ordering',
                 ['list.attr' => 'class="inputbox" size="1"', 'list.select' => (int) $row->ordering]
             );
-        } else {
-            $ordering = '<input type="hidden" name="ordering" value="' . $row->ordering . '">' . Text::_('JGLOBAL_NEWITEMSLAST_DESC');
         }
 
-        return $ordering;
+        return '<input type="hidden" name="ordering" value="' . $row->ordering . '">' . Text::_('JGLOBAL_NEWITEMSLAST_DESC');
     }
 
     /**

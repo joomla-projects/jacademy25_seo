@@ -507,7 +507,7 @@ class ComponentAdapter extends InstallerAdapter
         $element = parent::getElement($element);
 
         if (!str_starts_with($element, 'com_')) {
-            $element = 'com_' . $element;
+            return 'com_' . $element;
         }
 
         return $element;

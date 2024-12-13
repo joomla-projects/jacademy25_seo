@@ -90,17 +90,13 @@ class ApplicationHelper
     public static function stringURLSafe($string, $language = '')
     {
         if (Factory::getApplication()->get('unicodeslugs') == 1) {
-            $output = OutputFilter::stringUrlUnicodeSlug($string);
-        } else {
-            if ($language === '*' || $language === '') {
-                $languageParams = ComponentHelper::getParams('com_languages');
-                $language       = $languageParams->get('site');
-            }
-
-            $output = OutputFilter::stringURLSafe($string, $language);
+            return OutputFilter::stringUrlUnicodeSlug($string);
         }
-
-        return $output;
+        if ($language === '*' || $language === '') {
+            $languageParams = ComponentHelper::getParams('com_languages');
+            $language       = $languageParams->get('site');
+        }
+        return OutputFilter::stringURLSafe($string, $language);
     }
 
     /**

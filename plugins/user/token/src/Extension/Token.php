@@ -469,7 +469,7 @@ final class Token extends CMSPlugin
         }
 
         if (!\is_array($userGroups)) {
-            $userGroups = [$userGroups];
+            return [$userGroups];
         }
 
         return $userGroups;
@@ -540,13 +540,11 @@ final class Token extends CMSPlugin
 
         $rawToken  = base64_decode($tokenSeed);
         $tokenHash = hash_hmac($algorithm, $rawToken, (string) $siteSecret);
-        $message   = base64_encode(sprintf('%s:%d:%s', $algorithm, $userId, $tokenHash));
-
         if ($userId !== $this->getApplication()->getIdentity()->id) {
-            $message = '';
+            return '';
         }
 
-        return $message;
+        return base64_encode(sprintf('%s:%d:%s', $algorithm, $userId, $tokenHash));
     }
 
     /**

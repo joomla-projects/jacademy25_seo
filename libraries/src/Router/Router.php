@@ -254,13 +254,7 @@ class Router
      */
     public function getVar($key)
     {
-        $result = null;
-
-        if (isset($this->vars[$key])) {
-            $result = $this->vars[$key];
-        }
-
-        return $result;
+        return $this->vars[$key] ?? null;
     }
 
     /**

@@ -138,7 +138,7 @@ class SetupModel extends BaseInstallationModel
         $list = LanguageHelper::createLanguageList($native);
 
         if (!$list || $list instanceof \Exception) {
-            $list = [];
+            return [];
         }
 
         return $list;

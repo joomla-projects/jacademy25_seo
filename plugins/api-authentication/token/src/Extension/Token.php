@@ -356,7 +356,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
         }
 
         if (!\is_array($userGroups)) {
-            $userGroups = [$userGroups];
+            return [$userGroups];
         }
 
         return $userGroups;

@@ -369,7 +369,7 @@ class FieldModel extends AdminModel
         }
 
         if (\is_array($params)) {
-            $params = (object) $params;
+            return (object) $params;
         }
 
         return $params;

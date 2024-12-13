@@ -93,7 +93,7 @@ class SuggestionsController extends BaseController
 
         // Check the data.
         if (empty($return)) {
-            $return = [];
+            return [];
         }
 
         return $return;

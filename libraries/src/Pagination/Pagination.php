@@ -565,7 +565,7 @@ class Pagination
 
         // Build the select list.
         if ($this->app->isClient('administrator')) {
-            $html = HTMLHelper::_(
+            return HTMLHelper::_(
                 'select.genericlist',
                 $limits,
                 $this->prefix . 'limit',
@@ -574,19 +574,17 @@ class Pagination
                 'text',
                 $selected
             );
-        } else {
-            $html = HTMLHelper::_(
-                'select.genericlist',
-                $limits,
-                $this->prefix . 'limit',
-                'class="form-select" onchange="this.form.submit()"',
-                'value',
-                'text',
-                $selected
-            );
         }
 
-        return $html;
+        return HTMLHelper::_(
+            'select.genericlist',
+            $limits,
+            $this->prefix . 'limit',
+            'class="form-select" onchange="this.form.submit()"',
+            'value',
+            'text',
+            $selected
+        );
     }
 
     /**

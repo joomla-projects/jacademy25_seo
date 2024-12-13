@@ -277,13 +277,10 @@ class PostgresqlChangeItem extends ChangeItem
      */
     private function fixInteger($type1, $type2)
     {
-        $result = $type1;
-
         if (strtolower($type1) === 'integer' && strtolower(substr($type2, 0, 8)) === 'unsigned') {
-            $result = 'unsigned int(10)';
+            return 'unsigned int(10)';
         }
-
-        return $result;
+        return $type1;
     }
 
     /**

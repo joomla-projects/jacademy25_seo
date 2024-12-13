@@ -231,20 +231,17 @@ class ItemController extends FormController
     protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
     {
         $append = parent::getRedirectToItemAppend($recordId, $urlVar);
-
         if ($recordId) {
             /** @var ItemModel $model */
             $model    = $this->getModel();
             $item     = $model->getItem($recordId);
             $clientId = $item->client_id;
-            $append   = '&client_id=' . $clientId . $append;
-        } else {
-            $clientId = $this->input->get('client_id', '0', 'int');
-            $menuType = $this->input->get('menutype', 'mainmenu', 'cmd');
-            $append   = '&client_id=' . $clientId . ($menuType ? '&menutype=' . $menuType : '') . $append;
+            return '&client_id=' . $clientId . $append;
         }
+        $clientId = $this->input->get('client_id', '0', 'int');
+        $menuType = $this->input->get('menutype', 'mainmenu', 'cmd');
 
-        return $append;
+        return '&client_id=' . $clientId . ($menuType ? '&menutype=' . $menuType : '') . $append;
     }
 
     /**

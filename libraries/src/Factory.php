@@ -827,7 +827,6 @@ abstract class Factory
         if ($usePrefix) {
             $FTPOptions = ClientHelper::getCredentials('ftp');
             $SCPOptions = ClientHelper::getCredentials('scp');
-
             if ($FTPOptions['enabled'] == 1 && $useNetwork) {
                 $prefix = 'ftp://' . $FTPOptions['user'] . ':' . $FTPOptions['pass'] . '@' . $FTPOptions['host'];
                 $prefix .= $FTPOptions['port'] ? ':' . $FTPOptions['port'] : '';
@@ -839,12 +838,9 @@ abstract class Factory
             } else {
                 $prefix = JPATH_ROOT . '/';
             }
-
-            $retval = new Stream($prefix, JPATH_ROOT, $context);
-        } else {
-            $retval = new Stream('', '', $context);
+            return new Stream($prefix, JPATH_ROOT, $context);
         }
 
-        return $retval;
+        return new Stream('', '', $context);
     }
 }

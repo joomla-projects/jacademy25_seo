@@ -216,7 +216,7 @@ class BannerModel extends BaseDatabaseModel
 
         // Check for links
         if (!preg_match('#http[s]?://|index[2]?\.php#', $url)) {
-            $url = 'http://' . $url;
+            return 'http://' . $url;
         }
 
         return $url;

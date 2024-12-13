@@ -1875,7 +1875,7 @@ class TemplateModel extends FormModel
         }
 
         if (is_dir($path)) {
-            $result = $this->getDirectoryTree($path);
+            return $this->getDirectoryTree($path);
         }
 
         return $result;

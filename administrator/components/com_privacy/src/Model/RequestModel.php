@@ -108,7 +108,7 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface
         $data = Factory::getApplication()->getUserState('com_privacy.edit.request.data', []);
 
         if (empty($data)) {
-            $data = $this->getItem();
+            return $this->getItem();
         }
 
         return $data;

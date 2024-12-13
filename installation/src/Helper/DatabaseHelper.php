@@ -164,7 +164,7 @@ abstract class DatabaseHelper
 
         // Use most restrictive, i.e. largest minimum database version requirement
         if (version_compare($minDbVersionCms, $minDbVersionRequired) > 0) {
-            $minDbVersionRequired = $minDbVersionCms;
+            return $minDbVersionCms;
         }
 
         return $minDbVersionRequired;
@@ -461,31 +461,27 @@ abstract class DatabaseHelper
         // Check minimum database version
         if (version_compare($dbVersion, $minDbVersionRequired) < 0) {
             if (\in_array($options->db_type, ['mysql', 'mysqli']) && $db->isMariaDb()) {
-                $errorMessage = Text::sprintf(
+                return Text::sprintf(
                     'INSTL_DATABASE_INVALID_MARIADB_VERSION',
-                    $minDbVersionRequired,
-                    $dbVersion
-                );
-            } else {
-                $errorMessage = Text::sprintf(
-                    'INSTL_DATABASE_INVALID_' . strtoupper($options->db_type) . '_VERSION',
                     $minDbVersionRequired,
                     $dbVersion
                 );
             }
 
-            return $errorMessage;
+            return Text::sprintf(
+                'INSTL_DATABASE_INVALID_' . strtoupper($options->db_type) . '_VERSION',
+                $minDbVersionRequired,
+                $dbVersion
+            );
         }
 
         // Check database connection encryption
         if ($options->db_encryption !== 0 && empty($db->getConnectionEncryption())) {
             if ($db->isConnectionEncryptionSupported()) {
-                $errorMessage = Text::_('INSTL_DATABASE_ENCRYPTION_MSG_CONN_NOT_ENCRYPT');
-            } else {
-                $errorMessage = Text::_('INSTL_DATABASE_ENCRYPTION_MSG_SRV_NOT_SUPPORTS');
+                return Text::_('INSTL_DATABASE_ENCRYPTION_MSG_CONN_NOT_ENCRYPT');
             }
 
-            return $errorMessage;
+            return Text::_('INSTL_DATABASE_ENCRYPTION_MSG_SRV_NOT_SUPPORTS');
         }
 
         return false;
