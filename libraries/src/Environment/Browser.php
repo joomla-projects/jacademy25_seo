@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Environment;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -826,11 +826,11 @@ class Browser
      */
     public function getHTTPProtocol()
     {
-        if (isset($_SERVER['SERVER_PROTOCOL'])) {
-            if (($pos = strrpos($_SERVER['SERVER_PROTOCOL'], '/'))) {
-                return substr($_SERVER['SERVER_PROTOCOL'], $pos + 1);
-            }
+        if (isset($_SERVER['SERVER_PROTOCOL']) && ($pos = strrpos($_SERVER['SERVER_PROTOCOL'], '/'))) {
+            return substr($_SERVER['SERVER_PROTOCOL'], $pos + 1);
         }
+
+        return '';
     }
 
     /**
