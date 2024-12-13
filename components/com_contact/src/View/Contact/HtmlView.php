@@ -349,7 +349,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 
         $contactUser = null;
 
-        if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = $this->getUserFactory()->loadUserById($item->user_id)) {
+        if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = $this->getUserFactory()->loadUserById($item->user_id) instanceof User) {
             $contactUser->text = '';
             $app->triggerEvent('onContentPrepare', ['com_users.user', &$contactUser, &$item->params, 0]);
 

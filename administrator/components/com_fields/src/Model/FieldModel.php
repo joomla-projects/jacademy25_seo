@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Fields\Administrator\Model;
 
+use Joomla\CMS\Categories\CategoryInterface;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Component\ComponentHelper;
@@ -1071,7 +1072,7 @@ class FieldModel extends AdminModel
         )();
 
         // If we found categories, and if the root category has children, set them in the form
-        if ($cat && $cat->get('root')->hasChildren()) {
+        if ($cat instanceof CategoryInterface && $cat->get('root')->hasChildren()) {
             $form->setFieldAttribute('assigned_cat_ids', 'extension', $cat->getExtension());
         } else {
             // Else remove the field from the form

@@ -42,7 +42,7 @@ $rectorConfig->withSets([
     SetList::CODING_STYLE,
     SetList::DEAD_CODE,
     SetList::EARLY_RETURN,
-    //SetList::INSTANCEOF,
+    SetList::INSTANCEOF,
     //SetList::NAMING,
     //SetList::PRIVATIZATION,
     //SetList::STRICT_BOOLEANS,

@@ -471,7 +471,7 @@ final class Joomla extends CMSPlugin
     {
         $instance = $this->getUserFactory()->loadUserByUsername($user['username']);
 
-        if ($instance && $instance->id) {
+        if ($instance->id) {
             return $instance;
         }
 

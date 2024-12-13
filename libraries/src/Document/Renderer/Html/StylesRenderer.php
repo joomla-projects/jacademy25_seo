@@ -67,7 +67,7 @@ class StylesRenderer extends DocumentRenderer
             }
 
             // Check for inline content "before"
-            if ($asset && !empty($inlineRelation[$asset->getName()]['before'])) {
+            if ($asset instanceof WebAssetItemInterface && !empty($inlineRelation[$asset->getName()]['before'])) {
                 foreach ($inlineRelation[$asset->getName()]['before'] as $itemBefore) {
                     $buffer .= $this->renderInlineElement($itemBefore);
 
@@ -79,7 +79,7 @@ class StylesRenderer extends DocumentRenderer
             $buffer .= $this->renderElement($item);
 
             // Check for inline content "after"
-            if ($asset && !empty($inlineRelation[$asset->getName()]['after'])) {
+            if ($asset instanceof WebAssetItemInterface && !empty($inlineRelation[$asset->getName()]['after'])) {
                 foreach ($inlineRelation[$asset->getName()]['after'] as $itemBefore) {
                     $buffer .= $this->renderInlineElement($itemBefore);
 

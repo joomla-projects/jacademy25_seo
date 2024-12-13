@@ -480,7 +480,7 @@ class Helper
             $content->bind($item->getElements());
         }
 
-        if ($item && !empty($item->context)) {
+        if ($item instanceof Result && !empty($item->context)) {
             $content->context = $item->context;
         }
 

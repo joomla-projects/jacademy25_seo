@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\Webauthn;
 
+use Webauthn\MetadataService\Statement\MetadataStatement;
 use Joomla\Application\ApplicationInterface;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -331,7 +332,7 @@ final class Authentication
     {
         return $this->attestationSupport
             && ($this->metadataRepository instanceof MetadataStatementRepository)
-            && $this->metadataRepository->findOneByAAGUID('6d44ba9b-f6ec-2e49-b930-0c8fe920cb73');
+            && $this->metadataRepository->findOneByAAGUID('6d44ba9b-f6ec-2e49-b930-0c8fe920cb73') instanceof MetadataStatement;
     }
 
     /**

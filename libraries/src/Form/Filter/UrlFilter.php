@@ -68,7 +68,7 @@ class UrlFilter implements FormFilterInterface
 
             // If it looks like an internal link, then add the root.
             $value = str_starts_with($value, 'index.php') ? Uri::root() . $value : $protocol . '://' . $value;
-        } elseif (!$protocol && $element['relative']) {
+        } elseif (!$protocol && $element['relative'] instanceof \SimpleXMLElement) {
             // If relative URLS are allowed we assume that URLs without protocols are internal.
             $host = Uri::getInstance('SERVER')->getHost();
 

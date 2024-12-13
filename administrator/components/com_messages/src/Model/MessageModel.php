@@ -189,7 +189,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
             }
 
             // Get the user name for an existing message.
-            if ($this->item->user_id_from && $fromUser = new User($this->item->user_id_from)) {
+            if ($this->item->user_id_from && $fromUser = new User($this->item->user_id_from) instanceof User) {
                 $this->item->set('from_user_name', $fromUser->name);
             }
         }

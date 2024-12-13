@@ -82,7 +82,7 @@ class UrlRule extends FormRule
              * The function parse_url() returned false (seriously malformed URL) or no scheme
              * was found and the relative option is not set: in both cases the field is not valid.
              */
-            if ($urlParts === false || !$element['relative']) {
+            if ($urlParts === false || !$element['relative'] instanceof \SimpleXMLElement) {
                 $element->addAttribute('message', Text::sprintf('JLIB_FORM_VALIDATE_FIELD_URL_SCHEMA_MISSING', $value, implode(', ', $scheme)));
 
                 return false;
