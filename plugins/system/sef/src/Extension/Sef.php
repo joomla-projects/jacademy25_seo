@@ -357,7 +357,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @since   5.1.0
      */
-    protected function removeIndexphp()
+    private function removeIndexphp()
     {
         $origUri = Uri::getInstance();
 
@@ -419,7 +419,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @since   5.1.0
      */
-    protected function enforceTrailingSlash()
+    private function enforceTrailingSlash()
     {
         $originalUri = Uri::getInstance();
 
@@ -445,7 +445,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @since   5.2.0
      */
-    protected function enforceSEF()
+    private function enforceSEF()
     {
         $app     = $this->getApplication();
         $origUri = clone Uri::getInstance();

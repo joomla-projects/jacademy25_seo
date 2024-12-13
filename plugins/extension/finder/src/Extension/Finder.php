@@ -130,7 +130,7 @@ final class Finder extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    protected function addCommonWords($extension)
+    private function addCommonWords($extension)
     {
         if ($extension->client_id == 0) {
             $path = JPATH_SITE . '/language/' . $extension->element . '/com_finder.commonwords.txt';
@@ -192,7 +192,7 @@ final class Finder extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    protected function removeCommonWords($extension)
+    private function removeCommonWords($extension)
     {
         $db   = $this->getDatabase();
         $lang = Helper::getPrimaryLanguage($extension->element);

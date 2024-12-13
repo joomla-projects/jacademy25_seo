@@ -46,7 +46,7 @@ final class ApiApplication extends CMSApplication
      * @var    array
      * @since  4.0.0
      */
-    protected $formatMapper = [];
+    private $formatMapper = [];
 
     /**
      * The authentication plugin type
@@ -332,7 +332,7 @@ final class ApiApplication extends CMSApplication
      *
      * @since   4.0.0
      */
-    protected function handlePreflight($method, $router)
+    private function handlePreflight($method, $router)
     {
         /**
          * If not an OPTIONS request or CORS is not enabled,

@@ -13,7 +13,6 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Editor\AbstractEditorProvider;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Registry\Registry;
 
 /**
  * Editor provider class
@@ -25,24 +24,17 @@ final class EditorNoneProvider extends AbstractEditorProvider
     /**
      * Class constructor
      *
-     * @param   Registry                 $params
      * @param   CMSApplicationInterface  $application
      * @param   DispatcherInterface      $dispatcher
-     *
      * @since  5.2.0
      */
     public function __construct(/**
-     * A Registry object holding the parameters for the plugin
-     *
-     * @since  5.2.0
-     */
-    protected Registry $params, /**
      * The application object
      *
      *
      * @since  5.2.0
      */
-    protected CMSApplicationInterface $application, DispatcherInterface $dispatcher)
+    private readonly CMSApplicationInterface $application, DispatcherInterface $dispatcher)
     {
         $this->setDispatcher($dispatcher);
     }

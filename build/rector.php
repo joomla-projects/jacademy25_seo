@@ -19,6 +19,7 @@ use Rector\DeadCode\Rector\If_\RemoveAlwaysTrueIfConditionRector;
 use Rector\DeadCode\Rector\If_\UnwrapFutureCompatibleIfPhpVersionRector;
 use Rector\DeadCode\Rector\StaticCall\RemoveParentCallWithoutParentRector;
 use Rector\EarlyReturn\Rector\If_\ChangeOrIfContinueToMultiContinueRector;
+use Rector\Privatization\Rector\ClassMethod\PrivatizeFinalClassMethodRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\TypeDeclaration\Rector\ClassMethod\ReturnNeverTypeRector;
@@ -44,7 +45,7 @@ $rectorConfig->withSets([
     SetList::EARLY_RETURN,
     SetList::INSTANCEOF,
     //SetList::NAMING,
-    //SetList::PRIVATIZATION,
+    SetList::PRIVATIZATION,
     //SetList::STRICT_BOOLEANS,
     //SetList::TYPE_DECLARATION,
 ]);
@@ -74,7 +75,8 @@ $rectorConfig->withSkip([
     RemoveAlwaysTrueIfConditionRector::class => [__DIR__ . '/../libraries/bootstrap.php'],
     // Do not add $app and $db as properties
     CompleteDynamicPropertiesRector::class => [__DIR__ . '/../libraries/src/Plugin/CMSPlugin.php'],
-
+    // The setArgument function in events uses unused functions
+    PrivatizeFinalClassMethodRector::class => ['*/Event/*'],
     // Ignore vendor
     '*/vendor/*'
 ]);

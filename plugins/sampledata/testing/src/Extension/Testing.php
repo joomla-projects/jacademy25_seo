@@ -64,7 +64,7 @@ final class Testing extends CMSPlugin
      */
     private $menuItemModel;
 
-    protected $menuModuleMapping = [];
+    private $menuModuleMapping = [];
 
     /**
      * Get an overview of the proposed sampledata.
@@ -2294,7 +2294,7 @@ final class Testing extends CMSPlugin
         return $response;
     }
 
-    protected function addFrontendViewsMenu($menuTypes)
+    private function addFrontendViewsMenu($menuTypes)
     {
         // Get previously entered Data from UserStates
         $contactIds      = $this->getApplication()->getUserState('sampledata.testing.contacts');

@@ -31,7 +31,7 @@ final class DelegatingPsrLogger extends AbstractLogger
      * @var    array
      * @since  3.8.0
      */
-    protected $priorityMap = [
+    private $priorityMap = [
         LogLevel::EMERGENCY => Log::EMERGENCY,
         LogLevel::ALERT     => Log::ALERT,
         LogLevel::CRITICAL  => Log::CRITICAL,
@@ -55,7 +55,7 @@ final class DelegatingPsrLogger extends AbstractLogger
          *
          * @since  3.8.0
          */
-        protected Log $logger
+        private readonly Log $logger
     )
     {
     }

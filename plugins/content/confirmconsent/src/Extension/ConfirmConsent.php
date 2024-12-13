@@ -40,7 +40,7 @@ final class ConfirmConsent extends CMSPlugin
      *
      * @since  3.9.0
      */
-    protected $supportedContext = [
+    private $supportedContext = [
         'com_contact.contact',
         'com_privacy.request',
     ];

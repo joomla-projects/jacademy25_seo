@@ -515,7 +515,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @since   5.0.0
      */
-    protected function isSupported($context)
+    private function isSupported($context)
     {
         // We need at least the extension + view for loading the table fields
         if (!str_contains($context, '.')) {

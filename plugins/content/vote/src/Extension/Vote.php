@@ -183,7 +183,7 @@ final class Vote extends CMSPlugin
      *
      * @since  5.2.0
      */
-    protected function prepareAggregateRating($context)
+    private function prepareAggregateRating($context)
     {
         [$extension, $view, $id] = explode('.', $context);
 
@@ -211,7 +211,7 @@ final class Vote extends CMSPlugin
      *
      * @since  5.2.0
      */
-    protected function prepareProductAggregateRating($context)
+    private function prepareProductAggregateRating($context)
     {
         [$extension, $view, $id] = explode('.', $context);
 

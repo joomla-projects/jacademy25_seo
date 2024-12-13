@@ -57,7 +57,7 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
                 'jroot'      => JPATH_ROOT,
                 'xdebugLink' => $this->getXdebugLinkTemplate(),
             ],
-            'count' => $this->getCount(),
+            'count' => $this->count,
         ];
     }
 
@@ -137,17 +137,5 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
         }
 
         return $errors;
-    }
-
-    /**
-     * Get a count value.
-     *
-     * @return int
-     *
-     * @since 4.0.0
-     */
-    private function getCount(): int
-    {
-        return $this->count;
     }
 }

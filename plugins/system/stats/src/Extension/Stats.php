@@ -61,7 +61,7 @@ final class Stats extends CMSPlugin
      *
      * @since  3.5
      */
-    protected $serverUrl = 'https://developer.joomla.org/stats/submit';
+    private $serverUrl = 'https://developer.joomla.org/stats/submit';
 
     /**
      * Unique identifier for this site
@@ -70,7 +70,7 @@ final class Stats extends CMSPlugin
      *
      * @since  3.5
      */
-    protected $uniqueId;
+    private $uniqueId;
 
     /**
      * Listener for the `onAfterInitialise` event

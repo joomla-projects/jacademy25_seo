@@ -103,7 +103,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
      * @since 4.1.0
      * @throws \Exception
      */
-    protected function makeGetRequest(ExecuteTaskEvent $event): int
+    private function makeGetRequest(ExecuteTaskEvent $event): int
     {
         $id     = $event->getTaskId();
         $params = $event->getArgument('params');

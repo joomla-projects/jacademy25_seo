@@ -58,7 +58,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      * @var   string
      * @since 4.0.0
      */
-    protected $supportFunctionality = 'core.state';
+    private $supportFunctionality = 'core.state';
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -115,7 +115,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    protected function enhanceTransitionForm(Form $form, $data)
+    private function enhanceTransitionForm(Form $form, $data)
     {
         $workflow = $this->enhanceWorkflowTransitionForm($form, $data);
 
@@ -139,7 +139,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    protected function enhanceItemForm(Form $form, $data)
+    private function enhanceItemForm(Form $form, $data)
     {
         $context = $form->getName();
 

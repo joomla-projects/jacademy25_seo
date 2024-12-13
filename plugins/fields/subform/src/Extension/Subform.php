@@ -36,7 +36,7 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
      *
      * @since 4.0.0
      */
-    protected $renderCache = [];
+    private $renderCache = [];
 
     /**
      * Array to do a fast in-memory caching of all custom field items.
@@ -45,7 +45,7 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
      *
      * @since 4.0.0
      */
-    protected static $customFieldsCache;
+    private static $customFieldsCache;
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -340,7 +340,7 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
      *
      * @since 4.0.0
      */
-    protected function getOptionsFromField(\stdClass $field)
+    private function getOptionsFromField(\stdClass $field)
     {
         $result = [];
 
@@ -363,7 +363,7 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
      *
      * @since 4.0.0
      */
-    protected function getParamsFromField(\stdClass $field)
+    private function getParamsFromField(\stdClass $field)
     {
         $params = (clone $this->params);
 
@@ -384,7 +384,7 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
      *
      * @since 4.0.0
      */
-    protected function getSubfieldsFromField(\stdClass $field)
+    private function getSubfieldsFromField(\stdClass $field)
     {
         if (static::$customFieldsCache === null) {
             // Prepare our cache

@@ -32,7 +32,7 @@ final class Finder extends CMSPlugin
      *
      * @since  5.0.0
      */
-    protected $pluginsImported = false;
+    private $pluginsImported = false;
 
     /**
      * Smart Search after save content method.
@@ -163,7 +163,7 @@ final class Finder extends CMSPlugin
      *
      * @since  5.0.0
      */
-    protected function importFinderPlugins()
+    private function importFinderPlugins()
     {
         if ($this->pluginsImported) {
             return;

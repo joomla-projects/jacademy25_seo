@@ -53,14 +53,14 @@ final class MultiLanguage extends CMSPlugin
      *
      * @since   4.0.0
      */
-    protected $path;
+    private $path;
 
     /**
      * @var    integer Id, author of all generated content.
      *
      * @since   4.0.0
      */
-    protected $adminId;
+    private $adminId;
 
     /**
      * Get an overview of the proposed sampledata.
@@ -1060,7 +1060,7 @@ final class MultiLanguage extends CMSPlugin
      *
      * @since   4.0.0
      */
-    protected function getInstalledlangs($clientName = 'administrator')
+    private function getInstalledlangs($clientName = 'administrator')
     {
         // Get information.
         $path     = $this->getPath();
@@ -1112,7 +1112,7 @@ final class MultiLanguage extends CMSPlugin
      *
      * @since   4.0.0
      */
-    protected function getLanguageList($clientId = 1)
+    private function getLanguageList($clientId = 1)
     {
         // Create a new db object.
         $db    = $this->getDatabase();
@@ -1146,7 +1146,7 @@ final class MultiLanguage extends CMSPlugin
      *
      * @since   4.0.0
      */
-    protected function compareLanguages($lang1, $lang2)
+    private function compareLanguages($lang1, $lang2)
     {
         return strcmp($lang1->name, $lang2->name);
     }
@@ -1158,7 +1158,7 @@ final class MultiLanguage extends CMSPlugin
      *
      * @since   4.0.0
      */
-    protected function getPath()
+    private function getPath()
     {
         if ($this->path === null) {
             $client     = $this->getClient();
@@ -1177,7 +1177,7 @@ final class MultiLanguage extends CMSPlugin
      *
      * @since   4.0.0
      */
-    protected function getClient($client = 'administrator')
+    private function getClient($client = 'administrator')
     {
         return ApplicationHelper::getClientInfo($client, true);
     }

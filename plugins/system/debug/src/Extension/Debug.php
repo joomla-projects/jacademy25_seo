@@ -117,7 +117,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
      * @var   bool
      * @since 4.0.0
      */
-    protected $isAjax = false;
+    private $isAjax = false;
 
     /**
      * Whether displaying a logs is enabled
@@ -125,7 +125,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
      * @var   bool
      * @since 4.0.0
      */
-    protected $showLogs = false;
+    private $showLogs = false;
 
     /**
      * The time spent in onAfterDisconnect()
@@ -133,7 +133,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
      * @var   float
      * @since 4.4.0
      */
-    protected $timeInOnAfterDisconnect = 0;
+    private $timeInOnAfterDisconnect = 0;
 
     /**
      * @return  array

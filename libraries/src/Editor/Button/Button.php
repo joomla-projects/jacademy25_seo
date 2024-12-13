@@ -24,7 +24,7 @@ final class Button implements ButtonInterface
      *
      * @since   5.0.0
      */
-    public function __construct(protected string $name, protected array $props = [], protected array $options = [])
+    public function __construct(private readonly string $name, private array $props = [], private array $options = [])
     {
     }
 
@@ -56,7 +56,7 @@ final class Button implements ButtonInterface
                 \E_USER_DEPRECATED
             );
 
-            return $this->getOptions();
+            return $this->options;
         }
 
         return \array_key_exists($name, $this->props) ? $this->props[$name] : $default;

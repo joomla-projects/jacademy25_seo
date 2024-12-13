@@ -54,7 +54,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      * @var    boolean
      * @since  2.5
      */
-    protected $mode_sef;
+    private $mode_sef;
 
     /**
      * Available languages by sef.
@@ -62,7 +62,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      * @var    array
      * @since  1.6
      */
-    protected $sefs;
+    private $sefs;
 
     /**
      * Available languages by language codes.
@@ -70,7 +70,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      * @var    array
      * @since  2.5
      */
-    protected $lang_codes;
+    private $lang_codes;
 
     /**
      * The current language code.
@@ -78,7 +78,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      * @var    string
      * @since  3.4.2
      */
-    protected $current_lang;
+    private $current_lang;
 
     /**
      * The default language code.
@@ -86,7 +86,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      * @var    string
      * @since  2.5
      */
-    protected $default_lang;
+    private $default_lang;
 
     /**
      * The logged user language code.

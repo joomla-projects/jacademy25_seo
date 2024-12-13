@@ -46,7 +46,7 @@ final class PageBreak extends CMSPlugin
      * @var    array
      * @since  4.0.0
      */
-    protected $list = [];
+    private $list = [];
 
     /**
      * Plugin that adds a pagebreak into the text and truncates text at that point

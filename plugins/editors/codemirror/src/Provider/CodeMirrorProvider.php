@@ -9,7 +9,6 @@
 
 namespace Joomla\Plugin\Editors\CodeMirror\Provider;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Editor\AbstractEditorProvider;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
@@ -27,9 +26,7 @@ final class CodeMirrorProvider extends AbstractEditorProvider
      * Class constructor
      *
      * @param   Registry                 $params
-     * @param   CMSApplicationInterface  $application
      * @param   DispatcherInterface      $dispatcher
-     *
      * @since  5.0.0
      */
     public function __construct(/**
@@ -37,13 +34,7 @@ final class CodeMirrorProvider extends AbstractEditorProvider
      *
      * @since  5.0.0
      */
-    protected Registry $params, /**
-     * The application object
-     *
-     *
-     * @since  5.0.0
-     */
-    protected CMSApplicationInterface $application, DispatcherInterface $dispatcher)
+    private readonly Registry $params, DispatcherInterface $dispatcher)
     {
         $this->setDispatcher($dispatcher);
     }

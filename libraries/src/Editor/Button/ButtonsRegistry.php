@@ -36,7 +36,7 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
      * @var    array
      * @since   5.0.0
      */
-    protected $registry = [];
+    private $registry = [];
 
     /**
      * Internal flag of initialisation

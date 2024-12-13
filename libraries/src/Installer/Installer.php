@@ -978,7 +978,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         // Get the database connector object
         $db = & $this->_db;
 
-        if (!$element instanceof \SimpleXMLElement || !\count($element->children())) {
+        if (\count($element->children()) === 0) {
             // Either the tag does not exist or has no children therefore we return zero files processed.
             return 0;
         }
@@ -1376,7 +1376,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
     public function parseFiles(\SimpleXMLElement $element, $cid = 0, $oldFiles = null, $oldMD5 = null)
     {
         // Get the array of file nodes to process; we checked whether this had children above.
-        if (!$element instanceof \SimpleXMLElement || !\count($element->children())) {
+        if (\count($element->children()) === 0) {
             // Either the tag does not exist or has no children (hence no files to process) therefore we return zero files processed.
             return 0;
         }
@@ -1503,7 +1503,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
     public function parseLanguages(\SimpleXMLElement $element, $cid = 0)
     {
         // @todo: work out why the below line triggers 'node no longer exists' errors with files
-        if (!$element instanceof \SimpleXMLElement || !\count($element->children())) {
+        if (\count($element->children()) === 0) {
             // Either the tag does not exist or has no children therefore we return zero files processed.
             return 0;
         }
@@ -1614,7 +1614,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function parseMedia(\SimpleXMLElement $element, $cid = 0)
     {
-        if (!$element instanceof \SimpleXMLElement || !\count($element->children())) {
+        if (\count($element->children()) === 0) {
             // Either the tag does not exist or has no children therefore we return zero files processed.
             return 0;
         }

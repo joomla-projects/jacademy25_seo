@@ -263,16 +263,12 @@ final class InstallationApplication extends CMSApplication
      * will extend this method in child classes to provide configuration data from whatever data source is relevant
      * for your specific application.
      *
-     * @param   string  $file   The path and filename of the configuration file. If not provided, configuration.php
-     *                          in JPATH_BASE will be used.
-     * @param   string  $class  The class name to instantiate.
      *
      * @return  mixed   Either an array or object to be loaded into the configuration object.
-     *
      * @since   1.7.3
      * @throws  \RuntimeException
      */
-    protected function fetchConfigurationData($file = '', $class = 'JConfig')
+    private function fetchConfigurationData()
     {
         return [];
     }

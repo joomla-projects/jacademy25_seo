@@ -97,7 +97,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
      * @throws \RuntimeException
      * @throws \LogicException
      */
-    protected function checkImages(ExecuteTaskEvent $event): int
+    private function checkImages(ExecuteTaskEvent $event): int
     {
         $params    = $event->getArgument('params');
         $path      = Path::check($this->rootDirectory . $params->path);

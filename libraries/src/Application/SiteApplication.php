@@ -50,7 +50,7 @@ final class SiteApplication extends CMSApplication
      * @var    boolean
      * @since  4.0.0
      */
-    protected $language_filter = false;
+    private $language_filter = false;
 
     /**
      * Option to detect language by the browser
@@ -58,7 +58,7 @@ final class SiteApplication extends CMSApplication
      * @var    boolean
      * @since  4.0.0
      */
-    protected $detect_browser = false;
+    private $detect_browser = false;
 
     /**
      * The registered URL parameters.
@@ -107,7 +107,7 @@ final class SiteApplication extends CMSApplication
      *
      * @throws  \Exception When you are not authorised to view the home page menu item
      */
-    protected function authorise($itemid)
+    private function authorise($itemid)
     {
         $menus = $this->getMenu();
         $user  = Factory::getUser();
@@ -436,7 +436,7 @@ final class SiteApplication extends CMSApplication
         /** @var OutputController $cache */
         $cache = $this->getCacheControllerFactory()->createCacheController('output', ['defaultgroup' => 'com_templates']);
 
-        $tag = $this->getLanguageFilter() ? $this->getLanguage()->getTag() : '';
+        $tag = $this->language_filter ? $this->getLanguage()->getTag() : '';
 
         $cacheId = 'templates0' . $tag;
 
@@ -448,7 +448,7 @@ final class SiteApplication extends CMSApplication
 
             foreach ($templates as &$template) {
                 // Create home element
-                if ($template->home == 1 && !isset($template_home) || $this->getLanguageFilter() && $template->home == $tag) {
+                if ($template->home == 1 && !isset($template_home) || $this->language_filter && $template->home == $tag) {
                     $template_home = clone $template;
                 }
 
@@ -566,7 +566,7 @@ final class SiteApplication extends CMSApplication
             }
         }
 
-        if (empty($options['language']) && $this->getLanguageFilter()) {
+        if (empty($options['language']) && $this->language_filter) {
             // Detect cookie language
             $lang = $this->input->cookie->get(md5($this->get('secret') . 'language'), null, 'string');
 
@@ -586,7 +586,7 @@ final class SiteApplication extends CMSApplication
             }
         }
 
-        if (empty($options['language']) && $this->getDetectBrowser()) {
+        if (empty($options['language']) && $this->detect_browser) {
             // Detect browser language
             $lang = LanguageHelper::detectLanguage();
 
@@ -786,7 +786,7 @@ final class SiteApplication extends CMSApplication
      */
     public function setDetectBrowser($state = false)
     {
-        $old                  = $this->getDetectBrowser();
+        $old                  = $this->detect_browser;
         $this->detect_browser = $state;
 
         return $old;
@@ -803,7 +803,7 @@ final class SiteApplication extends CMSApplication
      */
     public function setLanguageFilter($state = false)
     {
-        $old                   = $this->getLanguageFilter();
+        $old                   = $this->language_filter;
         $this->language_filter = $state;
 
         return $old;

@@ -25,9 +25,9 @@ use Joomla\CMS\Plugin\CMSPlugin;
  */
 final class LoadModule extends CMSPlugin
 {
-    protected static $modules = [];
+    private static $modules = [];
 
-    protected static $mods = [];
+    private static $mods = [];
 
     /**
      * Plugin that loads module positions within content

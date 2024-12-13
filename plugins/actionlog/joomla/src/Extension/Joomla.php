@@ -65,7 +65,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      * @var    array
      * @since  3.9.0
      */
-    protected $loggableExtensions = [];
+    private $loggableExtensions = [];
 
     /**
      * Context aliases
@@ -73,7 +73,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      * @var    array
      * @since  3.9.0
      */
-    protected $contextAliases = ['com_content.form' => 'com_content.article'];
+    private $contextAliases = ['com_content.form' => 'com_content.article'];
 
     /**
      * Flag for loggable Api.
@@ -81,7 +81,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      * @var    boolean
      * @since  4.0.0
      */
-    protected $loggableApi = false;
+    private $loggableApi = false;
 
     /**
      * Array of loggable verbs.
@@ -89,7 +89,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      * @var    array
      * @since  4.0.0
      */
-    protected $loggableVerbs = [];
+    private $loggableVerbs = [];
 
     /**
      * Constructor.
@@ -961,7 +961,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.0
      */
-    protected function checkLoggable($extension)
+    private function checkLoggable($extension)
     {
         return \in_array($extension, $this->loggableExtensions);
     }

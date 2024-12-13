@@ -59,7 +59,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
      * @var MVCFactory
      * @since 4.3.0
      */
-    protected $mvcFactory;
+    private $mvcFactory;
 
     /**
      * Object to imitate the session object
@@ -67,7 +67,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
      * @var Registry
      * @since 4.3.0
      */
-    protected $session;
+    private $session;
 
     /**
      * The client application Id
@@ -75,7 +75,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
      * @var Integer
      * @since 5.0.2
      */
-    protected $clientId = 2;
+    private $clientId = 2;
 
     /**
      * Class constructor.
@@ -102,7 +102,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
          *
          * @since  4.3.0
          */
-        protected ?Language $language = null
+        private ?Language $language = null
     ) {
         // Register the application name.
         $this->setName('Joomla CLI installation');

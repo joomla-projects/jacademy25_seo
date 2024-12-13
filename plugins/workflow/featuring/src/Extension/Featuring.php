@@ -59,7 +59,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      * @var   string
      * @since 4.0.0
      */
-    protected $supportFunctionality = 'core.featured';
+    private $supportFunctionality = 'core.featured';
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -118,7 +118,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    protected function enhanceItemForm(Form $form, $data)
+    private function enhanceItemForm(Form $form, $data)
     {
         $context = $form->getName();
 
