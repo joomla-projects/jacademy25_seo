@@ -32,15 +32,15 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('subject', $arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'subject' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'subject' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('editorType', $arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'editorType' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'editorType' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('disabledButtons', $arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'disabledButtons' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'disabledButtons' of event %s is required but has not been provided", $name));
         }
 
         parent::__construct($name, $arguments);

@@ -10,20 +10,20 @@
 
 namespace Joomla\Plugin\System\Fields\Extension;
 
-use Joomla\CMS\Event\Model\NormaliseRequestDataEvent;
-use Joomla\CMS\Event\Model\PrepareFormEvent;
+use Joomla\CMS\Event\Content;
+use Joomla\CMS\Event\Content\AfterDisplayEvent;
 use Joomla\CMS\Event\Content\AfterTitleEvent;
 use Joomla\CMS\Event\Content\BeforeDisplayEvent;
-use Joomla\CMS\Event\Content\AfterDisplayEvent;
 use Joomla\CMS\Event\Content\ContentPrepareEvent;
-use Joomla\CMS\Table\Table;
-use Joomla\Component\Fields\Administrator\Model\FieldModel;
-use Joomla\CMS\Event\Content;
 use Joomla\CMS\Event\Model;
+use Joomla\CMS\Event\Model\NormaliseRequestDataEvent;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects

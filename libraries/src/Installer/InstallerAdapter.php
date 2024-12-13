@@ -984,7 +984,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
             $container->set(
                 InstallerScriptInterface::class,
-                fn(Container $container) => new LegacyInstallerScript(new $classname($this))
+                fn (Container $container) => new LegacyInstallerScript(new $classname($this))
             );
         }
 

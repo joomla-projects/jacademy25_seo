@@ -81,8 +81,8 @@ final class MetadataRepository implements MetadataStatementRepository
     {
         $this->load();
 
-        $mapKeys = (fn(MetadataStatement $meta) => $meta->getAaguid());
-        $mapvalues = (fn(MetadataStatement $meta) => in_array($meta->getAaguid(), [null, '', '0'], true) ? null : (object) [
+        $mapKeys   = (fn (MetadataStatement $meta) => $meta->getAaguid());
+        $mapvalues = (fn (MetadataStatement $meta) => \in_array($meta->getAaguid(), [null, '', '0'], true) ? null : (object) [
             'description' => $meta->getDescription(),
             'icon'        => $meta->getIcon(),
         ]);
@@ -90,7 +90,7 @@ final class MetadataRepository implements MetadataStatementRepository
         $values  = array_map($mapvalues, $this->mdsCache);
         $return  = array_combine($keys, $values);
 
-        $filter = (fn($x) => !empty($x));
+        $filter = (fn ($x) => !empty($x));
 
         return array_filter($return, $filter);
     }
@@ -155,8 +155,8 @@ final class MetadataRepository implements MetadataStatementRepository
 
         unset($token);
 
-        $entriesFilter                = (fn($x) => !empty($x));
-        $this->mdsCache = array_filter($entries, $entriesFilter);
+        $entriesFilter                = (fn ($x) => !empty($x));
+        $this->mdsCache               = array_filter($entries, $entriesFilter);
 
         foreach ($this->mdsCache as $idx => $meta) {
             $aaguid = $meta->getAaguid();

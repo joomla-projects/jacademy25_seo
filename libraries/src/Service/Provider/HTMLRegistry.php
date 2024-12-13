@@ -37,7 +37,7 @@ class HTMLRegistry implements ServiceProviderInterface
     {
         $container->share(
             Registry::class,
-            fn(Container $container) => new Registry(),
+            fn (Container $container) => new Registry(),
             true
         );
     }

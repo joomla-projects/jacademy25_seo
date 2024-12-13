@@ -10,10 +10,10 @@
 
 namespace Joomla\Component\Wrapper\Site\View\Wrapper;
 
-use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

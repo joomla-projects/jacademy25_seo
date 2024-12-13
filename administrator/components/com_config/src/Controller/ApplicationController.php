@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Config\Administrator\Controller;
 
-use Joomla\Component\Config\Administrator\Model\ApplicationModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Language\Text;
@@ -19,6 +18,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Config\Administrator\Model\ApplicationModel;
 use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects

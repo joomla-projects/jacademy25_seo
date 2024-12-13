@@ -68,12 +68,13 @@ class Captcha implements DispatcherAwareInterface
      * @throws  \RuntimeException
      */
     public function __construct(/**
-     * Captcha Plugin name
-     *
-     * @since  2.5
-     */
-    private $name, $options)
-    {
+         * Captcha Plugin name
+         *
+         * @since  2.5
+         */
+        private $name,
+        $options
+    ) {
         /** @var  CaptchaRegistry  $registry */
         $registry = $options['registry'] ?? Factory::getContainer()->get(CaptchaRegistry::class);
 

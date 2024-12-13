@@ -182,7 +182,7 @@ class AtomParserTest extends UnitTestCase
             ->with(
                 'link',
                 $this->callback(
-                    fn($param) => $param instanceof FeedLink && $param->uri === $href
+                    fn ($param) => $param instanceof FeedLink && $param->uri === $href
                 )
             );
 

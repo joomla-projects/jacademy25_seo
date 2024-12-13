@@ -10,13 +10,13 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects

@@ -60,26 +60,27 @@ class LocalAdapter implements AdapterInterface
      *
      * @since   4.0.0
      */
-    public function __construct(string $rootPath, /**
-     * The file_path of media directory related to site
-     *
-     *
-     * @since  4.0.0
-     */
-    private string $filePath, /**
-     * Should the adapter create a thumbnail for the image?
-     *
-     *
-     * @since  4.3.0
-     */
-    private bool $thumbnails = false, /**
-     * Thumbnail dimensions in pixels, [0] = width, [1] = height
-     *
-     *
-     * @since  4.3.0
-     */
-    private array $thumbnailSize = [200, 200])
-    {
+    public function __construct(
+        string $rootPath, /**
+         * The file_path of media directory related to site
+         *
+         *
+         * @since  4.0.0
+         */
+        private string $filePath, /**
+         * Should the adapter create a thumbnail for the image?
+         *
+         *
+         * @since  4.3.0
+         */
+        private bool $thumbnails = false, /**
+         * Thumbnail dimensions in pixels, [0] = width, [1] = height
+         *
+         *
+         * @since  4.3.0
+         */
+        private array $thumbnailSize = [200, 200]
+    ) {
         if (!file_exists($rootPath)) {
             throw new \InvalidArgumentException(Text::_('COM_MEDIA_ERROR_MISSING_DIR'));
         }

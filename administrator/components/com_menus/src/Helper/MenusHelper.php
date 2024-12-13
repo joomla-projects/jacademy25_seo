@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Menus\Administrator\Helper;
 
-use Joomla\CMS\Table\Menu;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Menu\PreprocessMenuItemsEvent;
@@ -20,6 +19,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
+use Joomla\CMS\Table\Menu;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
@@ -905,12 +905,12 @@ class MenusHelper extends ContentHelper
 
         // Translate attributes for iterator values
         foreach ($replace as $var => $val) {
-            $item->title   = str_replace(sprintf('{sql:%s}', $var), $val, $item->title);
-            $item->element = str_replace(sprintf('{sql:%s}', $var), $val, $item->element);
-            $item->link    = str_replace(sprintf('{sql:%s}', $var), $val, $item->link);
-            $item->class   = str_replace(sprintf('{sql:%s}', $var), $val, $item->class);
-            $item->icon    = str_replace(sprintf('{sql:%s}', $var), $val, $item->icon);
-            $params->set('menu-quicktask', str_replace(sprintf('{sql:%s}', $var), $val, $params->get('menu-quicktask', '')));
+            $item->title   = str_replace(\sprintf('{sql:%s}', $var), $val, $item->title);
+            $item->element = str_replace(\sprintf('{sql:%s}', $var), $val, $item->element);
+            $item->link    = str_replace(\sprintf('{sql:%s}', $var), $val, $item->link);
+            $item->class   = str_replace(\sprintf('{sql:%s}', $var), $val, $item->class);
+            $item->icon    = str_replace(\sprintf('{sql:%s}', $var), $val, $item->icon);
+            $params->set('menu-quicktask', str_replace(\sprintf('{sql:%s}', $var), $val, $params->get('menu-quicktask', '')));
         }
 
         $item->setParams($params);

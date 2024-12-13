@@ -10,10 +10,10 @@
 
 namespace Joomla\Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\QueryInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Base Unit Test case for common behaviour across unit tests

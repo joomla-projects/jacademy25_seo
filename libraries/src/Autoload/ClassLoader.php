@@ -39,8 +39,7 @@ class ClassLoader
          * @since  3.4
          */
         private readonly ComposerClassLoader $loader
-    )
-    {
+    ) {
     }
 
     /**

@@ -9,27 +9,27 @@
 
 namespace Joomla\CMS\Application;
 
-use Joomla\CMS\Input\Cli;
-use Joomla\CMS\Console\CleanCacheCommand;
-use Joomla\CMS\Console\CheckUpdatesCommand;
-use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
-use Joomla\CMS\Console\RemoveOldFilesCommand;
 use Joomla\CMS\Console\AddUserCommand;
 use Joomla\CMS\Console\AddUserToGroupCommand;
-use Joomla\CMS\Console\RemoveUserFromGroupCommand;
-use Joomla\CMS\Console\DeleteUserCommand;
 use Joomla\CMS\Console\ChangeUserPasswordCommand;
+use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
+use Joomla\CMS\Console\CheckUpdatesCommand;
+use Joomla\CMS\Console\CleanCacheCommand;
+use Joomla\CMS\Console\DeleteUserCommand;
 use Joomla\CMS\Console\ListUserCommand;
+use Joomla\CMS\Console\RemoveOldFilesCommand;
+use Joomla\CMS\Console\RemoveUserFromGroupCommand;
 use Joomla\CMS\Console\SiteCreatePublicFolderCommand;
-use Joomla\Console\Command\AbstractCommand;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Router;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 use Joomla\Console\Application;
+use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;

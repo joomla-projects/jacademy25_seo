@@ -63,14 +63,16 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function __construct($dispatcher, /**
-     * The document.
-     *
-     *
-     * @since  4.0.0
-     */
-    private readonly Document $document, array $config = [])
-    {
+    public function __construct(
+        $dispatcher, /**
+         * The document.
+         *
+         *
+         * @since  4.0.0
+         */
+        private readonly Document $document,
+        array $config = []
+    ) {
         parent::__construct($dispatcher, $config);
     }
 

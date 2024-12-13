@@ -10,9 +10,8 @@
 
 namespace Joomla\Component\Users\Administrator\View\User;
 
-use Joomla\CMS\Form\Form;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -23,6 +22,7 @@ use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Helper\Mfa;
 use Joomla\Component\Users\Administrator\Model\UserModel;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

@@ -102,7 +102,7 @@ class TufAdapter extends UpdateAdapter
         }
 
         // We only want the latest version we support
-        usort($versions, fn($a, $b) => version_compare($b['version'], $a['version']));
+        usort($versions, fn ($a, $b) => version_compare($b['version'], $a['version']));
 
         $constraintChecker = new ConstraintChecker();
 
@@ -134,7 +134,7 @@ class TufAdapter extends UpdateAdapter
         $values = [];
 
         if (!isset($target["hashes"])) {
-            throw new MetadataException(sprintf("No trusted hashes are available for '%s'", $filename));
+            throw new MetadataException(\sprintf("No trusted hashes are available for '%s'", $filename));
         }
 
         foreach ($customKeys as $key) {

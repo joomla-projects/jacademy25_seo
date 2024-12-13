@@ -100,8 +100,10 @@ class ConstraintChecker
             return false;
         }
         // Check php_minimum, assume true when not set
-        if (isset($candidate['php_minimum'])
-        && !$this->checkPhpMinimum($candidate['php_minimum'])) {
+        if (
+            isset($candidate['php_minimum'])
+            && !$this->checkPhpMinimum($candidate['php_minimum'])
+        ) {
             return false;
         }
         // Check supported databases, assume true when not set

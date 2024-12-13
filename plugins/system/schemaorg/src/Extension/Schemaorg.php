@@ -10,9 +10,9 @@
 
 namespace Joomla\Plugin\System\Schemaorg\Extension;
 
-use Joomla\CMS\Event\Model\AfterSaveEvent;
-use Joomla\CMS\Event\Model\AfterDeleteEvent;
 use Joomla\CMS\Event\Model;
+use Joomla\CMS\Event\Model\AfterDeleteEvent;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareDataEvent;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareFormEvent;

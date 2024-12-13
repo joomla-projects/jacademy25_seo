@@ -9,10 +9,10 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
-use Joomla\CMS\Cache\Controller\ViewController;
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
+use Joomla\CMS\Cache\Controller\ViewController;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Factory;
@@ -777,7 +777,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         if (empty($this->name)) {
             $r = null;
 
-            if (in_array(preg_match('/(.*)Controller/i', static::class, $r), [0, false], true)) {
+            if (\in_array(preg_match('/(.*)Controller/i', static::class, $r), [0, false], true)) {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
             }
 

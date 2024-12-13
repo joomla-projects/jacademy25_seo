@@ -213,7 +213,7 @@ class FormHelper
             $subPrefix = '';
 
             if (strpos($name, '.')) {
-                [$subPrefix, $name] = explode('.', $name);
+                [$subPrefix, $name]     = explode('.', $name);
                 $subPrefix              = ucfirst($subPrefix) . '\\';
             }
 

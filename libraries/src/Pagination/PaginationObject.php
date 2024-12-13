@@ -52,7 +52,6 @@ class PaginationObject
          * @since  3.0
          */
         public $active = false
-    )
-    {
+    ) {
     }
 }

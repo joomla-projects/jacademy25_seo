@@ -212,7 +212,7 @@ PHP;
      */
     private function createFile(string $path, string $content): void
     {
-        if (in_array(file_put_contents($path, $content), [0, false], true)) {
+        if (\in_array(file_put_contents($path, $content), [0, false], true)) {
             throw new \Exception('Unable to create the file: ' . $path);
         }
     }

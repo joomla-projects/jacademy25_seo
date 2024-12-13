@@ -31,7 +31,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            fn(Container $container) => new Taggable(
+            fn (Container $container) => new Taggable(
                 $container->get(DispatcherInterface::class),
                 (array) PluginHelper::getPlugin('behaviour', 'taggable')
             )

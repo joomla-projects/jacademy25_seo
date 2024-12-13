@@ -242,13 +242,13 @@ class Date extends \DateTime implements \Stringable
     public function dayToString($day, $abbr = false)
     {
         return match ($day) {
-            0 => $abbr ? Text::_('SUN') : Text::_('SUNDAY'),
-            1 => $abbr ? Text::_('MON') : Text::_('MONDAY'),
-            2 => $abbr ? Text::_('TUE') : Text::_('TUESDAY'),
-            3 => $abbr ? Text::_('WED') : Text::_('WEDNESDAY'),
-            4 => $abbr ? Text::_('THU') : Text::_('THURSDAY'),
-            5 => $abbr ? Text::_('FRI') : Text::_('FRIDAY'),
-            6 => $abbr ? Text::_('SAT') : Text::_('SATURDAY'),
+            0       => $abbr ? Text::_('SUN') : Text::_('SUNDAY'),
+            1       => $abbr ? Text::_('MON') : Text::_('MONDAY'),
+            2       => $abbr ? Text::_('TUE') : Text::_('TUESDAY'),
+            3       => $abbr ? Text::_('WED') : Text::_('WEDNESDAY'),
+            4       => $abbr ? Text::_('THU') : Text::_('THURSDAY'),
+            5       => $abbr ? Text::_('FRI') : Text::_('FRIDAY'),
+            6       => $abbr ? Text::_('SAT') : Text::_('SATURDAY'),
             default => '',
         };
     }
@@ -351,18 +351,18 @@ class Date extends \DateTime implements \Stringable
     public function monthToString($month, $abbr = false)
     {
         return match ($month) {
-            1 => $abbr ? Text::_('JANUARY_SHORT') : Text::_('JANUARY'),
-            2 => $abbr ? Text::_('FEBRUARY_SHORT') : Text::_('FEBRUARY'),
-            3 => $abbr ? Text::_('MARCH_SHORT') : Text::_('MARCH'),
-            4 => $abbr ? Text::_('APRIL_SHORT') : Text::_('APRIL'),
-            5 => $abbr ? Text::_('MAY_SHORT') : Text::_('MAY'),
-            6 => $abbr ? Text::_('JUNE_SHORT') : Text::_('JUNE'),
-            7 => $abbr ? Text::_('JULY_SHORT') : Text::_('JULY'),
-            8 => $abbr ? Text::_('AUGUST_SHORT') : Text::_('AUGUST'),
-            9 => $abbr ? Text::_('SEPTEMBER_SHORT') : Text::_('SEPTEMBER'),
-            10 => $abbr ? Text::_('OCTOBER_SHORT') : Text::_('OCTOBER'),
-            11 => $abbr ? Text::_('NOVEMBER_SHORT') : Text::_('NOVEMBER'),
-            12 => $abbr ? Text::_('DECEMBER_SHORT') : Text::_('DECEMBER'),
+            1       => $abbr ? Text::_('JANUARY_SHORT') : Text::_('JANUARY'),
+            2       => $abbr ? Text::_('FEBRUARY_SHORT') : Text::_('FEBRUARY'),
+            3       => $abbr ? Text::_('MARCH_SHORT') : Text::_('MARCH'),
+            4       => $abbr ? Text::_('APRIL_SHORT') : Text::_('APRIL'),
+            5       => $abbr ? Text::_('MAY_SHORT') : Text::_('MAY'),
+            6       => $abbr ? Text::_('JUNE_SHORT') : Text::_('JUNE'),
+            7       => $abbr ? Text::_('JULY_SHORT') : Text::_('JULY'),
+            8       => $abbr ? Text::_('AUGUST_SHORT') : Text::_('AUGUST'),
+            9       => $abbr ? Text::_('SEPTEMBER_SHORT') : Text::_('SEPTEMBER'),
+            10      => $abbr ? Text::_('OCTOBER_SHORT') : Text::_('OCTOBER'),
+            11      => $abbr ? Text::_('NOVEMBER_SHORT') : Text::_('NOVEMBER'),
+            12      => $abbr ? Text::_('DECEMBER_SHORT') : Text::_('DECEMBER'),
             default => '',
         };
     }

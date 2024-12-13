@@ -10,12 +10,12 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Console\Loader;
 
-use Symfony\Component\Console\Exception\CommandNotFoundException;
 use Joomla\CMS\Console\Loader\WritableContainerLoader;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Tests\Unit\UnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\Console\Exception\CommandNotFoundException;
 
 /**
  * Test class for Joomla\CMS\Console\Loader\WritableContainerLoader.

@@ -10,13 +10,13 @@
 
 namespace Joomla\Component\Contact\Administrator\Controller;
 
-use Joomla\Component\Contact\Administrator\Model\ContactModel;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\Component\Contact\Administrator\Model\ContactModel;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 

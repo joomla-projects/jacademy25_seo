@@ -10,14 +10,14 @@
 
 namespace Joomla\Component\Messages\Administrator\View\Config;
 
-use Joomla\CMS\Form\Form;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Messages\Administrator\Model\ConfigModel;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

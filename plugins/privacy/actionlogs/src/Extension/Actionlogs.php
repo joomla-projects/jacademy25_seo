@@ -10,8 +10,8 @@
 
 namespace Joomla\Plugin\Privacy\Actionlogs\Extension;
 
-use Joomla\CMS\User\User;
 use Joomla\CMS\Event\Privacy\ExportRequestEvent;
+use Joomla\CMS\User\User;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
 use Joomla\Database\ParameterType;

@@ -45,8 +45,7 @@ final class MetadataManagerListener
          * @since  4.0.0
          */
         private readonly Registry $config
-    )
-    {
+    ) {
     }
 
     /**

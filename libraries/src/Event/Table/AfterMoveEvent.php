@@ -66,7 +66,7 @@ class AfterMoveEvent extends AbstractEvent
     protected function setRow($value)
     {
         if (!($value instanceof \stdClass) && !empty($value)) {
-            throw new \BadMethodCallException(sprintf("Argument 'row' of event %s must be an stdClass object or null", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'row' of event %s must be an stdClass object or null", $this->name));
         }
 
         return $value;
@@ -87,7 +87,7 @@ class AfterMoveEvent extends AbstractEvent
     protected function setDelta($value)
     {
         if (!is_numeric($value)) {
-            throw new \BadMethodCallException(sprintf("Argument 'delta' of event %s must be an integer", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'delta' of event %s must be an integer", $this->name));
         }
 
         return (int) $value;
@@ -108,7 +108,7 @@ class AfterMoveEvent extends AbstractEvent
     protected function setWhere($value)
     {
         if (!empty($value) && !\is_string($value)) {
-            throw new \BadMethodCallException(sprintf("Argument 'where' of event %s must be empty or string", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'where' of event %s must be empty or string", $this->name));
         }
 
         return $value;

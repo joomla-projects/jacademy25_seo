@@ -10,13 +10,13 @@
 
 namespace Joomla\Component\Banners\Administrator\Helper;
 
-use Joomla\Component\Banners\Administrator\Table\ClientTable;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Banners\Administrator\Table\ClientTable;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects

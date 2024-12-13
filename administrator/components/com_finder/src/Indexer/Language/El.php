@@ -401,7 +401,7 @@ class El extends Language
             $token = $match[1];
             $re    = '/(ΟΚ|ΜΑΜ|ΜΑΝ|ΜΠΑΜΠ|ΠΑΤΕΡ|ΓΙΑΓΙ|ΝΤΑΝΤ|ΚΥΡ|ΘΕΙ|ΠΕΘΕΡ)$/';
 
-            if (in_array(preg_match($re, $token), [0, false], true)) {
+            if (\in_array(preg_match($re, $token), [0, false], true)) {
                 $token .= "ΑΔ";
             }
         }
@@ -667,7 +667,7 @@ class El extends Language
 
             if (
                 (preg_match($exept18, $token) || preg_match($exept19, $token))
-                && (in_array(preg_match($exept17, $token), [0, false], true) && in_array(preg_match($exept20, $token), [0, false], true))
+                && (\in_array(preg_match($exept17, $token), [0, false], true) && \in_array(preg_match($exept20, $token), [0, false], true))
             ) {
                 $token .= "ΑΓ";
             }

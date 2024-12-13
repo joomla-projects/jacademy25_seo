@@ -10,11 +10,11 @@
 
 namespace Joomla\Component\Menus\Api\View\Items;
 
-use Joomla\Component\Menus\Administrator\Model\MenutypesModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Menus\Administrator\Model\MenutypesModel;
 use Tobscure\JsonApi\Collection;
 
 // phpcs:disable PSR1.Files.SideEffects

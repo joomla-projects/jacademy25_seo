@@ -61,7 +61,7 @@ class BeforeCheckoutEvent extends AbstractEvent
     protected function setUserId($value)
     {
         if (!is_numeric($value) || empty($value)) {
-            throw new \BadMethodCallException(sprintf("Argument 'userId' of event %s must be an integer", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'userId' of event %s must be an integer", $this->name));
         }
 
         return (int) $value;

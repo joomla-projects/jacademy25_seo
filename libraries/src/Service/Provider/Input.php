@@ -41,7 +41,7 @@ class Input implements ServiceProviderInterface
     {
         $container->share(
             CMSInput::class,
-            fn() => new CMSInput(),
+            fn () => new CMSInput(),
             true
         );
     }

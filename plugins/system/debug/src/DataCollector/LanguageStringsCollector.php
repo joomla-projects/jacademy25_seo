@@ -140,11 +140,11 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
                         $line  = $stack['line'] ?? '';
 
                         $caller   = $this->formatCallerInfo($stack);
-                        $location = $file && $line ? sprintf('%s:%s', $file, $line) : 'same';
+                        $location = $file && $line ? \sprintf('%s:%s', $file, $line) : 'same';
 
                         $isCaller = 0;
 
-                        if (($callerLocation === '' || $callerLocation === '0') && $class !== Language::class && in_array(strpos((string) $file, 'Text.php'), [0, false], true)) {
+                        if (($callerLocation === '' || $callerLocation === '0') && $class !== Language::class && \in_array(strpos((string) $file, 'Text.php'), [0, false], true)) {
                             $callerLocation = $location;
                             $isCaller       = 1;
                         }

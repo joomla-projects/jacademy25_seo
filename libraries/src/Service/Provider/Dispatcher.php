@@ -40,7 +40,7 @@ class Dispatcher implements ServiceProviderInterface
             ->alias(EventDispatcher::class, EventDispatcherInterface::class)
             ->share(
                 EventDispatcherInterface::class,
-                fn(Container $container) => new EventDispatcher(),
+                fn (Container $container) => new EventDispatcher(),
                 true
             );
     }

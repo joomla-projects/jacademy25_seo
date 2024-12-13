@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Contenthistory\Administrator\View\History;
 
-use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -21,6 +20,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
 use Joomla\Component\Contenthistory\Administrator\Model\HistoryModel;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

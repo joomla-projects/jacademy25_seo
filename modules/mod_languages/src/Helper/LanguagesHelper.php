@@ -10,7 +10,6 @@
 
 namespace Joomla\Module\Languages\Site\Helper;
 
-use Joomla\Registry\Registry;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
@@ -19,6 +18,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

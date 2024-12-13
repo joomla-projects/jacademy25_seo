@@ -10,10 +10,10 @@
 
 namespace Joomla\Module\LatestActions\Administrator\Helper;
 
-use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
+use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects

@@ -10,11 +10,11 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
-use Joomla\CMS\Event\Module\AfterModuleListEvent;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\Module;
+use Joomla\CMS\Event\Module\AfterModuleListEvent;
 use Joomla\CMS\Event\MultiFactor\Captive;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -107,7 +107,7 @@ class CaptiveModel extends BaseDatabaseModel
         if (!$includeBackupCodes) {
             $methodNames = array_filter(
                 $methodNames,
-                fn($method) => $method != 'backupcodes'
+                fn ($method) => $method != 'backupcodes'
             );
         }
 

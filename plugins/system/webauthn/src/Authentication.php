@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn;
 
-use Webauthn\MetadataService\Statement\MetadataStatement;
 use Joomla\Application\ApplicationInterface;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -23,6 +22,7 @@ use Laminas\Diactoros\ServerRequestFactory;
 use Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs;
 use Webauthn\AuthenticatorSelectionCriteria;
 use Webauthn\MetadataService\MetadataStatementRepository;
+use Webauthn\MetadataService\Statement\MetadataStatement;
 use Webauthn\PublicKeyCredentialCreationOptions;
 use Webauthn\PublicKeyCredentialDescriptor;
 use Webauthn\PublicKeyCredentialRequestOptions;
@@ -87,8 +87,7 @@ final class Authentication
          * @since 4.2.0
          */
         private readonly ?MetadataStatementRepository $metadataRepository = null
-    )
-    {
+    ) {
     }
 
     /**

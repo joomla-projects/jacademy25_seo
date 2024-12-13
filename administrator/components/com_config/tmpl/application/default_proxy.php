@@ -7,6 +7,7 @@
  * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 use Joomla\Component\Config\Administrator\View\Application\HtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;

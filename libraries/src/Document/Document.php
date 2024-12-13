@@ -1057,9 +1057,9 @@ class Document
     public function setLineEnd($style)
     {
         $this->_lineEnd = match ($style) {
-            'win' => "\15\12",
-            'unix' => "\12",
-            'mac' => "\15",
+            'win'   => "\15\12",
+            'unix'  => "\12",
+            'mac'   => "\15",
             default => $style,
         };
 

@@ -10,8 +10,8 @@
 
 namespace Joomla\Component\Banners\Site\Controller;
 
-use Joomla\Component\Banners\Site\Model\BannerModel;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\Component\Banners\Site\Model\BannerModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

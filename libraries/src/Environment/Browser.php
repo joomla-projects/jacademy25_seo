@@ -849,7 +849,7 @@ class Browser
     public function isViewable($mimetype)
     {
         $mimetype             = strtolower($mimetype);
-        [$type, $subtype] = explode('/', $mimetype);
+        [$type, $subtype]     = explode('/', $mimetype);
 
         if (!empty($this->accept)) {
             $wildcard_match = false;

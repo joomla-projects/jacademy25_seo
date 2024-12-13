@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Tags\Site\Model;
 
-use Joomla\Component\Tags\Administrator\Table\TagTable;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -18,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Component\Tags\Administrator\Table\TagTable;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -112,8 +112,8 @@ class TagModel extends ListModel
             // Get display date
             $item->displayDate = match ($this->state->params->get('tag_list_show_date')) {
                 'modified' => $item->core_modified_time,
-                'created' => $item->core_created_time,
-                default => ($item->core_publish_up == 0) ? $item->core_created_time : $item->core_publish_up,
+                'created'  => $item->core_created_time,
+                default    => ($item->core_publish_up == 0) ? $item->core_created_time : $item->core_publish_up,
             };
         }
 

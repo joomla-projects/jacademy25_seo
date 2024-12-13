@@ -59,7 +59,7 @@ class FeaturedModel extends ArticlesModel
         $limitstart = $input->getUint('limitstart', 0);
         $this->setState('list.start', $limitstart);
 
-        $params = $this->state->params;
+        $params     = $this->state->params;
         $menuParams = $app->getMenu()->getActive() ? $app->getMenu()->getActive()->getParams() : new Registry();
 
         $mergedParams = clone $menuParams;

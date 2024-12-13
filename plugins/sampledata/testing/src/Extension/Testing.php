@@ -10,18 +10,18 @@
 
 namespace Joomla\Plugin\SampleData\Testing\Extension;
 
-use Joomla\Component\Menus\Administrator\Model\ItemModel;
-use Joomla\Component\Tags\Administrator\Model\TagModel;
-use Joomla\Component\Banners\Administrator\Model\ClientModel;
-use Joomla\Component\Banners\Administrator\Model\BannerModel;
-use Joomla\Component\Newsfeeds\Administrator\Model\NewsfeedModel;
-use Joomla\Component\Menus\Administrator\Model\MenuModel;
-use Joomla\Component\Content\Administrator\Model\ArticleModel;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\Banners\Administrator\Model\BannerModel;
+use Joomla\Component\Banners\Administrator\Model\ClientModel;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
+use Joomla\Component\Content\Administrator\Model\ArticleModel;
+use Joomla\Component\Menus\Administrator\Model\ItemModel;
+use Joomla\Component\Menus\Administrator\Model\MenuModel;
+use Joomla\Component\Newsfeeds\Administrator\Model\NewsfeedModel;
+use Joomla\Component\Tags\Administrator\Model\TagModel;
 use Joomla\Database\DatabaseAwareTrait;
 
 // phpcs:disable PSR1.Files.SideEffects

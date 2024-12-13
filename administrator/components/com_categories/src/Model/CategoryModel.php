@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Categories\Administrator\Model;
 
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceInterface;
@@ -26,6 +25,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Category;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
@@ -406,16 +406,16 @@ class CategoryModel extends AdminModel
         $name = 'category' . ($section ? ('.' . $section) : '');
 
         // Looking first in the component forms folder
-        $path = Path::clean(JPATH_ADMINISTRATOR . sprintf('/components/%s/forms/%s.xml', $component, $name));
+        $path = Path::clean(JPATH_ADMINISTRATOR . \sprintf('/components/%s/forms/%s.xml', $component, $name));
 
         // Looking in the component models/forms folder (J! 3)
         if (!file_exists($path)) {
-            $path = Path::clean(JPATH_ADMINISTRATOR . sprintf('/components/%s/models/forms/%s.xml', $component, $name));
+            $path = Path::clean(JPATH_ADMINISTRATOR . \sprintf('/components/%s/models/forms/%s.xml', $component, $name));
         }
 
         // Old way: looking in the component folder
         if (!file_exists($path)) {
-            $path = Path::clean(JPATH_ADMINISTRATOR . sprintf('/components/%s/%s.xml', $component, $name));
+            $path = Path::clean(JPATH_ADMINISTRATOR . \sprintf('/components/%s/%s.xml', $component, $name));
         }
 
         if (file_exists($path)) {
@@ -434,7 +434,7 @@ class CategoryModel extends AdminModel
         } else {
             // Try to find the component helper.
             $eName = str_replace('com_', '', $component);
-            $path  = Path::clean(JPATH_ADMINISTRATOR . sprintf('/components/%s/helpers/category.php', $component));
+            $path  = Path::clean(JPATH_ADMINISTRATOR . \sprintf('/components/%s/helpers/category.php', $component));
 
             if (file_exists($path)) {
                 $cName = ucfirst($eName) . ucfirst((string) $section) . 'HelperCategory';
@@ -442,9 +442,11 @@ class CategoryModel extends AdminModel
                 \JLoader::register($cName, $path);
 
                 if (class_exists($cName) && \is_callable([$cName, 'onPrepareForm'])) {
-                    if (!($lang->load($component, JPATH_BASE, null, false, false)
+                    if (
+                        !($lang->load($component, JPATH_BASE, null, false, false)
                         || $lang->load($component, JPATH_BASE . '/components/' . $component, null, false, false)
-                        || $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false))) {
+                        || $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false))
+                    ) {
                         $lang->load($component, JPATH_BASE . '/components/' . $component, $lang->getDefault(), false, false);
                     }
                     \call_user_func_array([$cName, 'onPrepareForm'], [&$form]);

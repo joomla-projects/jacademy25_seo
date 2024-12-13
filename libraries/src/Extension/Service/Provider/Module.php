@@ -39,7 +39,7 @@ class Module implements ServiceProviderInterface
     {
         $container->set(
             ModuleInterface::class,
-            fn(Container $container) => new \Joomla\CMS\Extension\Module(
+            fn (Container $container) => new \Joomla\CMS\Extension\Module(
                 $container->get(ModuleDispatcherFactoryInterface::class),
                 $container->has(HelperFactoryInterface::class) ? $container->get(HelperFactoryInterface::class) : null
             )

@@ -9,11 +9,11 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\MVC\Controller\ControllerInterface;
+use Joomla\CMS\MVC\Model\ModelInterface;
 use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\MVC\Model\ModelInterface;
 use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects

@@ -10,8 +10,8 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Form\Field;
 
-use PHPUnit\Framework\TestCase;
 use Joomla\CMS\Form\Field\AccessiblemediaField;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for AccessiblemediaField.

@@ -10,10 +10,10 @@
 
 namespace Joomla\Component\Workflow\Administrator\View\Transition;
 
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;

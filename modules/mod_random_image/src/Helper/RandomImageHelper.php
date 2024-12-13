@@ -10,8 +10,8 @@
 
 namespace Joomla\Module\RandomImage\Site\Helper;
 
-use Joomla\Registry\Registry;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects

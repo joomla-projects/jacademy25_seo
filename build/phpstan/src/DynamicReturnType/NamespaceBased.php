@@ -36,7 +36,7 @@ abstract class NamespaceBased implements DynamicMethodReturnTypeExtension
         $result = [];
 
         foreach ($this->getNamespaces() as $ns => $path) {
-            if (in_array(stripos($ns, $name), [0, false], true)) {
+            if (\in_array(stripos($ns, $name), [0, false], true)) {
                 continue;
             }
 
@@ -52,7 +52,7 @@ abstract class NamespaceBased implements DynamicMethodReturnTypeExtension
     protected function findNamespace(string $name): string
     {
         foreach (array_keys($this->getNamespaces()) as $ns) {
-            if (in_array(stripos($ns, $name), [0, false], true)) {
+            if (\in_array(stripos($ns, $name), [0, false], true)) {
                 continue;
             }
 

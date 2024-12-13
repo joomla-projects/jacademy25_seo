@@ -220,7 +220,7 @@ $renamedFiles = [];
 
 foreach ($filesDifference as $file) {
     // Don't remove any specific files (e.g. language files) that we want to keep on upgrade
-    if (in_array($file, $filesToKeep)) {
+    if (\in_array($file, $filesToKeep)) {
         continue;
     }
 

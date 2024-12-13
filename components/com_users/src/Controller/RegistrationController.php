@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Site\Controller;
 
-use Joomla\Component\Users\Site\Model\RegistrationModel;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
@@ -18,6 +17,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
+use Joomla\Component\Users\Site\Model\RegistrationModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

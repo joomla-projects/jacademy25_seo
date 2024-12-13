@@ -56,13 +56,18 @@ class InputFilter extends BaseInputFilter
      *
      * @since   1.7.0
      */
-    public function __construct($tagsArray = [], $attrArray = [], $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, /**
-     * A flag for Unicode Supplementary Characters (4-byte Unicode character) stripping.
-     *
-     * @since  3.5
-     */
-    private $stripUSC = 0)
-    {
+    public function __construct(
+        $tagsArray = [],
+        $attrArray = [],
+        $tagsMethod = 0,
+        $attrMethod = 0,
+        $xssAuto = 1, /**
+         * A flag for Unicode Supplementary Characters (4-byte Unicode character) stripping.
+         *
+         * @since  3.5
+         */
+        private $stripUSC = 0
+    ) {
         parent::__construct($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto);
     }
 
@@ -434,14 +439,14 @@ class InputFilter extends BaseInputFilter
         // Convert decimal
         $source = preg_replace_callback(
             '/&#(\d+);/m',
-            fn($m) => mb_convert_encoding(\chr($m[1]), 'UTF-8', 'ISO-8859-1'),
+            fn ($m) => mb_convert_encoding(\chr($m[1]), 'UTF-8', 'ISO-8859-1'),
             $source
         );
 
         // Convert hex
         $source = preg_replace_callback(
             '/&#x([a-f0-9]+);/mi',
-            fn($m) => mb_convert_encoding(\chr(hexdec($m[1])), 'UTF-8', 'ISO-8859-1'),
+            fn ($m) => mb_convert_encoding(\chr(hexdec($m[1])), 'UTF-8', 'ISO-8859-1'),
             (string) $source
         );
 

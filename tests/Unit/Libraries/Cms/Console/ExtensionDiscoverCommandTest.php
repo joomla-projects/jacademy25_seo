@@ -10,8 +10,8 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Console;
 
-use PHPUnit\Framework\TestCase;
 use Joomla\CMS\Console\ExtensionDiscoverCommand;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for Joomla\CMS\Console\ExtensionDiscoverCommand.

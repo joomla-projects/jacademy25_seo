@@ -251,7 +251,7 @@ class ColorField extends FormField
         $controlModeData = match ($this->control) {
             'simple' => $this->getSimpleModeLayoutData(),
             'slider' => $this->getSliderModeLayoutData(),
-            default => $this->getAdvancedModeLayoutData($lang),
+            default  => $this->getAdvancedModeLayoutData($lang),
         };
 
         $extraData = [

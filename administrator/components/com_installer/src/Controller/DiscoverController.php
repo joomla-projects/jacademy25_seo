@@ -10,11 +10,11 @@
 
 namespace Joomla\Component\Installer\Administrator\Controller;
 
-use Joomla\Component\Installer\Administrator\Model\DiscoverModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Installer\Administrator\Model\DiscoverModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

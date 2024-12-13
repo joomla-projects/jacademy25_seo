@@ -9,10 +9,10 @@
 
 namespace Joomla\CMS\Toolbar;
 
-use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 

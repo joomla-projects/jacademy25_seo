@@ -113,7 +113,7 @@ class UpdateCoreCommand extends AbstractCommand
     private function configureIO(InputInterface $input, OutputInterface $output)
     {
         $this->progressBar = new ProgressBar($output, 9);
-        $this->ioStyle  = new SymfonyStyle($input, $output);
+        $this->ioStyle     = new SymfonyStyle($input, $output);
 
         $language = Factory::getLanguage();
         $language->load('lib_joomla', JPATH_ADMINISTRATOR);

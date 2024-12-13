@@ -10,8 +10,8 @@
 
 namespace Joomla\Module\Messages\Administrator\Helper;
 
-use Joomla\Component\Messages\Administrator\Model\MessagesModel;
 use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\Component\Messages\Administrator\Model\MessagesModel;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects

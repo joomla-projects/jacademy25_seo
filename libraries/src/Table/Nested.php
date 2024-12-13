@@ -1408,7 +1408,7 @@ class Nested extends Table
 
         if ($newState !== null) {
             // Use a new published state in changed row.
-            $newState = sprintf('(CASE WHEN p2.%s = ', $key) . (int) $pk . " THEN " . (int) $newState . sprintf(' ELSE p2.%s END)', $published);
+            $newState = \sprintf('(CASE WHEN p2.%s = ', $key) . (int) $pk . " THEN " . (int) $newState . \sprintf(' ELSE p2.%s END)', $published);
         } else {
             $newState = 'p2.' . $published;
         }
@@ -1445,23 +1445,23 @@ class Nested extends Table
         $query->select('c.' . $key)
             ->from($table . ' AS node')
             ->leftJoin($table . ' AS c ON node.lft <= c.lft AND c.rgt <= node.rgt')
-            ->where(sprintf('node.%s = ', $key) . (int) $pk);
+            ->where(\sprintf('node.%s = ', $key) . (int) $pk);
 
         $pks = $this->_db->setQuery($query)->loadColumn();
 
         // Prepare a list of correct published states.
         $subquery = (string) $query->clear()
-            ->select(sprintf('c2.%s AS newId', $key))
-            ->select(sprintf('CASE WHEN MIN(%s) > 0 THEN MAX(%s) ELSE MIN(%s) END AS newPublished', $newState, $newState, $newState))
+            ->select(\sprintf('c2.%s AS newId', $key))
+            ->select(\sprintf('CASE WHEN MIN(%s) > 0 THEN MAX(%s) ELSE MIN(%s) END AS newPublished', $newState, $newState, $newState))
             ->from($table . ' AS c2')
             ->innerJoin($table . ' AS p2 ON p2.lft <= c2.lft AND c2.rgt <= p2.rgt')
-            ->where(sprintf('c2.%s IN (', $key) . implode(',', $pks) . ")")
+            ->where(\sprintf('c2.%s IN (', $key) . implode(',', $pks) . ")")
             ->group('c2.' . $key);
 
         // Update and cascade the publishing state.
         $query->clear()
             ->update($table)
-            ->innerJoin(sprintf('(%s) AS c2', $subquery))
+            ->innerJoin(\sprintf('(%s) AS c2', $subquery))
             ->set($published . ' = ' . $this->_db->quoteName("c2.newpublished"))
             ->where($key . ' = c2.newId')
             ->where($key . ' IN (' . implode(',', $pks) . ")");
@@ -1488,9 +1488,9 @@ class Nested extends Table
         // Determine which key to get the node base on.
         $k = match ($key) {
             'parent' => 'parent_id',
-            'left' => 'lft',
-            'right' => 'rgt',
-            default => $this->_tbl_key,
+            'left'   => 'lft',
+            'right'  => 'rgt',
+            default  => $this->_tbl_key,
         };
 
         // Get the node data.

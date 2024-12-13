@@ -44,8 +44,7 @@ final class JoomlaHttpDriver implements HttpDriverInterface
          * @since   4.1.5
          */
         private readonly CMSApplicationInterface $app
-    )
-    {
+    ) {
     }
 
     /**

@@ -10,11 +10,11 @@
 
 namespace Joomla\Component\Messages\Administrator\Model;
 
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rule;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;

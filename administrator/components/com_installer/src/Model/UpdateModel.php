@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
-use Joomla\CMS\Table\UpdateSite;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -20,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\UpdateSite;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\Database\Exception\ExecutionFailureException;

@@ -10,12 +10,12 @@
 
 namespace Joomla\Component\Plugins\Api\Controller;
 
-use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
-use Joomla\Component\Plugins\Administrator\Model\PluginModel;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
+use Joomla\Component\Plugins\Administrator\Model\PluginModel;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
@@ -66,7 +66,7 @@ class PluginsController extends ApiController
 
         foreach ($data as $key => $value) {
             if (!\in_array($key, ['enabled', 'access', 'ordering'])) {
-                throw new InvalidParameterException(sprintf('Invalid parameter %s.', $key), 400);
+                throw new InvalidParameterException(\sprintf('Invalid parameter %s.', $key), 400);
             }
         }
 

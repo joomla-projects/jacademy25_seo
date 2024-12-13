@@ -11,10 +11,10 @@
 
 namespace Joomla\Component\Workflow\Administrator\Model;
 
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -172,7 +172,7 @@ class TransitionModel extends AdminModel
 
             // Alter the title for save as copy
             if ($origTable->load(['title' => $data['title']])) {
-                [$title]   = $this->generateNewTitle(0, '', $data['title']);
+                [$title]       = $this->generateNewTitle(0, '', $data['title']);
                 $data['title'] = $title;
             }
 

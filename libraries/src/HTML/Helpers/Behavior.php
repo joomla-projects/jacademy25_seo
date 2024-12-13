@@ -9,9 +9,9 @@
 
 namespace Joomla\CMS\HTML\Helpers;
 
-use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\WebAsset\WebAssetManager;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

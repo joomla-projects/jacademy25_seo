@@ -63,7 +63,7 @@ class BeforeReorderEvent extends AbstractEvent
     protected function setQuery($value)
     {
         if (!($value instanceof DatabaseQuery)) {
-            throw new \BadMethodCallException(sprintf("Argument 'query' of event %s must be of DatabaseQuery type", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'query' of event %s must be of DatabaseQuery type", $this->name));
         }
 
         return $value;
@@ -84,7 +84,7 @@ class BeforeReorderEvent extends AbstractEvent
     protected function setWhere($value)
     {
         if (!empty($value) && !\is_string($value) && !\is_array($value)) {
-            throw new \BadMethodCallException(sprintf("Argument 'where' of event %s must be empty or string or array of strings", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'where' of event %s must be empty or string or array of strings", $this->name));
         }
 
         return $value;

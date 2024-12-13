@@ -30,12 +30,13 @@ use Joomla\Registry\Registry;
  */
 abstract class BaseApplication extends AbstractApplication
 {
+    use EventAware;
+    use IdentityAware;
+
     /**
      * @var Input
      */
     public $input;
-    use EventAware;
-    use IdentityAware;
 
     /**
      * Class constructor.

@@ -10,10 +10,10 @@
 
 namespace Joomla\Plugin\System\Stats\Extension;
 
-use Joomla\CMS\Layout\LayoutInterface;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutInterface;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserHelper;

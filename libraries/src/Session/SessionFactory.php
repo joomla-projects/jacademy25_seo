@@ -9,15 +9,15 @@
 
 namespace Joomla\CMS\Session;
 
+use Joomla\Database\DatabaseInterface;
+use Joomla\DI\ContainerAwareInterface;
+use Joomla\DI\ContainerAwareTrait;
+use Joomla\Registry\Registry;
 use Joomla\Session\Handler\ApcuHandler;
 use Joomla\Session\Handler\DatabaseHandler;
 use Joomla\Session\Handler\FilesystemHandler;
 use Joomla\Session\Handler\MemcachedHandler;
 use Joomla\Session\Handler\RedisHandler;
-use Joomla\Database\DatabaseInterface;
-use Joomla\DI\ContainerAwareInterface;
-use Joomla\DI\ContainerAwareTrait;
-use Joomla\Registry\Registry;
 use Joomla\Session\HandlerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -89,7 +89,7 @@ class SessionFactory implements ContainerAwareInterface
                 $memcached = new \Memcached($config->get('session_memcached_server_id', 'joomla_cms'));
                 $memcached->addServer($host, $port);
 
-                ini_set('session.save_path', sprintf('%s:%s', $host, $port));
+                ini_set('session.save_path', \sprintf('%s:%s', $host, $port));
                 ini_set('session.save_handler', 'memcached');
 
                 return new MemcachedHandler($memcached, ['ttl' => $options['expire']]);

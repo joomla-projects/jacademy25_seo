@@ -148,7 +148,7 @@ class Uri extends \Joomla\Uri\Uri
             } else {
                 static::$base['prefix'] = $uri->toString(['scheme', 'host', 'port']);
 
-                if (str_contains(PHP_SAPI, 'cgi') && (in_array(\ini_get('cgi.fix_pathinfo'), ['', '0'], true) || \ini_get('cgi.fix_pathinfo') === false) && !empty($_SERVER['REQUEST_URI'])) {
+                if (str_contains(PHP_SAPI, 'cgi') && (\in_array(\ini_get('cgi.fix_pathinfo'), ['', '0'], true) || \ini_get('cgi.fix_pathinfo') === false) && !empty($_SERVER['REQUEST_URI'])) {
                     // PHP-CGI on Apache with "cgi.fix_pathinfo = 0"
 
                     // We shouldn't have user-supplied PATH_INFO in PHP_SELF in this case

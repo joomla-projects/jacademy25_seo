@@ -224,7 +224,7 @@ class CacheModel extends ListModel
     {
         try {
             $this->getCache()->clean($group);
-        } catch (CacheConnectingException|UnsupportedCacheException) {
+        } catch (CacheConnectingException | UnsupportedCacheException) {
             return false;
         }
 
@@ -262,7 +262,7 @@ class CacheModel extends ListModel
     {
         try {
             Factory::getCache('')->gc();
-        } catch (CacheConnectingException|UnsupportedCacheException) {
+        } catch (CacheConnectingException | UnsupportedCacheException) {
             return false;
         }
 

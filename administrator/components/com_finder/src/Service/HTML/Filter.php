@@ -10,11 +10,11 @@
 
 namespace Joomla\Component\Finder\Administrator\Service\HTML;
 
-use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Database\DatabaseAwareTrait;

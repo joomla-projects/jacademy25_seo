@@ -56,7 +56,7 @@ class MediaHelper
     {
         static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp|webp|avif';
 
-        return preg_match(sprintf('/\.(?:%s)$/i', $imageTypes), $fileName);
+        return preg_match(\sprintf('/\.(?:%s)$/i', $imageTypes), $fileName);
     }
 
     /**

@@ -10,10 +10,10 @@
 
 namespace Joomla\Component\Users\Site\Controller;
 
-use Joomla\Component\Users\Site\Model\ResetModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Users\Site\Model\ResetModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

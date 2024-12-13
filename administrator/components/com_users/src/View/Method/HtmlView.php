@@ -135,7 +135,7 @@ class HtmlView extends BaseHtmlView
 
             $backupCodes = array_filter(
                 $backupCodes,
-                fn($x) => !empty($x)
+                fn ($x) => !empty($x)
             );
 
             if (\count($backupCodes) % 2 != 0) {

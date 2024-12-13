@@ -51,23 +51,24 @@ class PreprocessRules implements RulesInterface
      *
      * @since   5.3.0
      */
-    public function __construct(RouterViewConfiguration $view, /**
-     * DB Table to read the information from
-     *
-     * @since 5.3.0
-     */
-    protected $table, /**
-     * ID column in the table to read the information from
-     *
-     * @since 5.3.0
-     */
-    protected $key, /**
-     * Parent ID column in the table to read the information from
-     *
-     * @since 5.3.0
-     */
-    protected $parent_key = null)
-    {
+    public function __construct(
+        RouterViewConfiguration $view, /**
+         * DB Table to read the information from
+         *
+         * @since 5.3.0
+         */
+        protected $table, /**
+         * ID column in the table to read the information from
+         *
+         * @since 5.3.0
+         */
+        protected $key, /**
+         * Parent ID column in the table to read the information from
+         *
+         * @since 5.3.0
+         */
+        protected $parent_key = null
+    ) {
         $this->view       = $view;
     }
 
@@ -116,7 +117,7 @@ class PreprocessRules implements RulesInterface
         }
 
         // Lets fix the slug (id:alias)
-        if (in_array(strpos((string) $query[$key], ':'), [0, false], true)) {
+        if (\in_array(strpos((string) $query[$key], ':'), [0, false], true)) {
             $query[$key] .= ':' . $obj->alias;
         }
 

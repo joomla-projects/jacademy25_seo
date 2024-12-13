@@ -48,7 +48,7 @@ abstract class ModuleListEvent extends ModuleEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('modules', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'modules' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'modules' of event %s is required but has not been provided", $name));
         }
 
         // For backward compatibility make sure the content is referenced
@@ -73,10 +73,10 @@ abstract class ModuleListEvent extends ModuleEvent
     protected function onSetModules(array $value): array
     {
         // Filter out Module elements. Non empty result means invalid data
-        $valid = array_filter($value, fn($item) => !\is_object($item)) === [];
+        $valid = array_filter($value, fn ($item) => !\is_object($item)) === [];
 
         if (!$valid) {
-            throw new \UnexpectedValueException(sprintf("Argument 'modules' of event %s is not of the expected type", $this->name));
+            throw new \UnexpectedValueException(\sprintf("Argument 'modules' of event %s is not of the expected type", $this->name));
         }
 
         return $value;

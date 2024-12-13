@@ -48,18 +48,19 @@ class Totp
      * @param   Object  $base32          The base32 en/decrypter
      */
     public function __construct(/**
-     * Timestep
-     */
-    private $_timeStep = 30, /**
-     * Passcode length
-     */
-    private $_passCodeLength = 6, /**
-     * The length of the secret in bytes.
-     * RFC 4226: "The length of the shared secret MUST be at least 128 bits. This document RECOMMENDs a shared secret length of 160 bits."
-     * The original value was 10 bytes (80 bits) this value has been increased to 20 (160 bits) with Joomla! 3.9.25
-     */
-    private $_secretLength = 10, $base32 = null)
-    {
+         * Timestep
+         */
+        private $_timeStep = 30, /**
+         * Passcode length
+         */
+        private $_passCodeLength = 6, /**
+         * The length of the secret in bytes.
+         * RFC 4226: "The length of the shared secret MUST be at least 128 bits. This document RECOMMENDs a shared secret length of 160 bits."
+         * The original value was 10 bytes (80 bits) this value has been increased to 20 (160 bits) with Joomla! 3.9.25
+         */
+        private $_secretLength = 10,
+        $base32 = null
+    ) {
         $this->_pinModulo      = 10 ** $this->_passCodeLength;
 
         $this->_base32 = \is_null($base32) ? new Base32() : $base32;

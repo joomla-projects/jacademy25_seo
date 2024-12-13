@@ -10,12 +10,12 @@
 
 namespace Joomla\Component\Installer\Administrator\Controller;
 
-use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Installer\Administrator\Model\DatabaseModel;
+use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

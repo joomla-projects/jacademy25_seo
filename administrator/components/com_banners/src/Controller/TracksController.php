@@ -10,11 +10,11 @@
 
 namespace Joomla\Component\Banners\Administrator\Controller;
 
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\Component\Banners\Administrator\Model\TracksModel;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Component\Banners\Administrator\Model\TracksModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

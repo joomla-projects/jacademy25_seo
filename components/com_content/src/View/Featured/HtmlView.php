@@ -10,17 +10,17 @@
 
 namespace Joomla\Component\Content\Site\View\Featured;
 
-use Joomla\Registry\Registry;
-use Joomla\CMS\Pagination\Pagination;
-use Joomla\Database\DatabaseDriver;
-use Joomla\CMS\User\User;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\User\User;
 use Joomla\Component\Content\Site\Model\FeaturedModel;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

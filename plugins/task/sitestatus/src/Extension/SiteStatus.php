@@ -89,18 +89,20 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, /**
-     * The old config
-     *
-     * @since  4.2.0
-     */
-    private array $oldConfig, /**
-     * The config file
-     *
-     * @since  4.2.0
-     */
-    private string $configFile)
-    {
+    public function __construct(
+        DispatcherInterface $dispatcher,
+        array $config, /**
+         * The old config
+         *
+         * @since  4.2.0
+         */
+        private array $oldConfig, /**
+         * The config file
+         *
+         * @since  4.2.0
+         */
+        private string $configFile
+    ) {
         parent::__construct($dispatcher, $config);
     }
 

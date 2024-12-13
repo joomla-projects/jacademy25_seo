@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Menus\Administrator\Controller;
 
-use Joomla\Component\Menus\Administrator\Model\MenuModel;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Filter\InputFilter;
@@ -18,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Component\Menus\Administrator\Model\MenuModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -117,7 +117,7 @@ class MenuController extends FormController
         }
 
         if (isset($validData['preset'])) {
-            $preset = in_array(trim((string) $validData['preset']), ['', '0'], true) ? null : trim((string) $validData['preset']);
+            $preset = \in_array(trim((string) $validData['preset']), ['', '0'], true) ? null : trim((string) $validData['preset']);
 
             unset($validData['preset']);
         }

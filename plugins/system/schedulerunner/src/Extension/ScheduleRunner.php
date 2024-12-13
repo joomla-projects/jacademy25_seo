@@ -10,9 +10,9 @@
 
 namespace Joomla\Plugin\System\ScheduleRunner\Extension;
 
-use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;

@@ -43,7 +43,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 
         if ($view === 'contact' && $id) {
             $associations = Associations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $id);
-            $return = [];
+            $return       = [];
             foreach ($associations as $tag => $item) {
                 $return[$tag] = RouteHelper::getContactRoute($item->id, (int) $item->catid, $item->language);
             }

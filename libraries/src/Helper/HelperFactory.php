@@ -40,8 +40,7 @@ class HelperFactory implements HelperFactoryInterface
          * @since   4.0.0
          */
         private string $namespace
-    )
-    {
+    ) {
     }
 
     /**

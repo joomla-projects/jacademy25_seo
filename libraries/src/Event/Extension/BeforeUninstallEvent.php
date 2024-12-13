@@ -45,7 +45,7 @@ class BeforeUninstallEvent extends AbstractExtensionEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('eid', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'eid' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'eid' of event %s is required but has not been provided", $name));
         }
     }
 

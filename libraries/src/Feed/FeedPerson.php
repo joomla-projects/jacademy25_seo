@@ -55,7 +55,6 @@ class FeedPerson
          * @since  3.1.4
          */
         public $type = null
-    )
-    {
+    ) {
     }
 }

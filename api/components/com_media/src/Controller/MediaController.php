@@ -10,10 +10,10 @@
 
 namespace Joomla\Component\Media\Api\Controller;
 
-use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;

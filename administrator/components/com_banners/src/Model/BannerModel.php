@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Banners\Administrator\Model;
 
-use Joomla\Component\Banners\Administrator\Table\BannerTable;
-use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -19,7 +17,9 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
+use Joomla\Component\Banners\Administrator\Table\BannerTable;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -447,7 +447,7 @@ class BannerModel extends AdminModel
             $origTable->load($input->getInt('id'));
 
             if ($data['name'] == $origTable->name) {
-                [$name, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+                [$name, $alias]     = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
                 $data['name']       = $name;
                 $data['alias']      = $alias;
             } elseif ($data['alias'] == $origTable->alias) {

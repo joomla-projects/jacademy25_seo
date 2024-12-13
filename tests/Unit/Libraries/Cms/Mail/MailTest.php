@@ -10,10 +10,10 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Mail;
 
-use PHPMailer\PHPMailer\PHPMailer\PHPMailer\Exception;
 use Joomla\CMS\Mail\Mail;
 use Joomla\Tests\Unit\UnitTestCase;
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\PHPMailer\PHPMailer\Exception;
 
 /**
  * Test class for JMail.

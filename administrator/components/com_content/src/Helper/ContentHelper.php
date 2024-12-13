@@ -69,7 +69,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
         return array_values(
             array_filter(
                 $transitions,
-                fn($var) => \in_array($var['from_stage_id'], [-1, $pk]) && $workflowId == $var['workflow_id']
+                fn ($var) => \in_array($var['from_stage_id'], [-1, $pk]) && $workflowId == $var['workflow_id']
             )
         );
     }

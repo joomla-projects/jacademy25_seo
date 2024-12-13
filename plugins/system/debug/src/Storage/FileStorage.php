@@ -10,8 +10,8 @@
 
 namespace Joomla\Plugin\System\Debug\Storage;
 
-use Joomla\CMS\User\User;
 use Joomla\CMS\Factory;
+use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
@@ -93,7 +93,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
         // Sort the files, newest first
         usort(
             $files,
-            fn($a, $b) => $b['time'] <=> $a['time']
+            fn ($a, $b) => $b['time'] <=> $a['time']
         );
 
         // Load the metadata and filter the results.

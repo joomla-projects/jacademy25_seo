@@ -639,7 +639,7 @@ class ZIPExtraction
 
         $this->readArchiveHeader();
 
-        if (!in_array($this->getError(), [null, '', '0'], true)) {
+        if (!\in_array($this->getError(), [null, '', '0'], true)) {
             $this->debugMsg(\sprintf('Error: %s', $this->getError()), self::LOG_ERROR);
 
             return;
@@ -1697,7 +1697,7 @@ function clearFileInOPCache(string $file): bool
     if (\is_null($hasOpCache)) {
         $hasOpCache = \ini_get('opcache.enable')
             && \function_exists('opcache_invalidate')
-            && (in_array(\ini_get('opcache.restrict_api'), ['', '0'], true) || \ini_get('opcache.restrict_api') === false || stripos(realpath($_SERVER['SCRIPT_FILENAME']), \ini_get('opcache.restrict_api')) === 0);
+            && (\in_array(\ini_get('opcache.restrict_api'), ['', '0'], true) || \ini_get('opcache.restrict_api') === false || stripos(realpath($_SERVER['SCRIPT_FILENAME']), \ini_get('opcache.restrict_api')) === 0);
     }
 
     if ($hasOpCache && (strtolower(substr($file, -4)) === '.php')) {

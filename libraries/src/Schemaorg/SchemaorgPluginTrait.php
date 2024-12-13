@@ -174,8 +174,8 @@ trait SchemaorgPluginTrait
         $allowedlist   = array_filter((array) $this->params->get('allowedlist', []));
         $forbiddenlist = array_filter((array) $this->params->get('forbiddenlist', []));
         if ($allowedlist !== []) {
-            return in_array($context, $allowedlist, true);
+            return \in_array($context, $allowedlist, true);
         }
-        return !in_array($context, $forbiddenlist, true);
+        return !\in_array($context, $forbiddenlist, true);
     }
 }

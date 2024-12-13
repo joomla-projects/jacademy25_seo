@@ -74,7 +74,7 @@ trait UserProfileFields
         $credentialRepository = $plugin->getAuthenticationHelper()->getCredentialsRepository();
         $credentials          = $credentialRepository->getAll(self::$userFromFormData->id);
         $authenticators       = array_map(
-            fn(array $credential) => $credential['label'],
+            fn (array $credential) => $credential['label'],
             $credentials
         );
 

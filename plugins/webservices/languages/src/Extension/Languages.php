@@ -10,10 +10,10 @@
 
 namespace Joomla\Plugin\WebServices\Languages\Extension;
 
-use Joomla\Component\Languages\Administrator\Model\LanguagesModel;
 use Joomla\CMS\Event\Application\BeforeApiRouteEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\ApiRouter;
+use Joomla\Component\Languages\Administrator\Model\LanguagesModel;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Router\Route;
 

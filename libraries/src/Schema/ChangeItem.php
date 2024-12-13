@@ -101,22 +101,22 @@ abstract class ChangeItem
      * @since   2.5
      */
     public function __construct(/**
-     * DatabaseDriver object
-     *
-     * @since  2.5
-     */
-    public $db, /**
-     * Update file: full path file name where query was found
-     *
-     * @since  2.5
-     */
-    public $file, /**
-     * Update query: query used to change the db schema (one line from the file)
-     *
-     * @since  2.5
-     */
-    public $updateQuery)
-    {
+         * DatabaseDriver object
+         *
+         * @since  2.5
+         */
+        public $db, /**
+         * Update file: full path file name where query was found
+         *
+         * @since  2.5
+         */
+        public $file, /**
+         * Update query: query used to change the db schema (one line from the file)
+         *
+         * @since  2.5
+         */
+        public $updateQuery
+    ) {
         $this->buildCheckQuery();
     }
 

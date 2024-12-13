@@ -59,20 +59,22 @@ class Router extends RouterView
      * @param   CategoryFactoryInterface  $categoryFactory  The category object
      * @param   DatabaseInterface         $db               The database object
      */
-    public function __construct(SiteApplication $app, AbstractMenu $menu, /**
-     * The category factory
-     *
-     *
-     * @since  4.0.0
-     */
-    private readonly CategoryFactoryInterface $categoryFactory, /**
-     * The db
-     *
-     *
-     * @since  4.0.0
-     */
-    private readonly DatabaseInterface $db)
-    {
+    public function __construct(
+        SiteApplication $app,
+        AbstractMenu $menu, /**
+         * The category factory
+         *
+         *
+         * @since  4.0.0
+         */
+        private readonly CategoryFactoryInterface $categoryFactory, /**
+         * The db
+         *
+         *
+         * @since  4.0.0
+         */
+        private readonly DatabaseInterface $db
+    ) {
         $params      = ComponentHelper::getParams('com_newsfeeds');
         $this->noIDs = (bool) $params->get('sef_ids');
         $categories  = new RouterViewConfiguration('categories');

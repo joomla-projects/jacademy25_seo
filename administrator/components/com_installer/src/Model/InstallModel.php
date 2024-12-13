@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Event\Installer\AfterInstallerEvent;
 use Joomla\CMS\Event\Installer\BeforeInstallationEvent;
 use Joomla\CMS\Event\Installer\BeforeInstallerEvent;
@@ -21,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Filesystem\Exception\FilesystemException;

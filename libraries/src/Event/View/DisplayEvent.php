@@ -36,23 +36,23 @@ class DisplayEvent extends AbstractImmutableEvent
     public function __construct($name, array $arguments = [])
     {
         if (!isset($arguments['subject'])) {
-            throw new \BadMethodCallException(sprintf("Argument 'subject' of event %s is required but has not been provided", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'subject' of event %s is required but has not been provided", $this->name));
         }
 
         if (!($arguments['subject'] instanceof ViewInterface)) {
-            throw new \BadMethodCallException(sprintf("Argument 'subject' of event %s is not of type 'ViewInterface'", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'subject' of event %s is not of type 'ViewInterface'", $this->name));
         }
 
         if (!isset($arguments['extension'])) {
-            throw new \BadMethodCallException(sprintf("Argument 'extension' of event %s is required but has not been provided", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'extension' of event %s is required but has not been provided", $this->name));
         }
 
         if (!isset($arguments['extension']) || !\is_string($arguments['extension'])) {
-            throw new \BadMethodCallException(sprintf("Argument 'extension' of event %s is not of type 'string'", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'extension' of event %s is not of type 'string'", $this->name));
         }
 
         if (!str_contains($arguments['extension'], '.')) {
-            throw new \BadMethodCallException(sprintf("Argument 'extension' of event %s has wrong format. Valid format: 'component.section'", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'extension' of event %s has wrong format. Valid format: 'component.section'", $this->name));
         }
 
         if (!\array_key_exists('extensionName', $arguments) || !\array_key_exists('section', $arguments)) {

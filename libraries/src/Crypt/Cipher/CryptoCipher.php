@@ -49,7 +49,7 @@ class CryptoCipher implements CipherInterface
             return \Crypto::Decrypt($data, $key->getPublic());
         } catch (\InvalidCiphertextException $ex) {
             throw new \RuntimeException('DANGER! DANGER! The ciphertext has been tampered with!', $ex->getCode(), $ex);
-        } catch (\CryptoTestFailedException|\CannotPerformOperationException $ex) {
+        } catch (\CryptoTestFailedException | \CannotPerformOperationException $ex) {
             throw new \RuntimeException('Cannot safely perform decryption', $ex->getCode(), $ex);
         }
     }
@@ -75,7 +75,7 @@ class CryptoCipher implements CipherInterface
         // Encrypt the data.
         try {
             return \Crypto::Encrypt($data, $key->getPublic());
-        } catch (\CryptoTestFailedException|\CannotPerformOperationException $ex) {
+        } catch (\CryptoTestFailedException | \CannotPerformOperationException $ex) {
             throw new \RuntimeException('Cannot safely perform encryption', $ex->getCode(), $ex);
         }
     }
@@ -95,7 +95,7 @@ class CryptoCipher implements CipherInterface
         // Generate the encryption key.
         try {
             $public = \Crypto::CreateNewRandomKey();
-        } catch (\CryptoTestFailedException|\CannotPerformOperationException $ex) {
+        } catch (\CryptoTestFailedException | \CannotPerformOperationException $ex) {
             throw new \RuntimeException('Cannot safely create a key', $ex->getCode(), $ex);
         }
 

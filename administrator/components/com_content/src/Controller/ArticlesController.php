@@ -10,14 +10,14 @@
 
 namespace Joomla\Component\Content\Administrator\Controller;
 
-use Joomla\Component\Content\Administrator\Model\ArticleModel;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Administrator\Model\ArticleModel;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 

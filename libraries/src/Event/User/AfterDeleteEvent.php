@@ -47,7 +47,7 @@ class AfterDeleteEvent extends AbstractDeleteEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('deletingResult', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'deletingResult' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'deletingResult' of event %s is required but has not been provided", $name));
         }
     }
 

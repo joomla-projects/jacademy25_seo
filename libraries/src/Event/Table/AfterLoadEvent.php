@@ -78,7 +78,7 @@ class AfterLoadEvent extends AbstractEvent
     protected function setRow($value)
     {
         if (!\is_null($value) && !\is_array($value)) {
-            throw new \BadMethodCallException(sprintf("Argument 'row' of event %s is not of the expected type", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'row' of event %s is not of the expected type", $this->name));
         }
 
         return $value;

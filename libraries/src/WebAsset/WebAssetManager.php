@@ -786,7 +786,7 @@ class WebAssetManager implements WebAssetManagerInterface
             foreach ($this->activeAssets as $type => $activeAsset) {
                 $this->activeAssets[$type] = array_filter(
                     $activeAsset,
-                    fn($state) => $state === WebAssetManager::ASSET_STATE_ACTIVE
+                    fn ($state) => $state === WebAssetManager::ASSET_STATE_ACTIVE
                 );
             }
 
@@ -834,7 +834,7 @@ class WebAssetManager implements WebAssetManagerInterface
         $emptyIncoming = array_keys(
             array_filter(
                 $graphIncoming,
-                fn($el) => !$el
+                fn ($el) => !$el
             )
         );
 

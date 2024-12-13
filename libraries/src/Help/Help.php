@@ -76,7 +76,7 @@ class Help
         }
 
         // If the URL is local then make sure we have a valid file extension on the URL.
-        if ($local && in_array(preg_match('#\.html$|\.xml$#i', $ref), [0, false], true)) {
+        if ($local && \in_array(preg_match('#\.html$|\.xml$#i', $ref), [0, false], true)) {
             $url .= '.html';
         }
 

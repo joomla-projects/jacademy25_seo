@@ -124,12 +124,12 @@ class FinderIndexCommand extends AbstractCommand implements LanguageAwareInterfa
      * @since   4.0.0
      */
     public function __construct(/**
-     * Database connector
-     *
-     * @since  4.0.0
-     */
-    private DatabaseInterface $db)
-    {
+         * Database connector
+         *
+         * @since  4.0.0
+         */
+        private DatabaseInterface $db
+    ) {
         parent::__construct();
     }
 

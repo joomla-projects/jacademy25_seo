@@ -45,13 +45,14 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
      *
      * @since  4.0.0
      */
-    public function __construct(Registry $params, /**
-     * Request ID.
-     *
-     * @since 4.0.0
-     */
-    private $requestId)
-    {
+    public function __construct(
+        Registry $params, /**
+         * Request ID.
+         *
+         * @since 4.0.0
+         */
+        private $requestId
+    ) {
         parent::__construct($params);
     }
 

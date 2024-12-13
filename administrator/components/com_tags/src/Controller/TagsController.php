@@ -10,12 +10,12 @@
 
 namespace Joomla\Component\Tags\Administrator\Controller;
 
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\Component\Tags\Administrator\Model\TagModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Tags\Administrator\Model\TagModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

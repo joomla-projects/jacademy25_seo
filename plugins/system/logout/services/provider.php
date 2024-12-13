@@ -32,7 +32,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            fn(Container $container) => new Logout(
+            fn (Container $container) => new Logout(
                 $container->get(DispatcherInterface::class),
                 (array) PluginHelper::getPlugin('system', 'logout'),
                 Factory::getApplication()

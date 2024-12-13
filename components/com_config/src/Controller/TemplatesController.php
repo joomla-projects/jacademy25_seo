@@ -10,9 +10,9 @@
 
 namespace Joomla\Component\Config\Site\Controller;
 
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;

@@ -47,7 +47,7 @@ class CheckPrivacyPolicyPublishedEvent extends PrivacyEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('subject', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'subject' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'subject' of event %s is required but has not been provided", $name));
         }
 
         // For backward compatibility make sure the content is referenced
@@ -72,7 +72,7 @@ class CheckPrivacyPolicyPublishedEvent extends PrivacyEvent
     protected function onSetSubject(array $value): array
     {
         if (!\array_key_exists('published', $value) || !\array_key_exists('articlePublished', $value) || !\array_key_exists('editLink', $value)) {
-            throw new \UnexpectedValueException(sprintf("Argument 'subject' of event %s is not of the expected type", $this->name));
+            throw new \UnexpectedValueException(\sprintf("Argument 'subject' of event %s is not of the expected type", $this->name));
         }
 
         return $value;

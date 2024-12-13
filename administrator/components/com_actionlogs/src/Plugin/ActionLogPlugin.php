@@ -10,11 +10,11 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Plugin;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\Database\DatabaseDriver;
-use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
+use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

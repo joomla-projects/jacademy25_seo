@@ -10,8 +10,8 @@
 
 namespace Joomla\Plugin\Privacy\Content\Extension;
 
-use Joomla\Component\Privacy\Administrator\Export\Domain;
 use Joomla\CMS\User\User;
+use Joomla\Component\Privacy\Administrator\Export\Domain;
 use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 

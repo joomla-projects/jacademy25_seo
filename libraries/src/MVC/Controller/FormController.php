@@ -9,11 +9,11 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
-use Joomla\CMS\Event\Model\NormaliseRequestDataEvent;
-use Joomla\CMS\Form\Form;
 use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\NormaliseRequestDataEvent;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\Form\FormFactoryInterface;
@@ -36,8 +36,9 @@ use Joomla\Input\Input;
  */
 class FormController extends BaseController implements FormFactoryAwareInterface
 {
-    public $extension;
     use FormFactoryAwareTrait;
+
+    public $extension;
 
     /**
      * The Application. Redeclared to show this class requires a web application.
@@ -131,7 +132,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
                 $match .= '\\\\';
             }
 
-            if (in_array(preg_match('/(.*)' . $match . '(.*)/i', static::class, $r), [0, false], true)) {
+            if (\in_array(preg_match('/(.*)' . $match . '(.*)/i', static::class, $r), [0, false], true)) {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
             }
 
@@ -168,7 +169,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      */
     public function add()
     {
-        $context = sprintf('%s.edit.%s', $this->option, $this->context);
+        $context = \sprintf('%s.edit.%s', $this->option, $this->context);
 
         // Access check.
         if (!$this->allowAdd()) {
@@ -315,7 +316,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
         $model   = $this->getModel();
         $table   = $model->getTable();
-        $context = sprintf('%s.edit.%s', $this->option, $this->context);
+        $context = \sprintf('%s.edit.%s', $this->option, $this->context);
 
         if (empty($key)) {
             $key = $table->getKeyName();
@@ -378,7 +379,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         $model   = $this->getModel();
         $table   = $model->getTable();
         $cid     = (array) $this->input->post->get('cid', [], 'int');
-        $context = sprintf('%s.edit.%s', $this->option, $this->context);
+        $context = \sprintf('%s.edit.%s', $this->option, $this->context);
 
         // Determine the name of the primary key for the data.
         if (empty($key)) {
@@ -557,7 +558,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         $table   = $model->getTable();
         $data    = $this->input->post->get('jform', [], 'array');
         $checkin = $table->hasField('checked_out');
-        $context = sprintf('%s.edit.%s', $this->option, $this->context);
+        $context = \sprintf('%s.edit.%s', $this->option, $this->context);
         $task    = $this->getTask();
 
         // Determine the name of the primary key for the data.

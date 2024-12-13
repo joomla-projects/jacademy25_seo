@@ -61,14 +61,17 @@ class Router extends RouterBase
      *
      * @since  4.0.0
      */
-    public function __construct(SiteApplication $app, AbstractMenu $menu, ?CategoryFactoryInterface $categoryFactory, /**
-     * The db
-     *
-     *
-     * @since  4.0.0
-     */
-    private readonly DatabaseInterface $db)
-    {
+    public function __construct(
+        SiteApplication $app,
+        AbstractMenu $menu,
+        ?CategoryFactoryInterface $categoryFactory, /**
+         * The db
+         *
+         *
+         * @since  4.0.0
+         */
+        private readonly DatabaseInterface $db
+    ) {
         parent::__construct($app, $menu);
 
         $sefPlugin       = PluginHelper::getPlugin('system', 'sef');
@@ -97,7 +100,7 @@ class Router extends RouterBase
             }
 
             foreach ($query['id'] as &$item) {
-                if (in_array(strpos((string) $item, ':'), [0, false], true)) {
+                if (\in_array(strpos((string) $item, ':'), [0, false], true)) {
                     $dbquery = $this->db->getQuery(true);
                     $id      = (int) $item;
 

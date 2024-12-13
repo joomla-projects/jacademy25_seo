@@ -9,12 +9,12 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-use Joomla\CMS\Table\Module;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Table\Module;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Folder;
@@ -128,8 +128,8 @@ class ModuleAdapter extends InstallerAdapter
         $admin_info = ApplicationHelper::getClientInfo('administrator', true);
 
         foreach ($site_list as $module) {
-            if (file_exists(JPATH_SITE . sprintf('/modules/%s/%s.xml', $module, $module))) {
-                $manifest_details          = Installer::parseXMLInstallFile(JPATH_SITE . sprintf('/modules/%s/%s.xml', $module, $module));
+            if (file_exists(JPATH_SITE . \sprintf('/modules/%s/%s.xml', $module, $module))) {
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_SITE . \sprintf('/modules/%s/%s.xml', $module, $module));
                 $extension                 = Table::getInstance('extension');
                 $extension->type           = 'module';
                 $extension->client_id      = $site_info->id;
@@ -144,8 +144,8 @@ class ModuleAdapter extends InstallerAdapter
         }
 
         foreach ($admin_list as $module) {
-            if (file_exists(JPATH_ADMINISTRATOR . sprintf('/modules/%s/%s.xml', $module, $module))) {
-                $manifest_details          = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . sprintf('/modules/%s/%s.xml', $module, $module));
+            if (file_exists(JPATH_ADMINISTRATOR . \sprintf('/modules/%s/%s.xml', $module, $module))) {
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . \sprintf('/modules/%s/%s.xml', $module, $module));
                 $extension                 = Table::getInstance('extension');
                 $extension->type           = 'module';
                 $extension->client_id      = $admin_info->id;

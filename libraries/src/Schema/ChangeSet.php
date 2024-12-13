@@ -52,17 +52,17 @@ class ChangeSet
      * @since   2.5
      */
     public function __construct(/**
-     * DatabaseDriver object
-     *
-     * @since  2.5
-     */
-    protected $db, /**
-     * Folder where SQL update files will be found
-     *
-     * @since  2.5
-     */
-    protected $folder = null)
-    {
+         * DatabaseDriver object
+         *
+         * @since  2.5
+         */
+        protected $db, /**
+         * Folder where SQL update files will be found
+         *
+         * @since  2.5
+         */
+        protected $folder = null
+    ) {
         $updateFiles  = $this->getUpdateFiles();
 
         // If no files were found nothing more we can do - continue

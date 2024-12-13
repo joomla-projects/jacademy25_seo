@@ -544,7 +544,7 @@ final class Token extends CMSPlugin
             return '';
         }
 
-        return base64_encode(sprintf('%s:%d:%s', $algorithm, $userId, $tokenHash));
+        return base64_encode(\sprintf('%s:%d:%s', $algorithm, $userId, $tokenHash));
     }
 
     /**

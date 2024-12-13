@@ -10,13 +10,13 @@
 
 namespace Joomla\Component\Content\Administrator\Controller;
 
-use Joomla\Component\Content\Administrator\Model\ArticleModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
+use Joomla\Component\Content\Administrator\Model\ArticleModel;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 

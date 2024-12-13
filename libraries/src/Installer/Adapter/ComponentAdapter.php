@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-use Joomla\CMS\Table\Menu;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
@@ -18,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Extension;
+use Joomla\CMS\Table\Menu;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
@@ -527,9 +527,9 @@ class ComponentAdapter extends InstallerAdapter
         $source = $this->parent->getPath('source');
 
         $client = match ($this->parent->extension->client_id) {
-            0 => JPATH_SITE,
-            1 => JPATH_ADMINISTRATOR,
-            3 => JPATH_API,
+            0       => JPATH_SITE,
+            1       => JPATH_ADMINISTRATOR,
+            3       => JPATH_API,
             default => throw new \InvalidArgumentException(
                 \sprintf(
                     'Unsupported client ID %d for component %s',

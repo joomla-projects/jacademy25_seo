@@ -10,13 +10,13 @@
 
 namespace Joomla\Component\Installer\Administrator\Controller;
 
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\Component\Installer\Administrator\Model\UpdatesitesModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Installer\Administrator\Model\UpdatesitesModel;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 

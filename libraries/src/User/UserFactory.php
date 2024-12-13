@@ -32,8 +32,7 @@ class UserFactory implements UserFactoryInterface
          * The database.
          */
         private readonly DatabaseInterface $db
-    )
-    {
+    ) {
     }
 
     /**

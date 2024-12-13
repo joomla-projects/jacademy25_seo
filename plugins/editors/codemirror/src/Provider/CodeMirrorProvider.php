@@ -30,12 +30,13 @@ final class CodeMirrorProvider extends AbstractEditorProvider
      * @since  5.0.0
      */
     public function __construct(/**
-     * A Registry object holding the parameters for the plugin
-     *
-     * @since  5.0.0
-     */
-    private readonly Registry $params, DispatcherInterface $dispatcher)
-    {
+         * A Registry object holding the parameters for the plugin
+         *
+         * @since  5.0.0
+         */
+        private readonly Registry $params,
+        DispatcherInterface $dispatcher
+    ) {
         $this->setDispatcher($dispatcher);
     }
 

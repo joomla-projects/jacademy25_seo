@@ -10,10 +10,10 @@
 
 namespace Joomla\Plugin\Workflow\Featuring\Extension;
 
-use Joomla\CMS\Event\Model\PrepareFormEvent;
-use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\Model;
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Event\Table\BeforeStoreEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;

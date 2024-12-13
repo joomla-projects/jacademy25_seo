@@ -47,7 +47,7 @@ abstract class ListHelper
 
         if (!$javascript) {
             $javascript = 'onchange="if (document.forms.adminForm.' . $name
-                . sprintf(".options[selectedIndex].value!='') {document.imagelib.src='..%s' + document.forms.adminForm.", $directory) . $name
+                . \sprintf(".options[selectedIndex].value!='') {document.imagelib.src='..%s' + document.forms.adminForm.", $directory) . $name
                 . ".options[selectedIndex].value} else {document.imagelib.src='media/system/images/blank.png'}\"";
         }
 

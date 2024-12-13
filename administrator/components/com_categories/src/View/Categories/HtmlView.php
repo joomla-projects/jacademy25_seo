@@ -10,10 +10,9 @@
 
 namespace Joomla\Component\Categories\Administrator\View\Categories;
 
-use Joomla\CMS\Form\Form;
-use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -22,6 +21,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Component\Categories\Administrator\Model\CategoriesModel;
 use Joomla\Filesystem\Path;
 
@@ -285,11 +285,11 @@ class HtmlView extends BaseHtmlView
         $name = 'category' . ($section ? ('.' . $section) : '');
 
         // Looking first in the component forms folder
-        $path = Path::clean(JPATH_ADMINISTRATOR . sprintf('/components/%s/forms/%s.xml', $component, $name));
+        $path = Path::clean(JPATH_ADMINISTRATOR . \sprintf('/components/%s/forms/%s.xml', $component, $name));
 
         // Looking in the component models/forms folder (J! 3)
         if (!file_exists($path)) {
-            $path = Path::clean(JPATH_ADMINISTRATOR . sprintf('/components/%s/models/forms/%s.xml', $component, $name));
+            $path = Path::clean(JPATH_ADMINISTRATOR . \sprintf('/components/%s/models/forms/%s.xml', $component, $name));
         }
 
         $ref_key = '';

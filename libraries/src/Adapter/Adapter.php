@@ -9,11 +9,11 @@
 
 namespace Joomla\CMS\Adapter;
 
-use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -75,12 +75,14 @@ class Adapter
      * @since   1.6
      */
     public function __construct(/**
-     * Base Path for the adapter instance
-     *
-     * @since  1.6
-     */
-    protected $_basepath, $classprefix = null, $adapterfolder = null)
-    {
+         * Base Path for the adapter instance
+         *
+         * @since  1.6
+         */
+        protected $_basepath,
+        $classprefix = null,
+        $adapterfolder = null
+    ) {
         $this->_classprefix   = $classprefix ?: 'J';
         $this->_adapterfolder = $adapterfolder ?: 'adapters';
 

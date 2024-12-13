@@ -9,8 +9,8 @@
 
 namespace Joomla\CMS\Document\Renderer\Html;
 
-use Joomla\CMS\Event\Module\AfterRenderModulesEvent;
 use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Event\Module\AfterRenderModulesEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Layout\LayoutHelper;

@@ -1519,7 +1519,7 @@ class FtpClient
 
                 if (@preg_match($regexp, $file, $regs)) {
                     $fType     = (int) ($regs[7] === '<DIR>');
-                    $timestamp = strtotime(sprintf('%s-%s-%s %s:%s%s', $regs[3], $regs[1], $regs[2], $regs[4], $regs[5], $regs[6]));
+                    $timestamp = strtotime(\sprintf('%s-%s-%s %s:%s%s', $regs[3], $regs[1], $regs[2], $regs[4], $regs[5], $regs[6]));
 
                     // $tmp_array['line'] = $regs[0];
                     $tmp_array['type']   = $fType;
@@ -1573,7 +1573,7 @@ class FtpClient
         }
 
         // Send the command to the server
-        if (in_array(fwrite($this->_conn, $cmd . "\r\n"), [0, false], true)) {
+        if (\in_array(fwrite($this->_conn, $cmd . "\r\n"), [0, false], true)) {
             Log::add(Text::sprintf('DDD', Text::sprintf('JLIB_CLIENT_ERROR_FTP_PUTCMD_SEND', __METHOD__, $cmd)), Log::WARNING, 'jerror');
         }
 
@@ -1599,7 +1599,7 @@ class FtpClient
 
         do {
             $this->_response .= fgets($this->_conn, 4096);
-        } while (in_array(preg_match('/^([0-9]{3})(-(.*' . CRLF . ')+\1)? [^' . CRLF . ']+' . CRLF . "$/", $this->_response, $parts), [0, false], true) && time() < $endTime);
+        } while (\in_array(preg_match('/^([0-9]{3})(-(.*' . CRLF . ')+\1)? [^' . CRLF . ']+' . CRLF . "$/", $this->_response, $parts), [0, false], true) && time() < $endTime);
 
         // Catch a timeout or bad response
         if (!isset($parts[1])) {
@@ -1654,7 +1654,7 @@ class FtpClient
 
         do {
             $this->_response .= fgets($this->_conn, 4096);
-        } while (in_array(preg_match('/^([0-9]{3})(-(.*' . CRLF . ')+\1)? [^' . CRLF . ']+' . CRLF . "$/", $this->_response, $parts), [0, false], true) && time() < $endTime);
+        } while (\in_array(preg_match('/^([0-9]{3})(-(.*' . CRLF . ')+\1)? [^' . CRLF . ']+' . CRLF . "$/", $this->_response, $parts), [0, false], true) && time() < $endTime);
 
         // Catch a timeout or bad response
         if (!isset($parts[1])) {

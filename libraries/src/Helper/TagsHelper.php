@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Helper;
 
-use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\CoreContent;
@@ -18,6 +17,7 @@ use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMContent;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -787,8 +787,8 @@ class TagsHelper extends CMSHelper
 
         return match ($arrayType) {
             'assocList' => $db->loadAssocList(),
-            'rowList' => $db->loadRowList(),
-            default => $db->loadObjectList(),
+            'rowList'   => $db->loadRowList(),
+            default     => $db->loadObjectList(),
         };
     }
 

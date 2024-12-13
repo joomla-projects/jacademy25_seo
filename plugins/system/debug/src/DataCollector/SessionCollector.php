@@ -76,7 +76,7 @@ class SessionCollector extends AbstractDataCollector
 
             // redact value of potentially secret keys
             array_walk_recursive($data, static function (&$value, $key) {
-                if (in_array(preg_match(Debug::PROTECTED_COLLECTOR_KEYS, $key), [0, false], true)) {
+                if (\in_array(preg_match(Debug::PROTECTED_COLLECTOR_KEYS, $key), [0, false], true)) {
                     return;
                 }
 

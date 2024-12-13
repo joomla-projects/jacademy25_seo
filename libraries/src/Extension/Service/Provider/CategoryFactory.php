@@ -40,8 +40,7 @@ class CategoryFactory implements ServiceProviderInterface
          * @since  4.0.0
          */
         private $namespace
-    )
-    {
+    ) {
     }
 
     /**

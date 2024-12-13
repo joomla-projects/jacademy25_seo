@@ -9,12 +9,12 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
-use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects

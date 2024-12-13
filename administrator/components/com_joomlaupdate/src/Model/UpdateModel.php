@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Model;
 
-use Joomla\CMS\Table\Extension;
-use Joomla\Component\Installer\Administrator\Model\DatabaseModel;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Extension\AfterJoomlaUpdateEvent;
@@ -27,11 +25,13 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Tuf as TufMetadata;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
+use Joomla\Component\Installer\Administrator\Model\DatabaseModel;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
@@ -1736,7 +1736,7 @@ ENDDATA;
 
         $home = array_filter(
             $templates,
-            fn($value) => $value->home > 0
+            fn ($value) => $value->home > 0
         );
 
         $ids = ArrayHelper::getColumn($templates, 'id');

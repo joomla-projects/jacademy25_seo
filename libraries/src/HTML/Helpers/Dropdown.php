@@ -115,7 +115,7 @@ abstract class Dropdown
         $dropDownList  = static::$dropDownList;
         $dropDownList .= '</ul></div>';
 
-        static::$dropDownList                  = null;
+        static::$dropDownList                    = null;
         static::$loaded[self::class . '::start'] = false;
 
         return $dropDownList;

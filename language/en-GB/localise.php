@@ -34,8 +34,8 @@ abstract class En_GBLocalise
     public static function getPluralSuffixes($count)
     {
         return match ($count) {
-            0 => ['0'],
-            1 => ['ONE', '1'],
+            0       => ['0'],
+            1       => ['ONE', '1'],
             default => ['OTHER', 'MORE'],
         };
     }

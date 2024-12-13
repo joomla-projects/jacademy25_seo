@@ -10,10 +10,10 @@
 
 namespace Joomla\Module\Feed\Administrator\Helper;
 
-use Joomla\Registry\Registry;
 use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

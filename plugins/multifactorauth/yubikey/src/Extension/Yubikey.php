@@ -315,7 +315,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
             $records = MfaHelper::getUserMfaRecords($record->user_id);
             $records = array_filter(
                 $records,
-                fn($rec) => $rec->method === $record->method
+                fn ($rec) => $rec->method === $record->method
             );
         } catch (\Exception) {
             $records = [];
@@ -324,7 +324,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
         // Loop all records, stop if at least one matches
         $result = array_reduce(
             $records,
-            fn(bool $carry, $aRecord) => $carry || $this->validateAgainstRecord($aRecord, $code),
+            fn (bool $carry, $aRecord) => $carry || $this->validateAgainstRecord($aRecord, $code),
             false
         );
 

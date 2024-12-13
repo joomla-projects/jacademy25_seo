@@ -110,7 +110,7 @@ class Text
         $first_part = preg_replace('/\[\[%(\d+):[^\]]*\]\]/', '%\1$s', $first_part);
 
         // Check if string contains sprintf placeholders
-        if (in_array(preg_match('/%(\d+\$)?s/', (string) $first_part), [0, false], true)) {
+        if (\in_array(preg_match('/%(\d+\$)?s/', (string) $first_part), [0, false], true)) {
             return false;
         }
 
@@ -221,7 +221,7 @@ class Text
             );
 
             if (\array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script']) {
-                static::$strings[$key] = sprintf(...$args);
+                static::$strings[$key] = \sprintf(...$args);
 
                 return $key;
             }
@@ -229,7 +229,7 @@ class Text
             $args[0] = $lang->_($key);
         }
 
-        return sprintf(...$args);
+        return \sprintf(...$args);
     }
 
     /**
@@ -267,7 +267,7 @@ class Text
             );
 
             if (\array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script']) {
-                static::$strings[$string] = sprintf(...$args);
+                static::$strings[$string] = \sprintf(...$args);
 
                 return $string;
             }
@@ -278,7 +278,7 @@ class Text
         // Replace custom named placeholders with sprintf style placeholders
         $args[0] = preg_replace('/\[\[%(\d+):[^\]]*\]\]/', '%\1$s', $args[0]);
 
-        return sprintf(...$args);
+        return \sprintf(...$args);
     }
 
     /**

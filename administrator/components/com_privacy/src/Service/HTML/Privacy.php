@@ -35,10 +35,10 @@ class Privacy
     public function statusLabel($status)
     {
         return match ($status) {
-            2 => '<span class="badge bg-success">' . Text::_('COM_PRIVACY_STATUS_COMPLETED') . '</span>',
-            1 => '<span class="badge bg-info">' . Text::_('COM_PRIVACY_STATUS_CONFIRMED') . '</span>',
-            -1 => '<span class="badge bg-danger">' . Text::_('COM_PRIVACY_STATUS_INVALID') . '</span>',
-            0 => '<span class="badge bg-warning">' . Text::_('COM_PRIVACY_STATUS_PENDING') . '</span>',
+            2       => '<span class="badge bg-success">' . Text::_('COM_PRIVACY_STATUS_COMPLETED') . '</span>',
+            1       => '<span class="badge bg-info">' . Text::_('COM_PRIVACY_STATUS_CONFIRMED') . '</span>',
+            -1      => '<span class="badge bg-danger">' . Text::_('COM_PRIVACY_STATUS_INVALID') . '</span>',
+            0       => '<span class="badge bg-warning">' . Text::_('COM_PRIVACY_STATUS_PENDING') . '</span>',
             default => null,
         };
     }

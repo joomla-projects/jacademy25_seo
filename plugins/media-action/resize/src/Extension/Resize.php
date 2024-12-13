@@ -84,10 +84,10 @@ final class Resize extends MediaActionPlugin implements SubscriberInterface
         );
 
         $type = match (strtolower($item->extension)) {
-            'gif' => IMAGETYPE_GIF,
-            'png' => IMAGETYPE_PNG,
-            'avif' => IMAGETYPE_AVIF,
-            'webp' => IMAGETYPE_WEBP,
+            'gif'   => IMAGETYPE_GIF,
+            'png'   => IMAGETYPE_PNG,
+            'avif'  => IMAGETYPE_AVIF,
+            'webp'  => IMAGETYPE_WEBP,
             default => IMAGETYPE_JPEG,
         };
 

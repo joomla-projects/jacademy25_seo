@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Content\Joomla\Extension;
 
-use Joomla\Component\Workflow\Administrator\Model\StagesModel;
 use Joomla\CMS\Cache\CacheControllerFactory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
@@ -23,6 +22,7 @@ use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\Component\Workflow\Administrator\Model\StagesModel;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
 use Joomla\Database\DatabaseAwareTrait;
@@ -172,9 +172,9 @@ final class Joomla extends CMSPlugin
         }
         return match ($context) {
             'com_categories.category' => $this->canDeleteCategories($data),
-            'com_workflow.workflow' => $this->workflowNotUsed($data->id),
-            'com_workflow.stage' => $this->stageNotUsed($data->id),
-            default => true,
+            'com_workflow.workflow'   => $this->workflowNotUsed($data->id),
+            'com_workflow.stage'      => $this->stageNotUsed($data->id),
+            default                   => true,
         };
     }
 

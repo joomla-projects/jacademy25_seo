@@ -9,12 +9,12 @@
 
 namespace Joomla\CMS\MVC\View;
 
-use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Form\Form;
 use Doctrine\Inflector\InflectorFactory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Registry\Registry;
 

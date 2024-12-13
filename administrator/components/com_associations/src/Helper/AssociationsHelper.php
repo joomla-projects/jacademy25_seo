@@ -11,7 +11,6 @@
 namespace Joomla\Component\Associations\Administrator\Helper;
 
 use Joomla\CMS\Association\AssociationExtensionHelper;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Factory;
@@ -20,6 +19,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 

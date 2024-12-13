@@ -10,9 +10,9 @@
 
 namespace Joomla\Component\Menus\Administrator\Controller;
 
-use Joomla\Component\Menus\Administrator\Model\MenuModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\Component\Menus\Administrator\Model\MenuModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

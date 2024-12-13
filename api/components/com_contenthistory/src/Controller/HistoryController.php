@@ -10,10 +10,10 @@
 
 namespace Joomla\Component\Contenthistory\Api\Controller;
 
-use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
-use Joomla\CMS\MVC\Controller\Exception\Save;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
+use Joomla\CMS\MVC\Controller\Exception\Save;
 use Joomla\Component\Contenthistory\Administrator\Model\HistoryModel;
 
 // phpcs:disable PSR1.Files.SideEffects

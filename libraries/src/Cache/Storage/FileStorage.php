@@ -589,7 +589,7 @@ class FileStorage extends CacheStorage
         $excludefilter = \count($excludefilter) !== 0 ? '/(' . implode('|', $excludefilter) . ')/' : '';
 
         while (($file = readdir($handle)) !== false) {
-            if (($file !== '.') && ($file !== '..') && (!\in_array($file, $exclude)) && ($excludefilter === '' || $excludefilter === '0' || in_array(preg_match($excludefilter, $file), [0, false], true))) {
+            if (($file !== '.') && ($file !== '..') && (!\in_array($file, $exclude)) && ($excludefilter === '' || $excludefilter === '0' || \in_array(preg_match($excludefilter, $file), [0, false], true))) {
                 $dir   = $path . '/' . $file;
                 $isDir = is_dir($dir);
 
@@ -603,7 +603,7 @@ class FileStorage extends CacheStorage
 
                         $arr = array_merge($arr, $arr2);
                     }
-                } elseif (preg_match(sprintf('/%s/', $filter), $file)) {
+                } elseif (preg_match(\sprintf('/%s/', $filter), $file)) {
                     $arr[] = $fullpath ? $path . '/' . $file : $file;
                 }
             }
@@ -659,14 +659,14 @@ class FileStorage extends CacheStorage
             if (
                 ($file !== '.') && ($file !== '..')
                 && (!\in_array($file, $exclude))
-                && ($excludefilter_string === '' || $excludefilter_string === '0' || in_array(preg_match($excludefilter_string, $file), [0, false], true))
+                && ($excludefilter_string === '' || $excludefilter_string === '0' || \in_array(preg_match($excludefilter_string, $file), [0, false], true))
             ) {
                 $dir   = $path . '/' . $file;
                 $isDir = is_dir($dir);
 
                 if ($isDir) {
                     // Removes filtered directories
-                    if (preg_match(sprintf('/%s/', $filter), $file)) {
+                    if (preg_match(\sprintf('/%s/', $filter), $file)) {
                         $arr[] = $fullpath ? $dir : $file;
                     }
 

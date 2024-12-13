@@ -10,12 +10,12 @@
 
 namespace Joomla\Component\Config\Site\View\Modules;
 
-use Joomla\Component\Modules\Administrator\Model\ModuleModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Site\Model\ModulesModel;
+use Joomla\Component\Modules\Administrator\Model\ModuleModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

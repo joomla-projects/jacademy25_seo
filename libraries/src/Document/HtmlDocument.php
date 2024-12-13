@@ -9,10 +9,10 @@
 
 namespace Joomla\CMS\Document;
 
-use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
+use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
@@ -338,10 +338,10 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             return $this;
         }
 
-        $this->title = (isset($data['title']) && !empty($data['title']) && (in_array(stristr($this->title, (string) $data['title']), ['', '0'], true) || stristr($this->title, (string) $data['title']) === false))
+        $this->title = (isset($data['title']) && !empty($data['title']) && (\in_array(stristr($this->title, (string) $data['title']), ['', '0'], true) || stristr($this->title, (string) $data['title']) === false))
             ? $this->title . $data['title']
             : $this->title;
-        $this->description = (isset($data['description']) && !empty($data['description']) && (in_array(stristr($this->description, (string) $data['description']), ['', '0'], true) || stristr($this->description, (string) $data['description']) === false))
+        $this->description = (isset($data['description']) && !empty($data['description']) && (\in_array(stristr($this->description, (string) $data['description']), ['', '0'], true) || stristr($this->description, (string) $data['description']) === false))
             ? $this->description . $data['description']
             : $this->description;
         $this->link = $data['link'] ?? $this->link;
@@ -772,9 +772,11 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
         $lang = CmsFactory::getLanguage();
 
         // 1.5 or core then 1.6
-        if (!($lang->load('tpl_' . $template, JPATH_BASE)
+        if (
+            !($lang->load('tpl_' . $template, JPATH_BASE)
             || ($inherits !== '' && $lang->load('tpl_' . $inherits, JPATH_BASE))
-            || $lang->load('tpl_' . $template, $directory . '/' . $template)) && $inherits !== '') {
+            || $lang->load('tpl_' . $template, $directory . '/' . $template)) && $inherits !== ''
+        ) {
             $lang->load('tpl_' . $inherits, $directory . '/' . $inherits);
         }
 

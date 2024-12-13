@@ -9,8 +9,8 @@
 
 namespace Joomla\CMS\Extension\Service\Provider;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Mail\MailerFactoryInterface;
 use Joomla\CMS\MVC\Factory\ApiMVCFactory;
@@ -48,8 +48,7 @@ class MVCFactory implements ServiceProviderInterface
          * @since   4.0.0
          */
         private readonly string $namespace
-    )
-    {
+    ) {
     }
 
     /**

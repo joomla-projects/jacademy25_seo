@@ -36,8 +36,7 @@ class LegacyInstallerScript implements InstallerScriptInterface, DatabaseAwareIn
          * @since  4.2.0
          */
         private $installerScript
-    )
-    {
+    ) {
     }
 
     /**

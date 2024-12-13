@@ -10,30 +10,30 @@
 
 namespace Joomla\Plugin\Actionlog\Joomla\Extension;
 
-use Joomla\CMS\Event\Model\AfterSaveEvent;
-use Joomla\CMS\Event\Model\AfterDeleteEvent;
-use Joomla\CMS\Event\Model\AfterChangeStateEvent;
-use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
-use Joomla\CMS\Event\Extension\AfterInstallEvent;
-use Joomla\CMS\Event\Extension\AfterUninstallEvent;
-use Joomla\CMS\Event\Extension\AfterUpdateEvent;
-use Joomla\CMS\Event\User\AfterLoginEvent;
-use Joomla\CMS\Event\User\LoginFailureEvent;
-use Joomla\CMS\Event\User\LogoutEvent;
-use Joomla\CMS\Event\User\AfterRemindEvent;
-use Joomla\CMS\Event\Checkin\AfterCheckinEvent;
-use Joomla\CMS\Event\Cache\AfterPurgeEvent;
-use Joomla\CMS\Event\User\AfterResetRequestEvent;
-use Joomla\CMS\Event\User\AfterResetCompleteEvent;
-use Joomla\CMS\Event\User\BeforeSaveEvent;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\Application;
+use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
 use Joomla\CMS\Event\Cache;
+use Joomla\CMS\Event\Cache\AfterPurgeEvent;
 use Joomla\CMS\Event\Checkin;
+use Joomla\CMS\Event\Checkin\AfterCheckinEvent;
 use Joomla\CMS\Event\Extension;
+use Joomla\CMS\Event\Extension\AfterInstallEvent;
+use Joomla\CMS\Event\Extension\AfterUninstallEvent;
+use Joomla\CMS\Event\Extension\AfterUpdateEvent;
 use Joomla\CMS\Event\Model;
+use Joomla\CMS\Event\Model\AfterChangeStateEvent;
+use Joomla\CMS\Event\Model\AfterDeleteEvent;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
 use Joomla\CMS\Event\User;
+use Joomla\CMS\Event\User\AfterLoginEvent;
+use Joomla\CMS\Event\User\AfterRemindEvent;
+use Joomla\CMS\Event\User\AfterResetCompleteEvent;
+use Joomla\CMS\Event\User\AfterResetRequestEvent;
+use Joomla\CMS\Event\User\BeforeSaveEvent;
+use Joomla\CMS\Event\User\LoginFailureEvent;
+use Joomla\CMS\Event\User\LogoutEvent;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
@@ -1101,7 +1101,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      */
     public function onAfterPurge(AfterPurgeEvent $event): void
     {
-        $group   = in_array($event->getGroup(), ['', '0'], true) ? 'all' : $event->getGroup();
+        $group   = \in_array($event->getGroup(), ['', '0'], true) ? 'all' : $event->getGroup();
         $context = $this->getApplication()->getInput()->get('option');
         $user    = $this->getApplication()->getIdentity();
 
@@ -1338,9 +1338,9 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
         $stepNumber = $event->getArgument('stepNumber');
 
         $messageLanguageKey = match ($state) {
-            'skipped' => 'PLG_ACTIONLOG_JOOMLA_GUIDEDTOURS_TOURSKIPPED',
+            'skipped'   => 'PLG_ACTIONLOG_JOOMLA_GUIDEDTOURS_TOURSKIPPED',
             'completed' => 'PLG_ACTIONLOG_JOOMLA_GUIDEDTOURS_TOURCOMPLETED',
-            default => 'PLG_ACTIONLOG_JOOMLA_GUIDEDTOURS_TOURDELAYED',
+            default     => 'PLG_ACTIONLOG_JOOMLA_GUIDEDTOURS_TOURDELAYED',
         };
 
         // Get the tour from the model to fetch the translated title of the tour

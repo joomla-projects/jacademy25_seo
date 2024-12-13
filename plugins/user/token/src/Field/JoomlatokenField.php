@@ -120,7 +120,7 @@ class JoomlatokenField extends TextField
             return '';
         }
 
-        return base64_encode(sprintf('%s:%s:%s', $algorithm, $userId, $tokenHash));
+        return base64_encode(\sprintf('%s:%s:%s', $algorithm, $userId, $tokenHash));
     }
 
     /**

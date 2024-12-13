@@ -1,11 +1,11 @@
 <?php
 
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Installation\Application\CliInstallationApplication;
 use Joomla\CMS\Installation\Service\Provider\Application;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Session\Session;
 use Joomla\Session\SessionInterface;
-use Joomla\CMS\Installation\Application\CliInstallationApplication;
 
 /**
  * @package     Joomla.Installation

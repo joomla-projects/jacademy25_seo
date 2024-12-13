@@ -187,7 +187,7 @@ class BufferStreamHandler
             SEEK_SET => $this->seek_set($offset),
             SEEK_CUR => $this->seek_cur($offset),
             SEEK_END => $this->seek_end($offset),
-            default => false,
+            default  => false,
         };
     }
 

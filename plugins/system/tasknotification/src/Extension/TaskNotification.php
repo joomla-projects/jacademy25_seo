@@ -10,8 +10,8 @@
 
 namespace Joomla\Plugin\System\TaskNotification\Extension;
 
-use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Event\Model;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;

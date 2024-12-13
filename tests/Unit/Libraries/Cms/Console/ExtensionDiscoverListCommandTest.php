@@ -10,9 +10,9 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Console;
 
-use PHPUnit\Framework\TestCase;
 use Joomla\CMS\Console\ExtensionDiscoverListCommand;
 use Joomla\Database\DatabaseInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for Joomla\CMS\Console\ExtensionDiscoverCommand.
@@ -63,9 +63,9 @@ class ExtensionDiscoverListCommandTest extends TestCase
         $filteredextensionsArray1 = $command->filterExtensionsBasedOnState($extensions1, $state);
         $filteredextensionsArray2 = $command->filterExtensionsBasedOnState($extensions2, $state);
 
-        $size0 = count($filteredextensionsArray0);
-        $size1 = count($filteredextensionsArray1);
-        $size2 = count($filteredextensionsArray2);
+        $size0 = \count($filteredextensionsArray0);
+        $size1 = \count($filteredextensionsArray1);
+        $size2 = \count($filteredextensionsArray2);
 
         $this->assertSame($size0, 0);
         $this->assertSame($size1, 1);

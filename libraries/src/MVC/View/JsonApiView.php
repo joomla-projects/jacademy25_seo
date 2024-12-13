@@ -9,10 +9,10 @@
 
 namespace Joomla\CMS\MVC\View;
 
-use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Document\JsonapiDocument;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\View\Event\OnGetApiFields;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\Serializer\JoomlaSerializer;

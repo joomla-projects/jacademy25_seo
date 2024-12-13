@@ -78,18 +78,20 @@ final class Requests extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, /**
-     * The http factory
-     *
-     * @since  4.2.0
-     */
-    private HttpFactory $httpFactory, /**
-     * The root directory
-     *
-     * @since  4.2.0
-     */
-    private string $rootDirectory)
-    {
+    public function __construct(
+        DispatcherInterface $dispatcher,
+        array $config, /**
+         * The http factory
+         *
+         * @since  4.2.0
+         */
+        private HttpFactory $httpFactory, /**
+         * The root directory
+         *
+         * @since  4.2.0
+         */
+        private string $rootDirectory
+    ) {
         parent::__construct($dispatcher, $config);
     }
 
@@ -131,7 +133,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
         $responseBody = $response->body;
 
         // @todo this handling must be rethought and made safe. stands as a good demo right now.
-        $responseFilename = Path::clean($this->rootDirectory . sprintf('/task_%d_response.html', $id));
+        $responseFilename = Path::clean($this->rootDirectory . \sprintf('/task_%d_response.html', $id));
 
         try {
             File::write($responseFilename, $responseBody);

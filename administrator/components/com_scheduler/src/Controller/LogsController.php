@@ -10,10 +10,10 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Controller;
 
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects

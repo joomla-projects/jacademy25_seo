@@ -10,13 +10,13 @@
 
 namespace Joomla\Component\Config\Administrator\Controller;
 
-use Joomla\Component\Config\Administrator\Model\ComponentModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Config\Administrator\Model\ComponentModel;
 use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -69,7 +69,7 @@ class ComponentController extends FormController
         $id      = $this->input->get('id', null, 'INT');
         $option  = $this->input->get('component');
         $user    = $this->app->getIdentity();
-        $context = sprintf('%s.edit.%s.%s', $this->option, $this->context, $option);
+        $context = \sprintf('%s.edit.%s.%s', $this->option, $this->context, $option);
 
         /** @var ComponentModel $model */
         $model = $this->getModel('Component', 'Administrator');
@@ -192,7 +192,7 @@ class ComponentController extends FormController
         $component = $this->input->get('component');
 
         // Clear session data.
-        $this->app->setUserState(sprintf('%s.edit.%s.%s.data', $this->option, $this->context, $component), null);
+        $this->app->setUserState(\sprintf('%s.edit.%s.%s.data', $this->option, $this->context, $component), null);
 
         // Calculate redirect URL
         $returnUri = $this->input->post->get('return', null, 'base64');

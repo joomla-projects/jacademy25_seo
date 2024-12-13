@@ -130,14 +130,14 @@ class TasksStateCommand extends AbstractCommand
 
         // We couldn't fetch that task :(
         if (empty($task->id)) {
-            $this->ioStyle->error(sprintf("Task ID '%d' does not exist!", $id));
+            $this->ioStyle->error(\sprintf("Task ID '%d' does not exist!", $id));
 
             return 1;
         }
 
         // If the item is checked-out we need a check in (currently not possible through the CLI)
         if ($taskModel->isCheckedOut($task)) {
-            $this->ioStyle->error(sprintf("Task ID '%d' is checked out!", $id));
+            $this->ioStyle->error(\sprintf("Task ID '%d' is checked out!", $id));
 
             return 1;
         }
@@ -148,12 +148,12 @@ class TasksStateCommand extends AbstractCommand
         $action = Task::STATE_MAP[$state];
 
         if (!$table->publish($id, $state)) {
-            $this->ioStyle->error(sprintf("Can't %s Task ID '%d'", $action, $id));
+            $this->ioStyle->error(\sprintf("Can't %s Task ID '%d'", $action, $id));
 
             return 3;
         }
 
-        $this->ioStyle->success(sprintf('Task ID %d %s.', $id, $action));
+        $this->ioStyle->success(\sprintf('Task ID %d %s.', $id, $action));
 
         return 0;
     }

@@ -47,15 +47,15 @@ class AfterInstallerEvent extends InstallerEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('installer', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'installer' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'installer' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('installerResult', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'installerResult' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'installerResult' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('message', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'message' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'message' of event %s is required but has not been provided", $name));
         }
 
         // For backward compatibility make sure the values is referenced

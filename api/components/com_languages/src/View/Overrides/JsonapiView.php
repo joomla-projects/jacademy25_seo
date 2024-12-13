@@ -10,9 +10,9 @@
 
 namespace Joomla\Component\Languages\Api\View\Overrides;
 
+use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\Component\Languages\Administrator\Model\OverrideModel;
 use Joomla\Component\Languages\Administrator\Model\OverridesModel;
-use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

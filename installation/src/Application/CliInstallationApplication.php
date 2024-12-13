@@ -10,7 +10,6 @@
 
 namespace Joomla\CMS\Installation\Application;
 
-use Joomla\Console\Command\AbstractCommand;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\EventAware;
@@ -24,6 +23,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Version;
 use Joomla\Console\Application;
+use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;

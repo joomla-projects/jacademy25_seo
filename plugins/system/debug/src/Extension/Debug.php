@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\Debug\Extension;
 
-use Joomla\Database\Monitor\DebugMonitor;
 use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
@@ -28,6 +27,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Event\ConnectionEvent;
+use Joomla\Database\Monitor\DebugMonitor;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
@@ -635,7 +635,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
                     $level = match ($entry->priority) {
                         Log::EMERGENCY, Log::ALERT, Log::CRITICAL, Log::ERROR => 'error',
                         Log::WARNING => 'warning',
-                        default => 'info',
+                        default      => 'info',
                     };
 
                     $this->debugBar['log']->addMessage($entry->category . ' - ' . $entry->message, $level);

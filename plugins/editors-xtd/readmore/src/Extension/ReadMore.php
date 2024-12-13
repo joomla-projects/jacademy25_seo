@@ -10,11 +10,11 @@
 
 namespace Joomla\Plugin\EditorsXtd\ReadMore\Extension;
 
-use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Editor\Button\Button;
 use Joomla\CMS\Event\Editor\EditorButtonsSetupEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects

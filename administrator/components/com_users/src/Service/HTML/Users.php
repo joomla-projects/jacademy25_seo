@@ -410,8 +410,8 @@ class Users
         $title = $db->loadResult();
 
         if ($title) {
-            if (!$lang->load(sprintf('plg_editors_%s.sys', $value), JPATH_ADMINISTRATOR)) {
-                $lang->load(sprintf('plg_editors_%s.sys', $value), JPATH_PLUGINS . '/editors/' . $value);
+            if (!$lang->load(\sprintf('plg_editors_%s.sys', $value), JPATH_ADMINISTRATOR)) {
+                $lang->load(\sprintf('plg_editors_%s.sys', $value), JPATH_PLUGINS . '/editors/' . $value);
             }
             $lang->load($title . '.sys');
             return Text::_($title);

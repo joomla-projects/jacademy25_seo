@@ -273,7 +273,7 @@ class Session implements ServiceProviderInterface
         $container->alias(MetadataManagerListener::class, 'session.event_listener.metadata_manager')
             ->share(
                 'session.event_listener.metadata_manager',
-                fn(Container $container) => new MetadataManagerListener($container->get(MetadataManager::class), $container->get('config')),
+                fn (Container $container) => new MetadataManagerListener($container->get(MetadataManager::class), $container->get('config')),
                 true
             );
 

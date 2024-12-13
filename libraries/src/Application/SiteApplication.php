@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Application;
 
-use Joomla\CMS\Router\Router;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\OutputController;
@@ -24,6 +23,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\Router;
 use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;

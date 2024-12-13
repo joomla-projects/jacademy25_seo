@@ -598,7 +598,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 if (str_starts_with($name, 'data-')) {
                     $this->dataAttributes[$name] = $value;
                 } elseif (property_exists(self::class, $name)) {
-                    Log::add(sprintf('Cannot access protected / private property %s of ', $name) . self::class);
+                    Log::add(\sprintf('Cannot access protected / private property %s of ', $name) . self::class);
                 } else {
                     $this->$name = $value;
                 }

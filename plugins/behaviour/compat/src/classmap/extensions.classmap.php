@@ -1,16 +1,9 @@
 <?php
 
 use Joomla\Component\Actionlogs\Administrator\Plugin\ActionLogPlugin;
-use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
-use Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin;
-use Joomla\Component\Privacy\Administrator\Export\Domain;
-use Joomla\Component\Privacy\Administrator\Export\Field;
-use Joomla\Component\Privacy\Administrator\Export\Item;
-use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
-use Joomla\Component\Privacy\Administrator\Removal\Status;
-use Joomla\Component\Privacy\Administrator\Table\RequestTable;
-use Joomla\Component\Tags\Administrator\Table\TagTable;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin;
+use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
@@ -19,6 +12,13 @@ use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
 use Joomla\Component\Finder\Administrator\Indexer\Token;
+use Joomla\Component\Privacy\Administrator\Export\Domain;
+use Joomla\Component\Privacy\Administrator\Export\Field;
+use Joomla\Component\Privacy\Administrator\Export\Item;
+use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
+use Joomla\Component\Privacy\Administrator\Removal\Status;
+use Joomla\Component\Privacy\Administrator\Table\RequestTable;
+use Joomla\Component\Tags\Administrator\Table\TagTable;
 
 /**
  * Joomla! Content Management System

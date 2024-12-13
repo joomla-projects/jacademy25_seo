@@ -10,11 +10,11 @@
 
 namespace Joomla\Component\Content\Site\Helper;
 
-use Joomla\Registry\Registry;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -39,10 +39,10 @@ class QueryHelper
     public static function orderbyPrimary($orderby)
     {
         return match ($orderby) {
-            'alpha' => 'c.path, ',
+            'alpha'  => 'c.path, ',
             'ralpha' => 'c.path DESC, ',
-            'order' => 'c.lft, ',
-            default => '',
+            'order'  => 'c.lft, ',
+            default  => '',
         };
     }
 
@@ -162,10 +162,10 @@ class QueryHelper
     {
         $db instanceof DatabaseInterface ? $db : Factory::getDbo();
         return match ($orderDate) {
-            'modified' => ' CASE WHEN a.modified IS NULL THEN a.created ELSE a.modified END',
-            'published' => ' CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END ',
+            'modified'    => ' CASE WHEN a.modified IS NULL THEN a.created ELSE a.modified END',
+            'published'   => ' CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END ',
             'unpublished' => ' CASE WHEN a.publish_down IS NULL THEN a.created ELSE a.publish_down END ',
-            default => ' a.created ',
+            default       => ' a.created ',
         };
     }
 

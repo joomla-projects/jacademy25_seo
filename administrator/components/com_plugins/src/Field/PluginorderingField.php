@@ -10,8 +10,8 @@
 
 namespace Joomla\Component\Plugins\Administrator\Field;
 
-use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Form\Field\OrderingField;
+use Joomla\Database\DatabaseQuery;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

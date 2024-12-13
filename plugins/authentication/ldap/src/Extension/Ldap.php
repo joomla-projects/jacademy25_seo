@@ -45,12 +45,14 @@ final class Ldap extends CMSPlugin implements SubscriberInterface
      * @since   4.3.0
      */
     public function __construct(/**
-     * The ldap factory
-     *
-     * @since  4.3.0
-     */
-    private readonly LdapFactoryInterface $factory, DispatcherInterface $dispatcher, array $config = [])
-    {
+         * The ldap factory
+         *
+         * @since  4.3.0
+         */
+        private readonly LdapFactoryInterface $factory,
+        DispatcherInterface $dispatcher,
+        array $config = []
+    ) {
         parent::__construct($dispatcher, $config);
     }
 

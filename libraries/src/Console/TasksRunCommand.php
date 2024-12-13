@@ -9,9 +9,9 @@
 
 namespace Joomla\CMS\Console;
 
-use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
+use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -113,7 +113,7 @@ class TasksRunCommand extends AbstractCommand
 
         $netTime = round(microtime(true) - $status['startTime'], 2);
         $this->ioStyle->newLine();
-        $this->ioStyle->writeln(sprintf('<info>Finished running %d tasks in %s seconds.</info>', $taskCount, $netTime));
+        $this->ioStyle->writeln(\sprintf('<info>Finished running %d tasks in %s seconds.</info>', $taskCount, $netTime));
 
         return $taskCount === 1 ? $exit : Status::OK;
     }

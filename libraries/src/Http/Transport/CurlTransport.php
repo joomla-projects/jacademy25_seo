@@ -283,6 +283,6 @@ class CurlTransport extends AbstractTransport implements TransportInterface
     {
         $curlVersion = curl_version();
         // If open_basedir is enabled we also need to check if libcurl version is 7.19.4 or higher
-        return in_array(\ini_get('open_basedir'), ['', '0'], true) || \ini_get('open_basedir') === false || version_compare($curlVersion['version'], '7.19.4', '>=');
+        return \in_array(\ini_get('open_basedir'), ['', '0'], true) || \ini_get('open_basedir') === false || version_compare($curlVersion['version'], '7.19.4', '>=');
     }
 }

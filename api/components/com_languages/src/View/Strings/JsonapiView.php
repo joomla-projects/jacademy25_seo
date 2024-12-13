@@ -10,11 +10,11 @@
 
 namespace Joomla\Component\Languages\Api\View\Strings;
 
-use Joomla\Component\Languages\Administrator\Model\StringsModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Serializer\JoomlaSerializer;
+use Joomla\Component\Languages\Administrator\Model\StringsModel;
 use Tobscure\JsonApi\Collection;
 
 // phpcs:disable PSR1.Files.SideEffects

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Contact\Administrator\Model;
 
-use Joomla\Component\Categories\Administrator\Model\CategoryModel;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
@@ -20,8 +18,10 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -322,7 +322,7 @@ class ContactModel extends AdminModel
             $origTable->load($input->getInt('id'));
 
             if ($data['name'] == $origTable->name) {
-                [$name, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+                [$name, $alias]     = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
                 $data['name']       = $name;
                 $data['alias']      = $alias;
             } elseif ($data['alias'] == $origTable->alias) {

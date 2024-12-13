@@ -110,7 +110,7 @@ class WorkflowModel extends AdminModel
 
             // Alter the title for save as copy
             if ($origTable->load(['title' => $data['title']])) {
-                [$title]   = $this->generateNewTitle(0, '', $data['title']);
+                [$title]       = $this->generateNewTitle(0, '', $data['title']);
                 $data['title'] = $title;
             }
 
@@ -284,12 +284,14 @@ class WorkflowModel extends AdminModel
         $date = Factory::getDate()->toSql();
 
         // Unset other default item
-        if ($value && $table->load(
-            [
-            'default'   => '1',
-            'extension' => $table->extension,
-            ]
-        )) {
+        if (
+            $value && $table->load(
+                [
+                'default'   => '1',
+                'extension' => $table->extension,
+                ]
+            )
+        ) {
             $table->default  = 0;
             $table->modified = $date;
             $table->store();

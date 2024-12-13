@@ -10,9 +10,9 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Discover;
 
-use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\Component\Installer\Administrator\Model\DiscoverModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 

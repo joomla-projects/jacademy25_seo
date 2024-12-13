@@ -10,8 +10,8 @@
 
 namespace Joomla\Component\Templates\Administrator\View\Templates;
 
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;

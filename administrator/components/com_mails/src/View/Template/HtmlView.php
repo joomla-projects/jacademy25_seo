@@ -10,8 +10,8 @@
 
 namespace Joomla\Component\Mails\Administrator\View\Template;
 
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -90,7 +90,7 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        [$extension, $template_id] = explode('.', $this->item->template_id, 2);
+        [$extension, $template_id]     = explode('.', $this->item->template_id, 2);
         $fields                        = ['subject', 'body', 'htmlbody'];
         $this->templateData            = [];
 

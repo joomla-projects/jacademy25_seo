@@ -62,14 +62,17 @@ class JsonResponse implements \Stringable
      *
      * @since   3.1
      */
-    public function __construct($response = null, /**
-     * The main response message
-     *
-     *
-     * @since  3.1
-     */
-    public $message = null, $error = false, $ignoreMessages = false)
-    {
+    public function __construct(
+        $response = null, /**
+         * The main response message
+         *
+         *
+         * @since  3.1
+         */
+        public $message = null,
+        $error = false,
+        $ignoreMessages = false
+    ) {
         // Get the message queue if requested and available
         $app = Factory::getApplication();
 

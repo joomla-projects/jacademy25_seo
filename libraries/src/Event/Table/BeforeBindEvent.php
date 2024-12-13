@@ -61,7 +61,7 @@ class BeforeBindEvent extends AbstractEvent
     protected function setSrc($value)
     {
         if (!empty($value) && !\is_object($value) && !\is_array($value)) {
-            throw new \BadMethodCallException(sprintf("Argument 'src' of event %s must be empty, object or array", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'src' of event %s must be empty, object or array", $this->name));
         }
 
         return $value;
@@ -82,7 +82,7 @@ class BeforeBindEvent extends AbstractEvent
     protected function setIgnore($value)
     {
         if (!empty($value) && !\is_array($value)) {
-            throw new \BadMethodCallException(sprintf("Argument 'ignore' of event %s must be empty or array", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'ignore' of event %s must be empty or array", $this->name));
         }
 
         return $value;

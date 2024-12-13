@@ -10,8 +10,8 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Versioning\VersionableModelTrait;

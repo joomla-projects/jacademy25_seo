@@ -105,7 +105,7 @@ class ExecRuleHelper
                 $interval            = new \DateInterval('P' . $intervalDays . 'D');
                 $nextExec            = $now->add($interval);
                 $execTime            = $executionRules['exec-time'];
-                [$hour, $minute] = explode(':', (string) $execTime);
+                [$hour, $minute]     = explode(':', (string) $execTime);
                 $nextExec->setTime($hour, $minute);
                 $nextExec = $string ? $nextExec->toSql() : $nextExec;
                 break;
@@ -120,7 +120,7 @@ class ExecRuleHelper
                 $nextExec->setDate($nextExecYear, $nextExecMonth, $execDay);
 
                 $execTime            = $executionRules['exec-time'];
-                [$hour, $minute] = explode(':', (string) $execTime);
+                [$hour, $minute]     = explode(':', (string) $execTime);
                 $nextExec->setTime($hour, $minute);
                 $nextExec = $string ? $nextExec->toSql() : $nextExec;
                 break;

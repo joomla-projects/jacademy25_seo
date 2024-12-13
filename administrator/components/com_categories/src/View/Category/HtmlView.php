@@ -10,11 +10,9 @@
 
 namespace Joomla\Component\Categories\Administrator\View\Category;
 
-use Joomla\CMS\Form\Form;
-use Joomla\Registry\Registry;
-use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
@@ -23,8 +21,10 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

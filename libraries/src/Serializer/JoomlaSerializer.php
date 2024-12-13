@@ -9,10 +9,10 @@
 
 namespace Joomla\CMS\Serializer;
 
-use Joomla\CMS\Serializer\Events\OnGetApiAttributes;
-use Joomla\CMS\Serializer\Events\OnGetApiRelation;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Serializer\Events\OnGetApiAttributes;
+use Joomla\CMS\Serializer\Events\OnGetApiRelation;
 use Tobscure\JsonApi\AbstractSerializer;
 use Tobscure\JsonApi\Relationship;
 

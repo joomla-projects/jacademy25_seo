@@ -61,7 +61,7 @@ class ModulesPositioneditField extends FormField
     {
         return match ($name) {
             'client' => $this->$name,
-            default => parent::__get($name),
+            default  => parent::__get($name),
         };
     }
 

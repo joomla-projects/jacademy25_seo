@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Newsfeeds\Site\View\Newsfeed;
 
-use Joomla\CMS\User\User;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Feed\FeedFactory;
@@ -19,8 +17,10 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\User\User;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 use Joomla\Component\Newsfeeds\Site\Model\NewsfeedModel;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -187,7 +187,7 @@ class HtmlView extends BaseHtmlView
         try {
             $feed         = new FeedFactory();
             $this->rssDoc = $feed->getFeed($item->link);
-        } catch (\InvalidArgumentException|\RuntimeException) {
+        } catch (\InvalidArgumentException | \RuntimeException) {
             $msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
         }
 

@@ -10,13 +10,13 @@
 
 namespace Joomla\Component\Tags\Site\View\Tags;
 
-use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\User\User;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\User\User;
 use Joomla\Component\Tags\Site\Model\TagsModel;
 use Joomla\Registry\Registry;
 

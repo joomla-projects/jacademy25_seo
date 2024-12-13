@@ -9,8 +9,8 @@
 
 namespace Joomla\CMS\Document\Renderer\Feed;
 
-use Joomla\CMS\Document\FeedDocument;
 use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Document\FeedDocument;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;

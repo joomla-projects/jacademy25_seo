@@ -9,18 +9,18 @@
 
 namespace Joomla\CMS\WebAuthn;
 
-use Cose\Algorithm\Signature\RSA\RS1;
-use Cose\Algorithm\Signature\RSA\RS256;
-use Cose\Algorithm\Signature\RSA\RS384;
-use Cose\Algorithm\Signature\RSA\RS512;
-use Cose\Algorithm\Signature\RSA\PS256;
-use Cose\Algorithm\Signature\RSA\PS384;
-use Cose\Algorithm\Signature\RSA\PS512;
 use Cose\Algorithm\Signature\ECDSA\ES256;
 use Cose\Algorithm\Signature\ECDSA\ES256K;
 use Cose\Algorithm\Signature\ECDSA\ES384;
 use Cose\Algorithm\Signature\ECDSA\ES512;
 use Cose\Algorithm\Signature\EdDSA\Ed25519;
+use Cose\Algorithm\Signature\RSA\PS256;
+use Cose\Algorithm\Signature\RSA\PS384;
+use Cose\Algorithm\Signature\RSA\PS512;
+use Cose\Algorithm\Signature\RSA\RS1;
+use Cose\Algorithm\Signature\RSA\RS256;
+use Cose\Algorithm\Signature\RSA\RS384;
+use Cose\Algorithm\Signature\RSA\RS512;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -122,22 +122,22 @@ final class Server
      * @since 5.0.0
      */
     public function __construct(/**
-     * The relaying party entity
-     *
-     * @since 5.0.0
-     */
-    private readonly PublicKeyCredentialRpEntity $rpEntity, /**
-     * Public Key credential source respoitory instance
-     *
-     * @since 5.0.0
-     */
-    private readonly PublicKeyCredentialSourceRepository $publicKeyCredentialSourceRepository, /**
-     * Metadata statement repository service
-     *
-     * @since 5.0.0
-     */
-    private readonly ?MetadataStatementRepository $metadataStatementRepository)
-    {
+         * The relaying party entity
+         *
+         * @since 5.0.0
+         */
+        private readonly PublicKeyCredentialRpEntity $rpEntity, /**
+         * Public Key credential source respoitory instance
+         *
+         * @since 5.0.0
+         */
+        private readonly PublicKeyCredentialSourceRepository $publicKeyCredentialSourceRepository, /**
+         * Metadata statement repository service
+         *
+         * @since 5.0.0
+         */
+        private readonly ?MetadataStatementRepository $metadataStatementRepository
+    ) {
         $this->coseAlgorithmManagerFactory = new ManagerFactory();
         $this->coseAlgorithmManagerFactory->add('RS1', new RS1());
         $this->coseAlgorithmManagerFactory->add('RS256', new RS256());

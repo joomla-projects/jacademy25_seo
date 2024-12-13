@@ -37,8 +37,7 @@ class RouterLegacy implements RouterInterface
          * @since  3.3
          */
         protected $component
-    )
-    {
+    ) {
     }
 
     /**

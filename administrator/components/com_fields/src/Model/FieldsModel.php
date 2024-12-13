@@ -11,10 +11,10 @@
 namespace Joomla\Component\Fields\Administrator\Model;
 
 use Joomla\CMS\Categories\CategoryInterface;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;

@@ -10,11 +10,11 @@
 
 namespace Joomla\Component\Finder\Administrator\Controller;
 
-use Joomla\Component\Finder\Administrator\Model\FilterModel;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Finder\Administrator\Model\FilterModel;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -48,7 +48,7 @@ class FilterController extends FormController
         $table   = $model->getTable();
         $data    = $this->input->post->get('jform', [], 'array');
         $checkin = $table->hasField('checked_out');
-        $context = sprintf('%s.edit.%s', $this->option, $this->context);
+        $context = \sprintf('%s.edit.%s', $this->option, $this->context);
         $task    = $this->getTask();
 
         // Determine the name of the primary key for the data.

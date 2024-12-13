@@ -10,12 +10,12 @@
 
 namespace Joomla\Plugin\Fields\Subform\Extension;
 
-use Joomla\Registry\Registry;
 use Joomla\CMS\Event\CustomFields\BeforePrepareFieldEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -199,7 +199,7 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
             foreach ($this->getSubfieldsFromField($field) as $subfield) {
                 // Fill value (and rawvalue) if we have data for this subfield in the current row, otherwise set them to empty
                 $subfield->rawvalue = $row[$subfield->name] ?? '';
-                $subfield->value = $row[$subfield->name] ?? '';
+                $subfield->value    = $row[$subfield->name] ?? '';
                 // Do we want to render the value of this field, and is the value non-empty?
                 if ($subfield->value !== '' && $subfield->render_values == '1') {
                     /**

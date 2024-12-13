@@ -9,13 +9,13 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
-use Joomla\CMS\MVC\Controller\ControllerInterface;
-use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Controller\ControllerInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Model\ModelInterface;
+use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Filesystem\Path;
 use Joomla\Input\Input;

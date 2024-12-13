@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
-use Joomla\Component\Content\Administrator\Model\ArticleModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
@@ -18,6 +17,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Content\Administrator\Model\ArticleModel;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;

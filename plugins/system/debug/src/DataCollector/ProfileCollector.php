@@ -126,7 +126,7 @@ class ProfileCollector extends AbstractDataCollector
         $end = microtime(true);
 
         if (!$this->hasStartedMeasure($name)) {
-            throw new DebugBarException(sprintf("Failed stopping measure '%s' because it hasn't been started", $name));
+            throw new DebugBarException(\sprintf("Failed stopping measure '%s' because it hasn't been started", $name));
         }
 
         $this->addMeasure($this->startedMeasures[$name]['label'], $this->startedMeasures[$name]['start'], $end, $params, $this->startedMeasures[$name]['collector']);
@@ -267,7 +267,7 @@ class ProfileCollector extends AbstractDataCollector
 
         foreach ($marks as $mark) {
             $mem   = $this->getDataFormatter()->formatBytes(abs($mark->memory) * 1048576);
-            $label = $mark->label . sprintf(' (%s)', $mem);
+            $label = $mark->label . \sprintf(' (%s)', $mem);
             $end   = $start + $mark->time / 1000;
             $this->addMeasure($label, $start, $end);
             $start = $end;
@@ -279,7 +279,7 @@ class ProfileCollector extends AbstractDataCollector
 
         usort(
             $this->measures,
-            fn($a, $b) => $a['start'] <=> $b['start']
+            fn ($a, $b) => $a['start'] <=> $b['start']
         );
 
         return [

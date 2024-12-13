@@ -10,12 +10,12 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Joomla\CMS\Event\User\LoginEvent;
-use Joomla\CMS\Event\User\AfterLoginEvent;
-use Joomla\CMS\Event\User\LoginFailureEvent;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxLogin;
+use Joomla\CMS\Event\User\AfterLoginEvent;
+use Joomla\CMS\Event\User\LoginEvent;
+use Joomla\CMS\Event\User\LoginFailureEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;

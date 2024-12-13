@@ -228,7 +228,7 @@ class BannersModel extends ListModel
                         $condition2 .= ' OR ' . $db->quoteName('cat.metakey') . ' ' . $query->regexp($bounded[4]) . ' ';
                     }
 
-                    $temp[] = sprintf('(%s) AND (%s)', $condition1, $condition2);
+                    $temp[] = \sprintf('(%s) AND (%s)', $condition1, $condition2);
                 }
 
                 $query->where('(' . implode(' OR ', $temp) . ')');

@@ -34,8 +34,7 @@ final class SessionManager
          * @since  4.0.0
          */
         private readonly \SessionHandlerInterface $sessionHandler
-    )
-    {
+    ) {
     }
 
     /**

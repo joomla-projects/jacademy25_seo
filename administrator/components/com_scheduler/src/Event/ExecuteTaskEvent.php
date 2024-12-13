@@ -40,7 +40,7 @@ class ExecuteTaskEvent extends AbstractEvent
         $arguments['resultSnapshot'] = null;
 
         if (!($arguments['subject'] ?? null) instanceof Task) {
-            throw new \BadMethodCallException(sprintf('The subject given for %s event must be an instance of ', $name) . Task::class);
+            throw new \BadMethodCallException(\sprintf('The subject given for %s event must be an instance of ', $name) . Task::class);
         }
     }
 

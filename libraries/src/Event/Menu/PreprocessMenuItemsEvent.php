@@ -57,11 +57,11 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
         }
 
         if (!\array_key_exists('context', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'context' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'context' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('subject', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'subject' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'subject' of event %s is required but has not been provided", $name));
         }
 
         // For backward compatibility make sure the content is referenced
@@ -100,10 +100,10 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
     protected function onSetSubject(array $value): array
     {
         // Filter out MenuItem elements. Non empty result means invalid data
-        $valid = array_filter($value, fn($item) => !$item instanceof MenuItem) === [];
+        $valid = array_filter($value, fn ($item) => !$item instanceof MenuItem) === [];
 
         if (!$valid) {
-            throw new \UnexpectedValueException(sprintf("Argument 'subject' of event %s is not of the expected type", $this->name));
+            throw new \UnexpectedValueException(\sprintf("Argument 'subject' of event %s is not of the expected type", $this->name));
         }
 
         return $value;

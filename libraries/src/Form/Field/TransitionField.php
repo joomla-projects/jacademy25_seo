@@ -131,7 +131,7 @@ class TransitionField extends GroupedlistField
 
             $items = array_filter(
                 $items,
-                fn($item) => $user->authorise('core.execute.transition', $component . '.transition.' . $item->value)
+                fn ($item) => $user->authorise('core.execute.transition', $component . '.transition.' . $item->value)
             );
 
             foreach ($items as $item) {

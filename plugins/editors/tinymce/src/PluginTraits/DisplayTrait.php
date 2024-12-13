@@ -276,8 +276,8 @@ trait DisplayTrait
              */
             $preset = match (true) {
                 isset($ugroups[4]) || isset($ugroups[7]) || isset($ugroups[8]) => $presets['advanced'],
-                isset($ugroups[2]) || isset($ugroups[6]) => $presets['medium'],
-                default => $presets['simple'],
+                isset($ugroups[2]) || isset($ugroups[6])                       => $presets['medium'],
+                default                                                        => $presets['simple'],
             };
 
             $levelParams->loadArray($preset);

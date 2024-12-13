@@ -10,10 +10,10 @@
 
 namespace Joomla\Component\Languages\Api\Controller;
 
-use Joomla\Component\Languages\Api\View\Strings\JsonapiView;
-use Joomla\Component\Languages\Administrator\Model\StringsModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\Component\Languages\Administrator\Model\StringsModel;
+use Joomla\Component\Languages\Api\View\Strings\JsonapiView;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects

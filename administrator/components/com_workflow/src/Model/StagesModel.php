@@ -11,10 +11,10 @@
 
 namespace Joomla\Component\Workflow\Administrator\Model;
 
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 

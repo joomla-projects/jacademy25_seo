@@ -98,12 +98,12 @@ if (empty($opts['v'])) {
 // Check version string (exit if not correct).
 $versionParts = explode('-', $opts['v']);
 
-if (in_array(preg_match('#^\d+\.\d+\.\d+$#', $versionParts[0]), [0, false], true)) {
+if (\in_array(preg_match('#^\d+\.\d+\.\d+$#', $versionParts[0]), [0, false], true)) {
     usage($argv[0]);
     die();
 }
 
-if (isset($versionParts[1]) && in_array(preg_match('#(dev|alpha|beta|rc)\d*#', $versionParts[1]), [0, false], true)) {
+if (isset($versionParts[1]) && \in_array(preg_match('#(dev|alpha|beta|rc)\d*#', $versionParts[1]), [0, false], true)) {
     usage($argv[0]);
     die();
 }

@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Privacy\Administrator\Plugin;
 
-use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
@@ -18,6 +17,7 @@ use Joomla\Component\Privacy\Administrator\Export\Domain;
 use Joomla\Component\Privacy\Administrator\Export\Field;
 use Joomla\Component\Privacy\Administrator\Export\Item;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

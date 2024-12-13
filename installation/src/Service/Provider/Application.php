@@ -10,7 +10,6 @@
 
 namespace Joomla\CMS\Installation\Service\Provider;
 
-use Joomla\Event\DispatcherInterface;
 use Joomla\CMS\Error\Renderer\JsonRenderer;
 use Joomla\CMS\Input\Input as CMSInput;
 use Joomla\CMS\Installation\Application\CliInstallationApplication;
@@ -18,6 +17,7 @@ use Joomla\CMS\Installation\Application\InstallationApplication;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Priority;
 use Joomla\Session\SessionEvents;
 use Joomla\Session\SessionInterface;
@@ -80,7 +80,7 @@ class Application implements ServiceProviderInterface
         // Inject a custom JSON error renderer
         $container->share(
             JsonRenderer::class,
-            fn(Container $container) => new \Joomla\CMS\Installation\Error\Renderer\JsonRenderer()
+            fn (Container $container) => new \Joomla\CMS\Installation\Error\Renderer\JsonRenderer()
         );
     }
 }

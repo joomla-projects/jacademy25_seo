@@ -612,13 +612,13 @@ class TemplateAdapter extends InstallerAdapter
         $admin_info = ApplicationHelper::getClientInfo('administrator', true);
 
         foreach ($site_list as $template) {
-            if (file_exists(JPATH_SITE . sprintf('/templates/%s/templateDetails.xml', $template))) {
+            if (file_exists(JPATH_SITE . \sprintf('/templates/%s/templateDetails.xml', $template))) {
                 if ($template === 'system') {
                     // Ignore special system template
                     continue;
                 }
 
-                $manifest_details          = Installer::parseXMLInstallFile(JPATH_SITE . sprintf('/templates/%s/templateDetails.xml', $template));
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_SITE . \sprintf('/templates/%s/templateDetails.xml', $template));
                 $extension                 = Table::getInstance('extension');
                 $extension->type           = 'template';
                 $extension->client_id      = $site_info->id;
@@ -633,13 +633,13 @@ class TemplateAdapter extends InstallerAdapter
         }
 
         foreach ($admin_list as $template) {
-            if (file_exists(JPATH_ADMINISTRATOR . sprintf('/templates/%s/templateDetails.xml', $template))) {
+            if (file_exists(JPATH_ADMINISTRATOR . \sprintf('/templates/%s/templateDetails.xml', $template))) {
                 if ($template === 'system') {
                     // Ignore special system template
                     continue;
                 }
 
-                $manifest_details          = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . sprintf('/templates/%s/templateDetails.xml', $template));
+                $manifest_details          = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . \sprintf('/templates/%s/templateDetails.xml', $template));
                 $extension                 = Table::getInstance('extension');
                 $extension->type           = 'template';
                 $extension->client_id      = $admin_info->id;

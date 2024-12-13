@@ -77,8 +77,7 @@ final class MetadataManager
          * @since  3.8.6
          */
         private readonly DatabaseInterface $db
-    )
-    {
+    ) {
     }
 
     /**

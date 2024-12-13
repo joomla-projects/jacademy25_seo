@@ -160,12 +160,15 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      * @since   1.7.0
      */
     public function __construct(/**
-     * Name of the database table to model.
-     *
-     * @since  1.7.0
-     */
-    protected $_tbl, $key, DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
-    {
+         * Name of the database table to model.
+         *
+         * @since  1.7.0
+         */
+        protected $_tbl,
+        $key,
+        DatabaseDriver $db,
+        ?DispatcherInterface $dispatcher = null
+    ) {
         // Set the key to be an array.
         if (\is_string($key)) {
             $key = [$key];

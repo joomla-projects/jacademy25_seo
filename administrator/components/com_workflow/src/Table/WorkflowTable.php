@@ -208,12 +208,14 @@ class WorkflowTable extends Table implements CurrentUserInterface
         }
 
         // Verify that the default is unique for this workflow
-        if ((int) $this->default === 1 && $table->load(
-            [
-            'default'   => '1',
-            'extension' => $this->extension,
-            ]
-        )) {
+        if (
+            (int) $this->default === 1 && $table->load(
+                [
+                'default'   => '1',
+                'extension' => $this->extension,
+                ]
+            )
+        ) {
             $table->default = 0;
             $table->store();
         }

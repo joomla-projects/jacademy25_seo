@@ -300,12 +300,12 @@ class PluginAdapter extends InstallerAdapter
             }
 
             if ($name !== '' && $name !== '0') {
-                $extension = sprintf('plg_%s_%s', $group, $name);
-                $source    = $path ?: JPATH_PLUGINS . sprintf('/%s/%s', $group, $name);
+                $extension = \sprintf('plg_%s_%s', $group, $name);
+                $source    = $path ?: JPATH_PLUGINS . \sprintf('/%s/%s', $group, $name);
                 $folder    = (string) $element->attributes()->folder;
 
-                if ($folder && file_exists(sprintf('%s/%s', $path, $folder))) {
-                    $source = sprintf('%s/%s', $path, $folder);
+                if ($folder && file_exists(\sprintf('%s/%s', $path, $folder))) {
+                    $source = \sprintf('%s/%s', $path, $folder);
                 }
 
                 $this->doLoadLanguage($extension, $source, JPATH_ADMINISTRATOR);

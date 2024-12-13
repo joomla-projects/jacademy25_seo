@@ -50,4 +50,4 @@ echo "Saving JWT file in the plugin directory...\n";
 
 file_put_contents($filePath, $rawJwt);
 
-echo sprintf('File saved: %s%s', $filePath, PHP_EOL);
+echo \sprintf('File saved: %s%s', $filePath, PHP_EOL);

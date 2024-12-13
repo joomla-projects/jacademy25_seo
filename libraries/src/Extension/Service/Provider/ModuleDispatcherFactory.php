@@ -39,8 +39,7 @@ class ModuleDispatcherFactory implements ServiceProviderInterface
          * @since   4.0.0
          */
         private readonly string $namespace
-    )
-    {
+    ) {
     }
 
     /**
@@ -56,7 +55,7 @@ class ModuleDispatcherFactory implements ServiceProviderInterface
     {
         $container->set(
             ModuleDispatcherFactoryInterface::class,
-            fn(Container $container) => new \Joomla\CMS\Dispatcher\ModuleDispatcherFactory($this->namespace)
+            fn (Container $container) => new \Joomla\CMS\Dispatcher\ModuleDispatcherFactory($this->namespace)
         );
     }
 }

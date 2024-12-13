@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Site\View\Search;
 
-use Joomla\Registry\Registry;
-use Joomla\CMS\User\User;
 use Joomla\CMS\Event\Finder\ResultEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -25,10 +23,12 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\SiteRouterAwareInterface;
 use Joomla\CMS\Router\SiteRouterAwareTrait;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Component\Finder\Site\Helper\FinderHelper;
 use Joomla\Component\Finder\Site\Model\SearchModel;
 use Joomla\Filesystem\Path;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -41,11 +41,12 @@ use Joomla\Filesystem\Path;
  */
 class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
 {
+    use SiteRouterAwareTrait;
+
     /**
      * @var mixed[]
      */
     public $sortOrderFields;
-    use SiteRouterAwareTrait;
 
     /**
      * The query indexer object

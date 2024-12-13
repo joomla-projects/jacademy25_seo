@@ -255,7 +255,7 @@ class MicrodataTest extends UnitTestCase
             ->content($content)
             ->display();
 
-        $this->assertEquals(sprintf("<span itemprop='url'>%s</span>", $content), $html);
+        $this->assertEquals(\sprintf("<span itemprop='url'>%s</span>", $content), $html);
     }
 
     /**
@@ -285,7 +285,7 @@ class MicrodataTest extends UnitTestCase
             ->content($content)
             ->display();
 
-        $this->assertEquals(sprintf("<span itemprop='url'>%s</span>", $content), $html);
+        $this->assertEquals(\sprintf("<span itemprop='url'>%s</span>", $content), $html);
     }
 
     /**
@@ -344,7 +344,7 @@ class MicrodataTest extends UnitTestCase
             ->display();
 
         $this->assertEquals(
-            sprintf("<span itemprop='author' itemscope itemtype='https://schema.org/Organization'>%s</span>", $content),
+            \sprintf("<span itemprop='author' itemscope itemtype='https://schema.org/Organization'>%s</span>", $content),
             $html
         );
     }
@@ -388,7 +388,7 @@ class MicrodataTest extends UnitTestCase
             ->display();
 
         $this->assertEquals(
-            sprintf("<span itemprop='author' itemscope itemtype='https://schema.org/Person'><span itemprop='name'>%s</span></span>", $content),
+            \sprintf("<span itemprop='author' itemscope itemtype='https://schema.org/Person'><span itemprop='name'>%s</span></span>", $content),
             $html
         );
     }
@@ -491,7 +491,7 @@ class MicrodataTest extends UnitTestCase
             ->content($content)
             ->display();
 
-        $this->assertEquals(sprintf("<meta itemprop='datePublished' content='%s'>%s", $content, $content), $html);
+        $this->assertEquals(\sprintf("<meta itemprop='datePublished' content='%s'>%s", $content, $content), $html);
     }
 
     /**
@@ -524,7 +524,7 @@ class MicrodataTest extends UnitTestCase
             ->content($content, $machineContent)
             ->display();
 
-        $this->assertEquals(sprintf("<meta itemprop='datePublished' content='%s'>%s", $machineContent, $content), $html);
+        $this->assertEquals(\sprintf("<meta itemprop='datePublished' content='%s'>%s", $machineContent, $content), $html);
     }
 
     /**
@@ -654,7 +654,7 @@ class MicrodataTest extends UnitTestCase
             ->display();
 
         $this->assertEquals(
-            sprintf("<span itemscope itemtype='https://schema.org/Article'><span itemprop='about'>%s</span></span>", $content),
+            \sprintf("<span itemscope itemtype='https://schema.org/Article'><span itemprop='about'>%s</span></span>", $content),
             $html
         );
     }
@@ -753,7 +753,7 @@ class MicrodataTest extends UnitTestCase
             ->display();
 
         $this->assertEquals(
-            sprintf("<meta itemscope itemtype='https://schema.org/Article' itemprop='datePublished' content='%s'>", $content),
+            \sprintf("<meta itemscope itemtype='https://schema.org/Article' itemprop='datePublished' content='%s'>", $content),
             $html
         );
     }
@@ -956,7 +956,7 @@ class MicrodataTest extends UnitTestCase
             ]
         );
 
-        $this->assertEquals(sprintf("itemscope itemtype='https://schema.org/%s'", $type), $microdata->displayScope());
+        $this->assertEquals(\sprintf("itemscope itemtype='https://schema.org/%s'", $type), $microdata->displayScope());
     }
 
     /**
@@ -1023,19 +1023,19 @@ class MicrodataTest extends UnitTestCase
 
         // Test with all params
         $this->assertEquals(
-            sprintf("<meta itemscope itemtype='https://schema.org/%s' itemprop='%s' content='%s'>", $scope, $property, $content),
+            \sprintf("<meta itemscope itemtype='https://schema.org/%s' itemprop='%s' content='%s'>", $scope, $property, $content),
             MicrodataStub::htmlMeta($content, $property, $scope)
         );
 
         // Test with the $inverse mode
         $this->assertEquals(
-            sprintf("<meta itemprop='%s' itemscope itemtype='https://schema.org/%s' content='%s'>", $property, $scope, $content),
+            \sprintf("<meta itemprop='%s' itemscope itemtype='https://schema.org/%s' content='%s'>", $property, $scope, $content),
             MicrodataStub::htmlMeta($content, $property, $scope, true)
         );
 
         // Test without the $scope
         $this->assertEquals(
-            sprintf("<meta itemprop='%s' content='%s'>", $property, $content),
+            \sprintf("<meta itemprop='%s' content='%s'>", $property, $content),
             MicrodataStub::htmlMeta($content, $property)
         );
     }
@@ -1056,31 +1056,31 @@ class MicrodataTest extends UnitTestCase
 
         // Test with all params
         $this->assertEquals(
-            sprintf("<div itemscope itemtype='https://schema.org/%s' itemprop='%s'>%s</div>", $scope, $property, $content),
+            \sprintf("<div itemscope itemtype='https://schema.org/%s' itemprop='%s'>%s</div>", $scope, $property, $content),
             MicrodataStub::htmlDiv($content, $property, $scope)
         );
 
         // Test with the $inverse mode
         $this->assertEquals(
-            sprintf("<div itemprop='%s' itemscope itemtype='https://schema.org/%s'>%s</div>", $property, $scope, $content),
+            \sprintf("<div itemprop='%s' itemscope itemtype='https://schema.org/%s'>%s</div>", $property, $scope, $content),
             MicrodataStub::htmlDiv($content, $property, $scope, true)
         );
 
         // Test without the $scope
         $this->assertEquals(
-            sprintf("<div itemprop='%s'>%s</div>", $property, $content),
+            \sprintf("<div itemprop='%s'>%s</div>", $property, $content),
             MicrodataStub::htmlDiv($content, $property)
         );
 
         // Test without the $property
         $this->assertEquals(
-            sprintf("<div itemprop='%s' itemscope itemtype='https://schema.org/%s'>%s</div>", $property, $scope, $content),
+            \sprintf("<div itemprop='%s' itemscope itemtype='https://schema.org/%s'>%s</div>", $property, $scope, $content),
             MicrodataStub::htmlDiv($content, $property, $scope, true)
         );
 
         // Test without the $scope, $property
         $this->assertEquals(
-            sprintf('<div>%s</div>', $content),
+            \sprintf('<div>%s</div>', $content),
             MicrodataStub::htmlDiv($content)
         );
     }
@@ -1101,31 +1101,31 @@ class MicrodataTest extends UnitTestCase
 
         // Test with all params
         $this->assertEquals(
-            sprintf("<span itemscope itemtype='https://schema.org/%s' itemprop='%s'>%s</span>", $scope, $property, $content),
+            \sprintf("<span itemscope itemtype='https://schema.org/%s' itemprop='%s'>%s</span>", $scope, $property, $content),
             MicrodataStub::htmlSpan($content, $property, $scope)
         );
 
         // Test with the inverse mode
         $this->assertEquals(
-            sprintf("<span itemprop='%s' itemscope itemtype='https://schema.org/%s'>%s</span>", $property, $scope, $content),
+            \sprintf("<span itemprop='%s' itemscope itemtype='https://schema.org/%s'>%s</span>", $property, $scope, $content),
             MicrodataStub::htmlSpan($content, $property, $scope, true)
         );
 
         // Test without the $scope
         $this->assertEquals(
-            sprintf("<span itemprop='%s'>%s</span>", $property, $content),
+            \sprintf("<span itemprop='%s'>%s</span>", $property, $content),
             MicrodataStub::htmlSpan($content, $property)
         );
 
         // Test without the $property
         $this->assertEquals(
-            sprintf("<span itemprop='%s' itemscope itemtype='https://schema.org/%s'>%s</span>", $property, $scope, $content),
+            \sprintf("<span itemprop='%s' itemscope itemtype='https://schema.org/%s'>%s</span>", $property, $scope, $content),
             MicrodataStub::htmlSpan($content, $property, $scope, true)
         );
 
         // Test without the $scope, $property
         $this->assertEquals(
-            sprintf('<span>%s</span>', $content),
+            \sprintf('<span>%s</span>', $content),
             MicrodataStub::htmlSpan($content)
         );
     }

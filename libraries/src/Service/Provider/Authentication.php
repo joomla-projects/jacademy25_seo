@@ -47,7 +47,7 @@ class Authentication implements ServiceProviderInterface
             ->alias(BaseArgon2iHandler::class, Argon2iHandler::class)
             ->share(
                 Argon2iHandler::class,
-                fn(Container $container) => new Argon2iHandler(),
+                fn (Container $container) => new Argon2iHandler(),
                 true
             );
 
@@ -55,7 +55,7 @@ class Authentication implements ServiceProviderInterface
             ->alias(BaseArgon2idHandler::class, Argon2idHandler::class)
             ->share(
                 Argon2idHandler::class,
-                fn(Container $container) => new Argon2idHandler(),
+                fn (Container $container) => new Argon2idHandler(),
                 true
             );
 
@@ -90,7 +90,7 @@ class Authentication implements ServiceProviderInterface
             ->alias('password.handler.bcrypt', BCryptHandler::class)
             ->share(
                 BCryptHandler::class,
-                fn(Container $container) => new BCryptHandler(),
+                fn (Container $container) => new BCryptHandler(),
                 true
             );
 

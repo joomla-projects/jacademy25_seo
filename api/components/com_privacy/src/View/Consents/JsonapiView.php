@@ -10,8 +10,8 @@
 
 namespace Joomla\Component\Privacy\Api\View\Consents;
 
-use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;

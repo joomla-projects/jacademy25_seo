@@ -10,13 +10,13 @@
 
 namespace Joomla\Component\Finder\Administrator\Controller;
 
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\Component\Finder\Administrator\Model\IndexModel;
 use Joomla\CMS\Event\Finder\GarbageCollectionEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
+use Joomla\Component\Finder\Administrator\Model\IndexModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

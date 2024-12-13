@@ -9,13 +9,13 @@
 
 namespace Joomla\CMS\Pagination;
 
-use Joomla\CMS\Router\Router;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\Router;
 use Joomla\Filter\InputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -142,11 +142,15 @@ class Pagination
      *
      * @since   1.5
      */
-    public function __construct($total, $limitstart, $limit, /**
-     * @since  1.6
-     */
-    public $prefix = '', ?CMSApplication $app = null)
-    {
+    public function __construct(
+        $total,
+        $limitstart,
+        $limit, /**
+         * @since  1.6
+         */
+        public $prefix = '',
+        ?CMSApplication $app = null
+    ) {
         // Value/type checking.
         $this->total      = (int) $total;
         $this->limitstart = max($limitstart, 0);

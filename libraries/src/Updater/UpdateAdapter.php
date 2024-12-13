@@ -9,10 +9,10 @@
 
 namespace Joomla\CMS\Updater;
 
-use Joomla\CMS\Http\Response;
 use Joomla\CMS\Adapter\AdapterInstance;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Http\Response;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Version;
@@ -261,8 +261,8 @@ abstract class UpdateAdapter extends AdapterInstance
         $endTime    = microtime(true);
         $timeToLoad = \sprintf('%0.2f', $endTime - $startTime);
         Log::add(
-            sprintf('Loading information from update site #%d with name ', $this->updateSiteId) .
-            sprintf('"%s" and URL %s took %s seconds', $this->updateSiteName, $url, $timeToLoad),
+            \sprintf('Loading information from update site #%d with name ', $this->updateSiteId) .
+            \sprintf('"%s" and URL %s took %s seconds', $this->updateSiteName, $url, $timeToLoad),
             Log::INFO,
             'updater'
         );

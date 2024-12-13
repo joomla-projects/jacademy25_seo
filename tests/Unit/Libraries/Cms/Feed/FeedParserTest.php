@@ -59,7 +59,7 @@ class FeedParserTest extends UnitTestCase
     public function testParseCustomElement()
     {
         $content   = 'test';
-        $xml       = sprintf('<root><custom>%s</custom></root>', $content);
+        $xml       = \sprintf('<root><custom>%s</custom></root>', $content);
         $xmlReader = $this->getXmlReader($xml, 'custom');
         $parser    = new FeedParserStub($xmlReader);
 
@@ -85,7 +85,7 @@ class FeedParserTest extends UnitTestCase
     {
         $content       = 'test';
         $prefix        = 'custom';
-        $xml           = sprintf("<root xmlns:%s='http://namespace'><%s:content>%s</%s:content></root>", $prefix, $prefix, $content, $prefix);
+        $xml           = \sprintf("<root xmlns:%s='http://namespace'><%s:content>%s</%s:content></root>", $prefix, $prefix, $content, $prefix);
         $xmlReader     = $this->getXmlReader($xml, $prefix . ':content');
         $namespaceMock = $this->createMock(NamespaceParserInterface::class);
         $namespaceMock
@@ -94,7 +94,7 @@ class FeedParserTest extends UnitTestCase
             ->with(
                 $this->isInstanceOf(Feed::class),
                 $this->callback(
-                    fn($value) => $value instanceof \SimpleXMLElement && (string) $value[0] === $content
+                    fn ($value) => $value instanceof \SimpleXMLElement && (string) $value[0] === $content
                 )
             );
 
@@ -117,7 +117,7 @@ class FeedParserTest extends UnitTestCase
     {
         $content   = 'test';
         $prefix    = 'unregistered';
-        $xml       = sprintf("<root xmlns:%s='http://namespace'><%s:content>%s</%s:content></root>", $prefix, $prefix, $content, $prefix);
+        $xml       = \sprintf("<root xmlns:%s='http://namespace'><%s:content>%s</%s:content></root>", $prefix, $prefix, $content, $prefix);
         $xmlReader = $this->getXmlReader($xml, $prefix . ':content');
 
         $parser = new FeedParserStub($xmlReader);
@@ -167,7 +167,7 @@ class FeedParserTest extends UnitTestCase
     public function testParseElementWithNamespaceEntry()
     {
         $prefix        = 'custom';
-        $xml           = sprintf("<root xmlns:%s='http://namespace'><%s:entry></%s:entry></root>", $prefix, $prefix, $prefix);
+        $xml           = \sprintf("<root xmlns:%s='http://namespace'><%s:entry></%s:entry></root>", $prefix, $prefix, $prefix);
         $xmlReader     = $this->getXmlReader($xml, $prefix . ':entry');
         $namespaceMock = $this->createMock(NamespaceParserInterface::class);
         $namespaceMock
@@ -176,7 +176,7 @@ class FeedParserTest extends UnitTestCase
             ->with(
                 $this->isInstanceOf(FeedEntry::class),
                 $this->callback(
-                    fn($value) => $value instanceof \SimpleXMLElement && (string) $value[0] === ''
+                    fn ($value) => $value instanceof \SimpleXMLElement && (string) $value[0] === ''
                 )
             );
 

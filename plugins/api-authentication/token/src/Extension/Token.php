@@ -10,12 +10,12 @@
 
 namespace Joomla\Plugin\ApiAuthentication\Token\Extension;
 
-use Joomla\Component\Plugins\Administrator\Model\PluginModel;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
+use Joomla\Component\Plugins\Administrator\Model\PluginModel;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
@@ -73,13 +73,15 @@ final class Token extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, /**
-     * The input filter
-     *
-     * @since  4.2.0
-     */
-    private InputFilter $filter)
-    {
+    public function __construct(
+        DispatcherInterface $dispatcher,
+        array $config, /**
+         * The input filter
+         *
+         * @since  4.2.0
+         */
+        private InputFilter $filter
+    ) {
         parent::__construct($dispatcher, $config);
     }
 
@@ -237,7 +239,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
         $user = $this->getUserFactory()->loadUserById($userId);
 
         // Disallow login for blocked, inactive or password reset required users
-        if ($user->block || !in_array(trim($user->activation), ['', '0'], true) || $user->requireReset) {
+        if ($user->block || !\in_array(trim($user->activation), ['', '0'], true) || $user->requireReset) {
             $response->status = Authentication::STATUS_DENIED;
 
             return;

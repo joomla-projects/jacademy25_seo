@@ -35,7 +35,7 @@ class ModelBootComponent extends NamespaceBased
             return null;
         }
 
-        $name = str_replace("'", '', $methodCall->getArgs()[0]->value->getAttribute('rawValue'));
+        $name      = str_replace("'", '', $methodCall->getArgs()[0]->value->getAttribute('rawValue'));
         $namespace = $this->findNamespace('\\Component\\' . $name . '\\Administrator');
 
         if ($namespace !== '' && $namespace !== '0') {

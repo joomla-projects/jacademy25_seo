@@ -564,7 +564,7 @@ class SearchModel extends ListModel
         $dirn = StringHelper::strtolower($dirn);
 
         match ($dirn) {
-            'asc' => $this->setState('list.direction', 'ASC'),
+            'asc'   => $this->setState('list.direction', 'ASC'),
             default => $this->setState('list.direction', 'DESC'),
         };
 

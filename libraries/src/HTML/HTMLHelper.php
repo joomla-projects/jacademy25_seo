@@ -421,13 +421,13 @@ abstract class HTMLHelper
                      */
                     foreach ($files as $file) {
                         if (!empty($template->parent)) {
-                            $found = static::addFileToBuffer(sprintf('%s/%s/%s/%s', $templaPath, $template->template, $folder, $file), $ext, $debugMode);
+                            $found = static::addFileToBuffer(\sprintf('%s/%s/%s/%s', $templaPath, $template->template, $folder, $file), $ext, $debugMode);
 
                             if (empty($found)) {
-                                $found = static::addFileToBuffer(sprintf('%s/%s/%s/%s', $templaPath, $template->parent, $folder, $file), $ext, $debugMode);
+                                $found = static::addFileToBuffer(\sprintf('%s/%s/%s/%s', $templaPath, $template->parent, $folder, $file), $ext, $debugMode);
                             }
                         } else {
-                            $found = static::addFileToBuffer(sprintf('%s/%s/%s/%s', $templaPath, $template->template, $folder, $file), $ext, $debugMode);
+                            $found = static::addFileToBuffer(\sprintf('%s/%s/%s/%s', $templaPath, $template->template, $folder, $file), $ext, $debugMode);
                         }
 
                         if (!empty($found)) {
@@ -447,7 +447,7 @@ abstract class HTMLHelper
                                 [$element, $file] = explode('/', $file, 2);
 
                                 // Try to deal with plugins group in the media folder
-                                $found = static::addFileToBuffer(JPATH_PUBLIC . sprintf('/media/%s/%s/%s/%s', $extension, $element, $folder, $file), $ext, $debugMode);
+                                $found = static::addFileToBuffer(JPATH_PUBLIC . \sprintf('/media/%s/%s/%s/%s', $extension, $element, $folder, $file), $ext, $debugMode);
 
                                 if (!empty($found)) {
                                     $includes[] = $found;
@@ -456,7 +456,7 @@ abstract class HTMLHelper
                                 }
 
                                 // Try to deal with classical file in a media subfolder called element
-                                $found = static::addFileToBuffer(JPATH_PUBLIC . sprintf('/media/%s/%s/%s/%s', $extension, $folder, $element, $file), $ext, $debugMode);
+                                $found = static::addFileToBuffer(JPATH_PUBLIC . \sprintf('/media/%s/%s/%s/%s', $extension, $folder, $element, $file), $ext, $debugMode);
 
                                 if (!empty($found)) {
                                     $includes[] = $found;
@@ -466,7 +466,7 @@ abstract class HTMLHelper
 
                                 // Try to deal with system files in the template folder
                                 if (!empty($template->parent)) {
-                                    $found = static::addFileToBuffer(sprintf('%s/%s/%s/system/%s/%s', $templaPath, $template->template, $folder, $element, $file), $ext, $debugMode);
+                                    $found = static::addFileToBuffer(\sprintf('%s/%s/%s/system/%s/%s', $templaPath, $template->template, $folder, $element, $file), $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
@@ -474,7 +474,7 @@ abstract class HTMLHelper
                                         break;
                                     }
 
-                                    $found = static::addFileToBuffer(sprintf('%s/%s/%s/system/%s/%s', $templaPath, $template->parent, $folder, $element, $file), $ext, $debugMode);
+                                    $found = static::addFileToBuffer(\sprintf('%s/%s/%s/system/%s/%s', $templaPath, $template->parent, $folder, $element, $file), $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
@@ -483,7 +483,7 @@ abstract class HTMLHelper
                                     }
                                 } else {
                                     // Try to deal with system files in the media folder
-                                    $found = static::addFileToBuffer(JPATH_PUBLIC . sprintf('/media/system/%s/%s/%s', $folder, $element, $file), $ext, $debugMode);
+                                    $found = static::addFileToBuffer(JPATH_PUBLIC . \sprintf('/media/system/%s/%s/%s', $folder, $element, $file), $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
@@ -493,7 +493,7 @@ abstract class HTMLHelper
                                 }
                             } else {
                                 // Try to deal with files in the extension's media folder
-                                $found = static::addFileToBuffer(JPATH_PUBLIC . sprintf('/media/%s/%s/%s', $extension, $folder, $file), $ext, $debugMode);
+                                $found = static::addFileToBuffer(JPATH_PUBLIC . \sprintf('/media/%s/%s/%s', $extension, $folder, $file), $ext, $debugMode);
 
                                 if (!empty($found)) {
                                     $includes[] = $found;
@@ -503,7 +503,7 @@ abstract class HTMLHelper
 
                                 // Try to deal with system files in the template folder
                                 if (!empty($template->parent)) {
-                                    $found = static::addFileToBuffer(sprintf('%s/%s/%s/system/%s', $templaPath, $template->template, $folder, $file), $ext, $debugMode);
+                                    $found = static::addFileToBuffer(\sprintf('%s/%s/%s/system/%s', $templaPath, $template->template, $folder, $file), $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
@@ -511,7 +511,7 @@ abstract class HTMLHelper
                                         break;
                                     }
 
-                                    $found = static::addFileToBuffer(sprintf('%s/%s/%s/system/%s', $templaPath, $template->parent, $folder, $file), $ext, $debugMode);
+                                    $found = static::addFileToBuffer(\sprintf('%s/%s/%s/system/%s', $templaPath, $template->parent, $folder, $file), $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
@@ -520,7 +520,7 @@ abstract class HTMLHelper
                                     }
                                 } else {
                                     // Try to deal with system files in the template folder
-                                    $found = static::addFileToBuffer(sprintf('%s/%s/%s/system/%s', $templaPath, $template->template, $folder, $file), $ext, $debugMode);
+                                    $found = static::addFileToBuffer(\sprintf('%s/%s/%s/system/%s', $templaPath, $template->template, $folder, $file), $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
@@ -530,7 +530,7 @@ abstract class HTMLHelper
                                 }
 
                                 // Try to deal with system files in the media folder
-                                $found = static::addFileToBuffer(JPATH_PUBLIC . sprintf('/media/system/%s/%s', $folder, $file), $ext, $debugMode);
+                                $found = static::addFileToBuffer(JPATH_PUBLIC . \sprintf('/media/system/%s/%s', $folder, $file), $ext, $debugMode);
 
                                 if (!empty($found)) {
                                     $includes[] = $found;
@@ -540,7 +540,7 @@ abstract class HTMLHelper
                             }
                         } else {
                             // Try to deal with system files in the media folder
-                            $found = static::addFileToBuffer(JPATH_PUBLIC . sprintf('/media/system/%s/%s', $folder, $file), $ext, $debugMode);
+                            $found = static::addFileToBuffer(JPATH_PUBLIC . \sprintf('/media/system/%s/%s', $folder, $file), $ext, $debugMode);
 
                             if (!empty($found)) {
                                 $includes[] = $found;
@@ -609,7 +609,7 @@ abstract class HTMLHelper
             $url = '';
         }
 
-        if (in_array(strpos($url, '?'), [0, false], true)) {
+        if (\in_array(strpos($url, '?'), [0, false], true)) {
             $obj->url = $url;
 
             return $obj;
@@ -720,7 +720,7 @@ abstract class HTMLHelper
                 }
 
                 // Set the attribute
-                [$key, $value] = explode('=', $attribute);
+                [$key, $value]     = explode('=', $attribute);
                 $attributes[$key]  = trim($value, '"');
             }
 

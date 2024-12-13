@@ -97,7 +97,7 @@ class Cookie extends Input
         // Set the cookie
         if (\is_array($value)) {
             foreach ($value as $key => $val) {
-                setcookie($name . sprintf('[%s]', $key), (string) $val, $options);
+                setcookie($name . \sprintf('[%s]', $key), (string) $val, $options);
             }
         } else {
             setcookie($name, (string) $value, $options);

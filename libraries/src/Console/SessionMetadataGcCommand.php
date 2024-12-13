@@ -45,17 +45,17 @@ class SessionMetadataGcCommand extends AbstractCommand
      * @since   4.0.0
      */
     public function __construct(/**
-     * The session object.
-     *
-     * @since  4.0.0
-     */
-    private readonly SessionInterface $session, /**
-     * The session metadata manager.
-     *
-     * @since  4.0.0
-     */
-    private readonly MetadataManager $metadataManager)
-    {
+         * The session object.
+         *
+         * @since  4.0.0
+         */
+        private readonly SessionInterface $session, /**
+         * The session metadata manager.
+         *
+         * @since  4.0.0
+         */
+        private readonly MetadataManager $metadataManager
+    ) {
         parent::__construct();
     }
 

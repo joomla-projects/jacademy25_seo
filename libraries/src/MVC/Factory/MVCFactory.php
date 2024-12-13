@@ -9,9 +9,6 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
-use Joomla\CMS\MVC\Controller\ControllerInterface;
-use Joomla\CMS\MVC\View\ViewInterface;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
@@ -20,9 +17,12 @@ use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\Mail\MailerFactoryAwareInterface;
 use Joomla\CMS\Mail\MailerFactoryAwareTrait;
+use Joomla\CMS\MVC\Controller\ControllerInterface;
 use Joomla\CMS\MVC\Model\ModelInterface;
+use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Router\SiteRouterAwareInterface;
 use Joomla\CMS\Router\SiteRouterAwareTrait;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\DatabaseAwareInterface;
@@ -76,8 +76,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
          * @since  4.0.0
          */
         private ?LoggerInterface $logger = null
-    )
-    {
+    ) {
     }
 
     /**

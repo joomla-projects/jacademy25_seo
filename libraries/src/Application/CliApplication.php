@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Application;
 
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Input\Cli;
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CLI\CliInput;
 use Joomla\CMS\Application\CLI\CliOutput;
@@ -19,7 +17,9 @@ use Joomla\CMS\Event\Application\AfterExecuteEvent;
 use Joomla\CMS\Event\Application\BeforeExecuteEvent;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Session\Session;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherInterface;

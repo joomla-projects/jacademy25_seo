@@ -37,7 +37,7 @@ final class FetchMediaItemUrlEvent extends AbstractImmutableEvent
     {
         // Check for required arguments
         if (!\array_key_exists('adapter', $arguments) || !\is_string($arguments['adapter'])) {
-            throw new \BadMethodCallException(sprintf("Argument 'adapter' of event %s is not of the expected type", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'adapter' of event %s is not of the expected type", $name));
         }
 
         $this->arguments[$arguments['adapter']] = $arguments['adapter'];
@@ -45,7 +45,7 @@ final class FetchMediaItemUrlEvent extends AbstractImmutableEvent
 
         // Check for required arguments
         if (!\array_key_exists('path', $arguments) || !\is_string($arguments['path'])) {
-            throw new \BadMethodCallException(sprintf("Argument 'path' of event %s is not of the expected type", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'path' of event %s is not of the expected type", $name));
         }
 
         $this->arguments[$arguments['path']] = $arguments['path'];
@@ -53,7 +53,7 @@ final class FetchMediaItemUrlEvent extends AbstractImmutableEvent
 
         // Check for required arguments
         if (!\array_key_exists('url', $arguments) || !\is_string($arguments['url'])) {
-            throw new \BadMethodCallException(sprintf("Argument 'url' of event %s is not of the expected type", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'url' of event %s is not of the expected type", $name));
         }
 
         parent::__construct($name, $arguments);

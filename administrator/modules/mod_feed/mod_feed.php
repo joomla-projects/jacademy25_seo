@@ -1,7 +1,7 @@
 <?php
 
-use Joomla\Module\Feed\Administrator\Helper\FeedHelper;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Module\Feed\Administrator\Helper\FeedHelper;
 
 /**
  * @package     Joomla.Administrator

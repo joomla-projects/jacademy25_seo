@@ -40,7 +40,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @link https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new \SimpleXMLElement(sprintf('<category>%s</category>', $category));
+        $xmlElement = new \SimpleXMLElement(\sprintf('<category>%s</category>', $category));
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -87,7 +87,7 @@ class RssParserTest extends UnitTestCase
             ->with(
                 'cloud',
                 $this->callback(
-                    fn($value) => \is_object($value)
+                    fn ($value) => \is_object($value)
                         && $value->domain === $cloud['domain']
                         && $value->port === $cloud['port']
                         && $value->path === $cloud['path']
@@ -224,7 +224,7 @@ class RssParserTest extends UnitTestCase
             ->with(
                 'image',
                 $this->callback(
-                    fn($value) => $value instanceof FeedLink
+                    fn ($value) => $value instanceof FeedLink
                         && $value->uri === $image['url']
                         && $value->relation === null
                         && $value->type === 'logo'
@@ -318,7 +318,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @link https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new \SimpleXMLElement(sprintf("<link href='%s' />", $link));
+        $xmlElement = new \SimpleXMLElement(\sprintf("<link href='%s' />", $link));
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -327,7 +327,7 @@ class RssParserTest extends UnitTestCase
             ->with(
                 'link',
                 $this->callback(
-                    fn($value) => $value instanceof FeedLink && $value->uri === $link
+                    fn ($value) => $value instanceof FeedLink && $value->uri === $link
                 )
             );
 
@@ -365,7 +365,7 @@ class RssParserTest extends UnitTestCase
             ->with(
                 'author',
                 $this->callback(
-                    fn($value) => $value instanceof FeedPerson
+                    fn ($value) => $value instanceof FeedPerson
                         && $value->name === $editor['name']
                         && $value->email === $editor['email']
                 )
@@ -483,7 +483,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new \SimpleXMLElement(sprintf('<title>%s</title>', $title));
+        $xmlElement = new \SimpleXMLElement(\sprintf('<title>%s</title>', $title));
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -513,7 +513,7 @@ class RssParserTest extends UnitTestCase
 
         // It's currently not possible to mock simple xml element
         // @link https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-        $xmlElement = new \SimpleXMLElement(sprintf('<ttl>%s</ttl>', $ttl));
+        $xmlElement = new \SimpleXMLElement(\sprintf('<ttl>%s</ttl>', $ttl));
 
         $feedMock = $this->createMock(Feed::class);
         $feedMock
@@ -658,7 +658,7 @@ class RssParserTest extends UnitTestCase
                 ['isPermaLink', true],
                 ['comments', ''],
                 ['author', $this->callback(
-                    fn($value) => $value instanceof FeedPerson
+                    fn ($value) => $value instanceof FeedPerson
                         && $value->name === $entry['authorName']
                         && $value->email === $entry['authorEmail']
                 ),
@@ -675,7 +675,7 @@ class RssParserTest extends UnitTestCase
             ->method('addLink')
             ->with(
                 $this->callback(
-                    fn($value) => $value instanceof FeedLink
+                    fn ($value) => $value instanceof FeedLink
                         && $value->uri === $entry['enclosureUrl']
                         && $value->type === $entry['enclosureType']
                         && $value->length === (int) $entry['enclosureLength']

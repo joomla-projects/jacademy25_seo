@@ -9,13 +9,13 @@
 
 namespace Joomla\CMS\Installation\Console;
 
-use Joomla\CMS\Installation\Model\ConfigurationModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Helper\PublicFolderGeneratorHelper;
 use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\Installation\Model\CleanupModel;
+use Joomla\CMS\Installation\Model\ConfigurationModel;
 use Joomla\CMS\Installation\Model\DatabaseModel;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Text;

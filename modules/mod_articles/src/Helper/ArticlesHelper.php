@@ -10,13 +10,13 @@
 
 namespace Joomla\Module\Articles\Site\Helper;
 
-use Joomla\CMS\Event\Content\AfterTitleEvent;
-use Joomla\CMS\Event\Content\BeforeDisplayEvent;
-use Joomla\CMS\Event\Content\AfterDisplayEvent;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Event\Content\AfterDisplayEvent;
+use Joomla\CMS\Event\Content\AfterTitleEvent;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;

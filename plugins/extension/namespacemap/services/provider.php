@@ -31,7 +31,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            fn(Container $container) => new NamespaceMap(
+            fn (Container $container) => new NamespaceMap(
                 $container->get(DispatcherInterface::class),
                 new JNamespacePsr4Map(),
                 (array) PluginHelper::getPlugin('extension', 'namespacemap')

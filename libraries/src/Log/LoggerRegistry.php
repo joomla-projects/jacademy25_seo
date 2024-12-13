@@ -13,10 +13,10 @@ use Joomla\CMS\Log\Logger\CallbackLogger;
 use Joomla\CMS\Log\Logger\DatabaseLogger;
 use Joomla\CMS\Log\Logger\EchoLogger;
 use Joomla\CMS\Log\Logger\FormattedtextLogger;
+use Joomla\CMS\Log\Logger\InMemoryLogger;
 use Joomla\CMS\Log\Logger\MessagequeueLogger;
 use Joomla\CMS\Log\Logger\SyslogLogger;
 use Joomla\CMS\Log\Logger\W3cLogger;
-use Joomla\CMS\Log\Logger\InMemoryLogger;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -59,7 +59,7 @@ final class LoggerRegistry
     public function getLoggerClass(string $key): string
     {
         if (!$this->hasLogger($key)) {
-            throw new \InvalidArgumentException(sprintf("The '%s' key is not registered.", $key));
+            throw new \InvalidArgumentException(\sprintf("The '%s' key is not registered.", $key));
         }
 
         return $this->loggerMap[$key];
@@ -94,12 +94,12 @@ final class LoggerRegistry
     {
         // If the key exists already and we aren't instructed to replace existing services, bail early
         if (isset($this->loggerMap[$key]) && !$replace) {
-            throw new \RuntimeException(sprintf("The '%s' key is already registered.", $key));
+            throw new \RuntimeException(\sprintf("The '%s' key is already registered.", $key));
         }
 
         // The class must exist
         if (!class_exists($class)) {
-            throw new \RuntimeException(sprintf("The '%s' class for key '%s' does not exist.", $class, $key));
+            throw new \RuntimeException(\sprintf("The '%s' class for key '%s' does not exist.", $class, $key));
         }
 
         $this->loggerMap[$key] = $class;

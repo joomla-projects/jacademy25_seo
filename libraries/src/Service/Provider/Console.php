@@ -76,91 +76,91 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             SessionMetadataGcCommand::class,
-            fn(Container $container) => new SessionMetadataGcCommand($container->get('session'), $container->get(MetadataManager::class)),
+            fn (Container $container) => new SessionMetadataGcCommand($container->get('session'), $container->get(MetadataManager::class)),
             true
         );
 
         $container->share(
             ExportCommand::class,
-            fn(Container $container) => new ExportCommand($container->get(DatabaseInterface::class)),
+            fn (Container $container) => new ExportCommand($container->get(DatabaseInterface::class)),
             true
         );
 
         $container->share(
             ImportCommand::class,
-            fn(Container $container) => new ImportCommand($container->get(DatabaseInterface::class)),
+            fn (Container $container) => new ImportCommand($container->get(DatabaseInterface::class)),
             true
         );
 
         $container->share(
             SiteDownCommand::class,
-            fn(Container $container) => new SiteDownCommand(),
+            fn (Container $container) => new SiteDownCommand(),
             true
         );
 
         $container->share(
             SiteUpCommand::class,
-            fn(Container $container) => new SiteUpCommand(),
+            fn (Container $container) => new SiteUpCommand(),
             true
         );
 
         $container->share(
             SetConfigurationCommand::class,
-            fn(Container $container) => new SetConfigurationCommand(),
+            fn (Container $container) => new SetConfigurationCommand(),
             true
         );
 
         $container->share(
             GetConfigurationCommand::class,
-            fn(Container $container) => new GetConfigurationCommand(),
+            fn (Container $container) => new GetConfigurationCommand(),
             true
         );
 
         $container->share(
             ExtensionsListCommand::class,
-            fn(Container $container) => new ExtensionsListCommand($container->get(DatabaseInterface::class)),
+            fn (Container $container) => new ExtensionsListCommand($container->get(DatabaseInterface::class)),
             true
         );
 
         $container->share(
             CheckJoomlaUpdatesCommand::class,
-            fn(Container $container) => new CheckJoomlaUpdatesCommand(),
+            fn (Container $container) => new CheckJoomlaUpdatesCommand(),
             true
         );
 
         $container->share(
             ExtensionRemoveCommand::class,
-            fn(Container $container) => new ExtensionRemoveCommand($container->get(DatabaseInterface::class)),
+            fn (Container $container) => new ExtensionRemoveCommand($container->get(DatabaseInterface::class)),
             true
         );
 
         $container->share(
             ExtensionInstallCommand::class,
-            fn(Container $container) => new ExtensionInstallCommand(),
+            fn (Container $container) => new ExtensionInstallCommand(),
             true
         );
 
         $container->share(
             ExtensionDiscoverCommand::class,
-            fn(Container $container) => new ExtensionDiscoverCommand(),
+            fn (Container $container) => new ExtensionDiscoverCommand(),
             true
         );
 
         $container->share(
             ExtensionDiscoverInstallCommand::class,
-            fn(Container $container) => new ExtensionDiscoverInstallCommand($container->get(DatabaseInterface::class)),
+            fn (Container $container) => new ExtensionDiscoverInstallCommand($container->get(DatabaseInterface::class)),
             true
         );
 
         $container->share(
             ExtensionDiscoverListCommand::class,
-            fn(Container $container) => new ExtensionDiscoverListCommand($container->get(DatabaseInterface::class)),
+            fn (Container $container) => new ExtensionDiscoverListCommand($container->get(DatabaseInterface::class)),
             true
         );
 
         $container->share(
             UpdateCoreCommand::class,
-            fn(Container $container) => new UpdateCoreCommand($container->get(DatabaseInterface::class)),
+            fn (Container $container) => new UpdateCoreCommand($container->get(DatabaseInterface::class)),
             true
         );
 
@@ -180,29 +180,29 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             TasksListCommand::class,
-            fn(Container $container) => new TasksListCommand(),
+            fn (Container $container) => new TasksListCommand(),
             true
         );
 
         $container->share(
             TasksRunCommand::class,
-            fn(Container $container) => new TasksRunCommand()
+            fn (Container $container) => new TasksRunCommand()
         );
 
         $container->share(
             TasksStateCommand::class,
-            fn(Container $container) => new TasksStateCommand()
+            fn (Container $container) => new TasksStateCommand()
         );
 
         $container->share(
             MaintenanceDatabaseCommand::class,
-            fn(Container $container) => new MaintenanceDatabaseCommand(),
+            fn (Container $container) => new MaintenanceDatabaseCommand(),
             true
         );
 
         $container->share(
             CoreUpdateChannelCommand::class,
-            fn(Container $container) => new CoreUpdateChannelCommand($container->get(DatabaseInterface::class))
+            fn (Container $container) => new CoreUpdateChannelCommand($container->get(DatabaseInterface::class))
         );
     }
 }

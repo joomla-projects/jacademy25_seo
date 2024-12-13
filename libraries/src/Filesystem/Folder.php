@@ -557,7 +557,7 @@ abstract class Folder
         while (($file = readdir($handle)) !== false) {
             if (
                 $file !== '.' && $file !== '..' && !\in_array($file, $exclude)
-                && (empty($excludeFilterString) || in_array(preg_match($excludeFilterString, $file), [0, false], true))
+                && (empty($excludeFilterString) || \in_array(preg_match($excludeFilterString, $file), [0, false], true))
             ) {
                 // Compute the fullpath
                 $fullpath = $path . '/' . $file;
@@ -565,7 +565,7 @@ abstract class Folder
                 // Compute the isDir flag
                 $isDir = is_dir($fullpath);
 
-                if (($isDir xor $findFiles) && preg_match(sprintf('/%s/', $filter), $file)) {
+                if (($isDir xor $findFiles) && preg_match(\sprintf('/%s/', $filter), $file)) {
                     // (fullpath is dir and folders are searched or fullpath is not dir and files are searched) and file matches the filter
                     $arr[] = $full ? $fullpath : $file;
                 }

@@ -10,13 +10,13 @@
 
 namespace Joomla\Component\Mails\Administrator\Controller;
 
-use Joomla\CMS\Event\Model\NormaliseRequestDataEvent;
-use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
+use Joomla\CMS\Event\Model\NormaliseRequestDataEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Input\Input;
@@ -83,7 +83,7 @@ class TemplateController extends FormController
         // Do not cache the response to this, its a redirect, and mod_expires and google chrome browser bugs cache it forever!
         $this->app->allowCache(false);
 
-        $context = sprintf('%s.edit.%s', $this->option, $this->context);
+        $context = \sprintf('%s.edit.%s', $this->option, $this->context);
 
         // Get the previous record id (if any) and the current record id.
         $template_id = $this->input->getCmd('template_id');
@@ -156,7 +156,7 @@ class TemplateController extends FormController
         /** @var AdminModel $model */
         $model   = $this->getModel();
         $data    = $this->input->post->get('jform', [], 'array');
-        $context = sprintf('%s.edit.%s', $this->option, $this->context);
+        $context = \sprintf('%s.edit.%s', $this->option, $this->context);
         $task    = $this->getTask();
 
         $recordId = $this->input->getCmd('template_id');

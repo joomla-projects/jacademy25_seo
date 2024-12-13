@@ -10,10 +10,10 @@
 
 namespace Joomla\Component\Templates\Administrator\Controller;
 
-use Joomla\Component\Templates\Administrator\Model\StyleModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Component\Templates\Administrator\Model\StyleModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

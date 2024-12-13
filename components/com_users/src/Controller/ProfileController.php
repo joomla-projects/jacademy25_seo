@@ -10,13 +10,13 @@
 
 namespace Joomla\Component\Users\Site\Controller;
 
-use Joomla\CMS\Event\Model\NormaliseRequestDataEvent;
-use Joomla\Component\Users\Site\Model\ProfileModel;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
+use Joomla\CMS\Event\Model\NormaliseRequestDataEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Users\Site\Model\ProfileModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

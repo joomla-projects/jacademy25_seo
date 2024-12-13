@@ -317,7 +317,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
             $exclusions       = str_replace(["\r\n", "\r"], "\n", $exclusions);
             $exclusions       = explode("\n", $exclusions);
             $exclusions       = array_map('trim', $exclusions);
-            $filterExpression = (fn($x) => $x !== '');
+            $filterExpression = (fn ($x) => $x !== '');
             $exclusions       = array_filter($exclusions, $filterExpression);
 
             // Gets the internal (non-SEF) and the external (possibly SEF) URIs.

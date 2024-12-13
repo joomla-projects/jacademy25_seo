@@ -8,8 +8,8 @@
 namespace Joomla\Tests\Unit\Libraries\Cms\Image;
 
 use Joomla\CMS\Image\Filter\Brightness;
-use Joomla\CMS\Image\ImageFilter;
 use Joomla\CMS\Image\Image;
+use Joomla\CMS\Image\ImageFilter;
 use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
 

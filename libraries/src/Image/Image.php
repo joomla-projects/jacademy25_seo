@@ -229,7 +229,7 @@ class Image
         return match (true) {
             $width > $height => self::ORIENTATION_LANDSCAPE,
             $width < $height => self::ORIENTATION_PORTRAIT,
-            default => self::ORIENTATION_SQUARE,
+            default          => self::ORIENTATION_SQUARE,
         };
     }
 
@@ -272,9 +272,9 @@ class Image
             $thumbHeight = $size[1];
 
             $thumb = match ($creationMethod) {
-                self::CROP => $this->crop($thumbWidth, $thumbHeight, null, null, true),
+                self::CROP        => $this->crop($thumbWidth, $thumbHeight, null, null, true),
                 self::CROP_RESIZE => $this->cropResize($thumbWidth, $thumbHeight, true),
-                default => $this->resize($thumbWidth, $thumbHeight, true, $creationMethod),
+                default           => $this->resize($thumbWidth, $thumbHeight, true, $creationMethod),
             };
 
             // Store the thumb in the results array
@@ -432,7 +432,7 @@ class Image
                 $ctot = 1;
             }
             if ($ict >= 0 && $ict < $ctot) {
-                $rgba = imagecolorsforindex($this->getHandle(), $ict);
+                $rgba  = imagecolorsforindex($this->getHandle(), $ict);
                 $color = imagecolorallocatealpha(
                     $handle,
                     $rgba['red'],
@@ -723,7 +723,7 @@ class Image
                 $ctot = 1;
             }
             if ($ict >= 0 && $ict < $ctot) {
-                $rgba = imagecolorsforindex($this->getHandle(), $ict);
+                $rgba  = imagecolorsforindex($this->getHandle(), $ict);
                 $color = imagecolorallocatealpha(
                     $handle,
                     $rgba['red'],
@@ -948,8 +948,8 @@ class Image
     {
         return match ($type) {
             IMAGETYPE_AVIF => imageavif($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 100),
-            IMAGETYPE_GIF => imagegif($this->getHandle(), $path),
-            IMAGETYPE_PNG => imagepng($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 0),
+            IMAGETYPE_GIF  => imagegif($this->getHandle(), $path),
+            IMAGETYPE_PNG  => imagepng($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 0),
             IMAGETYPE_WEBP => imagewebp($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 100),
             // Case IMAGETYPE_JPEG & default
             default => imagejpeg($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 100),

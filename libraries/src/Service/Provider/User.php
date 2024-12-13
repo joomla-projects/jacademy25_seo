@@ -41,7 +41,7 @@ class User implements ServiceProviderInterface
             ->alias(UserFactory::class, UserFactoryInterface::class)
             ->share(
                 UserFactoryInterface::class,
-                fn(Container $container) => new UserFactory($container->get(DatabaseInterface::class)),
+                fn (Container $container) => new UserFactory($container->get(DatabaseInterface::class)),
                 true
             );
     }

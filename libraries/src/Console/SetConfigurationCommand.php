@@ -9,11 +9,11 @@
 
 namespace Joomla\CMS\Console;
 
-use Joomla\Database\DatabaseInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputArgument;
@@ -164,7 +164,7 @@ class SetConfigurationCommand extends AbstractCommand
             $this->options,
             function ($value, $key) use ($configs, &$valid) {
                 if (!\array_key_exists($key, $configs)) {
-                    $this->ioStyle->error(sprintf("Can't find option *%s* in configuration list", $key));
+                    $this->ioStyle->error(\sprintf("Can't find option *%s* in configuration list", $key));
                     $valid = false;
                 }
             }
@@ -286,7 +286,7 @@ class SetConfigurationCommand extends AbstractCommand
         }
 
         // Validate database table prefix.
-        if (isset($options['dbprefix']) && in_array(preg_match('#^[a-zA-Z]+\w*$#', (string) $options['dbprefix']), [0, false], true)) {
+        if (isset($options['dbprefix']) && \in_array(preg_match('#^[a-zA-Z]+\w*$#', (string) $options['dbprefix']), [0, false], true)) {
             $this->ioStyle->error(Text::_('INSTL_DATABASE_PREFIX_MSG'));
 
             return false;
@@ -307,7 +307,7 @@ class SetConfigurationCommand extends AbstractCommand
         }
 
         // Validate database name.
-        if (\in_array($options['dbtype'], ['pgsql', 'postgresql'], true) && in_array(preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', (string) $options['db']), [0, false], true)) {
+        if (\in_array($options['dbtype'], ['pgsql', 'postgresql'], true) && \in_array(preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', (string) $options['db']), [0, false], true)) {
             $this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRES'));
 
             return false;

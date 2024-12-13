@@ -42,9 +42,9 @@ function insertDefineOrDie($file, $keyword)
     $insert = max($lastUse, $lastComment, $lastNamespace);
 
     $distance = 0;
-    if (in_array(trim($currentcontent[$insert + 2]), ['', '0'], true)) {
+    if (\in_array(trim($currentcontent[$insert + 2]), ['', '0'], true)) {
         $distance++;
-        if (in_array(trim($currentcontent[$insert + 3]), ['', '0'], true)) {
+        if (\in_array(trim($currentcontent[$insert + 3]), ['', '0'], true)) {
             $distance++;
         }
     }

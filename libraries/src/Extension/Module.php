@@ -50,8 +50,7 @@ class Module implements ModuleInterface, HelperFactoryInterface
          * @since  4.0.0
          */
         private readonly ?HelperFactoryInterface $helperFactory
-    )
-    {
+    ) {
     }
 
     /**

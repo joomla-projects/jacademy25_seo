@@ -40,8 +40,7 @@ class HelperFactory implements ServiceProviderInterface
          * @since   4.0.0
          */
         private readonly string $namespace
-    )
-    {
+    ) {
     }
 
     /**

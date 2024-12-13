@@ -9,9 +9,9 @@
 
 namespace Joomla\CMS\Application;
 
-use Joomla\CMS\Application\Exception\NotAcceptable;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Access\Exception\AuthenticationFailed;
+use Joomla\CMS\Application\Exception\NotAcceptable;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterApiRouteEvent;
 use Joomla\CMS\Event\Application\AfterDispatchEvent;
@@ -349,7 +349,7 @@ final class ApiApplication extends CMSApplication
         $matchingRoutesMethods = array_unique(
             array_reduce(
                 $matchingRoutes,
-                fn($carry, $route) => array_merge($carry, $route->getMethods()),
+                fn ($carry, $route) => array_merge($carry, $route->getMethods()),
                 []
             )
         );

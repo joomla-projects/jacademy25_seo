@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Menus\Administrator\View\Menu;
 
-use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -18,6 +17,7 @@ use Joomla\CMS\Menu\AdministratorMenuItem;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -82,7 +82,7 @@ class XmlView extends BaseHtmlView
         }
 
         if (headers_sent($file, $line)) {
-            Log::add(sprintf('Headers already sent at %s:%d.', $file, $line), Log::ERROR, 'jerror');
+            Log::add(\sprintf('Headers already sent at %s:%d.', $file, $line), Log::ERROR, 'jerror');
 
             return;
         }

@@ -276,10 +276,10 @@ class Usergroup extends Table
         $replace = [];
 
         foreach ($ids as $id) {
-            $replace[] = ',' . $db->quote(sprintf('[%s,', $id)) . ',' . $db->quote('[');
-            $replace[] = ',' . $db->quote(sprintf(',%s,', $id)) . ',' . $db->quote(',');
-            $replace[] = ',' . $db->quote(sprintf(',%s]', $id)) . ',' . $db->quote(']');
-            $replace[] = ',' . $db->quote(sprintf('[%s]', $id)) . ',' . $db->quote('[]');
+            $replace[] = ',' . $db->quote(\sprintf('[%s,', $id)) . ',' . $db->quote('[');
+            $replace[] = ',' . $db->quote(\sprintf(',%s,', $id)) . ',' . $db->quote(',');
+            $replace[] = ',' . $db->quote(\sprintf(',%s]', $id)) . ',' . $db->quote(']');
+            $replace[] = ',' . $db->quote(\sprintf('[%s]', $id)) . ',' . $db->quote('[]');
         }
 
         $query->clear()

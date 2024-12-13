@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Contact\Site\Model;
 
-use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
@@ -19,6 +18,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;

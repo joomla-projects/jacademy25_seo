@@ -9,9 +9,9 @@
 
 namespace Joomla\CMS\Service\Provider;
 
-use Joomla\Database\Monitor\DebugMonitor;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\Monitor\DebugMonitor;
 use Joomla\Database\Mysql\MysqlDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;

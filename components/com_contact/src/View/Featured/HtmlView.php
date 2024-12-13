@@ -10,15 +10,15 @@
 
 namespace Joomla\Component\Contact\Site\View\Featured;
 
-use Joomla\Registry\Registry;
-use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\Component\Contact\Site\Model\FeaturedModel;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

@@ -10,8 +10,8 @@
 
 namespace Joomla\Plugin\System\Jooa11y\Extension;
 
-use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -173,7 +173,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         // Process extra props
         $extraProps = [];
         foreach ($getExtraProps as $prop) {
-            $decodedValue = json_decode($prop->value);
+            $decodedValue           = json_decode($prop->value);
             $extraProps[$prop->key] = is_numeric($decodedValue) || \is_bool($decodedValue) ? $decodedValue : $prop->value;
         }
 

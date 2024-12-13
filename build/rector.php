@@ -78,7 +78,7 @@ $rectorConfig->withSkip([
     // The setArgument function in events uses unused functions
     PrivatizeFinalClassMethodRector::class => ['*/Event/*'],
     // Ignore vendor
-    '*/vendor/*'
+    '*/vendor/*',
 ]);
 
 // The bootstrap file, which finds the core classes and loads the extension namespace

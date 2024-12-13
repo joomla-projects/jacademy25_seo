@@ -152,7 +152,7 @@ final class Fields extends CMSPlugin
                 }
             }
 
-            $string = preg_replace(sprintf('|%s|', $match[0]), addcslashes((string) $output, '\\$'), (string) $string, 1);
+            $string = preg_replace(\sprintf('|%s|', $match[0]), addcslashes((string) $output, '\\$'), (string) $string, 1);
         }
 
         return $string;

@@ -203,7 +203,7 @@ abstract class DatabaseHelper
         }
 
         // Validate database table prefix.
-        if (empty($options->db_prefix) || in_array(preg_match('#^[a-zA-Z]+\w*$#', $options->db_prefix), [0, false], true)) {
+        if (empty($options->db_prefix) || \in_array(preg_match('#^[a-zA-Z]+\w*$#', $options->db_prefix), [0, false], true)) {
             return Text::_('INSTL_DATABASE_PREFIX_MSG');
         }
 
@@ -213,7 +213,7 @@ abstract class DatabaseHelper
         }
 
         // Validate database name.
-        if (\in_array($options->db_type, ['pgsql', 'postgresql']) && in_array(preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name), [0, false], true)) {
+        if (\in_array($options->db_type, ['pgsql', 'postgresql']) && \in_array(preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name), [0, false], true)) {
             return Text::_('INSTL_DATABASE_NAME_MSG_POSTGRES');
         }
 

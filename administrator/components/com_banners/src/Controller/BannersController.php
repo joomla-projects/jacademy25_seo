@@ -10,13 +10,13 @@
 
 namespace Joomla\Component\Banners\Administrator\Controller;
 
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\Component\Banners\Administrator\Model\BannerModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\Component\Banners\Administrator\Model\BannerModel;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 

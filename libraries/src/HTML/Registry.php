@@ -108,7 +108,7 @@ final class Registry
     public function getService(string $key)
     {
         if (!$this->hasService($key)) {
-            throw new \InvalidArgumentException(sprintf("The '%s' service key is not registered.", $key));
+            throw new \InvalidArgumentException(\sprintf("The '%s' service key is not registered.", $key));
         }
 
         return $this->serviceMap[$key];
@@ -143,12 +143,12 @@ final class Registry
     {
         // If the key exists already and we aren't instructed to replace existing services, bail early
         if (isset($this->serviceMap[$key]) && !$replace) {
-            throw new \RuntimeException(sprintf("The '%s' service key is already registered.", $key));
+            throw new \RuntimeException(\sprintf("The '%s' service key is already registered.", $key));
         }
 
         // If the handler is a string, it must be a class that exists
         if (\is_string($handler) && !class_exists($handler)) {
-            throw new \RuntimeException(sprintf("The '%s' class for service key '%s' does not exist.", $handler, $key));
+            throw new \RuntimeException(\sprintf("The '%s' class for service key '%s' does not exist.", $handler, $key));
         }
 
         // Otherwise the handler must be a class object

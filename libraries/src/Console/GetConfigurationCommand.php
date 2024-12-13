@@ -182,7 +182,7 @@ class GetConfigurationCommand extends AbstractCommand
         }
 
         if (!$foundGroup) {
-            $this->ioStyle->error(sprintf('Group *%s* not found', $group));
+            $this->ioStyle->error(\sprintf('Group *%s* not found', $group));
 
             return self::CONFIG_GET_GROUP_NOT_FOUND;
         }
@@ -245,7 +245,7 @@ class GetConfigurationCommand extends AbstractCommand
         $configs = $this->getApplication()->getConfig()->toArray();
 
         if (!\array_key_exists($option, $configs)) {
-            $this->ioStyle->error(sprintf("Can't find option *%s* in configuration list", $option));
+            $this->ioStyle->error(\sprintf("Can't find option *%s* in configuration list", $option));
 
             return self::CONFIG_GET_OPTION_NOT_FOUND;
         }

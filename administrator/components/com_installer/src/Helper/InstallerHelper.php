@@ -146,7 +146,7 @@ class InstallerHelper
             $extensions
         );
         $arrayValues = array_map(
-            fn(object $entry): int => $entry->extension_id,
+            fn (object $entry): int => $entry->extension_id,
             $extensions
         );
 
@@ -345,7 +345,7 @@ class InstallerHelper
         };
         $extensions = array_filter($extensions, $filterClosure);
 
-        $mapClosure = (fn(CMSObject $extension) => $extension->get('update_site_id'));
+        $mapClosure = (fn (CMSObject $extension) => $extension->get('update_site_id'));
 
         return array_map($mapClosure, $extensions);
     }
@@ -384,7 +384,7 @@ class InstallerHelper
         $extensions = array_filter($extensions, $filterClosure);
 
         // Return only the update site IDs
-        $mapClosure = (fn(CMSObject $extension) => $extension->get('update_site_id'));
+        $mapClosure = (fn (CMSObject $extension) => $extension->get('update_site_id'));
 
         return array_map($mapClosure, $extensions);
     }

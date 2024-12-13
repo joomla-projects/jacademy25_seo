@@ -10,13 +10,11 @@
 
 namespace Joomla\Component\Content\Site\View\Article;
 
-use Joomla\CMS\Event\Content\ContentPrepareEvent;
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Event\Content\AfterDisplayEvent;
 use Joomla\CMS\Event\Content\AfterTitleEvent;
 use Joomla\CMS\Event\Content\BeforeDisplayEvent;
-use Joomla\CMS\Event\Content\AfterDisplayEvent;
-use Joomla\Registry\Registry;
-use Joomla\CMS\User\User;
-use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
@@ -27,9 +25,11 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Component\Content\Site\Model\ArticleModel;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

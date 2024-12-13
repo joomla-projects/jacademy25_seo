@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\Controller;
 
-use Joomla\Component\Installer\Administrator\Model\InstallModel;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -18,6 +17,7 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Installer\Administrator\Model\InstallModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

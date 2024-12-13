@@ -65,10 +65,10 @@ class Profiler
      * @since   1.7.0
      */
     public function __construct(/**
-     * @since  3.0.0
-     */
-    protected $prefix = '')
-    {
+         * @since  3.0.0
+         */
+        protected $prefix = ''
+    ) {
         $this->start  = microtime(1);
     }
 

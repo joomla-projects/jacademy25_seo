@@ -168,7 +168,7 @@ class CronField extends ListField
         // If we need text labels, we translate them first
         if (\array_key_exists($subtype, self::PREPARED_RESPONSE_LABELS) && !$this->onlyNumericLabels) {
             $labels = array_map(
-                static fn(string $string): string => Text::_($string),
+                static fn (string $string): string => Text::_($string),
                 self::PREPARED_RESPONSE_LABELS[$subtype]
             );
         } else {

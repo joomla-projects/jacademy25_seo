@@ -55,7 +55,7 @@ abstract class ModuleEvent extends AbstractImmutableEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('subject', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'subject' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'subject' of event %s is required but has not been provided", $name));
         }
     }
 }

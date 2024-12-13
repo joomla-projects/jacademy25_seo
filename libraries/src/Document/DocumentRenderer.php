@@ -75,6 +75,6 @@ abstract class DocumentRenderer implements RendererInterface
     {
         $base = Uri::base();
 
-        return preg_replace("/(href|src)=\"(?!http|ftp|https|mailto|data|\/\/)([^\"]*)\"/", sprintf('$1="%s$2"', $base), $text);
+        return preg_replace("/(href|src)=\"(?!http|ftp|https|mailto|data|\/\/)([^\"]*)\"/", \sprintf('$1="%s$2"', $base), $text);
     }
 }

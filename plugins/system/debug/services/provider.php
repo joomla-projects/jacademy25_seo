@@ -33,7 +33,7 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            fn(Container $container) => new Debug(
+            fn (Container $container) => new Debug(
                 $container->get(DispatcherInterface::class),
                 (array) PluginHelper::getPlugin('system', 'debug'),
                 Factory::getApplication(),

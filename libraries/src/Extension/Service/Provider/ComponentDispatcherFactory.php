@@ -40,8 +40,7 @@ class ComponentDispatcherFactory implements ServiceProviderInterface
          * @since   4.0.0
          */
         private readonly string $namespace
-    )
-    {
+    ) {
     }
 
     /**
@@ -57,7 +56,7 @@ class ComponentDispatcherFactory implements ServiceProviderInterface
     {
         $container->set(
             ComponentDispatcherFactoryInterface::class,
-            fn(Container $container) => new \Joomla\CMS\Dispatcher\ComponentDispatcherFactory($this->namespace, $container->get(MVCFactoryInterface::class))
+            fn (Container $container) => new \Joomla\CMS\Dispatcher\ComponentDispatcherFactory($this->namespace, $container->get(MVCFactoryInterface::class))
         );
     }
 }

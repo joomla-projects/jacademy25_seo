@@ -10,19 +10,19 @@
 
 namespace Joomla\Component\Redirect\Administrator\View\Links;
 
-use Joomla\CMS\Pagination\Pagination;
-use Joomla\Registry\Registry;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 use Joomla\Component\Redirect\Administrator\Model\LinksModel;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

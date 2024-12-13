@@ -65,8 +65,7 @@ class TufFetcher
          * The web application object
          */
         protected CMSApplicationInterface $app
-    )
-    {
+    ) {
     }
 
     /**

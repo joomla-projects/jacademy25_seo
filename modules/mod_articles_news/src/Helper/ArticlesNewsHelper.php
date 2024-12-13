@@ -10,7 +10,6 @@
 
 namespace Joomla\Module\ArticlesNews\Site\Helper;
 
-use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
@@ -20,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;

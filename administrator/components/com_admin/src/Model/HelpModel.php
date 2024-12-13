@@ -157,7 +157,7 @@ class HelpModel extends BaseDatabaseModel
         foreach ($files as $file) {
             $buffer = file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/' . $file);
 
-            if (in_array(preg_match('#<title>(.*?)</title>#', $buffer, $m), [0, false], true)) {
+            if (\in_array(preg_match('#<title>(.*?)</title>#', $buffer, $m), [0, false], true)) {
                 continue;
             }
 

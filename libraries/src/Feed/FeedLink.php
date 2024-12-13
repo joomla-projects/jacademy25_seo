@@ -74,32 +74,33 @@ class FeedLink
      * @throws  \InvalidArgumentException
      */
     public function __construct(/**
-     * The URI to the linked resource.
-     *
-     * @since  3.1.4
-     */
-    public $uri = null, /**
-     * The relationship between the feed and the linked resource.
-     *
-     * @since  3.1.4
-     */
-    public $relation = null, /**
-     * The resource type.
-     *
-     * @since  3.1.4
-     */
-    public $type = null, /**
-     * The language of the resource found at the given URI.
-     *
-     * @since  3.1.4
-     */
-    public $language = null, /**
-     * The title of the resource.
-     *
-     * @since  3.1.4
-     */
-    public $title = null, $length = null)
-    {
+         * The URI to the linked resource.
+         *
+         * @since  3.1.4
+         */
+        public $uri = null, /**
+         * The relationship between the feed and the linked resource.
+         *
+         * @since  3.1.4
+         */
+        public $relation = null, /**
+         * The resource type.
+         *
+         * @since  3.1.4
+         */
+        public $type = null, /**
+         * The language of the resource found at the given URI.
+         *
+         * @since  3.1.4
+         */
+        public $language = null, /**
+         * The title of the resource.
+         *
+         * @since  3.1.4
+         */
+        public $title = null,
+        $length = null
+    ) {
         // Validate the length input.
         if (isset($length) && !is_numeric($length)) {
             throw new \InvalidArgumentException('Length must be numeric.');

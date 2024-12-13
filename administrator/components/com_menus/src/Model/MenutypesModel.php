@@ -498,7 +498,7 @@ class MenutypesModel extends BaseDatabaseModel
                     $templateLayoutName = basename((string) $layout, '.xml');
 
                     // Add to the list only if it is not a standard layout
-                    if (!in_array($templateLayoutName, $layoutNames)) {
+                    if (!\in_array($templateLayoutName, $layoutNames)) {
                         $layouts[] = $layout;
 
                         // Set template name array so we can get the right template for the layout

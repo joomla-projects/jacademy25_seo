@@ -45,8 +45,7 @@ final class WritableContainerLoader implements WritableLoaderInterface
          * @since  4.0.0
          */
         private array $commandMap
-    )
-    {
+    ) {
     }
 
     /**

@@ -106,7 +106,7 @@ class TemplateModel extends FormModel
         $temp->client       = $template->client_id;
         $temp->template     = $template->element;
         $temp->extension_id = $template->extension_id;
-        $temp->coreFile = $this->getCoreFile($path . $name, $template->client_id) ? md5_file($coreFile) : null;
+        $temp->coreFile     = $this->getCoreFile($path . $name, $template->client_id) ? md5_file($coreFile) : null;
         if ($this->getCoreFile($path . $name, $template->client_id)) {
             md5_file($coreFile);
         }
@@ -251,7 +251,7 @@ class TemplateModel extends FormModel
         // Sort list of stdClass array.
         usort(
             $this->coreFileList,
-            fn($a, $b) => strcmp($a->id, $b->id)
+            fn ($a, $b) => strcmp($a->id, $b->id)
         );
 
         return $this->coreFileList;
@@ -369,9 +369,11 @@ class TemplateModel extends FormModel
             $lang   = Factory::getLanguage();
 
             // Load the core and/or local language file(s).
-            if (!($lang->load('tpl_' . $template->element, $client->path)
-            || (!empty($template->xmldata->parent) && $lang->load('tpl_' . $template->xmldata->parent, $client->path))
-            || $lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element)) && !empty($template->xmldata->parent)) {
+            if (
+                !($lang->load('tpl_' . $template->element, $client->path)
+                || (!empty($template->xmldata->parent) && $lang->load('tpl_' . $template->xmldata->parent, $client->path))
+                || $lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element)) && !empty($template->xmldata->parent)
+            ) {
                 $lang->load('tpl_' . $template->xmldata->parent, $client->path . '/templates/' . $template->xmldata->parent);
             }
             $this->element = $path;
@@ -1563,9 +1565,9 @@ class TemplateModel extends FormModel
 
                 $imageType = match ($properties->mime) {
                     'image/webp' => \IMAGETYPE_WEBP,
-                    'image/png' => \IMAGETYPE_PNG,
-                    'image/gif' => \IMAGETYPE_GIF,
-                    default => \IMAGETYPE_JPEG,
+                    'image/png'  => \IMAGETYPE_PNG,
+                    'image/gif'  => \IMAGETYPE_GIF,
+                    default      => \IMAGETYPE_JPEG,
                 };
 
                 $image->crop($w, $h, $x, $y, false);
@@ -1603,9 +1605,9 @@ class TemplateModel extends FormModel
 
                 $imageType = match ($properties->mime) {
                     'image/webp' => \IMAGETYPE_WEBP,
-                    'image/png' => \IMAGETYPE_PNG,
-                    'image/gif' => \IMAGETYPE_GIF,
-                    default => \IMAGETYPE_JPEG,
+                    'image/png'  => \IMAGETYPE_PNG,
+                    'image/gif'  => \IMAGETYPE_GIF,
+                    default      => \IMAGETYPE_JPEG,
                 };
 
                 $image->resize($width, $height, false, Image::SCALE_FILL);

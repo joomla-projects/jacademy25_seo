@@ -9,9 +9,9 @@
 
 namespace Joomla\Plugin\Editors\None\Provider;
 
-use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Editor\AbstractEditorProvider;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Event\DispatcherInterface;
 
 /**
@@ -29,13 +29,14 @@ final class EditorNoneProvider extends AbstractEditorProvider
      * @since  5.2.0
      */
     public function __construct(/**
-     * The application object
-     *
-     *
-     * @since  5.2.0
-     */
-    private readonly CMSApplicationInterface $application, DispatcherInterface $dispatcher)
-    {
+         * The application object
+         *
+         *
+         * @since  5.2.0
+         */
+        private readonly CMSApplicationInterface $application,
+        DispatcherInterface $dispatcher
+    ) {
         $this->setDispatcher($dispatcher);
     }
 

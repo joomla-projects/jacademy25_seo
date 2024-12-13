@@ -128,7 +128,7 @@ class PostgresqlChangeItem extends ChangeItem
                         $type = substr($type, 0, $pos);
                     }
                     $datatype = strpos($type, '(') ? substr($type, 0, $pos) : $type;
-                    $pos = strpos($type, '(') ? substr($type, 0, $pos) : $type;
+                    $pos      = strpos($type, '(') ? substr($type, 0, $pos) : $type;
 
                     if ($datatype === 'varchar') {
                         $datatype = 'character varying';
@@ -260,7 +260,7 @@ class PostgresqlChangeItem extends ChangeItem
         }
         // Set fields based on results
         $this->checkStatus = $result !== null && $result !== '' && $result !== '0' ? 0 : -1;
-        $this->checkQuery = $result !== null && $result !== '' && $result !== '0' ? 0 : -1;
+        $this->checkQuery  = $result !== null && $result !== '' && $result !== '0' ? 0 : -1;
     }
 
     /**

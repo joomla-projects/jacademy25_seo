@@ -481,8 +481,8 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             $message = match (preg_last_error()) {
                 PREG_BACKTRACK_LIMIT_ERROR => 'PHP regular expression limit reached (pcre.backtrack_limit)',
                 PREG_RECURSION_LIMIT_ERROR => 'PHP regular expression limit reached (pcre.recursion_limit)',
-                PREG_BAD_UTF8_ERROR => 'Bad UTF8 passed to PCRE function',
-                default => 'Unknown PCRE error calling PCRE function',
+                PREG_BAD_UTF8_ERROR        => 'Bad UTF8 passed to PCRE function',
+                default                    => 'Unknown PCRE error calling PCRE function',
             };
 
             throw new \RuntimeException($message);

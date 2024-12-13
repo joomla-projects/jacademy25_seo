@@ -10,10 +10,10 @@
 
 namespace Joomla\Component\Languages\Administrator\Model;
 
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -206,7 +206,7 @@ class LanguageModel extends AdminModel
         $data['lang_code'] = str_replace($spaces, '', $data['lang_code']);
 
         // Prevent saving an incorrect language tag
-        if (in_array(preg_match('#\b([a-z]{2,3})[-]([A-Z]{2})\b#', $data['lang_code']), [0, false], true)) {
+        if (\in_array(preg_match('#\b([a-z]{2,3})[-]([A-Z]{2})\b#', $data['lang_code']), [0, false], true)) {
             $this->setError(Text::_('COM_LANGUAGES_ERROR_LANG_TAG'));
 
             return false;

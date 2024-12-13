@@ -37,7 +37,7 @@ final class FetchMediaItemsEvent extends AbstractMediaItemValidationEvent
 
         // Check for required arguments
         if (!\array_key_exists('items', $arguments) || !\is_array($arguments['items'])) {
-            throw new \BadMethodCallException(sprintf("Argument 'items' of event %s is not of the expected type", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'items' of event %s is not of the expected type", $name));
         }
     }
 

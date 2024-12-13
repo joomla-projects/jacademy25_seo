@@ -632,7 +632,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                     $lang_code = $this->current_lang;
                 }
                 // Try to get association from the current active menu item
-                $active = $menu->getActive();
+                $active           = $menu->getActive();
                 $foundAssociation = false;
                 /**
                  * Looking for associations.

@@ -10,15 +10,15 @@
 
 namespace Joomla\Component\Config\Administrator\View\Component;
 
-use Joomla\Registry\Registry;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Component\ComponentRecord;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 use Joomla\Component\Config\Administrator\Model\ComponentModel;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

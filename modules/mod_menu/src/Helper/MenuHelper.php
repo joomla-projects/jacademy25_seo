@@ -10,12 +10,12 @@
 
 namespace Joomla\Module\Menu\Site\Helper;
 
-use Joomla\Registry\Registry;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Router\Route;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -119,7 +119,6 @@ class MenuHelper
                     // Reverted back for CMS version 2.5.6
                     switch ($item->type) {
                         case 'separator':
-
                         case 'heading':
                             // No further action needed.
                             break;

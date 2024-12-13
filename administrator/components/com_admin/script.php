@@ -9,10 +9,7 @@
  *
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
-use Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent;
-use Joomla\Component\Scheduler\Administrator\Model\TaskModel;
-use Joomla\CMS\Table\Asset;
-use Joomla\Component\Cache\Administrator\Model\CacheModel;
+
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
@@ -20,8 +17,12 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Cache\Administrator\Model\CacheModel;
+use Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent;
+use Joomla\Component\Scheduler\Administrator\Model\TaskModel;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;

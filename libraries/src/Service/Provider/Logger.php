@@ -39,7 +39,7 @@ class Logger implements ServiceProviderInterface
         $container->alias('logger', LoggerInterface::class)
             ->share(
                 LoggerInterface::class,
-                fn(Container $container) => Log::createDelegatedLogger(),
+                fn (Container $container) => Log::createDelegatedLogger(),
                 true
             );
     }

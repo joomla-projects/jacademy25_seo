@@ -92,12 +92,12 @@ class RouterViewConfiguration
      * @since   3.5
      */
     public function __construct(/**
-     * Name of the view
-     *
-     * @since  3.5
-     */
-    public $name)
-    {
+         * Name of the view
+         *
+         * @since  3.5
+         */
+        public $name
+    ) {
         $this->path[] = $this->name;
     }
 

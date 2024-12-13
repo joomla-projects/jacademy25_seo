@@ -56,8 +56,7 @@ final class DelegatingPsrLogger extends AbstractLogger
          * @since  3.8.0
          */
         private readonly Log $logger
-    )
-    {
+    ) {
     }
 
     /**

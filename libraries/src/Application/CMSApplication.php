@@ -9,10 +9,10 @@
 
 namespace Joomla\CMS\Application;
 
-use Joomla\CMS\Document\Document;
 use Joomla\Application\SessionAwareWebApplicationTrait;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Document\Document;
 use Joomla\CMS\Event\Application\AfterCompressEvent;
 use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\Application\AfterRenderEvent;
@@ -273,7 +273,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         // Get invalid input variables
         $invalidInputVariables = array_filter(
             ['option', 'view', 'format', 'lang', 'Itemid', 'template', 'templateStyle', 'task'],
-            fn($systemVariable) => $input->exists($systemVariable) && \is_array($input->getRaw($systemVariable))
+            fn ($systemVariable) => $input->exists($systemVariable) && \is_array($input->getRaw($systemVariable))
         );
 
         // Unset invalid system variables
@@ -311,7 +311,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             }
 
             // If gzip compression is enabled in configuration and the server is compliant, compress the output.
-            if ($this->get('gzip') && (in_array(\ini_get('zlib.output_compression'), ['', '0'], true) || \ini_get('zlib.output_compression') === false) && \ini_get('output_handler') !== 'ob_gzhandler') {
+            if ($this->get('gzip') && (\in_array(\ini_get('zlib.output_compression'), ['', '0'], true) || \ini_get('zlib.output_compression') === false) && \ini_get('output_handler') !== 'ob_gzhandler') {
                 $this->compress();
 
                 // Trigger the onAfterCompress event.
@@ -392,12 +392,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 $tasks = explode(',', (string) $tasks);
                 // Check full task version "option/task"
                 // Check short task version, must be on the same option of the view
-                if (!in_array($this->input->getCmd('option', '') . '/' . $task, $tasks) && ($this->input->getCmd('option', '') !== $option || !in_array($task, $tasks))) {
+                if (!\in_array($this->input->getCmd('option', '') . '/' . $task, $tasks) && ($this->input->getCmd('option', '') !== $option || !\in_array($task, $tasks))) {
                     // Not permitted task
                     $redirect = true;
                 }
-            } elseif ($this->input->getCmd('option', '') !== $option || $this->input->getCmd('view', '') !== $view
-            || $this->input->getCmd('layout', '') !== $layout) {
+            } elseif (
+                $this->input->getCmd('option', '') !== $option || $this->input->getCmd('view', '') !== $view
+                || $this->input->getCmd('layout', '') !== $layout
+            ) {
                 // Requested a different option/view/layout
                 $redirect = true;
             }
@@ -1178,7 +1180,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     public function toString($compress = false)
     {
         // Don't compress something if the server is going to do it anyway. Waste of time.
-        if ($compress && (in_array(\ini_get('zlib.output_compression'), ['', '0'], true) || \ini_get('zlib.output_compression') === false) && \ini_get('output_handler') !== 'ob_gzhandler') {
+        if ($compress && (\in_array(\ini_get('zlib.output_compression'), ['', '0'], true) || \ini_get('zlib.output_compression') === false) && \ini_get('output_handler') !== 'ob_gzhandler') {
             $this->compress();
         }
 

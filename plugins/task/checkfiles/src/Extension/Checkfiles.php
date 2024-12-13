@@ -78,13 +78,15 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, /**
-     * The root directory path
-     *
-     * @since  4.2.0
-     */
-    private string $rootDirectory)
-    {
+    public function __construct(
+        DispatcherInterface $dispatcher,
+        array $config, /**
+         * The root directory path
+         *
+         * @since  4.2.0
+         */
+        private string $rootDirectory
+    ) {
         parent::__construct($dispatcher, $config);
     }
 

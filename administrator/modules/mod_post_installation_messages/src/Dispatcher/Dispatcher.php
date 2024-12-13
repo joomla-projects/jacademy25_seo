@@ -10,9 +10,9 @@
 
 namespace Joomla\Module\PostInstallationMessages\Administrator\Dispatcher;
 
-use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
 use Joomla\CMS\Extension\ExtensionHelper;
+use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

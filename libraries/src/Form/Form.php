@@ -110,12 +110,13 @@ class Form implements CurrentUserInterface
      * @since   1.7.0
      */
     public function __construct(/**
-     * The name of the form instance.
-     *
-     * @since  1.7.0
-     */
-    protected $name, array $options = [])
-    {
+         * The name of the form instance.
+         *
+         * @since  1.7.0
+         */
+        protected $name,
+        array $options = []
+    ) {
         // Initialise the Registry data.
         $this->data = new Registry();
 

@@ -73,7 +73,7 @@ class TypeField extends ListField
         // Sorting the fields based on the text which is displayed
         usort(
             $options,
-            fn($a, $b) => strcmp($a->text, $b->text)
+            fn ($a, $b) => strcmp($a->text, $b->text)
         );
 
         // Load scripts

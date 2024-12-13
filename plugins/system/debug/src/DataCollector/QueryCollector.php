@@ -10,9 +10,9 @@
 
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
-use Joomla\Database\DatabaseDriver;
 use DebugBar\DataCollector\AssetProvider;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Monitor\DebugMonitor;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Registry\Registry;
@@ -62,23 +62,24 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
      *
      * @since 4.0.0
      */
-    public function __construct(Registry $params, /**
-     * The query monitor.
-     *
-     * @since  4.0.0
-     */
-    private readonly DebugMonitor $queryMonitor, /**
-     * Profile data.
-     *
-     * @since 4.0.0
-     */
-    private array $profiles, /**
-     * Explain data.
-     *
-     * @since 4.0.0
-     */
-    private array $explains)
-    {
+    public function __construct(
+        Registry $params, /**
+         * The query monitor.
+         *
+         * @since  4.0.0
+         */
+        private readonly DebugMonitor $queryMonitor, /**
+         * Profile data.
+         *
+         * @since 4.0.0
+         */
+        private array $profiles, /**
+         * Explain data.
+         *
+         * @since 4.0.0
+         */
+        private array $explains
+    ) {
         parent::__construct($params);
     }
 
@@ -202,7 +203,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
                     $line  = $stack['line'] ?? '';
 
                     $caller   = $this->formatCallerInfo($stack);
-                    $location = $file && $line ? sprintf('%s:%s', $file, $line) : 'same';
+                    $location = $file && $line ? \sprintf('%s:%s', $file, $line) : 'same';
 
                     $isCaller = 0;
 

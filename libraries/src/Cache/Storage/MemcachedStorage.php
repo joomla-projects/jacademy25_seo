@@ -101,7 +101,7 @@ class MemcachedStorage extends CacheStorage
         static::$_db->setOption(\Memcached::OPT_COMPRESSION, $this->_compress);
 
         $stats  = static::$_db->getStats();
-        $result = !empty($stats[sprintf('%s:%s', $host, $port)]) && $stats[sprintf('%s:%s', $host, $port)]['pid'] > 0;
+        $result = !empty($stats[\sprintf('%s:%s', $host, $port)]) && $stats[\sprintf('%s:%s', $host, $port)]['pid'] > 0;
 
         if (!$result) {
             // Null out the connection to inform the constructor it will need to attempt to connect if this class is instantiated again

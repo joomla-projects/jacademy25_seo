@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Content\Administrator\Model;
 
-use Joomla\CMS\Table\Table;
-use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
@@ -28,12 +26,14 @@ use Joomla\CMS\MVC\Model\WorkflowBehaviorTrait;
 use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\Component\Content\Administrator\Event\Model\FeatureEvent;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Database\ParameterType;
@@ -738,7 +738,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             }
 
             if ($data['title'] == $origTable->title) {
-                [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+                [$title, $alias]     = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
                 $data['title']       = $title;
                 $data['alias']       = $alias;
             } elseif ($data['alias'] == $origTable->alias) {
@@ -757,7 +757,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             if ($table->load(['alias' => $data['alias'], 'catid' => $data['catid']])) {
                 $msg = Text::_('COM_CONTENT_SAVE_WARNING');
             }
-            [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+            [$title, $alias]     = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
             $data['alias']       = $alias;
             if (isset($msg)) {
                 $app->enqueueMessage($msg, 'warning');
@@ -766,12 +766,14 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
         if (parent::save($data)) {
             // Check if featured is set and if not managed by workflow
-            if (isset($data['featured']) && !$this->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article') && !$this->featured(
-                $this->getState($this->getName() . '.id'),
-                $data['featured'],
-                $data['featured_up'] ?? null,
-                $data['featured_down'] ?? null
-            )) {
+            if (
+                isset($data['featured']) && !$this->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article') && !$this->featured(
+                    $this->getState($this->getName() . '.id'),
+                    $data['featured'],
+                    $data['featured_up'] ?? null,
+                    $data['featured_down'] ?? null
+                )
+            ) {
                 return false;
             }
 

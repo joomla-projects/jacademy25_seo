@@ -10,11 +10,11 @@
 
 namespace Joomla\Component\Contact\Administrator\Controller;
 
-use Joomla\Component\Contact\Administrator\Model\ContactModel;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
+use Joomla\Component\Contact\Administrator\Model\ContactModel;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects

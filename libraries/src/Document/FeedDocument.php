@@ -222,7 +222,7 @@ class FeedDocument extends Document
 
         // Generate stylesheet links
         foreach ($this->_styleSheets as $src => $attr) {
-            $data .= sprintf('<?xml-stylesheet href="%s" type="', $src) . $attr['type'] . "\"?>\n";
+            $data .= \sprintf('<?xml-stylesheet href="%s" type="', $src) . $attr['type'] . "\"?>\n";
         }
 
         // Render the feed

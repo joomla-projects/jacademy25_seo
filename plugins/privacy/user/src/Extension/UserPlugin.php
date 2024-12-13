@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\Privacy\User\Extension;
 
-use Joomla\Component\Privacy\Administrator\Export\Domain;
-use Joomla\Component\Privacy\Administrator\Export\Item;
 use Joomla\CMS\Event\Privacy\CanRemoveDataEvent;
 use Joomla\CMS\Event\Privacy\ExportRequestEvent;
 use Joomla\CMS\Event\Privacy\RemoveDataEvent;
@@ -19,6 +17,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\User as TableUser;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Privacy\Administrator\Export\Domain;
+use Joomla\Component\Privacy\Administrator\Export\Item;
 use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
 use Joomla\Component\Privacy\Administrator\Removal\Status;
 use Joomla\Database\ParameterType;

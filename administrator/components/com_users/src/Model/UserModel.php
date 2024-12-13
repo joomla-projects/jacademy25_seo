@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
-use Joomla\Component\Users\Administrator\Helper\Mfa;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -24,6 +23,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Users\Administrator\Helper\Mfa;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 

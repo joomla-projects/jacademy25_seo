@@ -56,7 +56,7 @@ class LanguageField extends ListField
         if (\count($languages) > 1) {
             usort(
                 $languages,
-                fn($a, $b) => strcmp((string) $a['value'], (string) $b['value'])
+                fn ($a, $b) => strcmp((string) $a['value'], (string) $b['value'])
             );
         }
 

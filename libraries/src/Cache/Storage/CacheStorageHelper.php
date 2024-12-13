@@ -50,8 +50,7 @@ class CacheStorageHelper
          * @since  1.7.0
          */
         public $group
-    )
-    {
+    ) {
     }
 
     /**

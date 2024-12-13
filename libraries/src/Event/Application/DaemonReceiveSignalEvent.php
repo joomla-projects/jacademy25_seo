@@ -33,7 +33,7 @@ class DaemonReceiveSignalEvent extends ApplicationEvent
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('signal', $arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'signal' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'signal' of event %s is required but has not been provided", $name));
         }
 
         parent::__construct($name, $arguments);

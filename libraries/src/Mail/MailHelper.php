@@ -134,9 +134,9 @@ abstract class MailHelper
          * Also, period should not appear 2 or more times consecutively
          */
         $allowed = "a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-";
-        $regex   = sprintf('/^[%s][\.%s]{0,63}$/', $allowed, $allowed);
+        $regex   = \sprintf('/^[%s][\.%s]{0,63}$/', $allowed, $allowed);
 
-        if (in_array(preg_match($regex, $local), [0, false], true) || str_ends_with($local, '.') || $local[0] === '.' || preg_match('/\.\./', $local)) {
+        if (\in_array(preg_match($regex, $local), [0, false], true) || str_ends_with($local, '.') || $local[0] === '.' || preg_match('/\.\./', $local)) {
             return false;
         }
 
@@ -168,7 +168,7 @@ abstract class MailHelper
             }
 
             // Check for invalid characters
-            if (in_array(preg_match($regex, $domain), [0, false], true)) {
+            if (\in_array(preg_match($regex, $domain), [0, false], true)) {
                 return false;
             }
 
@@ -261,8 +261,8 @@ abstract class MailHelper
         $message = match (preg_last_error()) {
             PREG_BACKTRACK_LIMIT_ERROR => 'PHP regular expression limit reached (pcre.backtrack_limit)',
             PREG_RECURSION_LIMIT_ERROR => 'PHP regular expression limit reached (pcre.recursion_limit)',
-            PREG_BAD_UTF8_ERROR => 'Bad UTF8 passed to PCRE function',
-            default => 'Unknown PCRE error calling PCRE function',
+            PREG_BAD_UTF8_ERROR        => 'Bad UTF8 passed to PCRE function',
+            default                    => 'Unknown PCRE error calling PCRE function',
         };
 
         throw new \RuntimeException($message);

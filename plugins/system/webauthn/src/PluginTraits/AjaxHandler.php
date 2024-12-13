@@ -88,14 +88,14 @@ trait AjaxHandler
             $eventName    = 'onAjaxWebauthn' . ucfirst((string) $akaction);
 
             $eventClass = match ($eventName) {
-                'onAjaxWebauthn' => PlgSystemWebauthnAjax::class,
-                'onAjaxWebauthnChallenge' => PlgSystemWebauthnAjaxChallenge::class,
-                'onAjaxWebauthnCreate' => PlgSystemWebauthnAjaxCreate::class,
-                'onAjaxWebauthnDelete' => PlgSystemWebauthnAjaxDelete::class,
+                'onAjaxWebauthn'           => PlgSystemWebauthnAjax::class,
+                'onAjaxWebauthnChallenge'  => PlgSystemWebauthnAjaxChallenge::class,
+                'onAjaxWebauthnCreate'     => PlgSystemWebauthnAjaxCreate::class,
+                'onAjaxWebauthnDelete'     => PlgSystemWebauthnAjaxDelete::class,
                 'onAjaxWebauthnInitcreate' => PlgSystemWebauthnAjaxInitCreate::class,
-                'onAjaxWebauthnLogin' => PlgSystemWebauthnAjaxLogin::class,
-                'onAjaxWebauthnSavelabel' => PlgSystemWebauthnAjaxSaveLabel::class,
-                default => GenericEvent::class,
+                'onAjaxWebauthnLogin'      => PlgSystemWebauthnAjaxLogin::class,
+                'onAjaxWebauthnSavelabel'  => PlgSystemWebauthnAjaxSaveLabel::class,
+                default                    => GenericEvent::class,
             };
 
             $triggerEvent = new $eventClass($eventName, []);
@@ -103,11 +103,11 @@ trait AjaxHandler
             $results      = ($result instanceof ResultAwareInterface) ? ($result['result'] ?? []) : [];
             $result       = array_reduce(
                 $results,
-                fn($carry, $result) => $carry ?? $result,
+                fn ($carry, $result) => $carry ?? $result,
                 null
             );
         } catch (\Exception $exception) {
-            Log::add(sprintf('Callback failure, redirecting to %s.', $returnURL), Log::DEBUG, 'webauthn.system');
+            Log::add(\sprintf('Callback failure, redirecting to %s.', $returnURL), Log::DEBUG, 'webauthn.system');
             $this->getApplication()->getSession()->set('plg_system_webauthn.returnUrl', null);
             $this->getApplication()->enqueueMessage($exception->getMessage(), 'error');
             $this->getApplication()->redirect($returnURL);
@@ -134,11 +134,11 @@ trait AjaxHandler
                     }
 
                     if (isset($result['url'])) {
-                        Log::add(sprintf('Callback complete, performing redirection to %s%s.', $result['url'], $modifiers), Log::DEBUG, 'webauthn.system');
+                        Log::add(\sprintf('Callback complete, performing redirection to %s%s.', $result['url'], $modifiers), Log::DEBUG, 'webauthn.system');
                         $this->getApplication()->redirect($result['url']);
                     }
 
-                    Log::add(sprintf('Callback complete, performing redirection to %s%s.', $result, $modifiers), Log::DEBUG, 'webauthn.system');
+                    Log::add(\sprintf('Callback complete, performing redirection to %s%s.', $result, $modifiers), Log::DEBUG, 'webauthn.system');
                     $this->getApplication()->redirect($result);
 
                     return;

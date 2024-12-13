@@ -10,8 +10,8 @@
 
 namespace Joomla\Plugin\Filesystem\Local\Extension;
 
-use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -47,13 +47,15 @@ final class Local extends CMSPlugin implements ProviderInterface
      *
      * @since   4.3.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, /**
-     * The root directory path
-     *
-     * @since  4.3.0
-     */
-    private readonly string $rootDirectory)
-    {
+    public function __construct(
+        DispatcherInterface $dispatcher,
+        array $config, /**
+         * The root directory path
+         *
+         * @since  4.3.0
+         */
+        private readonly string $rootDirectory
+    ) {
         parent::__construct($dispatcher, $config);
     }
 

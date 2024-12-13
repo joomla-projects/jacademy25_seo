@@ -103,15 +103,16 @@ class MailTemplate
      * @since   4.0.0
      */
     public function __construct(/**
-     * Identifier of the mail template.
-     *
-     * @since  4.0.0
-     */
-    protected $template_id, /**
-     * Language of the mail template.
-     */
-    protected $language, ?Mail $mailer = null)
-    {
+         * Identifier of the mail template.
+         *
+         * @since  4.0.0
+         */
+        protected $template_id, /**
+         * Language of the mail template.
+         */
+        protected $language,
+        ?Mail $mailer = null
+    ) {
         $this->mailer = $mailer instanceof Mail ? $mailer : Factory::getMailer();
     }
 
@@ -376,8 +377,8 @@ class MailTemplate
 
         foreach ($this->recipients as $recipient) {
             match ($recipient->type) {
-                'cc' => $this->mailer->addCc($recipient->mail, $recipient->name),
-                'bcc' => $this->mailer->addBcc($recipient->mail, $recipient->name),
+                'cc'    => $this->mailer->addCc($recipient->mail, $recipient->name),
+                'bcc'   => $this->mailer->addBcc($recipient->mail, $recipient->name),
                 default => $this->mailer->addAddress($recipient->mail, $recipient->name),
             };
         }

@@ -10,15 +10,15 @@
 
 namespace Joomla\Component\Tags\Administrator\Model;
 
-use Joomla\CMS\Form\Form;
-use Joomla\Component\Tags\Administrator\Table\TagTable;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableModelTrait;
+use Joomla\Component\Tags\Administrator\Table\TagTable;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -242,7 +242,7 @@ class TagModel extends AdminModel
                 $origTable->load($input->getInt('id'));
 
                 if ($data['title'] == $origTable->title) {
-                    [$title, $alias] = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
+                    [$title, $alias]     = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
                     $data['title']       = $title;
                     $data['alias']       = $alias;
                 } elseif ($data['alias'] == $origTable->alias) {

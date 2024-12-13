@@ -57,7 +57,7 @@ class ImageDocument extends Document
 
         $this->_mime = match ($type) {
             'jpg', 'jpeg' => 'image/jpeg',
-            'gif' => 'image/gif',
+            'gif'   => 'image/gif',
             default => 'image/png',
         };
 

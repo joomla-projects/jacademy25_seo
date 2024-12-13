@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Contact\Api\Controller;
 
-use Joomla\Component\Contact\Site\Model\ContactModel;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Contact\SubmitContactEvent;
 use Joomla\CMS\Event\Contact\ValidateContactEvent;
@@ -28,6 +27,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
+use Joomla\Component\Contact\Site\Model\ContactModel;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\Inflector;

@@ -60,11 +60,11 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
         }
 
         if (!\array_key_exists('subject', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'subject' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'subject' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('data', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'data' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'data' of event %s is required but has not been provided", $name));
         }
 
         // For backward compatibility make sure the content is referenced

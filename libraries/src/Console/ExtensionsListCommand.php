@@ -229,7 +229,7 @@ class ExtensionsListCommand extends AbstractCommand
         }
 
         if (empty($extensions)) {
-            $this->ioStyle->error(sprintf("Cannot find extensions of the type '%s' specified.", $type));
+            $this->ioStyle->error(\sprintf("Cannot find extensions of the type '%s' specified.", $type));
 
             return Command::SUCCESS;
         }

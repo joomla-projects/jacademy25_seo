@@ -45,11 +45,11 @@ class BeforeUpdateEvent extends AbstractExtensionEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('type', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'type' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'type' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('manifest', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'manifest' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'manifest' of event %s is required but has not been provided", $name));
         }
     }
 

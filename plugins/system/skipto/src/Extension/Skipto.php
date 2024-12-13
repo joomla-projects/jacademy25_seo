@@ -10,8 +10,8 @@
 
 namespace Joomla\Plugin\System\Skipto\Extension;
 
-use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\WebAsset\WebAssetManager;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

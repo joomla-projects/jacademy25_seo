@@ -147,7 +147,7 @@ PHP;
 
 Factory::getContainer()->share(
     'StubGenerator',
-    fn(Container $container) => new \StubGenerator(
+    fn (Container $container) => new \StubGenerator(
         null,
         null,
         null,

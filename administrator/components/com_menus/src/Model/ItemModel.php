@@ -10,9 +10,6 @@
 
 namespace Joomla\Component\Menus\Administrator\Model;
 
-use Joomla\Cms\Table\Table;
-use Joomla\Cms\Table\Nested;
-use Joomla\CMS\Table\Menu;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -22,6 +19,9 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Menu;
+use Joomla\Cms\Table\Nested;
+use Joomla\Cms\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Database\ParameterType;
@@ -275,7 +275,7 @@ class ItemModel extends AdminModel
             $table->home  = 0;
 
             // Alter the title & alias
-            [$title, $alias] = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
+            [$title, $alias]     = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
             $table->title        = $title;
             $table->alias        = $alias;
 
@@ -1373,7 +1373,7 @@ class ItemModel extends AdminModel
             $origTable->load($this->getState('item.id'));
 
             if ($table->title === $origTable->title) {
-                [$title, $alias] = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
+                [$title, $alias]     = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
                 $table->title        = $title;
                 $table->alias        = $alias;
             }

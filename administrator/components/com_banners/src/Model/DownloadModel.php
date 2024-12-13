@@ -10,9 +10,9 @@
 
 namespace Joomla\Component\Banners\Administrator\Model;
 
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\FormModel;
 
 // phpcs:disable PSR1.Files.SideEffects

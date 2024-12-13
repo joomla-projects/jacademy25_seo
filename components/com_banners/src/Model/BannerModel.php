@@ -215,7 +215,7 @@ class BannerModel extends BaseDatabaseModel
         $url  = $item->clickurl;
 
         // Check for links
-        if (in_array(preg_match('#http[s]?://|index[2]?\.php#', $url), [0, false], true)) {
+        if (\in_array(preg_match('#http[s]?://|index[2]?\.php#', $url), [0, false], true)) {
             return 'http://' . $url;
         }
 

@@ -50,11 +50,11 @@ class AfterRenderModulesEvent extends ModuleEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('content', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'content' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'content' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('attributes', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'attributes' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'attributes' of event %s is required but has not been provided", $name));
         }
 
         // For backward compatibility make sure the content is referenced

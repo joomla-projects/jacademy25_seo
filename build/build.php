@@ -350,10 +350,10 @@ echo "Workspace built.\n";
 require_once $fullpath . '/libraries/src/Version.php';
 
 // Set version information for the build
-$majorVersion = Version::MAJOR_VERSION;
-$version      = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
-$release      = Version::PATCH_VERSION;
-$fullVersion  = (new Version())->getShortVersion();
+$majorVersion    = Version::MAJOR_VERSION;
+$version         = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
+$release         = Version::PATCH_VERSION;
+$fullVersion     = (new Version())->getShortVersion();
 $previousRelease = false;
 
 chdir($tmp);
@@ -561,7 +561,7 @@ chdir('..');
 // This is only needed when we release a version
 if ($includeExtraTextfiles) {
     foreach (array_keys($checksums) as $packageName) {
-        echo sprintf('Generating checksums for %s%s', $packageName, PHP_EOL);
+        echo \sprintf('Generating checksums for %s%s', $packageName, PHP_EOL);
 
         foreach (['sha256', 'sha384', 'sha512'] as $hash) {
             if (file_exists('packages/' . $packageName)) {
@@ -578,10 +578,10 @@ if ($includeExtraTextfiles) {
     $checksumsContentUpdate = '';
 
     foreach ($checksums as $packageName => $packageHashes) {
-        $checksumsContent .= sprintf('Filename: %s%s', $packageName, PHP_EOL);
+        $checksumsContent .= \sprintf('Filename: %s%s', $packageName, PHP_EOL);
 
         foreach ($packageHashes as $hashType => $hash) {
-            $checksumsContent .= sprintf('%s: %s%s', $hashType, $hash, PHP_EOL);
+            $checksumsContent .= \sprintf('%s: %s%s', $hashType, $hash, PHP_EOL);
             if (str_contains($packageName, 'Update_Package.zip')) {
                 $checksumsContentUpdate .= "<{$hashType}>{$hash}</{$hashType}>\n";
             }

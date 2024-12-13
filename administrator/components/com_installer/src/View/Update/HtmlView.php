@@ -10,12 +10,12 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Update;
 
-use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper as CmsInstallerHelper;
 use Joomla\Component\Installer\Administrator\Model\UpdateModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;

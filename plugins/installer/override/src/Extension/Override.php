@@ -10,14 +10,14 @@
 
 namespace Joomla\Plugin\Installer\Override\Extension;
 
-use Joomla\Component\Templates\Administrator\Model\TemplateModel;
-use Joomla\Component\Templates\Administrator\Extension\TemplatesComponent;
-use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\Database\Exception\ConnectionFailureException;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\Templates\Administrator\Extension\TemplatesComponent;
+use Joomla\Component\Templates\Administrator\Model\TemplateModel;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\Exception\ConnectionFailureException;
+use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
 

@@ -39,8 +39,7 @@ class LegacyComponentDispatcher implements DispatcherInterface
          * @since  4.0.0
          */
         private readonly CMSApplication $app
-    )
-    {
+    ) {
     }
 
     /**

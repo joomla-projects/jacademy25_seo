@@ -10,8 +10,8 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Traits;
 
-use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Event\Model;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -321,7 +321,7 @@ trait TaskPluginTrait
          *
          * @since 4.1.0
          */
-        $validateStatus = (static fn(int $statusCode): bool => \in_array(
+        $validateStatus = (static fn (int $statusCode): bool => \in_array(
             $statusCode,
             (new \ReflectionClass(Status::class))->getConstants()
         ));

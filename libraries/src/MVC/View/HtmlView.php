@@ -32,13 +32,14 @@ use Joomla\Filesystem\Path;
  */
 class HtmlView extends AbstractView implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * @var string
      */
     public $baseurl;
     public $this;
     public $form;
-    use CurrentUserTrait;
 
     /**
      * The base path of the view
@@ -533,7 +534,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
     {
         return match ($type) {
             'template' => strtolower((string) $parts['name']) . '.' . $this->_layoutExt,
-            default => strtolower((string) $parts['name']) . '.php',
+            default    => strtolower((string) $parts['name']) . '.php',
         };
     }
 

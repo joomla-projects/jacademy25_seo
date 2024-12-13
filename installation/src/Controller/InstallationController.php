@@ -10,13 +10,13 @@
 
 namespace Joomla\CMS\Installation\Controller;
 
-use Joomla\CMS\Input\Input;
-use Joomla\CMS\Installation\Model\SetupModel;
-use Joomla\CMS\Installation\Model\DatabaseModel;
-use Joomla\CMS\Installation\Model\ConfigurationModel;
-use Joomla\CMS\Installation\Model\LanguagesModel;
-use Joomla\CMS\Installation\Model\CleanupModel;
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Input\Input;
+use Joomla\CMS\Installation\Model\CleanupModel;
+use Joomla\CMS\Installation\Model\ConfigurationModel;
+use Joomla\CMS\Installation\Model\DatabaseModel;
+use Joomla\CMS\Installation\Model\LanguagesModel;
+use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Session\Session;

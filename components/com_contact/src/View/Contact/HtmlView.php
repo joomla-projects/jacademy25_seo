@@ -10,22 +10,22 @@
 
 namespace Joomla\Component\Contact\Site\View\Contact;
 
-use Joomla\CMS\User\User;
-use Joomla\Registry\Registry;
-use Joomla\CMS\Form\Form;
-use Joomla\Component\Contact\Site\Model\CategoryModel;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
+use Joomla\Component\Contact\Site\Model\CategoryModel;
 use Joomla\Component\Contact\Site\Model\ContactModel;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -38,11 +38,12 @@ use Joomla\Component\Contact\Site\Model\ContactModel;
  */
 class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * @var User|null
      */
     public $contactUser;
-    use UserFactoryAwareTrait;
 
     /**
      * The item model state

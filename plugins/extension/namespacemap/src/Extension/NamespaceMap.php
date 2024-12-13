@@ -39,11 +39,13 @@ final class NamespaceMap extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function __construct(DispatcherInterface $dispatcher, /**
-     * The namespace map file creator
-     */
-    private readonly \JNamespacePsr4Map $fileCreator, array $config = [])
-    {
+    public function __construct(
+        DispatcherInterface $dispatcher, /**
+         * The namespace map file creator
+         */
+        private readonly \JNamespacePsr4Map $fileCreator,
+        array $config = []
+    ) {
         parent::__construct($dispatcher, $config);
     }
 

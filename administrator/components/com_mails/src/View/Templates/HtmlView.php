@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Mails\Administrator\View\Templates;
 
-use Joomla\Registry\Registry;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -20,6 +19,7 @@ use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
 use Joomla\Component\Mails\Administrator\Model\TemplatesModel;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

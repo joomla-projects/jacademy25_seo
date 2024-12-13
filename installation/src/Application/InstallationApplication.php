@@ -10,9 +10,9 @@
 
 namespace Joomla\CMS\Installation\Application;
 
-use Joomla\CMS\Application\ExtensionNamespaceMapper;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\ExtensionNamespaceMapper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\FactoryInterface;
@@ -123,7 +123,7 @@ final class InstallationApplication extends CMSApplication
             $output .= '<ul>';
 
             foreach ($errorfiles as $error) {
-                $output .= sprintf('<li>%s</li>', $error);
+                $output .= \sprintf('<li>%s</li>', $error);
             }
 
             $output .= '</ul>';
@@ -247,7 +247,7 @@ final class InstallationApplication extends CMSApplication
             }
 
             // If gzip compression is enabled in configuration and the server is compliant, compress the output.
-            if ($this->get('gzip') && (in_array(\ini_get('zlib.output_compression'), ['', '0'], true) || \ini_get('zlib.output_compression') === false) && (\ini_get('output_handler') != 'ob_gzhandler')) {
+            if ($this->get('gzip') && (\in_array(\ini_get('zlib.output_compression'), ['', '0'], true) || \ini_get('zlib.output_compression') === false) && (\ini_get('output_handler') != 'ob_gzhandler')) {
                 $this->compress();
             }
         } catch (\Throwable $throwable) {

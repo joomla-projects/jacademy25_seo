@@ -93,7 +93,7 @@ final class OnGetApiFields extends AbstractImmutableEvent
     protected function setType($value)
     {
         if (!\in_array($value, [self::ITEM, self::LIST])) {
-            throw new \BadMethodCallException(sprintf("Argument 'type' of event %s must be a valid value", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'type' of event %s must be a valid value", $this->name));
         }
 
         return $value;
@@ -111,7 +111,7 @@ final class OnGetApiFields extends AbstractImmutableEvent
     protected function setFields($value)
     {
         if (!\is_array($value) || $value === []) {
-            throw new \BadMethodCallException(sprintf("Argument 'fields' of event %s must be be an array and not empty", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'fields' of event %s must be be an array and not empty", $this->name));
         }
 
         return $value;
@@ -129,7 +129,7 @@ final class OnGetApiFields extends AbstractImmutableEvent
     protected function setRelations($value)
     {
         if (!\is_array($value)) {
-            throw new \BadMethodCallException(sprintf("Argument 'relations' of event %s must be be an array", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'relations' of event %s must be be an array", $this->name));
         }
 
         return $value;

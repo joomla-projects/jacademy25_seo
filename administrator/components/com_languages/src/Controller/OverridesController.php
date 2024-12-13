@@ -10,10 +10,10 @@
 
 namespace Joomla\Component\Languages\Administrator\Controller;
 
-use Joomla\Component\Languages\Administrator\Model\OverridesModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Languages\Administrator\Model\OverridesModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

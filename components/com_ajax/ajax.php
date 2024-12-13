@@ -1,7 +1,7 @@
 <?php
 
-use Joomla\CMS\Helper\HelperFactoryInterface;
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Helper\HelperFactoryInterface;
 
 /**
  * @package     Joomla.Site

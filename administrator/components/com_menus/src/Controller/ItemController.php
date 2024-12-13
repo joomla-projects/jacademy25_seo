@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Menus\Administrator\Controller;
 
-use Joomla\Component\Menus\Administrator\Model\ItemModel;
-use Joomla\Component\Menus\Administrator\Model\ItemsModel;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
@@ -19,6 +17,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Menus\Administrator\Model\ItemModel;
+use Joomla\Component\Menus\Administrator\Model\ItemsModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

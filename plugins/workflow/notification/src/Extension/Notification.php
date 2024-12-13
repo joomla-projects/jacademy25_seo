@@ -10,9 +10,9 @@
 
 namespace Joomla\Plugin\Workflow\Notification\Extension;
 
-use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -72,13 +72,15 @@ final class Notification extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, /**
-     * The language factory.
-     *
-     * @since  4.4.0
-     */
-    private LanguageFactoryInterface $languageFactory)
-    {
+    public function __construct(
+        DispatcherInterface $dispatcher,
+        array $config, /**
+         * The language factory.
+         *
+         * @since  4.4.0
+         */
+        private LanguageFactoryInterface $languageFactory
+    ) {
         parent::__construct($dispatcher, $config);
     }
 

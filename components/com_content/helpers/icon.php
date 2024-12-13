@@ -9,9 +9,10 @@
  *
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
-use Joomla\Component\Content\Administrator\Service\HTML\Icon;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects

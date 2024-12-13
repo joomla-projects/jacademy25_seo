@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Site\Model;
 
-use Joomla\Component\Users\Administrator\Helper\Mfa;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -23,6 +22,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Users\Administrator\Helper\Mfa;
 use Joomla\Component\Users\Administrator\Model\UserModel;
 use Joomla\Registry\Registry;
 

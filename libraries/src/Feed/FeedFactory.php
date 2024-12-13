@@ -9,8 +9,8 @@
 
 namespace Joomla\CMS\Feed;
 
-use Joomla\CMS\Feed\Parser\RssParser;
 use Joomla\CMS\Feed\Parser\AtomParser;
+use Joomla\CMS\Feed\Parser\RssParser;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\Registry\Registry;
 
@@ -108,7 +108,7 @@ class FeedFactory
         }
 
         // Validate that the tag name is valid.
-        if (in_array(preg_match('/\A(?!XML)[a-z][\w0-9-]*/i', $tagName), [0, false], true)) {
+        if (\in_array(preg_match('/\A(?!XML)[a-z][\w0-9-]*/i', $tagName), [0, false], true)) {
             throw new \InvalidArgumentException('The tag name ' . $tagName . ' is not valid.');
         }
 

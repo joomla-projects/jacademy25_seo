@@ -39,8 +39,7 @@ class Component implements ComponentInterface
          * @since  4.0.0
          */
         private readonly ComponentDispatcherFactoryInterface $dispatcherFactory
-    )
-    {
+    ) {
     }
 
     /**

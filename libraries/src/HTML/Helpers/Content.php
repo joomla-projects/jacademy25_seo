@@ -9,13 +9,13 @@
 
 namespace Joomla\CMS\HTML\Helpers;
 
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
-use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 

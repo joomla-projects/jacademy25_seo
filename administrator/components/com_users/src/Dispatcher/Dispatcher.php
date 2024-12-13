@@ -58,7 +58,7 @@ class Dispatcher extends ComponentDispatcher
         $allowedViews  = ['callback', 'captive', 'method', 'methods'];
         $isAllowedTask = array_reduce(
             $allowedViews,
-            fn($carry, $taskPrefix) => $carry || str_starts_with($task ?? '', $taskPrefix . '.'),
+            fn ($carry, $taskPrefix) => $carry || str_starts_with($task ?? '', $taskPrefix . '.'),
             false
         );
 

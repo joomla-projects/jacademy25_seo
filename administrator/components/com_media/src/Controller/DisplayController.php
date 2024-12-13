@@ -10,9 +10,9 @@
 
 namespace Joomla\Component\Media\Administrator\Controller;
 
-use Joomla\CMS\MVC\View\ViewInterface;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\View\ViewInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

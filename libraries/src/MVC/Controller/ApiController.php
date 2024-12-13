@@ -9,21 +9,21 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
-use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
-use Joomla\CMS\MVC\Controller\Exception\CheckinCheckout;
-use Joomla\CMS\MVC\Controller\Exception\Save;
-use Joomla\Registry\Registry;
-use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\Exception\CheckinCheckout;
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
+use Joomla\CMS\MVC\Controller\Exception\Save;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\View\JsonApiView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Input\Input;
+use Joomla\Registry\Registry;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
@@ -129,7 +129,7 @@ class ApiController extends BaseController
         if (empty($this->context)) {
             $r = null;
 
-            if (in_array(preg_match('/(.*)Controller(.*)/i', static::class, $r), [0, false], true)) {
+            if (\in_array(preg_match('/(.*)Controller(.*)/i', static::class, $r), [0, false], true)) {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
             }
 

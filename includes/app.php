@@ -1,10 +1,10 @@
 <?php
 
-use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Session\Session;
 use Joomla\Session\SessionInterface;
-use Joomla\CMS\Application\SiteApplication;
 
 /**
  * @package    Joomla.Site

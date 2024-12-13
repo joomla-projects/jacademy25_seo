@@ -55,15 +55,15 @@ class AfterCleanCacheEvent extends AbstractImmutableEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('defaultgroup', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'defaultgroup' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'defaultgroup' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('cachebase', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'cachebase' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'cachebase' of event %s is required but has not been provided", $name));
         }
 
         if (!\array_key_exists('result', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'result' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'result' of event %s is required but has not been provided", $name));
         }
     }
 

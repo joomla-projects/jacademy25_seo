@@ -43,7 +43,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 
         if ($view === 'newsfeed' && $id) {
             $associations = Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $id);
-            $return = [];
+            $return       = [];
             foreach ($associations as $tag => $item) {
                 $return[$tag] = RouteHelper::getNewsfeedRoute($item->id, (int) $item->catid, $item->language);
             }

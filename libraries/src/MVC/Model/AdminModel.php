@@ -9,15 +9,15 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-use Joomla\CMS\Event\Model\BeforeBatchEvent;
-use Joomla\CMS\Event\AbstractEvent;
-use Joomla\CMS\Event\Model\BeforeDeleteEvent;
-use Joomla\CMS\Event\Model\AfterDeleteEvent;
-use Joomla\CMS\Event\Model\BeforeChangeStateEvent;
-use Joomla\CMS\Event\Model\AfterChangeStateEvent;
-use Joomla\CMS\Event\Model\BeforeSaveEvent;
-use Joomla\CMS\Event\Model\AfterSaveEvent;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Model\AfterChangeStateEvent;
+use Joomla\CMS\Event\Model\AfterDeleteEvent;
+use Joomla\CMS\Event\Model\AfterSaveEvent;
+use Joomla\CMS\Event\Model\BeforeBatchEvent;
+use Joomla\CMS\Event\Model\BeforeChangeStateEvent;
+use Joomla\CMS\Event\Model\BeforeDeleteEvent;
+use Joomla\CMS\Event\Model\BeforeSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Associations;

@@ -152,11 +152,11 @@ class AssociationsHelper extends AssociationExtensionHelper
             $fields['state']           = 'a.published';
             $fields['created_user_id'] = '';
             $fields['menutype']        = 'a.menutype';
-            $support['state']    = true;
-            $support['acl']      = true;
-            $support['checkout'] = true;
-            $support['level']    = true;
-            $tables = [
+            $support['state']          = true;
+            $support['acl']            = true;
+            $support['checkout']       = true;
+            $support['level']          = true;
+            $tables                    = [
                 'a' => '#__menu',
             ];
             $title = 'menu';

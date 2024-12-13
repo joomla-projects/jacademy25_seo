@@ -50,7 +50,7 @@ class AuthenticationEvent extends UserEvent
         parent::__construct($name, $arguments);
 
         if (!\array_key_exists('credentials', $this->arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'credentials' of event %s is required but has not been provided", $name));
+            throw new \BadMethodCallException(\sprintf("Argument 'credentials' of event %s is required but has not been provided", $name));
         }
     }
 

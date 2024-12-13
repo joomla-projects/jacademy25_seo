@@ -445,7 +445,7 @@ class Email extends CMSPlugin implements SubscriberInterface
         // If I already have the email Method go back
         $emailRecords = array_filter(
             $userMfaRecords,
-            fn(MfaTable $record) => $record->method == 'email'
+            fn (MfaTable $record) => $record->method == 'email'
         );
 
         if ($emailRecords !== []) {

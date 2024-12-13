@@ -34,7 +34,7 @@ abstract class AbstractEvent extends AbstractImmutableEvent
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('subject', $arguments)) {
-            throw new \BadMethodCallException(sprintf("Argument 'subject' of event %s is required but has not been provided", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'subject' of event %s is required but has not been provided", $this->name));
         }
 
         parent::__construct($name, $arguments);
@@ -55,7 +55,7 @@ abstract class AbstractEvent extends AbstractImmutableEvent
     protected function setSubject($value)
     {
         if (!\is_object($value) || !($value instanceof TableInterface)) {
-            throw new \BadMethodCallException(sprintf("Argument 'subject' of event %s is not of the expected type", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'subject' of event %s is not of the expected type", $this->name));
         }
 
         return $value;

@@ -10,11 +10,11 @@
 
 namespace Joomla\CMS\Installation\Model;
 
-use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;

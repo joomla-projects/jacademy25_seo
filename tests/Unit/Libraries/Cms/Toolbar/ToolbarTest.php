@@ -10,10 +10,10 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Toolbar;
 
-use PHPUnit\Framework\TestCase;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarButton;
 use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for Toolbar.

@@ -10,12 +10,12 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Controller;
 
-use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
+use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

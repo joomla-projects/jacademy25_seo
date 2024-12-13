@@ -102,11 +102,11 @@ final class PageNavigation extends CMSPlugin
             } else {
                 // Determine sort order.
                 $orderby = match ($order_method) {
-                    'alpha' => $db->quoteName('a.title'),
-                    'ralpha' => $db->quoteName('a.title') . ' DESC',
-                    'hits' => $db->quoteName('a.hits'),
-                    'rhits' => $db->quoteName('a.hits') . ' DESC',
-                    'author' => $db->quoteName(['a.created_by_alias', 'u.name']),
+                    'alpha'   => $db->quoteName('a.title'),
+                    'ralpha'  => $db->quoteName('a.title') . ' DESC',
+                    'hits'    => $db->quoteName('a.hits'),
+                    'rhits'   => $db->quoteName('a.hits') . ' DESC',
+                    'author'  => $db->quoteName(['a.created_by_alias', 'u.name']),
                     'rauthor' => $db->quoteName('a.created_by_alias') . ' DESC, ' .
                         $db->quoteName('u.name') . ' DESC',
                     'front' => $db->quoteName('f.ordering'),

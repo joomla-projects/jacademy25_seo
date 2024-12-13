@@ -9,14 +9,14 @@
 
 namespace Joomla\CMS\Helper;
 
-use Joomla\CMS\Event\Module\BeforeRenderModuleEvent;
-use Joomla\CMS\Event\Module\AfterRenderModuleEvent;
-use Joomla\CMS\Event\Module\PrepareModuleListEvent;
-use Joomla\CMS\Event\Module\AfterModuleListEvent;
-use Joomla\CMS\Event\Module\AfterCleanModuleListEvent;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Module\AfterCleanModuleListEvent;
+use Joomla\CMS\Event\Module\AfterModuleListEvent;
+use Joomla\CMS\Event\Module\AfterRenderModuleEvent;
+use Joomla\CMS\Event\Module\BeforeRenderModuleEvent;
+use Joomla\CMS\Event\Module\PrepareModuleListEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;

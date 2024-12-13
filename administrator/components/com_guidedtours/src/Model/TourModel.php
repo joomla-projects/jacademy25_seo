@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Model;
 
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -18,6 +17,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -543,7 +543,7 @@ class TourModel extends AdminModel
             ->from($db->quoteName('#__guidedtours'))
             ->where($db->quoteName('published') . ' = 1');
 
-        if (is_int($pk)) {
+        if (\is_int($pk)) {
             $query->where($db->quoteName('id') . ' = :id')
                 ->bind(':id', $pk, ParameterType::INTEGER);
         } else {

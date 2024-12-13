@@ -66,7 +66,7 @@ class BeforePublishEvent extends AbstractEvent
     protected function setQuery($value)
     {
         if (!empty($value) && !\is_array($value)) {
-            throw new \BadMethodCallException(sprintf("Argument 'pks' of event %s must be empty or an array", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'pks' of event %s must be empty or an array", $this->name));
         }
 
         return $value;
@@ -87,7 +87,7 @@ class BeforePublishEvent extends AbstractEvent
     protected function setState($value)
     {
         if (!is_numeric($value)) {
-            throw new \BadMethodCallException(sprintf("Argument 'state' of event %s must be an integer", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'state' of event %s must be an integer", $this->name));
         }
 
         return (int) $value;
@@ -108,7 +108,7 @@ class BeforePublishEvent extends AbstractEvent
     protected function setUserId($value)
     {
         if (!is_numeric($value)) {
-            throw new \BadMethodCallException(sprintf("Argument 'userId' of event %s must be an integer", $this->name));
+            throw new \BadMethodCallException(\sprintf("Argument 'userId' of event %s must be an integer", $this->name));
         }
 
         return (int) $value;

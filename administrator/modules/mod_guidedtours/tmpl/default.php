@@ -57,12 +57,13 @@ foreach ($tours as $tour) :
                     $contextTours[] = $tour;
                     $contextCount--;
                 endif;
-            } elseif ($toursCount > 0) :
+            }
+        elseif ($toursCount > 0) :
                 $listTours[] = $tour;
                 $toursCount--;
         elseif ($contextCount > 0) :
-            $contextTours[] = $tour;
-            $contextCount--;
+                $contextTours[] = $tour;
+                $contextCount--;
         endif;
     elseif ($toursCount > 0) :
         $listTours[] = $tour;

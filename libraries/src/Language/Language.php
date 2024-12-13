@@ -131,16 +131,16 @@ class Language extends BaseLanguage
 
         if (\defined('JPATH_SITE')) {
             // Note: Manual indexing to enforce load order.
-            $paths[0] = JPATH_SITE . sprintf('/language/overrides/%s.localise.php', $lang);
-            $paths[2] = JPATH_SITE . sprintf('/language/%s/localise.php', $lang);
-            $paths[4] = JPATH_SITE . sprintf('/language/%s/%s.localise.php', $lang, $lang);
+            $paths[0] = JPATH_SITE . \sprintf('/language/overrides/%s.localise.php', $lang);
+            $paths[2] = JPATH_SITE . \sprintf('/language/%s/localise.php', $lang);
+            $paths[4] = JPATH_SITE . \sprintf('/language/%s/%s.localise.php', $lang, $lang);
         }
 
         if (\defined('JPATH_ADMINISTRATOR')) {
             // Note: Manual indexing to enforce load order.
-            $paths[1] = JPATH_ADMINISTRATOR . sprintf('/language/overrides/%s.localise.php', $lang);
-            $paths[3] = JPATH_ADMINISTRATOR . sprintf('/language/%s/localise.php', $lang);
-            $paths[5] = JPATH_ADMINISTRATOR . sprintf('/language/%s/%s.localise.php', $lang, $lang);
+            $paths[1] = JPATH_ADMINISTRATOR . \sprintf('/language/overrides/%s.localise.php', $lang);
+            $paths[3] = JPATH_ADMINISTRATOR . \sprintf('/language/%s/localise.php', $lang);
+            $paths[5] = JPATH_ADMINISTRATOR . \sprintf('/language/%s/%s.localise.php', $lang, $lang);
         }
 
         ksort($paths);
@@ -262,7 +262,7 @@ class Language extends BaseLanguage
                 $this->orphans[$key] = [];
             }
             $this->orphans[$key][] = $info;
-            $string = '??' . $string . '??';
+            $string                = '??' . $string . '??';
         }
 
         if ($jsSafe) {
@@ -297,7 +297,7 @@ class Language extends BaseLanguage
             $string = \call_user_func($this->transliterator, $string);
 
             // Check if all symbols were transliterated (contains only ASCII), otherwise continue
-            if (in_array(preg_match('/[\\x80-\\xff]/', (string) $string), [0, false], true)) {
+            if (\in_array(preg_match('/[\\x80-\\xff]/', (string) $string), [0, false], true)) {
                 return $string;
             }
         }
@@ -629,11 +629,11 @@ class Language extends BaseLanguage
 
         if ($internal) {
             $filenames[] = $path . '/joomla.ini';
-            $filenames[] = sprintf('%s/%s.ini', $path, $lang);
+            $filenames[] = \sprintf('%s/%s.ini', $path, $lang);
         } else {
             // Try first without a language-prefixed filename.
-            $filenames[] = sprintf('%s/%s.ini', $path, $extension);
-            $filenames[] = sprintf('%s/%s.%s.ini', $path, $lang, $extension);
+            $filenames[] = \sprintf('%s/%s.ini', $path, $extension);
+            $filenames[] = \sprintf('%s/%s.%s.ini', $path, $lang, $extension);
         }
 
         foreach ($filenames as $filename) {
@@ -770,7 +770,7 @@ class Language extends BaseLanguage
             }
 
             // Check that the line passes the necessary format.
-            if (in_array(preg_match('#^[A-Z][A-Z0-9_:\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line), [0, false], true)) {
+            if (\in_array(preg_match('#^[A-Z][A-Z0-9_:\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line), [0, false], true)) {
                 $errors[] = $realNumber;
                 continue;
             }

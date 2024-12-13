@@ -451,7 +451,7 @@ class TaskModel extends AdminModel
             ->bind(':now1', $now);
 
         $activeRoutines = array_map(
-            static fn(TaskOption $taskOption): string => $taskOption->id,
+            static fn (TaskOption $taskOption): string => $taskOption->id,
             SchedulerHelper::getTaskOptions()->options
         );
 
@@ -493,7 +493,7 @@ class TaskModel extends AdminModel
             ->select($db->quoteName('id'));
 
         $activeRoutines = array_map(
-            static fn(TaskOption $taskOption): string => $taskOption->id,
+            static fn (TaskOption $taskOption): string => $taskOption->id,
             SchedulerHelper::getTaskOptions()->options
         );
 
@@ -605,7 +605,7 @@ class TaskModel extends AdminModel
             [$basisHour, $basisMinute] = explode(':', (string) $data['execution_rules']['exec-time']);
 
             $data['last_execution'] = Factory::getDate('now', 'GMT')->format('Y-m')
-                . sprintf('-%s %s:%s:00', $basisDayOfMonth, $basisHour, $basisMinute);
+                . \sprintf('-%s %s:%s:00', $basisDayOfMonth, $basisHour, $basisMinute);
         } else {
             $data['last_execution'] = $this->getItem($id)->last_execution;
         }
@@ -824,7 +824,7 @@ class TaskModel extends AdminModel
     {
         if ($targetToInt) {
             $target = array_map(
-                static fn(string $x): int => (int) $x,
+                static fn (string $x): int => (int) $x,
                 $target
             );
         }

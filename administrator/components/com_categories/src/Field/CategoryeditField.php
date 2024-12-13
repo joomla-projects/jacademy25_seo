@@ -98,9 +98,9 @@ class CategoryeditField extends ListField
     public function __get($name)
     {
         return match ($name) {
-            'allowAdd' => (bool) $this->$name,
+            'allowAdd'     => (bool) $this->$name,
             'customPrefix' => $this->$name,
-            default => parent::__get($name),
+            default        => parent::__get($name),
         };
     }
 

@@ -10,8 +10,8 @@
 
 namespace Joomla\CMS\Installation\Controller;
 
-use Joomla\CMS\Installation\Model\LanguagesModel;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Installation\Model\LanguagesModel;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
@@ -96,7 +96,7 @@ class LanguageController extends JSONController
         $admin_lang = $this->input->getString('administratorlang', false);
 
         // Check that the string is an ISO Language Code avoiding any injection.
-        if (in_array(preg_match('/^[a-z]{2}(\-[A-Z]{2})?$/', $admin_lang), [0, false], true)) {
+        if (\in_array(preg_match('/^[a-z]{2}(\-[A-Z]{2})?$/', $admin_lang), [0, false], true)) {
             $admin_lang = 'en-GB';
         }
 
@@ -113,7 +113,7 @@ class LanguageController extends JSONController
         $frontend_lang = $this->input->getString('frontendlang', false);
 
         // Check that the string is an ISO Language Code avoiding any injection.
-        if (in_array(preg_match('/^[a-z]{2}(\-[A-Z]{2})?$/', $frontend_lang), [0, false], true)) {
+        if (\in_array(preg_match('/^[a-z]{2}(\-[A-Z]{2})?$/', $frontend_lang), [0, false], true)) {
             $frontend_lang = 'en-GB';
         }
 

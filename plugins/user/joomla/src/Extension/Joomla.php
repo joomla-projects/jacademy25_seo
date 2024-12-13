@@ -10,9 +10,9 @@
 
 namespace Joomla\Plugin\User\Joomla\Extension;
 
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;

@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Controller;
 
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Finder\BeforeIndexEvent;
 use Joomla\CMS\Event\Finder\BuildIndexEvent;
@@ -19,6 +18,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;

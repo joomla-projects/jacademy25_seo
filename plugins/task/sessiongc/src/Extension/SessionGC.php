@@ -59,14 +59,16 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.4.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, /**
-     * The meta data manager
-     *
-     *
-     * @since 4.4.0
-     */
-    private MetadataManager $metadataManager)
-    {
+    public function __construct(
+        DispatcherInterface $dispatcher,
+        array $config, /**
+         * The meta data manager
+         *
+         *
+         * @since 4.4.0
+         */
+        private MetadataManager $metadataManager
+    ) {
         parent::__construct($dispatcher, $config);
     }
 

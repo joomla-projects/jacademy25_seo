@@ -35,8 +35,7 @@ class MailerFactory implements MailerFactoryInterface
          * @since   4.4.0
          */
         private readonly Registry $defaultConfiguration
-    )
-    {
+    ) {
     }
 
     /**
@@ -87,9 +86,9 @@ class MailerFactory implements MailerFactoryInterface
 
         // Default mailer is to use PHP's mail function
         match ($mailType) {
-            'smtp' => $mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport),
+            'smtp'     => $mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport),
             'sendmail' => $mailer->isSendmail(),
-            default => $mailer->isMail(),
+            default    => $mailer->isMail(),
         };
 
         return $mailer;

@@ -211,9 +211,11 @@ abstract class ModulesHelper
         $loaded = $lang->getPaths('tpl_' . $template . '.sys');
 
         // Only load the template's language file if it hasn't been already
-        if (!$loaded && !($lang->load('tpl_' . $template . '.sys', $path, null, false, false)
-        || $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
-        || $lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false))) {
+        if (
+            !$loaded && !($lang->load('tpl_' . $template . '.sys', $path, null, false, false)
+            || $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
+            || $lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false))
+        ) {
             $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
         }
 

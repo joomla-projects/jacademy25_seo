@@ -155,7 +155,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
          *
          * @return boolean
          */
-        $filterClosure = (fn($record) => !\is_null($record) && \is_object($record) && ($record instanceof PublicKeyCredentialSource));
+        $filterClosure = (fn ($record) => !\is_null($record) && \is_object($record) && ($record instanceof PublicKeyCredentialSource));
 
         return array_filter($records, $filterClosure);
     }

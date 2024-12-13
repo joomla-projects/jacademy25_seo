@@ -272,7 +272,7 @@ class TracksModel extends ListModel
             $categoryId = $this->getState('filter.category_id');
 
             if (is_numeric($categoryId)) {
-                $basename = $categoryId > 0 ? str_replace('__CATID__', $categoryId, $basename) : str_replace('__CATID__', '', $basename);
+                $basename     = $categoryId > 0 ? str_replace('__CATID__', $categoryId, $basename) : str_replace('__CATID__', '', $basename);
                 $categoryName = $this->getCategoryName();
                 $basename     = str_replace('__CATNAME__', $categoryName, $basename);
             } else {

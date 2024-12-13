@@ -10,12 +10,12 @@
 
 namespace Joomla\Component\Cache\Administrator\Controller;
 
-use Joomla\Component\Cache\Administrator\Model\CacheModel;
 use Joomla\CMS\Event\Cache\AfterPurgeEvent;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\Component\Cache\Administrator\Model\CacheModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

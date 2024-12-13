@@ -10,12 +10,6 @@
 
 namespace Joomla\Plugin\SampleData\Blog\Extension;
 
-use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
-use Joomla\Component\Workflow\Administrator\Table\StageTable;
-use Joomla\Component\Workflow\Administrator\Table\TransitionTable;
-use Joomla\Component\Menus\Administrator\Table\MenuTypeTable;
-use Joomla\Component\Menus\Administrator\Model\ItemModel;
-use Joomla\Component\Modules\Administrator\Model\ModuleModel;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
@@ -25,6 +19,12 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Menus\Administrator\Model\ItemModel;
+use Joomla\Component\Menus\Administrator\Table\MenuTypeTable;
+use Joomla\Component\Modules\Administrator\Model\ModuleModel;
+use Joomla\Component\Workflow\Administrator\Table\StageTable;
+use Joomla\Component\Workflow\Administrator\Table\TransitionTable;
+use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 

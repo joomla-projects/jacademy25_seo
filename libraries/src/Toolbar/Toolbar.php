@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Toolbar;
 
-use Joomla\DI\Exception\KeyNotFoundException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
@@ -24,6 +23,7 @@ use Joomla\CMS\Toolbar\Button\LinkButton;
 use Joomla\CMS\Toolbar\Button\PopupButton;
 use Joomla\CMS\Toolbar\Button\SeparatorButton;
 use Joomla\CMS\Toolbar\Button\StandardButton;
+use Joomla\DI\Exception\KeyNotFoundException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -94,12 +94,13 @@ class Toolbar
      * @since   1.5
      */
     public function __construct(/**
-     * Toolbar name
-     *
-     * @since  1.5
-     */
-    protected $_name = 'toolbar', ?ToolbarFactoryInterface $factory = null)
-    {
+         * Toolbar name
+         *
+         * @since  1.5
+         */
+        protected $_name = 'toolbar',
+        ?ToolbarFactoryInterface $factory = null
+    ) {
         // At 5.0, require the factory to be injected
         if (!$factory instanceof ToolbarFactoryInterface) {
             @trigger_error(

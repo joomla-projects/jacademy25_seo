@@ -10,8 +10,8 @@
 
 namespace Joomla\Plugin\System\Highlight\Extension;
 
-use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
