@@ -42,7 +42,7 @@ foreach ($tours as $tour) :
     elseif (in_array($extension, $tour->extensions)) :
         if ($extension === 'com_categories') :
             // Special case for the categories page, where the context is complemented with the extension the categories apply to
-            if ($uri->getVar('option', '') === 'com_categories') {
+            if ($uri->getVar('option', '') === 'com_categories') :
                 if ($uri->getVar('extension', '') === $app->getInput()->get('extension', '')) :
                     if ($contextCount > 0) :
                         $contextTours[] = $tour;
@@ -52,18 +52,20 @@ foreach ($tours as $tour) :
                     $listTours[] = $tour;
                     $toursCount--;
                 endif;
-            } elseif (in_array($app->getInput()->get('extension', ''), $tour->extensions)) {
-                if ($contextCount > 0) :
-                    $contextTours[] = $tour;
-                    $contextCount--;
+            else :
+                if (in_array($app->getInput()->get('extension', ''), $tour->extensions)) :
+                    if ($contextCount > 0) :
+                        $contextTours[] = $tour;
+                        $contextCount--;
+                    endif;
+                elseif ($toursCount > 0) :
+                    $listTours[] = $tour;
+                    $toursCount--;
                 endif;
-            }
-        elseif ($toursCount > 0) :
-                $listTours[] = $tour;
-                $toursCount--;
+            endif;
         elseif ($contextCount > 0) :
-                $contextTours[] = $tour;
-                $contextCount--;
+            $contextTours[] = $tour;
+            $contextCount--;
         endif;
     elseif ($toursCount > 0) :
         $listTours[] = $tour;
