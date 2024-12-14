@@ -255,7 +255,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
         $user = $this->getConsoleInput()->getParameterOption(['--user'], null);
 
         if ($user !== null && is_numeric($user)) {
-            $this->loadIdentity($this->getUserFactory()->loadUserById((int)$user));
+            $this->loadIdentity($this->getUserFactory()->loadUserById((int) $user));
         }
 
         if ($user !== null && !is_numeric($user)) {
