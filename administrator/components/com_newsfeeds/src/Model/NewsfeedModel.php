@@ -156,8 +156,8 @@ class NewsfeedModel extends AdminModel
 
             // Prime some default values.
             if ($this->getState('newsfeed.id') == 0) {
-                $app = Factory::getApplication();
-                $data->set('catid', $app->getInput()->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int'));
+                $app         = Factory::getApplication();
+                $data->catid = $app->getInput()->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int');
             }
         }
 
@@ -271,7 +271,7 @@ class NewsfeedModel extends AdminModel
         }
 
         if (!empty($item->id)) {
-            $item->tags = new  TagsHelper();
+            $item->tags = new TagsHelper();
             $item->tags->getTagIds($item->id, 'com_newsfeeds.newsfeed');
 
             // @todo: We probably don't need this in any client - but needs careful validation

@@ -100,6 +100,30 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        $router = $this->getSiteRouter();
+
+        /**
+         * The URL was successfully parsed, but is "tainted", e.g. parts of
+         * it were recoverably wrong. So we take the parsed variables, build
+         * a new URL and redirect to that.
+         */
+        if ($router->isTainted()) {
+            $parsedVars = $router->getVars();
+
+            if ($app->getLanguageFilter()) {
+                $parsedVars['lang'] = $parsedVars['language'];
+                unset($parsedVars['language']);
+            }
+
+            $newRoute = Route::_($parsedVars, false);
+            $origUri  = clone Uri::getInstance();
+            $route    = $origUri->toString(['path', 'query']);
+
+            if ($route !== $newRoute) {
+                $app->redirect($newRoute, 301);
+            }
+        }
+
         // Enforce removing index.php with a redirect
         if ($app->get('sef_rewrite') && $this->params->get('indexphp')) {
             $this->removeIndexphp();
@@ -289,7 +313,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public function enforceSuffix()
     {
@@ -364,7 +388,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     {
         $path = $uri->getPath();
 
-        if ($path != '/' && str_ends_with($path, '/')) {
+        if ($path != Uri::base(true) . '/' && str_ends_with($path, '/')) {
             $uri->setPath(substr($path, 0, -1));
         }
     }
@@ -419,7 +443,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     protected function enforceSEF()
     {

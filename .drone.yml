@@ -384,6 +384,8 @@ steps:
       - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
       - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --disable-patch-packages
       - mv build/tmp/packages/* transfer/
+      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-zip --exclude-gzip --exclude-bzip2 --debug-build
+      - mv build/tmp/packages/* transfer/
 
   - name: upload
     image: joomlaprojects/docker-images:packager
@@ -408,7 +410,7 @@ steps:
       - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
       - rclone delete nightly:/home/devj/public_html/cache/com_content/
       - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 6.0](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla ${MINORVERSION}](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
 
   - name: buildfailure
     image: joomlaprojects/docker-images:packager
@@ -416,7 +418,8 @@ steps:
       MATTERMOST_NIGHTLY_HOOK:
         from_secret: mattermost_nightly_hook
     commands:
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 6.0](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
+      - export MINORVERSION=${DRONE_BRANCH%-*}
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla ${MINORVERSION}](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
     when:
       status:
         - failure
@@ -430,6 +433,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 74050d2d2bc8ce5b051e23b2deece0b88387564c7e646c9d1c11f26516b42d07
+hmac: 13d6f5dfbf7679307a95c5991f84edcbb03497f5afb312c766ccb5af9cc5d7e5
 
 ...
