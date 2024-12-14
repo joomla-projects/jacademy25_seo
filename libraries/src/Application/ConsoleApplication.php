@@ -579,7 +579,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
                 '--user',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'The user to use, can be the id or username'
+                'The user to use, can be the user id or username'
             )
         );
 
