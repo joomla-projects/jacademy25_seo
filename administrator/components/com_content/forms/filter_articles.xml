@@ -8,7 +8,7 @@
 		onchange="Joomla.resetFilters(this)"
 		validate="options"
 		>
-		<option value="">JALL</option>
+		<option value="">COM_CONTENT_SELECT_FEATURED</option>
 		<option value="0">COM_CONTENT_FILTER_FEATURED_NO</option>
 		<option value="1">COM_CONTENT_FILTER_FEATURED_YES</option>
 	</field>
