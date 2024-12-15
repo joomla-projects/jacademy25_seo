@@ -62,6 +62,11 @@ class DisplayController extends BaseController
             return false;
         }
 
+        if ($view == 'featured') {
+            $this->setRedirect(Route::_('index.php?option=com_content&view=articles&featured=1', false));
+            return false;
+        }
+        
         return parent::display();
     }
 }
