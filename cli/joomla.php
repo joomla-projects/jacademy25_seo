@@ -76,7 +76,7 @@ $app                              = \Joomla\CMS\Factory::getContainer()->get(\Jo
 \Joomla\CMS\Factory::$application = $app;
 
 if ($app instanceof \Joomla\CMS\User\UserFactoryAwareInterface) {
-    $app->setUserFactory($container->get(\Joomla\CMS\User\UserFactory::class));
+    $app->setUserFactory($container->get(\Joomla\CMS\User\UserFactoryInterface::class));
 }
 
 $app->execute();
