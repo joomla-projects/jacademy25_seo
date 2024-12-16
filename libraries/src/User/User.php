@@ -716,7 +716,7 @@ class User
 
             // @todo ACL - this needs to be acl checked
 
-            $my = Factory::getUser();
+            $my = Factory::getApplication()->getIdentity() ?: Factory::getUser();
 
             // Are we creating a new user
             $isNew = empty($this->id);
@@ -746,7 +746,7 @@ class User
             // Check if we are using a CLI application
             $isCli = false;
 
-            if (Factory::getApplication()->isCli()) {
+            if ($my->id === 0 && Factory::getApplication()->isCli()) {
                 $isCli = true;
             }
 
