@@ -139,7 +139,10 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
 
         $this->setContainer($container);
         $this->setDispatcher($dispatcher);
-        $this->setUserFactory($container->get(UserFactoryInterface::class));
+
+        if ($container->has(UserFactoryInterface::class)) {
+            $this->setUserFactory($container->get(UserFactoryInterface::class));
+        }
 
         // Set the execution datetime and timestamp;
         $this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
@@ -254,12 +257,15 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
         // Load the user when specified
         $user = $this->getConsoleInput()->getParameterOption(['--user'], null);
 
-        if ($user !== null && is_numeric($user)) {
-            $this->loadIdentity($this->getUserFactory()->loadUserById((int) $user));
-        }
+        try {
+            if ($user !== null && is_numeric($user)) {
+                $this->loadIdentity($this->getUserFactory()->loadUserById((int) $user));
+            }
 
-        if ($user !== null && !is_numeric($user)) {
-            $this->loadIdentity($this->getUserFactory()->loadUserByUsername($user));
+            if ($user !== null && !is_numeric($user)) {
+                $this->loadIdentity($this->getUserFactory()->loadUserByUsername($user));
+            }
+        } catch (\UnexpectedValueException $e) {
         }
 
         // Import CMS plugin groups to be able to subscribe to events
