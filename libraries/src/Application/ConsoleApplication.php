@@ -16,8 +16,8 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Router;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
-use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\Version;
 use Joomla\Console\Application;
 use Joomla\Database\DatabaseAwareTrait;
@@ -42,7 +42,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @since  4.0.0
  */
-class ConsoleApplication extends Application implements CMSApplicationInterface
+class ConsoleApplication extends Application implements CMSApplicationInterface, UserFactoryAwareInterface
 {
     use EventAware;
     use IdentityAware;
@@ -139,10 +139,6 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
 
         $this->setContainer($container);
         $this->setDispatcher($dispatcher);
-
-        if ($container->has(UserFactoryInterface::class)) {
-            $this->setUserFactory($container->get(UserFactoryInterface::class));
-        }
 
         // Set the execution datetime and timestamp;
         $this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
