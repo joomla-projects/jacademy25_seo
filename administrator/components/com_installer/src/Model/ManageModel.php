@@ -409,6 +409,7 @@ class ManageModel extends InstallerModel
                 )
             )
             ->select($db->quoteName('updates.version', 'updateVersion'))
+            ->select($db->quoteName('updates.changelogurl', 'updateChangelogurl'))
             ->from($db->quoteName('#__extensions', 'extensions'))
             ->join(
                 'LEFT',
@@ -423,13 +424,17 @@ class ManageModel extends InstallerModel
         $this->translate($extensions);
         $extension = array_shift($extensions);
 
-        if (!$extension->changelogurl) {
+        if ($source === 'manage' && !$extension->changelogurl) {
+            return '';
+        }
+
+        if ($source === 'update' && !$extension->updateChangelogurl && !$extension->changelogurl) {
             return '';
         }
 
         $changelog = new Changelog();
         $changelog->setVersion($source === 'manage' ? $extension->version : $extension->updateVersion);
-        $changelog->loadFromXml($extension->changelogurl);
+        $changelog->loadFromXml($source === 'manage' ? $extension->changelogurl : ($extension->updateChangelogurl ?: $extension->changelogurl));
 
         // Read all the entries
         $entries = [
