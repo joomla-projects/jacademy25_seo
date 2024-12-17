@@ -256,12 +256,12 @@ class HtmlView extends BaseHtmlView
                 && $featured !== '1'
             ) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
-                ->popupType('inline')
-                ->textHeader(Text::_('COM_CONTENT_BATCH_OPTIONS'))
-                ->url('#joomla-dialog-batch')
-                ->modalWidth('800px')
-                ->modalHeight('fit-content')
-                ->listCheck(true);
+                    ->popupType('inline')
+                    ->textHeader(Text::_('COM_CONTENT_BATCH_OPTIONS'))
+                    ->url('#joomla-dialog-batch')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
+                    ->listCheck(true);
             }
         }
 
