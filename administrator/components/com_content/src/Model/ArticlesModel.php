@@ -665,13 +665,12 @@ class ArticlesModel extends ListModel
             ->where($db->quoteName('state') . ' = 1');
 
         if ($featured) {
-            $query->where($db->quoteName('featured') . ' = :featured')
-                ->bind(':featured', $featured, ParameterType::INTEGER);
+            $query->where($db->quoteName('featured') . ' = 1');
         }
 
         $result = $db->setQuery($query)->loadResult();
 
-        return (int) $result;   
+        return (int) $result;
     }
 
     /**
