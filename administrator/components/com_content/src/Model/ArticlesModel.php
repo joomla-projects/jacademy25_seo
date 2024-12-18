@@ -647,6 +647,34 @@ class ArticlesModel extends ListModel
     }
 
     /**
+     * Get total of articles
+     * 
+     * @param   string  $featured  Featured selector
+     * 
+     * @return  integer  Total number of articles
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getTotal($featured = '')
+    {
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true);
+
+        $query->select('COUNT(*)')
+            ->from($db->quoteName('#__content'))
+            ->where($db->quoteName('state') . ' = 1');
+
+        if ($featured) {
+            $query->where($db->quoteName('featured') . ' = :featured')
+                ->bind(':featured', $featured, ParameterType::INTEGER);
+        }
+
+        $result = $db->setQuery($query)->loadResult();
+
+        return (int) $result;   
+    }
+
+    /**
      * Method to get the value of featured selector.
      *
      * @return  string  Returns the value of featured selector.

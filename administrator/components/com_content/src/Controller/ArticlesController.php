@@ -145,9 +145,7 @@ class ArticlesController extends AdminController
     {
         $model = $this->getModel('articles');
 
-        $model->setState('filter.published', 1);
-
-        $amount = (int) $model->getTotal();
+        $amount = (int) $model->getTotal($featured = '');
 
         $result = [];
 
@@ -169,10 +167,7 @@ class ArticlesController extends AdminController
     {
         $model = $this->getModel('articles');
 
-        $model->setState('filter.published', 1);
-        $model->setState('filter.featured', 1);
-
-        $amount = (int) $model->getTotal();
+        $amount = (int) $model->getTotal($featured = '1');
 
         $result = [];
 
