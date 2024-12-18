@@ -169,7 +169,7 @@ class HtmlView extends BaseHtmlView
         // Check that the finder plugins are enabled
         if (!PluginHelper::getPlugin('finder')) {
             $this->finderPlugins = false;
-        } 
+        }
 
         // Configure the toolbar.
         $this->addToolbar();
