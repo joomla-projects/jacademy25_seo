@@ -170,10 +170,10 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * This method is responsible for the WebCron functionality of the Scheduler component.<br/>
+     * This method is responsible for the WebCron functionality of the Scheduler component.
      * Acting on a `com_ajax` call, this method can work in two ways:
      * 1. If no Task ID is specified, it triggers the Scheduler to run the next task in the task queue.
-     * 2. If a Task ID is specified, it fetches the task (if it exists) from the Scheduler API and executes it.<br/>
+     * 2. If a Task ID is specified, it fetches the task (if it exists) from the Scheduler API and executes it.
      *
      * URL query parameters:
      * - `hash` string (required)   Webcron hash (from the Scheduler component configuration).
