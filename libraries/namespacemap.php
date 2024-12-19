@@ -145,7 +145,7 @@ class JNamespacePsr4Map
         $error_reporting = error_reporting(0);
 
         try {
-            File::write($this->file, implode("\n", $content));
+            $b = implode("\n", $content);File::write($this->file, $b);
         } catch (Exception $e) {
             Log::add('Could not save ' . $this->file, Log::WARNING);
 
