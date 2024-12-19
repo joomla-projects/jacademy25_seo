@@ -115,7 +115,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The finder plugins status
      *
-     * @var    mixed
+     * @var    boolean
      *
      * @since  __DEPLOY_VERSION__
      */
