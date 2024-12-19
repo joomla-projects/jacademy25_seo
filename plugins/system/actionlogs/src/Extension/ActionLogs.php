@@ -231,11 +231,11 @@ final class ActionLogs extends CMSPlugin
 
         // If preferences don't exist, insert.
         if (!$exists && $authorised && isset($user['actionlogs'])) {
-            $notify   = (int) $user['actionlogs']['actionlogsNotify'];
-            $exclude  = (int) $user['actionlogs']['actionlogsExcludeSelf'];
-            $values   = [':userid', ':notify', ':exclude'];
-            $bind     = [$userid, $notify, $exclude];
-            $columns  = ['user_id', 'notify', 'exclude_self'];
+            $notify  = (int) $user['actionlogs']['actionlogsNotify'];
+            $exclude = (int) $user['actionlogs']['actionlogsExcludeSelf'];
+            $values  = [':userid', ':notify', ':exclude'];
+            $bind    = [$userid, $notify, $exclude];
+            $columns = ['user_id', 'notify', 'exclude_self'];
 
             $query->bind($values, $bind, ParameterType::INTEGER);
 
