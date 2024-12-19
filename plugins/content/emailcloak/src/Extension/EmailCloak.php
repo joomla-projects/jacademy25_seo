@@ -39,7 +39,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
     {
         return [
             'onContentPrepare' => 'onContentPrepare',
-            'onFinderResult' => 'onFinderResult'
+            'onFinderResult'   => 'onFinderResult'
         ];
     }
 
