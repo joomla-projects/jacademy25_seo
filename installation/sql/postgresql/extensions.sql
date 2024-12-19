@@ -847,6 +847,7 @@ CREATE TABLE "#__action_logs_users" (
   "user_id" integer NOT NULL,
   "notify" integer NOT NULL,
   "extensions" text NOT NULL,
+  "extensions" integer NOT NULL DEFAULT 0,
   PRIMARY KEY ("user_id")
 );
 

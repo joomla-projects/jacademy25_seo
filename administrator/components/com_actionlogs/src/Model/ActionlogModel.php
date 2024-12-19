@@ -127,7 +127,8 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
                 'INNER',
                 $db->quoteName('#__action_logs_users', 'l') . ' ON ( ' . $db->quoteName('l.notify') . ' = 1 AND '
                 . $db->quoteName('l.user_id') . ' = ' . $db->quoteName('u.id') . ')'
-            );
+            )
+            ->where($db->quoteName('l.exclude_self') . ' = 0');
 
         $db->setQuery($query);
 
