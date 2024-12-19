@@ -32,7 +32,6 @@
 				showon="actionlogsNotify:1"
 				default="0"
 				filter="integer"
-				required="true"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
