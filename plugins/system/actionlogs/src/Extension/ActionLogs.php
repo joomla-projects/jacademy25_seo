@@ -256,7 +256,6 @@ final class ActionLogs extends CMSPlugin
 
             $query->bind(':notify', $notify, ParameterType::INTEGER);
 
-            
             $exclude  = (int) $user['actionlogs']['actionlogsExcludeSelf'];
             $values[] = $db->quoteName('exclude_self') . ' = :exclude';
 
