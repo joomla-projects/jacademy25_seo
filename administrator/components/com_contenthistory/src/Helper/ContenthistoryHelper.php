@@ -19,6 +19,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
+use JURI;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -79,6 +80,10 @@ class ContenthistoryHelper
                 if (!\is_null($value) && $subObject = json_decode($value)) {
                     $object->$name = $subObject;
                 }
+
+                if (!empty($value) && is_string($value) && strpos($value, 'src="images/') !== false) {
+		            $object->$name = str_replace('src="images/', 'src="' . JURI::root() . 'images/', $value);
+	            }
             }
         }
 
