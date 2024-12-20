@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Installer\Web\Extension;
 
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\Installer\AddInstallationTabEvent;
 use Joomla\CMS\Form\Rule\UrlRule;
 use Joomla\CMS\Language\Text;
