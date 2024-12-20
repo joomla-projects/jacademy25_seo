@@ -35,8 +35,16 @@ class MVCFactoryInterfaceInterface extends NamespaceBased
             return null;
         }
 
-        $name   = str_replace("'", '', $methodCall->getArgs()[0]->value->getAttribute('rawValue'));
-        $prefix = str_replace("'", '', $methodCall->getArgs()[1]->value->getAttribute('rawValue'));
+        $firstArg  = isset($methodCall->getArgs()[0]) ? $methodCall->getArgs()[0] : null;
+        $secondArg = isset($methodCall->getArgs()[1]) ? $methodCall->getArgs()[1] : null;
+
+        if (!isset($firstArg, $secondArg))
+        {
+            return null;
+        }
+
+        $name   = str_replace("'", '', $firstArg->value->getAttribute('rawValue'));
+        $prefix = str_replace("'", '', $secondArg->value->getAttribute('rawValue'));
 
         foreach ($this->findNamespaces($prefix) as $ns => $path) {
             foreach (['Controller', 'Model', 'View', 'Table'] as $type) {
