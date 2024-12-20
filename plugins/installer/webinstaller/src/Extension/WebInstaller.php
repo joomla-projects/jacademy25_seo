@@ -41,15 +41,6 @@ final class WebInstaller extends CMSPlugin implements SubscriberInterface
     public const REMOTE_URL = 'https://appscdn.joomla.org/webapps/';
 
     /**
-     * The application object.
-     *
-     * @var    CMSApplication
-     * @since  4.0.0
-     * @deprecated 6.0 Is needed for template overrides, use getApplication instead
-     */
-    protected $app;
-
-    /**
      * The URL to install from
      *
      * @var    string|null
