@@ -38,8 +38,7 @@ class MVCFactoryInterfaceInterface extends NamespaceBased
         $firstArg  = isset($methodCall->getArgs()[0]) ? $methodCall->getArgs()[0] : null;
         $secondArg = isset($methodCall->getArgs()[1]) ? $methodCall->getArgs()[1] : null;
 
-        if (!isset($firstArg, $secondArg))
-        {
+        if (!isset($firstArg, $secondArg)) {
             return null;
         }
 
