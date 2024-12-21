@@ -16,7 +16,6 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;

@@ -119,7 +119,7 @@ class UpdatesiteModel extends AdminModel
 
         $downloadKey = InstallerHelper::getDownloadKey($extension);
 
-        $item->extra_query = $downloadKey['value'] ?? '';
+        $item->extra_query      = $downloadKey['value'] ?? '';
         $item->downloadIdPrefix = $downloadKey['prefix'] ?? '';
         $item->downloadIdSuffix = $downloadKey['suffix'] ?? '';
 
