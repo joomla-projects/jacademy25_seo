@@ -626,7 +626,7 @@ class ModuleModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  mixed  Object on success, false on failure.
+     * @return  \stdClass|false  Object on success, false on failure.
      *
      * @since   1.6
      */
@@ -684,9 +684,9 @@ class ModuleModel extends AdminModel
                 }
             }
 
-            // Convert to the \Joomla\CMS\Object\CMSObject before adding other data.
+            // Convert to an object before adding other data.
             $properties        = $table->getProperties(1);
-            $this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
+            $this->_cache[$pk] = ArrayHelper::toObject($properties);
 
             // Convert the params field to an array.
             $registry                  = new Registry($table->params);

@@ -337,7 +337,7 @@ abstract class UserHelper
         // Get the dispatcher and load the user's plugins.
         PluginHelper::importPlugin('user');
 
-        $data     = new CMSObject();
+        $data     = new \stdClass();
         $data->id = $userId;
 
         // Trigger the data preparation event.

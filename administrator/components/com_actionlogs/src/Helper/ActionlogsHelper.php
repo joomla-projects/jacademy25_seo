@@ -232,7 +232,7 @@ class ActionlogsHelper
      * @param   string     $contentType
      * @param   integer    $id
      * @param   string     $urlVar
-     * @param   CMSObject  $object
+     * @param   \stdClass  $object
      *
      * @return  string  Link to the content item
      *

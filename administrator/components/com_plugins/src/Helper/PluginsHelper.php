@@ -99,11 +99,11 @@ class PluginsHelper
      * @param   string  $templateBaseDir  Base path to the template directory.
      * @param   string  $templateDir      Template directory.
      *
-     * @return  CMSObject|bool
+     * @return  \stdClass|bool
      */
     public function parseXMLTemplateFile($templateBaseDir, $templateDir)
     {
-        $data = new CMSObject();
+        $data = new \stdClass();
 
         // Check of the xml file exists.
         $filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');

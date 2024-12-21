@@ -58,7 +58,7 @@ abstract class AdminLanguage
         }
 
         if ($all) {
-            $all_option = [new CMSObject(['value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE'])];
+            $all_option = [(object) ['value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE']];
 
             return array_merge($all_option, static::$items);
         }

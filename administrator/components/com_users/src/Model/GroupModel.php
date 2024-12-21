@@ -136,7 +136,7 @@ class GroupModel extends AdminModel
      */
     protected function preprocessForm(Form $form, $data, $group = '')
     {
-        $obj = \is_array($data) ? ArrayHelper::toObject($data, CMSObject::class) : $data;
+        $obj = \is_array($data) ? ArrayHelper::toObject($data) : $data;
 
         if (isset($obj->parent_id) && $obj->parent_id == 0 && $obj->id > 0) {
             $form->setFieldAttribute('parent_id', 'type', 'hidden');

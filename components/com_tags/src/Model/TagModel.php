@@ -261,7 +261,7 @@ class TagModel extends ListModel
      *
      * @param   integer  $pk  An optional ID
      *
-     * @return  array
+     * @return  \stdClass|false
      *
      * @since   3.1
      */
@@ -296,7 +296,7 @@ class TagModel extends ListModel
 
                     // Convert the Table to a clean CMSObject.
                     $properties   = $table->getProperties(1);
-                    $this->item[] = ArrayHelper::toObject($properties, CMSObject::class);
+                    $this->item[] = ArrayHelper::toObject($properties);
                 } catch (\RuntimeException $e) {
                     $this->setError($e->getMessage());
 

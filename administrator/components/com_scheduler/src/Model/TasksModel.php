@@ -16,7 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\Database\ParameterType;
@@ -371,25 +370,7 @@ class TasksModel extends ListModel
         // Set limit parameters and get object list
         $query->setLimit($limit, $limitstart);
         $this->getDatabase()->setQuery($query);
-
-        // Return optionally an extended class.
-        // @todo: Use something other than CMSObject..
-        if ($this->getState('list.customClass')) {
-            $responseList = array_map(
-                static function (array $arr) {
-                    $o = new CMSObject();
-
-                    foreach ($arr as $k => $v) {
-                        $o->{$k} = $v;
-                    }
-
-                    return $o;
-                },
-                $this->getDatabase()->loadAssocList() ?: []
-            );
-        } else {
-            $responseList = $this->getDatabase()->loadObjectList();
-        }
+        $responseList = $this->getDatabase()->loadObjectList();
 
         // Attach TaskOptions objects and a safe type title
         $this->attachTaskOptions($responseList);

@@ -53,13 +53,13 @@ class ConfigModel extends FormModel
     /**
      * Method to get a single record.
      *
-     * @return  mixed  Object on success, false on failure.
+     * @return  \stdClass|false  Object on success, false on failure.
      *
      * @since   1.6
      */
     public function getItem()
     {
-        $item   = new CMSObject();
+        $item   = new \stdClass();
         $userid = (int) $this->getState('user.id');
 
         $db    = $this->getDatabase();

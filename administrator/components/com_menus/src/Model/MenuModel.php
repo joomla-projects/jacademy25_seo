@@ -121,7 +121,7 @@ class MenuModel extends AdminModel
      *
      * @param   integer  $itemId  The id of the menu item to get.
      *
-     * @return  mixed  Menu item data object on success, false on failure.
+     * @return  \stdClass|false  Menu item data object on success, false on failure.
      *
      * @since   1.6
      */
@@ -143,7 +143,7 @@ class MenuModel extends AdminModel
         }
 
         $properties = $table->getProperties(1);
-        $value      = ArrayHelper::toObject($properties, CMSObject::class);
+        $value      = ArrayHelper::toObject($properties);
 
         return $value;
     }
