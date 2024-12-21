@@ -340,7 +340,7 @@ class RulesTest extends UnitTestCase
         $rules   = new Rules($ruleData);
         $allowed = $rules->getAllowed(-42);
 
-        $this->assertInstanceOf(CMSObject::class, $allowed);
+        $this->assertInstanceOf(\stdClass::class, $allowed);
         $this->assertTrue($allowed->get('create'));
         $this->assertTrue($allowed->get('edit'));
         $this->assertNull($allowed->get('delete'));
