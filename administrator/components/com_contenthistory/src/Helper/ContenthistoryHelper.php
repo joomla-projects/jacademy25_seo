@@ -81,7 +81,7 @@ class ContenthistoryHelper
                     $object->$name = $subObject;
                 }
 
-                if (!empty($value) && is_string($value) && strpos($value, 'src="images/') !== false) {
+                if (!empty($value) && \is_string($value) && strpos($value, 'src="images/') !== false) {
 		            $object->$name = str_replace('src="images/', 'src="' . Uri::root() . 'images/', $value);
 	            }
             }
