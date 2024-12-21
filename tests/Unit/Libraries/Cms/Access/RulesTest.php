@@ -342,7 +342,7 @@ class RulesTest extends UnitTestCase
         $this->assertInstanceOf(\stdClass::class, $allowed);
         $this->assertTrue($allowed->create);
         $this->assertTrue($allowed->edit);
-        $this->assertNull($allowed->delete);
+        $this->assertFalse(isset($allowed->delete));
     }
 
     /**
