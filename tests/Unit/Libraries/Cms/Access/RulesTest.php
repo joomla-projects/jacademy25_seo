@@ -12,7 +12,6 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Access;
 
 use Joomla\CMS\Access\Rule;
 use Joomla\CMS\Access\Rules;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
