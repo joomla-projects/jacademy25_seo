@@ -15,11 +15,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
-use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
