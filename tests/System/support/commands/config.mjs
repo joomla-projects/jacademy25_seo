@@ -1,7 +1,8 @@
 Cypress.Commands.add('config_setParameter', (parameter, value) => {
   const configPath = `${Cypress.env('cmsPath')}/configuration.php`;
 
-  cy.readFile(configPath).then((fileContent) => {
+  // Return a Cypress chainable for chaining
+  return cy.readFile(configPath).then((fileContent) => {
     // Setup the new value
     const newValue = typeof value === 'string' ? `'${value}'` : value;
 
@@ -11,7 +12,11 @@ Cypress.Commands.add('config_setParameter', (parameter, value) => {
     // Replace the whole line with the new value
     const content = fileContent.replace(regex, `public $${parameter} = ${newValue};`);
 
-    // Write the modified content back to the configuration file relative to the CMS root folder
-    cy.task('writeRelativeFile', { path: 'configuration.php', content });
+    /* Write the modified content back to the configuration file relative to the CMS root folder and
+     * wait for the task to complete and chain it.
+     */
+    return cy.task('writeRelativeFile', { path: 'configuration.php', content }).then((result) => {
+      cy.log(result); // Log success message for debugging
+    });
   });
 });
