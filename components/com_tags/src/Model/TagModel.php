@@ -293,7 +293,7 @@ class TagModel extends ListModel
                         continue;
                     }
 
-                    // Convert the Table to a clean CMSObject.
+                    // Convert the Table to a clean object.
                     $properties   = $table->getProperties(1);
                     $this->item[] = ArrayHelper::toObject($properties);
                 } catch (\RuntimeException $e) {

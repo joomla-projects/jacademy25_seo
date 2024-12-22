@@ -38,7 +38,7 @@ abstract class MediaHelper
             return '';
         }
 
-        $link         = 'index.php?option=com_media';
+        $link = 'index.php?option=com_media';
 
         if (!empty($mediaObject->adapter) && !empty($mediaObject->path)) {
             $link .= '&path=' . $mediaObject->adapter . ':' . $mediaObject->path;
