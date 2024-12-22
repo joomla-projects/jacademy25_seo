@@ -132,7 +132,8 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
             ->join(
                 'INNER',
                 $db->quoteName('#__action_logs_users', 'l') . ' ON ( ' . $db->quoteName('l.notify') . ' = 1 AND '
-                . $db->quoteName('l.user_id') . ' = ' . $db->quoteName('u.id') . ')');
+                . $db->quoteName('l.user_id') . ' = ' . $db->quoteName('u.id') . ')'
+            );
 
         $db->setQuery($query);
 
