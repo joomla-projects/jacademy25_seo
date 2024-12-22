@@ -126,15 +126,13 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
         $query = $db->getQuery(true);
 
         $query
-            ->select($db->quoteName(['u.email', 'l.extensions']))
+            ->select($db->quoteName(['u.email', 'u.username', 'l.extensions', 'l.exclude_self']))
             ->from($db->quoteName('#__users', 'u'))
             ->where($db->quoteName('u.block') . ' = 0')
             ->join(
                 'INNER',
                 $db->quoteName('#__action_logs_users', 'l') . ' ON ( ' . $db->quoteName('l.notify') . ' = 1 AND '
-                . $db->quoteName('l.user_id') . ' = ' . $db->quoteName('u.id') . ')'
-            )
-            ->where($db->quoteName('l.exclude_self') . ' = 0');
+                . $db->quoteName('l.user_id') . ' = ' . $db->quoteName('u.id') . ')');
 
         $db->setQuery($query);
 
@@ -143,6 +141,10 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
         $recipients = [];
 
         foreach ($users as $user) {
+            if ($user->username === $this->getCurrentUser()->username && $user->exclude_self) {
+               continue;
+            }
+            
             $extensions = json_decode($user->extensions, true);
 
             if ($extensions && \in_array(strtok($context, '.'), $extensions)) {
