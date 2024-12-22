@@ -145,7 +145,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
             if ($user->username === $this->getCurrentUser()->username && $user->exclude_self) {
                 continue;
             }
-            
+
             $extensions = json_decode($user->extensions, true);
 
             if ($extensions && \in_array(strtok($context, '.'), $extensions)) {
