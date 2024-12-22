@@ -264,7 +264,6 @@ class ModuleAdapter extends InstallerAdapter
             }
 
             // Wipe out any instances in the modules table
-            /** @var \Joomla\CMS\Table\Module $module */
             $module = new Module($db);
 
             foreach ($modules as $modInstanceId) {

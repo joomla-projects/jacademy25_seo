@@ -322,9 +322,7 @@ class TagsHelper extends CMSHelper
             throw new \InvalidArgumentException('Multiple primary keys are not supported as a content item id');
         }
 
-        $result = $this->unTagItem($contentItemId[$key], $table);
-
-        /** @var  CoreContent $ucmContentTable */
+        $result          = $this->unTagItem($contentItemId[$key], $table);
         $ucmContentTable = new CoreContent(Factory::getDbo());
 
         return $result && $ucmContentTable->deleteByContentId($contentItemId[$key], $this->typeAlias);

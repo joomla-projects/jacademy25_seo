@@ -930,7 +930,6 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         try {
-            /** @var Asset $asset */
             $asset  = new Asset($this->getDatabase());
             $result = $asset->loadByName($permission['component']);
 
@@ -943,7 +942,6 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 $asset->title = (string) $permission['title'];
 
                 // Get the parent asset id so we have a correct tree.
-                /** @var Asset $parentAsset */
                 $parentAsset = new Asset($this->getDatabase());
 
                 if (strpos($asset->name, '.') !== false) {

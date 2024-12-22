@@ -539,7 +539,6 @@ class JoomlaInstallerScript
         ];
 
         foreach ($newComponents as $component) {
-            /** @var \Joomla\CMS\Table\Asset $asset */
             $asset = new Asset(Factory::getDbo());
 
             if ($asset->loadByName($component)) {
