@@ -1388,7 +1388,7 @@ class ComponentAdapter extends InstallerAdapter
     {
         $db = $this->getDatabase();
 
-        $table  = new Menu($db);
+        $table = new Menu($db);
 
         try {
             $table->setLocation($parentId, 'last-child');
