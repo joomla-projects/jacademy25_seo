@@ -220,7 +220,7 @@ class TourModel extends AdminModel
             return false;
         }
 
-        // Convert to the CMSObject before adding other data.
+        // Convert to an object before adding other data.
         $properties = $table->getProperties(1);
         $item       = ArrayHelper::toObject($properties);
 
