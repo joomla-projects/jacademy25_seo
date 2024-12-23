@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS "#__assets" (
   "lft" bigint DEFAULT 0 NOT NULL,
   "rgt" bigint DEFAULT 0 NOT NULL,
   "level" integer NOT NULL,
-  "name" varchar(50) NOT NULL,
-  "title" varchar(100) NOT NULL,
+  "name" varchar(255) NOT NULL,
+  "title" varchar(255) NOT NULL,
   "rules" varchar(5120) NOT NULL,
   PRIMARY KEY ("id"),
   CONSTRAINT "#__assets_idx_asset_name" UNIQUE ("name")
