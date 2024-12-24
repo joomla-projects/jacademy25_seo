@@ -32,7 +32,7 @@ Joomla uses a **Database**, and the Joomla System Tests do as well.
 ## Installation
 
 Joomla System Tests are compatible with various operating systems, including macOS, desktop Linux distributions like Ubuntu, and Windows (using WSL 2 or frameworks like Laragon).
-They also integrate seamlessly with Docker containers (see e.g. [JBT](https://github.com/muhme/joomla-branches-tester)).
+They are fully compatible with the official [Joomla Docker containers](https://hub.docker.com/_/joomla).
 
 To run these tests, you will need a web server (e.g. Apache) and a database (e.g. MariaDB).
 Ensure the web server is configured to load the `rewrite_module` and allow directory overrides. For example, in Apache:
