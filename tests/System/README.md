@@ -10,7 +10,7 @@ and details how to execute and extend tests.
 It concludes with solutions for common failure situations in the troubleshooting chapter.
 
 
-## Software architecture overview
+## Software Architecture Overview
 
 The following software architecture diagram illustrates the Joomla System Tests architecture and provides an overview.
 It is simplified to offer an initial understanding. Detailed explanations follow later in this document.
@@ -106,7 +106,7 @@ npm run cypress:run --browser electron
 ```
 
 
-## Software architecture details
+## Software Architecture Details
 
 Since Joomla System Tests involve many interactions, the following image illustrates 10 simplified interactions,
 which are numbered and described below.
@@ -146,7 +146,7 @@ This server accepts connections, receives emails, and provides the capability to
 > Welcome to the async land of Node.js. :sweat_smile:
 
 
-## Create new tests
+## Create New Tests
 
 To create new tests, create a `cy.js` file in a new folder which matches the following pattern
 (replace *foo* with the extension name to test):
@@ -160,7 +160,7 @@ To create new tests, create a `cy.js` file in a new folder which matches the fol
 > Probably the easiest way is to copy an existing file and adapt it to the extension which should be tested.
 
 
-## Test development
+## Test Development
 
 Tests should be:
 - Repeatable
@@ -204,7 +204,7 @@ cy.db_createArticle({ title: 'automated test article' }).then((id) => { ... })`
 These commands are executed in the browser where the `cy.` namespace is available.
 
 
-#### Database commands
+#### Database Commands
 
 The Database Commands create items in the database like articles or users. They are asynchronous and must be chained like:
 ```JavaScript
@@ -235,7 +235,7 @@ The following commands are available and are served by the file [tests/System/su
 - **db_updateExtensionParameter** – Sets the parameter for the given extension
 
 
-#### API commands
+#### API Commands
 
 The API commands make API requests to the CMS API endpoint `/api/index.php/v1`.
 They are asynchronous and must be chained like:
@@ -254,7 +254,7 @@ The following commands are available and are served by the file
 - **api_responseContains** – Checks if the given attribute in the response contains the specified value
 
 
-#### Config commands
+#### Config Commands
 
 There is a single config command provided by the file
 [tests/System/support/commands/config.mjs](/tests/System/support/commands/config.mjs):
@@ -271,9 +271,9 @@ cy.config_setParameter('sef', false).then(() => { ... })`
 ```
 
 
-### Developer tips
+### Developer Tips
 
-#### Running a single test
+#### Running a Single Test
 
 If you wish to run only one single test from a test spec file for debugging, you can add `.only` to the test function:
 ```JavaScript
@@ -284,7 +284,7 @@ it.only('running only this test', () => {
 For more details, see the [Cypress docu, Excluding and Including Tests](https://docs.cypress.io/guides/core-concepts/writing-and-organizing-tests#Excluding-and-Including-Tests).
 
 
-#### Wait after action
+#### Wait After Action
 
 When developing tests with Cypress, it can be helpful to insert delays for debugging, allowing you to observe the status.
 For example:
@@ -295,7 +295,7 @@ cy.wait(20000); // waits for 20 seconds
 
 ## Troubleshooting
 
-### Errors 'EACCES: permission denied' or 'EPERM: operation not permitted'
+### Error 'EACCES: permission denied' or 'EPERM: operation not permitted'
 
 If the Cypress installation step or the entire test suite is executed by a non-root user, the following error may occur:
 ```
@@ -341,7 +341,7 @@ If the used SMTP server port is already in use you will see an error like:
 :point_right: If you use `npx` instead of `npm`, you may see `Your configFile threw an error from: cypress.config.js`,
 but you still need to configure `cypress.config.mjs` file.
 
-### Timeout error on slow machines
+### Timeout Error on Slow Machines
 
 If you encounter the following error while running the Joomla System Tests on slow machines:
 
