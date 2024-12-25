@@ -19,7 +19,7 @@ describe('Test that contenthistory for contact API endpoint', () => {
         expect(response.status).to.eq(200);
 
         // Extract the `data` array
-        const historyEntries = response.body.data;
+        const { data: historyEntries } = response.body;
         cy.log(`History Entries: ${historyEntries.length}`);
 
         // Iterate through each history entry
