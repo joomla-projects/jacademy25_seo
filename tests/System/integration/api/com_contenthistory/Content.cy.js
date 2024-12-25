@@ -34,18 +34,18 @@ describe('Test that contenthistory for content API endpoint', () => {
 
         // Iterate through each history entry
         historyEntries.forEach((entry) => {
-          const attributes = entry.attributes;
+          const { attributes } = entry;
 
           // Access top-level attributes
           const historyId = entry.id;
           const saveDate = attributes.save_date;
-          const editor = attributes.editor;
+          const { editor } = attributes;
           const characterCount = attributes.character_count;
 
           // Access nested `version_data`
           const versionData = attributes.version_data;
           const articleTitle = versionData.title;
-          const alias = versionData.alias;
+          const { alias } = versionData;
           const createdDate = versionData.created;
           const modifiedDate = versionData.modified;
 
