@@ -8,7 +8,7 @@ describe('Test that contenthistory for tag API endpoint', () => {
     cy.api_post('/tags', {
       title: 'automated test tag', parent_id: 1, level: 1, description: '', language: '*',
     })
-    .then((tag) => cy.api_get(`/tags/${tag.body.data.attributes.id}/contenthistory`))
+      .then((tag) => cy.api_get(`/tags/${tag.body.data.attributes.id}/contenthistory`))
       .then((response) => {
         // Assert response status
         expect(response.status).to.eq(200);
