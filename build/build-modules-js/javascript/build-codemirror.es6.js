@@ -61,6 +61,10 @@ const updateAssetRegistry = async (modules, externalModules) => {
 
   // Create asset for each module
   modules.forEach((module) => {
+    if (registry.assets.find((a) => a.name === module.package)) {
+      return;
+    }
+
     const packageName = module.package;
     const modulePathJson = resolvePackageFile(`${packageName}/package.json`);
     const moduleOptions = require(modulePathJson);
@@ -71,10 +75,6 @@ const updateAssetRegistry = async (modules, externalModules) => {
       importmap: true,
       version: moduleOptions.version,
     };
-
-    if (registry.assets.find((a) => a.name === asset.name)) {
-      return;
-    }
 
     registry.assets.push(asset);
   });
