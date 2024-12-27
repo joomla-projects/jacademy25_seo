@@ -72,6 +72,10 @@ const updateAssetRegistry = async (modules, externalModules) => {
       version: moduleOptions.version,
     };
 
+    if (registry.assets.find((a) => a.name === asset.name)) {
+      continue;
+    }
+
     registry.assets.push(asset);
   });
 
