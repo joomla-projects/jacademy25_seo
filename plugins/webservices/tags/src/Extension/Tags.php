@@ -63,7 +63,7 @@ final class Tags extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Create contenthistory routes
+     * Create tag history routes
      *
      * @param   ApiRouter  &$router  The API Routing object
      *
