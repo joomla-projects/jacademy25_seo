@@ -91,7 +91,7 @@ module.exports.compileCodemirror = async () => {
   const lModules = getPackagesUnderScope('@lezer');
   const externalModules = [
     ...cmModules.filter((a, i) => cmModules.findIndex((s) => a === s) === i),
-    ...lModules.filter((a, i) => lModules.findIndex((s) => a === s) === i)
+    ...lModules.filter((a, i) => lModules.findIndex((s) => a === s) === i),
   ];
   const destBasePath = 'media/vendor/codemirror/js';
   const assets = [];
