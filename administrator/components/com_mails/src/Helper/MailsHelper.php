@@ -81,7 +81,7 @@ abstract class MailsHelper
         switch (substr($extension, 0, 3)) {
             case 'com':
             default:
-                $source = JPATH_ADMINISTRATOR . '/components/' . $extension;
+                $source = JPATH_SITE . '/components/' . $extension;
                 break;
 
             case 'mod':
