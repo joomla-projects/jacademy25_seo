@@ -8,7 +8,8 @@ describe('Test in backend that the content history list', () => {
     cy.visit('/administrator/index.php?option=com_content&task=article.add');
     cy.get('#jform_title').clear().type('Test article');
     cy.clickToolbarButton('Save');
-    cy.clickToolbarButton('Versions');
+    cy.get("#toolbar-versions").click(); // @todo remove after https://github.com/joomla-projects/joomla-cypress/pull/40
+    // cy.clickToolbarButton('Versions'); // @todo enable after https://github.com/joomla-projects/joomla-cypress/pull/40
     cy.get('.joomla-dialog-header').should('contain.text', 'Versions');
   });
 
