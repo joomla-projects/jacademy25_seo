@@ -27,6 +27,6 @@ describe('Test in backend that the content history list', () => {
       .then(cy.wrap) // Wrap the body for further Cypress commands
       .find('a') // Find the anchor tag containing the string
       .should('contain.text', formattedDate); // The expected text
-    cy.get("button.button-close.btn-close").click();
+    cy.get('button.button-close.btn-close').click();
   });
 });
