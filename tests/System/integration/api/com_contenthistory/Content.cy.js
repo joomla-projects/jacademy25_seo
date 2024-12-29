@@ -72,4 +72,43 @@ describe('Test that contenthistory for content API endpoint', () => {
         cy.log(`Total Pages: ${totalPages}`);
       });
   });
+
+  it('can delete the history of an existing article', () => {
+    cy.db_createCategory({ extension: 'com_content' })
+      .then((categoryId) => cy.api_post('/content/articles', {
+        title: 'automated test article',
+        alias: 'test-article',
+        catid: categoryId,
+        introtext: '',
+        fulltext: '',
+        state: 1,
+        access: 1,
+        language: '*',
+        created: '2023-01-01 20:00:00',
+        modified: '2023-01-01 20:00:00',
+        images: '',
+        urls: '',
+        attribs: '',
+        metadesc: '',
+        metadata: '',
+      }))
+      .then((article) => cy.api_get(`/content/articles/${article.body.data.attributes.id}/contenthistory`))
+      .then((response) => {
+        // Assert response status
+        expect(response.status).to.eq(200);
+        // Extract the `data` array
+        const { data: historyEntries } = response.body;
+        cy.log(`History Entries: ${historyEntries.length}`);
+
+        // Iterate through each history entry
+        historyEntries.forEach((entry) => {
+          // const { attributes } = entry;
+
+          // Access top-level attributes
+          // const historyId = entry.id;
+          cy.api_delete(`/content/articles/${entry.id}/contenthistory`)
+            .then((result) => cy.wrap(result).its('status').should('equal', 204));
+        });
+      });
+  });
 });
