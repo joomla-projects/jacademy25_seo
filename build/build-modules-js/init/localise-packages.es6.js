@@ -40,11 +40,6 @@ const copyFilesTo = async (files, srcDir, destDir) => {
 const resolvePackage = async (vendor, packageName, mediaVendorPath, options, registry) => {
   const vendorName = vendor.name || packageName;
   const modulePathJson = resolvePackageFile(`${packageName}/package.json`);
-
-  if (!modulePathJson) {
-    return;
-  }
-
   const modulePathRoot = dirname(modulePathJson);
   // eslint-disable-next-line global-require, import/no-dynamic-require
   const moduleOptions = require(modulePathJson);
