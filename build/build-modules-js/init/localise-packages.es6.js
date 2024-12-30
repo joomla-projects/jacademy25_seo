@@ -137,11 +137,9 @@ module.exports.localisePackages = async (options) => {
   // Loop to get some text for the package.json
   // eslint-disable-next-line guard-for-in, no-restricted-syntax
   for (const packageName in options.settings.vendors) {
-    const resolvedPackage = resolvePackage(options.settings.vendors[packageName], packageName, mediaVendorPath, options, registry)
+    const vendor = options.settings.vendors[packageName];
 
-    if (resolvedPackage) {
-      promises.push(resolvedPackage);
-    }
+    promises.push(resolvePackage(vendor, packageName, mediaVendorPath, options, registry));
   }
 
   await Promise.all(promises);
