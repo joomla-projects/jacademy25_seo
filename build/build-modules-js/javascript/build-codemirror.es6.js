@@ -87,11 +87,8 @@ module.exports.compileCodemirror = async () => {
   // eslint-disable-next-line no-console
   console.log('Building Codemirror Components...');
 
-  let cmModules = getPackagesUnderScope('@codemirror');
-  let lModules = getPackagesUnderScope('@lezer');
-  cmModules = cmModules.filter((a, i) => cmModules.findIndex((s) => a === s) === i);
-  lModules = lModules.filter((a, i) => lModules.findIndex((s) => a === s) === i);
-
+  const cmModules = getPackagesUnderScope('@codemirror');
+  const lModules = getPackagesUnderScope('@lezer');
   const externalModules = [...cmModules, ...lModules];
   const destBasePath = 'media/vendor/codemirror/js';
   const assets = [];
