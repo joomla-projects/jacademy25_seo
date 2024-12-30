@@ -9,14 +9,14 @@ const { existsSync, readdirSync } = require('fs-extra');
  */
 module.exports.resolvePackageFile = (relativePath) => {
   for (let i = 0, l = module.paths.length; i < l; i += 1) {
-     const path = module.paths[i];
-     const fullPath = `${path}/${relativePath}`;
-     if (existsSync(fullPath)) {
-       return fullPath;
-     }
-   }
+    const path = module.paths[i];
+    const fullPath = `${path}/${relativePath}`;
+    if (existsSync(fullPath)) {
+      return fullPath;
+    }
+  }
 
-   return false;
+  return false;
 };
 
 /**
