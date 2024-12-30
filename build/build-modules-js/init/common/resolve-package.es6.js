@@ -8,12 +8,12 @@ const { existsSync, readdirSync } = require('fs-extra');
  * @returns {string|boolean}
  */
 module.exports.resolvePackageFile = (relativePath) => {
-  for (const path of module.paths) {
+  module.paths.forEach((path) => {
     const fullPath = `${path}/${relativePath}`;
     if (existsSync(fullPath)) {
       return fullPath;
     }
-  }
+  });
 
   return false;
 };
@@ -30,17 +30,15 @@ module.exports.getPackagesUnderScope = (scope) => {
 
   // Get the scope roots
   const roots = [];
-  for (const path of module.paths) {
+  module.paths.forEach((path) => {
     const fullPath = `${path}/${scope}`;
     if (existsSync(fullPath)) {
       roots.push(fullPath);
     }
-  };
+  });
 
   // List of modules
-  for (const rootPath of roots) {
-    readdirSync(rootPath).forEach((subModule) => cmModules.add(`${scope}/${subModule}`));
-  };
+  roots.forEach((rootPath) => readdirSync(rootPath).forEach((subModule) => cmModules.add(`${scope}/${subModule}`)));
 
   return [...cmModules];
 };
