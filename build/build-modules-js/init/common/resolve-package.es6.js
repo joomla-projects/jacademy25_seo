@@ -8,8 +8,7 @@ const { existsSync, readdirSync } = require('fs-extra');
  * @returns {string|boolean}
  */
 module.exports.resolvePackageFile = (relativePath) => {
-  for (let i = 0, l = module.paths.length; i < l; i += 1) {
-    const path = module.paths[i];
+  for (const path of module.paths) {
     const fullPath = `${path}/${relativePath}`;
     if (existsSync(fullPath)) {
       return fullPath;
@@ -27,23 +26,21 @@ module.exports.resolvePackageFile = (relativePath) => {
  * @returns {[]}
  */
 module.exports.getPackagesUnderScope = (scope) => {
-  const cmModules = [];
+  const cmModules = new Set();
 
   // Get the scope roots
   const roots = [];
-  module.paths.forEach((path) => {
+  for (const path of module.paths) {
     const fullPath = `${path}/${scope}`;
     if (existsSync(fullPath)) {
       roots.push(fullPath);
     }
-  });
+  };
 
   // List of modules
-  roots.forEach((rootPath) => {
-    readdirSync(rootPath).forEach((subModule) => {
-      cmModules.push(`${scope}/${subModule}`);
-    });
-  });
+  for (const rootPath of roots) {
+    readdirSync(rootPath).forEach((subModule) => cmModules.add(`${scope}/${subModule}`));
+  };
 
-  return cmModules;
+  return [...cmModules];
 };
