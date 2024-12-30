@@ -38,7 +38,11 @@ module.exports.getPackagesUnderScope = (scope) => {
   });
 
   // List of modules
-  roots.forEach((rootPath) => readdirSync(rootPath).forEach((subModule) => cmModules.add(`${scope}/${subModule}`)));
+  roots.forEach((rootPath) => {
+    readdirSync(rootPath).forEach((subModule) => {
+      cmModules.add(`${scope}/${subModule}`);
+    });
+  });
 
   return [...cmModules];
 };
