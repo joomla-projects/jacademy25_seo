@@ -135,7 +135,7 @@ module.exports.localisePackages = async (options) => {
     const resolvedPackage = resolvePackage(options.settings.vendors[packageName], packageName, mediaVendorPath, options, registry)
 
     if (resolvedPackage) {
-      promises.push(resolvePackage(vendor, packageName, mediaVendorPath, options, registry));
+      promises.push(resolvedPackage);
     }
   }
 
