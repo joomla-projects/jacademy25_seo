@@ -474,6 +474,8 @@ steps:
       - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
       - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --exclude-bzip2
       - mv build/tmp/packages/* transfer/
+      - php build/build.php --remote=origin/$MINORVERSION-dev --include-zstd --exclude-gzip --exclude-zip --exclude-bzip2 --debug-build
+      - mv build/tmp/packages/* transfer/
 
   - name: upload
     image: joomlaprojects/docker-images:packager
@@ -520,6 +522,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 457f0f91e84d98a759e33c32f45e878f562ca987b5bee426593263ce99bb144f
+hmac: 0e2697e6e32254f3faf89e98b213a08ffa4ee64569897a8af4b9d66c816fd865
 
 ...
