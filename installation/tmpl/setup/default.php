@@ -16,24 +16,13 @@ use Joomla\CMS\Language\Text;
 HTMLHelper::_('behavior.formvalidator');
 
 /** @var \Joomla\CMS\Installation\View\Setup\HtmlView $this */
+
+$wa = $this->getDocument()->getWebAssetManager();
+
+$wa->useScript('joomla.dialog-autocreate');
 ?>
 
 <div id="installer-view" data-page-name="setup">
-    <form action="index.php" method="post" id="languageForm" class="lang-select">
-        <fieldset class="j-install-step active">
-            <legend class="j-install-step-header">
-                <span class="icon-language" aria-hidden="true"></span> <?php echo Text::_('INSTL_SELECT_INSTALL_LANG'); ?>
-            </legend>
-            <div class="j-install-step-form">
-                <div class="mb-3">
-                    <?php echo $this->form->renderField('language'); ?>
-                </div>
-                <input type="hidden" name="task" value="language.set">
-                <input type="hidden" name="format" value="json">
-                <?php echo HTMLHelper::_('form.token'); ?>
-            </div>
-        </fieldset>
-    </form>
     <form action="index.php" method="post" id="adminForm" class="form-validate">
         <fieldset id="installStep1" class="j-install-step active">
             <legend class="j-install-step-header">
@@ -132,6 +121,20 @@ HTMLHelper::_('behavior.formvalidator');
             </div>
         </fieldset>
         <input type="hidden" name="admin_password2" id="jform_admin_password2">
+        <?php echo HTMLHelper::_('form.token'); ?>
+    </form>
+    <form action="index.php" method="post" id="languageForm" class="lang-select">
+        <div class="d-flex align-items-center">
+            <span class="fas fa-globe me-1" aria-hidden="true"></span>
+            Your current language is: <a href="#languageSelect" data-joomla-dialog='{"textHeader": "<?php echo Text::_('INSTL_SELECT_INSTALL_LANG'); ?>", "iconHeader":"icon-language"}' class="btn ps-1 btn-link dropdown-toggle" id="languageForm-current"></a>
+        </div>
+        <template id="languageSelect">
+            <div class="mb-3">
+                <?php echo $this->form->renderField('language'); ?>
+            </div>
+        </template>
+        <input type="hidden" name="task" value="language.set">
+        <input type="hidden" name="format" value="json">
         <?php echo HTMLHelper::_('form.token'); ?>
     </form>
 
