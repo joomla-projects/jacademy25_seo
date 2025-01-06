@@ -238,7 +238,7 @@ class InstallerHelper
      *
      * @since   4.0.0
      */
-    public static function getDownloadKey($extension): array
+    public static function getDownloadKey(\stdClass $extension): array
     {
         $installXmlFile = self::getInstallationXML(
             $extension->element,
