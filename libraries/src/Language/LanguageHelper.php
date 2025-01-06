@@ -111,6 +111,11 @@ class LanguageHelper
                 $browserLang         = substr($browserLang, 0, strcspn($browserLang, ';'));
                 $primary_browserLang = substr($browserLang, 0, 2);
 
+                // Some browser return only "fr" or "de", so let's try to use it like "fr-fr" or "de-de"
+                if (\strlen($browserLang) == 2) {
+                    $browserLang = $browserLang . '-' . $browserLang;
+                }
+
                 foreach ($systemLangs as $systemLang) {
                     // Take off 3 letters iso code languages as they can't match browsers' languages and default them to en
                     $Jinstall_lang = $systemLang->lang_code;
