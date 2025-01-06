@@ -126,7 +126,14 @@ $wa->useScript('joomla.dialog-autocreate');
     <form action="index.php" method="post" id="languageForm" class="lang-select">
         <div class="d-flex align-items-center">
             <span class="fas fa-globe me-1" aria-hidden="true"></span>
-            Your current language is: <a href="#languageSelect" data-joomla-dialog='{"textHeader": "<?php echo Text::_('INSTL_SELECT_INSTALL_LANG'); ?>", "iconHeader":"icon-language"}' class="btn ps-1 btn-link dropdown-toggle" id="languageForm-current"></a>
+            <?php
+                $link = HTMLHelper::_('link', '#languageSelect', '', ['id' => 'languageForm-current', 'data-joomla-dialog' => '###dialogattr###', 'class' => 'btn btn-link ps-1']);
+
+                // Dialog needs single quotes for attributes, so use single quotes...
+                $link = str_replace('"###dialogattr###', '\'{"textHeader": "' . Text::_('INSTL_SELECT_INSTALL_LANG') . '", "iconHeader":"icon-language"}\'', $link);
+
+                echo Text::sprintf('INSTL_SELECTED_INSTALL_LANGUAGE', $link);
+            ?>
         </div>
         <template id="languageSelect">
             <div class="mb-3">
