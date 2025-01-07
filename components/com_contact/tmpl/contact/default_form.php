@@ -29,10 +29,7 @@ $wa->useScript('keepalive')
             <?php endif; ?>
             <?php $fields = $this->form->getFieldset($fieldset->name); ?>
             <?php if (count($fields)) : ?>
-                <fieldset class="m-0">
-                    <?php if (isset($fieldset->label) && ($legend = trim(Text::_($fieldset->label))) !== '') : ?>
-                        <legend><?php echo $legend; ?></legend>
-                    <?php endif; ?>
+                <fieldset class="m-0">                    
                     <?php foreach ($fields as $field) : ?>
                         <?php echo $field->renderField(); ?>
                     <?php endforeach; ?>

@@ -137,7 +137,9 @@ $htag2   = ($tparams->get('show_page_heading') && $tparams->get('show_name')) ? 
     <?php endif; ?>
 
     <?php if ($tparams->get('show_email_form') && ($this->item->email_to || $this->item->user_id)) : ?>
-        <?php echo '<' . $htag2 . '>' . Text::_('COM_CONTACT_EMAIL_FORM') . '</' . $htag2 . '>'; ?>
+        <?php if ($tparams->get('show_email_form_title')) : ?>
+            <?php echo '<' . $htag2 . '>' . Text::_('COM_CONTACT_EMAIL_FORM') . '</' . $htag2 . '>'; ?>
+        <?php endif; ?>
 
         <?php echo $this->loadTemplate('form'); ?>
     <?php endif; ?>
