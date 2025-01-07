@@ -23,7 +23,7 @@ use Joomla\Database\ParameterType;
 /**
  * Supporting a list of logs.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.3.0
  */
 class LogsModel extends ListModel
 {
@@ -34,7 +34,7 @@ class LogsModel extends ListModel
      * @param   MVCFactoryInterface  $factory  The factory.
      *
      * @see     \JControllerLegacy
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
@@ -60,7 +60,7 @@ class LogsModel extends ListModel
      *
      * @return  boolean result of operation
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public function purge()
     {
@@ -83,7 +83,7 @@ class LogsModel extends ListModel
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     protected function populateState($ordering = 'a.id', $direction = 'desc')
     {
@@ -106,7 +106,7 @@ class LogsModel extends ListModel
      *
      * @return  string  A store id.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     protected function getStoreId($id = '')
     {
@@ -124,7 +124,7 @@ class LogsModel extends ListModel
      *
      * @return  \JDatabaseQuery
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     protected function getListQuery()
     {

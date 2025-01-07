@@ -20,7 +20,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
 /**
  * Logs list controller class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.3.0
  */
 class LogsController extends AdminController
 {
@@ -29,7 +29,7 @@ class LogsController extends AdminController
      *
      * @var    string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     protected $text_prefix = 'COM_SCHEDULER_LOGS';
 
@@ -42,7 +42,7 @@ class LogsController extends AdminController
      *
      * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public function getModel($name = 'Log', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
@@ -54,7 +54,7 @@ class LogsController extends AdminController
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public function purge()
     {
