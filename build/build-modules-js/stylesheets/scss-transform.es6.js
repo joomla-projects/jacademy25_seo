@@ -10,7 +10,7 @@ module.exports.compile = async (file) => {
 
   let compiled;
   try {
-    compiled = Sass.compile({ file });
+    compiled = Sass.compile(file);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error.formatted);
