@@ -5,7 +5,7 @@ describe('Test that console command user', () => {
       .should('contain', 'ci-admin');
   });
   it('can add a user', () => {
-    const para = '--username=test --name=test --password=123456789012 --email=test@530.test --usergroup=manager -n';
+    const para = '--username=test --name=test --password=123456789012 --email=test@530.test --usergroup=Manager -n';
     cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php user:add ${para}`)
       .its('stdout')
       .should('contain', 'User created!');
