@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.Site
- * @subpackage  com_privacy
+ * @subpackage  com_users
  *
  * @copyright   (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -19,7 +19,7 @@ use Joomla\CMS\Router\Route;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * ComponentDispatcher class for com_privacy
+ * ComponentDispatcher class for com_users
  *
  * @since  5.2.3
  */
