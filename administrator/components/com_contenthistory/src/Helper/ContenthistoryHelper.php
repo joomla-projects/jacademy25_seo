@@ -81,8 +81,11 @@ class ContenthistoryHelper
                     $object->$name = $subObject;
                 }
 
-                if (!empty($value) && \is_string($value) && strpos($value, 'src="images/') !== false) {
-                    $object->$name = str_replace('src="images/', 'src="' . Uri::root() . 'images/', $value);
+                if (!empty($value) && \is_string($value))
+                {
+                    $pattern = '/src="((?!https?:\/\/|\/\/|\/)[^"]+)"/i';
+                    $replacement = 'src="' . Uri::root() . '$1"';
+                    $object->$name = preg_replace($pattern, $replacement, $value);
                 }
             }
         }
