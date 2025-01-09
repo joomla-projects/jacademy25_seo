@@ -2,7 +2,7 @@ describe('Test that console command user', () => {
   it('can list users', () => {
     cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php user:list`)
       .its('stdout')
-      .should('contain', 'ci-admin');
+      .should('contain', `${Cypress.env('username')}`);
   });
   it('can add a user', () => {
     const para = '--username=test --name=test --password=123456789012 --email=test@530.test --usergroup=Manager -n';
