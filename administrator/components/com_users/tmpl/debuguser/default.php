@@ -39,6 +39,8 @@ $wa->useScript('table.columns');
         <?php else : ?>
             <?php
             // Split the actions table
+            $loginActions = [];
+            $actions      = [];
             foreach ($this->actions as $action) :
                 $name = $action[0];
                 if (in_array($name, ['core.login.site', 'core.login.admin', 'core.login.api', 'core.login.offline'])) :
