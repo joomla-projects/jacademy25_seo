@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Router;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\Version;
@@ -251,15 +252,24 @@ class ConsoleApplication extends Application implements CMSApplicationInterface,
         $this->populateHttpHost();
 
         // Load the user when specified
-        $user = $this->getConsoleInput()->getParameterOption(['--user'], null);
+        $userOption = $this->getConsoleInput()->getParameterOption(['--user'], null);
 
         try {
-            if ($user !== null && is_numeric($user)) {
-                $this->loadIdentity($this->getUserFactory()->loadUserById((int) $user));
+            $user = null;
+
+            // If the user id is numeric, load the user by ID
+            if ($userOption !== null && is_numeric($userOption)) {
+                $user = $this->getUserFactory()->loadUserById((int) $userOption);
             }
 
-            if ($user !== null && !is_numeric($user)) {
-                $this->loadIdentity($this->getUserFactory()->loadUserByUsername($user));
+            // If the user id is a string, load the user by username
+            if ($userOption !== null && !is_numeric($userOption)) {
+                $user = $this->getUserFactory()->loadUserByUsername($userOption);
+            }
+
+            // When the user object is a user from the database, load it as identity in the application
+            if ($user instanceof User && !$user->guest) {
+                $this->loadIdentity($user);
             }
         } catch (\UnexpectedValueException $e) {
         }
