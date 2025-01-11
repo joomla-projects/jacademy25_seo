@@ -20,9 +20,6 @@ use Joomla\CMS\Router\Route;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-$loginActions = [];
-$actions = [];
-
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns');
