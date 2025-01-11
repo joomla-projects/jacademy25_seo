@@ -549,10 +549,9 @@ class ConsoleApplication extends Application implements CMSApplicationInterface,
      * Populates the user when a console option is set.
      *
      * @return  void
-     * @since   4.2.1
-     * @link    https://github.com/joomla/joomla-cms/issues/38518
+     * @since   __DEPLOY_VERSION__
      */
-    protected function populateUser()
+    protected function populateUser(): void
     {
         // Load the user when specified
         $userOption = $this->getConsoleInput()->getParameterOption(['--user'], null);
