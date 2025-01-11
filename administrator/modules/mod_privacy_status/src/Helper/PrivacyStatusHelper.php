@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -29,34 +30,33 @@ use Joomla\CMS\Router\Route;
 class PrivacyStatusHelper
 {
     /**
-     * Get the information about the published privacy policy
+     * Method to return number privacy requests older than X days.
      *
-     * @return  array  Array containing a status of whether a privacy policy is set and a link to the policy document for editing
+     * @return  integer
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
      */
-    public static function getPrivacyPolicyInfo()
+    public function getUrgentRequestsNumber()
     {
-        $dispatcher = Factory::getApplication()->getDispatcher();
-        $policy     = [
-            'published'        => false,
-            'articlePublished' => false,
-            'editLink'         => '',
-        ];
+        // Load the parameters.
+        $params = ComponentHelper::getComponent('com_privacy')->getParams();
+        $notify = (int) $params->get('notify', 14);
+        $now    = Factory::getDate()->toSql();
+        $period = '-' . $notify;
 
-        /*
-         * Prior to 3.9.0 it was common for a plugin such as the User - Profile plugin to define a privacy policy or
-         * terms of service article, therefore we will also import the user plugin group to process this event.
-         */
-        PluginHelper::importPlugin('privacy', null, true, $dispatcher);
-        PluginHelper::importPlugin('user', null, true, $dispatcher);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->getQuery(true);
+        $query->select('COUNT(*)')
+            ->from($db->quoteName('#__privacy_requests'))
+            ->where(
+                [
+                    $db->quoteName('status') . ' = 1',
+                    $query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('requested_at'),
+                ]
+            );
+        $db->setQuery($query);
 
-        return $dispatcher->dispatch(
-            'onPrivacyCheckPrivacyPolicyPublished',
-            new CheckPrivacyPolicyPublishedEvent('onPrivacyCheckPrivacyPolicyPublished', [
-                'subject' => &$policy, // @todo: Remove reference in Joomla 6, see CheckPrivacyPolicyPublishedEvent::__constructor()
-            ])
-        )->getArgument('subject', $policy);
+        return (int) $db->loadResult();
     }
 
     /**
@@ -64,9 +64,10 @@ class PrivacyStatusHelper
      *
      * @return  array  Array containing a status of whether a menu is published for the request form and its current link
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
+     *
      */
-    public static function getRequestFormPublished()
+    public function getRequestFormMenuStatus()
     {
         $status = [
             'exists'    => false,
@@ -75,7 +76,7 @@ class PrivacyStatusHelper
         ];
         $lang = '';
 
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -119,7 +120,7 @@ class PrivacyStatusHelper
                 $params              = ComponentHelper::getParams('com_languages');
                 $defaultSiteLanguage = $params->get('site');
 
-                $db    = Factory::getDbo();
+                $db    = Factory::getContainer()->get(DatabaseInterface::class);
                 $query = $db->getQuery(true)
                     ->select($db->quoteName('id'))
                     ->from($db->quoteName('#__menu'))
@@ -149,32 +150,87 @@ class PrivacyStatusHelper
     }
 
     /**
+     * Get the information about the published privacy policy
+     *
+     * @return  array  Array containing a status of whether a privacy policy is set and a link to the policy document for editing
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getPrivacyPolicyMenuStatus()
+    {
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        $policy     = [
+            'published'        => false,
+            'articlePublished' => false,
+            'editLink'         => '',
+        ];
+
+        /*
+         * Prior to 3.9.0 it was common for a plugin such as the User - Profile plugin to define a privacy policy or
+         * terms of service article, therefore we will also import the user plugin group to process this event.
+         */
+        PluginHelper::importPlugin('privacy', null, true, $dispatcher);
+        PluginHelper::importPlugin('user', null, true, $dispatcher);
+
+        return $dispatcher->dispatch(
+            'onPrivacyCheckPrivacyPolicyPublished',
+            new CheckPrivacyPolicyPublishedEvent('onPrivacyCheckPrivacyPolicyPublished', [
+                'subject' => &$policy, // @todo: Remove reference in Joomla 6, see CheckPrivacyPolicyPublishedEvent::__constructor()
+            ])
+        )->getArgument('subject', $policy);
+    }
+
+    /**
+     * Get the information about the published privacy policy
+     *
+     * @return  array  Array containing a status of whether a privacy policy is set and a link to the policy document for editing
+     *
+     * @since   4.0.0
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     *             Use the non-static method getPrivacyPolicyMenuStatus
+     *             Example: Factory::getApplication()->bootModule('mod_privacy_status', 'site')
+     *                          ->getHelper('PrivacyStatusHelper')
+     *                          ->getPrivacyPolicyMenuStatus()
+     */
+    public static function getPrivacyPolicyInfo()
+    {
+        return (new self())->getPrivacyPolicyMenuStatus();
+    }
+
+    /**
+     * Check whether there is a menu item for the request form
+     *
+     * @return  array  Array containing a status of whether a menu is published for the request form and its current link
+     *
+     * @since   4.0.0
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     *             Use the non-static method getRequestFormMenuStatus
+     *             Example: Factory::getApplication()->bootModule('mod_privacy_status', 'site')
+     *                          ->getHelper('PrivacyStatusHelper')
+     *                          ->getRequestFormMenuStatus()
+     */
+    public static function getRequestFormPublished()
+    {
+        return (new self())->getRequestFormMenuStatus();
+    }
+
+    /**
      * Method to return number privacy requests older than X days.
      *
      * @return  integer
      *
      * @since   4.0.0
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     *             Use the non-static method getUrgentRequestsNumber
+     *             Example: Factory::getApplication()->bootModule('mod_privacy_status', 'site')
+     *                          ->getHelper('PrivacyStatusHelper')
+     *                          ->getUrgentRequestsNumber()
      */
     public static function getNumberUrgentRequests()
     {
-        // Load the parameters.
-        $params = ComponentHelper::getComponent('com_privacy')->getParams();
-        $notify = (int) $params->get('notify', 14);
-        $now    = Factory::getDate()->toSql();
-        $period = '-' . $notify;
-
-        $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
-        $query->select('COUNT(*)')
-            ->from($db->quoteName('#__privacy_requests'))
-            ->where(
-                [
-                    $db->quoteName('status') . ' = 1',
-                    $query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('requested_at'),
-                ]
-            );
-        $db->setQuery($query);
-
-        return (int) $db->loadResult();
+        return (new self())->getUrgentRequestsNumber();
     }
 }
