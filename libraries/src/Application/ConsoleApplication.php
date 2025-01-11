@@ -251,28 +251,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface,
          */
         $this->populateHttpHost();
 
-        // Load the user when specified
-        $userOption = $this->getConsoleInput()->getParameterOption(['--user'], null);
-
-        try {
-            $user = null;
-
-            // If the user id is numeric, load the user by ID
-            if ($userOption !== null && is_numeric($userOption)) {
-                $user = $this->getUserFactory()->loadUserById((int) $userOption);
-            }
-
-            // If the user id is a string, load the user by username
-            if ($userOption !== null && !is_numeric($userOption)) {
-                $user = $this->getUserFactory()->loadUserByUsername($userOption);
-            }
-
-            // When the user object is a user from the database, load it as identity in the application
-            if ($user instanceof User && !$user->guest) {
-                $this->loadIdentity($user);
-            }
-        } catch (\UnexpectedValueException $e) {
-        }
+        $this->populateUser();
 
         // Import CMS plugin groups to be able to subscribe to events
         PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
@@ -564,6 +543,46 @@ class ConsoleApplication extends Application implements CMSApplicationInterface,
         $_SERVER['HTTP_HOST']   = $uri->toString(['host', 'port']);
         $_SERVER['REQUEST_URI'] = $uri->getPath();
         $_SERVER['HTTPS']       = $uri->getScheme() === 'https' ? 'on' : 'off';
+    }
+
+    /**
+     * Populates the user when a console option is set.
+     *
+     * @return  void
+     * @since   4.2.1
+     * @link    https://github.com/joomla/joomla-cms/issues/38518
+     */
+    protected function populateUser()
+    {
+        // Load the user when specified
+        $userOption = $this->getConsoleInput()->getParameterOption(['--user'], null);
+
+        if ($userOption === null) {
+            return;
+        }
+
+        try {
+            $factory = $this->getUserFactory();
+        } catch (\UnexpectedValueException $e) {
+            return;
+        }
+
+        $user = null;
+
+        // If the user id is numeric, load the user by ID
+        if (is_numeric($userOption)) {
+            $user = $factory->loadUserById((int) $userOption);
+        }
+
+        // If the user id is a string, load the user by username
+        if ($user === null) {
+            $user = $factory->loadUserByUsername($userOption);
+        }
+
+        // When the user object is a user from the database, load it as identity in the application
+        if ($user instanceof User && !$user->guest) {
+            $this->loadIdentity($user);
+        }
     }
 
     /**
