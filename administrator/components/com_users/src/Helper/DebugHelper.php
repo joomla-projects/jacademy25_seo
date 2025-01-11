@@ -85,7 +85,6 @@ class DebugHelper
             $component_actions = Access::getActionsFromFile(JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml');
 
             if (!empty($component_actions)) {
-
                 // Load language
                 $lang      = Factory::getApplication()->getLanguage();
                 $lang->load($component, JPATH_ADMINISTRATOR, null, false, false);
