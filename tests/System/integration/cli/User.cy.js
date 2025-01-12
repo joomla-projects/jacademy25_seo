@@ -10,7 +10,7 @@ describe('Test that console command user', () => {
       .its('stdout')
       .should('contain', 'User created!');
   });
-it('can reset password', () => {
+  it('can reset password', () => {
     const para = '--username=test --password=abcdefghilmno -n';
     cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php user:reset-password ${para}`)
       .its('stdout')
