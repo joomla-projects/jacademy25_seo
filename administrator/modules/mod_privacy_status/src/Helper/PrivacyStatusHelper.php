@@ -189,7 +189,7 @@ class PrivacyStatusHelper
      *
      * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
      *             Use the non-static method getPrivacyPolicyMenuStatus
-     *             Example: Factory::getApplication()->bootModule('mod_privacy_status', 'site')
+     *             Example: Factory::getApplication()->bootModule('mod_privacy_status', 'administrator')
      *                          ->getHelper('PrivacyStatusHelper')
      *                          ->getPrivacyPolicyMenuStatus()
      */
@@ -207,7 +207,7 @@ class PrivacyStatusHelper
      *
      * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
      *             Use the non-static method getRequestFormMenuStatus
-     *             Example: Factory::getApplication()->bootModule('mod_privacy_status', 'site')
+     *             Example: Factory::getApplication()->bootModule('mod_privacy_status', 'administrator')
      *                          ->getHelper('PrivacyStatusHelper')
      *                          ->getRequestFormMenuStatus()
      */
@@ -225,7 +225,7 @@ class PrivacyStatusHelper
      *
      * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
      *             Use the non-static method getUrgentRequestsNumber
-     *             Example: Factory::getApplication()->bootModule('mod_privacy_status', 'site')
+     *             Example: Factory::getApplication()->bootModule('mod_privacy_status', 'administrator')
      *                          ->getHelper('PrivacyStatusHelper')
      *                          ->getUrgentRequestsNumber()
      */
