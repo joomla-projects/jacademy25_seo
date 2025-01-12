@@ -430,9 +430,11 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
          * The page which manage password reset always need to accessible, so if the current page
          * is managing password reset page, no need to check it further
          */
-        if ($this->input->getCmd('option', '') === $option
+        if (
+            $this->input->getCmd('option', '') === $option
             && $this->input->getCmd('view', '') === $view
-            && $this->input->getCmd('layout', '') == $layout) {
+            && $this->input->getCmd('layout', '') == $layout
+        ) {
             return;
         }
 
