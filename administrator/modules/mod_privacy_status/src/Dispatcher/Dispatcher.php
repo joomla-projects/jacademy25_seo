@@ -40,10 +40,20 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
      */
     public function dispatch()
     {
+        $app = $this->getApplication();
+
         // Only super user can view this data
-        if (!$this->getApplication()->getIdentity()->authorise('core.admin')) {
+        if (!$app->getIdentity()->authorise('core.admin')) {
             return;
         }
+
+        // Boot component to ensure HTML helpers are loaded
+        $app->bootComponent('com_privacy');
+
+        // Load the privacy component language file.
+        $lang = $app->getLanguage();
+        $lang->load('com_privacy', JPATH_ADMINISTRATOR)
+            || $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
 
         parent::dispatch();
     }
@@ -61,14 +71,6 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
 
         $app                 = $this->getApplication();
         $privacyStatusHelper = $this->getHelperFactory()->getHelper('PrivacyStatusHelper');
-
-        // Boot component to ensure HTML helpers are loaded
-        $app->bootComponent('com_privacy');
-
-        // Load the privacy component language file.
-        $lang = $app->getLanguage();
-        $lang->load('com_privacy', JPATH_ADMINISTRATOR)
-            || $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
 
         $data['privacyPolicyInfo']            = $privacyStatusHelper->getPrivacyPolicyMenuStatus();
         $data['requestFormPublished']         = $privacyStatusHelper->getRequestFormMenuStatus();
