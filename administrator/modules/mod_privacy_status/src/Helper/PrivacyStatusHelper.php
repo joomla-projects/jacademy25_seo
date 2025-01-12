@@ -30,33 +30,34 @@ use Joomla\Database\DatabaseInterface;
 class PrivacyStatusHelper
 {
     /**
-     * Method to return number privacy requests older than X days.
+     * Get the information about the published privacy policy
      *
-     * @return  integer
+     * @return  array  Array containing a status of whether a privacy policy is set and a link to the policy document for editing
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getUrgentRequestsNumber()
+    public function getPrivacyPolicyMenuStatus()
     {
-        // Load the parameters.
-        $params = ComponentHelper::getComponent('com_privacy')->getParams();
-        $notify = (int) $params->get('notify', 14);
-        $now    = Factory::getDate()->toSql();
-        $period = '-' . $notify;
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        $policy     = [
+            'published'        => false,
+            'articlePublished' => false,
+            'editLink'         => '',
+        ];
 
-        $db    = Factory::getContainer()->get(DatabaseInterface::class);
-        $query = $db->getQuery(true);
-        $query->select('COUNT(*)')
-            ->from($db->quoteName('#__privacy_requests'))
-            ->where(
-                [
-                    $db->quoteName('status') . ' = 1',
-                    $query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('requested_at'),
-                ]
-            );
-        $db->setQuery($query);
+        /*
+         * Prior to 3.9.0 it was common for a plugin such as the User - Profile plugin to define a privacy policy or
+         * terms of service article, therefore we will also import the user plugin group to process this event.
+         */
+        PluginHelper::importPlugin('privacy', null, true, $dispatcher);
+        PluginHelper::importPlugin('user', null, true, $dispatcher);
 
-        return (int) $db->loadResult();
+        return $dispatcher->dispatch(
+            'onPrivacyCheckPrivacyPolicyPublished',
+            new CheckPrivacyPolicyPublishedEvent('onPrivacyCheckPrivacyPolicyPublished', [
+                'subject' => &$policy, // @todo: Remove reference in Joomla 6, see CheckPrivacyPolicyPublishedEvent::__constructor()
+            ])
+        )->getArgument('subject', $policy);
     }
 
     /**
@@ -150,34 +151,33 @@ class PrivacyStatusHelper
     }
 
     /**
-     * Get the information about the published privacy policy
+     * Method to return number privacy requests older than X days.
      *
-     * @return  array  Array containing a status of whether a privacy policy is set and a link to the policy document for editing
+     * @return  integer
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getPrivacyPolicyMenuStatus()
+    public function getUrgentRequestsNumber()
     {
-        $dispatcher = Factory::getApplication()->getDispatcher();
-        $policy     = [
-            'published'        => false,
-            'articlePublished' => false,
-            'editLink'         => '',
-        ];
+        // Load the parameters.
+        $params = ComponentHelper::getComponent('com_privacy')->getParams();
+        $notify = (int) $params->get('notify', 14);
+        $now    = Factory::getDate()->toSql();
+        $period = '-' . $notify;
 
-        /*
-         * Prior to 3.9.0 it was common for a plugin such as the User - Profile plugin to define a privacy policy or
-         * terms of service article, therefore we will also import the user plugin group to process this event.
-         */
-        PluginHelper::importPlugin('privacy', null, true, $dispatcher);
-        PluginHelper::importPlugin('user', null, true, $dispatcher);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
+        $query = $db->getQuery(true);
+        $query->select('COUNT(*)')
+            ->from($db->quoteName('#__privacy_requests'))
+            ->where(
+                [
+                    $db->quoteName('status') . ' = 1',
+                    $query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('requested_at'),
+                ]
+            );
+        $db->setQuery($query);
 
-        return $dispatcher->dispatch(
-            'onPrivacyCheckPrivacyPolicyPublished',
-            new CheckPrivacyPolicyPublishedEvent('onPrivacyCheckPrivacyPolicyPublished', [
-                'subject' => &$policy, // @todo: Remove reference in Joomla 6, see CheckPrivacyPolicyPublishedEvent::__constructor()
-            ])
-        )->getArgument('subject', $policy);
+        return (int) $db->loadResult();
     }
 
     /**
