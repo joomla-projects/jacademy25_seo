@@ -648,9 +648,9 @@ class ArticlesModel extends ListModel
 
     /**
      * Get total of articles
-     * 
+     *
      * @param   string  $featured  Featured selector
-     * 
+     *
      * @return  integer  Total number of articles
      *
      * @since   __DEPLOY_VERSION__
