@@ -108,7 +108,7 @@ $assoc = Associations::isEnabled();
                                     </th>
                                 <?php endif; ?>
                                 <th scope="col" class="w-1 text-center d-none d-md-table-cell">
-                                <?php echo $featured === '1' ? Text::_('JFEATURED') : HTMLHelper::_('searchtools.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
+                                    <?php echo $featured === '1' ? Text::_('JFEATURED') : HTMLHelper::_('searchtools.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="w-1 text-center">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
