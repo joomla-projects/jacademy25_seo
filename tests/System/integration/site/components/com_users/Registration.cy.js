@@ -26,7 +26,7 @@ describe('Test in frontend that the users registration view', () => {
       cy.wrap(mails[0].headers.to).should('equal', 'testuser@example.com');
       cy.wrap(mails[0].body).should('have.string', `Hello test user,\n\nThank you for registering at ${Cypress.env('sitename')}.`);
       cy.wrap(mails[0].body).should('match', /http\S+\?task=registration\.activate&token=[a-z0-9]+/);
-      cy.wrap(/http\S+\?task=registration\.activate&token=[a-z0-9]+/.exec(mails[0].body)[0]).as('activatelink')
+      cy.wrap(/http\S+\?task=registration\.activate&token=[a-z0-9]+/.exec(mails[0].body)[0]).as('activatelink');
       cy.wrap(mails[0].html).should('be.false');
     });
     cy.get('@activatelink').then((url) => cy.visit(url));
@@ -41,7 +41,7 @@ describe('Test in frontend that the users registration view', () => {
       cy.wrap(mails[1].body).should('have.string', 'email:  testuser@example.com');
       cy.wrap(mails[1].body).should('have.string', 'Username:  testuser');
       cy.wrap(mails[1].body).should('match', /http\S+\?task=registration\.activate&token=[a-z0-9]+/);
-      cy.wrap(/http\S+\?task=registration\.activate&token=[a-z0-9]+/.exec(mails[1].body)[0]).as('activatelinkadmin')
+      cy.wrap(/http\S+\?task=registration\.activate&token=[a-z0-9]+/.exec(mails[1].body)[0]).as('activatelinkadmin');
       cy.wrap(mails[1].html).should('be.false');
     });
     cy.get('@activatelinkadmin').then((url) => cy.visit(url));
