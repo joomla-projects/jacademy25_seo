@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\Component\Associations\Administrator\Model\AssociationsModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -66,6 +67,56 @@ class HtmlView extends BaseHtmlView
     public $itemType = null;
 
     /**
+     * Main Extension Name
+     *
+     * @var    string
+     *
+     * @since  5.2.0
+     */
+    public $extensionName;
+
+    /**
+     * Subtype of the extension
+     *
+     * @var    string
+     *
+     * @since  5.2.0
+     */
+    public $typeName;
+
+    /**
+     * Supported features
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $typeSupports;
+
+    /**
+     * Fields
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $typeFields;
+
+    /**
+     * Form object for search filters
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    public $filterForm;
+
+    /**
+     * The active search filters
+     *
+     * @var  array
+     */
+    public $activeFilters;
+
+    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -76,9 +127,12 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state         = $this->get('State');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        /** @var AssociationsModel $model */
+        $model = $this->getModel();
+
+        $this->state         = $model->getState();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
         if (!Associations::isEnabled()) {
             $link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . AssociationsHelper::getLanguagefilterPluginId());
@@ -103,18 +157,18 @@ class HtmlView extends BaseHtmlView
             } else {
                 $this->extensionName = $extensionName;
                 $this->typeName      = $typeName;
-                $this->typeSupports  = array();
-                $this->typeFields    = array();
+                $this->typeSupports  = [];
+                $this->typeFields    = [];
 
                 $details = $type->get('details');
 
                 if (\array_key_exists('support', $details)) {
-                    $support = $details['support'];
+                    $support            = $details['support'];
                     $this->typeSupports = $support;
                 }
 
                 if (\array_key_exists('fields', $details)) {
-                    $fields = $details['fields'];
+                    $fields           = $details['fields'];
                     $this->typeFields = $fields;
                 }
 
@@ -155,27 +209,27 @@ class HtmlView extends BaseHtmlView
 
                     if ($this->getLayout() == 'modal') {
                         // We need to change the category filter to only show categories tagged to All or to the forced language.
-                        if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD')) {
+                        if ($forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
                             $this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
                         }
                     }
                 }
 
-                $this->items      = $this->get('Items');
-                $this->pagination = $this->get('Pagination');
+                $this->items      = $model->getItems();
+                $this->pagination = $model->getPagination();
 
-                $linkParameters = array(
-                    'layout'     => 'edit',
-                    'itemtype'   => $extensionName . '.' . $typeName,
-                    'task'       => 'association.edit',
-                );
+                $linkParameters = [
+                    'layout'   => 'edit',
+                    'itemtype' => $extensionName . '.' . $typeName,
+                    'task'     => 'association.edit',
+                ];
 
                 $this->editUri = 'index.php?option=com_associations&view=association&' . http_build_query($linkParameters);
             }
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new \Exception(implode("\n", $errors), 500);
         }
 
@@ -217,15 +271,21 @@ class HtmlView extends BaseHtmlView
             ToolbarHelper::title(Text::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'language assoc');
         }
 
+        $toolbar = $this->getDocument()->getToolbar();
+
         if ($user->authorise('core.admin', 'com_associations') || $user->authorise('core.options', 'com_associations')) {
             if (!isset($this->typeName)) {
-                ToolbarHelper::custom('associations.purge', 'purge', '', 'COM_ASSOCIATIONS_PURGE', false, false);
-                ToolbarHelper::custom('associations.clean', 'refresh', '', 'COM_ASSOCIATIONS_DELETE_ORPHANS', false, false);
+                $toolbar->standardButton('', 'COM_ASSOCIATIONS_PURGE', 'associations.purge')
+                    ->icon('icon-purge')
+                    ->listCheck(false);
+                $toolbar->standardButton('', 'COM_ASSOCIATIONS_DELETE_ORPHANS', 'associations.clean')
+                    ->icon('icon-refresh')
+                    ->listCheck(false);
             }
 
-            ToolbarHelper::preferences('com_associations');
+            $toolbar->preferences('com_associations');
         }
 
-        ToolbarHelper::help('Multilingual_Associations');
+        $toolbar->help('Multilingual_Associations');
     }
 }

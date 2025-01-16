@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Banners\Administrator\View\Download;
 
-use Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -44,7 +43,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since   1.6
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function display($tpl = null): void
     {
@@ -53,7 +52,7 @@ class HtmlView extends BaseHtmlView
         $this->form = $model->getForm();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

@@ -10,16 +10,18 @@
 namespace Joomla\CMS\Updater;
 
 use Joomla\CMS\Adapter\AdapterInstance;
+use Joomla\CMS\Event\Installer\BeforeUpdateSiteDownloadEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -32,7 +34,7 @@ abstract class UpdateAdapter extends AdapterInstance
     /**
      * Resource handle for the XML Parser
      *
-     * @var    resource
+     * @var    \XMLParser
      * @since  3.0.0
      */
     protected $xmlParser;
@@ -43,7 +45,7 @@ abstract class UpdateAdapter extends AdapterInstance
      * @var    array
      * @since  3.0.0
      */
-    protected $stack = array('base');
+    protected $stack = ['base'];
 
     /**
      * ID of update site
@@ -59,7 +61,7 @@ abstract class UpdateAdapter extends AdapterInstance
      * @var    array
      * @since  3.0.0
      */
-    protected $updatecols = array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL', 'CHANGELOGURL', 'EXTRA_QUERY');
+    protected $updatecols = ['NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL', 'CHANGELOGURL', 'EXTRA_QUERY'];
 
     /**
      * Should we try appending a .xml extension to the update site's URL?
@@ -145,13 +147,13 @@ abstract class UpdateAdapter extends AdapterInstance
     protected function toggleUpdateSite($updateSiteId, $enabled = true)
     {
         $updateSiteId = (int) $updateSiteId;
-        $enabled = (bool) $enabled ? 1 : 0;
+        $enabled      = (bool) $enabled ? 1 : 0;
 
         if (empty($updateSiteId)) {
             return;
         }
 
-        $db = $this->parent->getDbo();
+        $db    = $this->parent->getDbo();
         $query = $db->getQuery(true)
             ->update($db->quoteName('#__update_sites'))
             ->set($db->quoteName('enabled') . ' = :enabled')
@@ -182,7 +184,7 @@ abstract class UpdateAdapter extends AdapterInstance
             return '';
         }
 
-        $db = $this->parent->getDbo();
+        $db    = $this->parent->getDbo();
         $query = $db->getQuery(true)
             ->select($db->quoteName('name'))
             ->from($db->quoteName('#__update_sites'))
@@ -210,10 +212,10 @@ abstract class UpdateAdapter extends AdapterInstance
      *
      * @throws  \Exception
      */
-    protected function getUpdateSiteResponse($options = array())
+    protected function getUpdateSiteResponse($options = [])
     {
-        $url = trim($options['location']);
-        $this->_url = &$url;
+        $url                = trim($options['location']);
+        $this->_url         = &$url;
         $this->updateSiteId = $options['update_site_id'];
 
         if (!isset($options['update_site_name'])) {
@@ -245,10 +247,21 @@ abstract class UpdateAdapter extends AdapterInstance
         $httpOption = new Registry();
         $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
-        // JHttp transport throws an exception when there's no response.
+        $headers    = [];
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        PluginHelper::importPlugin('installer', null, true, $dispatcher);
+        $event = new BeforeUpdateSiteDownloadEvent('onInstallerBeforeUpdateSiteDownload', [
+            'url'     => $url,
+            'headers' => $headers,
+        ]);
+        $dispatcher->dispatch('onInstallerBeforeUpdateSiteDownload', $event);
+        $url     = $event->getArgument('url', $url);
+        $headers = $event->getArgument('headers', $headers);
+
+        // Http transport throws an exception when there's no response.
         try {
-            $http = HttpFactory::getHttp($httpOption);
-            $response = $http->get($url, array(), 20);
+            $http     = HttpFactory::getHttp($httpOption);
+            $response = $http->get($url, $headers, 20);
         } catch (\RuntimeException $e) {
             $response = null;
         }
@@ -258,7 +271,7 @@ abstract class UpdateAdapter extends AdapterInstance
 
         // Log the time it took to load this update site's information
         $endTime    = microtime(true);
-        $timeToLoad = sprintf('%0.2f', $endTime - $startTime);
+        $timeToLoad = \sprintf('%0.2f', $endTime - $startTime);
         Log::add(
             "Loading information from update site #{$this->updateSiteId} with name " .
             "\"$this->updateSiteName\" and URL $url took $timeToLoad seconds",
@@ -277,7 +290,10 @@ abstract class UpdateAdapter extends AdapterInstance
             // Log the exact update site name and URL which could not be loaded
             Log::add('Error opening url: ' . $url . ' for update site: ' . $this->updateSiteName, Log::WARNING, 'updater');
             $app = Factory::getApplication();
-            $app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_OPEN_UPDATE_SITE', $this->updateSiteId, $this->updateSiteName, $url), 'warning');
+            $app->enqueueMessage(
+                html_entity_decode(Text::sprintf('JLIB_UPDATER_ERROR_OPEN_UPDATE_SITE', $this->updateSiteId, $this->updateSiteName, $url)),
+                'warning'
+            );
 
             return false;
         }

@@ -12,9 +12,11 @@ namespace Joomla\Component\Contact\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -31,14 +33,15 @@ class ContactsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
                 'alias', 'a.alias',
@@ -58,14 +61,14 @@ class ContactsModel extends ListModel
                 'ul.name', 'linked_user',
                 'tag',
                 'level', 'c.level',
-            );
+            ];
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
             }
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -84,10 +87,10 @@ class ContactsModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
+        $forcedLanguage = $app->getInput()->get('forcedLanguage', '', 'cmd');
 
         // Adjust the context to support modal layouts.
-        if ($layout = $app->input->get('layout')) {
+        if ($layout = $app->getInput()->get('layout')) {
             $this->context .= '.' . $layout;
         }
 
@@ -135,16 +138,16 @@ class ContactsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user = Factory::getUser();
+        $user  = $this->getCurrentUser();
 
         // Select the required fields from the table.
         $query->select(
@@ -164,10 +167,10 @@ class ContactsModel extends ListModel
 
         // Join over the users for the linked user.
         $query->select(
-            array(
+            [
                 $db->quoteName('ul.name', 'linked_user'),
-                $db->quoteName('ul.email')
-            )
+                $db->quoteName('ul.email'),
+            ]
         )
             ->join(
                 'LEFT',
@@ -222,7 +225,7 @@ class ContactsModel extends ListModel
         // Filter by featured.
         $featured = (string) $this->getState('filter.featured');
 
-        if (in_array($featured, ['0','1'])) {
+        if (\in_array($featured, ['0','1'])) {
             $query->where($db->quoteName('a.featured') . ' = ' . (int) $featured);
         }
 
@@ -313,18 +316,18 @@ class ContactsModel extends ListModel
         }
 
         // Filter by categories and by level
-        $categoryId = $this->getState('filter.category_id', array());
-        $level = $this->getState('filter.level');
+        $categoryId = $this->getState('filter.category_id', []);
+        $level      = $this->getState('filter.level');
 
-        if (!is_array($categoryId)) {
-            $categoryId = $categoryId ? array($categoryId) : array();
+        if (!\is_array($categoryId)) {
+            $categoryId = $categoryId ? [$categoryId] : [];
         }
 
         // Case: Using both categories filter and by level filter
-        if (count($categoryId)) {
-            $categoryId = ArrayHelper::toInteger($categoryId);
-            $categoryTable = Table::getInstance('Category', 'JTable');
-            $subCatItemsWhere = array();
+        if (\count($categoryId)) {
+            $categoryId       = ArrayHelper::toInteger($categoryId);
+            $categoryTable    = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
+            $subCatItemsWhere = [];
 
             // @todo: Convert to prepared statement
             foreach ($categoryId as $filter_catid) {
@@ -343,7 +346,7 @@ class ContactsModel extends ListModel
         }
 
         // Add the list ordering clause.
-        $orderCol = $this->state->get('list.ordering', 'a.name');
+        $orderCol  = $this->state->get('list.ordering', 'a.name');
         $orderDirn = $this->state->get('list.direction', 'asc');
 
         if ($orderCol == 'a.ordering' || $orderCol == 'category_title') {
