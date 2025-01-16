@@ -465,8 +465,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $url = Route::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false);
 
         // In the administrator we need a different URL
-        if (strtolower($name) === 'administrator') {
-            $user = Factory::getApplication()->getIdentity();
+        if ($this->isClient('administrator')) {
+            $user = $this->getIdentity();
             $url  = Route::_(
                 'index.php?option=' . $option . '&task=' . $view . '.' . $layout . '&id=' . $user->id,
                 false
