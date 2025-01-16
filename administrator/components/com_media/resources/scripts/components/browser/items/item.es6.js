@@ -126,6 +126,8 @@ export default {
             bubbles: true,
             cancelable: false,
             detail: {
+              type: this.item.type,
+              name: this.item.name,
               path: this.item.path,
               thumb: this.item.thumb,
               fileType: this.item.mime_type ? this.item.mime_type : false,
@@ -142,7 +144,11 @@ export default {
           new CustomEvent('onMediaFileSelected', {
             bubbles: true,
             cancelable: false,
-            detail: {},
+            detail: {
+              type: this.item.type,
+              name: this.item.name,
+              path: this.item.path,
+            },
           }),
         );
       }
@@ -200,6 +206,7 @@ export default {
         h(this.itemType(), {
           item: this.item,
           onToggleSettings: this.toggleSettings,
+          focused: false,
         }),
       ],
     );

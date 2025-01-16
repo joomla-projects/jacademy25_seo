@@ -55,7 +55,6 @@ $translationStrings = [
     'COM_MEDIA_MEDIA_SIZE',
     'COM_MEDIA_MEDIA_TYPE',
     'COM_MEDIA_NAME',
-    'COM_MEDIA_OPEN_ITEM_ACTIONS',
     'COM_MEDIA_ORDER_ASC',
     'COM_MEDIA_ORDER_BY',
     'COM_MEDIA_ORDER_DESC',
@@ -81,6 +80,7 @@ $translationStrings = [
     'JAPPLY',
     'JCANCEL',
     'JGLOBAL_CONFIRM_DELETE',
+    'JGLOBAL_NO_MATCHING_RESULTS',
     'JLIB_FORM_FIELD_REQUIRED_VALUE',
     'MESSAGE',
 ];

@@ -14,6 +14,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\CMS\Layout\FileLayout $this */
+
 extract($displayData);
 
 /**
@@ -53,7 +55,7 @@ extract($displayData);
 $attributes = [
     'class="' . $class . '"',
     ' allow-custom',
-    ' search-placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" ',
+    ' search-placeholder="' . $this->escape(Text::_('COM_MODULES_TYPE_OR_SELECT_POSITION')) . '" ',
 ];
 
 $selectAttr = [

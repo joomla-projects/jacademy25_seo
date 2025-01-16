@@ -11,7 +11,6 @@
 namespace Joomla\Component\Messages\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\ParameterType;
@@ -44,7 +43,7 @@ class ConfigModel extends FormModel
     {
         $user = $this->getCurrentUser();
 
-        $this->setState('user.id', $user->get('id'));
+        $this->setState('user.id', $user->id);
 
         // Load the parameters.
         $params = ComponentHelper::getParams('com_messages');
@@ -58,7 +57,7 @@ class ConfigModel extends FormModel
      *
      * @since   1.6
      */
-    public function &getItem()
+    public function getItem()
     {
         $item   = new CMSObject();
         $userid = (int) $this->getState('user.id');
@@ -144,7 +143,7 @@ class ConfigModel extends FormModel
                 return false;
             }
 
-            if (count($data)) {
+            if (\count($data)) {
                 $query = $db->getQuery(true)
                     ->insert($db->quoteName('#__messages_cfg'))
                     ->columns(
@@ -179,10 +178,10 @@ class ConfigModel extends FormModel
             }
 
             return true;
-        } else {
-            $this->setError('COM_MESSAGES_ERR_INVALID_USER');
-
-            return false;
         }
+
+        $this->setError('COM_MESSAGES_ERR_INVALID_USER');
+
+        return false;
     }
 }

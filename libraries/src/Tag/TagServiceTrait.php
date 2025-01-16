@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Tag;
@@ -12,7 +12,7 @@ namespace Joomla\CMS\Tag;
 use Joomla\CMS\Helper\ContentHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -51,13 +51,13 @@ trait TagServiceTrait
     /**
      * Returns the table for the count items functions for the given section.
      *
-     * @param   string  $section  The section
+     * @param   ?string  $section  The section
      *
      * @return  string|null
      *
      * @since   4.0.0
      */
-    protected function getTableNameForSection(string $section = null)
+    protected function getTableNameForSection(?string $section = null)
     {
         return null;
     }
@@ -65,13 +65,13 @@ trait TagServiceTrait
     /**
      * Returns the state column for the count items functions for the given section.
      *
-     * @param   string  $section  The section
+     * @param   ?string  $section  The section
      *
      * @return  string|null
      *
      * @since   4.0.0
      */
-    protected function getStateColumnForSection(string $section = null)
+    protected function getStateColumnForSection(?string $section = null)
     {
         return 'state';
     }

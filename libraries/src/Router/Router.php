@@ -15,7 +15,7 @@ use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -101,7 +101,9 @@ class Router
      *
      * @throws     \RuntimeException
      *
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     * @deprecated  4.0 will be removed in 6.0
+     *              Inject the router or load it from the dependency injection container
+     *              Example: Factory::getContainer()->get(SiteRouter::class);
      */
     public static function getInstance($client, $options = [])
     {
@@ -284,7 +286,7 @@ class Router
     public function attachBuildRule(callable $callback, $stage = self::PROCESS_DURING)
     {
         if (!\array_key_exists('build' . $stage, $this->rules)) {
-            throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
         }
 
         $this->rules['build' . $stage][] = $callback;
@@ -306,7 +308,7 @@ class Router
     public function attachParseRule(callable $callback, $stage = self::PROCESS_DURING)
     {
         if (!\array_key_exists('parse' . $stage, $this->rules)) {
-            throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
         }
 
         $this->rules['parse' . $stage][] = $callback;
@@ -330,11 +332,11 @@ class Router
     public function detachRule($type, $rule, $stage = self::PROCESS_DURING)
     {
         if (!\in_array($type, ['parse', 'build'])) {
-            throw new \InvalidArgumentException(sprintf('The %s type is not supported. (%s)', $type, __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('The %s type is not supported. (%s)', $type, __METHOD__));
         }
 
         if (!\array_key_exists($type . $stage, $this->rules)) {
-            throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
         }
 
         foreach ($this->rules[$type . $stage] as $id => $r) {
@@ -375,7 +377,7 @@ class Router
     protected function processParseRules(&$uri, $stage = self::PROCESS_DURING)
     {
         if (!\array_key_exists('parse' . $stage, $this->rules)) {
-            throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
         }
 
         foreach ($this->rules['parse' . $stage] as $rule) {
@@ -398,7 +400,7 @@ class Router
     protected function processBuildRules(&$uri, $stage = self::PROCESS_DURING)
     {
         if (!\array_key_exists('build' . $stage, $this->rules)) {
-            throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+            throw new \InvalidArgumentException(\sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
         }
 
         foreach ($this->rules['build' . $stage] as $rule) {
