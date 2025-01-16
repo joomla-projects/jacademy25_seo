@@ -76,7 +76,12 @@ class Router extends RouterBase
         parent::__construct($app, $menu);
 
         $sefPlugin       = PluginHelper::getPlugin('system', 'sef');
-        $this->sefparams = new Registry($sefPlugin->params);
+
+        if ($sefPlugin) {
+            $this->sefparams = new Registry($sefPlugin->params);
+        } else {
+            $this->sefparams = new Registry();
+        }
 
         $this->buildLookup();
     }
@@ -281,7 +286,15 @@ class Router extends RouterBase
 
         while (\count($segments)) {
             $id    = array_shift($segments);
-            $ids[] = $this->fixSegment($id);
+            $slug  = $this->fixSegment($id);
+
+            // We did not find the segment as a tag in the DB
+            if ($slug === $id) {
+                array_unshift($segments, $id);
+                break;
+            }
+
+            $ids[] = $slug;
         }
 
         if (\count($ids)) {
