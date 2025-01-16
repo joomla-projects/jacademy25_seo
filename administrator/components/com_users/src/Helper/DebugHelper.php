@@ -16,6 +16,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Users component debugging helper.
  *
@@ -33,7 +37,7 @@ class DebugHelper
     public static function getComponents()
     {
         // Initialise variable.
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select('name AS text, element AS value')
             ->from('#__extensions')
@@ -42,13 +46,13 @@ class DebugHelper
 
         $items = $db->setQuery($query)->loadObjectList();
 
-        if (count($items)) {
+        if (\count($items)) {
             $lang = Factory::getLanguage();
 
             foreach ($items as &$item) {
                 // Load language
                 $extension = $item->value;
-                $source = JPATH_ADMINISTRATOR . '/components/' . $extension;
+                $source    = JPATH_ADMINISTRATOR . '/components/' . $extension;
                 $lang->load("$extension.sys", JPATH_ADMINISTRATOR)
                     || $lang->load("$extension.sys", $source);
 
@@ -74,13 +78,17 @@ class DebugHelper
      */
     public static function getDebugActions($component = null)
     {
-        $actions = array();
+        $actions = [];
 
         // Try to get actions for the component
         if (!empty($component)) {
             $component_actions = Access::getActionsFromFile(JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml');
 
             if (!empty($component_actions)) {
+                // Load language
+                $lang      = Factory::getApplication()->getLanguage();
+                $lang->load($component, JPATH_ADMINISTRATOR, null, false, false);
+
                 foreach ($component_actions as &$action) {
                     $descr = (string) $action->title;
 
@@ -88,7 +96,7 @@ class DebugHelper
                         $descr = (string) $action->description;
                     }
 
-                    $actions[$action->title] = array($action->name, $descr);
+                    $actions[$action->title] = [$action->name, $descr];
                 }
             }
         }
@@ -111,10 +119,10 @@ class DebugHelper
                                         $descr = (string) $action['description'];
                                     }
 
-                                    $actions[(string) $action['title']] = array(
+                                    $actions[(string) $action['title']] = [
                                         (string) $action['name'],
-                                        $descr
-                                    );
+                                        $descr,
+                                    ];
                                 }
 
                                 break;
@@ -124,9 +132,9 @@ class DebugHelper
                 }
 
                 // Load language
-                $lang = Factory::getLanguage();
+                $lang      = Factory::getLanguage();
                 $extension = 'com_config';
-                $source = JPATH_ADMINISTRATOR . '/components/' . $extension;
+                $source    = JPATH_ADMINISTRATOR . '/components/' . $extension;
 
                 $lang->load($extension, JPATH_ADMINISTRATOR, null, false, false)
                     || $lang->load($extension, $source, null, false, false)
@@ -146,7 +154,7 @@ class DebugHelper
     public static function getLevelsOptions()
     {
         // Build the filter options.
-        $options = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '1', Text::sprintf('COM_USERS_OPTION_LEVEL_COMPONENT', 1));
         $options[] = HTMLHelper::_('select.option', '2', Text::sprintf('COM_USERS_OPTION_LEVEL_CATEGORY', 2));
         $options[] = HTMLHelper::_('select.option', '3', Text::sprintf('COM_USERS_OPTION_LEVEL_DEEPER', 3));

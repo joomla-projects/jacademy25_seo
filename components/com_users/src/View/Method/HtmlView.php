@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Site
  * @subpackage  com_users
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
@@ -9,6 +9,10 @@
  */
 
 namespace Joomla\Component\Users\Site\View\Method;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View for Multi-factor Authentication method add/edit page

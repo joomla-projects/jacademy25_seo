@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Site
  * @subpackage  com_users
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
@@ -11,6 +11,10 @@
 namespace Joomla\Component\Users\Site\Controller;
 
 use Joomla\Component\Users\Administrator\Controller\CallbackController as AdminCallbackController;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Multi-factor Authentication plugins' AJAX callback controller
