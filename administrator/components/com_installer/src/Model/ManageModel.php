@@ -408,8 +408,16 @@ class ManageModel extends InstallerModel
                     ]
                 )
             )
-            ->select($db->quoteName('updates.version', 'updateVersion'))
-            ->select($db->quoteName('updates.changelogurl', 'updateChangelogurl'))
+            ->select($db->quoteName(
+                [
+                    'updates.version',
+                    'updates.changelogurl',
+                ],
+                [
+                    'updateVersion',
+                    'updateChangelogUrl',
+                ]
+            ))
             ->from($db->quoteName('#__extensions', 'extensions'))
             ->join(
                 'LEFT',
