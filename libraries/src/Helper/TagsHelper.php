@@ -825,7 +825,7 @@ class TagsHelper extends CMSHelper
      *
      * @deprecated  5.3 will be removed in 7.0
      */
-    public function postStoreProcess(TableInterface $table, $newTags = [], $replace = true)
+    public function postStoreProcess(TableInterface $table, array $newTags = [], bool $replace = true): void
     {
         $this->postStore($table, $newTags, $replace);
     }
@@ -843,7 +843,7 @@ class TagsHelper extends CMSHelper
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function postStore(TableInterface $table, $newTags = [], $replace = true, $remove = false)
+    public function postStore(TableInterface $table, array $newTags = [], bool $replace = true, bool $remove = false): bool
     {
         if (!empty($table->newTags) && empty($newTags)) {
             $newTags = $table->newTags;
