@@ -6,7 +6,7 @@ window.bootstrap.Carousel = Carousel;
 if (Joomla && Joomla.getOptions) {
   // Get the elements configuration from PHP
   const carousels = Joomla.getOptions('bootstrap.carousel');
-  
+
   if (typeof carousels === 'object' && carousels !== null) {
     Object.keys(carousels).forEach((carousel) => {
       const options = carousels[carousel];
