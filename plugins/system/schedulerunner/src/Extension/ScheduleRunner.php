@@ -238,7 +238,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
         }
 
         $scheduler = new Scheduler;
-        taskRecord = $scheduler->fetchTaskRecord($id, true);
+        $taskRecord = $scheduler->fetchTaskRecord($id, true);
         $user      = $this->getApplication()->getIdentity();
 
         if (empty($taskRecord) || !Scheduler::isAuthorizedToRun($taskRecord, $user)) {
