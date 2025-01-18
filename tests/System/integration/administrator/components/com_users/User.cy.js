@@ -40,31 +40,30 @@ describe('Test in backend that the user form', () => {
       group_id: 8,
       requireReset: 1,
     }).then(() => {
-
       // Check that the user is required to reset the password
-      cy.visit(`/administrator/index.php?option=com_users`);
+      cy.visit('/administrator/index.php?option=com_users');
       cy.contains('Password Reset Required').should('exist');
       cy.doAdministratorLogout();
 
       // Check that the user is redirected to the password reset page
-      cy.visit('administrator/index.php')
-      cy.get('#mod-login-username').type('test')
-      cy.get('#mod-login-password').type('test')
-      cy.get('#btn-login-submit').click()
+      cy.visit('administrator/index.php');
+      cy.get('#mod-login-username').type('test');
+      cy.get('#mod-login-password').type('test');
+      cy.get('#btn-login-submit').click();
       cy.contains('You are required to reset your password before proceeding.').should('exist');
       cy.get('#jform_password').clear().type('testresetpswd');
       cy.get('#jform_password2').clear().type('testresetpswd');
       cy.clickToolbarButton('Save & Close');
       cy.get('#system-message-container').contains('User saved.').should('exist');
       cy.doAdministratorLogout();
-      
+
       // Check that the user can login with the new password
-      cy.visit('administrator/index.php')
-      cy.get('#mod-login-username').type('test')
-      cy.get('#mod-login-password').type('testresetpswd')
-      cy.get('#btn-login-submit').click()
-      
-      cy.visit(`/administrator/index.php?option=com_users`);
+      cy.visit('administrator/index.php');
+      cy.get('#mod-login-username').type('test');
+      cy.get('#mod-login-password').type('testresetpswd');
+      cy.get('#btn-login-submit').click();
+
+      cy.visit('/administrator/index.php?option=com_users');
       cy.contains('Password Reset Required').should('not.exist');
     });
   });
