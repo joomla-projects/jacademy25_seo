@@ -12,6 +12,8 @@ export default function onItemClick(event, ctx) {
         bubbles: true,
         cancelable: false,
         detail: {
+          type: ctx.item.type,
+          name: ctx.item.name,
           path: ctx.item.path,
           thumb: ctx.item.thumb,
           fileType: ctx.item.mime_type ? ctx.item.mime_type : false,
@@ -28,7 +30,11 @@ export default function onItemClick(event, ctx) {
       new CustomEvent('onMediaFileSelected', {
         bubbles: true,
         cancelable: false,
-        detail: {},
+        detail: {
+          type: this.item.type,
+          name: this.item.name,
+          path: this.item.path,
+        },
       }),
     );
   }
