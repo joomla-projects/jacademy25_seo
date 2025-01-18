@@ -68,13 +68,13 @@ npm run cypress:run
 
 You can execute single test specs, e.g. to run the installation step only.
 ```
-npm run cypress:run --spec tests/System/integration/install/Installation.cy.js
+npx cypress run --spec tests/System/integration/install/Installation.cy.js
 ```
 
-You can run multiple test specs separated by commas and use patterns. For example, to execute all the tests from the
-administrator, site, api and plugins specs without the installation step:
+You can run multiple test specs separated by commas and use patterns.
+For example, to run all tests without the installation step:
 ```
-npm run cypress:run --spec 'tests/System/integration/{administrator,site,api,plugins}/**/*.cy.js'
+npx cypress run --spec 'tests/System/integration/{administrator,site,api,plugins}/**/*.cy.js'
 ```
 
 > [!NOTE]
@@ -122,10 +122,6 @@ SMTP configuration.
 
 The used npm package "Helpers for using Cypress with Joomla for testing" **[joomala-cypress](https://github.com/joomla-projects/joomla-cypress/)** helps in writing the Cypress tests for Joomla in extending the Cypress API with custom commands.
 
-> [!IMPORTANT]
-> Some `joomala-cypress` commands are overwritten by the System Tests,
-> see [tests/System/support/commands.js](/tests/System/support/commands.js).
-
 The **[smtp-tester](https://www.npmjs.com/package/smtp-tester)** npm package creates an SMTP server that listens
 on the `smtp_port` specified in `cypress.config.mjs` during test runtime.
 This server accepts connections, receives emails, and provides the capability to check the received emails during the test.
@@ -167,6 +163,7 @@ The Joomla System Tests come with some convenient [Cypress Tasks](https://docs.c
 - **cleanupDB** – Deletes the inserted items from the database
 - **writeRelativeFile** – Writes a file relative to the CMS root folder
 - **deleteRelativePath** – Deletes a file or folder relative to the CMS root folder
+- **copyRelativeFile** – Copies a file relative to the CMS root folder
 - **startMailServer** – Starts the smtp-tester SMTP server
 - **getMails** – Get received mails from smtp-tester
 - **clearEmails** – Clear all smtp-tester received mails
@@ -200,7 +197,7 @@ The Database Commands create items in the database like articles or users. They 
 cy.db_createArticle({ title: 'automated test article' }).then((id) => { ... })`
 ```
 
-The following commands are available and are served by the file [tests/System/support/commands/db.js](/tests/System/support/commands/db.js):
+The following commands are available and are served by the file [tests/System/support/commands/db.mjs](/tests/System/support/commands/db.mjs):
 
 - **db_createArticle** – Creates an article and returns the id
 - **db_createBanner** – Creates a banner and returns the id
@@ -233,7 +230,7 @@ cy.api_get('/content/articles').then((response) => { ... })`
 ```
 The response is an object from the [Cypress request command](https://docs.cypress.io/api/commands/request).
 The following commands are available and are served by the file
-[tests/System/support/commands/api.js](/tests/System/support/commands/api.js):
+[tests/System/support/commands/api.mjs](/tests/System/support/commands/api.mjs):
 
 - **api_get** – HTTP GET request for given path
 - **api_post** – HTTP POST request for given path and body
@@ -293,7 +290,7 @@ sudo npm run cypress:run
 
 If the `root` user does not have a Cypress installation, you can use the Cypress installation cache of the current user:
 ```
-sudo CYPRESS_CACHE_FOLDER=$HOME/.cache/Cypress npm run cypress:run
+CYPRESS_CACHE_FOLDER=$HOME/.cache/Cypress sudo npm run cypress:run
 ```
 
 
@@ -310,6 +307,8 @@ If the used SMTP server port is already in use you will see an error like:
 
 :point_right: Configure a different, unused port in the `cypress.config.mjs` file as `smtp_port`.
 
+:point_right: If you use `npx` instead of `npm`, you may see `Your configFile threw an error from: cypress.config.js`,
+but you still need to configure `cypress.config.mjs` file.
 
 ### Timeout Error on Slow Machines
 
