@@ -131,6 +131,9 @@ final class Blog extends CMSPlugin implements SubscriberInterface
         $language   = Multilanguage::isEnabled() ? $this->getApplication()->getLanguage()->getTag() : '*';
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
+        // Disable language debug to prevent debug_lang_const being added to the string
+        $this->getApplication()->getLanguage()->setDebug(false);
+
         /** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
         $modelTag = $this->getApplication()->bootComponent('com_tags')->getMVCFactory()
             ->createModel('Tag', 'Administrator', ['ignore_request' => true]);
@@ -459,12 +462,12 @@ final class Blog extends CMSPlugin implements SubscriberInterface
             ];
 
             // Create Transitions.
-            for ($i = 0; $i < \count($fromTo); $i++) {
+            foreach ($fromTo as $i => $item) {
                 $trTable = new \Joomla\Component\Workflow\Administrator\Table\TransitionTable($this->getDatabase());
 
-                $trTable->from_stage_id = $fromTo[$i]['from_stage_id'];
-                $trTable->to_stage_id   = $fromTo[$i]['to_stage_id'];
-                $trTable->options       = $fromTo[$i]['options'];
+                $trTable->from_stage_id = $item['from_stage_id'];
+                $trTable->to_stage_id   = $item['to_stage_id'];
+                $trTable->options       = $item['options'];
 
                 // Set values from language strings.
                 $trTable->title       = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_TRANSITION' . ($i + 1) . '_TITLE');
@@ -831,6 +834,9 @@ final class Blog extends CMSPlugin implements SubscriberInterface
         // Detect language to be used.
         $language   = Multilanguage::isEnabled() ? $this->getApplication()->getLanguage()->getTag() : '*';
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
+
+        // Disable language debug to prevent debug_lang_const being added to the string
+        $this->getApplication()->getLanguage()->setDebug(false);
 
         // Create the menu types.
         $menuTable = new \Joomla\Component\Menus\Administrator\Table\MenuTypeTable($this->getDatabase());
@@ -1389,6 +1395,9 @@ final class Blog extends CMSPlugin implements SubscriberInterface
         $language   = Multilanguage::isEnabled() ? $this->getApplication()->getLanguage()->getTag() : '*';
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
+        // Disable language debug to prevent debug_lang_const being added to the string
+        $this->getApplication()->getLanguage()->setDebug(false);
+
         // Add Include Paths.
         /** @var \Joomla\Component\Modules\Administrator\Model\ModuleModel $model */
         $model = $this->getApplication()->bootComponent('com_modules')->getMVCFactory()
@@ -1478,10 +1487,13 @@ final class Blog extends CMSPlugin implements SubscriberInterface
                 'position' => 'sidebar-right',
                 'module'   => 'mod_articles',
                 'params'   => [
+                    'mode'                         => 'normal',
+                    'show_on_article_page'         => 1,
                     'count'                        => 10,
                     'category_filtering_type'      => 1,
                     'show_child_category_articles' => 0,
                     'levels'                       => 1,
+                    'ex_or_include_articles'       => 0,
                     'exclude_current'              => 1,
                     'excluded_articles'            => '',
                     'included_articles'            => '',
@@ -1491,7 +1503,6 @@ final class Blog extends CMSPlugin implements SubscriberInterface
                     'item_title'                   => 0,
                     'item_heading'                 => 'h4',
                     'link_titles'                  => 1,
-                    'card_link'                    => 0,
                     'show_author'                  => 0,
                     'show_category'                => 0,
                     'show_category_link'           => 0,
@@ -1501,6 +1512,7 @@ final class Blog extends CMSPlugin implements SubscriberInterface
                     'show_hits'                    => 0,
                     'info_layout'                  => 0,
                     'show_tags'                    => 0,
+                    'trigger_events'               => 0,
                     'show_introtext'               => 0,
                     'introtext_limit'              => 100,
                     'image'                        => 0,
@@ -1544,27 +1556,33 @@ final class Blog extends CMSPlugin implements SubscriberInterface
                 'assignment' => 1,
                 'showtitle'  => 0,
                 'params'     => [
+                    'mode'                         => 'normal',
+                    'show_on_article_page'         => 1,
                     'count'                        => 3,
                     'category_filtering_type'      => 1,
                     'catid'                        => $catIds[2],
                     'show_child_category_articles' => 0,
                     'levels'                       => 1,
+                    'ex_or_include_articles'       => 0,
+                    'exclude_current'              => 1,
+                    'excluded_articles'            => '',
+                    'included_articles'            => '',
                     'title_only'                   => 0,
                     'articles_layout'              => 1,
                     'layout_columns'               => 3,
                     'item_title'                   => 1,
                     'item_heading'                 => 'h3',
                     'link_titles'                  => 1,
-                    'card_link'                    => 0,
+                    'show_author'                  => 0,
+                    'show_category'                => 0,
+                    'show_category_link'           => 1,
                     'show_date'                    => 0,
                     'show_date_field'              => 'created',
                     'show_date_format'             => $this->getApplication()->getLanguage()->_('DATE_FORMAT_LC5'),
-                    'show_category'                => 0,
-                    'show_category_link'           => 1,
                     'show_hits'                    => 0,
-                    'show_author'                  => 0,
                     'info_layout'                  => 1,
                     'show_tags'                    => 0,
+                    'trigger_events'               => 0,
                     'show_introtext'               => 1,
                     'introtext_limit'              => 0,
                     'image'                        => 0,
@@ -1576,7 +1594,6 @@ final class Blog extends CMSPlugin implements SubscriberInterface
                     'show_archived'                => 'hide',
                     'author_filtering_type'        => 1,
                     'author_alias_filtering_type'  => 1,
-                    'excluded_articles'            => '',
                     'date_filtering'               => 'off',
                     'date_field'                   => 'a.created',
                     'start_date_range'             => '',
@@ -1606,11 +1623,14 @@ final class Blog extends CMSPlugin implements SubscriberInterface
                 'position' => 'bottom-b',
                 'module'   => 'mod_articles',
                 'params'   => [
+                    'mode'                         => 'normal',
+                    'show_on_article_page'         => 1,
                     'count'                        => 6,
                     'category_filtering_type'      => 1,
                     'catid'                        => $catIds[0],
                     'show_child_category_articles' => 0,
                     'levels'                       => 1,
+                    'ex_or_include_articles'       => 0,
                     'exclude_current'              => 1,
                     'excluded_articles'            => '',
                     'included_articles'            => '',
@@ -1620,7 +1640,6 @@ final class Blog extends CMSPlugin implements SubscriberInterface
                     'item_title'                   => 0,
                     'item_heading'                 => 'h4',
                     'link_titles'                  => 1,
-                    'card_link'                    => 0,
                     'show_author'                  => 0,
                     'show_category'                => 0,
                     'show_category_link'           => 0,
@@ -1630,6 +1649,7 @@ final class Blog extends CMSPlugin implements SubscriberInterface
                     'show_hits'                    => 0,
                     'info_layout'                  => 0,
                     'show_tags'                    => 0,
+                    'trigger_events'               => 0,
                     'show_introtext'               => 0,
                     'introtext_limit'              => 100,
                     'image'                        => 0,
@@ -1935,6 +1955,9 @@ final class Blog extends CMSPlugin implements SubscriberInterface
         // Detect language to be used.
         $language   = Multilanguage::isEnabled() ? $this->getApplication()->getLanguage()->getTag() : '*';
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
+
+        // Disable language debug to prevent debug_lang_const being added to the string
+        $this->getApplication()->getLanguage()->setDebug(false);
 
         foreach ($menuItems as $menuItem) {
             // Reset item.id in model state.
