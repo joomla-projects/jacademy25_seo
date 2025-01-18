@@ -96,7 +96,8 @@ class IndexerController extends BaseController
 
             $output = ob_get_contents();
 
-            if ($output) {
+            // Finder plugins should not create output of any kind. If there is output, that very likely is the result of a PHP error.
+            if (trim($output)) {
                 throw new \Exception(Text::_('COM_FINDER_AN_ERROR_HAS_OCCURRED'));
             }
 
@@ -201,7 +202,8 @@ class IndexerController extends BaseController
 
             $output = ob_get_contents();
 
-            if ($output) {
+            // Finder plugins should not create output of any kind. If there is output, that very likely is the result of a PHP error.
+            if (trim($output)) {
                 throw new \Exception(Text::_('COM_FINDER_INDEXER_ERROR_PLUGIN_FAILURE'));
             }
 
@@ -251,7 +253,8 @@ class IndexerController extends BaseController
 
             $output = ob_get_contents();
 
-            if ($output) {
+            // Finder plugins should not create output of any kind. If there is output, that very likely is the result of a PHP error.
+            if (trim($output)) {
                 throw new \Exception(Text::_('COM_FINDER_AN_ERROR_HAS_OCCURRED'));
             }
 
@@ -362,7 +365,7 @@ class IndexerController extends BaseController
             $output .= '<dl class="row">';
 
             foreach (DebugIndexer::$item as $key => $value) {
-                $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10">' . $value . '</dd>';
+                $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10 text-break">' . $value . '</dd>';
             }
 
             $output .= '</dl>';
@@ -372,7 +375,7 @@ class IndexerController extends BaseController
             $output .= '<dl class="row">';
 
             foreach (DebugIndexer::$item->getElements() as $key => $element) {
-                $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10">' . $element . '</dd>';
+                $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10 text-break">' . $element . '</dd>';
             }
 
             $output .= '</dl>';
@@ -389,7 +392,7 @@ class IndexerController extends BaseController
             ];
 
             foreach (DebugIndexer::$item->getInstructions() as $key => $element) {
-                $output .= '<dt class="col-sm-2">' . $contexts[$key] . '</dt><dd class="col-sm-10">' . json_encode($element) . '</dd>';
+                $output .= '<dt class="col-sm-2">' . $contexts[$key] . '</dt><dd class="col-sm-10 text-break">' . json_encode($element) . '</dd>';
             }
 
             $output .= '</dl>';
@@ -399,7 +402,7 @@ class IndexerController extends BaseController
             $output .= '<dl class="row">';
 
             foreach (DebugIndexer::$item->getTaxonomy() as $key => $element) {
-                $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10">' . json_encode($element) . '</dd>';
+                $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10 text-break">' . json_encode($element) . '</dd>';
             }
 
             $output .= '</dl>';

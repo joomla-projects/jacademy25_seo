@@ -12,7 +12,6 @@ namespace Joomla\CMS\Installer;
 use Joomla\Archive\Archive;
 use Joomla\CMS\Event\Installer\BeforePackageDownloadEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -20,6 +19,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Version;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -132,7 +132,7 @@ abstract class InstallerHelper
 
         // Bump the max execution time because not using built in php zip libs are slow
         if (\function_exists('set_time_limit')) {
-            set_time_limit(ini_get('max_execution_time'));
+            set_time_limit(\ini_get('max_execution_time'));
         }
 
         // Return the name of the downloaded package
@@ -208,7 +208,7 @@ abstract class InstallerHelper
         $dirList = array_merge((array) Folder::files($extractdir, ''), (array) Folder::folders($extractdir, ''));
 
         if (\count($dirList) === 1) {
-            if (Folder::exists($extractdir . '/' . $dirList[0])) {
+            if (is_dir(Path::clean($extractdir . '/' . $dirList[0]))) {
                 $extractdir = Path::clean($extractdir . '/' . $dirList[0]);
             }
         }
@@ -314,7 +314,7 @@ abstract class InstallerHelper
      * @param   string  $package    Path to the uploaded package file
      * @param   string  $resultdir  Path to the unpacked extension
      *
-     * @return  boolean  True on success
+     * @return  void
      *
      * @since   3.1
      */

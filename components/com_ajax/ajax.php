@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\String\StringableInterface;
 use Joomla\CMS\Table\Table;
 
 /*
@@ -204,16 +205,27 @@ if (!$format) {
 
 // Return the results in the desired format
 switch ($format) {
-    // JSONinzed
     case 'json':
-        echo new JsonResponse($results, null, false, $input->get('ignoreMessages', true, 'bool'));
+        if (!($results instanceof Throwable) && $results instanceof StringableInterface) {
+            echo $results;
+        } else {
+            if (\is_object($results) && !($results instanceof Throwable) && $results instanceof \Stringable) {
+                @trigger_error(
+                    'Ajax result object (except Throwable) which implements Stringable interface (implicitly or explicitly), will be rendered directly. Starting from 7.0',
+                    \E_USER_DEPRECATED
+                );
+            }
+
+            // JSONized
+            echo new JsonResponse($results, null, false, $input->get('ignoreMessages', true, 'bool'));
+        }
 
         break;
 
-    // Handle as raw format
     default:
+        // Handle as raw format
         // Output exception
-        if ($results instanceof Exception) {
+        if ($results instanceof Throwable) {
             // Log an error
             Log::add($results->getMessage(), Log::ERROR);
 
@@ -222,7 +234,7 @@ switch ($format) {
 
             // Echo exception type and message
             $out = \get_class($results) . ': ' . $results->getMessage();
-        } elseif (is_scalar($results)) {
+        } elseif (\is_scalar($results) || $results instanceof StringableInterface) {
             // Output string/ null
             $out = (string) $results;
         } else {

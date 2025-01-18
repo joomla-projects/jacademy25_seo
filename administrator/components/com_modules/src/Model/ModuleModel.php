@@ -13,10 +13,10 @@ namespace Joomla\Component\Modules\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -24,6 +24,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -87,9 +88,12 @@ class ModuleModel extends AdminModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     *
+     * @since   1.6
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         $config = array_merge(
             [
@@ -105,7 +109,7 @@ class ModuleModel extends AdminModel
             $config
         );
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -191,7 +195,7 @@ class ModuleModel extends AdminModel
                 }
 
                 // Get the new item ID
-                $newId = $table->get('id');
+                $newId = $table->id;
 
                 // Add the new ID to the array
                 $newIds[$pk] = $newId;
@@ -593,12 +597,12 @@ class ModuleModel extends AdminModel
 
             // Pre-select some filters (Status, Module Position, Language, Access Level) in edit form if those have been selected in Module Manager
             if (!$data->id) {
-                $clientId = $input->getInt('client_id', 0);
-                $filters  = (array) $app->getUserState('com_modules.modules.' . $clientId . '.filter');
-                $data->set('published', $input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
-                $data->set('position', $input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
-                $data->set('language', $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-                $data->set('access', $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access'))));
+                $clientId        = $input->getInt('client_id', 0);
+                $filters         = (array) $app->getUserState('com_modules.modules.' . $clientId . '.filter');
+                $data->published = $input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null));
+                $data->position  = $input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null));
+                $data->language  = $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
+                $data->access    = $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
             }
 
             // Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.
@@ -607,7 +611,7 @@ class ModuleModel extends AdminModel
                 $params = $app->getUserState('com_modules.add.module.params');
 
                 if (\is_array($params)) {
-                    $data->set('params', $params);
+                    $data->params = $params;
                 }
             }
         }

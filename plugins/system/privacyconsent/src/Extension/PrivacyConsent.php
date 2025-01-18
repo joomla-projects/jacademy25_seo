@@ -79,6 +79,8 @@ final class PrivacyConsent extends CMSPlugin
         // Push the privacy article ID into the privacy field.
         $form->setFieldAttribute('privacy', $privacyType, $privacyId, 'privacyconsent');
         $form->setFieldAttribute('privacy', 'note', $privacynote, 'privacyconsent');
+
+        return true;
     }
 
     /**
@@ -289,6 +291,7 @@ final class PrivacyConsent extends CMSPlugin
                 ($option == 'com_users' && $isAllowedUserTask)
                 || ($option == 'com_content' && $view == 'article' && $id == $privacyArticleId)
                 || ($option == 'com_users' && $view == 'profile' && $layout == 'edit')
+                || ($option == 'com_users' && $view == 'captive')
             ) {
                 return;
             }

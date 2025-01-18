@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Installer;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Manifest\PackageManifest;
 use Joomla\CMS\Language\Text;
@@ -27,6 +26,7 @@ use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\DI\Exception\ContainerNotFoundException;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Filesystem\Folder;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -1054,9 +1054,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, $method)) {
             switch ($method) {
-                    // The preflight and postflight take the route as a param
                 case 'preflight':
                 case 'postflight':
+                    // The preflight and postflight take the route as a param
                     if ($this->parent->manifestClass->$method($this->route, $this) === false) {
                         if ($method !== 'postflight') {
                             // Clean and close the output buffer
@@ -1073,10 +1073,10 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
                     }
                     break;
 
-                    // The install, uninstall, and update methods only pass this object as a param
                 case 'install':
                 case 'uninstall':
                 case 'update':
+                    // The install, uninstall, and update methods only pass this object as a param
                     if ($this->parent->manifestClass->$method($this) === false) {
                         if ($method !== 'uninstall') {
                             // Clean and close the output buffer
@@ -1143,7 +1143,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
          */
         if ($this->extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($this->extension->package_id)) {
             Log::add(
-                Text::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name),
+                Text::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name, $this->extension->package_id),
                 Log::WARNING,
                 'jerror'
             );

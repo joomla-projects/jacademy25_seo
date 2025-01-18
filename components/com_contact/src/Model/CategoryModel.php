@@ -15,9 +15,11 @@ use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -78,11 +80,12 @@ class CategoryModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -101,7 +104,7 @@ class CategoryModel extends ListModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -149,7 +152,7 @@ class CategoryModel extends ListModel
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery    An SQL query
+     * @return  QueryInterface    An SQL query
      *
      * @since   1.6
      */
@@ -177,7 +180,37 @@ class CategoryModel extends ListModel
             ->whereIn($db->quoteName('a.access'), $groups);
 
         // Filter by category.
-        if ($categoryId = $this->getState('category.id')) {
+        $categoryId           = (int) $this->getState('category.id');
+        $includeSubcategories = (int) $this->getState('filter.max_category_levels', 1) !== 0;
+
+        if ($includeSubcategories) {
+            $levels = (int) $this->getState('filter.max_category_levels', 1);
+
+            // Create a subquery for the subcategory list
+            $subQuery = $db->getQuery(true)
+                ->select($db->quoteName('sub.id'))
+                ->from($db->quoteName('#__categories', 'sub'))
+                ->join(
+                    'INNER',
+                    $db->quoteName('#__categories', 'this'),
+                    $db->quoteName('sub.lft') . ' > ' . $db->quoteName('this.lft')
+                    . ' AND ' . $db->quoteName('sub.rgt') . ' < ' . $db->quoteName('this.rgt')
+                )
+                ->where($db->quoteName('this.id') . ' = :subCategoryId');
+
+            $query->bind(':subCategoryId', $categoryId, ParameterType::INTEGER);
+
+            if ($levels >= 0) {
+                $subQuery->where($db->quoteName('sub.level') . ' <= ' . $db->quoteName('this.level') . ' + :levels');
+                $query->bind(':levels', $levels, ParameterType::INTEGER);
+            }
+
+            // Add the subquery to the main query
+            $query->where(
+                '(' . $db->quoteName('a.catid') . ' = :categoryId OR ' . $db->quoteName('a.catid') . ' IN (' . $subQuery . '))'
+            );
+            $query->bind(':categoryId', $categoryId, ParameterType::INTEGER);
+        } else {
             $query->where($db->quoteName('a.catid') . ' = :acatid')
                 ->whereIn($db->quoteName('c.access'), $groups);
             $query->bind(':acatid', $categoryId, ParameterType::INTEGER);
@@ -302,6 +335,7 @@ class CategoryModel extends ListModel
 
         $id = $input->get('id', 0, 'int');
         $this->setState('category.id', $id);
+        $this->setState('filter.max_category_levels', $params->get('maxLevel', 1));
 
         $user = $this->getCurrentUser();
 
