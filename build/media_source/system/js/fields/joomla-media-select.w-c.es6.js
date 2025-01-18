@@ -243,7 +243,7 @@ const insertAsOther = (media, editor, fieldClass, type) => {
         } else if (editorInst.getSelection() !== '') {
           outputText = `<a download href="${Joomla.selectedMediaFile.url}">${editorInst.getSelection()}</a>`;
         } else {
-          const name = Joomla.selectedMediaFile.url.substr(0, Joomla.selectedMediaFile.url.lastIndexOf('.')).replace(/%20/g, ' ');
+          const name = Joomla.selectedMediaFile.url.substr(0, Joomla.selectedMediaFile.url.lastIndexOf('.')).replace(/%20/g, ' ').split('/').pop();
           outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.Text._('JFIELD_MEDIA_DOWNLOAD_FILE').replace('{file}', name)}</a>`;
         }
       }
