@@ -237,7 +237,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        $scheduler  = new Scheduler;
+        $scheduler  = new Scheduler();
         $taskRecord = $scheduler->fetchTaskRecord($id, true);
         $user       = $this->getApplication()->getIdentity();
 
