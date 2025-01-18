@@ -137,7 +137,7 @@ class HtmlView extends BaseHtmlView
     {
         // Get allowed actions from the component or category (but only when filtering by single category)
         $catid = $this->state->get('filter.category_id', 0);
-        $catid = is_array($catid) ? (count($catid) === 1 ? reset($catid) : 0) : $catid;
+        $catid = \is_array($catid) ? (\count($catid) === 1 ? reset($catid) : 0) : $catid;
         $canDo = ContentHelper::getActions('com_contact', 'category', $catid);
         $user  = $this->getCurrentUser();
 
