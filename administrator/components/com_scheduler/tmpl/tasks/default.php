@@ -261,7 +261,7 @@ if ($this->hasDueTasks === true) {
                             <div id="run-task-btn-wrapper"
                                     <?php
                                     $disabled = ($item->state < 0 || !Scheduler::isAuthorizedToRun($item, $user));
-                                    if ($disabled):
+                                    if ($disabled) :
                                         $reason = Text::_($item->state < 0 ? "COM_SCHEDULER_MANAGER_TOOLTIP_TASK_TRASHED" : "COM_SCHEDULER_MANAGER_TOOLTIP_NOT_AUTHORIZED");
                                         echo ' data-toggle="tooltip" data-placement="top" title="' . $reason . '"';
                                     endif;
