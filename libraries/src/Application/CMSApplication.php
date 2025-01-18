@@ -954,7 +954,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $user = Factory::getUser();
 
             if ($response->type === 'Cookie') {
-                $user->set('cookieLogin', true);
+                $user->cookieLogin = true;
             }
 
             if (\in_array(false, $results, true) == false) {
