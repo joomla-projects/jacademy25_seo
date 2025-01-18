@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_modules
@@ -9,14 +10,17 @@
 
 namespace Joomla\Component\Modules\Administrator\View\Module;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View to edit a module.
@@ -25,145 +29,195 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The Form object
-	 *
-	 * @var  \Joomla\CMS\Form\Form
-	 */
-	protected $form;
+    /**
+     * The Form object
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    protected $form;
 
-	/**
-	 * The active item
-	 *
-	 * @var  object
-	 */
-	protected $item;
+    /**
+     * The active item
+     *
+     * @var  object
+     */
+    protected $item;
 
-	/**
-	 * The model state
-	 *
-	 * @var  \Joomla\CMS\Object\CMSObject
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var  \Joomla\Registry\Registry
+     */
+    protected $state;
 
-	/**
-	 * The actions the user is authorised to perform
-	 *
-	 * @var    \Joomla\CMS\Object\CMSObject
-	 *
-	 * @since  4.0.0
-	 */
-	protected $canDo;
+    /**
+     * The actions the user is authorised to perform
+     *
+     * @var    \Joomla\Registry\Registry
+     *
+     * @since  4.0.0
+     */
+    protected $canDo;
 
-	/**
-	 * Display the view
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		$this->form  = $this->get('Form');
-		$this->item  = $this->get('Item');
-		$this->state = $this->get('State');
-		$this->canDo = ContentHelper::getActions('com_modules', 'module', $this->item->id);
+    /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  5.2.0
+     */
+    public $ignore_fieldsets = [];
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+    /**
+     * Display the view
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        $this->state = $this->get('State');
 
-		$this->addToolbar();
-		parent::display($tpl);
-	}
+        // Have to stop it earlier, because on cancel task for a new module we do not have an ID, and Model doing redirect on getItem()
+        if ($this->getLayout() === 'modalreturn' && !$this->state->get('module.id')) {
+            parent::display($tpl);
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+            return;
+        }
 
-		$user       = Factory::getUser();
-		$isNew      = ($this->item->id == 0);
-		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
-		$canDo      = $this->canDo;
+        $this->form  = $this->get('Form');
+        $this->item  = $this->get('Item');
+        $this->canDo = ContentHelper::getActions('com_modules', 'module', $this->item->id);
 
-		ToolbarHelper::title(Text::sprintf('COM_MODULES_MANAGER_MODULE', Text::_($this->item->module)), 'cube module');
+        if ($this->getLayout() === 'modalreturn') {
+            parent::display($tpl);
 
-		// For new records, check the create permission.
-		if ($isNew && $canDo->get('core.create'))
-		{
-			ToolbarHelper::apply('module.apply');
+            return;
+        }
 
-			ToolbarHelper::saveGroup(
-				[
-					['save', 'module.save'],
-					['save2new', 'module.save2new']
-				],
-				'btn-success'
-			);
+        // Check for errors.
+        if (\count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-			ToolbarHelper::cancel('module.cancel');
-		}
-		else
-		{
-			$toolbarButtons = [];
+        if ($this->getLayout() !== 'modal') {
+            $this->addToolbar();
+        } else {
+            $this->addModalToolbar();
+        }
 
-			// Can't save the record if it's checked out.
-			if (!$checkedOut)
-			{
-				// Since it's an existing record, check the edit permission.
-				if ($canDo->get('core.edit'))
-				{
-					ToolbarHelper::apply('module.apply');
+        parent::display($tpl);
+    }
 
-					$toolbarButtons[] = ['save', 'module.save'];
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function addToolbar()
+    {
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-					// We can save this record, but check the create permission to see if we can return to make a new one.
-					if ($canDo->get('core.create'))
-					{
-						$toolbarButtons[] = ['save2new', 'module.save2new'];
-					}
-				}
-			}
+        $user       = $this->getCurrentUser();
+        $isNew      = ($this->item->id == 0);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
+        $canDo      = $this->canDo;
+        $toolbar    = $this->getDocument()->getToolbar();
 
-			// If checked out, we can still save
-			if ($canDo->get('core.create'))
-			{
-				$toolbarButtons[] = ['save2copy', 'module.save2copy'];
-			}
+        ToolbarHelper::title(Text::sprintf('COM_MODULES_MANAGER_MODULE', Text::_($this->item->module)), 'cube module');
 
-			ToolbarHelper::saveGroup(
-				$toolbarButtons,
-				'btn-success'
-			);
+        // For new records, check the create permission.
+        if ($isNew && $canDo->get('core.create')) {
+            $toolbar->apply('module.apply');
 
-			ToolbarHelper::cancel('module.cancel', 'JTOOLBAR_CLOSE');
-		}
+            $saveGroup = $toolbar->dropdownButton('save-group');
 
-		// Get the help information for the menu item.
-		$lang = Factory::getLanguage();
+            $saveGroup->configure(
+                function (Toolbar $childBar) {
+                    $childBar->save('module.save');
+                    $childBar->save2new('module.save2new');
+                }
+            );
 
-		$help = $this->get('Help');
+            $toolbar->cancel('module.cancel', 'JTOOLBAR_CANCEL');
+        } else {
+            // Can't save the record if it's checked out.
+            if (!$checkedOut && $canDo->get('core.edit')) {
+                $toolbar->apply('module.apply');
+            }
 
-		if ($lang->hasKey($help->url))
-		{
-			$debug = $lang->setDebug(false);
-			$url = Text::_($help->url);
-			$lang->setDebug($debug);
-		}
-		else
-		{
-			$url = null;
-		}
+            $saveGroup = $toolbar->dropdownButton('save-group');
 
-		ToolbarHelper::help($help->key, false, $url);
-	}
+            $saveGroup->configure(
+                function (Toolbar $childBar) use ($checkedOut, $canDo) {
+                    // Can't save the record if it's checked out. Since it's an existing record, check the edit permission.
+                    if (!$checkedOut && $canDo->get('core.edit')) {
+                        $childBar->save('module.save');
+
+                        // We can save this record, but check the create permission to see if we can return to make a new one.
+                        if ($canDo->get('core.create')) {
+                            $childBar->save2new('module.save2new');
+                        }
+                    }
+
+                    // If checked out, we can still save
+                    if ($canDo->get('core.create')) {
+                        $childBar->save2copy('module.save2copy');
+                    }
+                }
+            );
+
+            $toolbar->cancel('module.cancel');
+        }
+
+        // Get the help information for the menu item.
+        $lang = $this->getLanguage();
+
+        $help = $this->get('Help');
+
+        if ($lang->hasKey($help->url)) {
+            $debug = $lang->setDebug(false);
+            $url   = Text::_($help->url);
+            $lang->setDebug($debug);
+        } else {
+            $url = null;
+        }
+
+        $toolbar->inlinehelp();
+        $toolbar->help($help->key, false, $url);
+    }
+
+    /**
+     * Add the modal toolbar.
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     *
+     * @throws  \Exception
+     */
+    protected function addModalToolbar()
+    {
+        $isNew   = ($this->item->id == 0);
+        $toolbar = $this->getDocument()->getToolbar();
+        $canDo   = $this->canDo;
+
+        ToolbarHelper::title(Text::sprintf('COM_MODULES_MANAGER_MODULE', Text::_($this->item->module)), 'cube module');
+
+        $canCreate = $isNew && $canDo->get('core.create');
+        $canEdit   = $canDo->get('core.edit');
+
+        // For new records, check the create permission.
+        if ($canCreate || $canEdit) {
+            $toolbar->apply('module.apply');
+            $toolbar->save('module.save');
+        }
+
+        $toolbar->cancel('module.cancel');
+
+        $toolbar->inlinehelp();
+    }
 }

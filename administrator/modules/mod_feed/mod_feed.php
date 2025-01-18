@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_feed
@@ -7,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 $feed   = \Joomla\Module\Feed\Administrator\Helper\FeedHelper::getFeed($params);
 $rssurl = $params->get('rssurl', '');
