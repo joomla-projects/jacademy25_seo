@@ -15,8 +15,8 @@ use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Event\Finder\ResultEvent;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Event\SubscriberInterface;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
