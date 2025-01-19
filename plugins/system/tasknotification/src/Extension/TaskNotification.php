@@ -313,7 +313,6 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Mail all matching users.
         foreach ($users as $user) {
-
             try {
                 $mailer = new MailTemplate($template, $app->getLanguage()->getTag());
                 $mailer->addTemplateData($data);
