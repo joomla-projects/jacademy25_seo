@@ -825,9 +825,12 @@ class TagsHelper extends CMSHelper
      *
      * @deprecated  5.3 will be removed in 7.0
      */
-    public function postStoreProcess(TableInterface $table, array $newTags = [], bool $replace = true): void
+    public function postStoreProcess(TableInterface $table, $newTags = [], $replace = true): void
     {
-        $this->postStore($table, $newTags, $replace);
+        @trigger_error('7.0 Method postStoreProcess() is deprecated, use postStore() instead.', \E_USER_DEPRECATED);
+
+        $this->postStore($table, (array) $newTags, (bool) $replace);
+    }
     }
 
     /**
