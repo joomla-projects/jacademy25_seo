@@ -48,7 +48,6 @@ $dialogOptions = [
     'textHeader' => $title ?? '',
 ];
 
-
 ?>
 <joomla-toolbar-button id="toolbar-versions">
     <button
