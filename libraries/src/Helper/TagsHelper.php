@@ -831,7 +831,6 @@ class TagsHelper extends CMSHelper
 
         $this->postStore($table, (array) $newTags, (bool) $replace);
     }
-    }
 
     /**
      * Function that handles saving tags used in a table class after a store().
