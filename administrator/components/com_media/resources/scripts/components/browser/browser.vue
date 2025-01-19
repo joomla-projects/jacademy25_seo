@@ -217,6 +217,7 @@ export default {
               bubbles: true,
               cancelable: false,
               detail: {
+                name: '',
                 path: '',
                 thumb: false,
                 fileType: false,

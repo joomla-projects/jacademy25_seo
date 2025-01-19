@@ -14,6 +14,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -121,7 +122,7 @@ class TransitionsModel extends ListModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  string  The query to database.
+     * @return  QueryInterface  The query to database.
      *
      * @since  4.0.0
      */

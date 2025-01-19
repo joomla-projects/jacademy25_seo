@@ -14,7 +14,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -249,7 +249,8 @@ abstract class ToolbarButton
      *
      * @since   3.0
      *
-     * @deprecated  5.0 Use render() instead.
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use render() instead.
      */
     abstract public function fetchButton();
 
@@ -447,7 +448,7 @@ abstract class ToolbarButton
             if ($fieldName !== false) {
                 if (!\array_key_exists(0, $args)) {
                     throw new \InvalidArgumentException(
-                        sprintf(
+                        \sprintf(
                             '%s::%s() miss first argument.',
                             \get_called_class(),
                             $name
@@ -460,7 +461,7 @@ abstract class ToolbarButton
         }
 
         throw new \BadMethodCallException(
-            sprintf(
+            \sprintf(
                 'Method %s() not found in class: %s',
                 $name,
                 \get_called_class()
