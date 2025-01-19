@@ -41,7 +41,6 @@ $url = 'index.php?' . http_build_query([
     Session::getFormToken() => 1,
 ], '', '&');
 
-
 $dialogOptions = [
     'popupType'  => 'iframe',
     'src'        => $url,
