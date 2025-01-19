@@ -52,10 +52,16 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
     public function addLog($messages, $messageLanguageKey, $context, $userId = 0)
     {
         if (!is_numeric($userId)) {
-            @trigger_error(sprintf('User ID must be an integer in %s.', __METHOD__), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('User ID must be an integer in %s.', __METHOD__), E_USER_DEPRECATED);
         }
 
-        $user   = $userId ? $this->getUserFactory()->loadUserById($userId) : $this->getCurrentUser();
+        try {
+            $user = $userId ? $this->getUserFactory()->loadUserById($userId) : $this->getCurrentUser();
+        } catch (\UnexpectedValueException $e) {
+            @trigger_error(\sprintf('UserFactory must be set, this will not be caught anymore in 7.0.'), E_USER_DEPRECATED);
+            $user = Factory::getUser($userId);
+        }
+
         $db     = $this->getDatabase();
         $date   = Factory::getDate();
         $params = ComponentHelper::getComponent('com_actionlogs')->getParams();
@@ -120,7 +126,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
         $query = $db->getQuery(true);
 
         $query
-            ->select($db->quoteName(['u.email', 'l.extensions']))
+            ->select($db->quoteName(['u.email', 'u.username', 'l.extensions', 'l.exclude_self']))
             ->from($db->quoteName('#__users', 'u'))
             ->where($db->quoteName('u.block') . ' = 0')
             ->join(
@@ -136,6 +142,10 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
         $recipients = [];
 
         foreach ($users as $user) {
+            if ($user->username === $this->getCurrentUser()->username && $user->exclude_self) {
+                continue;
+            }
+
             $extensions = json_decode($user->extensions, true);
 
             if ($extensions && \in_array(strtok($context, '.'), $extensions)) {
@@ -151,6 +161,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
         $lang->load('com_actionlogs', JPATH_ADMINISTRATOR);
         ActionlogsHelper::loadTranslationFiles($extension);
         $temp      = [];
+        $tempPlain = [];
 
         foreach ($messages as $message) {
             $m              = [];
@@ -159,14 +170,23 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
             $m['date']      = HTMLHelper::_('date', $message->log_date, 'Y-m-d H:i:s T', 'UTC');
             $m['username']  = $username;
             $temp[]         = $m;
+
+            // copy replacement tags array and set non-HTML message.
+            $mPlain            = array_merge([], $m);
+            $mPlain['message'] = ActionlogsHelper::getHumanReadableLogMessage($message, false);
+            $tempPlain[]       = $mPlain;
         }
 
         $templateData = [
             'messages' => $temp,
         ];
+        $templateDataPlain = [
+            'messages' => $tempPlain,
+        ];
 
         $mailer = new MailTemplate('com_actionlogs.notification', $app->getLanguage()->getTag());
         $mailer->addTemplateData($templateData);
+        $mailer->addTemplateData($templateDataPlain, true);
 
         foreach ($recipients as $recipient) {
             $mailer->addRecipient($recipient);
