@@ -104,11 +104,6 @@ class ArticlesModel extends ListModel
 
         if (!$params->get('workflow_enabled')) {
             $form->removeField('stage', 'filter');
-        } else {
-            $ordering = $form->getField('fullordering', 'list');
-
-            $ordering->addOption('JSTAGE_ASC', ['value' => 'ws.title ASC']);
-            $ordering->addOption('JSTAGE_DESC', ['value' => 'ws.title DESC']);
         }
 
         return $form;
@@ -142,6 +137,14 @@ class ArticlesModel extends ListModel
         if ($forcedLanguage) {
             $this->context .= '.' . $forcedLanguage;
         }
+
+        // Required content filters for the administrator menu
+        $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
+        $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
+        $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
+        $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
+        $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
+        $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 
         // List state information.
         parent::populateState($ordering, $direction);
