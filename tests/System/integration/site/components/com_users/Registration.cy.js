@@ -36,7 +36,7 @@ describe('Test in frontend that the users registration view', () => {
       cy.wrap(mails).should('have.lengthOf', 2);
       cy.wrap(mails[1].headers.subject).should('have.string', `Registration approval required for account of test user at ${Cypress.env('sitename')}`);
       cy.wrap(mails[1].headers.to).should('equal', Cypress.env('email'));
-      cy.wrap(mails[1].body).should('have.string', `Hello ${Cypress.env('name')},\n\nA new user has registered at ${Cypress.env('sitename')}.`);
+      cy.wrap(mails[1].body).should('have.string', `Hello administrator,\n\nA new user has registered at ${Cypress.env('sitename')}.`);
       cy.wrap(mails[1].body).should('have.string', 'Name :  test user');
       cy.wrap(mails[1].body).should('have.string', 'email:  testuser@example.com');
       cy.wrap(mails[1].body).should('have.string', 'Username:  testuser');
