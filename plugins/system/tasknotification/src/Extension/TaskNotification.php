@@ -311,30 +311,28 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         $mailSent = false;
 
-        // Mail all matching users who also have the `core.manage` privilege for com_scheduler.
+        // Mail all matching users.
         foreach ($users as $user) {
             $user = $this->getUserFactory()->loadUserById($user->id);
 
-            if ($user->authorise('core.manage', 'com_scheduler')) {
-                try {
-                    $mailer = new MailTemplate($template, $app->getLanguage()->getTag());
-                    $mailer->addTemplateData($data);
-                    $mailer->addRecipient($user->email);
+            try {
+                $mailer = new MailTemplate($template, $app->getLanguage()->getTag());
+                $mailer->addTemplateData($data);
+                $mailer->addRecipient($user->email);
 
-                    if (
-                        !empty($attachment)
-                        && is_file($attachment)
-                    ) {
-                        // @todo we allow multiple files [?]
-                        $attachName = pathinfo($attachment, PATHINFO_BASENAME);
-                        $mailer->addAttachment($attachName, $attachment);
-                    }
-
-                    $mailer->send();
-                    $mailSent = true;
-                } catch (MailerException $exception) {
-                    Log::add($this->getApplication()->getLanguage()->_('PLG_SYSTEM_TASK_NOTIFICATION_NOTIFY_SEND_EMAIL_FAIL'), Log::ERROR);
+                if (
+                    !empty($attachment)
+                    && is_file($attachment)
+                ) {
+                    // @todo we allow multiple files [?]
+                    $attachName = pathinfo($attachment, PATHINFO_BASENAME);
+                    $mailer->addAttachment($attachName, $attachment);
                 }
+
+                $mailer->send();
+                $mailSent = true;
+            } catch (MailerException $exception) {
+                Log::add($this->getApplication()->getLanguage()->_('PLG_SYSTEM_TASK_NOTIFICATION_NOTIFY_SEND_EMAIL_FAIL'), Log::ERROR);
             }
         }
 
