@@ -16,7 +16,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Database\DatabaseInterface;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -27,8 +28,10 @@ use Joomla\Database\DatabaseInterface;
  *
  * @since  4.0.0
  */
-class PrivacyStatusHelper
+class PrivacyStatusHelper implements DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+
     /**
      * Get the information about the published privacy policy
      *
@@ -77,7 +80,7 @@ class PrivacyStatusHelper
         ];
         $lang = '';
 
-        $db    = Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -164,7 +167,7 @@ class PrivacyStatusHelper
         $now    = Factory::getDate()->toSql();
         $period = '-' . $notify;
 
-        $db    = Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
         $query->select('COUNT(*)')
             ->from($db->quoteName('#__privacy_requests'))
@@ -177,6 +180,18 @@ class PrivacyStatusHelper
         $db->setQuery($query);
 
         return (int) $db->loadResult();
+    }
+
+    /**
+     * Method to return database encryption details
+     *
+     * @return string The database encryption details
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function getEncryption()
+    {
+        return $this->getDatabase()->getConnectionEncryption();
     }
 
     /**

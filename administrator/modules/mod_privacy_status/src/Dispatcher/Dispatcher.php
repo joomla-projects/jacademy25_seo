@@ -12,11 +12,9 @@ namespace Joomla\Module\PrivacyStatus\Administrator\Dispatcher;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\HelperFactoryAwareInterface;
 use Joomla\CMS\Helper\HelperFactoryAwareTrait;
 use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
-use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -78,7 +76,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         $data['sendMailEnabled']              = (bool) $app->get('mailonline', 1);
         $data['numberOfUrgentRequests']       = $privacyStatusHelper->getUrgentRequestsNumber();
         $data['urgentRequestDays']            = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
-        $data['databaseConnectionEncryption'] = Factory::getContainer()->get(DatabaseInterface::class)->getConnectionEncryption();
+        $data['databaseConnectionEncryption'] = $privacyStatusHelper->getEncryption();
 
         return $data;
     }
