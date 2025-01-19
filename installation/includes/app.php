@@ -40,7 +40,7 @@ if (is_writable(JPATH_ADMINISTRATOR . '/logs')) {
 // Register the Installation application
 JLoader::registerNamespace('Joomla\\CMS\\Installation', JPATH_INSTALLATION . '/src', false, false);
 
-// @todo: remove?
+// @todo: Should be removed in 6.0 as no longer needed (installation router has service provider)
 JLoader::registerAlias('JRouterInstallation', \Joomla\CMS\Installation\Router\InstallationRouter::class);
 
 // Get the dependency injection container
