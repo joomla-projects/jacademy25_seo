@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\ActionLogs\Extension;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -150,7 +151,7 @@ final class ActionLogs extends CMSPlugin
         $id = (int) $data->id;
 
         $query = $db->getQuery(true)
-            ->select($db->quoteName(['notify', 'extensions']))
+            ->select($db->quoteName(['notify', 'extensions', 'exclude_self']))
             ->from($db->quoteName('#__action_logs_users'))
             ->where($db->quoteName('user_id') . ' = :userid')
             ->bind(':userid', $id, ParameterType::INTEGER);
@@ -168,9 +169,10 @@ final class ActionLogs extends CMSPlugin
         // Load plugin language files.
         $this->loadLanguage();
 
-        $data->actionlogs                       = new \stdClass();
-        $data->actionlogs->actionlogsNotify     = $values->notify;
-        $data->actionlogs->actionlogsExtensions = $values->extensions;
+        $data->actionlogs                        = new \stdClass();
+        $data->actionlogs->actionlogsNotify      = $values->notify;
+        $data->actionlogs->actionlogsExtensions  = $values->extensions;
+        $data->actionlogs->actionlogsExcludeSelf = $values->exclude_self;
 
         if (!HTMLHelper::isRegistered('users.actionlogsNotify')) {
             HTMLHelper::register('users.actionlogsNotify', [__CLASS__, 'renderActionlogsNotify']);
@@ -178,6 +180,10 @@ final class ActionLogs extends CMSPlugin
 
         if (!HTMLHelper::isRegistered('users.actionlogsExtensions')) {
             HTMLHelper::register('users.actionlogsExtensions', [__CLASS__, 'renderActionlogsExtensions']);
+        }
+
+        if (!HTMLHelper::isRegistered('users.actionlogsExcludeSelf')) {
+            HTMLHelper::register('users.actionlogsExcludeSelf', [__CLASS__, 'renderActionlogsExcludeSelf']);
         }
 
         return true;
@@ -226,9 +232,10 @@ final class ActionLogs extends CMSPlugin
         // If preferences don't exist, insert.
         if (!$exists && $authorised && isset($user['actionlogs'])) {
             $notify  = (int) $user['actionlogs']['actionlogsNotify'];
-            $values  = [':userid', ':notify'];
-            $bind    = [$userid, $notify];
-            $columns = ['user_id', 'notify'];
+            $exclude = (int) $user['actionlogs']['actionlogsExcludeSelf'];
+            $values  = [':userid', ':notify', ':exclude'];
+            $bind    = [$userid, $notify, $exclude];
+            $columns = ['user_id', 'notify', 'exclude_self'];
 
             $query->bind($values, $bind, ParameterType::INTEGER);
 
@@ -248,6 +255,11 @@ final class ActionLogs extends CMSPlugin
             $values = [$db->quoteName('notify') . ' = :notify'];
 
             $query->bind(':notify', $notify, ParameterType::INTEGER);
+
+            $exclude  = (int) $user['actionlogs']['actionlogsExcludeSelf'];
+            $values[] = $db->quoteName('exclude_self') . ' = :exclude';
+
+            $query->bind(':exclude', $exclude, ParameterType::INTEGER);
 
             if (isset($user['actionlogs']['actionlogsExtensions'])) {
                 $values[]  = $db->quoteName('extensions') . ' = :extension';
@@ -324,6 +336,20 @@ final class ActionLogs extends CMSPlugin
     }
 
     /**
+     * Method to render a value.
+     *
+     * @param   integer|string  $value  The value (0 or 1).
+     *
+     * @return  string  The rendered value.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function renderActionlogsExcludeSelf($value)
+    {
+        return Text::_($value ? 'JYES' : 'JNO');
+    }
+
+    /**
      * Method to render a list of extensions.
      *
      * @param   array|string  $extensions  Array of extensions or an empty string if none selected.
@@ -346,5 +372,61 @@ final class ActionLogs extends CMSPlugin
         }
 
         return implode(', ', $extensions);
+    }
+
+    /**
+     * On Saving extensions logging method
+     * Method is called when an extension is being saved
+     *
+     * @param   string                   $context  The extension
+     * @param   \Joomla\CMS\Table\Table  $table    DataBase Table object
+     * @param   boolean                  $isNew    If the extension is new or not
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     */
+    public function onExtensionAfterSave($context, $table, $isNew): void
+    {
+        if ($context !== 'com_config.component' || $table->name !== 'com_actionlogs') {
+            return;
+        }
+
+        $params    = ComponentHelper::getParams('com_actionlogs');
+        $globalExt = (array) $params->get('loggable_extensions', []);
+
+        $db = $this->getDatabase();
+
+        $query = $db->getQuery(true)
+            ->select($db->quoteName(['user_id', 'notify', 'extensions', 'exclude_self']))
+            ->from($db->quoteName('#__action_logs_users'));
+
+        try {
+            $values = $db->setQuery($query)->loadObjectList();
+        } catch (ExecutionFailureException $e) {
+            return;
+        }
+
+        foreach ($values as $item) {
+            $userExt = substr($item->extensions, 2);
+            $userExt = substr($userExt, 0, -2);
+            $user    = explode('","', $userExt);
+            $common  = array_intersect($globalExt, $user);
+
+            $extension = json_encode(array_values($common));
+
+            $query->clear()
+                ->update($db->quoteName('#__action_logs_users'))
+                ->set($db->quoteName('extensions') . ' = :extension')
+                ->where($db->quoteName('user_id') . ' = :userid')
+                ->bind(':userid', $item->user_id, ParameterType::INTEGER)
+                ->bind(':extension', $extension);
+
+            try {
+                $db->setQuery($query)->execute();
+            } catch (ExecutionFailureException $e) {
+                // Do nothing.
+            }
+        }
     }
 }
