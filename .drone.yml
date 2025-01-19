@@ -384,6 +384,8 @@ steps:
       - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
       - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --disable-patch-packages
       - mv build/tmp/packages/* transfer/
+      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-zip --exclude-gzip --exclude-bzip2 --debug-build
+      - mv build/tmp/packages/* transfer/
 
   - name: upload
     image: joomlaprojects/docker-images:packager
@@ -416,7 +418,7 @@ steps:
       MATTERMOST_NIGHTLY_HOOK:
         from_secret: mattermost_nightly_hook
     commands:
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.2](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.2](https://developer.joomla.org/nightly-builds.html) FAILED to build."}' $MATTERMOST_NIGHTLY_HOOK
     when:
       status:
         - failure
@@ -430,6 +432,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 903759c59028cc757ba3faef044e3b9122d00f99ea0367caadceb710cb88030f
+hmac: 10ae86041b814459e0a4618a7fa2356480177af7966412cc050e9902e9384cbe
 
 ...
