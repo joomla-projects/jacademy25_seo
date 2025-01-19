@@ -25,22 +25,6 @@ use Joomla\CMS\Language\Text;
 class Dispatcher extends ComponentDispatcher
 {
     /**
-     * Load the language
-     *
-     * @since   __DEPLOY_VERSION__
-     *
-     * @return  void
-     */
-    protected function loadLanguage()
-    {
-        if ($this->input->get('view') === 'contacts' && $this->input->get('layout') === 'modal') {
-            $this->app->getLanguage()->load($this->option, JPATH_ADMINISTRATOR);
-        }
-
-        parent::loadLanguage();
-    }
-
-    /**
      * Dispatch a controller task. Redirecting the user if appropriate.
      *
      * @return  void
@@ -55,6 +39,8 @@ class Dispatcher extends ComponentDispatcher
 
                 return;
             }
+
+            $this->app->getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
         }
 
         parent::dispatch();
