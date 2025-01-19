@@ -12,7 +12,7 @@ module.exports.handleScssFile = async (file) => {
 
   let compiled;
   try {
-    compiled = Sass.renderSync({ file });
+    compiled = Sass.compile(file);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error.formatted);
@@ -32,7 +32,8 @@ module.exports.handleScssFile = async (file) => {
   await ensureDir(dirname(cssFile), {});
   await writeFile(
     cssFile,
-    contents,
+    `@charset "UTF-8";
+${contents}`,
     { encoding: 'utf8', mode: 0o644 },
   );
 
@@ -46,7 +47,7 @@ module.exports.handleScssFile = async (file) => {
   await ensureDir(dirname(cssFile.replace('.css', '.min.css')), {});
   await writeFile(
     cssFile.replace('.css', '.min.css'),
-    cssMin.code,
+    `@charset "UTF-8";${cssMin.code}`,
     { encoding: 'utf8', mode: 0o644 },
   );
 
