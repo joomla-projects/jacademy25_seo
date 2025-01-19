@@ -1223,7 +1223,7 @@ abstract class HTMLHelper
     protected static function convertToRelativePath($path)
     {
         // Remove JPATH_PUBLIC only if it is at beginning of full path
-        $path = strpos($path, JPATH_ROOT) === 0 ? substr_replace($path, '', 0, \strlen(JPATH_ROOT)) : $path;
+        $path = \str_starts_with($path, JPATH_PUBLIC) ? \substr_replace($path, '', 0, \strlen(JPATH_PUBLIC)) : $path;
 
         $relativeFilePath = Uri::root(true) . $path;
 
