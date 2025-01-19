@@ -52,6 +52,8 @@ class ComponentRecord
      *
      * @var    string
      * @since  4.0.0
+     *
+     * @deprecated  5.3 will be removed in 7.0
      */
     public $namespace;
 
