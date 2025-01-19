@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
@@ -709,6 +710,36 @@ class UpdateController extends BaseController
         $update[] = ['version' => $updateInfo['latest']];
 
         echo json_encode($update);
+
+        $this->app->close();
+    }
+
+    /**
+     * Fetch and report health status of the auto update in \JSON format, for AJAX requests
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function healthstatus()
+    {
+        if (!Session::checkToken('get')) {
+            $this->app->setHeader('status', 403, true);
+            $this->app->sendHeaders();
+            echo Text::_('JINVALID_TOKEN_NOTICE');
+            $this->app->close();
+        }
+
+        $params = ComponentHelper::getParams('com_joomlaupdate');
+
+        $lastCheck = date_create_from_format('Y-m-d H:i:s', $params->get('update_last_check', ''));
+
+        $result = [
+            'active'  => (int) $params->get('autoupdate'),
+            'healthy' => $lastCheck !== false && $lastCheck->diff(new \DateTime())->days < 4,
+        ];
+
+        echo json_encode($result);
 
         $this->app->close();
     }
