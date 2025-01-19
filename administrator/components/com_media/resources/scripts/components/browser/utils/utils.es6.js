@@ -31,9 +31,9 @@ export default function onItemClick(event, ctx) {
         bubbles: true,
         cancelable: false,
         detail: {
-          type: this.item.type,
-          name: this.item.name,
-          path: this.item.path,
+          type: ctx.item.type,
+          name: ctx.item.name,
+          path: ctx.item.path,
         },
       }),
     );
