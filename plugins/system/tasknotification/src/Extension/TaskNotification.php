@@ -288,7 +288,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         // Get all users who are not blocked and have opted in for system mails.
         $query = $db->getQuery(true);
 
-        $query->select($db->quoteName(['name', 'email', 'sendEmail', 'id']))
+        $query->select('DISTINCT ' . $db->quoteName('u.id') . ', ' . $db->quoteName('u.email'))
             ->from($db->quoteName('#__users', 'u'))
             ->join('LEFT', $db->quoteName('#__user_usergroup_map', 'g') . ' ON ' . $db->quoteName('g.user_id') . ' = ' . $db->quoteName('u.id'))
             ->where($db->quoteName('u.sendEmail') . ' = 1')
@@ -313,7 +313,6 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Mail all matching users.
         foreach ($users as $user) {
-            $user = $this->getUserFactory()->loadUserById($user->id);
 
             try {
                 $mailer = new MailTemplate($template, $app->getLanguage()->getTag());
