@@ -274,6 +274,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
      * @param   string  $template    The mail template.
      * @param   array   $data        The data to bind to the mail template.
      * @param   string  $attachment  The attachment to send with the mail (@todo multiple)
+     * @param   array   $groups      The user groups to notify.
      *
      * @return void
      *
