@@ -77,7 +77,7 @@ class UpdatesController extends ApiController
 
         $latestVersion = $model->getAutoUpdateVersion();
 
-        $targetVersion = $this->input->getString('targetVersion');
+        $targetVersion = $this->input->json->getString('targetVersion');
 
         if (!$latestVersion || $latestVersion !== $targetVersion) {
             throw new \Exception(Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_VERSION_WRONG'), 410);
