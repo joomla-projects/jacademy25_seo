@@ -152,7 +152,7 @@ class JoomlaupdateComponent extends MVCComponent implements ConfigServiceInterfa
         }
 
         $requestData = [
-            'url' => Route::link('site', 'index.php', false, Route::TLS_IGNORE, true),
+            'url' => Uri::root(),
             'key' => $data->get('update_token'),
         ];
 
