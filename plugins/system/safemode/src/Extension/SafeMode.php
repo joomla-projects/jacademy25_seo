@@ -382,7 +382,6 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
                 $this->setSafeOn($plugin);
             }
         }
-
     }
 
     /**
