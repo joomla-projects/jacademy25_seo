@@ -305,6 +305,7 @@ class ExtensionHelper
         ['plugin', 'privacyconsent', 'system', 0],
         ['plugin', 'redirect', 'system', 0],
         ['plugin', 'remember', 'system', 0],
+        ['plugin', 'safemode', 'system', 0],
         ['plugin', 'schedulerunner', 'system', 0],
         ['plugin', 'schemaorg', 'system', 0],
         ['plugin', 'sef', 'system', 0],

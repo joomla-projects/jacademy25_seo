@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="system" method="upgrade">
+	<name>plg_system_safemode</name>
+	<author>Joomla! Project</author>
+	<creationDate>2025-01</creationDate>
+	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>5.3</version>
+	<description>PLG_SYSTEM_SAFEMODE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\SafeMode</namespace>
+	<files>
+		<folder>forms</folder>
+		<folder plugin="safemode">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_system_safemode.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_safemode.sys.ini</language>
+	</languages>
+</extension>
