@@ -241,7 +241,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Load translations
         $this->loadLanguage();
-        $groups = $task->get('params.notifications.notification_success_groups');
+        $groups = $task->get('params.notifications.notification_fatal_groups');
 
         $data = $this->getDataFromTask($event->getArgument('subject'));
         $this->sendMail('plg_system_tasknotification.fatal_recovery_mail', $data, '', $groups);
