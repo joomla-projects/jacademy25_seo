@@ -1287,5 +1287,5 @@ CREATE TABLE IF NOT EXISTS "#__noncore_extensions_safemode" (
 	"type" VARCHAR(20) NOT NULL,
 	"element" VARCHAR(100) NOT NULL,
 	"time" TIMESTAMP NOT NULL,
-  PRIMARY KEY ("id"),
+  PRIMARY KEY ("id")
 );

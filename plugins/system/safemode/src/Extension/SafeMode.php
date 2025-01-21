@@ -10,11 +10,11 @@
 
 namespace Joomla\Plugin\System\SafeMode\Extension;
 
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
-use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\Event;
@@ -45,11 +45,11 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onAfterDispatch'        => 'onAfterDispatch',
-            'onExtensionAfterSave'   => 'onExtensionAfterSave',
-            'onContentChangeState'   => 'onContentChangeState',
-            'onExtensionChangeState' => 'onExtensionChangeState',
-            'onApplicationAfterSave' => 'onApplicationAfterSave',
+            'onAfterDispatch'         => 'onAfterDispatch',
+            'onExtensionAfterSave'    => 'onExtensionAfterSave',
+            'onContentChangeState'    => 'onContentChangeState',
+            'onExtensionChangeState'  => 'onExtensionChangeState',
+            'onApplicationAfterSave'  => 'onApplicationAfterSave',
             'onApplicationBeforeSave' => 'onApplicationBeforeSave',
         ];
     }
@@ -341,13 +341,13 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
         }
 
         /** @var ManageModel $model */
-        $mvc = $this->getApplication()->bootComponent('com_installer')->getMVCFactory();
+        $mvc   = $this->getApplication()->bootComponent('com_installer')->getMVCFactory();
         $model = $mvc->createModel('Manage', 'Administrator', ['ignore_request' => true]);
 
         $pluginObject = $this->getList();
 
         foreach ($pluginObject as $plugin) {
-            $id = $plugin;
+            $id     = $plugin;
             $return = $model->publish($plugin, 1);
         }
 
@@ -366,7 +366,7 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
     private function switchSafeModeOn(): void
     {
         /** @var ManageModel $model */
-        $mvc = $this->getApplication()->bootComponent('com_installer')->getMVCFactory();
+        $mvc   = $this->getApplication()->bootComponent('com_installer')->getMVCFactory();
         $model = $mvc->createModel('Manage', 'Administrator', ['ignore_request' => true]);
 
         $model->setState('filter.type', 'plugin');
