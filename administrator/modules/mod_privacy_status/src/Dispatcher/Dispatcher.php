@@ -70,13 +70,13 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         $app                 = $this->getApplication();
         $privacyStatusHelper = $this->getHelperFactory()->getHelper('PrivacyStatusHelper');
 
-        $data['privacyPolicyInfo']            = $privacyStatusHelper->getPrivacyPolicyMenuStatus();
-        $data['requestFormPublished']         = $privacyStatusHelper->getRequestFormMenuStatus();
+        $data['privacyPolicyInfo']            = $privacyStatusHelper->getPrivacyPolicyInformation($app);
+        $data['requestFormPublished']         = $privacyStatusHelper->getRequestFormMenuStatus($app);
         $data['privacyConsentPluginId']       = PrivacyHelper::getPrivacyConsentPluginId();
         $data['sendMailEnabled']              = (bool) $app->get('mailonline', 1);
-        $data['numberOfUrgentRequests']       = $privacyStatusHelper->getUrgentRequestsNumber();
+        $data['numberOfUrgentRequests']       = $privacyStatusHelper->getNumberOfUrgentRequests();
         $data['urgentRequestDays']            = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
-        $data['databaseConnectionEncryption'] = $privacyStatusHelper->getEncryption();
+        $data['databaseConnectionEncryption'] = $privacyStatusHelper->getDatabaseConnectionEncryption();
 
         return $data;
     }

@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\PrivacyStatus\Administrator\Helper;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Privacy\CheckPrivacyPolicyPublishedEvent;
 use Joomla\CMS\Factory;
@@ -18,6 +19,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -35,13 +37,15 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
     /**
      * Get the information about the published privacy policy
      *
+     * @param   CMSApplicationInterface  $app  The application
+     *
      * @return  array  Array containing a status of whether a privacy policy is set and a link to the policy document for editing
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getPrivacyPolicyMenuStatus()
+    public function getPrivacyPolicyInformation(CMSApplicationInterface $app)
     {
-        $dispatcher = Factory::getApplication()->getDispatcher();
+        $dispatcher = $app->getDispatcher();
         $policy     = [
             'published'        => false,
             'articlePublished' => false,
@@ -66,12 +70,14 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
     /**
      * Check whether there is a menu item for the request form
      *
+     * @param   CMSApplicationInterface  $app  The application
+     *
      * @return  array  Array containing a status of whether a menu is published for the request form and its current link
      *
      * @since   __DEPLOY_VERSION__
      *
      */
-    public function getRequestFormMenuStatus()
+    public function getRequestFormMenuStatus(CMSApplicationInterface $app)
     {
         $status = [
             'exists'    => false,
@@ -116,7 +122,7 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
             }
         }
 
-        $linkMode = Factory::getApplication()->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
+        $linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
         if (!$menuItem) {
             if (Multilanguage::isEnabled()) {
@@ -159,7 +165,7 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getUrgentRequestsNumber()
+    public function getNumberOfUrgentRequests()
     {
         // Load the parameters.
         $params = ComponentHelper::getComponent('com_privacy')->getParams();
@@ -189,7 +195,7 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
      *
      * @since __DEPLOY_VERSION__
      */
-    public function getEncryption()
+    public function getDatabaseConnectionEncryption()
     {
         return $this->getDatabase()->getConnectionEncryption();
     }
@@ -202,14 +208,14 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
      * @since   4.0.0
      *
      * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
-     *             Use the non-static method getPrivacyPolicyMenuStatus
+     *             Use the non-static method getPrivacyPolicyInformation
      *             Example: Factory::getApplication()->bootModule('mod_privacy_status', 'administrator')
      *                          ->getHelper('PrivacyStatusHelper')
-     *                          ->getPrivacyPolicyMenuStatus()
+     *                          ->getPrivacyPolicyInformation(Factory::getApplication())
      */
     public static function getPrivacyPolicyInfo()
     {
-        return (new self())->getPrivacyPolicyMenuStatus();
+        return (new self())->getPrivacyPolicyInformation(Factory::getApplication());
     }
 
     /**
@@ -223,11 +229,13 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
      *             Use the non-static method getRequestFormMenuStatus
      *             Example: Factory::getApplication()->bootModule('mod_privacy_status', 'administrator')
      *                          ->getHelper('PrivacyStatusHelper')
-     *                          ->getRequestFormMenuStatus()
+     *                          ->getRequestFormMenuStatus(Factory::getApplication())
      */
     public static function getRequestFormPublished()
     {
-        return (new self())->getRequestFormMenuStatus();
+        $privacyStatusHelper = new self();
+        $privacyStatusHelper->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
+        return $privacyStatusHelper->getRequestFormMenuStatus(Factory::getApplication());
     }
 
     /**
@@ -238,13 +246,15 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
      * @since   4.0.0
      *
      * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
-     *             Use the non-static method getUrgentRequestsNumber
+     *             Use the non-static method getNumberOfUrgentRequests
      *             Example: Factory::getApplication()->bootModule('mod_privacy_status', 'administrator')
      *                          ->getHelper('PrivacyStatusHelper')
-     *                          ->getUrgentRequestsNumber()
+     *                          ->getNumberOfUrgentRequests()
      */
     public static function getNumberUrgentRequests()
     {
-        return (new self())->getUrgentRequestsNumber();
+        $privacyStatusHelper = new self();
+        $privacyStatusHelper->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
+        return $privacyStatusHelper->getNumberOfUrgentRequests();
     }
 }
