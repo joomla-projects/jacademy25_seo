@@ -108,7 +108,7 @@
     "fs-extra": "^10.1.0",
     "ini": "^2.0.0",
     "jasmine-core": "^3.99.1",
-    "joomla-cypress": "^1.1.1",
+    "joomla-cypress": "^1.3.0",
     "lightningcss": "^1.27.0",
     "mysql": "^2.18.1",
     "pg": "^8.13.0",
