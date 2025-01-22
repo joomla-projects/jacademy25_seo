@@ -8,8 +8,7 @@ describe('Test in backend that the content history list', () => {
     cy.visit('/administrator/index.php?option=com_content&task=article.add');
     cy.get('#jform_title').clear().type('Test article versions');
     cy.clickToolbarButton('Save');
-    cy.get('#toolbar-versions').click(); // @todo remove after https://github.com/joomla-projects/joomla-cypress/pull/40
-    // cy.clickToolbarButton('Versions'); // @todo enable after https://github.com/joomla-projects/joomla-cypress/pull/40
+    cy.clickToolbarButton('Versions');
     cy.get('.joomla-dialog-header').should('contain.text', 'Versions');
   });
 
@@ -17,8 +16,7 @@ describe('Test in backend that the content history list', () => {
     cy.visit('/administrator/index.php?option=com_content&task=article.add');
     cy.get('#jform_title').clear().type('Test article versions');
     cy.clickToolbarButton('Save');
-    cy.get('#toolbar-versions').click(); // @todo remove after https://github.com/joomla-projects/joomla-cypress/pull/40
-    // cy.clickToolbarButton('Versions'); // @todo enable after https://github.com/joomla-projects/joomla-cypress/pull/40
+    cy.clickToolbarButton('Versions');
 
     const currentDate = new Date();
     const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
@@ -37,8 +35,7 @@ describe('Test in backend that the content history list', () => {
     cy.visit('/administrator/index.php?option=com_content&task=article.add');
     cy.get('#jform_title').clear().type('Test article versions');
     cy.clickToolbarButton('Save');
-    cy.get('#toolbar-versions').click(); // @todo remove after https://github.com/joomla-projects/joomla-cypress/pull/40
-    // cy.clickToolbarButton('Versions'); // @todo enable after https://github.com/joomla-projects/joomla-cypress/pull/40
+    cy.clickToolbarButton('Versions');
     cy.wait(5000);
 
     cy.get('iframe.iframe-content') // the iframe's selector
@@ -69,8 +66,7 @@ describe('Test in backend that the content history list', () => {
     cy.visit('/administrator/index.php?option=com_content&task=article.add');
     cy.get('#jform_title').clear().type('Test article versions');
     cy.clickToolbarButton('Save');
-    cy.get('#toolbar-versions').click(); // @todo remove after https://github.com/joomla-projects/joomla-cypress/pull/40
-    // cy.clickToolbarButton('Versions'); // @todo enable after https://github.com/joomla-projects/joomla-cypress/pull/40
+    cy.clickToolbarButton('Versions');
 
     cy.wait(5000);
 
@@ -98,8 +94,7 @@ describe('Test in backend that the content history list', () => {
     cy.visit('/administrator/index.php?option=com_content&task=article.add');
     cy.get('#jform_title').clear().type('Test article versions');
     cy.clickToolbarButton('Save');
-    cy.get('#toolbar-versions').click(); // @todo remove after https://github.com/joomla-projects/joomla-cypress/pull/40
-    // cy.clickToolbarButton('Versions'); // @todo enable after https://github.com/joomla-projects/joomla-cypress/pull/40
+    cy.clickToolbarButton('Versions');
     cy.wait(5000);
 
     cy.get('iframe.iframe-content') // the iframe's selector
@@ -127,8 +122,7 @@ describe('Test in backend that the content history list', () => {
     cy.visit('/administrator/index.php?option=com_content&task=article.add');
     cy.get('#jform_title').clear().type('Test article versions');
     cy.clickToolbarButton('Save');
-    cy.get('#toolbar-versions').click(); // @todo remove after https://github.com/joomla-projects/joomla-cypress/pull/40
-    // cy.clickToolbarButton('Versions'); // @todo enable after https://github.com/joomla-projects/joomla-cypress/pull/40
+    cy.clickToolbarButton('Versions');
     cy.wait(5000);
 
     cy.get('iframe.iframe-content') // the iframe's selector
@@ -156,8 +150,7 @@ describe('Test in backend that the content history list', () => {
     cy.visit('/administrator/index.php?option=com_content&task=article.add');
     cy.get('#jform_title').clear().type('Test article versions');
     cy.clickToolbarButton('Save');
-    cy.get('#toolbar-versions').click(); // @todo remove after https://github.com/joomla-projects/joomla-cypress/pull/40
-    // cy.clickToolbarButton('Versions'); // @todo enable after https://github.com/joomla-projects/joomla-cypress/pull/40
+    cy.clickToolbarButton('Versions');
     cy.wait(5000);
 
     cy.get('iframe.iframe-content') // the iframe's selector
