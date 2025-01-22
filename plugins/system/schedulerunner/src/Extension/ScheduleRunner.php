@@ -11,8 +11,8 @@
 namespace Joomla\Plugin\System\ScheduleRunner\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
@@ -153,7 +153,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
         }
 
         // Since the request from the frontend may time out, try allowing execution after disconnect.
-        if (function_exists('ignore_user_abort')) {
+        if (\function_exists('ignore_user_abort')) {
             ignore_user_abort(true);
         }
 
@@ -170,11 +170,10 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * This method is responsible for the WebCron functionality of the Scheduler component.<br/>
+     * This method is responsible for the WebCron functionality of the Scheduler component.
      * Acting on a `com_ajax` call, this method can work in two ways:
-     * 1. If no Task ID is specified, it triggers the Scheduler to run the next task in
-     *   the task queue.
-     * 2. If a Task ID is specified, it fetches the task (if it exists) from the Scheduler API and executes it.<br/>
+     * 1. If no Task ID is specified, it triggers the Scheduler to run the next task in the task queue.
+     * 2. If a Task ID is specified, it fetches the task (if it exists) from the Scheduler API and executes it.
      *
      * URL query parameters:
      * - `hash` string (required)   Webcron hash (from the Scheduler component configuration).
@@ -198,12 +197,14 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        if (!strlen($hash) || $hash !== $this->getApplication()->getInput()->get('hash')) {
+        if (!\strlen($hash) || $hash !== $this->getApplication()->getInput()->get('hash')) {
             throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
+        // Check whether there is an id passed via the URL
         $id = (int) $this->getApplication()->getInput()->getInt('id', 0);
 
+        // When the id is set to 0 the next task is executed
         $task = $this->runScheduler($id);
 
         if (!empty($task) && !empty($task->getContent()['exception'])) {
@@ -288,7 +289,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
     /**
      * Enhance the scheduler config form by dynamically populating or removing display fields.
      *
-     * @param   EventInterface  $event  The onContentPrepareForm event.
+     * @param   Model\PrepareFormEvent  $event  The onContentPrepareForm event.
      *
      * @return void
      *
@@ -297,10 +298,10 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
      *
      * @todo  Move to another plugin?
      */
-    public function enhanceSchedulerConfig(EventInterface $event): void
+    public function enhanceSchedulerConfig(Model\PrepareFormEvent $event): void
     {
-        /** @var Form $form */
-        [$form, $data] = array_values($event->getArguments());
+        $form = $event->getForm();
+        $data = $event->getData();
 
         if (
             $form->getName() !== 'com_config.component'
