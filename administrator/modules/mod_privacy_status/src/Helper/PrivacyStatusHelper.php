@@ -19,7 +19,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -215,7 +214,11 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
      */
     public static function getPrivacyPolicyInfo()
     {
-        return (new self())->getPrivacyPolicyInformation(Factory::getApplication());
+        $app = Factory::getApplication();
+
+        return $app->bootModule('mod_privacy_status', 'administrator')
+                            ->getHelper('PrivacyStatusHelper')
+                            ->getPrivacyPolicyInformation($app);
     }
 
     /**
@@ -233,9 +236,11 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
      */
     public static function getRequestFormPublished()
     {
-        $privacyStatusHelper = new self();
-        $privacyStatusHelper->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
-        return $privacyStatusHelper->getRequestFormMenuStatus(Factory::getApplication());
+        $app = Factory::getApplication();
+
+        return $app->bootModule('mod_privacy_status', 'administrator')
+                            ->getHelper('PrivacyStatusHelper')
+                            ->getRequestFormMenuStatus($app);
     }
 
     /**
@@ -253,8 +258,10 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
      */
     public static function getNumberUrgentRequests()
     {
-        $privacyStatusHelper = new self();
-        $privacyStatusHelper->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
-        return $privacyStatusHelper->getNumberOfUrgentRequests();
+        $app = Factory::getApplication();
+
+        return $app->bootModule('mod_privacy_status', 'administrator')
+                            ->getHelper('PrivacyStatusHelper')
+                            ->getNumberOfUrgentRequests();
     }
 }
