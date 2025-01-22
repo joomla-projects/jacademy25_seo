@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -64,7 +65,8 @@ $popupOptions = [
                             data-joomla-dialog="<?php echo htmlspecialchars(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)) ?>"
                             data-close-on-message data-reload-on-close>
                         <div class="cpanel-add-module-icon">
-                            <span class="icon-plus-square" aria-hidden="true"></span>
+                            <!-- <span class="icon-plus-square" aria-hidden="true"></span> -->
+                            <svg class="j-iconx2" aria-hidden="true"><use href="#<?= HTMLHelper::_('svgicon.add', 'j--square-plus'); ?>"></svg>
                         </div>
                         <span><?php echo Text::_('COM_CPANEL_ADD_DASHBOARD_MODULE'); ?></span>
                     </button>

@@ -20,7 +20,7 @@ use Joomla\CMS\Language\Text;
         <li>
             <?php echo HTMLHelper::link(
                 $params->get('forum_url'),
-                Text::_('MOD_LOGINSUPPORT_FORUM'),
+                '<svg class="j-icon" aria-hidden="true"><use href="#' . HTMLHelper::_('svgicon.add', 'j--arrow-up-right-from-square') . '"></svg>' . Text::_('MOD_LOGINSUPPORT_FORUM'),
                 [
                     'target' => '_blank',
                     'rel'    => 'nofollow noopener',
@@ -31,7 +31,7 @@ use Joomla\CMS\Language\Text;
         <li>
             <?php echo HTMLHelper::link(
                 $params->get('documentation_url'),
-                Text::_('MOD_LOGINSUPPORT_DOCUMENTATION'),
+                '<svg class="j-icon" aria-hidden="true"><use href="#' . HTMLHelper::_('svgicon.add', 'j--arrow-up-right-from-square') . '"></svg>' . Text::_('MOD_LOGINSUPPORT_DOCUMENTATION'),
                 [
                     'target' => '_blank',
                     'rel'    => 'nofollow noopener',
@@ -42,7 +42,7 @@ use Joomla\CMS\Language\Text;
         <li>
             <?php echo HTMLHelper::link(
                 $params->get('news_url'),
-                Text::_('MOD_LOGINSUPPORT_NEWS'),
+                '<svg class="j-icon" aria-hidden="true"><use href="#' . HTMLHelper::_('svgicon.add', 'j--arrow-up-right-from-square') . '"></svg>' . Text::_('MOD_LOGINSUPPORT_NEWS'),
                 [
                     'target' => '_blank',
                     'rel'    => 'nofollow noopener',

@@ -15,6 +15,7 @@ use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
@@ -894,6 +895,14 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             $with[]    = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
         }
 
-        return str_replace($replace, $with, $this->_template);
+        $finalHtmlString = str_replace($replace, $with, $this->_template);
+        $icons           = '';
+
+        if (!HTMLHelper::isRegistered('svgicon.getAll')) {
+            $icons = HTMLHelper::_('svgicon.getAll');
+            $icons = '<svg xmlns="http://www.w3.org/2000/svg" width=0 height=0>' . implode('', array_values($icons)) . '</svg>';
+        }
+
+        return $icons ? str_replace('</body>', $icons, $finalHtmlString) : $finalHtmlString;
     }
 }

@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
@@ -77,7 +78,7 @@ foreach ($tours as $tour) :
 
     if (!isset($allTours[$key])) :
         $lang->load("$key.sys", JPATH_ADMINISTRATOR)
-        || $lang->load("$key.sys", JPATH_ADMINISTRATOR . '/components/' . $key);
+            || $lang->load("$key.sys", JPATH_ADMINISTRATOR . '/components/' . $key);
 
         $allTours[$key] = [];
     endif;
@@ -103,7 +104,8 @@ $popupOptions = json_encode([
 <div class="header-item-content dropdown header-tours d-none d-sm-block">
     <button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button" title="<?php echo Text::_('MOD_GUIDEDTOURS_MENU'); ?>">
         <div class="header-item-icon">
-            <span class="icon-map-signs" aria-hidden="true"></span>
+            <!-- <span class="icon-map-signs" aria-hidden="true"></span> -->
+            <svg class="j-icon" aria-hidden="true"><use href="#<?= HTMLHelper::_('svgicon.add', 'j--signs-post'); ?>"></svg>
         </div>
         <div class="header-item-text">
             <?php echo Text::_('MOD_GUIDEDTOURS_MENU'); ?>

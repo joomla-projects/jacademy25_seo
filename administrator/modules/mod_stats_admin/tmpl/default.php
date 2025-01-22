@@ -8,6 +8,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 \Joomla\CMS\Factory::getApplication()->getDocument()->addScriptDeclaration('
@@ -37,7 +39,9 @@ defined('_JEXEC') or die;
 <ul class="list-group list-group-flush stats-module">
     <?php foreach ($list as $item) : ?>
         <li class="list-group-item">
-            <span class="me-2 icon-<?php echo $item->icon; ?> icon-fw" aria-hidden="true"></span> <?php echo $item->title; ?>
+            <!-- <span class="me-2 icon-<?php echo $item->icon; ?> icon-fw" aria-hidden="true"></span> -->
+            <svg class="j-icon" aria-hidden="true"><use href="#<?= HTMLHelper::_('svgicon.add', 'j--' . $item->icon); ?>"></svg>
+            <?php echo $item->title; ?>
 
             <?php if (isset($item->link)) : ?>
                 <a class="btn btn-info btn-sm js-revert" href="<?php echo $item->link; ?>"><?php echo $item->data; ?></a>

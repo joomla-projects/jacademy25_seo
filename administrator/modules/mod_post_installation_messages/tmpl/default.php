@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -25,7 +26,8 @@ if ($hideLinks || $messagesCount < 1) {
          title="<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>">
         <div class="header-item-icon">
             <div class="w-auto">
-                <span class="icon-bell icon-fw" aria-hidden="true"></span>
+                <!-- <span class="icon-bell icon-fw" aria-hidden="true"></span> -->
+                <svg class="j-icon" aria-hidden="true"><use href="#<?= HTMLHelper::_('svgicon.add', 'j--bell'); ?>"></svg>
                 <small class="header-item-count"><?php echo $messagesCount; ?></small>
             </div>
         </div>

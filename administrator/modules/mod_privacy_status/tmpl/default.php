@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -29,17 +30,20 @@ use Joomla\CMS\Router\Route;
             <td>
                 <?php if ($privacyPolicyInfo['published'] && $privacyPolicyInfo['articlePublished']) : ?>
                     <span class="badge bg-success">
-                        <span class="icon-check-square" aria-hidden="true"></span>
+                        <!-- <span class="icon-check-square" aria-hidden="true"></span> -->
+                        <svg class="j-icon" aria-hidden="true"><use href="#<?= HTMLHelper::_('svgicon.add', 'j--check-square'); ?>"></svg>
                         <?php echo Text::_('JPUBLISHED'); ?>
                     </span>
                 <?php elseif ($privacyPolicyInfo['published'] && !$privacyPolicyInfo['articlePublished']) : ?>
                     <span class="badge bg-warning">
-                        <span class="icon-exclamation-triangle" aria-hidden="true"></span>
+                        <!-- <span class="icon-exclamation-triangle" aria-hidden="true"></span> -->
+                        <svg class="j-icon" aria-hidden="true"><use href="#<?= HTMLHelper::_('svgicon.add', 'j--exclamation-triangle'); ?>"></svg>
                         <?php echo Text::_('JUNPUBLISHED'); ?>
                     </span>
                 <?php else : ?>
                     <span class="badge bg-warning">
-                        <span class="icon-exclamation-triangle" aria-hidden="true"></span>
+                        <!-- <span class="icon-exclamation-triangle" aria-hidden="true"></span> -->
+                        <svg class="j-icon" aria-hidden="true"><use href="#<?= HTMLHelper::_('svgicon.add', 'j--exclamation-triangle'); ?>"></svg>
                         <?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
                     </span>
                 <?php endif; ?>

@@ -54,7 +54,7 @@ class StatsAdminHelper
         if ($serverinfo) {
             $rows[$i]        = new \stdClass();
             $rows[$i]->title = Text::_('MOD_STATS_PHP');
-            $rows[$i]->icon  = 'cogs';
+            $rows[$i]->icon  = 'gears';
             $rows[$i]->data  = PHP_VERSION;
             $i++;
 
@@ -66,7 +66,7 @@ class StatsAdminHelper
 
             $rows[$i]        = new \stdClass();
             $rows[$i]->title = Text::_('MOD_STATS_CACHING');
-            $rows[$i]->icon  = 'tachometer-alt';
+            $rows[$i]->icon  = 'gauge-high';
             $rows[$i]->data  = $app->get('caching') ? Text::_('JENABLED') : Text::_('JDISABLED');
             $i++;
 

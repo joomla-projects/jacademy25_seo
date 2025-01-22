@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -24,7 +25,8 @@ $route = 'index.php?option=com_messages&view=messages';
 <a class="header-item-content" href="<?php echo Route::_($route); ?>" title="<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>">
     <div class="header-item-icon">
         <div class="w-auto">
-            <span class="icon-envelope icon-fw" aria-hidden="true"></span>
+            <!-- <span class="icon-envelope icon-fw" aria-hidden="true"></span> -->
+            <svg class="j-icon" aria-hidden="true"><use href="#<?= HTMLHelper::_('svgicon.add', 'j--language'); ?>"></svg>
             <small class="header-item-count"><?php echo $countUnread; ?></small>
         </div>
     </div>

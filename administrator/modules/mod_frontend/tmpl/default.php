@@ -19,7 +19,8 @@ use Joomla\CMS\Uri\Uri;
     title="<?php echo Text::sprintf('MOD_FRONTEND_PREVIEW', $sitename); ?>"
     target="_blank">
     <div class="header-item-icon">
-        <span class="icon-external-link-alt" aria-hidden="true"></span>
+        <!-- <span class="icon-external-link-alt" aria-hidden="true"></span> -->
+         <svg class="j-icon" aria-hidden="true"><use href="#<?= HTMLHelper::_('svgicon.add', 'j--arrow-up-right-from-square'); ?>"></svg>
     </div>
     <div class="header-item-text">
         <?php echo HTMLHelper::_('string.truncate', $sitename, 28, false, false); ?>

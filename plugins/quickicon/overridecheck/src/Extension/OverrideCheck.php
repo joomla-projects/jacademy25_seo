@@ -98,8 +98,9 @@ final class OverrideCheck extends CMSPlugin implements SubscriberInterface
         $result[] = [
             [
                 'link'  => 'index.php?option=com_templates&view=templates',
-                'image' => 'icon-file',
+                'image' => '',
                 'icon'  => '',
+                'svg'   => 'j--file',
                 'text'  => $this->getApplication()->getLanguage()->_('PLG_QUICKICON_OVERRIDECHECK_CHECKING'),
                 'id'    => 'plg_quickicon_overridecheck',
                 'group' => 'MOD_QUICKICON_MAINTENANCE',

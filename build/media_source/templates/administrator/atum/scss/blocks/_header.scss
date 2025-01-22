@@ -88,7 +88,7 @@
     color: $white;
     background-color: $dropdown-item-bg; // var(--template-bg-dark-70);
 
-    > span {
+    > svg {
       margin-inline-end: .5rem;
     }
 
@@ -161,18 +161,16 @@
 }
 
 .header-item-icon {
-  > * {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    min-width: 28px;
-    height: 28px;
-    margin: 4px;
-    color: $white;
-    background-color: var(--template-bg-dark);
-    border-radius: 16px;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  margin: 4px;
+  color: $white;
+  background-color: var(--template-bg-dark);
+  border-radius: 16px;
 
   span {
     margin: 4px;
@@ -222,8 +220,7 @@
     margin: 0;
     background: var(--template-bg-dark);
 
-    .#{$jicon-css-prefix}-angle-down,
-    .#{$fa-css-prefix}-angle-down {
+    .j-icon > use[href=j--angle-down] {
       transform: rotate(180deg);
     }
   }
@@ -231,7 +228,7 @@
 
 @if $enable-dark-mode {
   @include color-mode(dark) {
-    .header-item-icon > * {
+    .header-item-icon {
       background: var(--header-bg);
     }
   }

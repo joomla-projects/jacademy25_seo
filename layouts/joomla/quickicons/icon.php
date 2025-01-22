@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 $id      = empty($displayData['id']) ? '' : (' id="' . $displayData['id'] . '"');
@@ -43,14 +44,19 @@ if (isset($displayData['linkadd'])) : ?>
 
         <a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
             <div class="quickicon-info">
-                <?php if (isset($displayData['image'])) : ?>
+                <?php if (isset($displayData['image']) && $displayData['image'] !== '') : ?>
                     <div class="quickicon-icon">
                         <div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
+                    </div>
+                <?php elseif (!empty($displayData['svg'])) : ?>
+                    <div class="quickicon-icon">
+                        <svg class="j-iconx2" aria-hidden="true"><use href="#<?= HTMLHelper::_('svgicon.add', $displayData['svg']); ?>"></svg>
                     </div>
                 <?php endif; ?>
                 <?php if (isset($displayData['ajaxurl'])) : ?>
                     <div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
-                        <span class="icon-spinner" aria-hidden="true"></span>
+                        <!-- <span class="icon-spinner" aria-hidden="true"></span> -->
+                        <svg class="j-icon" aria-hidden="true"><use href="#<?= HTMLHelper::_('svgicon.add', 'j--spinner'); ?>"></svg>
                     </div>
                     <div class="quickicon-sr-desc visually-hidden"></div>
                 <?php endif; ?>
@@ -73,7 +79,8 @@ if (isset($displayData['linkadd'])) : ?>
     if (isset($displayData['linkadd'])) : ?>
         <li class="quickicon-linkadd j-links-link d-flex">
             <a class="d-flex" href="<?php echo $displayData['linkadd']; ?>" title="<?php echo Text::_($displayData['name'] . '_ADD'); ?>">
-                <span class="icon-plus" aria-hidden="true"></span>
+                <!-- <span class="icon-plus" aria-hidden="true"></span> -->
+                <svg class="j-icon" aria-hidden="true"><use href="#<?= HTMLHelper::_('svgicon.add', 'j--plus'); ?>"></svg>
             </a>
         </li>
     </ul>

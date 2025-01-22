@@ -97,8 +97,9 @@ final class PrivacyCheck extends CMSPlugin implements SubscriberInterface
         $result[] = [
             [
                 'link'  => $privacy . '&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC',
-                'image' => 'icon-users',
+                'image' => '',
                 'icon'  => '',
+                'svg'   => 'j--users',
                 'text'  => $this->getApplication()->getLanguage()->_('PLG_QUICKICON_PRIVACYCHECK_CHECKING'),
                 'id'    => 'plg_quickicon_privacycheck',
                 'group' => 'MOD_QUICKICON_USERS',

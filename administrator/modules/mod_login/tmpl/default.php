@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
@@ -22,6 +23,13 @@ $wa->useScript('keepalive')
 
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');
+HTMLHelper::_('svgicon.add', 'j--eye-slash');
+
+$linkAttribs = [
+    'target' => '_blank',
+    'rel'    => 'noopener nofollow',
+    'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS'))
+];
 ?>
 <form class="form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
     <fieldset>
@@ -39,8 +47,7 @@ Text::script('JHIDEPASSWORD');
                     class="form-control"
                     required="required"
                     autofocus
-                    autocomplete="username"
-                >
+                    autocomplete="username">
             </div>
         </div>
         <div class="form-group">
@@ -55,10 +62,10 @@ Text::script('JHIDEPASSWORD');
                     type="password"
                     class="form-control input-full"
                     required="required"
-                    autocomplete="current-password"
-                >
+                    autocomplete="current-password">
                 <button type="button" class="btn btn-primary input-password-toggle">
-                    <span class="icon-eye icon-fw" aria-hidden="true"></span>
+                    <!-- <span class="icon-eye icon-fw" aria-hidden="true"></span> -->
+                    <svg class="j-icon" aria-hidden="true"><use href="#<?= HTMLHelper::_('svgicon.add', 'j--eye'); ?>"></svg>
                     <span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
                 </button>
 
@@ -78,29 +85,28 @@ Text::script('JHIDEPASSWORD');
                 $dataAttributeKeys = array_filter(array_keys($button), function ($key) {
                     return substr($key, 0, 5) == 'data-';
                 });
-                ?>
-            <div class="form-group">
-                <button type="button"
+            ?>
+                <div class="form-group">
+                    <button type="button"
                         class="btn btn-secondary w-100 <?php echo $button['class'] ?? '' ?>"
                         <?php foreach ($dataAttributeKeys as $key) : ?>
-                            <?php echo $key ?>="<?php echo $button[$key] ?>"
+                        <?php echo $key ?>="<?php echo $button[$key] ?>"
                         <?php endforeach; ?>
                         <?php if ($button['onclick']) : ?>
                         onclick="<?php echo $button['onclick'] ?>"
                         <?php endif; ?>
                         title="<?php echo Text::_($button['label']) ?>"
-                        id="<?php echo $button['id'] ?>"
-                >
-                    <?php if (!empty($button['icon'])) : ?>
-                        <span class="<?php echo $button['icon'] ?>"></span>
-                    <?php elseif (!empty($button['image'])) : ?>
-                        <?php echo $button['image']; ?>
-                    <?php elseif (!empty($button['svg'])) : ?>
-                        <?php echo $button['svg']; ?>
-                    <?php endif; ?>
-                    <?php echo Text::_($button['label']) ?>
-                </button>
-            </div>
+                        id="<?php echo $button['id'] ?>">
+                        <?php if (!empty($button['icon'])) : ?>
+                            <span class="<?php echo $button['icon'] ?>"></span>
+                        <?php elseif (!empty($button['image'])) : ?>
+                            <?php echo $button['image']; ?>
+                        <?php elseif (!empty($button['svg'])) : ?>
+                            <?php echo $button['svg']; ?>
+                        <?php endif; ?>
+                        <?php echo Text::_($button['label']) ?>
+                    </button>
+                </div>
             <?php endforeach; ?>
             <div class="form-group">
                 <button type="submit" id="btn-login-submit" class="btn btn-primary w-100 btn-lg"><?php echo Text::_('JLOGIN'); ?></button>
@@ -114,14 +120,9 @@ Text::script('JHIDEPASSWORD');
 </form>
 <div class="text-center">
     <div>
-        <?php echo HTMLHelper::link(
-            Text::_('MOD_LOGIN_CREDENTIALS_LINK'),
-            Text::_('MOD_LOGIN_CREDENTIALS'),
-            [
-                'target' => '_blank',
-                'rel'    => 'noopener nofollow',
-                'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS'))
-            ]
-        ); ?>
+        <a href="<?= Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" <?= ArrayHelper::toString($linkAttribs); ?>>
+            <svg class="j-icon" aria-hidden="true"><use href="#<?= HTMLHelper::_('svgicon.add', 'j--arrow-up-right-from-square'); ?>"></svg>
+            <?= Text::_('MOD_LOGIN_CREDENTIALS'); ?>
+        </a>
     </div>
 </div>

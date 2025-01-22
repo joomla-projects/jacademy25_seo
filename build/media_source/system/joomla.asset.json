@@ -231,7 +231,7 @@
       "type": "script",
       "uri": "system/fields/passwordview.min.js",
       "attributes": {
-        "defer": true
+        "type": "module"
       },
       "dependencies": [
         "core"
@@ -242,7 +242,7 @@
       "type": "script",
       "uri": "system/fields/passwordstrength.min.js",
       "attributes": {
-        "defer": true
+        "type": "module"
       },
       "dependencies": [
         "core",

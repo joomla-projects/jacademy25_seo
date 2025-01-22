@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -31,7 +32,8 @@ $popupOptions = [
 <button type="button" class="header-item-content multilanguage" title="<?php echo htmlspecialchars(Text::_('MOD_MULTILANGSTATUS')); ?>"
         data-joomla-dialog="<?php echo htmlspecialchars(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)) ?>">
     <div class="header-item-icon">
-        <span class="icon-language" aria-hidden="true"></span>
+        <!-- <span class="icon-language" aria-hidden="true"></span> -->
+        <svg class="j-icon" aria-hidden="true"><use href="#<?= HTMLHelper::_('svgicon.add', 'j--language'); ?>"></svg>
     </div>
     <div class="header-item-text">
         <?php echo Text::_('MOD_MULTILANGSTATUS'); ?>

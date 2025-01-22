@@ -104,8 +104,9 @@ final class Extensionupdate extends CMSPlugin implements SubscriberInterface
         $result[] = [
             [
                 'link'  => 'index.php?option=com_installer&view=update&task=update.find&' . $token,
-                'image' => 'icon-star',
+                'image' => '',
                 'icon'  => '',
+                'svg'   => 'j--star',
                 'text'  => $this->getApplication()->getLanguage()->_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
                 'id'    => 'plg_quickicon_extensionupdate',
                 'group' => 'MOD_QUICKICON_MAINTENANCE',

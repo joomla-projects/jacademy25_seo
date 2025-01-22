@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 $app->getDocument()->getWebAssetManager()
@@ -28,11 +29,13 @@ Text::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');
             <li class="list-group-item sampledata-<?php echo $item->name; ?>">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="sample-data__title">
-                        <span class="sample-data__icon icon-<?php echo $item->icon; ?> me-1" aria-hidden="true"></span>
+                        <!-- <span class="sample-data__icon icon-<?php echo $item->icon; ?> me-1" aria-hidden="true"></span> -->
+                        <svg class="j-icon" aria-hidden="true"><use href="#<?= HTMLHelper::_('svgicon.add', 'j--'. $item->icon); ?>"></svg>
                         <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
                     </div>
                     <button type="button" class="btn btn-primary btn-sm apply-sample-data" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
-                        <span class="icon-upload" aria-hidden="true"></span> <?php echo Text::_('JLIB_INSTALLER_INSTALL'); ?>
+                        <span class="icon-upload" aria-hidden="true"></span>
+                        <?php echo Text::_('JLIB_INSTALLER_INSTALL'); ?>
                         <span class="visually-hidden"><?php echo $item->title; ?></span>
                     </button>
                 </div>

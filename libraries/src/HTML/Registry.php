@@ -44,6 +44,7 @@ final class Registry
         'formbehavior'    => Helpers\FormBehavior::class,
         'grid'            => Helpers\Grid::class,
         'icons'           => Helpers\Icons::class,
+        'svgicon'         => Helpers\SVGIcon::class,
         'jgrid'           => Helpers\JGrid::class,
         'jquery'          => Helpers\Jquery::class,
         'links'           => Helpers\Links::class,
