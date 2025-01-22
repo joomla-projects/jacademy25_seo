@@ -45,12 +45,16 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onAfterDispatch'         => 'onAfterDispatch',
-            'onExtensionAfterSave'    => 'onExtensionAfterSave',
-            'onContentChangeState'    => 'onContentChangeState',
-            'onExtensionChangeState'  => 'onExtensionChangeState',
-            'onApplicationAfterSave'  => 'onApplicationAfterSave',
-            'onApplicationBeforeSave' => 'onApplicationBeforeSave',
+            'onAfterDispatch'           => 'onAfterDispatch',
+            'onApplicationAfterSave'    => 'onApplicationAfterSave',
+            'onApplicationBeforeSave'   => 'onApplicationBeforeSave',
+            'onContentChangeState'      => 'onContentChangeState',
+            'onExtensionAfterInstall'   => 'onExtensionAfterInstall',
+            'onExtensionAfterSave'      => 'onExtensionAfterSave',
+            'onExtensionAfterUninstall' => 'onExtensionAfterUninstall',
+            'onExtensionAfterUpdate'    => 'onExtensionAfterUpdate',
+            'onExtensionChangeState'    => 'onExtensionChangeState',
+
         ];
     }
 
@@ -91,6 +95,7 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
 
         return true;
     }
+
     /**
      * Listener for the `onApplicationAfterSave` event. This listener is used to enable or disable Safe Mode.
      *
@@ -136,6 +141,27 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
     }
 
     /**
+     * Listens to the `onExtensionAfterInstall` event and enqueues a warning message
+     * if a non-core extension is installed while safe mode is on.
+     *
+     * @param   Event  $event  The event to handle
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+
+    public function onExtensionAfterInstall(Event $event): void
+    {
+        if (!$this->isSafeModeOn()) {
+            return;
+        }
+
+        $this->loadLanguage();
+        $this->getApplication()->enqueueMessage(Text::_('PLG_SYSTEM_SAFEMODE_INSTALLED_NONCORE_WHEN_SAFEMODEON'), 'warning');
+    }
+
+    /**
      * Listens to the `onExtensionAfterSave` event and prevents saving of non-core plugins when safe mode is on.
      *
      * @param   Event  $event  The event to handle
@@ -171,6 +197,54 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
             $this->getApplication()->enqueueMessage(Text::_('PLG_SYSTEM_SAFEMODE_PUBLISH_NONCORE_WHEN_SAFEMODEON'), 'warning');
             $this->delistPlugin($table->extension_id);
         }
+    }
+
+    /**
+     * Listens to the `onExtensionAfterUpdate` event and enqueues a warning message
+     * if a non-core extension is updated while safe mode is on.
+     *
+     * @param   Event  $event  The event to handle
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+
+    public function onExtensionAfterUpdate(Event $event): void
+    {
+        if (!$this->isSafeModeOn()) {
+            return;
+        }
+
+        $this->loadLanguage();
+        $this->getApplication()->enqueueMessage(Text::_('PLG_SYSTEM_SAFEMODE_UPDATED_NONCORE_WHEN_SAFEMODEON'), 'warning');
+    }
+
+    /**
+     * Listens to the `onExtensionAfterUninstall` event and removes the plugin from the safe mode list if it was successfully uninstalled.
+     *
+     * @param   Event  $event  The event to handle
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+
+    public function onExtensionAfterUninstall(Event $event): void
+    {
+        if (!$this->isSafeModeOn()) {
+            return;
+        }
+
+        $eid       = $event->getEid();
+        $result    = $event->getRemoved();
+
+        // If the process failed, ignore it
+        if ($result === false) {
+            return;
+        }
+
+        $this->delistPlugin($eid);
     }
 
     /**
@@ -420,14 +494,14 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-    * Checks if safe mode is enabled.
-    *
-    * If safe mode is on, a warning message is enqueued.
-    *
-    * @return  boolean  True if safe mode is on, otherwise false.
-    *
-    * @since   __DEPLOY_VERSION__
-    */
+     * Checks if safe mode is enabled.
+     *
+     * If safe mode is on, a warning message is enqueued.
+     *
+     * @return  boolean  True if safe mode is on, otherwise false.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
     private function isSafeModeOn(): bool
     {
         $config = $this->getApplication()->getConfig();
@@ -443,14 +517,14 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-    * Checks if an extension with the given ID is a plugin.
-    *
-    * @param   int  $id  The ID of the extension to check.
-    *
-    * @return  bool  True if the extension is a plugin, otherwise false.
-    *
-    * @since   __DEPLOY_VERSION__
-    */
+     * Checks if an extension with the given ID is a plugin.
+     *
+     * @param   int  $id  The ID of the extension to check.
+     *
+     * @return  bool  True if the extension is a plugin, otherwise false.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
     private function isPlugin(int $id): bool
     {
         /** @var ManageModel $model */
