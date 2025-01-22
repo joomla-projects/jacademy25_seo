@@ -873,7 +873,8 @@ INSERT INTO `#__action_log_config` (`id`, `type_title`, `type_alias`, `id_holder
 (19, 'application_config', 'com_config.application', '', 'name', '', 'PLG_ACTIONLOG_JOOMLA'),
 (20, 'task', 'com_scheduler.task', 'id', 'title', '#__scheduler_tasks', 'PLG_ACTIONLOG_JOOMLA'),
 (21, 'field', 'com_fields.field', 'id', 'title', '#__fields', 'PLG_ACTIONLOG_JOOMLA'),
-(22, 'guidedtour', 'com_guidedtours.state', 'id', 'title', '#__guidedtours', 'PLG_ACTIONLOG_JOOMLA');
+(22, 'guidedtour', 'com_guidedtours.state', 'id', 'title', '#__guidedtours', 'PLG_ACTIONLOG_JOOMLA'),
+(23, 'contact', 'com_contact.form', 'id', 'name', '#__contact_details', 'PLG_ACTIONLOG_JOOMLA');
 
 
 -- --------------------------------------------------------
@@ -886,6 +887,7 @@ CREATE TABLE IF NOT EXISTS `#__action_logs_users` (
   `user_id` int UNSIGNED NOT NULL,
   `notify` tinyint UNSIGNED NOT NULL,
   `extensions` text NOT NULL,
+  `exclude_self` tinyint UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`),
   KEY `idx_notify` (`notify`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
