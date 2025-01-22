@@ -334,8 +334,8 @@
 			default="0"
 			filter="boolean"
 			>
-			<option value="0">COM_CONFIG_FIELD_DEBUG_SAFEMODEOFF</option>
-			<option value="1">COM_CONFIG_FIELD_DEBUG_SAFEMODEON</option>
+			<option value="0">JOFF</option>
+			<option value="1">JON</option>
 		</field>
 
 	</fieldset>
