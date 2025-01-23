@@ -13,10 +13,12 @@ namespace Joomla\Plugin\System\SafeMode\Extension;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -34,6 +36,30 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
+
+    /**
+     * Affects constructor behavior. If true, language files will be loaded automatically.
+     *
+     * @var    boolean
+     * @since  3.1
+     */
+    protected $autoloadLanguage = true;
+
+    /**
+     * Constructor.
+     *
+     * @param   DispatcherInterface  $dispatcher  The event dispatcher.
+     * @param   array                $config      An optional associative array of configuration settings.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct(DispatcherInterface $dispatcher, array $config = [])
+    {
+        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+        $options['text_file'] = 'safemode.php';
+        Log::addLogger($options);
+        parent::__construct($dispatcher, $config);
+    }
 
     /**
      * @inheritDoc
@@ -54,6 +80,7 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
             'onExtensionAfterUninstall' => 'onExtensionAfterUninstall',
             'onExtensionAfterUpdate'    => 'onExtensionAfterUpdate',
             'onExtensionChangeState'    => 'onExtensionChangeState',
+            'onJoomlaBeforeUpdate'      => 'onJoomlaBeforeUpdate',
 
         ];
     }
@@ -70,6 +97,22 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
         $this->isSafeModeOn();
     }
 
+    /*************  ✨ Codeium Command ⭐  *************/
+    /**
+     * Listener for the `onApplicationBeforeSave` event.
+     *
+     * This method is triggered before the application configuration is saved. It checks if Safe Mode is enabled
+     * and ensures that Joomla's default User authentication plugin is enabled. If the authentication plugin is
+     * not enabled, an error message is enqueued and the save operation is prevented.
+     *
+     * @param   Event  $event  The event to handle.
+     *
+     * @return  bool  True if the operation can proceed, false otherwise.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+
+    /******  467149f3-3fbe-4553-ab11-1c505735edf4  *******/
     public function onApplicationBeforeSave(Event $event): bool
     {
         // Switch on Safe Mode
@@ -151,14 +194,16 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
      * @since   __DEPLOY_VERSION__
      */
 
+
     public function onExtensionAfterInstall(Event $event): void
     {
         if (!$this->isSafeModeOn()) {
             return;
         }
 
-        $this->loadLanguage();
+        $installer = $event->getInstaller();
         $this->getApplication()->enqueueMessage(Text::_('PLG_SYSTEM_SAFEMODE_INSTALLED_NONCORE_WHEN_SAFEMODEON'), 'warning');
+        Log::add(Text::_('Installed') . ' ' . $installer->manifest->name, Log::WARNING, 'safemode');
     }
 
     /**
@@ -191,9 +236,8 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
         // Safe Mode is On
         $coreExtensionIds = ExtensionHelper::getCoreExtensionIds();
 
-        // And publishing a non-core plugin
+        // Publishing a non-core plugin delist it
         if (!\in_array($table->extension_id, $coreExtensionIds)) {
-            $this->loadLanguage();
             $this->getApplication()->enqueueMessage(Text::_('PLG_SYSTEM_SAFEMODE_PUBLISH_NONCORE_WHEN_SAFEMODEON'), 'warning');
             $this->delistPlugin($table->extension_id);
         }
@@ -216,8 +260,9 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $this->loadLanguage();
+        $installer = $event->getInstaller();
         $this->getApplication()->enqueueMessage(Text::_('PLG_SYSTEM_SAFEMODE_UPDATED_NONCORE_WHEN_SAFEMODEON'), 'warning');
+        Log::add(Text::_('Updated') . ' ' . $installer->manifest->name, Log::WARNING, 'safemode');
     }
 
     /**
@@ -238,6 +283,7 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
 
         $eid       = $event->getEid();
         $result    = $event->getRemoved();
+        $installer = $event->getInstaller();
 
         // If the process failed, ignore it
         if ($result === false) {
@@ -245,6 +291,7 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
         }
 
         $this->delistPlugin($eid);
+        Log::add(Text::_('Deleted') . ' ' . $installer->manifest->name, Log::WARNING, 'safemode');
     }
 
     /**
@@ -280,7 +327,6 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
 
         foreach ($pks as $id) {
             if (!\in_array($id, $coreExtensionIds)) {
-                $this->loadLanguage();
                 $this->getApplication()->enqueueMessage(Text::_('PLG_SYSTEM_SAFEMODE_PUBLISH_NONCORE_WHEN_SAFEMODEON'), 'warning');
                 $this->delistPlugin($id);
             }
@@ -298,10 +344,8 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
      */
     public function onExtensionChangeState(Event $event): void
     {
-        // Extensions: Manage
-        $context = $event->getContext();
+        // Extensions: Manage view
         $pks     = $event->getPks();
-        // devo capire se è un plugin
         $value   = $event->getValue();
 
         if (!$this->isSafeModeOn()) {
@@ -332,7 +376,6 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
 
         // Get core exrension ids
         $coreExtensionIds = ExtensionHelper::getCoreExtensionIds();
-        $this->loadLanguage();
 
         foreach ($pks as $id) {
             if (!\in_array($id, $coreExtensionIds)) {
@@ -340,6 +383,24 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
                 $this->delistPlugin($id);
             }
         }
+    }
+
+    /**
+     * Listener for the `onJoomlaBeforeUpdate` event, which is triggered when Joomla is about to be updated.
+     * If Safe Mode is on, it switches on Safe Mode.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onJoomlaBeforeUpdate(): void
+    {
+        // Switch on Safe Mode re-list
+        if ($this->isSafeModeOn()) {
+            $this->switchSafeModeOn();
+        }
+
+        return;
     }
 
     /**
@@ -383,12 +444,15 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
         $plugins = [];
         $db      = $this->getDatabase();
         $query   = $db->getQuery(true);
-        $query->select($db->quoteName('extension_id'))
+        $query->select(
+            [$db->quoteName('extension_id'),
+            $db->quoteName('name')]
+        )
             ->from($db->quoteName('#__noncore_extensions_safemode'));
         $db->setQuery($query);
 
         try {
-            $plugins = $db->loadColumn();
+            $plugins = $db->loadObjectList();
         } catch (\RuntimeException $e) {
             $this->getApplication()->enqueueMessage(('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
@@ -421,13 +485,14 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
         $pluginObject = $this->getList();
 
         foreach ($pluginObject as $plugin) {
-            $id     = $plugin;
-            $return = $model->publish($plugin, 1);
+            $return = $model->publish($plugin->extension_id, 1);
+            Log::add(Text::_('published') . ' ' . $plugin->name, Log::WARNING, 'safemode');
         }
 
-        $this->loadLanguage();
         $this->getApplication()->getMessageQueue(true);
         $this->getApplication()->enqueueMessage(Text::_(('PLG_SYSTEM_SAFEMODE_OFF'), 'warning'));
+
+        Log::add(Text::_('Switch SafeMode OFF'), Log::WARNING, 'safemode');
     }
 
     /**
@@ -456,6 +521,7 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
                 $this->setSafeOn($plugin);
             }
         }
+        Log::add(Text::_('Switch SafeMode ON'), Log::WARNING, 'safemode');
     }
 
     /**
@@ -489,8 +555,16 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
             ->bind(':element', $plugin->element)
             ->bind(':time', $now);
         $db->setQuery($query);
+        Log::add(Text::_('unpublished') . ' ' . $plugin->name, Log::WARNING, 'safemode');
+        try {
+            $db->execute();
+        } catch (\RuntimeException $e) {
+            $this->getApplication()->enqueueMessage(('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-        return $db->execute();
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -507,12 +581,11 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
         $config = $this->getApplication()->getConfig();
         $return = false;
 
-        $this->loadLanguage();
-
         if ($config->get('safemode', false)) {
             $this->getApplication()->enqueueMessage(Text::_('PLG_SYSTEM_SAFEMODE_ON'), 'warning');
             $return = true;
         }
+
         return $return;
     }
 
