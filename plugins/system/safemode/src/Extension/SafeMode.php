@@ -97,7 +97,6 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
         $this->isSafeModeOn();
     }
 
-    /*************  ✨ Codeium Command ⭐  *************/
     /**
      * Listener for the `onApplicationBeforeSave` event.
      *
@@ -111,8 +110,6 @@ final class SafeMode extends CMSPlugin implements SubscriberInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-
-    /******  467149f3-3fbe-4553-ab11-1c505735edf4  *******/
     public function onApplicationBeforeSave(Event $event): bool
     {
         // Switch on Safe Mode
