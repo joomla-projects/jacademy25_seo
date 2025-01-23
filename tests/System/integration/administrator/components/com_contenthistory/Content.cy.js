@@ -27,7 +27,7 @@ describe('Test in backend that the content history list', () => {
       .should('not.be.empty') // Ensure the body is loaded
       .then(cy.wrap) // Wrap the body for further Cypress commands
       .find('a') // Find the specific element containing the string
-      .should('contain.text', formattedDate); // Replace with your expected text
+      .should('contain.text', formattedDate);
     cy.get('button.button-close.btn-close').click();
   });
 
