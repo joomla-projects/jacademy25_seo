@@ -33,7 +33,7 @@ function deleteRelativePath(relativePath, config) {
  * @param {object} config - The Cypress configuration object
  * @param {number} [mode=0o444] - The file mode to be used (in octal)
  *
- * @returns null
+ * @returns {Promise<string>} - A promise that resolves to a success message or rejects with an error
  */
 function writeRelativeFile(relativePath, content, config, mode = 0o444) {
   return new Promise((resolve, reject) => {
