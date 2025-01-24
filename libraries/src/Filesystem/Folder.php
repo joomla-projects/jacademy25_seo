@@ -147,6 +147,7 @@ abstract class Folder
                             if (!@copy($sfid, $dfid)) {
                                 throw new \RuntimeException('Copy file failed', -1);
                             }
+                            File::invalidateFileCache($dfid);
                         }
                         break;
                 }
