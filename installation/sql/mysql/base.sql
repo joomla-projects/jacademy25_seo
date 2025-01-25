@@ -77,13 +77,13 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (55, 18, 94, 95, 2, 'com_modules.module.87', 'Sample Data', '{}'),
 (56, 8, 20, 37, 2, 'com_content.workflow.1', 'COM_WORKFLOW_BASIC_WORKFLOW', '{}'),
 (57, 56, 21, 22, 3, 'com_content.stage.1', 'COM_WORKFLOW_BASIC_STAGE', '{}'),
-(58, 56, 23, 24, 3, 'com_content.transition.1', 'Unpublish', '{}'),
-(59, 56, 25, 26, 3, 'com_content.transition.2', 'Publish', '{}'),
-(60, 56, 27, 28, 3, 'com_content.transition.3', 'Trash', '{}'),
-(61, 56, 29, 30, 3, 'com_content.transition.4', 'Archive', '{}'),
-(62, 56, 31, 32, 3, 'com_content.transition.5', 'Feature', '{}'),
-(63, 56, 33, 34, 3, 'com_content.transition.6', 'Unfeature', '{}'),
-(64, 56, 35, 36, 3, 'com_content.transition.7', 'Publish & Feature', '{}'),
+(58, 56, 23, 24, 3, 'com_content.transition.1', 'UNPUBLISH', '{}'),
+(59, 56, 25, 26, 3, 'com_content.transition.2', 'PUBLISH', '{}'),
+(60, 56, 27, 28, 3, 'com_content.transition.3', 'TRASH', '{}'),
+(61, 56, 29, 30, 3, 'com_content.transition.4', 'ARCHIVE', '{}'),
+(62, 56, 31, 32, 3, 'com_content.transition.5', 'FEATURE', '{}'),
+(63, 56, 33, 34, 3, 'com_content.transition.6', 'UNFEATURE', '{}'),
+(64, 56, 35, 36, 3, 'com_content.transition.7', 'PUBLISH_AND_FEATURE', '{}'),
 (65, 1, 143, 144, 1, 'com_privacy', 'com_privacy', '{}'),
 (66, 1, 145, 146, 1, 'com_actionlogs', 'com_actionlogs', '{}'),
 (67, 18, 76, 77, 2, 'com_modules.module.88', 'Latest Actions', '{}'),
@@ -107,16 +107,16 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (87, 18, 124, 125, 2, 'com_modules.module.97', 'Recently Added Articles', '{}'),
 (88, 18, 126, 127, 2, 'com_modules.module.98', 'Logged-in Users', '{}'),
 (89, 18, 128, 129, 2, 'com_modules.module.90', 'Login Support', '{}'),
-(90, 1, 165, 166, 1, 'com_scheduler', 'com_scheduler', '{}'),
-(91, 1, 167, 168, 1, 'com_associations', 'com_associations', '{}'),
-(92, 1, 169, 170, 1, 'com_categories', 'com_categories', '{}'),
-(93, 1, 171, 172, 1, 'com_fields', 'com_fields', '{}'),
-(94, 1, 173, 174, 1, 'com_workflow', 'com_workflow', '{}'),
-(95, 1, 175, 176, 1, 'com_guidedtours', 'com_guidedtours', '{}'),
+(90, 1, 165, 172, 1, 'com_scheduler', 'com_scheduler', '{}'),
+(91, 1, 173, 174, 1, 'com_associations', 'com_associations', '{}'),
+(92, 1, 175, 176, 1, 'com_categories', 'com_categories', '{}'),
+(93, 1, 177, 178, 1, 'com_fields', 'com_fields', '{}'),
+(94, 1, 179, 180, 1, 'com_workflow', 'com_workflow', '{}'),
+(95, 1, 181, 182, 1, 'com_guidedtours', 'com_guidedtours', '{}'),
 (96, 18, 130, 131, 2, 'com_modules.module.109', 'Guided Tours', '{}'),
-(97, 1, 177, 178, 1, 'com_scheduler.task.1', 'com_scheduler.task.1', '{}'),
-(98, 1, 179, 180, 1, 'com_scheduler.task.2', 'com_scheduler.task.2', '{}'),
-(99, 1, 181, 182, 1, 'com_scheduler.task.3', 'com_scheduler.task.3', '{}');
+(97, 90, 166, 167, 2, 'com_scheduler.task.1', 'Rotate Logs', '{}'),
+(98, 90, 168, 169, 2, 'com_scheduler.task.2', 'Session GC', '{}'),
+(99, 90, 170, 171, 2, 'com_scheduler.task.3', 'Update Notification', '{}');
 
 -- --------------------------------------------------------
 
@@ -168,7 +168,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'com_installer', 'component', 'com_installer', '', 1, 1, 1, 1, 1, '', '{"cachetimeout":"6","minimum_stability":"4"}', ''),
 (0, 'com_languages', 'component', 'com_languages', '', 1, 1, 1, 1, 1, '', '{"administrator":"en-GB","site":"en-GB"}', ''),
 (0, 'com_login', 'component', 'com_login', '', 1, 1, 1, 1, 1, '', '', ''),
-(0, 'com_media', 'component', 'com_media', '', 1, 1, 0, 1, 1, '', '{"upload_maxsize":"10","file_path":"images","image_path":"images","restrict_uploads":"1","allowed_media_usergroup":"3","restrict_uploads_extensions":"bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv","check_mime":"1","image_extensions":"bmp,gif,jpg,png,jpeg,webp,avif","audio_extensions":"mp3,m4a,mp4a,ogg","video_extensions":"mp4,mp4v,mpeg,mov,webm","doc_extensions":"odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv","ignore_extensions":"","upload_mime":"image\\/jpeg,image\\/gif,image\\/png,image\\/bmp,image\\/webp,image\\/avif,audio\\/ogg,audio\\/mpeg,audio\\/mp4,video\\/mp4,video\\/webm,video\\/mpeg,video\\/quicktime,application\\/msword,application\\/excel,application\\/pdf,application\\/powerpoint,text\\/plain,application\\/x-zip"}', ''),
+(0, 'com_media', 'component', 'com_media', '', 1, 1, 0, 1, 1, '', '{"upload_maxsize":"10","file_path":"files","image_path":"images","restrict_uploads":"1","allowed_media_usergroup":"3","restrict_uploads_extensions":"bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv","check_mime":"1","image_extensions":"bmp,gif,jpg,png,jpeg,webp,avif","audio_extensions":"mp3,m4a,mp4a,ogg","video_extensions":"mp4,mp4v,mpeg,mov,webm","doc_extensions":"odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv","ignore_extensions":"","upload_mime":"image\\/jpeg,image\\/gif,image\\/png,image\\/bmp,image\\/webp,image\\/avif,audio\\/ogg,audio\\/mpeg,audio\\/mp4,video\\/mp4,video\\/webm,video\\/mpeg,video\\/quicktime,application\\/msword,application\\/excel,application\\/pdf,application\\/powerpoint,text\\/plain,application\\/x-zip"}', ''),
 (0, 'com_menus', 'component', 'com_menus', '', 1, 1, 1, 1, 1, '', '{"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":""}', ''),
 (0, 'com_messages', 'component', 'com_messages', '', 1, 1, 1, 1, 1, '', '', ''),
 (0, 'com_modules', 'component', 'com_modules', '', 1, 1, 1, 1, 1, '', '', ''),
@@ -188,7 +188,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, 1, '', '', ''),
 (0, 'com_associations', 'component', 'com_associations', '', 1, 1, 1, 0, 1, '', '', ''),
 (0, 'com_privacy', 'component', 'com_privacy', '', 1, 1, 1, 0, 1, '', '', ''),
-(0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 0, 1, '', '{"ip_logging":0,"csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_checkin","com_config","com_contact","com_content","com_fields","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_scheduler","com_tags","com_templates","com_users"]}', ''),
+(0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 0, 1, '', '{"ip_logging":0,"csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_checkin","com_config","com_contact","com_content","com_fields","com_guidedtours","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_scheduler","com_tags","com_templates","com_users"]}', ''),
 (0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, 1, '', '{}', ''),
 (0, 'com_mails', 'component', 'com_mails', '', 1, 1, 1, 1, 1, '', '', ''),
 (0, 'com_scheduler', 'component', 'com_scheduler', '', 1, 1, 1, 0, 1, '', '{}', ''),
@@ -222,7 +222,8 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'mod_articles_category', 'module', 'mod_articles_category', '', 0, 1, 1, 0, 1, '', '', ''),
 (0, 'mod_articles_categories', 'module', 'mod_articles_categories', '', 0, 1, 1, 0, 1, '', '', ''),
 (0, 'mod_languages', 'module', 'mod_languages', '', 0, 1, 1, 0, 1, '', '', ''),
-(0, 'mod_finder', 'module', 'mod_finder', '', 0, 1, 0, 0, 1, '', '', '');
+(0, 'mod_finder', 'module', 'mod_finder', '', 0, 1, 0, 0, 1, '', '', ''),
+(0, 'mod_articles', 'module', 'mod_articles', '', 0, 1, 0, 0, 1, '', '', '');
 
 -- Modules: Administrator
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`) VALUES
@@ -872,7 +873,7 @@ CREATE TABLE IF NOT EXISTS `#__updates` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__tuf_updates`
+-- Table structure for table `#__tuf_metadata`
 --
 
 CREATE TABLE IF NOT EXISTS `#__tuf_metadata` (
