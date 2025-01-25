@@ -258,9 +258,7 @@ class PrivacyStatusHelper implements DatabaseAwareInterface
      */
     public static function getNumberUrgentRequests()
     {
-        $app = Factory::getApplication();
-
-        return $app->bootModule('mod_privacy_status', 'administrator')
+        return Factory::getApplication()->bootModule('mod_privacy_status', 'administrator')
                             ->getHelper('PrivacyStatusHelper')
                             ->getNumberOfUrgentRequests();
     }
