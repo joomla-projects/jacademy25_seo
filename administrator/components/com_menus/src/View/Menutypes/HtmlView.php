@@ -13,7 +13,6 @@ namespace Joomla\Component\Menus\Administrator\View\Menutypes;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Menus\Administrator\Model\MenutypesModel;
 
@@ -39,7 +38,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Array of menu types
      *
-     * @var    CMSObject[]
+     * @var    \stdClass[]
      *
      * @since  3.7.0
      */
