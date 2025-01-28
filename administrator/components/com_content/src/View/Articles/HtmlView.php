@@ -120,7 +120,6 @@ class HtmlView extends BaseHtmlView
         $this->vote          = PluginHelper::isEnabled('content', 'vote');
         $this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1;
 
-
         $featured = $this->state->get('filter.featured');
 
         if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
