@@ -16,7 +16,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterBase;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -48,12 +51,22 @@ class Router extends RouterBase
     protected $lookup = [];
 
     /**
+     * System - SEF Plugin parameters
+     *
+     * @var   Registry
+     * @since 5.2.0
+     * @deprecated  5.2.0 will be removed in 6.0
+     *              without replacement
+     */
+    private $sefparams;
+
+    /**
      * Tags Component router constructor
      *
-     * @param   SiteApplication           $app              The application object
-     * @param   AbstractMenu              $menu             The menu object to work with
-     * @param   CategoryFactoryInterface  $categoryFactory  The category object
-     * @param   DatabaseInterface         $db               The database object
+     * @param   SiteApplication            $app              The application object
+     * @param   AbstractMenu               $menu             The menu object to work with
+     * @param   ?CategoryFactoryInterface  $categoryFactory  The category object
+     * @param   DatabaseInterface          $db               The database object
      *
      * @since  4.0.0
      */
@@ -62,6 +75,14 @@ class Router extends RouterBase
         $this->db = $db;
 
         parent::__construct($app, $menu);
+
+        $sefPlugin       = PluginHelper::getPlugin('system', 'sef');
+
+        if ($sefPlugin) {
+            $this->sefparams = new Registry($sefPlugin->params);
+        } else {
+            $this->sefparams = new Registry();
+        }
 
         $this->buildLookup();
     }
@@ -78,6 +99,31 @@ class Router extends RouterBase
      */
     public function preprocess($query)
     {
+        // Make sure the alias for the tags is correct
+        if (isset($query['id'])) {
+            if (!\is_array($query['id'])) {
+                $query['id'] = [$query['id']];
+            }
+
+            foreach ($query['id'] as &$item) {
+                if (!strpos($item, ':')) {
+                    $dbquery = $this->db->getQuery(true);
+                    $id      = (int) $item;
+
+                    $dbquery->select($dbquery->quoteName('alias'))
+                        ->from('#__tags')
+                        ->where($dbquery->quoteName('id') . ' = :key')
+                        ->bind(':key', $id, ParameterType::INTEGER);
+
+                    $obj = $this->db->setQuery($dbquery)->loadObject();
+
+                    if ($obj) {
+                        $item .= ':' . $obj->alias;
+                    }
+                }
+            }
+        }
+
         $active = $this->menu->getActive();
 
         /**
@@ -141,12 +187,15 @@ class Router extends RouterBase
             }
         }
 
-        // If not found, return language specific home link
-        if (!isset($query['Itemid'])) {
-            $default = $this->menu->getDefault($lang);
+        // TODO: Remove this whole block in 6.0 as it is a bug
+        if (!$this->sefparams->get('strictrouting', 0)) {
+            // If not found, return language specific home link
+            if (!isset($query['Itemid'])) {
+                $default = $this->menu->getDefault($lang);
 
-            if (!empty($default->id)) {
-                $query['Itemid'] = $default->id;
+                if (!empty($default->id)) {
+                    $query['Itemid'] = $default->id;
+                }
             }
         }
 
@@ -172,10 +221,6 @@ class Router extends RouterBase
             if ($menuItem->query['view'] == 'tags') {
                 if (isset($query['id'])) {
                     $ids = $query['id'];
-
-                    if (!\is_array($ids)) {
-                        $ids = [$ids];
-                    }
 
                     foreach ($ids as $id) {
                         $segments[] = $id;
@@ -263,7 +308,15 @@ class Router extends RouterBase
 
         while (\count($segments)) {
             $id    = array_shift($segments);
-            $ids[] = $this->fixSegment($id);
+            $slug  = $this->fixSegment($id);
+
+            // We did not find the segment as a tag in the DB
+            if ($slug === $id) {
+                array_unshift($segments, $id);
+                break;
+            }
+
+            $ids[] = $slug;
         }
 
         if (\count($ids)) {
