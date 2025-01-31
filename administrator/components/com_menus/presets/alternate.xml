@@ -277,7 +277,7 @@
 			quicktask-title="COM_CONTENT_MENUS_NEW_ARTICLE"
 			type="component"
 			element="com_content"
-			link="index.php?option=com_content&amp;view=articles"
+			link="index.php?option=com_content&amp;view=articles&amp;featured=0"
 			quicktask="index.php?option=com_content&amp;task=article.add"
 		/>
 
