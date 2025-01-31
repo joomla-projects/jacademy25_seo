@@ -46,8 +46,6 @@ class ArticlesModel extends ListModel
      */
     public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
-        $featured = $this->isFeatured();
-
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
                 'id', 'a.id',
@@ -668,9 +666,7 @@ class ArticlesModel extends ListModel
             $query->where($db->quoteName('featured') . ' = 1');
         }
 
-        $result = $db->setQuery($query)->loadResult();
-
-        return (int) $result;
+        return (int) $db->setQuery($query)->loadResult();
     }
 
     /**
