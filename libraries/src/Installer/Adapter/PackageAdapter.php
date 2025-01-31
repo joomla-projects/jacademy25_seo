@@ -539,7 +539,6 @@ class PackageAdapter extends InstallerAdapter
             $this->extension->name         = $this->name;
             $this->extension->type         = 'package';
             $this->extension->element      = $this->element;
-            $this->extension->changelogurl = $this->changelogurl;
 
             // There is no folder for packages
             $this->extension->folder    = '';
@@ -549,6 +548,9 @@ class PackageAdapter extends InstallerAdapter
             $this->extension->client_id = 0;
             $this->extension->params    = $this->parent->getParams();
         }
+
+        // Update changelogurl
+        $this->extension->changelogurl = $this->changelogurl;
 
         // Update the manifest cache for the entry
         $this->extension->manifest_cache = $this->parent->generateManifestCache();
@@ -715,6 +717,7 @@ class PackageAdapter extends InstallerAdapter
         $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
         $this->parent->extension->name           = $manifest_details['name'];
+        $this->parent->extension->changelogurl   = $manifest_details['changelogurl'];
 
         try {
             return $this->parent->extension->store();
