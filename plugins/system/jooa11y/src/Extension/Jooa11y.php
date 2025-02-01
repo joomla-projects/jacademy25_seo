@@ -10,8 +10,12 @@
 
 namespace Joomla\Plugin\System\Jooa11y\Extension;
 
+use Joomla\CMS\Event\Application\AfterRouteEvent;
 use Joomla\CMS\Event\Application\BeforeCompileHeadEvent;
+use Joomla\CMS\Event\PageCache\SetCachingEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -36,7 +40,11 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return ['onBeforeCompileHead' => 'initJooa11y'];
+        if (Factory::getApplication()->isClient('site')) {
+            return ['onAfterRoute' => ['initJooa11y', Priority::HIGH]];
+        }
+
+        return [];
     }
 
     /**
@@ -50,9 +58,11 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
     {
         static $result;
 
-        if (\is_bool($result)) {
+        if ($result !== null) {
             return $result;
         }
+
+        $result = true;
 
         // If the user is not allowed to view the output then end here.
         $filterGroups = (array) $this->params->get('filter_groups', []);
@@ -64,24 +74,22 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
 
             if (!array_intersect($filterGroups, $userGroups)) {
                 $result = false;
-                return $result;
             }
         }
 
-        $result = true;
         return $result;
     }
 
     /**
-     * Add the checker.
+     * Init the checker.
      *
-     * @param  BeforeCompileHeadEvent $event  The event object
+     * @param  AfterRouteEvent $event  The event object
      *
      * @return  void
      *
      * @since   4.1.0
      */
-    public function initJooa11y(BeforeCompileHeadEvent $event)
+    public function initJooa11y(AfterRouteEvent $event)
     {
         if (!$event->getApplication()->isClient('site')) {
             return;
@@ -97,6 +105,29 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        // Disable page cache
+        $this->getDispatcher()->addListener(
+            'onPageCacheSetCaching',
+            static function (SetCachingEvent $event) {
+                $event->addResult(false);
+            }
+        );
+
+        // Register own event to add the checker later, once a document is created
+        $this->getDispatcher()->addListener('onBeforeCompileHead', [$this, 'addJooa11y']);
+    }
+
+    /**
+     * Add the checker.
+     *
+     * @param BeforeCompileHeadEvent $event The event object
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function addJooa11y($event)
+    {
         // Load translations
         $this->loadLanguage();
 
