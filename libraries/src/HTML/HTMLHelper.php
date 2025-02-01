@@ -789,7 +789,7 @@ abstract class HTMLHelper
      * @see   Browser
      * @since 1.5
      *
-     * @deprecated  5.2 will be removed in 7.0
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
      *              Use WebAssetManager::useStyle() or WebAssetManager::registerAndUseStyle() instead.
      */
     public static function stylesheet($file, $options = [], $attribs = [])
@@ -841,7 +841,7 @@ abstract class HTMLHelper
      * @see   HTMLHelper::stylesheet()
      * @since 1.5
      *
-     * @deprecated  5.2 will be removed in 7.0
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
      *              Use WebAssetManager::useScript() or WebAssetManager::registerAndUseScript() instead.
      */
     public static function script($file, $options = [], $attribs = [])
