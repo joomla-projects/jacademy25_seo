@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "68cb46ab32a1db1fe2152c1c756e2568",
+    "content-hash": "66fec8ab5e955efb2b3db4e6860c0f52",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -6054,16 +6054,16 @@
         },
         {
             "name": "voku/portable-utf8",
-            "version": "6.0.13",
+            "version": "dev-joomla-5.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/voku/portable-utf8.git",
-                "reference": "b8ce36bf26593e5c2e81b1850ef0ffb299d2043f"
+                "url": "https://github.com/joomla-backports/portable-utf8.git",
+                "reference": "eeb3d9e390411cd31af808caa7f7de337ea3a24c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/b8ce36bf26593e5c2e81b1850ef0ffb299d2043f",
-                "reference": "b8ce36bf26593e5c2e81b1850ef0ffb299d2043f",
+                "url": "https://api.github.com/repos/joomla-backports/portable-utf8/zipball/eeb3d9e390411cd31af808caa7f7de337ea3a24c",
+                "reference": "eeb3d9e390411cd31af808caa7f7de337ea3a24c",
                 "shasum": ""
             },
             "require": {
@@ -6092,14 +6092,18 @@
             },
             "type": "library",
             "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ],
                 "psr-4": {
                     "voku\\": "src/voku/"
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "voku\\tests\\": "tests/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "(Apache-2.0 or GPL-2.0)"
             ],
@@ -6120,40 +6124,14 @@
             "description": "Portable UTF-8 library - performance optimized (unicode) string functions for php.",
             "homepage": "https://github.com/voku/portable-utf8",
             "keywords": [
-                "UTF",
                 "clean",
                 "php",
                 "unicode",
+                "utf",
                 "utf-8",
                 "utf8"
             ],
-            "support": {
-                "issues": "https://github.com/voku/portable-utf8/issues",
-                "source": "https://github.com/voku/portable-utf8/tree/6.0.13"
-            },
-            "funding": [
-                {
-                    "url": "https://www.paypal.me/moelleken",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/voku",
-                    "type": "github"
-                },
-                {
-                    "url": "https://opencollective.com/portable-utf8",
-                    "type": "open_collective"
-                },
-                {
-                    "url": "https://www.patreon.com/voku",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/voku/portable-utf8",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2023-03-08T08:35:38+00:00"
+            "time": "2024-11-20T09:42:04+00:00"
         },
         {
             "name": "wamania/php-stemmer",
@@ -10243,7 +10221,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "tobscure/json-api": 20
+        "tobscure/json-api": 20,
+        "voku/portable-utf8": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
