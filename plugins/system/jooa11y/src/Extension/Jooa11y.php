@@ -181,9 +181,9 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
 
         // Get plugin options from xml
         $getOptions = [
-            'checkRoot'           => $this->params->get('checkRoot', 'main'),
-            'readabilityRoot'     => $this->params->get('readabilityRoot', 'main'),
-            'containerIgnore'     => $this->params->get('containerIgnore'),
+            'checkRoot'       => $this->params->get('checkRoot', 'main'),
+            'readabilityRoot' => $this->params->get('readabilityRoot', 'main'),
+            'containerIgnore' => $this->params->get('containerIgnore'),
         ];
         $getExtraProps = $this->params->get('extraProps', []);
         $getChecks = $this->params->get('checks', []);
