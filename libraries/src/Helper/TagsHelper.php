@@ -12,7 +12,6 @@ namespace Joomla\CMS\Helper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\CoreContent;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMContent;
 use Joomla\CMS\UCM\UCMType;
@@ -323,10 +322,8 @@ class TagsHelper extends CMSHelper
             throw new \InvalidArgumentException('Multiple primary keys are not supported as a content item id');
         }
 
-        $result = $this->unTagItem($contentItemId[$key], $table);
-
-        /** @var  CoreContent $ucmContentTable */
-        $ucmContentTable = Table::getInstance('CoreContent');
+        $result          = $this->unTagItem($contentItemId[$key], $table);
+        $ucmContentTable = new CoreContent(Factory::getDbo());
 
         return $result && $ucmContentTable->deleteByContentId($contentItemId[$key], $this->typeAlias);
     }
@@ -825,7 +822,7 @@ class TagsHelper extends CMSHelper
      *
      * @deprecated  5.3 will be removed in 7.0
      */
-    public function postStoreProcess(TableInterface $table, $newTags = [], $replace = true): void
+    public function postStoreProcess(TableInterface $table, $newTags = [], $replace = true)
     {
         @trigger_error('7.0 Method postStoreProcess() is deprecated, use postStore() instead.', \E_USER_DEPRECATED);
 
@@ -866,7 +863,7 @@ class TagsHelper extends CMSHelper
             } else {
                 // Process the tags
                 $data            = $this->getRowData($table);
-                $ucmContentTable = Table::getInstance('CoreContent');
+                $ucmContentTable = new CoreContent(Factory::getDbo());
 
                 $ucm     = new UCMContent($table, $this->typeAlias);
                 $ucmData = $data ? $ucm->mapData($data) : $ucm->ucmData;
