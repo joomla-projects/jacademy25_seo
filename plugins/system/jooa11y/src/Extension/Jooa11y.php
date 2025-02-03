@@ -186,7 +186,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
             'containerIgnore' => $this->params->get('containerIgnore'),
         ];
         $getExtraProps = $this->params->get('extraProps', []);
-        $getChecks = $this->params->get('checks', []);
+        $getChecks     = $this->params->get('checks', []);
 
         // Process Sa11y's props
         function processProps($props)
