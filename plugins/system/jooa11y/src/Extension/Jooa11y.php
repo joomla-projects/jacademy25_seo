@@ -203,8 +203,8 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
             return $result;
         }
         $extraProps = processProps($getExtraProps);
-        $checks = processProps($getChecks);
-        $allChecks = ['checks' => $checks];
+        $checks     = processProps($getChecks);
+        $allChecks  = ['checks' => $checks];
 
 
         // Merge all options together and add to page
