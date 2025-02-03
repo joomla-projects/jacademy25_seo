@@ -205,8 +205,6 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         $extraProps = processProps($getExtraProps);
         $checks     = processProps($getChecks);
         $allChecks  = ['checks' => $checks];
-
-
         // Merge all options together and add to page
         $allOptions = array_merge($getOptions, $extraProps, $allChecks);
         $document->addScriptOptions('jooa11yOptions', $allOptions);
