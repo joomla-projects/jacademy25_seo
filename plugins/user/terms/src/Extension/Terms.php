@@ -80,6 +80,8 @@ final class Terms extends CMSPlugin implements SubscriberInterface
         // Push the terms and conditions article ID into the terms field.
         $form->setFieldAttribute('terms', 'article', $termsarticle, 'terms');
         $form->setFieldAttribute('terms', 'note', $termsnote, 'terms');
+
+        return true;
     }
 
     /**

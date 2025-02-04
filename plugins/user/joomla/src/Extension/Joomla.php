@@ -242,6 +242,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
         $mailer = new MailTemplate('plg_user_joomla.mail', $userLocale);
         $mailer->addTemplateData($data);
+        $mailer->addUnsafeTags(['username', 'password', 'name', 'email']);
         $mailer->addRecipient($user['email'], $user['name']);
 
         try {
@@ -528,7 +529,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             }
         } else {
             // No existing user and autoregister off, this is a temporary user.
-            $instance->set('tmp_user', true);
+            $instance->tmp_user = true;
         }
 
         return $instance;
