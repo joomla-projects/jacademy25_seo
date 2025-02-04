@@ -62,6 +62,7 @@ $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= $multiple ? ' multiple' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
+$attr .= $dataAttribute;
 
 // To avoid user's confusion, readonly="true" should imply disabled="disabled".
 if ($readonly || $disabled) {
