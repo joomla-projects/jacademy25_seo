@@ -361,15 +361,13 @@ class PluginModel extends AdminModel
     /**
      * Custom clean cache method, plugins are cached in 2 places for different clients.
      *
-     * @param   string   $group     Cache group name.
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('com_plugins');
     }
