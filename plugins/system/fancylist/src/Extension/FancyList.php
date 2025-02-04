@@ -65,7 +65,6 @@ final class FancyList extends CMSPlugin implements SubscriberInterface
         // Fetch the configuration setting
         $maxResults = (string) $this->params->get('max_results', '10');
         $maxRender  = (string) $this->params->get('max_render', '-1');
-
         if ($form->getName() === 'com_content.articles.filter') {
 
             // Get the field from the SimpleXMLElement structure
