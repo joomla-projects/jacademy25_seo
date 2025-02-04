@@ -12,7 +12,6 @@ namespace Joomla\CMS\Helper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\CoreContent;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMContent;
 use Joomla\CMS\UCM\UCMType;
@@ -323,10 +322,8 @@ class TagsHelper extends CMSHelper
             throw new \InvalidArgumentException('Multiple primary keys are not supported as a content item id');
         }
 
-        $result = $this->unTagItem($contentItemId[$key], $table);
-
-        /** @var  CoreContent $ucmContentTable */
-        $ucmContentTable = Table::getInstance('CoreContent');
+        $result          = $this->unTagItem($contentItemId[$key], $table);
+        $ucmContentTable = new CoreContent(Factory::getDbo());
 
         return $result && $ucmContentTable->deleteByContentId($contentItemId[$key], $this->typeAlias);
     }
@@ -591,6 +588,7 @@ class TagsHelper extends CMSHelper
                 'MAX(' . $db->quoteName('c.core_publish_down') . ') AS ' . $db->quoteName('core_publish_down'),
                 'MAX(' . $db->quoteName('ct.type_title') . ') AS ' . $db->quoteName('content_type_title'),
                 'MAX(' . $db->quoteName('ct.router') . ') AS ' . $db->quoteName('router'),
+                'MAX(' . $db->quoteName('tc.title') . ') AS ' . $db->quoteName('core_category_title'),
                 'CASE WHEN ' . $db->quoteName('c.core_created_by_alias') . ' > ' . $db->quote(' ')
                 . ' THEN ' . $db->quoteName('c.core_created_by_alias') . ' ELSE ' . $db->quoteName('ua.name') . ' END AS ' . $db->quoteName('author'),
                 $db->quoteName('ua.email', 'author_email'),
@@ -826,7 +824,9 @@ class TagsHelper extends CMSHelper
      */
     public function postStoreProcess(TableInterface $table, $newTags = [], $replace = true)
     {
-        $this->postStore($table, $newTags, $replace);
+        @trigger_error('7.0 Method postStoreProcess() is deprecated, use postStore() instead.', \E_USER_DEPRECATED);
+
+        $this->postStore($table, (array) $newTags, (bool) $replace);
     }
 
     /**
@@ -842,7 +842,7 @@ class TagsHelper extends CMSHelper
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function postStore(TableInterface $table, $newTags = [], $replace = true, $remove = false)
+    public function postStore(TableInterface $table, array $newTags = [], bool $replace = true, bool $remove = false): bool
     {
         if (!empty($table->newTags) && empty($newTags)) {
             $newTags = $table->newTags;
@@ -863,7 +863,7 @@ class TagsHelper extends CMSHelper
             } else {
                 // Process the tags
                 $data            = $this->getRowData($table);
-                $ucmContentTable = Table::getInstance('CoreContent');
+                $ucmContentTable = new CoreContent(Factory::getDbo());
 
                 $ucm     = new UCMContent($table, $this->typeAlias);
                 $ucmData = $data ? $ucm->mapData($data) : $ucm->ucmData;

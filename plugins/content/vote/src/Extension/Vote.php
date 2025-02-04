@@ -26,16 +26,6 @@ use Joomla\CMS\Uri\Uri;
 final class Vote extends CMSPlugin
 {
     /**
-     * @var    \Joomla\CMS\Application\CMSApplication
-     *
-     * @since  3.7.0
-     *
-     * @deprecated 4.4.0 will be removed in 6.0 as it is there only for layout overrides
-     *             Use getApplication() instead
-     */
-    protected $app;
-
-    /**
      * Displays the voting area when viewing an article and the voting section is displayed before the article
      *
      * @param   string   $context  The context of the content being passed to the plugin
