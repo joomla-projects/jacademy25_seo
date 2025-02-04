@@ -68,7 +68,7 @@
 						<field type="text" name="value" label="PLG_SYSTEM_JOOA11Y_VALUE"/>
 					</form>
 				</field>
-        <field
+				<field
 					name="checks"
 					type="subform"
 					label="PLG_SYSTEM_JOOA11Y_FIELD_CHECKS"
