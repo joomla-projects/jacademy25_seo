@@ -55,11 +55,11 @@ final class FancyList extends CMSPlugin implements SubscriberInterface
      * @since   __DEPLOY_VERSION__
      */
 
-    public function onContentPrepareForm(PrepareFormEvent $event): bool
+    public function onContentPrepareForm(PrepareFormEvent $event): void
     {
         $form = $event->getForm();
         if (!\in_array($form->getName(), ['com_content.article', 'com_content.articles.filter'])) {
-            return true;
+            return;
         }
 
         // Fetch the configuration setting
@@ -70,7 +70,7 @@ final class FancyList extends CMSPlugin implements SubscriberInterface
             $xml = $form->getXml();
 
             if (!$xml instanceof \SimpleXMLElement) {
-                return true;
+                return;
             }
 
             // Get the category_id field
@@ -81,7 +81,7 @@ final class FancyList extends CMSPlugin implements SubscriberInterface
                 $field->addAttribute('data-max-render', $maxRender);
             }
 
-            return true;
+            return;
         }
 
         // Check if the field exists in the form
@@ -91,6 +91,6 @@ final class FancyList extends CMSPlugin implements SubscriberInterface
             $form->setFieldAttribute('catid', 'data-max-render', $maxRender);
         }
 
-        return true;
+        return;
     }
 }
