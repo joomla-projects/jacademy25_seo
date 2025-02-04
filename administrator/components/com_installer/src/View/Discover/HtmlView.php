@@ -11,7 +11,7 @@
 namespace Joomla\Component\Installer\Administrator\View\Discover;
 
 use Joomla\CMS\MVC\View\GenericDataException;
-use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\Component\Installer\Administrator\Model\DiscoverModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -30,7 +30,7 @@ class HtmlView extends InstallerViewDefault
      *
      * @var   array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected $items;
 
@@ -39,7 +39,7 @@ class HtmlView extends InstallerViewDefault
      *
      * @var    \Joomla\CMS\Pagination\Pagination
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected $pagination;
 
@@ -76,23 +76,26 @@ class HtmlView extends InstallerViewDefault
      */
     public function display($tpl = null)
     {
+        /** @var DiscoverModel $model */
+        $model = $this->getModel();
+
         // Run discover from the model.
-        if (!$this->getModel()->checkExtensions()) {
-            $this->getModel()->discover();
+        if (!$model->checkExtensions()) {
+            $model->discover();
         }
 
         // Get data from the model.
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
-        if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -108,7 +111,7 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         if (!$this->isEmptyState) {
             $toolbar->standardButton('upload', 'JTOOLBAR_INSTALL', 'discover.install')

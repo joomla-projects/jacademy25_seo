@@ -13,9 +13,9 @@ namespace Joomla\Component\Config\Administrator\View\Component;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
+use Joomla\Component\Config\Administrator\Model\ComponentModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -57,7 +57,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    object[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $fieldsets;
 
@@ -66,7 +66,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $formControl;
 
@@ -75,7 +75,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $return;
 
@@ -92,13 +92,16 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         try {
-            $this->component = $this->get('component');
+            /** @var ComponentModel $model */
+            $model = $this->getModel();
+
+            $this->component = $model->getComponent();
 
             if (!$this->component->enabled) {
                 return;
             }
 
-            $this->form = $this->get('Form');
+            $this->form = $model->getForm();
             $user       = $this->getCurrentUser();
         } catch (\Exception $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
@@ -134,7 +137,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'cog config');
         $toolbar->apply('component.apply');

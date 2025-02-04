@@ -15,8 +15,8 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Plugins\Administrator\Model\PluginModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -55,7 +55,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $ignore_fieldsets = [];
 
@@ -68,9 +68,12 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state = $this->get('State');
-        $this->item  = $this->get('Item');
-        $this->form  = $this->get('Form');
+        /** @var PluginModel $model */
+        $model = $this->getModel();
+
+        $this->state = $model->getState();
+        $this->item  = $model->getItem();
+        $this->form  = $model->getForm();
 
         if ($this->getLayout() === 'modalreturn') {
             parent::display($tpl);
@@ -79,7 +82,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -104,7 +107,7 @@ class HtmlView extends BaseHtmlView
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $canDo   = ContentHelper::getActions('com_plugins');
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::sprintf('COM_PLUGINS_MANAGER_PLUGIN', Text::_($this->item->name)), 'plug plugin');
 
@@ -121,7 +124,9 @@ class HtmlView extends BaseHtmlView
         // Get the help information for the plugin item.
         $lang = $this->getLanguage();
 
-        $help = $this->get('Help');
+        /** @var PluginModel $model */
+        $model = $this->getModel();
+        $help  = $model->getHelp();
 
         if ($help->url && $lang->hasKey($help->url)) {
             $debug = $lang->setDebug(false);
@@ -147,7 +152,7 @@ class HtmlView extends BaseHtmlView
     protected function addModalToolbar()
     {
         $canDo   = ContentHelper::getActions('com_plugins');
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::sprintf('COM_PLUGINS_MANAGER_PLUGIN', Text::_($this->item->name)), 'plug plugin');
 
