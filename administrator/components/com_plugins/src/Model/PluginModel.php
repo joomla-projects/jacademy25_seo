@@ -15,7 +15,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\Filesystem\Path;
@@ -177,9 +176,9 @@ class PluginModel extends AdminModel
                 return false;
             }
 
-            // Convert to the \Joomla\CMS\Object\CMSObject before adding other data.
+            // Convert to an object before adding other data.
             $properties             = $table->getProperties(1);
-            $this->_cache[$cacheId] = ArrayHelper::toObject($properties, CMSObject::class);
+            $this->_cache[$cacheId] = ArrayHelper::toObject($properties);
 
             // Convert the params field to an array.
             $registry                       = new Registry($table->params);

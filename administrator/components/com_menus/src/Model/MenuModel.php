@@ -14,7 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
@@ -121,7 +120,7 @@ class MenuModel extends AdminModel
      *
      * @param   integer  $itemId  The id of the menu item to get.
      *
-     * @return  mixed  Menu item data object on success, false on failure.
+     * @return  \stdClass|false  Menu item data object on success, false on failure.
      *
      * @since   1.6
      */
@@ -143,7 +142,7 @@ class MenuModel extends AdminModel
         }
 
         $properties = $table->getProperties(1);
-        $value      = ArrayHelper::toObject($properties, CMSObject::class);
+        $value      = ArrayHelper::toObject($properties);
 
         return $value;
     }
