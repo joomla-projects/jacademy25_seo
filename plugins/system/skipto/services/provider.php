@@ -37,7 +37,6 @@ return new class () implements ServiceProviderInterface {
                     $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('system', 'skipto')
                 );
-                $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
             }

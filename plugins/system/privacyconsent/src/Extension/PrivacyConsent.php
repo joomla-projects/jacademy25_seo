@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\PrivacyConsent\Extension;
 
+use Joomla\CMS\Event\Application\AfterRouteEvent;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Privacy\CheckPrivacyPolicyPublishedEvent;
 use Joomla\CMS\Event\User;
@@ -102,8 +103,6 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
         // Push the privacy article ID into the privacy field.
         $form->setFieldAttribute('privacy', $privacyType, $privacyId, 'privacyconsent');
         $form->setFieldAttribute('privacy', 'note', $privacynote, 'privacyconsent');
-
-        return true;
     }
 
     /**
@@ -258,18 +257,21 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
      * If logged in users haven't agreed to privacy consent, redirect them to profile edit page, ask them to agree to
      * privacy consent before allowing access to any other pages
      *
+     * @param   AfterRouteEvent  $event  The event instance.
+     *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onAfterRoute(): void
+    public function onAfterRoute(AfterRouteEvent $event): void
     {
         // Run this in frontend only
         if (!$this->getApplication()->isClient('site')) {
             return;
         }
 
-        $userId = $this->getApplication()->getIdentity()->id;
+        $app    = $this->getApplication();
+        $userId = $app->getIdentity()->id;
 
         // Check to see whether user already consented, if not, redirect to user profile page
         if ($userId > 0) {
@@ -281,7 +283,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
                 return;
             }
 
-            $input  = $this->getApplication()->getInput();
+            $input  = $app->getInput();
             $option = $input->getCmd('option');
             $task   = $input->get('task', '');
             $view   = $input->getString('view', '');
@@ -314,9 +316,9 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
             }
 
             // Redirect to com_users profile edit
-            $this->getApplication()->enqueueMessage($this->getRedirectMessage(), 'notice');
+            $app->enqueueMessage($this->getRedirectMessage(), 'notice');
             $link = 'index.php?option=com_users&view=profile&layout=edit';
-            $this->getApplication()->redirect(Route::_($link, false));
+            $app->redirect(Route::_($link, false));
         }
     }
 

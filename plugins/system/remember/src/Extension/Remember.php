@@ -68,13 +68,15 @@ final class Remember extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        $app = $this->getApplication();
+
         // Check for a cookie if user is not logged in
-        if ($this->getApplication()->getIdentity()->guest) {
+        if ($app->getIdentity()->guest) {
             $cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
 
             // Check for the cookie
-            if ($this->getApplication()->getInput()->cookie->get($cookieName)) {
-                $this->getApplication()->login(['username' => ''], ['silent' => true]);
+            if ($app->getInput()->cookie->get($cookieName)) {
+                $app->login(['username' => ''], ['silent' => true]);
             }
         }
     }
