@@ -128,7 +128,7 @@ steps:
   - name: prepare_system_tests
     depends_on:
       - npm
-    image: joomlaprojects/docker-images:systemtests8.1
+    image: node:20-bullseye-slim
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
