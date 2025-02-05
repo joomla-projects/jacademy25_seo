@@ -18,7 +18,7 @@ use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\QueryTypeAlreadyDefinedException;
 use Joomla\Event\DispatcherInterface;
 
@@ -77,12 +77,12 @@ class TaskTable extends Table implements CurrentUserInterface
     /**
      * TaskTable constructor override, needed to pass the DB table name and primary key to {@see Table::__construct()}.
      *
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   4.1.0
      */
-    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->setColumnAlias('published', 'state');
 
@@ -172,7 +172,7 @@ class TaskTable extends Table implements CurrentUserInterface
      *
      * @return  string
      *
-     * @since   5.3.0
+     * @since   5.2.3
      */
     protected function _getAssetTitle(): string
     {
@@ -191,7 +191,7 @@ class TaskTable extends Table implements CurrentUserInterface
      *
      * @return  integer
      *
-     * @since   5.3.0
+     * @since   5.2.3
      */
     protected function _getAssetParentId(?Table $table = null, $id = null): int
     {
