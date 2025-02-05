@@ -26,7 +26,7 @@ abstract class MediaHelper
      *
      * @param   string    $contentType  The content type
      * @param   integer   $id           The integer id
-     * @param   stdClass  $mediaObject  The media object being uploaded
+     * @param   \stdClass  $mediaObject  The media object being uploaded
      *
      * @return  string  The link for the action log
      *
