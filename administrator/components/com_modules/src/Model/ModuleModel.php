@@ -18,7 +18,6 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
@@ -626,7 +625,7 @@ class ModuleModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  mixed  Object on success, false on failure.
+     * @return  \stdClass|false  Object on success, false on failure.
      *
      * @since   1.6
      */
@@ -684,9 +683,9 @@ class ModuleModel extends AdminModel
                 }
             }
 
-            // Convert to the \Joomla\CMS\Object\CMSObject before adding other data.
+            // Convert to an object before adding other data.
             $properties        = $table->getProperties(1);
-            $this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
+            $this->_cache[$pk] = ArrayHelper::toObject($properties);
 
             // Convert the params field to an array.
             $registry                  = new Registry($table->params);
@@ -1090,15 +1089,13 @@ class ModuleModel extends AdminModel
     /**
      * Custom clean cache method for different clients
      *
-     * @param   string   $group     The name of the plugin group to import (defaults to null).
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('com_modules');
     }

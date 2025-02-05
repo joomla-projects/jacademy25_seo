@@ -20,6 +20,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Table\Category;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
@@ -1540,7 +1541,7 @@ abstract class AdminModel extends FormModel
     {
         // Check that the category exists
         if ($categoryId) {
-            $categoryTable = Table::getInstance('Category');
+            $categoryTable = new Category($this->getDatabase());
 
             if (!$categoryTable->load($categoryId)) {
                 if ($error = $categoryTable->getError()) {
