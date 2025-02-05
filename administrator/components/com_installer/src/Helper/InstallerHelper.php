@@ -473,9 +473,8 @@ class InstallerHelper
         // Try to get all of the update sites, including related extension information
         try {
             $db->setQuery($query);
-            $items = $db->loadObjectList();
 
-            return $items;
+            return $db->loadObjectList();
         } catch (\Exception $e) {
             return [];
         }
