@@ -29,7 +29,7 @@ class FeedHelper
      *
      * @param   \Joomla\Registry\Registry  $params  The parameters object.
      *
-     * @return  \Joomla\CMS\Feed\Feed|string  Return a JFeedReader object or a string message if error.
+     * @return  \Joomla\CMS\Feed\Feed|string  Return a Feed object or a string message if error.
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -58,7 +58,7 @@ class FeedHelper
      *
      * @param   \Joomla\Registry\Registry  $params  The parameters object.
      *
-     * @return  \Joomla\CMS\Feed\Feed|string  Return a JFeedReader object or a string message if error.
+     * @return  \Joomla\CMS\Feed\Feed|string  Return a Feed object or a string message if error.
      *
      * @since   1.5
      *
