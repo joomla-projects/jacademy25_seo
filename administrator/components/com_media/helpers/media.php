@@ -32,7 +32,7 @@ abstract class MediaHelper
      *
      * @since   3.9.27
      */
-    public static function getContentTypeLink($contentType, $id, $mediaObject)
+    public static function getContentTypeLink($contentType, $id, \stdClass $mediaObject)
     {
         if ($contentType === 'com_media.file') {
             return '';
