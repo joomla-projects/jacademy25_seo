@@ -16,7 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Language;
 use Joomla\CMS\Table\Table;
@@ -128,7 +127,7 @@ class LanguageModel extends AdminModel
         }
 
         $properties = $table->getProperties(1);
-        $value      = ArrayHelper::toObject($properties, CMSObject::class);
+        $value      = ArrayHelper::toObject($properties);
 
         return $value;
     }
