@@ -126,7 +126,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function addJooa11y($event)
+    public function addJooa11y(BeforeCompileHeadEvent $event)
     {
         // Load translations
         $this->loadLanguage();
