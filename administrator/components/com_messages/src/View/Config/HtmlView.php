@@ -62,15 +62,11 @@ class HtmlView extends BaseHtmlView
     {
         /** @var ConfigModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->form  = $model->getForm();
         $this->item  = $model->getItem();
         $this->state = $model->getState();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // Bind the record to the form.
         $this->form->bind($this->item);

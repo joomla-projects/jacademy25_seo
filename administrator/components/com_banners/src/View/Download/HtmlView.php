@@ -48,13 +48,10 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null): void
     {
         /** @var DownloadModel $model */
-        $model      = $this->getModel();
-        $this->form = $model->getForm();
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
 
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $this->form = $model->getForm();
 
         parent::display($tpl);
     }

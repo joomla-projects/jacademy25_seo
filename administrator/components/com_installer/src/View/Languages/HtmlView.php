@@ -68,6 +68,7 @@ class HtmlView extends InstallerViewDefault
 
         /** @var LanguagesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         // Get data from the model.
         $this->items         = $model->getItems();
@@ -75,11 +76,6 @@ class HtmlView extends InstallerViewDefault
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
         $this->installedLang = LanguageHelper::getInstalledLanguages();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         parent::display($tpl);
     }

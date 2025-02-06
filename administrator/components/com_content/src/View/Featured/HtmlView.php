@@ -94,6 +94,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var FeaturedModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
@@ -111,11 +112,6 @@ class HtmlView extends BaseHtmlView
             PluginHelper::importPlugin('workflow');
 
             $this->transitions = $model->getTransitions();
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         $this->addToolbar();

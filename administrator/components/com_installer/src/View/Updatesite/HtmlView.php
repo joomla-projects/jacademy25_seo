@@ -64,7 +64,9 @@ class HtmlView extends InstallerViewDefault
     public function display($tpl = null): void
     {
         /** @var UpdatesiteModel $model */
-        $model      = $this->getModel();
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
         $this->form = $model->getForm();
         $this->item = $model->getItem();
 
@@ -74,11 +76,6 @@ class HtmlView extends InstallerViewDefault
 
         if (!\in_array($update_site_id, $dlidSupportingSites)) {
             $this->form->removeField('extra_query');
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         parent::display($tpl);

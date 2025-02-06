@@ -76,17 +76,13 @@ class HtmlView extends InstallerViewDefault
     {
         /** @var ManageModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         // Get data from the model.
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // Display the view.
         parent::display($tpl);

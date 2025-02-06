@@ -87,17 +87,13 @@ class HtmlView extends BaseHtmlView
     {
         /** @var OverridesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state         = $model->getState();
         $this->items         = $model->getOverrides();
         $this->pagination    = $model->getPagination();
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors));
-        }
 
         $this->addToolbar();
         parent::display($tpl);

@@ -94,6 +94,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var MenusModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->items      = $model->getItems();
         $this->modules    = $model->getModules();
@@ -103,11 +104,6 @@ class HtmlView extends BaseHtmlView
         if ($this->getLayout() == 'default') {
             $this->filterForm    = $model->getFilterForm();
             $this->activeFilters = $model->getActiveFilters();
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         $this->addToolbar();

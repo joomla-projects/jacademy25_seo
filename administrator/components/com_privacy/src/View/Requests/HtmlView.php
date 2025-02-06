@@ -103,7 +103,9 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         /** @var RequestsModel $model */
-        $model                  = $this->getModel();
+        $model = $this->getModel();
+        $model->setUseExceptions(true);
+
         $this->items            = $model->getItems();
         $this->pagination       = $model->getPagination();
         $this->state            = $model->getState();
@@ -114,11 +116,6 @@ class HtmlView extends BaseHtmlView
 
         if (!\count($this->items) && $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new Genericdataexception(implode("\n", $errors), 500);
         }
 
         $this->addToolbar();

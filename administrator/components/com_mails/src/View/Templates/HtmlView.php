@@ -93,6 +93,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var TemplatesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->items         = $model->getItems();
         $this->languages     = $model->getLanguages();
@@ -101,11 +102,6 @@ class HtmlView extends BaseHtmlView
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
         $extensions          = $model->getExtensions();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // Find and set site default language
         $defaultLanguageTag = ComponentHelper::getParams('com_languages')->get('site');

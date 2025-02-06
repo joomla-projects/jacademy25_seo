@@ -71,16 +71,12 @@ class HtmlView extends BaseHtmlView
     {
         /** @var LanguageModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->item  = $model->getItem();
         $this->form  = $model->getForm();
         $this->state = $model->getState();
         $this->canDo = ContentHelper::getActions('com_languages');
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $this->addToolbar();
         parent::display($tpl);

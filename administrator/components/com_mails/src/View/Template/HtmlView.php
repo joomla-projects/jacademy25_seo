@@ -79,16 +79,12 @@ class HtmlView extends BaseHtmlView
     {
         /** @var TemplateModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state  = $model->getState();
         $this->item   = $model->getItem();
         $this->master = $model->getMaster();
         $this->form   = $model->getForm();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         list($extension, $template_id) = explode('.', $this->item->template_id, 2);
         $fields                        = ['subject', 'body', 'htmlbody'];

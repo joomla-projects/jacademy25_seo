@@ -137,6 +137,7 @@ class HtmlView extends BaseHtmlView
 
         /** @var IndexModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->items         = $model->getItems();
         $this->total         = $model->getTotal();
@@ -154,11 +155,6 @@ class HtmlView extends BaseHtmlView
         if (!Multilanguage::isEnabled()) {
             unset($this->activeFilters['language']);
             $this->filterForm->removeField('language', 'filter');
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Check that the content - finder plugin is enabled

@@ -67,17 +67,13 @@ class HtmlView extends BaseHtmlView
     {
         /** @var FieldModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->form  = $model->getForm();
         $this->item  = $model->getItem();
         $this->state = $model->getState();
 
         $this->canDo = ContentHelper::getActions($this->state->get('field.component'), 'field', $this->item->id);
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
 

@@ -85,17 +85,13 @@ class HtmlView extends BaseHtmlView
     {
         /** @var FieldsModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state         = $model->getState();
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // Display a warning if the fields system plugin is disabled
         if (!PluginHelper::isEnabled('system', 'fields')) {

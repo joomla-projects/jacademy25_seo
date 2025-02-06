@@ -132,6 +132,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var StagesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state         = $model->getState();
         $this->stages        = $model->getItems();
@@ -139,11 +140,6 @@ class HtmlView extends BaseHtmlView
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
         $this->workflow      = $model->getWorkflow();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $this->workflowID    = $this->workflow->id;
 

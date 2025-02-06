@@ -58,15 +58,11 @@ class HtmlView extends BaseHtmlView
     {
         /** @var CapabilitiesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         // Initialise variables
         $this->capabilities = $model->getCapabilities();
         $this->state        = $model->getState();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new Genericdataexception(implode("\n", $errors), 500);
-        }
 
         $this->addToolbar();
 
