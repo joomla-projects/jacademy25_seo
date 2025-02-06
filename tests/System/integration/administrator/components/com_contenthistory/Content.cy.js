@@ -4,6 +4,10 @@ describe('Test in backend that the content history list', () => {
     cy.doAdministratorLogin();
   });
 
+  afterEach(() => {
+    cy.task('queryDB', "DELETE FROM #__content WHERE title = 'Test article versions'");
+  });
+
   it('has a title', () => {
     cy.visit('/administrator/index.php?option=com_content&task=article.add');
     cy.get('#jform_title').clear().type('Test article versions');
@@ -171,6 +175,5 @@ describe('Test in backend that the content history list', () => {
     // Verify the text
     cy.get('.alert-message')
       .should('contain.text', 'Article saved');
-    cy.task('queryDB', "DELETE FROM #__content WHERE title = 'Test article versions'");
   });
 });
