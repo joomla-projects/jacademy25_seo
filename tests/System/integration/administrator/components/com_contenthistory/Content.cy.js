@@ -171,5 +171,6 @@ describe('Test in backend that the content history list', () => {
     // Verify the text
     cy.get('.alert-message')
       .should('contain.text', 'Article saved');
+    cy.task('queryDB', "DELETE FROM #__content WHERE title = 'Test article versions'");
   });
 });
