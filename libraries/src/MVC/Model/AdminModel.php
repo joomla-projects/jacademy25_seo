@@ -1274,13 +1274,6 @@ abstract class AdminModel extends FormModel
             // Prepare the row for saving
             $this->prepareTable($table);
 
-            // Check the data.
-            if (!$table->check()) {
-                $this->setError($table->getError());
-
-                return false;
-            }
-
             // Trigger the before save event.
             $beforeSaveEvent = new Model\BeforeSaveEvent($this->event_before_save, [
                 'context' => $context,
@@ -1291,6 +1284,13 @@ abstract class AdminModel extends FormModel
             $result = $dispatcher->dispatch($this->event_before_save, $beforeSaveEvent)->getArgument('result', []);
 
             if (\in_array(false, $result, true)) {
+                $this->setError($table->getError());
+
+                return false;
+            }
+
+            // Check the data.
+            if (!$table->check()) {
                 $this->setError($table->getError());
 
                 return false;
