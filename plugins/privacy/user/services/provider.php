@@ -38,7 +38,6 @@ return new class () implements ServiceProviderInterface {
                     $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('privacy', 'user')
                 );
-                $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 return $plugin;
