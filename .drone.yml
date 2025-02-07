@@ -128,7 +128,7 @@ steps:
   - name: prepare_system_tests
     depends_on:
       - npm
-    image: joomlaprojects/docker-images:systemtests8.1
+    image: joomlaprojects/docker-images:cypress8.1
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -410,7 +410,7 @@ steps:
       - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
       - rclone delete nightly:/home/devj/public_html/cache/com_content/
       - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.2](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla ${MINORVERSION}](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
 
   - name: buildfailure
     image: joomlaprojects/docker-images:packager
@@ -418,7 +418,8 @@ steps:
       MATTERMOST_NIGHTLY_HOOK:
         from_secret: mattermost_nightly_hook
     commands:
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.2](https://developer.joomla.org/nightly-builds.html) FAILED to build."}' $MATTERMOST_NIGHTLY_HOOK
+      - export MINORVERSION=${DRONE_BRANCH%-*}
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla ${MINORVERSION}](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
     when:
       status:
         - failure
@@ -432,6 +433,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 10ae86041b814459e0a4618a7fa2356480177af7966412cc050e9902e9384cbe
+hmac: 1d94d558654c2898eea3360184eede03be6b48154c110579fe0254ea0780d91a
 
 ...
