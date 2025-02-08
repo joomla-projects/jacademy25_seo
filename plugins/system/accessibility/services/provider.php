@@ -33,13 +33,10 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin     = new Accessibility(
+                return new Accessibility(
                     $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('system', 'accessibility')
                 );
-                $plugin->setApplication(Factory::getApplication());
-
-                return $plugin;
             }
         );
     }
