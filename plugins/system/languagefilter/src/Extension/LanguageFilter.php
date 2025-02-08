@@ -732,8 +732,13 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                 }
             } else {
                 if ($app->getUserState('users.login.form.return')) {
-                    $app->setUserState('users.login.form.return', Route::_(
-                        $app->getUserState('users.login.form.return'), false));
+                    $app->setUserState(
+                        'users.login.form.return',
+                        Route::_(
+                            $app->getUserState('users.login.form.return'),
+                            false
+                        )
+                    );
                 }
             }
         }
