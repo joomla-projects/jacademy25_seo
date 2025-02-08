@@ -73,7 +73,7 @@ final class Accessibility extends CMSPlugin implements SubscriberInterface
         $this->loadLanguage();
 
         $language  = $app->getLanguage();
-        
+
         // Determine if it is an LTR or RTL language
         $direction = $language->isRtl() ? 'right' : 'left';
 
