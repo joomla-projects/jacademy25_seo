@@ -16,7 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\Database\ParameterType;
@@ -252,7 +251,7 @@ class TasksModel extends ListModel
         $due = $this->getState('filter.due');
 
         if (is_numeric($due) && $due != 0) {
-            $now      = Factory::getDate('now', 'GMT')->toSql();
+            $now      = Factory::getDate('now', 'UTC')->toSql();
             $operator = $due == 1 ? ' <= ' : ' > ';
             $filterCount++;
             $query->where($db->quoteName('a.next_execution') . $operator . ':now')
@@ -269,7 +268,7 @@ class TasksModel extends ListModel
         $locked = $this->getState('filter.locked');
 
         if (is_numeric($locked) && $locked != 0) {
-            $now              = Factory::getDate('now', 'GMT');
+            $now              = Factory::getDate('now', 'UTC');
             $timeout          = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
             $timeout          = new \DateInterval(\sprintf('PT%dS', $timeout));
             $timeoutThreshold = (clone $now)->sub($timeout)->toSql();
@@ -372,25 +371,7 @@ class TasksModel extends ListModel
         // Set limit parameters and get object list
         $query->setLimit($limit, $limitstart);
         $this->getDatabase()->setQuery($query);
-
-        // Return optionally an extended class.
-        // @todo: Use something other than CMSObject..
-        if ($this->getState('list.customClass')) {
-            $responseList = array_map(
-                static function (array $arr) {
-                    $o = new CMSObject();
-
-                    foreach ($arr as $k => $v) {
-                        $o->{$k} = $v;
-                    }
-
-                    return $o;
-                },
-                $this->getDatabase()->loadAssocList() ?: []
-            );
-        } else {
-            $responseList = $this->getDatabase()->loadObjectList();
-        }
+        $responseList = $this->getDatabase()->loadObjectList();
 
         // Attach TaskOptions objects and a safe type title
         $this->attachTaskOptions($responseList);
