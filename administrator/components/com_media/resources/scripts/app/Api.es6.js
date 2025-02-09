@@ -189,33 +189,27 @@ class Api {
      * @return {Promise.<T>}
      */
   upload(name, parent, content, override) {
-    // Wrap the ajax call into a real promise
-    return new Promise((resolve, reject) => {
-      const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`);
-      const data = {
-        [this.csrfToken]: '1',
-        name,
-        content,
-      };
+    const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`);
+    const data = {
+      name,
+      content,
+    };
 
-      // Append override
-      if (override === true) {
-        data.override = true;
-      }
+    // Append override
+    if (override === true) {
+      data.override = true;
+    }
 
-      Joomla.request({
-        url: url.toString(),
-        method: 'POST',
-        data: JSON.stringify(data),
-        headers: { 'Content-Type': 'application/json' },
-        onSuccess: (response) => {
-          notifications.success('COM_MEDIA_UPLOAD_SUCCESS');
-          resolve(normalizeItem(JSON.parse(response).data));
-        },
-        onError: (xhr) => {
-          reject(xhr);
-        },
-      });
+    return Joomla.request({
+      url: url.toString(),
+      method: 'POST',
+      data: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' },
+      promise: true,
+    }).then((xhr) => {
+      const response = xhr.responseText;
+      notifications.success('COM_MEDIA_UPLOAD_SUCCESS');
+      return normalizeItem(JSON.parse(response).data);
     }).catch(handleError);
   }
 
