@@ -190,15 +190,32 @@ class ApiController extends BaseController
             throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 403);
         }
 
-        $adapter      = $this->getAdapter();
-        $path         = $this->getPath();
-        $content      = $this->input->json;
-        $name         = $content->getString('name');
-        $mediaContent = base64_decode($content->get('content', '', 'raw'));
-        $override     = $content->get('override', false);
+        $adapter = $this->getAdapter();
+        $path    = $this->getPath();
+
+        // Get the data depending on the request type
+        if ($this->input->json->count()) {
+            $content      = $this->input->json;
+            $mediaContent = base64_decode($content->get('content', '', 'raw'));
+            $mediaLength  = \strlen($mediaContent);
+        } else {
+            $content      = $this->input->post;
+            $mediaContent = '';
+            $mediaLength  = 0;
+            $file         = $this->input->files->get('content', []);
+
+            if ($file && empty($file['error'])) {
+                // Open the uploaded file as a stream, because whole media API are expecting already loaded data.
+                $mediaContent = fopen($file['tmp_name'], 'r');
+                $mediaLength  = $file['size'];
+            }
+        }
+
+        $name     = $content->getString('name');
+        $override = $content->getBool('override', false);
 
         if ($mediaContent) {
-            $this->checkFileSize(\strlen($mediaContent));
+            $this->checkFileSize($mediaLength);
 
             // A file needs to be created
             $name = $this->getModel()->createFile($adapter, $name, $path, $mediaContent, $override);

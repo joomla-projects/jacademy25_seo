@@ -181,30 +181,30 @@ class Api {
   }
 
   /**
-     * Upload a file
+     * Upload a file,
+     * In opposite to other API calls the Upload call uses Content-type: application/x-www-form-urlencoded
+     *
      * @param name
      * @param parent
-     * @param content base64 encoded string
+     * @param content File instance
      * @param override boolean whether or not we should override existing files
      * @return {Promise.<T>}
      */
   upload(name, parent, content, override) {
-    const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`);
-    const data = {
-      name,
-      content,
-    };
+    const url = `${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`;
+    const data = new FormData;
+    data.append('name', name);
+    data.append('content', content)
 
     // Append override
     if (override === true) {
-      data.override = true;
+      data.append('override', 1);
     }
 
     return Joomla.request({
-      url: url.toString(),
+      url,
       method: 'POST',
-      data: JSON.stringify(data),
-      headers: { 'Content-Type': 'application/json' },
+      data,
       promise: true,
     }).then((xhr) => {
       const response = xhr.responseText;
