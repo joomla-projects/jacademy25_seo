@@ -43,7 +43,7 @@ class JsonapiView extends BaseApiView
         'asset_id',
         'title',
     /**
-     * @deprecated  5.2 will be removed in 7.0
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
      *              Will be removed without replacement.
      */
         'text',
@@ -87,7 +87,7 @@ class JsonapiView extends BaseApiView
         'asset_id',
         'title',
     /**
-     * @deprecated  5.2 will be removed in 7.0
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
      *              Will be removed without replacement.
      */
         'text',
@@ -206,7 +206,7 @@ class JsonapiView extends BaseApiView
         }
 
         /**
-         * @deprecated  5.2 will be removed in 7.0
+         * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
          *              Will be removed without replacement.
          */
         $item->text = $item->introtext . ' ' . $item->fulltext;
