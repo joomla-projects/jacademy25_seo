@@ -175,7 +175,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
         $this->setApplication($app);
         $this->setDatabase($db);
 
-        $app  = $this->getApplication();
+        $app = $this->getApplication();
 
         $this->debugLang = $app->get('debug_lang');
 
