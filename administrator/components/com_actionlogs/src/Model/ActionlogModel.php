@@ -126,7 +126,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
         $query = $db->getQuery(true);
 
         $query
-            ->select($db->quoteName(['u.email', 'u.username', 'l.extensions', 'l.exclude_self']))
+            ->select($db->quoteName(['u.email', 'u.username', 'l.extensions']))
             ->from($db->quoteName('#__users', 'u'))
             ->where($db->quoteName('u.block') . ' = 0')
             ->join(
@@ -142,7 +142,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
         $recipients = [];
 
         foreach ($users as $user) {
-            if ($user->username === $this->getCurrentUser()->username && $user->exclude_self) {
+            if ($user->username === $this->getCurrentUser()->username) {
                 continue;
             }
 
