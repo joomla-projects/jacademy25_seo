@@ -14,6 +14,7 @@ use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
 use Joomla\Application\ApplicationEvents;
+use Joomla\Application\Event\ApplicationEvent;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Event\Application\AfterRespondEvent;
@@ -268,13 +269,13 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     /**
      * Show the debug info.
      *
-     * @param  AfterRespondEvent $event  The event instance.
+     * @param   AfterRespondEvent|ApplicationEvent  $event  The event instance.
      *
      * @return  void
      *
      * @since   1.6
      */
-    public function onAfterRespond(AfterRespondEvent $event): void
+    public function onAfterRespond(AfterRespondEvent|ApplicationEvent $event): void
     {
         $endTime    = microtime(true) - $this->timeInOnAfterDisconnect;
         $endMemory  = memory_get_peak_usage(false);
