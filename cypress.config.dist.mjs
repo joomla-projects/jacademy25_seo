@@ -7,6 +7,9 @@ export default defineConfig({
   screenshotsFolder: 'tests/System/output/screenshots',
   viewportHeight: 1000,
   viewportWidth: 1200,
+  hosts: {
+    localhost: '127.0.0.1',
+  },
   e2e: {
     setupNodeEvents(on, config) {
       setupPlugins(on, config);
