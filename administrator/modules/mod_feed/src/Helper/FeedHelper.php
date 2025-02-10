@@ -12,6 +12,7 @@ namespace Joomla\Module\Feed\Administrator\Helper;
 
 use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -28,19 +29,19 @@ class FeedHelper
      * Method to load a feed.
      *
      * @param   \Joomla\Registry\Registry  $params  The parameters object.
+     * @param   \Joomla\CMS\Feed\FeedFactory  FeedFactory object
      *
      * @return  \Joomla\CMS\Feed\Feed|string  Return a Feed object or a string message if error.
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getFeedData($params)
+    public function getFeedData(Registry $params, FeedFactory $feed): \Joomla\CMS\Feed\Feed|string
     {
         // Module params
         $rssurl = $params->get('rssurl', '');
 
         // Get RSS parsed object
         try {
-            $feed   = new FeedFactory();
             $rssDoc = $feed->getFeed($rssurl);
         } catch (\Exception $e) {
             return Text::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
@@ -66,10 +67,10 @@ class FeedHelper
      *             Use the non-static method getFeedData
      *             Example: Factory::getApplication()->bootModule('mod_feed', 'administrator')
      *                          ->getHelper('FeedHelper')
-     *                          ->getFeedData($params)
+     *                          ->getFeedData($params, new FeedFactory())
      */
     public static function getFeed($params)
     {
-        return (new self())->getFeedData($params);
+        return (new self())->getFeedData($params, new FeedFactory());
     }
 }

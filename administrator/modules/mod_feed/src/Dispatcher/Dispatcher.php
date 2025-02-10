@@ -11,6 +11,7 @@
 namespace Joomla\Module\Feed\Administrator\Dispatcher;
 
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
+use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Helper\HelperFactoryAwareInterface;
 use Joomla\CMS\Helper\HelperFactoryAwareTrait;
 
@@ -36,9 +37,10 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
      */
     protected function getLayoutData()
     {
-        $data = parent::getLayoutData();
+        $data        = parent::getLayoutData();
+        $feedFactory = new FeedFactory();
 
-        $data['feed']   = $this->getHelperFactory()->getHelper('FeedHelper')->getFeedData($data['params']);
+        $data['feed']   = $this->getHelperFactory()->getHelper('FeedHelper')->getFeedData($data['params'], $feedFactory);
         $data['rssurl'] = $data['params']->get('rssurl', '');
         $data['rssrtl'] = $data['params']->get('rssrtl', 0);
 
