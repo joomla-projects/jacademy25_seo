@@ -9,21 +9,21 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>5.3</version>
 	<description>PLG_SYSTEM_FANCYLIST_XML_DESCRIPTION</description>
-    <namespace path="src">Joomla\Plugin\System\FancyList</namespace>
-    <files>
-        <folder plugin="fancylist">services</folder>
+	<namespace path="src">Joomla\Plugin\System\FancyList</namespace>
+	<files>
+		<folder plugin="fancylist">services</folder>
 		<folder>src</folder>
-    </files>
-    <languages>
+	</files>
+	<languages>
 		<language tag="en-GB">language/en-GB/plg_system_fancylist.ini</language>
 		<language tag="en-GB">language/en-GB/plg_system_fancylist.sys.ini</language>
 	</languages>
-    <config>
-        <fields name="params">
-            <fieldset name="basic">
-                <field
-                    name="max_results"
-                    type="list"
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="max_results"
+					type="list"
 					label="JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_SELECT_MAXRESULTS"
 					default="10"
 					filter="integer"
@@ -34,10 +34,10 @@
 					<option value="25">J25</option>
 					<option value="50">J50</option>
 					<option value="100">J100</option>
-                </field>
-                <field
-                    name="max_render"
-                    type="list"
+				</field>
+				<field
+					name="max_render"
+					type="list"
 					label="JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_SELECT_MAXRENDER"
 					default="-1"
 					filter="integer"
@@ -49,8 +49,8 @@
 					<option value="50">J50</option>
 					<option value="100">J100</option>
 					<option value="-1">JALL</option>
-                </field>
-            </fieldset>
-        </fields>
-    </config>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

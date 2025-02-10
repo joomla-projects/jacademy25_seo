@@ -50,7 +50,7 @@ final class FancyList extends CMSPlugin implements SubscriberInterface
      *
      * @param   PrepareFormEvent  $event  The event containing the form to be modified.
      *
-     * @return  bool  True if the form processing should continue, false otherwise.
+     * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
