@@ -215,7 +215,7 @@ class NewsfeedModel extends AdminModel
 
         // Alter the name for save as copy
         if ($input->get('task') == 'save2copy') {
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
             $origTable->load($input->getInt('id'));
 
             if ($data['name'] == $origTable->name) {
@@ -305,6 +305,7 @@ class NewsfeedModel extends AdminModel
         if (empty($table->id)) {
             // Set the values
             $table->created = $date->toSql();
+            $table->version = 1;
 
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
@@ -321,10 +322,8 @@ class NewsfeedModel extends AdminModel
             // Set the values
             $table->modified    = $date->toSql();
             $table->modified_by = $user->id;
+            $table->version++;
         }
-
-        // Increment the content version number.
-        $table->version++;
     }
 
     /**
