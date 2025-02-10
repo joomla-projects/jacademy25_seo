@@ -193,9 +193,9 @@ class Api {
    */
   upload(name, parent, content, override, progressCalback) {
     const url = `${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`;
-    const data = new FormData;
+    const data = new FormData();
     data.append('name', name);
-    data.append('content', content)
+    data.append('content', content);
 
     // Append override
     if (override === true) {

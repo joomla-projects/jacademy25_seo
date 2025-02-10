@@ -135,19 +135,19 @@ export const uploadFile = (context, payload) => {
   }
 
   // Commit the progress
-  context.commit(types.UPDATE_ACTIVE_UPLOADS, {name: payload.name, progress: 0});
+  context.commit(types.UPDATE_ACTIVE_UPLOADS, { name: payload.name, progress: 0 });
   const uploadProgress = (progress) => {
-    context.commit(types.UPDATE_ACTIVE_UPLOADS, {name: payload.name, progress});
+    context.commit(types.UPDATE_ACTIVE_UPLOADS, { name: payload.name, progress });
   };
 
   // Do file upload
   api.upload(payload.name, payload.parent, payload.content, payload.override || false, uploadProgress)
     .then((file) => {
       context.commit(types.UPLOAD_SUCCESS, file);
-      context.commit(types.UPDATE_ACTIVE_UPLOADS, {name: payload.name, completed: true});
+      context.commit(types.UPDATE_ACTIVE_UPLOADS, { name: payload.name, completed: true });
     })
     .catch((error) => {
-      context.commit(types.UPDATE_ACTIVE_UPLOADS, {name: payload.name, completed: true});
+      context.commit(types.UPDATE_ACTIVE_UPLOADS, { name: payload.name, completed: true });
 
       // Handle file exists
       if (error.status === 409) {
