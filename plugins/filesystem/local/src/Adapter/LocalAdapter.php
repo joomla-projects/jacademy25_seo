@@ -307,6 +307,11 @@ class LocalAdapter implements AdapterInterface
         $this->checkContent($localPath, $data);
 
         try {
+            // Ensure the file pointer at beginning, before save.
+            if (\is_resource($data)) {
+                rewind($data);
+            }
+
             File::write($localPath, $data);
         } catch (FilesystemException $exception) {
         }

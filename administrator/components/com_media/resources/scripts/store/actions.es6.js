@@ -125,9 +125,9 @@ export const createDirectory = (context, payload) => {
 };
 
 /**
- * Create a new folder
+ * Upload a file
  * @param context
- * @param payload object with the new folder name and its parent directory
+ * @param payload object with the new file data
  */
 export const uploadFile = (context, payload) => {
   if (!api.canCreate) {

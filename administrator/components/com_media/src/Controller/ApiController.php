@@ -197,10 +197,10 @@ class ApiController extends BaseController
         if ($this->input->json->count()) {
             $content      = $this->input->json;
             $mediaContent = base64_decode($content->get('content', '', 'raw'));
-            $mediaLength  = \strlen($mediaContent);
+            $mediaLength  = $mediaContent ? \strlen($mediaContent) : 0;
         } else {
             $content      = $this->input->post;
-            $mediaContent = '';
+            $mediaContent = null;
             $mediaLength  = 0;
             $file         = $this->input->files->get('content', []);
 
@@ -286,14 +286,32 @@ class ApiController extends BaseController
         $adapter = $this->getAdapter();
         $path    = $this->getPath();
 
-        $content      = $this->input->json;
+        // Get the data depending on the request type
+        if ($this->input->json->count()) {
+            $content      = $this->input->json;
+            $mediaContent = base64_decode($content->get('content', '', 'raw'));
+            $mediaLength  = $mediaContent ? \strlen($mediaContent) : 0;
+        } else {
+            $content      = $this->input->post;
+            $mediaContent = null;
+            $mediaLength  = 0;
+            $file         = $this->input->files->get('content', []);
+
+            if ($file && empty($file['error'])) {
+                // Open the uploaded file as a stream, because whole media API are expecting already loaded data, but we do not want to.
+                $mediaContent = fopen($file['tmp_name'], 'r');
+                $mediaLength  = $file['size'];
+            } elseif (!empty($file['error'])) {
+                throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
+            }
+        }
+
         $name         = basename($path);
-        $mediaContent = base64_decode($content->get('content', '', 'raw'));
         $newPath      = $content->getString('newPath', null);
         $move         = $content->get('move', true);
 
-        if ($mediaContent != null) {
-            $this->checkFileSize(\strlen($mediaContent));
+        if ($mediaContent) {
+            $this->checkFileSize($mediaLength);
 
             $this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
         }
@@ -308,6 +326,10 @@ class ApiController extends BaseController
             }
 
             $path = $destinationPath;
+        }
+
+        if (\is_resource($mediaContent)) {
+            fclose($mediaContent);
         }
 
         return $this->getModel()->getFile($adapter, $path);
