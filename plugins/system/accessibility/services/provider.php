@@ -11,6 +11,7 @@
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\PluginInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -32,10 +33,13 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                return new Accessibility(
+                $plugin     = new Accessibility(
                     $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('system', 'accessibility')
                 );
+                $plugin->setApplication(Factory::getApplication());
+
+                return $plugin;
             }
         );
     }
