@@ -205,9 +205,11 @@ class ApiController extends BaseController
             $file         = $this->input->files->get('content', []);
 
             if ($file && empty($file['error'])) {
-                // Open the uploaded file as a stream, because whole media API are expecting already loaded data.
+                // Open the uploaded file as a stream, because whole media API are expecting already loaded data, but we do not want to.
                 $mediaContent = fopen($file['tmp_name'], 'r');
                 $mediaLength  = $file['size'];
+            } elseif (!empty($file['error'])) {
+                throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
             }
         }
 
@@ -226,6 +228,10 @@ class ApiController extends BaseController
 
         $options        = [];
         $options['url'] = $this->input->getBool('url', false);
+
+        if (\is_resource($mediaContent)) {
+            fclose($mediaContent);
+        }
 
         return $this->getModel()->getFile($adapter, $path . '/' . $name, $options);
     }

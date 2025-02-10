@@ -261,6 +261,11 @@ class LocalAdapter implements AdapterInterface
         $this->checkContent($localPath, $data);
 
         try {
+            // Ensure the file pointer at beginning, before save.
+            if (\is_resource($data)) {
+                rewind($data);
+            }
+
             File::write($localPath, $data);
         } catch (FilesystemException $exception) {
         }
@@ -833,34 +838,58 @@ class LocalAdapter implements AdapterInterface
      * Performs various check if it is allowed to save the content with the given name.
      *
      * @param   string  $localPath     The local path
-     * @param   string  $mediaContent  The media content
+     * @param   mixed   $mediaContent  The media content as resource or string
      *
      * @return  void
      *
      * @since   4.0.0
      * @throws  \Exception
      */
-    private function checkContent(string $localPath, string $mediaContent)
+    private function checkContent(string $localPath, $mediaContent)
     {
         $name = $this->getFileName($localPath);
 
         // The helper
         $helper = new MediaHelper();
+        // Reconstruct the file array, expected by MediaHelper::canUpload()
+        $file   = [
+            'name'     => $name,
+            'size'     => 0,
+            'tmp_name' => '',
+        ];
+        $isResource = \is_resource($mediaContent);
 
-        // @todo find a better way to check the input, by not writing the file to the disk
-        $tmpFile = Path::clean(\dirname($localPath) . '/' . uniqid() . '.' . strtolower(File::getExt($name)));
+        if ($isResource) {
+            $fstat = fstat($mediaContent);
+            $fmeta = stream_get_meta_data($mediaContent);
 
-        try {
-            File::write($tmpFile, $mediaContent);
-        } catch (FilesystemException $exception) {
-            throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 500);
+            if (!$fstat) {
+                throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 500);
+            }
+
+            $file['size']     = $fstat['size'];
+            $file['tmp_name'] = $fmeta['uri'];
+        } else {
+            // @todo find a better way to check the input, by not writing the file to the disk
+            $tmpFile = Path::clean(\dirname($localPath) . '/' . uniqid() . '.' . strtolower(File::getExt($name)));
+
+            try {
+                File::write($tmpFile, $mediaContent);
+            } catch (FilesystemException $exception) {
+                throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 500, $exception);
+            }
+
+            $file['size']     = \strlen($mediaContent);
+            $file['tmp_name'] = $tmpFile;
         }
 
-        $can = $helper->canUpload(['name' => $name, 'size' => \strlen($mediaContent), 'tmp_name' => $tmpFile], 'com_media');
+        $can = $helper->canUpload($file, 'com_media');
 
-        try {
-            File::delete($tmpFile);
-        } catch (FilesystemException $exception) {
+        if (!$isResource) {
+            try {
+                File::delete($tmpFile);
+            } catch (FilesystemException $exception) {
+            }
         }
 
         if (!$can) {
