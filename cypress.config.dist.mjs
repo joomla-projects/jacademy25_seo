@@ -48,8 +48,8 @@ export default defineConfig({
       url: 'https://localhost',
       certs: [
         {
-          cert: '../../keys/server.crt',
-          key: '../../keys/server.key',
+          cert: '../../tests/keys/server.crt',
+          key: '../../tests/keys/server.key',
         },
       ],
     },
