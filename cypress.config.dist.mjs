@@ -46,7 +46,6 @@ export default defineConfig({
   clientCertificates: [
     {
       url: 'https://localhost',
-      ca: ['certs/ca.pem'],
       certs: [
         {
           cert: '../keys/server.crt',
