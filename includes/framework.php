@@ -9,6 +9,7 @@
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Service\Provider\EnvsConfig;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 use Joomla\Utilities\IpHelper;
@@ -45,7 +46,15 @@ require_once JPATH_CONFIGURATION . '/configuration.php';
 ob_end_clean();
 
 // System configuration.
-$config = new JConfig();
+$config                  = new JConfig();
+$config->error_reporting = EnvsConfig::get('error_reporting', $config->error_reporting);
+$config->debug           = EnvsConfig::get('debug', $config->debug);
+if (EnvsConfig::has('log_deprecated')) {
+    $config->log_deprecated = EnvsConfig::get('log_deprecated');
+}
+if (EnvsConfig::has('behind_loadbalancer')) {
+    $config->behind_loadbalancer = EnvsConfig::get('behind_loadbalancer');
+}
 
 // Set the error_reporting, and adjust a global Error Handler
 switch ($config->error_reporting) {

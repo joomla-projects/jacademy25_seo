@@ -610,6 +610,7 @@ abstract class Factory
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Config())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Console())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\EditorsRegistry())
+            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\EnvsConfig())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document())
