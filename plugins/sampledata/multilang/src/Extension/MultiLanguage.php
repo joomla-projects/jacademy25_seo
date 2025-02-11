@@ -20,8 +20,11 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Module;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\Component\Categories\Administrator\Table\CategoryTable;
+use Joomla\Component\Content\Administrator\Table\ArticleTable;
+use Joomla\Component\Menus\Administrator\Table\MenuTable;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
@@ -543,7 +546,7 @@ final class MultiLanguage extends CMSPlugin
      */
     private function addModuleLanguageSwitcher()
     {
-        $tableModule = Table::getInstance('Module', 'Joomla\\CMS\\Table\\');
+        $tableModule = new Module($this->getDatabase());
 
         $moduleData  = [
             'id'        => 0,
@@ -592,7 +595,7 @@ final class MultiLanguage extends CMSPlugin
      */
     private function addModuleMenu($itemLanguage)
     {
-        $tableModule = Table::getInstance('Module', 'Joomla\\CMS\\Table\\');
+        $tableModule = new Module($this->getDatabase());
         $title       = 'Main menu ' . $itemLanguage->language;
 
         $moduleData = [
@@ -675,7 +678,7 @@ final class MultiLanguage extends CMSPlugin
      *
      * @param   \stdClass  $itemLanguage  Language Object.
      *
-     * @return  Table|boolean Menu Item Object. False otherwise.
+     * @return  MenuTable|boolean Menu Item Object. False otherwise.
      *
      * @since   4.0.0
      */
@@ -750,7 +753,7 @@ final class MultiLanguage extends CMSPlugin
      * @param   \stdClass  $itemLanguage  Language Object.
      * @param   integer   $categoryId    The id of the category displayed by the blog.
      *
-     * @return  Table|boolean Menu Item Object. False otherwise.
+     * @return  MenuTable|boolean Menu Item Object. False otherwise.
      *
      * @since   4.0.0
      */
@@ -905,7 +908,7 @@ final class MultiLanguage extends CMSPlugin
      *
      * @param   \stdClass  $itemLanguage  Language Object.
      *
-     * @return  Table|boolean Category Object. False otherwise.
+     * @return  CategoryTable|boolean Category Object. False otherwise.
      *
      * @since   4.0.0
      */
@@ -976,7 +979,7 @@ final class MultiLanguage extends CMSPlugin
      * @param   \stdClass  $itemLanguage  Language Object.
      * @param   integer   $categoryId    The id of the category where we want to add the article.
      *
-     * @return  Table|boolean Article Object. False otherwise.
+     * @return  ArticleTable|boolean Article Object. False otherwise.
      *
      * @since   4.0.0
      */
@@ -1086,7 +1089,7 @@ final class MultiLanguage extends CMSPlugin
     private function publishContentLanguages()
     {
         // Publish the Content Languages.
-        $tableLanguage = Table::getInstance('Language');
+        $tableLanguage = new \Joomla\CMS\Table\Language($this->getDatabase());
 
         $siteLanguages = $this->getInstalledlangs('site');
 
