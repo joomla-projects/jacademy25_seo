@@ -11,7 +11,7 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       setupPlugins(on, config);
     },
-    baseUrl: 'http://localhost/',
+    baseUrl: 'https://localhost/',
     specPattern: [
       'tests/System/integration/install/**/*.cy.{js,jsx,ts,tsx}',
       'tests/System/integration/administrator/**/*.cy.{js,jsx,ts,tsx}',
@@ -43,4 +43,16 @@ export default defineConfig({
     smtp_port: '1025',
     cmsPath: '.',
   },
+  clientCertificates: [
+    {
+      url: 'https://localhost',
+      ca: ['certs/ca.pem'],
+      certs: [
+        {
+          cert: '/tests/keys/server.crt',
+          key: '/tests/keys/server.key',
+        },
+      ],
+    },
+  ]
 });
