@@ -159,6 +159,11 @@ function deleteInsertedItems(config) {
       return;
     }
 
+    // Ignore tuf_metadata
+    if (item.table === `${config.env.db_prefix}tuf_metadata`) {
+      return;
+    }
+
     // Delete the items from the database
     promises.push(queryTestDB(`DELETE FROM ${item.table} WHERE id IN (${item.rows.join(',')})`, config).then(() => {
       // Cleanup some tables we do not have control over from inserted items
