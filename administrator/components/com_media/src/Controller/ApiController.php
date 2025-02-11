@@ -11,6 +11,7 @@
 namespace Joomla\Component\Media\Administrator\Controller;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Filesystem\TmpFileUpload;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -21,6 +22,8 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -192,28 +195,48 @@ class ApiController extends BaseController
 
         $adapter = $this->getAdapter();
         $path    = $this->getPath();
+        $tmpFile = '';
 
         // Get the data depending on the request type
         if ($this->input->json->count()) {
             $content      = $this->input->json;
+            $name         = $content->getString('name');
             $mediaContent = base64_decode($content->get('content', '', 'raw'));
-            $mediaLength  = $mediaContent ? \strlen($mediaContent) : 0;
+            $mediaLength  = 0;
+
+            // Create tmp file
+            if ($mediaContent) {
+                $tmpFile      = Path::clean($this->app->get('tmp_path') . '/tmp_upload/' . uniqid('tmp-', true));
+                $mediaLength  = \strlen($mediaContent);
+                $mediaContent = new TmpFileUpload([
+                    'name'     => $name,
+                    'tmp_name' => $tmpFile,
+                    'size'     => $mediaLength,
+                    'error'    => 0,
+                ]);
+
+                if (!File::write($tmpFile, $mediaContent)) {
+                    throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
+                }
+            }
         } else {
             $content      = $this->input->post;
+            $name         = $content->getString('name');
             $mediaContent = null;
             $mediaLength  = 0;
             $file         = $this->input->files->get('content', []);
 
-            if ($file && empty($file['error'])) {
-                // Open the uploaded file as a stream, because whole media API are expecting already loaded data, but we do not want to.
-                $mediaContent = fopen($file['tmp_name'], 'r');
-                $mediaLength  = $file['size'];
-            } elseif (!empty($file['error'])) {
-                throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
+            if ($file) {
+                $file['name'] = $name;
+                $mediaContent = new TmpFileUpload($file);
+                $mediaLength  = $mediaContent->getSize();
+
+                if ($mediaContent->getError()) {
+                    throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
+                }
             }
         }
 
-        $name     = $content->getString('name');
         $override = $content->getBool('override', false);
 
         if ($mediaContent) {
@@ -229,8 +252,11 @@ class ApiController extends BaseController
         $options        = [];
         $options['url'] = $this->input->getBool('url', false);
 
-        if (\is_resource($mediaContent)) {
-            fclose($mediaContent);
+        if ($tmpFile) {
+            try {
+                File::delete($tmpFile);
+            } catch (\Exception $e) {
+            }
         }
 
         return $this->getModel()->getFile($adapter, $path . '/' . $name, $options);
@@ -285,24 +311,43 @@ class ApiController extends BaseController
 
         $adapter = $this->getAdapter();
         $path    = $this->getPath();
+        $tmpFile = '';
 
         // Get the data depending on the request type
         if ($this->input->json->count()) {
             $content      = $this->input->json;
+            $name         = $content->getString('name');
             $mediaContent = base64_decode($content->get('content', '', 'raw'));
-            $mediaLength  = $mediaContent ? \strlen($mediaContent) : 0;
+            $mediaLength  = 0;
+
+            // Create tmp file
+            if ($mediaContent) {
+                $tmpFile      = Path::clean($this->app->get('tmp_path') . '/tmp_upload/' . uniqid('tmp-', true));
+                $mediaLength  = \strlen($mediaContent);
+                $mediaContent = new TmpFileUpload([
+                    'name'     => $name,
+                    'tmp_name' => $tmpFile,
+                    'size'     => $mediaLength,
+                    'error'    => 0,
+                ]);
+
+                if (!File::write($tmpFile, $mediaContent)) {
+                    throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
+                }
+            }
         } else {
             $content      = $this->input->post;
             $mediaContent = null;
             $mediaLength  = 0;
             $file         = $this->input->files->get('content', []);
 
-            if ($file && empty($file['error'])) {
-                // Open the uploaded file as a stream, because whole media API are expecting already loaded data, but we do not want to.
-                $mediaContent = fopen($file['tmp_name'], 'r');
-                $mediaLength  = $file['size'];
-            } elseif (!empty($file['error'])) {
-                throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
+            if ($file) {
+                $mediaContent = new TmpFileUpload($file);
+                $mediaLength  = $mediaContent->getSize();
+
+                if ($mediaContent->getError()) {
+                    throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
+                }
             }
         }
 
@@ -328,8 +373,11 @@ class ApiController extends BaseController
             $path = $destinationPath;
         }
 
-        if (\is_resource($mediaContent)) {
-            fclose($mediaContent);
+        if ($tmpFile) {
+            try {
+                File::delete($tmpFile);
+            } catch (\Exception $e) {
+            }
         }
 
         return $this->getModel()->getFile($adapter, $path);
