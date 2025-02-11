@@ -49,8 +49,8 @@ export default defineConfig({
       ca: ['certs/ca.pem'],
       certs: [
         {
-          cert: '/tests/keys/server.crt',
-          key: '/tests/keys/server.key',
+          cert: '../keys/server.crt',
+          key: '../keys/server.key',
         },
       ],
     },
