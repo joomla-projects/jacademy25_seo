@@ -307,12 +307,12 @@ class LocalAdapter implements AdapterInterface
 
         $this->checkContent($localPath, $data);
 
-        try {
-            // Ensure the file pointer at beginning, before save.
-            if (\is_resource($data)) {
-                rewind($data);
-            }
+        // Create a stream reference to the file, because we cannot use File::upload() for now.
+        if ($data instanceof TmpFileUpload) {
+            $data = fopen($data->getUri(), 'r');
+        }
 
+        try {
             File::write($localPath, $data);
         } catch (FilesystemException $exception) {
         }
