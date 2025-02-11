@@ -292,9 +292,9 @@ window.addEventListener('joomla:menu-toggle', (event) => {
  *
  * @since 4.4
  */
-document.querySelectorAll('#header [data-bs-toggle="dropdown"]').forEach((button) => {
+document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach((button) => {
   button.addEventListener('click', () => {
-    document.querySelectorAll('[data-bs-toggle="collapse"]').forEach((cb) => {
+    document.querySelectorAll('#header [data-bs-toggle="collapse"]').forEach((cb) => {
       const target = document.querySelector(cb.getAttribute('data-bs-target'));
       if (target.contains(button)) {
         return;
