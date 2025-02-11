@@ -57,15 +57,22 @@ final class FancyList extends CMSPlugin implements SubscriberInterface
 
     public function onContentPrepareForm(PrepareFormEvent $event): void
     {
+        $context = [
+            'com_content.article',
+            'com_content.articles.filter',
+            'com_categories.categories.content.filter',
+        ];
+
         $form = $event->getForm();
-        if (!\in_array($form->getName(), ['com_content.article', 'com_content.articles.filter'])) {
+        if (!\in_array($form->getName(), $context)) {
             return;
         }
 
         // Fetch the configuration setting
         $maxResults = (string) $this->params->get('max_results', '10');
         $maxRender  = (string) $this->params->get('max_render', '-1');
-        if ($form->getName() === 'com_content.articles.filter') {
+        if ($form->getName() === 'com_content.articles.filter' ||
+            $form->getName() === 'com_categories.categories.content.filter') {
             // Get the field from the SimpleXMLElement structure
             $xml = $form->getXml();
 
