@@ -149,7 +149,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysql mysqli mysql
+      - bash tests/System/entrypoint.sh "$(pwd)" cmysql mysqli mysql
 
   - name: phpmax-system-mysql
     depends_on:
@@ -161,7 +161,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
+      - bash tests/System/entrypoint.sh "$(pwd)" cmysqlmax mysqli mysql
     when:
       event:
         exclude:
@@ -180,7 +180,7 @@ steps:
     commands:
       - echo "This test is disabled because php next is not stable yet"
       - exit 1
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlnext mysqli mysql
+      - bash tests/System/entrypoint.sh "$(pwd)" cmysqlnext mysqli mysql
     when:
       event:
         exclude:
@@ -196,7 +196,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
+      - bash tests/System/entrypoint.sh "$(pwd)" cpostgres pgsql postgres
     when:
       event:
         exclude:
@@ -212,7 +212,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres
+      - bash tests/System/entrypoint.sh "$(pwd)" cpostgresmax pgsql postgres
 
   - name: phpnext-system-postgres
     depends_on:
@@ -227,7 +227,7 @@ steps:
     commands:
       - echo "This test is disabled because php next is not stable yet"
       - exit 1
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresnext pgsql postgres
+      - bash tests/System/entrypoint.sh "$(pwd)" cpostgresnext pgsql postgres
     when:
       event:
         exclude:
@@ -433,6 +433,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 17370f0df698bc5065b9fba5afcab4e0646af1678bfb210047e18eceeaf16e8f
+hmac: caca91b7aa40832a891260e03c42f8b7fc31b6971d201bf69291a87b158d5ce7
 
 ...

@@ -1,10 +1,10 @@
 services:
   system-tests:
-    image: joomlaprojects/docker-images:cypress8.1
+    image: joomlaprojects/docker-images:cypress8.4
     environment:
       CYPRESS_VERIFY_TIMEOUT: 100000
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    entrypoint: bash /app/tests/System/drone-system-run.sh /app j mysqli mysql
+    entrypoint: bash /app/tests/System/entrypoint.sh /app j mysqli mysql
     depends_on:
       - phpmyadmin
     ports:
