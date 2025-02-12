@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '7-January-2025';
+    public const RELDATE = '11-February-2025';
 
     /**
      * Release time.
