@@ -20,7 +20,6 @@ use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\SessionManager;
 use Joomla\CMS\Uri\Uri;
@@ -284,7 +283,7 @@ abstract class UserHelper
         // Get the dispatcher and load the user's plugins.
         PluginHelper::importPlugin('user');
 
-        $data     = new CMSObject();
+        $data     = new \stdClass();
         $data->id = $userId;
 
         // Trigger the data preparation event.
@@ -595,5 +594,7 @@ abstract class UserHelper
         } catch (ExecutionFailureException $e) {
             // No issue, let things go
         }
+
+        return true;
     }
 }
