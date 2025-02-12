@@ -198,8 +198,6 @@ steps:
   - name: artifacts-system-tests
     image: joomlaprojects/docker-images:packager
     depends_on:
-      - phpnext-system-mysql
-      - phpnext-system-postgres
       - phpmax-system-mysql
       - phpmax-system-postgres
       - phpmin-system-mysql
@@ -395,6 +393,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 36e458096836b92a4c222b88d4fa694ae72551a160a5af411eff171dfefe5229
+hmac: 0af8b9f980fc2e220f8fdb4a0824f8e4e3adfdc44706d9930f8a588cbedb58df
 
 ...
