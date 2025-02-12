@@ -24,7 +24,7 @@ export const compile = async (file) => {
     || /media_source\\com_media\\scss\\media-manager.scss/.test(file)
     || /media_source\/plg_system_guidedtours\/scss\/guidedtours.scss/.test(file)
     || /media_source\\plg_system_guidedtours\\scss\\guidedtours.scss/.test(file);
-  const options = silenceThese ? { silenceDeprecations: ['mixed-decls', 'color-functions', 'import', 'global-builtin']} : {};
+  const options = silenceThese ? { silenceDeprecations: ['mixed-decls', 'color-functions', 'import', 'global-builtin'] } : {};
   let compiled;
 
   try {
