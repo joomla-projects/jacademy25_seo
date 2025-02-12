@@ -43,15 +43,4 @@ export default defineConfig({
     smtp_port: '1025',
     cmsPath: '.',
   },
-  clientCertificates: [
-    {
-      url: 'https://localhost',
-      certs: [
-        {
-          cert: '../../tests/keys/server.crt',
-          key: '../../tests/keys/server.key',
-        },
-      ],
-    },
-  ],
 });
