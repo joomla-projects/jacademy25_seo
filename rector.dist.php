@@ -1,17 +1,9 @@
 <?php
 /**
- * @package        Joomla.Site
+ * @package    Joomla.Site
  *
- * @copyright  (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license        GNU General Public License version 2 or later; see LICENSE.txt
- */
-
-/**
- * This is the configuration file for rector
- *
- * @link https://github.com/rectorphp/rector
- * @link https://getrector.com/
- *
+ * @copyright  (C) 2025 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Rector\Config\RectorConfig;
