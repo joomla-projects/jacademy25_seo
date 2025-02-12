@@ -636,7 +636,7 @@ Cypress.Commands.add('db_setInvalidTufRoot', () => {
 });
 
 /**
- * Inserts an invalid tuf metadata set
+ * Inserts an valid tuf metadata set
  *
  * @returns integer
  */
