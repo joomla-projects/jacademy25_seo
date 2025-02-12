@@ -20,13 +20,13 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Table\TaskTable;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
@@ -254,7 +254,7 @@ class TaskModel extends AdminModel
      * @since  4.1.0
      * @throws \Exception
      */
-    public function getTable($name = 'Task', $prefix = 'Table', $options = []): Table
+    public function getTable($name = 'Task', $prefix = 'Administrator', $options = []): Table
     {
         return parent::getTable($name, $prefix, $options);
     }
@@ -273,7 +273,6 @@ class TaskModel extends AdminModel
 
         // If the data from UserState is empty, we fetch it with getItem()
         if (empty($data)) {
-            /** @var CMSObject $data */
             $data = $this->getItem();
 
             // @todo : further data processing goes here
@@ -322,14 +321,14 @@ class TaskModel extends AdminModel
         }
 
         // Parent call leaves `execution_rules` and `cron_rules` JSON encoded
-        $item->set('execution_rules', json_decode($item->get('execution_rules', '')));
-        $item->set('cron_rules', json_decode($item->get('cron_rules', '')));
+        $item->execution_rules = json_decode($item->execution_rules ?? '');
+        $item->cron_rules      = json_decode($item->cron_rules ?? '');
 
         $taskOption = SchedulerHelper::getTaskOptions()->findOption(
             ($item->id ?? 0) ? ($item->type ?? 0) : $this->getState('task.type')
         );
 
-        $item->set('taskOption', $taskOption);
+        $item->taskOption = $taskOption;
 
         return $item;
     }
@@ -413,9 +412,9 @@ class TaskModel extends AdminModel
     /**
      * Checks if there are any running tasks in the database.
      *
-     * @param \JDatabaseDriver $db The database driver to use.
+     * @param DatabaseInterface $db The database driver to use.
      * @return bool True if there are running tasks, false otherwise.
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.9
      */
     private function hasRunningTasks($db): bool
     {
@@ -445,7 +444,7 @@ class TaskModel extends AdminModel
      *                      - allowDisabled: Whether to allow disabled tasks.
      *                      - id: The ID of the task.
      * @return Query The lock query.
-     * @since __DEPLOY_VERSION__
+     * @since 5.2.0
      */
     private function buildLockQuery($db, $now, $options)
     {
@@ -481,7 +480,7 @@ class TaskModel extends AdminModel
     /**
      * Retrieves the ID of the next task based on the given criteria.
      *
-     * @param \JDatabaseDriver $db The database object.
+     * @param DatabaseInterface $db The database object.
      * @param string $now The current time.
      * @param array $options The options for retrieving the next task.
      *                       - includeCliExclusive: Whether to include CLI exclusive tasks.
@@ -489,7 +488,7 @@ class TaskModel extends AdminModel
      *                       - allowDisabled: Whether to allow disabled tasks.
      * @return array The ID of the next task, or an empty array if no task is found.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.2.0
      * @throws \RuntimeException If there is an error executing the query.
      */
     private function getNextTaskId($db, $now, $options)
@@ -534,10 +533,10 @@ class TaskModel extends AdminModel
     /**
      * Fetches a task from the database based on the current time.
      *
-     * @param \JDatabaseDriver $db The database driver to use.
+     * @param DatabaseInterface $db The database driver to use.
      * @param string $now The current time in the database's time format.
      * @return \stdClass|null The fetched task object, or null if no task was found.
-     * @since __DEPLOY_VERSION__
+     * @since 5.2.0
      * @throws \RuntimeException If there was an error executing the query.
      */
     private function fetchTask($db, $now): ?\stdClass
@@ -612,7 +611,7 @@ class TaskModel extends AdminModel
             $basisDayOfMonth           = $data['execution_rules']['exec-day'];
             [$basisHour, $basisMinute] = explode(':', $data['execution_rules']['exec-time']);
 
-            $data['last_execution'] = Factory::getDate('now', 'GMT')->format('Y-m')
+            $data['last_execution'] = Factory::getDate('now', 'UTC')->format('Y-m')
                 . "-$basisDayOfMonth $basisHour:$basisMinute:00";
         } else {
             $data['last_execution'] = $this->getItem($id)->last_execution;

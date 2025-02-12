@@ -10,6 +10,7 @@
 namespace Joomla\CMS\User;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Event\User\AfterDeleteEvent;
 use Joomla\CMS\Event\User\AfterSaveEvent;
 use Joomla\CMS\Event\User\BeforeDeleteEvent;
@@ -542,7 +543,7 @@ class User
      */
     public function getTimezone()
     {
-        $timezone = $this->getParam('timezone', Factory::getApplication()->get('offset', 'GMT'));
+        $timezone = $this->getParam('timezone', Factory::getApplication()->get('offset', 'UTC'));
 
         return new \DateTimeZone($timezone);
     }
@@ -582,18 +583,16 @@ class User
 
         // Set the default tabletype;
         if (!isset($tabletype)) {
-            $tabletype['name']   = 'user';
-            $tabletype['prefix'] = '\\Joomla\\CMS\\Table\\';
+            $tabletype = \Joomla\CMS\Table\User::class;
         }
 
         // Set a custom table type is defined
         if (isset($type)) {
-            $tabletype['name']   = $type;
-            $tabletype['prefix'] = $prefix;
+            $tabletype = rtrim($prefix, '\\') . '\\' . $type;
         }
 
         // Create the user table object
-        return Table::getInstance($tabletype['name'], $tabletype['prefix']);
+        return new $tabletype(Factory::getDbo());
     }
 
     /**
@@ -628,7 +627,7 @@ class User
             $array['password'] = UserHelper::hashPassword($array['password']);
 
             // Set the registration timestamp
-            $this->set('registerDate', Factory::getDate()->toSql());
+            $this->registerDate = Factory::getDate()->toSql();
         } else {
             // Updating an existing user
             if (!empty($array['password'])) {
@@ -649,8 +648,10 @@ class User
 
                 $array['password'] = UserHelper::hashPassword($array['password']);
 
-                // Reset the change password flag
-                $array['requireReset'] = 0;
+                // Reset the change password flag if it was set previously
+                if ($this->requireReset) {
+                    $array['requireReset'] = 0;
+                }
             } else {
                 $array['password'] = $this->password;
             }
@@ -675,10 +676,8 @@ class User
         }
 
         // Bind the array
-        if (!$this->setProperties($array)) {
-            $this->setError(Text::_('JLIB_USER_ERROR_BIND_ARRAY'));
-
-            return false;
+        foreach ($array as $key => $value) {
+            $this->$key = $value;
         }
 
         // Make sure its an integer
@@ -745,15 +744,8 @@ class User
                 $iAmRehashingSuperadmin = true;
             }
 
-            // Check if we are using a CLI application
-            $isCli = false;
-
-            if (Factory::getApplication()->isCli()) {
-                $isCli = true;
-            }
-
             // We are only worried about edits to this account if I am not a Super Admin.
-            if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true && $isCli != true) {
+            if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true && !Factory::getApplication() instanceof ConsoleApplication) {
                 // I am not a Super Admin, and this one is, so fail.
                 if (!$isNew && Access::check($this->id, 'core.admin')) {
                     throw new \RuntimeException('User not Super Administrator');
@@ -882,7 +874,9 @@ class User
         }
 
         // Assuming all is well at this point let's bind the data
-        $this->setProperties($table->getProperties());
+        foreach ($table->getProperties() as $key => $value) {
+            $this->$key = $value;
+        }
 
         // The user is no longer a guest
         if ($this->id != 0) {
