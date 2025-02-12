@@ -167,6 +167,25 @@ steps:
         exclude:
           - pull_request
 
+  - name: phpnext-system-mysql
+    depends_on:
+      - phpmax-system-mysql
+    image: joomlaprojects/docker-images:cypress8.4
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    failure: ignore
+    commands:
+      - echo "This test is disabled because php next is not stable yet"
+      - exit 1
+      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlnext mysqli mysql
+    when:
+      event:
+        exclude:
+          - pull_request
+
   - name: phpmin-system-postgres
     depends_on:
       - prepare_system_tests
@@ -195,9 +214,30 @@ steps:
     commands:
       - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres
 
+  - name: phpnext-system-postgres
+    depends_on:
+      - phpmax-system-postgres
+    image: joomlaprojects/docker-images:cypress8.4
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    failure: ignore
+    commands:
+      - echo "This test is disabled because php next is not stable yet"
+      - exit 1
+      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresnext pgsql postgres
+    when:
+      event:
+        exclude:
+          - pull_request
+
   - name: artifacts-system-tests
     image: joomlaprojects/docker-images:packager
     depends_on:
+      - phpnext-system-mysql
+      - phpnext-system-postgres
       - phpmax-system-mysql
       - phpmax-system-postgres
       - phpmin-system-mysql
@@ -393,6 +433,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 0af8b9f980fc2e220f8fdb4a0824f8e4e3adfdc44706d9930f8a588cbedb58df
+hmac: f4ed6f30d2a49d0c76ddfe207c0b7352bc4228eaeb5514c635dd9f42dcb07c8a
 
 ...
