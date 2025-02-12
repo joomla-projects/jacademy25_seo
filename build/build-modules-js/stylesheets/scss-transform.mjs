@@ -10,21 +10,20 @@ export const compile = async (file) => {
     .replace(`${sep}scss${sep}`, `${sep}css${sep}`)
     .replace('.scss', '.css')
     .replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
-  const silenceThese =
-    /media_source\/templates/.test(file) ||
-    /media_source\\templates/.test(file) ||
-    /installation\/template/.test(file) ||
-    /installation\\template/.test(file) ||
-    /media_source\/plg_installer_webinstaller/.test(file) ||
-    /media_source\\plg_installer_webinstaller/.test(file) ||
-    /vendor\/fontawesome-free/.test(file) ||
-    /vendor\\fontawesome-free/.test(file) ||
-    /media_source\/system\/scss\/joomla-fontawesome.scss/.test(file) ||
-    /media_source\\system\\scss\\joomla-fontawesome.scss/.test(file) ||
-    /media_source\/com_media\/scss\/media-manager.scss/.test(file) ||
-    /media_source\\com_media\\scss\\media-manager.scss/.test(file) ||
-    /media_source\/plg_system_guidedtours\/scss\/guidedtours.scss/.test(file) ||
-    /media_source\\plg_system_guidedtours\\scss\\guidedtours.scss/.test(file);
+  const silenceThese = /media_source\/templates/.test(file)
+    || /media_source\\templates/.test(file)
+    || /installation\/template/.test(file)
+    || /installation\\template/.test(file)
+    || /media_source\/plg_installer_webinstaller/.test(file)
+    || /media_source\\plg_installer_webinstaller/.test(file)
+    || /vendor\/fontawesome-free/.test(file)
+    || /vendor\\fontawesome-free/.test(file)
+    || /media_source\/system\/scss\/joomla-fontawesome.scss/.test(file)
+    || /media_source\\system\\scss\\joomla-fontawesome.scss/.test(file)
+    || /media_source\/com_media\/scss\/media-manager.scss/.test(file)
+    || /media_source\\com_media\\scss\\media-manager.scss/.test(file)
+    || /media_source\/plg_system_guidedtours\/scss\/guidedtours.scss/.test(file)
+    || /media_source\\plg_system_guidedtours\\scss\\guidedtours.scss/.test(file);
   const options = silenceThese ? { silenceDeprecations: ['mixed-decls', 'color-functions', 'import', 'global-builtin']} : {};
   let compiled;
 
