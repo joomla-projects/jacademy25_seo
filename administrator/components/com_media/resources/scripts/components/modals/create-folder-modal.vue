@@ -30,7 +30,7 @@
               type="text"
               required
               autocomplete="off"
-              :class="(isValidName()!==0 && isValid())?'is-invalid':''"
+              v-bind:class="(isValidName()!==0 && isValid())?'is-invalid':''"
               aria-describedby="folderFeedback"
               @input="folder = $event.target.value"
             >
