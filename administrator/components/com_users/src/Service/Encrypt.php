@@ -75,7 +75,7 @@ class Encrypt
      */
     public function decrypt(string $data, bool $legacy = false): string
     {
-        if (!\str_starts_with($data, '###AES128###')) {
+        if (!str_starts_with($data, '###AES128###')) {
             return $data;
         }
 
