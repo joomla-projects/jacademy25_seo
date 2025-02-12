@@ -18,7 +18,7 @@ chown -R www-data /tests/www/$TEST_GROUP/
 chmod -R 777 /tests/www/$TEST_GROUP/images
 
 echo "[RUNNER] Start Apache"
-cp -f tests/System/000-default.conf /etc/apache2/sites-available/000-default.conf
+#cp -f tests/System/000-default.conf /etc/apache2/sites-available/000-default.conf
 a2enmod rewrite
 apache2ctl -D FOREGROUND &
 
