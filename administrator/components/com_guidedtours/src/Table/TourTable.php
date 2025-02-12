@@ -126,7 +126,7 @@ class TourTable extends Table implements CurrentUserInterface
     protected function setTourUid()
     {
         // Tour follows Joomla naming convention
-        if (str_starts_with($this->title, 'COM_GUIDEDTOURS_TOUR_') && str_ends_with($this->title, '_TITLE')) {
+        if (\str_starts_with($this->title, 'COM_GUIDEDTOURS_TOUR_') && str_ends_with($this->title, '_TITLE')) {
             $uidTitle = 'joomla_' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $this->title);
 
             // Remove the last _TITLE part
