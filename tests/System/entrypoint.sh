@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # This script is intended to be used as a docker entrypoint file within a joomlaprojects/docker-images:cypressX image
-# Check out the docker-compose.yml file how to prepare docker to run it or execute `docker compose run --rm system-tests`.
+# Check out the docker-compose.yml file how to prepare docker to run it or execute `docker compose up system-tests`.
 
 set -e
 JOOMLA_BASE=$1
