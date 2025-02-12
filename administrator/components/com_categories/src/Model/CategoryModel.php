@@ -528,7 +528,7 @@ class CategoryModel extends AdminModel
 
         // Alter the title for save as copy
         if ($input->get('task') == 'save2copy') {
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
             $origTable->load($input->getInt('id'));
 
             if ($data['title'] == $origTable->title) {
@@ -1211,15 +1211,13 @@ class CategoryModel extends AdminModel
     /**
      * Custom clean the cache of com_content and content modules
      *
-     * @param   string   $group     Cache group name.
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         $extension = Factory::getApplication()->getInput()->get('extension');
 

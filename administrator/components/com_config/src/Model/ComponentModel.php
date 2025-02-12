@@ -19,7 +19,8 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Asset;
+use Joomla\CMS\Table\Extension;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -155,7 +156,7 @@ class ComponentModel extends FormModel
      */
     public function save($data)
     {
-        $table      = Table::getInstance('extension');
+        $table      = new Extension($this->getDatabase());
         $context    = $this->option . '.' . $this->name;
         PluginHelper::importPlugin('extension');
 
@@ -183,10 +184,10 @@ class ComponentModel extends FormModel
             }
 
             $rules = new Rules($data['params']['rules']);
-            $asset = Table::getInstance('asset');
+            $asset = new Asset($this->getDatabase());
 
             if (!$asset->loadByName($data['option'])) {
-                $root = Table::getInstance('asset');
+                $root = new Asset($this->getDatabase());
                 $root->loadByName('root.1');
                 $asset->name  = $data['option'];
                 $asset->title = $data['option'];

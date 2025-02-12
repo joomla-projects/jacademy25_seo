@@ -140,7 +140,7 @@ class FieldModel extends AdminModel
         $input = Factory::getApplication()->getInput();
 
         if ($input->get('task') == 'save2copy') {
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
             $origTable->load($input->getInt('id'));
 
             if ($data['title'] == $origTable->title) {
@@ -1112,15 +1112,13 @@ class FieldModel extends AdminModel
     /**
      * Clean the cache
      *
-     * @param   string   $group     The cache group
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   3.7.0
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         $context = Factory::getApplication()->getInput()->get('context');
 

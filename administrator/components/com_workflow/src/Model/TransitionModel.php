@@ -105,7 +105,7 @@ class TransitionModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  \Joomla\CMS\Object\CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   4.0.0
      */
@@ -167,7 +167,7 @@ class TransitionModel extends AdminModel
         }
 
         if ($input->get('task') == 'save2copy') {
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
 
             // Alter the title for save as copy
             if ($origTable->load(['title' => $data['title']])) {

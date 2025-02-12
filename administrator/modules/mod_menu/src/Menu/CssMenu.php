@@ -13,10 +13,11 @@ namespace Joomla\Module\Menu\Administrator\Menu;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Menu\PreprocessMenuItemsEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\MenuType;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
@@ -132,7 +133,7 @@ class CssMenu
 
                 // In recovery mode, load the preset inside a special root node.
                 $this->root = new AdministratorMenuItem(['level' => 0]);
-                $heading    = new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading']);
+                $heading    = new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading', 'class' => 'class:fa fa-notes-medical']);
                 $this->root->addChild($heading);
 
                 MenusHelper::loadPreset('default', true, $heading);
@@ -231,7 +232,7 @@ class CssMenu
             $uri = clone Uri::getInstance();
             $uri->setVar('recover_menu', 1);
 
-            $table    = Table::getInstance('MenuType');
+            $table    = new MenuType(Factory::getDbo());
             $menutype = $params->get('menutype');
 
             $table->load(['menutype' => $menutype]);
@@ -293,7 +294,7 @@ class CssMenu
                 continue;
             }
 
-            if (substr($item->link, 0, 8) === 'special:') {
+            if (!empty($item->link) && substr($item->link, 0, 8) === 'special:') {
                 $special = substr($item->link, 8);
 
                 if ($special === 'language-forum') {
@@ -311,12 +312,10 @@ class CssMenu
              * processing. It is needed for links from menu items of third party extensions link to Joomla! core
              * components like com_categories, com_fields...
              */
-            if ($option = $uri->getVar('option')) {
-                $item->element = $option;
-            }
+            $item->element = !empty($uri->getVar('option')) ? $uri->getVar('option') : '';
 
             // Exclude item if is not enabled
-            if ($item->element && !ComponentHelper::isEnabled($item->element)) {
+            if ($item->element !== '' && !ComponentHelper::isEnabled($item->element)) {
                 $parent->removeChild($item);
                 continue;
             }
@@ -413,7 +412,7 @@ class CssMenu
             }
 
             // Exclude if link is invalid
-            if (\is_null($item->link) || !\in_array($item->type, ['separator', 'heading', 'container']) && trim($item->link) === '') {
+            if (!isset($item->link) || !\in_array($item->type, ['separator', 'heading', 'container']) && trim($item->link) === '') {
                 $parent->removeChild($item);
                 continue;
             }
@@ -460,7 +459,7 @@ class CssMenu
             }
 
             // Ok we passed everything, load language at last only
-            if ($item->element) {
+            if (!empty($item->element)) {
                 $language->load($item->element . '.sys', JPATH_ADMINISTRATOR) ||
                 $language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element);
             }
@@ -492,7 +491,7 @@ class CssMenu
      */
     public function getIconClass($node)
     {
-        $identifier = $node->class;
+        $identifier = !empty($node->class) ? $node->class : '';
 
         // Top level is special
         if (trim($identifier) == '') {
@@ -518,7 +517,7 @@ class CssMenu
     }
 
     /**
-     * Create unique identifier
+     * Increase the counter and return the new value
      *
      * @return  string
      *

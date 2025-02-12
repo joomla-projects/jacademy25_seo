@@ -347,7 +347,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         }
 
         // Increment the content version number.
-        $table->version++;
+        $table->version = empty($table->version) ? 1 : $table->version + 1;
 
         // Reorder the articles within the category so the new article is first
         if (empty($table->id)) {
@@ -1032,15 +1032,13 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     /**
      * Custom clean the cache of com_content and content modules
      *
-     * @param   string   $group     The cache group
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('com_content');
         parent::cleanCache('mod_articles_archive');
