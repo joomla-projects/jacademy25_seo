@@ -1,6 +1,6 @@
 services:
   system-tests:
-    image: joomlaprojects/docker-images:cypress8.4
+    image: joomlaprojects/docker-images:cypress8.1
     environment:
       CYPRESS_VERIFY_TIMEOUT: 100000
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
