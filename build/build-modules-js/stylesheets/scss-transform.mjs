@@ -13,7 +13,14 @@ export const compile = async (file) => {
 
   let compiled;
   try {
-    compiled = Sass.compile(file);
+    compiled = Sass.compile(file, {
+      silenceDeprecations: [
+        'mixed-decls',
+        'color-functions',
+        'import',
+        'global-builtin',
+      ],
+    });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error.formatted);
