@@ -4,6 +4,9 @@
     "stylelint-order"
   ],
   "customSyntax": "postcss-scss",
+  "ignoreFiles": [
+    "media/vendor/bootstrap/**/*.scss"
+  ],
   "rules": {
     "declaration-bang-space-before": "always",
     "declaration-bang-space-after": "never",
