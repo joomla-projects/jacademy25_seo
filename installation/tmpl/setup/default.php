@@ -127,12 +127,17 @@ $wa->useScript('joomla.dialog-autocreate');
         <div class="d-flex align-items-center">
             <span class="fas fa-globe me-1" aria-hidden="true"></span>
             <?php
-                $link = HTMLHelper::_('link', '#languageSelect', '', ['id' => 'languageForm-current', 'data-joomla-dialog' => '###dialogattr###', 'class' => 'btn btn-link ps-1']);
+                $dataAttribs = [
+                    'textHeader' => Text::_('INSTL_SELECT_INSTALL_LANG'),
+                    'iconHeader' => 'icon-language',
+                    'src'        => '#languageSelect',
+                ];
 
-                // Dialog needs single quotes for attributes, so use single quotes...
-                $link = str_replace('"###dialogattr###', '\'{"textHeader": "' . Text::_('INSTL_SELECT_INSTALL_LANG') . '", "iconHeader":"icon-language"}\'', $link);
+                $text = '<span class="ms-1 fw-bold" id="languageForm-current"></span>';
 
-                echo Text::sprintf('INSTL_SELECTED_INSTALL_LANGUAGE', $link);
+                $text .= '<button type="button" data-joomla-dialog="' . htmlspecialchars(json_encode($dataAttribs)) . '" class="btn btn-primary btn-sm ms-2"><span class="fas fa-repeat fa-fw" aria-hidden="true"></span></button>';
+
+                echo Text::sprintf('INSTL_SELECTED_INSTALL_LANGUAGE', $text);
             ?>
         </div>
         <template id="languageSelect">
