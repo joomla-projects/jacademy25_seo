@@ -23,7 +23,7 @@ use Tobscure\JsonApi\ElementInterface;
  * @link   http://www.jsonapi.org/
  * @since  4.0.0
  */
-class JsonapiDocument extends JsonDocument implements \JsonSerializable
+class JsonapiDocument extends JsonDocument implements \JsonSerializable, \Stringable
 {
     /**
      * The JsonApi Document object.
@@ -122,9 +122,9 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
      *
      * @since  4.0.0
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return json_encode($this->toArray());
+        return (string) json_encode($this->toArray());
     }
 
     /**

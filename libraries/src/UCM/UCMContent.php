@@ -58,7 +58,7 @@ class UCMContent extends UCMBase
         if ($table) {
             $this->table = $table;
         } else {
-            $tableObject = json_decode($this->type->type->table);
+            $tableObject = json_decode((string) $this->type->type->table);
             $this->table = Table::getInstance($tableObject->special->type, $tableObject->special->prefix, $tableObject->special->config);
         }
     }
@@ -106,7 +106,7 @@ class UCMContent extends UCMBase
         $type = $type ?: $this->type;
 
         if (!\is_array($pk)) {
-            $pk = explode(',', $pk);
+            $pk = explode(',', (string) $pk);
         }
 
         $query = $db->getQuery(true)
@@ -135,7 +135,7 @@ class UCMContent extends UCMBase
     {
         $contentType = $type ?: $this->type;
 
-        $fields = json_decode($contentType->type->field_mappings);
+        $fields = json_decode((string) $contentType->type->field_mappings);
 
         $ucmData = [];
 

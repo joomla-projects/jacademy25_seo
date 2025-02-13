@@ -51,7 +51,7 @@ class CheckfilesPluginTest extends UnitTestCase
     public function setUp(): void
     {
         // Dir must be random for parallel automated tests
-        $this->tmpFolder = JPATH_ROOT . '/tmp/' . rand();
+        $this->tmpFolder = JPATH_ROOT . '/tmp/' . random_int(0, mt_getrandmax());
 
         if (!is_dir($this->tmpFolder)) {
             mkdir($this->tmpFolder);
@@ -109,7 +109,7 @@ class CheckfilesPluginTest extends UnitTestCase
 
         $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
 
-        list($width, $height) = getimagesize($this->tmpFolder . '/test.png');
+        [$width, $height] = getimagesize($this->tmpFolder . '/test.png');
         $this->assertEquals(20, $width);
         $this->assertEquals(20, $height);
     }
@@ -148,11 +148,11 @@ class CheckfilesPluginTest extends UnitTestCase
 
         $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
 
-        list($width, $height) = getimagesize($this->tmpFolder . '/test.png');
+        [$width, $height] = getimagesize($this->tmpFolder . '/test.png');
         $this->assertEquals(20, $width);
         $this->assertEquals(20, $height);
 
-        list($width, $height) = getimagesize($this->tmpFolder . '/test1.png');
+        [$width, $height] = getimagesize($this->tmpFolder . '/test1.png');
         $this->assertEquals(200, $width);
         $this->assertEquals(200, $height);
     }
@@ -189,7 +189,7 @@ class CheckfilesPluginTest extends UnitTestCase
 
         $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
 
-        list($width, $height) = getimagesize($this->tmpFolder . '/test.png');
+        [$width, $height] = getimagesize($this->tmpFolder . '/test.png');
         $this->assertEquals(200, $width);
         $this->assertEquals(200, $height);
     }
@@ -224,7 +224,7 @@ class CheckfilesPluginTest extends UnitTestCase
         );
         $plugin->standardRoutineHandler($event);
 
-        list($width, $height) = getimagesize($this->tmpFolder . '/test.png');
+        [$width, $height] = getimagesize($this->tmpFolder . '/test.png');
         $this->assertEquals(Status::NO_RUN, $event->getResultSnapshot()['status']);
         $this->assertEquals(200, $width);
         $this->assertEquals(200, $height);

@@ -26,24 +26,22 @@ use Joomla\DI\ServiceProviderInterface;
 class HelperFactory implements ServiceProviderInterface
 {
     /**
-     * The namespace
-     *
-     * @var  string
-     *
-     * @since   4.0.0
-     */
-    private $namespace;
-
-    /**
      * HelperFactory constructor.
      *
      * @param   string  $namespace  The namespace
      *
      * @since   4.0.0
      */
-    public function __construct(string $namespace)
+    public function __construct(
+        /**
+         * The namespace
+         *
+         *
+         * @since   4.0.0
+         */
+        private readonly string $namespace
+    )
     {
-        $this->namespace = $namespace;
     }
 
     /**

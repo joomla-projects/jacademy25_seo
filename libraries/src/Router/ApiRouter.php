@@ -110,7 +110,7 @@ class ApiRouter extends Router
                         $vars[$var] = $matches[$i + 1];
                     }
 
-                    $controller = preg_split("/[.]+/", $route->getController());
+                    $controller = preg_split("/[.]+/", (string) $route->getController());
 
                     return [
                         'controller' => $controller[0],
@@ -144,7 +144,7 @@ class ApiRouter extends Router
          */
         try {
             $baseUri = Uri::base(true);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $baseUri = '';
         }
 
@@ -172,7 +172,7 @@ class ApiRouter extends Router
         $path = ltrim($path, '/');
 
         // We can only remove index.php if it's present in the beginning of the route
-        if (strpos($path, 'index.php') !== 0) {
+        if (!str_starts_with($path, 'index.php')) {
             return $path;
         }
 
@@ -199,9 +199,7 @@ class ApiRouter extends Router
         // Extract routes matching $routePath from all known routes.
         return array_filter(
             $this->routes,
-            function ($route) use ($routePath) {
-                return preg_match($route->getRegex(), ltrim($routePath, '/')) === 1;
-            }
+            fn($route) => preg_match($route->getRegex(), ltrim($routePath, '/')) === 1
         );
     }
 }

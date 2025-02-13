@@ -98,21 +98,17 @@ class UpdateCoreCommand extends AbstractCommand
     public const ERR_CHECKS_FAILED = 1;
 
     /**
-     * @var DatabaseInterface
-     * @since 4.0.0
-     */
-    private $db;
-
-    /**
      * UpdateCoreCommand constructor.
      *
      * @param   DatabaseInterface  $db  Database Instance
      *
      * @since 4.0.0
      */
-    public function __construct(DatabaseInterface $db)
+    public function __construct(/**
+     * @since 4.0.0
+     */
+    private readonly DatabaseInterface $db)
     {
-        $this->db = $db;
         parent::__construct();
     }
 

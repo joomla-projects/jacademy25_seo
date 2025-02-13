@@ -22,23 +22,6 @@ use Joomla\Registry\Registry;
 final class EditorNoneProvider extends AbstractEditorProvider
 {
     /**
-     * A Registry object holding the parameters for the plugin
-     *
-     * @var    Registry
-     * @since  5.2.0
-     */
-    protected $params;
-
-    /**
-     * The application object
-     *
-     * @var    CMSApplicationInterface
-     *
-     * @since  5.2.0
-     */
-    protected $application;
-
-    /**
      * Class constructor
      *
      * @param   Registry                 $params
@@ -47,11 +30,19 @@ final class EditorNoneProvider extends AbstractEditorProvider
      *
      * @since  5.2.0
      */
-    public function __construct(Registry $params, CMSApplicationInterface $application, DispatcherInterface $dispatcher)
+    public function __construct(/**
+     * A Registry object holding the parameters for the plugin
+     *
+     * @since  5.2.0
+     */
+    protected Registry $params, /**
+     * The application object
+     *
+     *
+     * @since  5.2.0
+     */
+    protected CMSApplicationInterface $application, DispatcherInterface $dispatcher)
     {
-        $this->params      = $params;
-        $this->application = $application;
-
         $this->setDispatcher($dispatcher);
     }
 

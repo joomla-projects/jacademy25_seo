@@ -49,14 +49,6 @@ class Toolbar
     use CoreButtonsTrait;
 
     /**
-     * Toolbar name
-     *
-     * @var    string
-     * @since  1.5
-     */
-    protected $_name = '';
-
-    /**
      * Toolbar array
      *
      * @var    array
@@ -95,22 +87,25 @@ class Toolbar
     /**
      * Constructor
      *
-     * @param   string                    $name     The toolbar name.
+     * @param string $_name The toolbar name.
      * @param   ?ToolbarFactoryInterface  $factory  The toolbar factory.
      *
      * @since   1.5
      */
-    public function __construct($name = 'toolbar', ?ToolbarFactoryInterface $factory = null)
+    public function __construct(/**
+     * Toolbar name
+     *
+     * @since  1.5
+     */
+    protected $_name = 'toolbar', ?ToolbarFactoryInterface $factory = null)
     {
-        $this->_name = $name;
-
         // At 5.0, require the factory to be injected
         if (!$factory) {
             @trigger_error(
                 \sprintf(
                     'As of Joomla! 5.0, a %1$s must be provided to a %2$s object when creating it.',
                     ToolbarFactoryInterface::class,
-                    \get_class($this)
+                    static::class
                 ),
                 E_USER_DEPRECATED
             );
@@ -420,7 +415,7 @@ class Toolbar
         // Loop through the path directories.
         foreach ((array) $path as $dir) {
             // No surrounding spaces allowed!
-            $dir = trim($dir);
+            $dir = trim((string) $dir);
 
             // Add trailing separators as needed.
             if (substr($dir, -1) !== DIRECTORY_SEPARATOR) {

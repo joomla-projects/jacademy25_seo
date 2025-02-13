@@ -506,7 +506,7 @@ class TemplateAdapter extends InstallerAdapter
             throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_CLIENT'));
         }
 
-        $this->parent->setPath('extension_root', $client->path . '/templates/' . strtolower($name));
+        $this->parent->setPath('extension_root', $client->path . '/templates/' . strtolower((string) $name));
         $this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
         // We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file
@@ -681,7 +681,7 @@ class TemplateAdapter extends InstallerAdapter
 
         try {
             return $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_TPL_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
             return false;

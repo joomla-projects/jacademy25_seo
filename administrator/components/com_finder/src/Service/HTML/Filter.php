@@ -69,7 +69,7 @@ class Filter
 
             try {
                 $filter = $db->loadObject();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 return null;
             }
 
@@ -100,7 +100,7 @@ class Filter
 
         try {
             $branches = $db->loadObjectList('id');
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return null;
         }
 
@@ -141,7 +141,7 @@ class Filter
 
             try {
                 $nodes = $db->loadObjectList('id');
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 return null;
             }
 
@@ -149,7 +149,7 @@ class Filter
             $lang = Factory::getLanguage();
 
             foreach ($nodes as $nv) {
-                if (trim($nv->parent_title, '*') === 'Language') {
+                if (trim((string) $nv->parent_title, '*') === 'Language') {
                     $title = LanguageHelper::branchLanguageTitle($nv->title);
                 } else {
                     $key   = LanguageHelper::branchPlural($nv->title);
@@ -238,7 +238,7 @@ class Filter
 
                 try {
                     $filter = $db->loadObject();
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     return null;
                 }
 
@@ -273,7 +273,7 @@ class Filter
 
             try {
                 $branches = $db->loadObjectList('id');
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 return null;
             }
 
@@ -313,7 +313,7 @@ class Filter
 
                 // Limit the nodes to a predefined filter.
                 if (!empty($filter->data)) {
-                    $query->whereIn('t.id', explode(",", $filter->data));
+                    $query->whereIn('t.id', explode(",", (string) $filter->data));
                 }
 
                 // Load the branches.
@@ -321,7 +321,7 @@ class Filter
 
                 try {
                     $bv->nodes = $db->loadObjectList('id');
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     return null;
                 }
 
@@ -330,7 +330,7 @@ class Filter
                 $root     = [];
 
                 foreach ($bv->nodes as $node_id => $node) {
-                    if (trim($node->parent_title, '*') === 'Language') {
+                    if (trim((string) $node->parent_title, '*') === 'Language') {
                         $title = LanguageHelper::branchLanguageTitle($node->title);
                     } else {
                         $key   = LanguageHelper::branchPlural($node->title);

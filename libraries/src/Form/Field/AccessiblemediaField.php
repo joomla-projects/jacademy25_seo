@@ -79,15 +79,10 @@ class AccessiblemediaField extends SubformField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'directory':
-            case 'preview':
-            case 'previewHeight':
-            case 'previewWidth':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'directory', 'preview', 'previewHeight', 'previewWidth' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**

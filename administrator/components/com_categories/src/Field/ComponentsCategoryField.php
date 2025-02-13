@@ -60,7 +60,7 @@ class ComponentsCategoryField extends ListField
             $option->value = $categoryType;
 
             // Extract the component name and optional section name
-            $parts     = explode('.', $categoryType);
+            $parts     = explode('.', (string) $categoryType);
             $component = $parts[0];
             $section   = (\count($parts) > 1) ? $parts[1] : null;
 

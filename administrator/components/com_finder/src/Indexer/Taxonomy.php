@@ -481,11 +481,7 @@ class Taxonomy
             return self::$taxonomies;
         }
 
-        if (isset(self::$taxonomies[$id])) {
-            return self::$taxonomies[$id];
-        }
-
-        return false;
+        return self::$taxonomies[$id] ?? false;
     }
 
     /**
@@ -513,10 +509,6 @@ class Taxonomy
             return self::$branches;
         }
 
-        if (isset(self::$branches[$title])) {
-            return self::$branches[$title];
-        }
-
-        return false;
+        return self::$branches[$title] ?? false;
     }
 }

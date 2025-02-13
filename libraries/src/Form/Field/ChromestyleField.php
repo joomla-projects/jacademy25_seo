@@ -175,7 +175,7 @@ class ChromestyleField extends GroupedlistField
         $layouts = Folder::files(JPATH_SITE . '/layouts/chromes', '.*\.php');
 
         foreach ($layouts as &$layout) {
-            $layout = basename($layout, '.php');
+            $layout = basename((string) $layout, '.php');
         }
 
         $moduleStyles['system'] = $layouts;
@@ -198,7 +198,7 @@ class ChromestyleField extends GroupedlistField
 
             if ($layouts) {
                 foreach ($layouts as &$layout) {
-                    $layout = basename($layout, '.php');
+                    $layout = basename((string) $layout, '.php');
                 }
 
                 $moduleStyles[$template->element] = $layouts;

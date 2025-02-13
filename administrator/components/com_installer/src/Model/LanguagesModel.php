@@ -136,7 +136,7 @@ class LanguagesModel extends ListModel
 
         try {
             $response = HttpFactory::getHttp()->get($updateSite);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 
@@ -155,7 +155,7 @@ class LanguagesModel extends ListModel
         }
 
         $languages     = [];
-        $search        = strtolower($this->getState('filter.search', ''));
+        $search        = strtolower((string) $this->getState('filter.search', ''));
 
         foreach ($updateSiteXML->extension as $extension) {
             $language = new \stdClass();
@@ -166,8 +166,8 @@ class LanguagesModel extends ListModel
 
             if ($search) {
                 if (
-                    strpos(strtolower($language->name), $search) === false
-                    && strpos(strtolower($language->element), $search) === false
+                    !str_contains(strtolower((string) $language->name), $search)
+                    && !str_contains(strtolower((string) $language->element), $search)
                 ) {
                     continue;
                 }
@@ -185,7 +185,7 @@ class LanguagesModel extends ListModel
             function ($a, $b) use ($that) {
                 $ordering = $that->getState('list.ordering', 'name');
 
-                if (strtolower($that->getState('list.direction', 'asc')) === 'asc') {
+                if (strtolower((string) $that->getState('list.direction', 'asc')) === 'asc') {
                     return StringHelper::strcmp($a->$ordering, $b->$ordering);
                 }
 
@@ -262,6 +262,6 @@ class LanguagesModel extends ListModel
      */
     protected function compareLanguages($lang1, $lang2)
     {
-        return strcmp($lang1->name, $lang2->name);
+        return strcmp((string) $lang1->name, (string) $lang2->name);
     }
 }

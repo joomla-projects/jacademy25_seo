@@ -73,7 +73,7 @@ if ($saveOrder && !empty($this->items)) {
                             </tr>
                         </thead>
                         <tbody<?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>"<?php
                               endif; ?>>
                         <?php $count = count($this->items); ?>
                         <?php foreach ($this->items as $i => $item) :
@@ -83,7 +83,7 @@ if ($saveOrder && !empty($this->items)) {
                             $canChange = $user->authorise('core.edit.state', 'com_users');
 
                             // Decode level groups
-                            $groups = json_decode($item->rules);
+                            $groups = json_decode((string) $item->rules);
 
                             // If this group is super admin and this user is not super admin, $canEdit is false
                             if (!$this->getCurrentUser()->authorise('core.admin') && $groups && Access::checkGroup($groups[0], 'core.admin')) {

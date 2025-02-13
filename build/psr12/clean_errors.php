@@ -115,14 +115,14 @@ foreach ($data as $error) {
             $sourceLineEndNo   = $lineNo;
             $found             = false;
 
-            while (substr(ltrim($fileContent[$sourceLineEndNo]), 0, 2) === '//') {
+            while (str_starts_with(ltrim($fileContent[$sourceLineEndNo]), '//')) {
                 $sourceLineEndNo++;
                 $found = true;
             }
 
             if ($sourceLineStartNo === $sourceLineEndNo) {
-                if (substr(ltrim($fileContent[$sourceLineStartNo]), 0, 2) === '/*') {
-                    while (substr(ltrim($fileContent[$sourceLineEndNo]), 0, 2) !== '*/') {
+                if (str_starts_with(ltrim($fileContent[$sourceLineStartNo]), '/*')) {
+                    while (!str_starts_with(ltrim($fileContent[$sourceLineEndNo]), '*/')) {
                         $sourceLineEndNo++;
                     }
                     $sourceLineEndNo++;
@@ -148,7 +148,7 @@ foreach ($data as $error) {
             for ($i = $sourceLineStartNo; $i < $sourceLineEndNo; $i++) {
                 $newLine = ltrim($fileContent[$i]);
                 // Fix codeblocks not starting with /**
-                if (substr($newLine, 0, 2) === '/*') {
+                if (str_starts_with($newLine, '/*')) {
                     $newLine = "/**\n";
                 }
 

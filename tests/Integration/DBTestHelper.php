@@ -106,7 +106,7 @@ class DBTestHelper
         $query = preg_replace("/\n\--[^\n]*/", '', "\n" . $query);
 
         // Find function.
-        $funct = explode('CREATE OR REPLACE FUNCTION', $query);
+        $funct = explode('CREATE OR REPLACE FUNCTION', (string) $query);
 
         // Save sql before function and parse it.
         $query = $funct[0];

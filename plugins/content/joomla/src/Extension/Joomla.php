@@ -361,12 +361,12 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
                     '@type'    => 'Blog',
                     '@id'      => $schemaId,
                     'isPartOf' => ['@id' => $baseId . 'WebPage/base'],
-                    'name'     => htmlentities($menu->title),
+                    'name'     => htmlentities((string) $menu->title),
                     'blogPost' => [],
                 ];
 
                 if ($menu->getParams()->get('menu-meta_description')) {
-                    $additionalSchema['description'] = htmlentities($menu->getParams()->get('menu-meta_description'));
+                    $additionalSchema['description'] = htmlentities((string) $menu->getParams()->get('menu-meta_description'));
                 }
 
                 $model = $component->createModel($view, 'Site');
@@ -769,7 +769,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             throw new \Exception($this->getApplication()->getLanguage()->_('COM_WORKFLOW_MSG_DELETE_IS_DEFAULT'));
         }
 
-        $parts = explode('.', $table->extension);
+        $parts = explode('.', (string) $table->extension);
 
         $component = $this->getApplication()->bootComponent($parts[0]);
 
@@ -837,7 +837,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             return true;
         }
 
-        $parts = explode('.', $workflow->extension);
+        $parts = explode('.', (string) $workflow->extension);
 
         $component = $this->getApplication()->bootComponent($parts[0]);
 
@@ -1057,7 +1057,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         }
 
         // Display error if catid is not set when enable_category is enabled
-        $params = json_decode($table->params, true);
+        $params = json_decode((string) $table->params, true);
 
         if (isset($params['enable_category']) && $params['enable_category'] === 1 && empty($params['catid'])) {
             $table->setError($this->getApplication()->getLanguage()->_('COM_CONTENT_CREATE_ARTICLE_ERROR'));

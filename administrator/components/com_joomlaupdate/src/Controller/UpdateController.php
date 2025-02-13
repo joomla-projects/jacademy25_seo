@@ -371,11 +371,11 @@ class UpdateController extends BaseController
         }
 
         // Set the update source in the session
-        $this->app->setUserState('com_joomlaupdate.file', basename($tempFile));
+        $this->app->setUserState('com_joomlaupdate.file', basename((string) $tempFile));
 
         try {
             Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $tempFile), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 

@@ -91,7 +91,7 @@ if ($saveOrder) {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>">
+                        <tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>">
                             <?php foreach ($this->transitions as $i => $item) :
                                 $edit = Route::_('index.php?option=com_workflow&task=transition.edit&id=' . $item->id . '&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->workflow->extension));
 

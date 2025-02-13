@@ -42,7 +42,7 @@ trait HTMLRegistryAwareTrait
             return $this->registry;
         }
 
-        throw new \UnexpectedValueException('HTML registry not set in ' . __CLASS__);
+        throw new \UnexpectedValueException('HTML registry not set in ' . self::class);
     }
 
     /**

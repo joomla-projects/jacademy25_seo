@@ -40,10 +40,10 @@ class Factory implements FactoryInterface
         $type  = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
         $ntype = null;
 
-        $class = __NAMESPACE__ . '\\' . ucfirst($type) . 'Document';
+        $class = __NAMESPACE__ . '\\' . ucfirst((string) $type) . 'Document';
 
         if (!class_exists($class)) {
-            $class = 'JDocument' . ucfirst($type);
+            $class = 'JDocument' . ucfirst((string) $type);
         }
 
         if (!class_exists($class)) {

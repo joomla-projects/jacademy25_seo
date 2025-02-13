@@ -209,7 +209,7 @@ class TemplateModel extends FormModel
 
         foreach ($pks as $pk) {
             $client = ApplicationHelper::getClientInfo($pk->client_id);
-            $path   = Path::clean($client->path . '/templates/' . $pk->template . base64_decode($pk->hash_id));
+            $path   = Path::clean($client->path . '/templates/' . $pk->template . base64_decode((string) $pk->hash_id));
 
             if (file_exists($path)) {
                 $results[] = $pk;
@@ -253,9 +253,7 @@ class TemplateModel extends FormModel
         // Sort list of stdClass array.
         usort(
             $this->coreFileList,
-            function ($a, $b) {
-                return strcmp($a->id, $b->id);
-            }
+            fn($a, $b) => strcmp((string) $a->id, (string) $b->id)
         );
 
         return $this->coreFileList;
@@ -574,7 +572,7 @@ class TemplateModel extends FormModel
      */
     private function getSafeName($name)
     {
-        if (strpos($name, '-') !== false && preg_match('/[0-9]/', $name)) {
+        if (str_contains($name, '-') && preg_match('/[0-9]/', $name)) {
             // Get the extension
             $extension = File::getExt($name);
 
@@ -764,7 +762,7 @@ class TemplateModel extends FormModel
                     if (is_file($src)) {
                         try {
                             File::copy($src, $dst);
-                        } catch (FilesystemException $exception) {
+                        } catch (FilesystemException) {
                         }
                     }
                 }
@@ -822,17 +820,17 @@ class TemplateModel extends FormModel
         // Get list of language files
         $result   = true;
         $files    = Folder::files($this->getState('to_path'), '\.ini$', true, true);
-        $newName  = strtolower($this->getState('new_name'));
+        $newName  = strtolower((string) $this->getState('new_name'));
         $template = $this->getTemplate();
         $oldName  = $template->element;
-        $manifest = json_decode($template->manifest_cache);
+        $manifest = json_decode((string) $template->manifest_cache);
 
         foreach ($files as $file) {
-            $newFile = '/' . str_replace($oldName, $newName, basename($file));
+            $newFile = '/' . str_replace($oldName, $newName, basename((string) $file));
 
             try {
-                $result = File::move($file, \dirname($file) . $newFile) && $result;
-            } catch (FilesystemException $exception) {
+                $result = File::move($file, \dirname((string) $file) . $newFile) && $result;
+            } catch (FilesystemException) {
                 $result = false;
             }
         }
@@ -852,7 +850,7 @@ class TemplateModel extends FormModel
 
             try {
                 $result = File::write($xmlFile, $contents) && $result;
-            } catch (FilesystemException $exception) {
+            } catch (FilesystemException) {
                 $result = false;
             }
         }
@@ -936,7 +934,7 @@ class TemplateModel extends FormModel
 
         if ($this->template) {
             $input    = Factory::getApplication()->getInput();
-            $fileName = base64_decode($input->get('file'));
+            $fileName = base64_decode((string) $input->get('file'));
             $fileName = str_replace('//', '/', $fileName);
             $isMedia  = $input->getInt('isMedia', 0);
 
@@ -945,7 +943,7 @@ class TemplateModel extends FormModel
 
             try {
                 $filePath = Path::check($fileName);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
 
                 return;
@@ -990,7 +988,7 @@ class TemplateModel extends FormModel
         }
 
         $app      = Factory::getApplication();
-        $fileName = base64_decode($app->getInput()->get('file'));
+        $fileName = base64_decode((string) $app->getInput()->get('file'));
         $isMedia  = $app->getInput()->getInt('isMedia', 0);
         $fileName = $isMedia ? JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . $fileName :
             JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element . $fileName;
@@ -1028,7 +1026,7 @@ class TemplateModel extends FormModel
 
         try {
             File::write($filePath, $data['source']);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
             $app->enqueueMessage(Text::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName), 'error');
 
             return false;
@@ -1101,7 +1099,7 @@ class TemplateModel extends FormModel
                         $path = $folder . '/' . $view . '/tmpl';
 
                         // The new scheme, the views are directly in the component/tmpl folder
-                        if (!is_dir($path) && substr($folder, -4) == 'tmpl') {
+                        if (!is_dir($path) && str_ends_with((string) $folder, 'tmpl')) {
                             $path = $folder . '/' . $view;
                         }
 
@@ -1282,7 +1280,7 @@ class TemplateModel extends FormModel
 
             try {
                 $return = File::copy($file, $htmlFilePath, '', true);
-            } catch (FilesystemException $exception) {
+            } catch (FilesystemException) {
                 $return = false;
             }
         }
@@ -1307,7 +1305,7 @@ class TemplateModel extends FormModel
 
             try {
                 $return = File::delete($filePath);
-            } catch (FilesystemException $exception) {
+            } catch (FilesystemException) {
                 $return = false;
             }
 
@@ -1398,7 +1396,7 @@ class TemplateModel extends FormModel
 
             try {
                 File::upload($file['tmp_name'], Path::clean($path . '/' . $location . '/' . $fileName));
-            } catch (FilesystemException $exception) {
+            } catch (FilesystemException) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_UPLOAD_ERROR'), 'error');
 
                 return false;
@@ -1533,7 +1531,7 @@ class TemplateModel extends FormModel
     {
         if ($this->getTemplate()) {
             $app      = Factory::getApplication();
-            $fileName = base64_decode($app->getInput()->get('file'));
+            $fileName = base64_decode((string) $app->getInput()->get('file'));
             $path     = $this->getBasePath();
 
             $uri = Uri::root(false) . ltrim(str_replace(JPATH_ROOT, '', $this->getBasePath()), '/');
@@ -1579,19 +1577,12 @@ class TemplateModel extends FormModel
                 $image      = new Image($path);
                 $properties = Image::getImageFileProperties($path);
 
-                switch ($properties->mime) {
-                    case 'image/webp':
-                        $imageType = \IMAGETYPE_WEBP;
-                        break;
-                    case 'image/png':
-                        $imageType = \IMAGETYPE_PNG;
-                        break;
-                    case 'image/gif':
-                        $imageType = \IMAGETYPE_GIF;
-                        break;
-                    default:
-                        $imageType = \IMAGETYPE_JPEG;
-                }
+                $imageType = match ($properties->mime) {
+                    'image/webp' => \IMAGETYPE_WEBP,
+                    'image/png' => \IMAGETYPE_PNG,
+                    'image/gif' => \IMAGETYPE_GIF,
+                    default => \IMAGETYPE_JPEG,
+                };
 
                 $image->crop($w, $h, $x, $y, false);
                 $image->toFile($path, $imageType);
@@ -1626,19 +1617,12 @@ class TemplateModel extends FormModel
                 $image      = new Image($path);
                 $properties = Image::getImageFileProperties($path);
 
-                switch ($properties->mime) {
-                    case 'image/webp':
-                        $imageType = \IMAGETYPE_WEBP;
-                        break;
-                    case 'image/png':
-                        $imageType = \IMAGETYPE_PNG;
-                        break;
-                    case 'image/gif':
-                        $imageType = \IMAGETYPE_GIF;
-                        break;
-                    default:
-                        $imageType = \IMAGETYPE_JPEG;
-                }
+                $imageType = match ($properties->mime) {
+                    'image/webp' => \IMAGETYPE_WEBP,
+                    'image/png' => \IMAGETYPE_PNG,
+                    'image/gif' => \IMAGETYPE_GIF,
+                    default => \IMAGETYPE_JPEG,
+                };
 
                 $image->resize($width, $height, false, Image::SCALE_FILL);
                 $image->toFile($path, $imageType);
@@ -1701,12 +1685,12 @@ class TemplateModel extends FormModel
         if ($template = $this->getTemplate()) {
             $app          = Factory::getApplication();
             $client       = ApplicationHelper::getClientInfo($template->client_id);
-            $relPath      = base64_decode($app->getInput()->get('file'));
+            $relPath      = base64_decode((string) $app->getInput()->get('file'));
             $explodeArray = explode('/', $relPath);
             $fileName     = end($explodeArray);
-            $path         = $this->getBasePath() . base64_decode($app->getInput()->get('file'));
+            $path         = $this->getBasePath() . base64_decode((string) $app->getInput()->get('file'));
 
-            if (stristr($client->path, 'administrator') == false) {
+            if (stristr((string) $client->path, 'administrator') == false) {
                 $folder = '/templates/';
             } else {
                 $folder = '/administrator/templates/';
@@ -1759,7 +1743,7 @@ class TemplateModel extends FormModel
 
             try {
                 File::copy($path . $relPath, $newPath);
-            } catch (FilesystemException $exception) {
+            } catch (FilesystemException) {
                 return false;
             }
 
@@ -1782,7 +1766,7 @@ class TemplateModel extends FormModel
     {
         if ($this->getTemplate()) {
             $app  = Factory::getApplication();
-            $path = $this->getBasePath() . base64_decode($app->getInput()->get('file'));
+            $path = $this->getBasePath() . base64_decode((string) $app->getInput()->get('file'));
 
             if (file_exists(Path::clean($path))) {
                 $files = [];
@@ -1869,10 +1853,10 @@ class TemplateModel extends FormModel
     {
         if (!isset($this->allowedFormats)) {
             $params       = ComponentHelper::getParams('com_templates');
-            $imageTypes   = explode(',', $params->get('image_formats', 'gif,bmp,jpg,jpeg,png,webp'));
-            $sourceTypes  = explode(',', $params->get('source_formats', 'txt,less,ini,xml,js,php,css,scss,sass,json'));
-            $fontTypes    = explode(',', $params->get('font_formats', 'woff,woff2,ttf,otf'));
-            $archiveTypes = explode(',', $params->get('compressed_formats', 'zip'));
+            $imageTypes   = explode(',', (string) $params->get('image_formats', 'gif,bmp,jpg,jpeg,png,webp'));
+            $sourceTypes  = explode(',', (string) $params->get('source_formats', 'txt,less,ini,xml,js,php,css,scss,sass,json'));
+            $fontTypes    = explode(',', (string) $params->get('font_formats', 'woff,woff2,ttf,otf'));
+            $archiveTypes = explode(',', (string) $params->get('compressed_formats', 'zip'));
 
             $this->allowedFormats = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
             $this->allowedFormats = array_map('strtolower', $this->allowedFormats);
@@ -1981,7 +1965,7 @@ class TemplateModel extends FormModel
         }
 
         // Check manifest for additional files
-        $newName  = strtolower($this->getState('new_name'));
+        $newName  = strtolower((string) $this->getState('new_name'));
         $template = $this->getTemplate();
 
         // Edit XML file
@@ -1995,7 +1979,7 @@ class TemplateModel extends FormModel
 
         try {
             $xml = simplexml_load_string(file_get_contents($xmlFile));
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_READ'), 'error');
 
             return false;
@@ -2059,7 +2043,7 @@ class TemplateModel extends FormModel
 
         try {
             $result = File::write($xmlFile, $dom->saveXML());
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
 
             return false;
@@ -2122,7 +2106,7 @@ class TemplateModel extends FormModel
     {
         $app         = Factory::getApplication();
         $template    = $this->getTemplate();
-        $newName     = strtolower($this->getState('new_name'));
+        $newName     = strtolower((string) $this->getState('new_name'));
         $applyStyles = $this->getState('stylesToCopy');
 
         // Get a db connection.
@@ -2139,7 +2123,7 @@ class TemplateModel extends FormModel
 
         try {
             $parentStyle = $db->loadObjectList();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'), 'error');
 
             return false;
@@ -2162,7 +2146,7 @@ class TemplateModel extends FormModel
 
             try {
                 $db->execute();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_READ'), 'error');
 
                 return false;

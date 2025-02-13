@@ -81,8 +81,8 @@ class StepModel extends AdminModel
         $tour->load($data['tour_id']);
 
         // Language keys must include GUIDEDTOUR to prevent save issues
-        if (strpos($data['description'], 'GUIDEDTOUR') !== false) {
-            $data['description'] = strip_tags($data['description']);
+        if (str_contains((string) $data['description'], 'GUIDEDTOUR')) {
+            $data['description'] = strip_tags((string) $data['description']);
         }
 
         // Make sure we use the correct extension when editing an existing tour
@@ -120,7 +120,7 @@ class StepModel extends AdminModel
     {
         $date = Factory::getDate()->toSql();
 
-        $table->title = htmlspecialchars_decode($table->title, ENT_QUOTES);
+        $table->title = htmlspecialchars_decode((string) $table->title, ENT_QUOTES);
 
         if (empty($table->id)) {
             // Set the values

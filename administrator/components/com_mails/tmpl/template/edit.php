@@ -31,7 +31,7 @@ $wa->useScript('keepalive')
 $this->useCoreUI = true;
 
 $input = $app->getInput();
-list($component, $sub_id) = explode('.', $this->master->template_id, 2);
+[$component, $sub_id] = explode('.', (string) $this->master->template_id, 2);
 $sub_id = str_replace('.', '_', $sub_id);
 
 $this->getDocument()->addScriptOptions('com_mails', ['templateData' => $this->templateData]);

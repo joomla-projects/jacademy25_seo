@@ -81,22 +81,16 @@ final class MetadataRepository implements MetadataStatementRepository
     {
         $this->load();
 
-        $mapKeys = function (MetadataStatement $meta) {
-            return $meta->getAaguid();
-        };
-        $mapvalues = function (MetadataStatement $meta) {
-            return $meta->getAaguid() ? (object) [
-                'description' => $meta->getDescription(),
-                'icon'        => $meta->getIcon(),
-            ] : null;
-        };
+        $mapKeys = (fn(MetadataStatement $meta) => $meta->getAaguid());
+        $mapvalues = (fn(MetadataStatement $meta) => $meta->getAaguid() ? (object) [
+            'description' => $meta->getDescription(),
+            'icon'        => $meta->getIcon(),
+        ] : null);
         $keys    = array_map($mapKeys, $this->mdsCache);
         $values  = array_map($mapvalues, $this->mdsCache);
         $return  = array_combine($keys, $values) ?: [];
 
-        $filter = function ($x) {
-            return !empty($x);
-        };
+        $filter = (fn($x) => !empty($x));
 
         return array_filter($return, $filter);
     }
@@ -128,7 +122,7 @@ final class MetadataRepository implements MetadataStatementRepository
         try {
             $jwtConfig = Configuration::forUnsecuredSigner();
             $token     = $jwtConfig->parser()->parse($rawJwt);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return;
         }
 
@@ -153,7 +147,7 @@ final class MetadataRepository implements MetadataStatementRepository
                 }
 
                 return MetadataStatement::createFromArray($array);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 return null;
             }
         };
@@ -161,9 +155,7 @@ final class MetadataRepository implements MetadataStatementRepository
 
         unset($token);
 
-        $entriesFilter                = function ($x) {
-            return !empty($x);
-        };
+        $entriesFilter                = (fn($x) => !empty($x));
         $this->mdsCache = array_filter($entries, $entriesFilter);
 
         foreach ($this->mdsCache as $idx => $meta) {

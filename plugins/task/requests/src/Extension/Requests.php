@@ -69,22 +69,6 @@ final class Requests extends CMSPlugin implements SubscriberInterface
     protected $autoloadLanguage = true;
 
     /**
-     * The http factory
-     *
-     * @var    HttpFactory
-     * @since  4.2.0
-     */
-    private $httpFactory;
-
-    /**
-     * The root directory
-     *
-     * @var    string
-     * @since  4.2.0
-     */
-    private $rootDirectory;
-
-    /**
      * Constructor.
      *
      * @param   DispatcherInterface  $dispatcher     The dispatcher
@@ -94,12 +78,19 @@ final class Requests extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, HttpFactory $httpFactory, string $rootDirectory)
+    public function __construct(DispatcherInterface $dispatcher, array $config, /**
+     * The http factory
+     *
+     * @since  4.2.0
+     */
+    private HttpFactory $httpFactory, /**
+     * The root directory
+     *
+     * @since  4.2.0
+     */
+    private string $rootDirectory)
     {
         parent::__construct($dispatcher, $config);
-
-        $this->httpFactory   = $httpFactory;
-        $this->rootDirectory = $rootDirectory;
     }
 
     /**
@@ -146,7 +137,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
             File::write($responseFilename, $responseBody);
             $this->snapshot['output_file'] = $responseFilename;
             $responseStatus                = 'SAVED';
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_UNWRITEABLE_OUTPUT'), 'error');
             $responseStatus = 'NOT_SAVED';
         }

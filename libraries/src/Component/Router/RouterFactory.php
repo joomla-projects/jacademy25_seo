@@ -26,32 +26,6 @@ use Joomla\Database\DatabaseInterface;
 class RouterFactory implements RouterFactoryInterface
 {
     /**
-     * The namespace to create the categories from.
-     *
-     * @var    string
-     * @since  4.0.0
-     */
-    private $namespace;
-
-    /**
-     * The category factory
-     *
-     * @var CategoryFactoryInterface
-     *
-     * @since  4.0.0
-     */
-    private $categoryFactory;
-
-    /**
-     * The db
-     *
-     * @var DatabaseInterface
-     *
-     * @since  4.0.0
-     */
-    private $db;
-
-    /**
      * The namespace must be like:
      * Joomla\Component\Content
      *
@@ -61,11 +35,29 @@ class RouterFactory implements RouterFactoryInterface
      *
      * @since   4.0.0
      */
-    public function __construct($namespace, ?CategoryFactoryInterface $categoryFactory = null, ?DatabaseInterface $db = null)
+    public function __construct(
+        /**
+         * The namespace to create the categories from.
+         *
+         * @since  4.0.0
+         */
+        private $namespace,
+        /**
+         * The category factory
+         *
+         *
+         * @since  4.0.0
+         */
+        private readonly ?CategoryFactoryInterface $categoryFactory = null,
+        /**
+         * The db
+         *
+         *
+         * @since  4.0.0
+         */
+        private readonly ?DatabaseInterface $db = null
+    )
     {
-        $this->namespace       = $namespace;
-        $this->categoryFactory = $categoryFactory;
-        $this->db              = $db;
     }
 
     /**

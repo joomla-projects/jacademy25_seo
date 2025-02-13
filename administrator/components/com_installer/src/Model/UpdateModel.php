@@ -145,21 +145,21 @@ class UpdateModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'eid:') !== false) {
-                $sid = (int) substr($search, 4);
+            if (stripos((string) $search, 'eid:') !== false) {
+                $sid = (int) substr((string) $search, 4);
                 $query->where($db->quoteName('u.extension_id') . ' = :sid')
                     ->bind(':sid', $sid, ParameterType::INTEGER);
             } else {
-                if (stripos($search, 'uid:') !== false) {
-                    $suid = (int) substr($search, 4);
+                if (stripos((string) $search, 'uid:') !== false) {
+                    $suid = (int) substr((string) $search, 4);
                     $query->where($db->quoteName('u.update_site_id') . ' = :suid')
                         ->bind(':suid', $suid, ParameterType::INTEGER);
-                } elseif (stripos($search, 'id:') !== false) {
-                    $uid = (int) substr($search, 3);
+                } elseif (stripos((string) $search, 'id:') !== false) {
+                    $uid = (int) substr((string) $search, 3);
                     $query->where($db->quoteName('u.update_id') . ' = :uid')
                         ->bind(':uid', $uid, ParameterType::INTEGER);
                 } else {
-                    $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+                    $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
                     $query->where($db->quoteName('u.name') . ' LIKE :search')
                         ->bind(':search', $search);
                 }
@@ -182,10 +182,10 @@ class UpdateModel extends ListModel
     {
         foreach ($items as &$item) {
             $item->client_translated  = Text::_([0 => 'JSITE', 1 => 'JADMINISTRATOR', 3 => 'JAPI'][$item->client_id] ?? 'JSITE');
-            $manifest                 = json_decode($item->manifest_cache);
+            $manifest                 = json_decode((string) $item->manifest_cache);
             $item->current_version    = $manifest->version ?? Text::_('JLIB_UNKNOWN');
             $item->description        = $item->description !== '' ? $item->description : Text::_('COM_INSTALLER_MSG_UPDATE_NODESC');
-            $item->type_translated    = Text::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
+            $item->type_translated    = Text::_('COM_INSTALLER_TYPE_' . strtoupper((string) $item->type));
             $item->folder_translated  = $item->folder ?: Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
             $item->install_type       = $item->extension_id ? Text::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : Text::_('COM_INSTALLER_NEW_INSTALL');
         }
@@ -215,7 +215,7 @@ class UpdateModel extends ListModel
             $db->setQuery($query);
             $result = $db->loadObjectList();
             $this->translate($result);
-            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
+            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower((string) $listDirn) === 'desc' ? -1 : 1, true, true);
             $total  = \count($result);
 
             if ($total < $limitstart) {
@@ -286,7 +286,7 @@ class UpdateModel extends ListModel
 
         try {
             $db->truncateTable('#__updates');
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             $this->_message = Text::_('JLIB_INSTALLER_FAILED_TO_PURGE_UPDATES');
 
             return false;
@@ -417,11 +417,11 @@ class UpdateModel extends ListModel
             return false;
         }
 
-        $url     = trim($update->downloadurl->_data);
+        $url     = trim((string) $update->downloadurl->_data);
         $sources = $update->get('downloadSources', []);
 
         if ($extra_query = $update->get('extra_query')) {
-            $url .= (strpos($url, '?') === false) ? '?' : '&amp;';
+            $url .= (!str_contains($url, '?')) ? '?' : '&amp;';
             $url .= $extra_query;
         }
 
@@ -429,10 +429,10 @@ class UpdateModel extends ListModel
 
         while (!($p_file = InstallerHelper::downloadPackage($url)) && isset($sources[$mirror])) {
             $name = $sources[$mirror];
-            $url  = trim($name->url);
+            $url  = trim((string) $name->url);
 
             if ($extra_query) {
-                $url .= (strpos($url, '?') === false) ? '?' : '&amp;';
+                $url .= (!str_contains($url, '?')) ? '?' : '&amp;';
                 $url .= $extra_query;
             }
 
@@ -481,7 +481,7 @@ class UpdateModel extends ListModel
             $app->enqueueMessage(
                 Text::sprintf(
                     'COM_INSTALLER_MSG_UPDATE_ERROR',
-                    Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
+                    Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper((string) $package['type']))
                 ),
                 'error'
             );
@@ -491,7 +491,7 @@ class UpdateModel extends ListModel
             $app->enqueueMessage(
                 Text::sprintf(
                     'COM_INSTALLER_MSG_UPDATE_SUCCESS',
-                    Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
+                    Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper((string) $package['type']))
                 ),
                 'success'
             );

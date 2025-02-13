@@ -130,7 +130,7 @@ class CacheModel extends ListModel
                     // Process filter by search term.
                     if ($search = $this->getState('filter.search')) {
                         foreach ($data as $key => $cacheItem) {
-                            if (stripos($cacheItem->group, $search) === false) {
+                            if (stripos((string) $cacheItem->group, (string) $search) === false) {
                                 unset($data[$key]);
                             }
                         }
@@ -140,7 +140,7 @@ class CacheModel extends ListModel
                     $listOrder = $this->getState('list.ordering', 'group');
                     $listDirn  = $this->getState('list.direction', 'ASC');
 
-                    $this->_data = ArrayHelper::sortObjects($data, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
+                    $this->_data = ArrayHelper::sortObjects($data, $listOrder, strtolower((string) $listDirn) === 'desc' ? -1 : 1, true, true);
 
                     // Process pagination.
                     $limit = (int) $this->getState('list.limit', 25);
@@ -153,10 +153,10 @@ class CacheModel extends ListModel
                 } else {
                     $this->_data = [];
                 }
-            } catch (CacheConnectingException $exception) {
+            } catch (CacheConnectingException) {
                 $this->setError(Text::_('COM_CACHE_ERROR_CACHE_CONNECTION_FAILED'));
                 $this->_data = [];
-            } catch (UnsupportedCacheException $exception) {
+            } catch (UnsupportedCacheException) {
                 $this->setError(Text::_('COM_CACHE_ERROR_CACHE_DRIVER_UNSUPPORTED'));
                 $this->_data = [];
             }
@@ -224,9 +224,7 @@ class CacheModel extends ListModel
     {
         try {
             $this->getCache()->clean($group);
-        } catch (CacheConnectingException $exception) {
-            return false;
-        } catch (UnsupportedCacheException $exception) {
+        } catch (CacheConnectingException|UnsupportedCacheException) {
             return false;
         }
 
@@ -264,9 +262,7 @@ class CacheModel extends ListModel
     {
         try {
             Factory::getCache('')->gc();
-        } catch (CacheConnectingException $exception) {
-            return false;
-        } catch (UnsupportedCacheException $exception) {
+        } catch (CacheConnectingException|UnsupportedCacheException) {
             return false;
         }
 

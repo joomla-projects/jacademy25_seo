@@ -109,7 +109,7 @@ $this->getDocument()->getWebAssetManager()
                                             <?php echo ' <span class="badge bg-secondary">' . Text::_('JUNPUBLISHED') . '</span>'; ?>
                                         <?php endif; ?>
                                         <?php if ($uselessMenuItem) : ?>
-                                            <?php echo ' <span class="badge bg-secondary">' . Text::_('COM_MODULES_MENU_ITEM_' . strtoupper($link->type)) . '</span>'; ?>
+                                            <?php echo ' <span class="badge bg-secondary">' . Text::_('COM_MODULES_MENU_ITEM_' . strtoupper((string) $link->type)) . '</span>'; ?>
                                         <?php endif; ?>
                                     </label>
                                 </div>

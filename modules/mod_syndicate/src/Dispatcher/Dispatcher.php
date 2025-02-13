@@ -59,7 +59,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         $data['params']->def('format', 'rss');
 
         $data['link'] = $this->getHelperFactory()->getHelper('SyndicateHelper')->getSyndicateLink($data['params'], $this->getApplication()->getDocument());
-        $data['text'] = htmlspecialchars($data['params']->get('text', ''), ENT_COMPAT, 'UTF-8');
+        $data['text'] = htmlspecialchars((string) $data['params']->get('text', ''), ENT_COMPAT, 'UTF-8');
 
         return $data;
     }

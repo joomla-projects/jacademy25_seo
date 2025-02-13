@@ -42,7 +42,7 @@ trait MailerFactoryAwareTrait
             return $this->mailerFactory;
         }
 
-        throw new \UnexpectedValueException('MailerFactory not set in ' . __CLASS__);
+        throw new \UnexpectedValueException('MailerFactory not set in ' . self::class);
     }
 
     /**

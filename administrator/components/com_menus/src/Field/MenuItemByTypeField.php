@@ -86,16 +86,10 @@ class MenuItemByTypeField extends GroupedlistField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'menuType':
-            case 'clientId':
-            case 'language':
-            case 'published':
-            case 'disable':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'menuType', 'clientId', 'language', 'published', 'disable' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -197,7 +191,7 @@ class MenuItemByTypeField extends GroupedlistField
 
             try {
                 $menuTitle = $db->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $menuTitle = $menuType;
             }
 

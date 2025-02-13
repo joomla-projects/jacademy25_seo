@@ -566,15 +566,10 @@ class SearchModel extends ListModel
         $dirn = $input->getWord('od', $params->get('sort_direction', 'desc'));
         $dirn = StringHelper::strtolower($dirn);
 
-        switch ($dirn) {
-            case 'asc':
-                $this->setState('list.direction', 'ASC');
-                break;
-
-            default:
-                $this->setState('list.direction', 'DESC');
-                break;
-        }
+        match ($dirn) {
+            'asc' => $this->setState('list.direction', 'ASC'),
+            default => $this->setState('list.direction', 'DESC'),
+        };
 
         // Set the match limit.
         $this->setState('match.limit', 1000);

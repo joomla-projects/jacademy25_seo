@@ -74,7 +74,7 @@ class CallbackController extends CacheController
                 $this->cache->unlock($id);
             }
 
-            $data = unserialize(trim($data));
+            $data = unserialize(trim((string) $data));
 
             if ($wrkarounds) {
                 echo Cache::getWorkarounds(
@@ -192,7 +192,7 @@ class CallbackController extends CacheController
     {
         if (\is_array($callback) && \is_object($callback[0])) {
             $vars        = get_object_vars($callback[0]);
-            $vars[]      = strtolower(\get_class($callback[0]));
+            $vars[]      = strtolower($callback[0]::class);
             $callback[0] = $vars;
         }
 

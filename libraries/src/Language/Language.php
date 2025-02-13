@@ -275,9 +275,9 @@ class Language extends BaseLanguage
 
         if ($jsSafe) {
             // Javascript filter
-            $string = addslashes($string);
+            $string = addslashes((string) $string);
         } elseif ($interpretBackSlashes) {
-            if (strpos($string, '\\') !== false) {
+            if (str_contains((string) $string, '\\')) {
                 // Interpret \n and \t characters
                 $string = str_replace(['\\\\', '\t', '\n'], ["\\", "\t", "\n"], $string);
             }
@@ -305,7 +305,7 @@ class Language extends BaseLanguage
             $string = \call_user_func($this->transliterator, $string);
 
             // Check if all symbols were transliterated (contains only ASCII), otherwise continue
-            if (!preg_match('/[\\x80-\\xff]/', $string)) {
+            if (!preg_match('/[\\x80-\\xff]/', (string) $string)) {
                 return $string;
             }
         }
@@ -825,11 +825,7 @@ class Language extends BaseLanguage
     public function getPaths($extension = null)
     {
         if (isset($extension)) {
-            if (isset($this->paths[$extension])) {
-                return $this->paths[$extension];
-            }
-
-            return [];
+            return $this->paths[$extension] ?? [];
         }
 
         return $this->paths;

@@ -74,9 +74,7 @@ trait UserProfileFields
         $credentialRepository = $plugin->getAuthenticationHelper()->getCredentialsRepository();
         $credentials          = $credentialRepository->getAll(self::$userFromFormData->id);
         $authenticators       = array_map(
-            function (array $credential) {
-                return $credential['label'];
-            },
+            fn(array $credential) => $credential['label'],
             $credentials
         );
 
@@ -175,7 +173,7 @@ trait UserProfileFields
         self::$userFromFormData = $this->getUserFromData($data);
 
         if (!HTMLHelper::isRegistered('users.webauthnWebauthn')) {
-            HTMLHelper::register('users.webauthn', [__CLASS__, 'renderWebauthnProfileField']);
+            HTMLHelper::register('users.webauthn', self::renderWebauthnProfileField(...));
         }
     }
 

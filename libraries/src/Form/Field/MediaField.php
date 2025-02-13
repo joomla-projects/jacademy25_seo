@@ -151,22 +151,10 @@ class MediaField extends FormField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'authorField':
-            case 'asset':
-            case 'link':
-            case 'width':
-            case 'height':
-            case 'preview':
-            case 'directory':
-            case 'previewWidth':
-            case 'previewHeight':
-            case 'folder':
-            case 'types':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'authorField', 'asset', 'link', 'width', 'height', 'preview', 'directory', 'previewWidth', 'previewHeight', 'folder', 'types' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -274,8 +262,8 @@ class MediaField extends FormField
         }
 
         // Value in new format such as images/headers/blue-flower.jpg#joomlaImage://local-images/headers/blue-flower.jpg?width=700&height=180
-        if ($this->value && strpos($this->value, '#') !== false) {
-            $uri     = new Uri(explode('#', $this->value)[1]);
+        if ($this->value && str_contains((string) $this->value, '#')) {
+            $uri     = new Uri(explode('#', (string) $this->value)[1]);
             $adapter = $uri->getHost();
             $path    = $uri->getPath();
 
@@ -336,7 +324,7 @@ class MediaField extends FormField
             'trim',
             explode(
                 ',',
-                ComponentHelper::getParams('com_media')->get(
+                (string) ComponentHelper::getParams('com_media')->get(
                     'image_extensions',
                     'bmp,gif,jpg,jpeg,png,webp'
                 )
@@ -346,7 +334,7 @@ class MediaField extends FormField
             'trim',
             explode(
                 ',',
-                ComponentHelper::getParams('com_media')->get(
+                (string) ComponentHelper::getParams('com_media')->get(
                     'audio_extensions',
                     'mp3,m4a,mp4a,ogg'
                 )
@@ -356,7 +344,7 @@ class MediaField extends FormField
             'trim',
             explode(
                 ',',
-                ComponentHelper::getParams('com_media')->get(
+                (string) ComponentHelper::getParams('com_media')->get(
                     'video_extensions',
                     'mp4,mp4v,mpeg,mov,webm'
                 )
@@ -366,7 +354,7 @@ class MediaField extends FormField
             'trim',
             explode(
                 ',',
-                ComponentHelper::getParams('com_media')->get(
+                (string) ComponentHelper::getParams('com_media')->get(
                     'doc_extensions',
                     'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv'
                 )

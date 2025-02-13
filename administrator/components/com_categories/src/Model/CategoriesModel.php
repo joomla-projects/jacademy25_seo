@@ -109,7 +109,7 @@ class CategoriesModel extends ListModel
         $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
 
         $this->setState('filter.extension', $extension);
-        $parts = explode('.', $extension);
+        $parts = explode('.', (string) $extension);
 
         // Extract the component name
         $this->setState('filter.component', $parts[0]);
@@ -296,12 +296,12 @@ class CategoriesModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $search = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $search = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :search')
                     ->bind(':search', $search, ParameterType::INTEGER);
             } else {
-                $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+                $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
                 $query->extendWhere(
                     'AND',
                     [
@@ -418,7 +418,7 @@ class CategoriesModel extends ListModel
         $extension = $this->getState('filter.extension');
 
         $this->hasAssociation = Associations::isEnabled();
-        $extension            = explode('.', $extension);
+        $extension            = explode('.', (string) $extension);
         $component            = array_shift($extension);
         $cname                = str_replace('com_', '', $component);
 

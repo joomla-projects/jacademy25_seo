@@ -106,7 +106,7 @@ $userRequired    = (int) $input->get('required', 0, 'int');
                             </span>
                         </td>
                         <td>
-                            <?php echo nl2br($item->group_names, false); ?>
+                            <?php echo nl2br((string) $item->group_names, false); ?>
                         </td>
                         <td>
                             <?php echo (int) $item->id; ?>

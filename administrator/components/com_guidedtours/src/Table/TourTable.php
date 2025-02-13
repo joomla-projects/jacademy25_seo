@@ -126,7 +126,7 @@ class TourTable extends Table implements CurrentUserInterface
     protected function setTourUid()
     {
         // Tour follows Joomla naming convention
-        if (str_starts_with($this->title, 'COM_GUIDEDTOURS_TOUR_') && str_ends_with($this->title, '_TITLE')) {
+        if (str_starts_with((string) $this->title, 'COM_GUIDEDTOURS_TOUR_') && str_ends_with((string) $this->title, '_TITLE')) {
             $uidTitle = 'joomla_' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $this->title);
 
             // Remove the last _TITLE part
@@ -134,9 +134,9 @@ class TourTable extends Table implements CurrentUserInterface
             if ($pos !== false) {
                 $uidTitle = substr($uidTitle, 0, $pos);
             }
-        } elseif (preg_match('#COM_(\w+)_TOUR_#', $this->title) && str_ends_with($this->title, '_TITLE')) {
+        } elseif (preg_match('#COM_(\w+)_TOUR_#', (string) $this->title) && str_ends_with((string) $this->title, '_TITLE')) {
             // Tour follows component naming pattern
-            $uidTitle = preg_replace('#COM_(\w+)_TOUR_#', '$1.', $this->title);
+            $uidTitle = preg_replace('#COM_(\w+)_TOUR_#', '$1.', (string) $this->title);
 
             // Remove the last _TITLE part
             $pos = strrpos($uidTitle, "_TITLE");

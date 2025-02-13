@@ -86,7 +86,7 @@ abstract class HTMLHelper
         $key = preg_replace('#[^A-Z0-9_\.]#i', '', $key);
 
         // Check to see whether we need to load a helper file
-        $parts = explode('.', $key);
+        $parts = explode('.', (string) $key);
 
         if (\count($parts) === 3) {
             @trigger_error(
@@ -95,12 +95,12 @@ abstract class HTMLHelper
             );
         }
 
-        $prefix = \count($parts) === 3 ? array_shift($parts) : 'Joomla\\CMS\\HTML\\HTMLHelper';
+        $prefix = \count($parts) === 3 ? array_shift($parts) : \Joomla\CMS\HTML\HTMLHelper::class;
         $file   = \count($parts) === 2 ? array_shift($parts) : '';
         $func   = array_shift($parts);
 
         if (strtolower($prefix) === 'jhtml') {
-            $prefix = 'Joomla\\CMS\\HTML\\HTMLHelper';
+            $prefix = \Joomla\CMS\HTML\HTMLHelper::class;
         }
 
         return [strtolower($prefix . '.' . $file . '.' . $func), $prefix, $file, $func];
@@ -124,7 +124,7 @@ abstract class HTMLHelper
      */
     final public static function _(string $key, ...$methodArgs)
     {
-        list($key, $prefix, $file, $func) = static::extract($key);
+        [$key, $prefix, $file, $func] = static::extract($key);
 
         if (\array_key_exists($key, static::$registry)) {
             $function = static::$registry[$key];
@@ -136,7 +136,7 @@ abstract class HTMLHelper
          * Support fetching services from the registry if a custom class prefix was not given (a three segment key),
          * the service comes from a class other than this one, and a service has been registered for the file.
          */
-        if ($prefix === 'Joomla\\CMS\\HTML\\HTMLHelper' && $file !== '' && static::getServiceRegistry()->hasService($file)) {
+        if ($prefix === \Joomla\CMS\HTML\HTMLHelper::class && $file !== '' && static::getServiceRegistry()->hasService($file)) {
             $service = static::getServiceRegistry()->getService($file);
 
             $toCall = [$service, $func];
@@ -150,10 +150,10 @@ abstract class HTMLHelper
             return static::call($toCall, $methodArgs);
         }
 
-        $className = $prefix . ucfirst($file);
+        $className = $prefix . ucfirst((string) $file);
 
         if (!class_exists($className)) {
-            $path = Path::find(static::$includePaths, strtolower($file) . '.php');
+            $path = Path::find(static::$includePaths, strtolower((string) $file) . '.php');
 
             if (!$path) {
                 throw new \InvalidArgumentException(\sprintf('%s %s not found.', $prefix, $file), 500);
@@ -162,12 +162,12 @@ abstract class HTMLHelper
             \JLoader::register($className, $path);
 
             if (!class_exists($className)) {
-                if ($prefix !== 'Joomla\\CMS\\HTML\\HTMLHelper') {
+                if ($prefix !== \Joomla\CMS\HTML\HTMLHelper::class) {
                     throw new \InvalidArgumentException(\sprintf('%s not found.', $className), 500);
                 }
 
                 // @deprecated with 5.0 remove with 6.0 or 7.0 (depends on other relevant code)
-                $className = 'JHtml' . ucfirst($file);
+                $className = 'JHtml' . ucfirst((string) $file);
 
                 \JLoader::register($className, $path);
 
@@ -178,7 +178,7 @@ abstract class HTMLHelper
         }
 
         // If calling a method from this class, do not allow access to internal methods
-        if ($className === __CLASS__) {
+        if ($className === self::class) {
             if (!((new \ReflectionMethod($className, $func))->isPublic())) {
                 throw new \InvalidArgumentException('Access to internal class methods is not allowed.');
             }
@@ -215,7 +215,7 @@ abstract class HTMLHelper
             E_USER_DEPRECATED
         );
 
-        list($key) = static::extract($key);
+        [$key] = static::extract($key);
 
         static::$registry[$key] = $function;
 
@@ -240,7 +240,7 @@ abstract class HTMLHelper
             E_USER_DEPRECATED
         );
 
-        list($key) = static::extract($key);
+        [$key] = static::extract($key);
 
         if (isset(static::$registry[$key])) {
             unset(static::$registry[$key]);
@@ -262,7 +262,7 @@ abstract class HTMLHelper
      */
     public static function isRegistered($key)
     {
-        list($key) = static::extract($key);
+        [$key] = static::extract($key);
 
         return isset(static::$registry[$key]);
     }
@@ -391,20 +391,14 @@ abstract class HTMLHelper
     protected static function includeRelativeFiles($folder, $file, $relative, $detectBrowser, $detectDebug)
     {
         // Detect debug mode
-        switch (true) {
-            case \is_bool($detectDebug):
-                $debugMode = $detectDebug && JDEBUG;
-                break;
-            case $detectDebug === 1:
-                $debugMode = true;
-                break;
-            case $detectDebug === -1:
-            default:
-                $debugMode = false;
-        }
+        $debugMode = match (true) {
+            \is_bool($detectDebug) => $detectDebug && JDEBUG,
+            $detectDebug === 1 => true,
+            default => false,
+        };
 
         // If http is present in filename
-        if (strpos($file, 'http') === 0 || strpos($file, '//') === 0) {
+        if (str_starts_with($file, 'http') || str_starts_with($file, '//')) {
             $includes = [$file];
         } else {
             // Extract extension and strip the file
@@ -480,12 +474,12 @@ abstract class HTMLHelper
                         // If the file contains any /: it can be in a media extension subfolder
                         if (strpos($file, '/')) {
                             // Divide the file extracting the extension as the first part before /
-                            list($extension, $file) = explode('/', $file, 2);
+                            [$extension, $file] = explode('/', $file, 2);
 
                             // If the file yet contains any /: it can be a plugin
                             if (strpos($file, '/')) {
                                 // Divide the file extracting the element as the first part before /
-                                list($element, $file) = explode('/', $file, 2);
+                                [$element, $file] = explode('/', $file, 2);
 
                                 // Try to deal with plugins group in the media folder
                                 $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/$extension/$element/$folder/$file", $ext, $debugMode);
@@ -755,13 +749,13 @@ abstract class HTMLHelper
             // Go through each argument
             foreach (explode(' ', $attribs) as $attribute) {
                 // When an argument without a value, default to an empty string
-                if (strpos($attribute, '=') === false) {
+                if (!str_contains($attribute, '=')) {
                     $attributes[$attribute] = '';
                     continue;
                 }
 
                 // Set the attribute
-                list($key, $value) = explode('=', $attribute);
+                [$key, $value] = explode('=', $attribute);
                 $attributes[$key]  = trim($value, '"');
             }
 
@@ -796,10 +790,10 @@ abstract class HTMLHelper
     {
         @trigger_error('Method HTMLHelper::stylesheet() is deprecated, and will be removed in 7.0', \E_USER_DEPRECATED);
 
-        $options['relative']      = $options['relative'] ?? false;
-        $options['pathOnly']      = $options['pathOnly'] ?? false;
-        $options['detectBrowser'] = $options['detectBrowser'] ?? false;
-        $options['detectDebug']   = $options['detectDebug'] ?? true;
+        $options['relative'] ??= false;
+        $options['pathOnly'] ??= false;
+        $options['detectBrowser'] ??= false;
+        $options['detectDebug'] ??= true;
 
         $includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
@@ -821,8 +815,8 @@ abstract class HTMLHelper
 
         foreach ($includes as $include) {
             // If there is already a version hash in the script reference (by using deprecated MD5SUM).
-            if (($pos = strpos($include, '?')) !== false) {
-                $options['version'] = substr($include, $pos + 1);
+            if (($pos = strpos((string) $include, '?')) !== false) {
+                $options['version'] = substr((string) $include, $pos + 1);
             }
 
             $document->addStyleSheet($include, $options, $attribs);
@@ -848,10 +842,10 @@ abstract class HTMLHelper
     {
         @trigger_error('Method HTMLHelper::script() is deprecated, and will be removed in 7.0', \E_USER_DEPRECATED);
 
-        $options['relative']      = $options['relative'] ?? false;
-        $options['pathOnly']      = $options['pathOnly'] ?? false;
-        $options['detectBrowser'] = $options['detectBrowser'] ?? false;
-        $options['detectDebug']   = $options['detectDebug'] ?? true;
+        $options['relative'] ??= false;
+        $options['pathOnly'] ??= false;
+        $options['detectBrowser'] ??= false;
+        $options['detectDebug'] ??= true;
 
         $includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
@@ -873,8 +867,8 @@ abstract class HTMLHelper
 
         foreach ($includes as $include) {
             // If there is already a version hash in the script reference (by using deprecated MD5SUM).
-            if (($pos = strpos($include, '?')) !== false) {
-                $options['version'] = substr($include, $pos + 1);
+            if (($pos = strpos((string) $include, '?')) !== false) {
+                $options['version'] = substr((string) $include, $pos + 1);
             }
 
             $document->addScript($include, $options, $attribs);
@@ -984,7 +978,7 @@ abstract class HTMLHelper
         if (\is_array($title)) {
             foreach (['image', 'text', 'href', 'alt', 'class'] as $param) {
                 if (isset($title[$param])) {
-                    $$param = $title[$param];
+                    ${$param} = $title[$param];
                 }
             }
 
@@ -1007,7 +1001,7 @@ abstract class HTMLHelper
             $tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
 
             if ($title) {
-                $title   = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
+                $title   = htmlspecialchars((string) $title, ENT_COMPAT, 'UTF-8');
                 $tooltip = $title . '::' . $tooltip;
             }
         } else {
@@ -1037,8 +1031,8 @@ abstract class HTMLHelper
         // Don't process empty strings
         if ($content !== '' || $title !== '') {
             // Split title into title and content if the title contains '::' (old Mootools format).
-            if ($content === '' && !(strpos($title, '::') === false)) {
-                list($title, $content) = explode('::', $title, 2);
+            if ($content === '' && !(!str_contains($title, '::'))) {
+                [$title, $content] = explode('::', $title, 2);
             }
 
             // Pass texts through Text if required.
@@ -1095,7 +1089,7 @@ abstract class HTMLHelper
         $lang      = $app->getLanguage();
         $tag       = $lang->getTag();
         $calendar  = $lang->getCalendar();
-        $direction = strtolower($app->getDocument()->getDirection());
+        $direction = strtolower((string) $app->getDocument()->getDirection());
 
         // Get the appropriate file for the current language date helper
         $helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
@@ -1355,7 +1349,7 @@ abstract class HTMLHelper
          * If there is % character left after replacing, that mean one of unsupported format is used
          * the conversion false
          */
-        if (strpos($format, '%') !== false) {
+        if (str_contains($format, '%')) {
             return false;
         }
 

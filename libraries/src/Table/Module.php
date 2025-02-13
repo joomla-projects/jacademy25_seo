@@ -135,7 +135,7 @@ class Module extends Table
         }
 
         // Check for valid name
-        if (trim($this->title) === '') {
+        if (trim((string) $this->title) === '') {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MODULE'));
 
             return false;
@@ -151,7 +151,7 @@ class Module extends Table
         }
 
         // Prevent to save too large content > 65535
-        if ((!empty($this->content) && \strlen($this->content) > 65535) || (!empty($this->params) && \strlen($this->params) > 65535)) {
+        if ((!empty($this->content) && \strlen((string) $this->content) > 65535) || (!empty($this->params) && \strlen((string) $this->params) > 65535)) {
             $this->setError(Text::_('COM_MODULES_FIELD_CONTENT_TOO_LARGE'));
 
             return false;

@@ -143,7 +143,7 @@ trait TaskPluginTrait
 
         try {
             $enhancementFormFile = Path::check($enhancementFormFile);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -320,12 +320,10 @@ trait TaskPluginTrait
          *
          * @since 4.1.0
          */
-        $validateStatus = static function (int $statusCode): bool {
-            return \in_array(
-                $statusCode,
-                (new \ReflectionClass(Status::class))->getConstants()
-            );
-        };
+        $validateStatus = (static fn(int $statusCode): bool => \in_array(
+            $statusCode,
+            (new \ReflectionClass(Status::class))->getConstants()
+        ));
 
         // Validate the exit code.
         if (!\is_int($exitCode) || !$validateStatus($exitCode)) {

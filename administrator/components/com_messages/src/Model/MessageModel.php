@@ -102,7 +102,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
 
                     try {
                         Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                    } catch (\RuntimeException $exception) {
+                    } catch (\RuntimeException) {
                         Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
                     }
 
@@ -167,7 +167,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                         $this->item->set('user_id_to', $message->user_id_from);
                         $re = Text::_('COM_MESSAGES_RE');
 
-                        if (stripos($message->subject, $re) !== 0) {
+                        if (stripos((string) $message->subject, $re) !== 0) {
                             $this->item->set('subject', $re . ' ' . $message->subject);
                         }
                     }
@@ -266,7 +266,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
 
                     try {
                         Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                    } catch (\RuntimeException $exception) {
+                    } catch (\RuntimeException) {
                         Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
                     }
 
@@ -374,8 +374,8 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                 $linkMode,
                 true
             );
-            $subject  = html_entity_decode($table->subject, ENT_COMPAT, 'UTF-8');
-            $message  = strip_tags(html_entity_decode($table->message, ENT_COMPAT, 'UTF-8'));
+            $subject  = html_entity_decode((string) $table->subject, ENT_COMPAT, 'UTF-8');
+            $message  = strip_tags(html_entity_decode((string) $table->message, ENT_COMPAT, 'UTF-8'));
 
             // Send the email
             $mailer = new MailTemplate('com_messages.new_message', $lang->getTag());

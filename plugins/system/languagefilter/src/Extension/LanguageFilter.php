@@ -101,15 +101,6 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
     private $user_lang_code;
 
     /**
-     * The language factory
-     *
-     * @var   LanguageFactoryInterface
-     *
-     * @since 4.4.0
-     */
-    private $languageFactory;
-
-    /**
      * Constructor.
      *
      * @param   DispatcherInterface       $dispatcher       The dispatcher
@@ -123,11 +114,15 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
         DispatcherInterface $dispatcher,
         array $config,
         CMSApplicationInterface $app,
-        LanguageFactoryInterface $languageFactory
+        /**
+         * The language factory
+         *
+         *
+         * @since 4.4.0
+         */
+        private LanguageFactoryInterface $languageFactory
     ) {
         parent::__construct($dispatcher, $config);
-
-        $this->languageFactory = $languageFactory;
 
         $this->setApplication($app);
 
@@ -209,17 +204,17 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
         $router = $this->getSiteRouter();
 
         // Attach build rules for language SEF.
-        $router->attachBuildRule([$this, 'preprocessBuildRule'], Router::PROCESS_BEFORE);
+        $router->attachBuildRule($this->preprocessBuildRule(...), Router::PROCESS_BEFORE);
 
         if ($this->mode_sef) {
-            $router->attachBuildRule([$this, 'buildRule'], Router::PROCESS_BEFORE);
-            $router->attachBuildRule([$this, 'postprocessSEFBuildRule'], Router::PROCESS_AFTER);
+            $router->attachBuildRule($this->buildRule(...), Router::PROCESS_BEFORE);
+            $router->attachBuildRule($this->postprocessSEFBuildRule(...), Router::PROCESS_AFTER);
         } else {
-            $router->attachBuildRule([$this, 'postprocessNonSEFBuildRule'], Router::PROCESS_AFTER);
+            $router->attachBuildRule($this->postprocessNonSEFBuildRule(...), Router::PROCESS_AFTER);
         }
 
         // Attach parse rule.
-        $router->attachParseRule([$this, 'parseRule'], Router::PROCESS_BEFORE);
+        $router->attachParseRule($this->parseRule(...), Router::PROCESS_BEFORE);
     }
 
     /**
@@ -514,7 +509,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             $language_new = $this->languageFactory->createLanguage($lang_code, (bool) $app->get('debug_lang'));
 
             foreach ($language->getPaths() as $extension => $files) {
-                if (strpos($extension, 'plg_system') !== false) {
+                if (str_contains($extension, 'plg_system')) {
                     $extension_name = substr($extension, 11);
 
                     $language_new->load($extension, JPATH_ADMINISTRATOR)
@@ -791,7 +786,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             if ($component instanceof AssociationServiceInterface) {
                 $cassociations = $component->getAssociationsExtension()->getAssociationsForItem();
             } else {
-                $cName = ucfirst(substr($option, 4)) . 'HelperAssociation';
+                $cName = ucfirst(substr((string) $option, 4)) . 'HelperAssociation';
                 \JLoader::register($cName, Path::clean(JPATH_SITE . '/components/' . $option . '/helpers/association.php'));
 
                 if (class_exists($cName) && \is_callable([$cName, 'getAssociations'])) {
@@ -841,7 +836,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                 // Remove the sef from the default language if "Remove URL Language Code" is on
                 if ($remove_default_prefix && isset($languages[$this->default_lang])) {
                     $languages[$this->default_lang]->link
-                                    = preg_replace('|/' . $languages[$this->default_lang]->sef . '/|', '/', $languages[$this->default_lang]->link, 1);
+                                    = preg_replace('|/' . $languages[$this->default_lang]->sef . '/|', '/', (string) $languages[$this->default_lang]->link, 1);
                 }
 
                 foreach ($languages as $i => $language) {

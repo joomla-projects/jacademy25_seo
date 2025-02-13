@@ -18,7 +18,7 @@ namespace Joomla\CMS\Access;
  *
  * @since  2.5.0
  */
-class Rule
+class Rule implements \Stringable
 {
     /**
      * A named array
@@ -157,8 +157,8 @@ class Rule
      *
      * @since   1.7.0
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return json_encode($this->data);
+        return (string) json_encode($this->data);
     }
 }

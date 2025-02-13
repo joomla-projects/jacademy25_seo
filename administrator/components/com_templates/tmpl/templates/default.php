@@ -72,7 +72,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 </td>
                                 <th scope="row" class="template-name">
                                     <a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '&file=' . $this->file); ?>">
-                                        <?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
+                                        <?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst((string) $item->name)); ?></a>
                                     <div>
                                         <?php if ($this->preview) : ?>
                                             <?php $client = (int) $item->client_id === 1 ? 'administrator' : 'site'; ?>

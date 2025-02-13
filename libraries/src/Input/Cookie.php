@@ -102,10 +102,10 @@ class Cookie extends Input
         if (version_compare(PHP_VERSION, '7.3', '>=')) {
             if (\is_array($value)) {
                 foreach ($value as $key => $val) {
-                    setcookie($name . "[$key]", $val, $options);
+                    setcookie($name . "[$key]", (string) $val, $options);
                 }
             } else {
-                setcookie($name, $value, $options);
+                setcookie($name, (string) $value, $options);
             }
         } else {
             // Using the setcookie function before php 7.3, make sure we have default values.
@@ -133,23 +133,15 @@ class Cookie extends Input
                 foreach ($value as $key => $val) {
                     setcookie(
                         $name . "[$key]",
-                        $val,
-                        $options['expires'],
-                        $options['path'],
-                        $options['domain'],
-                        $options['secure'],
-                        $options['httponly']
+                        (string) $val,
+                        ['expires' => $options['expires'], 'path' => (string) $options['path'], 'domain' => (string) $options['domain'], 'secure' => $options['secure'], 'httponly' => $options['httponly']]
                     );
                 }
             } else {
                 setcookie(
                     $name,
-                    $value,
-                    $options['expires'],
-                    $options['path'],
-                    $options['domain'],
-                    $options['secure'],
-                    $options['httponly']
+                    (string) $value,
+                    ['expires' => $options['expires'], 'path' => (string) $options['path'], 'domain' => (string) $options['domain'], 'secure' => $options['secure'], 'httponly' => $options['httponly']]
                 );
             }
         }

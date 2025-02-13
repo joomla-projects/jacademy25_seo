@@ -22,9 +22,9 @@ if ($module->content === null || $module->content === '') {
 
 $moduleTag              = $params->get('module_tag', 'div');
 $moduleAttribs          = [];
-$moduleAttribs['class'] = $module->position . ' no-card ' . htmlspecialchars($params->get('moduleclass_sfx', ''), ENT_QUOTES, 'UTF-8');
-$headerTag              = htmlspecialchars($params->get('header_tag', 'h3'), ENT_QUOTES, 'UTF-8');
-$headerClass            = htmlspecialchars($params->get('header_class', ''), ENT_QUOTES, 'UTF-8');
+$moduleAttribs['class'] = $module->position . ' no-card ' . htmlspecialchars((string) $params->get('moduleclass_sfx', ''), ENT_QUOTES, 'UTF-8');
+$headerTag              = htmlspecialchars((string) $params->get('header_tag', 'h3'), ENT_QUOTES, 'UTF-8');
+$headerClass            = htmlspecialchars((string) $params->get('header_class', ''), ENT_QUOTES, 'UTF-8');
 $headerAttribs          = [];
 
 // Only output a header class if one is set
@@ -38,7 +38,7 @@ if ($moduleTag !== 'div') {
         $moduleAttribs['aria-labelledby'] = 'mod-' . $module->id;
         $headerAttribs['id']              = 'mod-' . $module->id;
     else :
-        $moduleAttribs['aria-label'] = htmlspecialchars($module->title, ENT_QUOTES, 'UTF-8');
+        $moduleAttribs['aria-label'] = htmlspecialchars((string) $module->title, ENT_QUOTES, 'UTF-8');
     endif;
 }
 

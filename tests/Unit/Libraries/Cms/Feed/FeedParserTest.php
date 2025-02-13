@@ -94,9 +94,7 @@ class FeedParserTest extends UnitTestCase
             ->with(
                 $this->isInstanceOf(Feed::class),
                 $this->callback(
-                    function ($value) use ($content) {
-                        return $value instanceof \SimpleXMLElement && (string) $value[0] === $content;
-                    }
+                    fn($value) => $value instanceof \SimpleXMLElement && (string) $value[0] === $content
                 )
             );
 
@@ -179,9 +177,7 @@ class FeedParserTest extends UnitTestCase
             ->with(
                 $this->isInstanceOf(FeedEntry::class),
                 $this->callback(
-                    function ($value) use ($content) {
-                        return $value instanceof \SimpleXMLElement && (string) $value[0] === '';
-                    }
+                    fn($value) => $value instanceof \SimpleXMLElement && (string) $value[0] === ''
                 )
             );
 

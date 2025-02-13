@@ -51,7 +51,7 @@ class LoginModel extends BaseDatabaseModel
 
         // Check for return URL from the request first.
         if ($return = $input->get('return', '', 'BASE64')) {
-            $return = base64_decode($return);
+            $return = base64_decode((string) $return);
 
             if (!Uri::isInternal($return)) {
                 $return = '';
@@ -90,7 +90,7 @@ class LoginModel extends BaseDatabaseModel
         }
 
         // If we didn't find it, and the name is mod_something, create a dummy object.
-        if (\is_null($result) && substr($name, 0, 4) == 'mod_') {
+        if (\is_null($result) && str_starts_with($name, 'mod_')) {
             $result            = new \stdClass();
             $result->id        = 0;
             $result->title     = '';
@@ -179,7 +179,7 @@ class LoginModel extends BaseDatabaseModel
 
         try {
             return $clean = $cache->get($loader, [], md5(serialize([$clientId, $lang])));
-        } catch (CacheExceptionInterface $cacheException) {
+        } catch (CacheExceptionInterface) {
             try {
                 return $loader();
             } catch (ExecutionFailureException $databaseException) {

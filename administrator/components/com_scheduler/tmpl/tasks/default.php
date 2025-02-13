@@ -48,7 +48,7 @@ Text::script('JCLOSE');
 try {
     /** @var CMSWebApplicationInterface $app */
     $app = Factory::getApplication();
-} catch (Exception $e) {
+} catch (Exception) {
     die('Failed to get app');
 }
 
@@ -160,7 +160,7 @@ if ($this->hasDueTasks === true) {
 
                 <!-- Table body begins -->
                 <tbody <?php if ($saveOrder) : ?>
-                    class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php
+                    class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>" data-nested="true" <?php
                        endif; ?>>
                 <?php foreach ($this->items as $i => $item) :
                     $canCreate  = $user->authorise('core.create', 'com_scheduler');
@@ -269,7 +269,7 @@ if ($this->hasDueTasks === true) {
                                 >
                                 <button type="button" class="btn btn-sm btn-warning" <?php echo $disabled ? 'disabled' : ''; ?>
                                         data-scheduler-run
-                                        data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>"
+                                        data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars((string) $item->title); ?>"
                                         data-url="<?php echo Route::_('index.php?option=com_ajax&format=json&plugin=RunSchedulerTest&group=system&id=' . (int) $item->id); ?>">
                                     <span class="fa fa-play fa-sm me-2"></span>
                                     <?php echo Text::_('COM_SCHEDULER_TEST_RUN'); ?>

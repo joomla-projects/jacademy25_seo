@@ -256,7 +256,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
             'contactname'  => $contact->name,
             'email'        => PunycodeHelper::emailToPunycode($data['contact_email']),
             'subject'      => $data['contact_subject'],
-            'body'         => stripslashes($data['contact_message']),
+            'body'         => stripslashes((string) $data['contact_message']),
             'url'          => Uri::base(),
             'customfields' => '',
         ];
@@ -450,10 +450,10 @@ class ContactController extends FormController implements UserFactoryAwareInterf
     {
         $return = $this->input->get('return', null, 'base64');
 
-        if (empty($return) || !Uri::isInternal(base64_decode($return))) {
+        if (empty($return) || !Uri::isInternal(base64_decode((string) $return))) {
             return Uri::base();
         }
 
-        return base64_decode($return);
+        return base64_decode((string) $return);
     }
 }

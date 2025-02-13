@@ -377,7 +377,7 @@ class Update
         switch ($name) {
             // Closing update, find the latest version and check
             case 'UPDATE':
-                $product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
+                $product = strtolower((string) InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
 
                 // Check that the product matches and that the version matches (optionally a regexp)
                 if (
@@ -405,7 +405,7 @@ class Update
                     $channelMatch = false;
 
                     // Check if the release channel matches, assume true if tag isn't present
-                    if (!$this->channel || !isset($this->currentUpdate->channel) || preg_match('/' . $this->channel . '/', $this->currentUpdate->channel->_data)) {
+                    if (!$this->channel || !isset($this->currentUpdate->channel) || preg_match('/' . $this->channel . '/', (string) $this->currentUpdate->channel->_data)) {
                         $channelMatch = true;
                     }
 
@@ -559,7 +559,7 @@ class Update
 
         $metaData = $tufFetcher->getValidUpdate();
 
-        $data              = json_decode($metaData, true);
+        $data              = json_decode((string) $metaData, true);
         $constraintChecker = new ConstraintChecker();
 
         foreach ($data['signed']['targets'] as $target) {
@@ -591,7 +591,7 @@ class Update
                     $source = new DownloadSource();
 
                     foreach ($download as $key => $sourceUrl) {
-                        $key          = strtolower($key);
+                        $key          = strtolower((string) $key);
                         $source->$key = $sourceUrl;
                     }
 
@@ -643,7 +643,7 @@ class Update
         try {
             $http     = HttpFactory::getHttp($httpOption);
             $response = $http->get($url);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 

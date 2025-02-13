@@ -42,30 +42,6 @@ class PreprocessRules implements RulesInterface
     protected $view;
 
     /**
-     * DB Table to read the information from
-     *
-     * @var   string
-     * @since 5.3.0
-     */
-    protected $table;
-
-    /**
-     * ID column in the table to read the information from
-     *
-     * @var   string
-     * @since 5.3.0
-     */
-    protected $key;
-
-    /**
-     * Parent ID column in the table to read the information from
-     *
-     * @var   string
-     * @since 5.3.0
-     */
-    protected $parent_key;
-
-    /**
      * Class constructor.
      *
      * @param   RouterViewConfiguration  $view        View to act on
@@ -75,12 +51,24 @@ class PreprocessRules implements RulesInterface
      *
      * @since   5.3.0
      */
-    public function __construct(RouterViewConfiguration $view, $table, $key, $parent_key = null)
+    public function __construct(RouterViewConfiguration $view, /**
+     * DB Table to read the information from
+     *
+     * @since 5.3.0
+     */
+    protected $table, /**
+     * ID column in the table to read the information from
+     *
+     * @since 5.3.0
+     */
+    protected $key, /**
+     * Parent ID column in the table to read the information from
+     *
+     * @since 5.3.0
+     */
+    protected $parent_key = null)
     {
         $this->view       = $view;
-        $this->table      = $table;
-        $this->key        = $key;
-        $this->parent_key = $parent_key;
     }
 
     /**

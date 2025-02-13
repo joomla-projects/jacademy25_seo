@@ -153,7 +153,7 @@ final class InstallationApplication extends CMSApplication
 
                 $key = strtoupper(trim($key));
                 $key = preg_replace('#\s+#', '_', $key);
-                $key = preg_replace('#\W#', '', $key);
+                $key = preg_replace('#\W#', '', (string) $key);
 
                 // Prepare the text.
                 $guesses[] = $key . '="' . $guess . '"';
@@ -294,7 +294,7 @@ final class InstallationApplication extends CMSApplication
 
         // Parse task in format controller.task
         if ($task !== '') {
-            list($controllerName, $task) = explode('.', $task, 2);
+            [$controllerName, $task] = explode('.', $task, 2);
         }
 
         $factory = new MVCFactory('Joomla\\CMS', $this->getLogger());

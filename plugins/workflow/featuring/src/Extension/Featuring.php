@@ -165,7 +165,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
 
         $form->setFieldAttribute($fieldname, 'type', 'spacer');
 
-        $label = '<span class="text-' . $textclass . '">' . htmlentities($text, ENT_COMPAT, 'UTF-8') . '</span>';
+        $label = '<span class="text-' . $textclass . '">' . htmlentities((string) $text, ENT_COMPAT, 'UTF-8') . '</span>';
         $form->setFieldAttribute(
             $fieldname,
             'label',
@@ -269,7 +269,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
             AbstractEvent::create(
                 'onContentBeforeChangeFeatured',
                 [
-                    'eventClass'  => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
+                    'eventClass'  => \Joomla\Component\Content\Administrator\Event\Model\FeatureEvent::class,
                     'subject'     => $this,
                     'extension'   => $context,
                     'pks'         => $pks,
@@ -424,7 +424,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $parts = explode('.', $context);
+        $parts = explode('.', (string) $context);
 
         $component = $this->getApplication()->bootComponent($parts[0]);
 
@@ -454,7 +454,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $parts = explode('.', $subject->item_id);
+        $parts = explode('.', (string) $subject->item_id);
 
         $typeAlias = $parts[0] . (isset($parts[1]) ? '.' . $parts[1] : '');
 

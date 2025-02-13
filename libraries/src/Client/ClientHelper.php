@@ -44,22 +44,17 @@ class ClientHelper
             $app = Factory::getApplication();
 
             // Fetch the client layer configuration options for the specific client
-            switch ($client) {
-                case 'ftp':
-                    $options = [
-                        'enabled' => $app->get('ftp_enable'),
-                        'host'    => $app->get('ftp_host'),
-                        'port'    => $app->get('ftp_port'),
-                        'user'    => $app->get('ftp_user'),
-                        'pass'    => $app->get('ftp_pass'),
-                        'root'    => $app->get('ftp_root'),
-                    ];
-                    break;
-
-                default:
-                    $options = ['enabled' => false, 'host' => '', 'port' => '', 'user' => '', 'pass' => '', 'root' => ''];
-                    break;
-            }
+            $options = match ($client) {
+                'ftp' => [
+                    'enabled' => $app->get('ftp_enable'),
+                    'host'    => $app->get('ftp_host'),
+                    'port'    => $app->get('ftp_port'),
+                    'user'    => $app->get('ftp_user'),
+                    'pass'    => $app->get('ftp_pass'),
+                    'root'    => $app->get('ftp_root'),
+                ],
+                default => ['enabled' => false, 'host' => '', 'port' => '', 'user' => '', 'pass' => '', 'root' => ''],
+            };
 
             // If user and pass are not set in global config lets see if they are in the session
             if ($options['enabled'] == true && ($options['user'] == '' || $options['pass'] == '')) {

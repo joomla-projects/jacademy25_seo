@@ -109,19 +109,11 @@ class TagModel extends ListModel
             );
 
             // Get display date
-            switch ($this->state->params->get('tag_list_show_date')) {
-                case 'modified':
-                    $item->displayDate = $item->core_modified_time;
-                    break;
-
-                case 'created':
-                    $item->displayDate = $item->core_created_time;
-                    break;
-
-                default:
-                    $item->displayDate = ($item->core_publish_up == 0) ? $item->core_created_time : $item->core_publish_up;
-                    break;
-            }
+            $item->displayDate = match ($this->state->params->get('tag_list_show_date')) {
+                'modified' => $item->core_modified_time,
+                'created' => $item->core_created_time,
+                default => ($item->core_publish_up == 0) ? $item->core_created_time : $item->core_publish_up,
+            };
         }
 
         return $items;
@@ -186,7 +178,7 @@ class TagModel extends ListModel
         $ids = (array) $app->getInput()->get('id', [], 'string');
 
         if (\count($ids) == 1) {
-            $ids = explode(',', $ids[0]);
+            $ids = explode(',', (string) $ids[0]);
         }
 
         $ids = ArrayHelper::toInteger($ids);
@@ -243,7 +235,7 @@ class TagModel extends ListModel
         $listOrder = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order_direction', 'filter_order_Dir', '', 'string');
         $listOrder = !$listOrder ? $this->state->params->get('tag_list_orderby_direction', 'ASC') : $listOrder;
 
-        if (!\in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
+        if (!\in_array(strtoupper((string) $listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
@@ -276,7 +268,7 @@ class TagModel extends ListModel
             /** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
             $table = $this->getTable();
 
-            $idsArray = explode(',', $pk);
+            $idsArray = explode(',', (string) $pk);
 
             // Attempt to load the rows into an array.
             foreach ($idsArray as $id) {

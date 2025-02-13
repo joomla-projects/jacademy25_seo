@@ -29,7 +29,7 @@ Text::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="sample-data__title">
                         <span class="sample-data__icon icon-<?php echo $item->icon; ?> me-1" aria-hidden="true"></span>
-                        <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
+                        <?php echo htmlspecialchars((string) $item->title, ENT_QUOTES, 'UTF-8'); ?>
                     </div>
                     <button type="button" class="btn btn-primary btn-sm apply-sample-data" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
                         <span class="icon-upload" aria-hidden="true"></span> <?php echo Text::_('JLIB_INSTALLER_INSTALL'); ?>

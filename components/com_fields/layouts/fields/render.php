@@ -30,7 +30,7 @@ if (!$context) {
     return;
 }
 
-$parts     = explode('.', $context);
+$parts     = explode('.', (string) $context);
 $component = $parts[0];
 $fields    = null;
 
@@ -57,7 +57,7 @@ foreach ($fields as $field) {
     $content = FieldsHelper::render($context, 'field.' . $layout, ['field' => $field]);
 
     // If the content is empty do nothing
-    if (trim($content) === '') {
+    if (trim((string) $content) === '') {
         continue;
     }
 

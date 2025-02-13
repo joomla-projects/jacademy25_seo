@@ -42,7 +42,7 @@ JLoader::setup();
 $loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
 
 // We need to pull our decorated class loader into memory before unregistering Composer's loader
-class_exists('\\Joomla\\CMS\\Autoload\\ClassLoader');
+class_exists(\Joomla\CMS\Autoload\ClassLoader::class);
 
 $loader->unregister();
 
@@ -59,7 +59,7 @@ $errorHandler = \Symfony\Component\ErrorHandler\ErrorHandler::register();
 
 // Register the error handler which processes E_USER_DEPRECATED errors
 if (error_reporting() & E_USER_DEPRECATED) {
-    set_error_handler(['Joomla\CMS\Exception\ExceptionHandler', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
+    set_error_handler(\Joomla\CMS\Exception\ExceptionHandler::handleUserDeprecatedErrors(...), E_USER_DEPRECATED);
 }
 
 // Suppress phar stream wrapper for non .phar files
@@ -70,7 +70,7 @@ $behavior = new \TYPO3\PharStreamWrapper\Behavior();
 
 if (in_array('phar', stream_get_wrappers())) {
     stream_wrapper_unregister('phar');
-    stream_wrapper_register('phar', 'TYPO3\\PharStreamWrapper\\PharStreamWrapper');
+    stream_wrapper_register('phar', \TYPO3\PharStreamWrapper\PharStreamWrapper::class);
 }
 
 // Define the Joomla version if not already defined.

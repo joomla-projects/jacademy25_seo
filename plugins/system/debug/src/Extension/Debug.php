@@ -365,8 +365,8 @@ final class Debug extends CMSPlugin implements SubscriberInterface
 
         // No debug for Safari and Chrome redirection.
         if (
-            strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0
-            && strpos(strtolower($_SERVER['HTTP_USER_AGENT'] ?? ''), 'webkit') !== false
+            str_starts_with($contents, '<html><head><meta http-equiv="refresh" content="0;')
+            && str_contains(strtolower($_SERVER['HTTP_USER_AGENT'] ?? ''), 'webkit')
         ) {
             $this->debugBar->stackData();
 
@@ -499,7 +499,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
                     $dbVersion56 = false;
                 }
 
-                if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0)))) {
+                if ((stripos((string) $query, 'select') === 0) || ($dbVersion56 && ((stripos((string) $query, 'delete') === 0) || (stripos((string) $query, 'update') === 0)))) {
                     try {
                         $queryInstance = $db->getQuery(true);
                         $queryInstance->setQuery('EXPLAIN ' . ($dbVersion56 ? 'EXTENDED ' : '') . $query);
@@ -598,7 +598,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
                     foreach ($entry->callStack as $stackEntry) {
                         if (
                             !empty($stackEntry['class'])
-                            && ($stackEntry['class'] === 'Joomla\CMS\Log\LogEntry' || $stackEntry['class'] === 'Joomla\CMS\Log\Log')
+                            && ($stackEntry['class'] === \Joomla\CMS\Log\LogEntry::class || $stackEntry['class'] === \Joomla\CMS\Log\Log::class)
                         ) {
                             continue;
                         }
@@ -619,7 +619,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
                     $category = $entry->category;
                     $relative = $file ? str_replace(JPATH_ROOT, '', $file) : '';
 
-                    if ($relative && 0 === strpos($relative, '/libraries/src')) {
+                    if ($relative && str_starts_with($relative, '/libraries/src')) {
                         if (!$logDeprecatedCore) {
                             break;
                         }
@@ -642,19 +642,11 @@ final class Debug extends CMSPlugin implements SubscriberInterface
                     break;
 
                 default:
-                    switch ($entry->priority) {
-                        case Log::EMERGENCY:
-                        case Log::ALERT:
-                        case Log::CRITICAL:
-                        case Log::ERROR:
-                            $level = 'error';
-                            break;
-                        case Log::WARNING:
-                            $level = 'warning';
-                            break;
-                        default:
-                            $level = 'info';
-                    }
+                    $level = match ($entry->priority) {
+                        Log::EMERGENCY, Log::ALERT, Log::CRITICAL, Log::ERROR => 'error',
+                        Log::WARNING => 'warning',
+                        default => 'info',
+                    };
 
                     $this->debugBar['log']->addMessage($entry->category . ' - ' . $entry->message, $level);
                     break;
@@ -683,18 +675,18 @@ final class Debug extends CMSPlugin implements SubscriberInterface
 
         foreach (Profiler::getInstance('Application')->getMarks() as $index => $mark) {
             // Ignore the before mark as the after one contains the timing of the action
-            if (stripos($mark->label, 'before') !== false) {
+            if (stripos((string) $mark->label, 'before') !== false) {
                 continue;
             }
 
             // Collect the module render time
-            if (strpos($mark->label, 'mod_') !== false) {
+            if (str_contains((string) $mark->label, 'mod_')) {
                 $moduleTime += $mark->time;
                 continue;
             }
 
             // Collect the access render time
-            if (strpos($mark->label, 'Access:') !== false) {
+            if (str_contains((string) $mark->label, 'Access:')) {
                 $accessTime += $mark->time;
                 continue;
             }

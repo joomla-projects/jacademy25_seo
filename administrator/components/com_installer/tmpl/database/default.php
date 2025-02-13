@@ -78,7 +78,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
                             <tbody>
                                 <?php foreach ($this->changeSet as $i => $item) : ?>
                                     <?php $extension = $item['extension']; ?>
-                                    <?php $manifest = json_decode($extension->manifest_cache); ?>
+                                    <?php $manifest = json_decode((string) $extension->manifest_cache); ?>
 
                                     <tr class="row<?php echo $i % 2; ?>">
                                         <td class="text-center">

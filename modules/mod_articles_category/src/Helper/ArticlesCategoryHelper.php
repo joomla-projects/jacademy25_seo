@@ -196,7 +196,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
         $excluded_articles = $params->get('excluded_articles', '');
 
         if ($excluded_articles) {
-            $excluded_articles = explode("\r\n", $excluded_articles);
+            $excluded_articles = explode("\r\n", (string) $excluded_articles);
             $articles->setState('filter.article_id', $excluded_articles);
 
             // Exclude
@@ -355,7 +355,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
         // Remove empty links
         $introtext = preg_replace('/<a[^>]*><\\/a>/', '', $introtext);
 
-        return trim($introtext);
+        return trim((string) $introtext);
     }
 
     /**
@@ -391,7 +391,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
             }
 
             // Get the number of html tag characters in the first $maxlength characters
-            $diffLength = \strlen($ptString) - \strlen($htmlStringToPtString);
+            $diffLength = \strlen((string) $ptString) - \strlen((string) $htmlStringToPtString);
 
             // Set new $maxlength that adjusts for the html tags
             $maxLength += $diffLength;

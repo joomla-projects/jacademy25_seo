@@ -45,7 +45,7 @@ abstract class Icons
             $html[] = HTMLHelper::_('icons.button', $button);
         }
 
-        return implode($html);
+        return implode('', $html);
     }
 
     /**

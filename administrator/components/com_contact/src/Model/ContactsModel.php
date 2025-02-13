@@ -154,7 +154,7 @@ class ContactsModel extends ListModel
             $db->quoteName(
                 explode(
                     ', ',
-                    $this->getState(
+                    (string) $this->getState(
                         'list.select',
                         'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid, a.user_id' .
                         ', a.published, a.access, a.created, a.created_by, a.ordering, a.featured, a.language' .
@@ -254,12 +254,12 @@ class ContactsModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $search = substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $search = substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id');
                 $query->bind(':id', $search, ParameterType::INTEGER);
             } else {
-                $search = '%' . trim($search) . '%';
+                $search = '%' . trim((string) $search) . '%';
                 $query->where(
                     '(' . $db->quoteName('a.name') . ' LIKE :name OR ' . $db->quoteName('a.alias') . ' LIKE :alias)'
                 );

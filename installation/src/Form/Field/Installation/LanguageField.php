@@ -99,7 +99,7 @@ class LanguageField extends ListField
      */
     protected function _sortLanguages($a, $b)
     {
-        return strcmp($a['text'], $b['text']);
+        return strcmp((string) $a['text'], (string) $b['text']);
     }
 
     /**

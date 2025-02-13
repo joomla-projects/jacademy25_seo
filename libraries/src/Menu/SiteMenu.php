@@ -176,8 +176,8 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
             /** @var CallbackController $cache */
             $cache = $this->getCacheControllerFactory()->createCacheController('callback', ['defaultgroup' => 'com_menus']);
 
-            $this->items = $cache->get($loader, [], md5(\get_class($this)), false);
-        } catch (CacheExceptionInterface $e) {
+            $this->items = $cache->get($loader, [], md5(static::class), false);
+        } catch (CacheExceptionInterface) {
             try {
                 $this->items = $loader();
             } catch (ExecutionFailureException $databaseException) {

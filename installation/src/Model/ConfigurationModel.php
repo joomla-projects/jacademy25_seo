@@ -142,7 +142,7 @@ class ConfigurationModel extends BaseInstallationModel
 
         // This is needed because the installer loads the extension table in constructor, needs to be refactored in 5.0
         // It doesn't honor the DatabaseAware interface
-        Factory::getContainer()->set('\Joomla\CMS\Table\Extension', new \Joomla\CMS\Table\Extension($db));
+        Factory::getContainer()->set(\Joomla\CMS\Table\Extension::class, new \Joomla\CMS\Table\Extension($db));
 
         $installer = Installer::getInstance();
 
@@ -520,8 +520,8 @@ class ConfigurationModel extends BaseInstallationModel
         if ($result) {
             $query->clear()
                 ->update($db->quoteName('#__users'))
-                ->set($db->quoteName('name') . ' = ' . $db->quote(trim($options->admin_user)))
-                ->set($db->quoteName('username') . ' = ' . $db->quote(trim($options->admin_username)))
+                ->set($db->quoteName('name') . ' = ' . $db->quote(trim((string) $options->admin_user)))
+                ->set($db->quoteName('username') . ' = ' . $db->quote(trim((string) $options->admin_username)))
                 ->set($db->quoteName('email') . ' = ' . $db->quote($options->admin_email))
                 ->set($db->quoteName('password') . ' = ' . $db->quote($cryptpass))
                 ->set($db->quoteName('block') . ' = 0')
@@ -549,7 +549,7 @@ class ConfigurationModel extends BaseInstallationModel
                 ->insert('#__users', true)
                 ->columns($columns)
                 ->values(
-                    $db->quote($userId) . ', ' . $db->quote(trim($options->admin_user)) . ', ' . $db->quote(trim($options->admin_username)) . ', ' .
+                    $db->quote($userId) . ', ' . $db->quote(trim((string) $options->admin_user)) . ', ' . $db->quote(trim((string) $options->admin_username)) . ', ' .
                     $db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
                     $db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', NULL, ' .
                     $db->quote('0') . ', ' . $db->quote('')

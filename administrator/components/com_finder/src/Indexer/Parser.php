@@ -52,7 +52,7 @@ abstract class Parser
         }
 
         // Setup the adapter for the parser.
-        $class = '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Parser\\' . ucfirst($format);
+        $class = '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Parser\\' . ucfirst((string) $format);
 
         // Check if a parser exists for the format.
         if (class_exists($class)) {

@@ -170,7 +170,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // Sanity check, make sure the type is set by taking the adapter name from the class name
         if (!$this->type) {
             // This assumes the adapter short class name in its namespace is `<foo>Adapter`, replace this logic in subclasses if needed
-            $reflection = new \ReflectionClass(\get_called_class());
+            $reflection = new \ReflectionClass(static::class);
             $this->type = str_replace('Adapter', '', $reflection->getShortName());
         }
 
@@ -557,7 +557,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         }
 
         // Filter the name for illegal characters
-        return strtolower(InputFilter::getInstance()->clean($element, 'cmd'));
+        return strtolower((string) InputFilter::getInstance()->clean($element, 'cmd'));
     }
 
     /**
@@ -988,9 +988,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
             $container->set(
                 InstallerScriptInterface::class,
-                function (Container $container) use ($classname) {
-                    return new LegacyInstallerScript(new $classname($this));
-                }
+                fn(Container $container) => new LegacyInstallerScript(new $classname($this))
             );
         }
 

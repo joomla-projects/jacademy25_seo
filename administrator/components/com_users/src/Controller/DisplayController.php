@@ -48,18 +48,12 @@ class DisplayController extends BaseController
     {
         $canDo = ContentHelper::getActions('com_users');
 
-        switch ($view) {
-            case 'groups':
-            case 'group':
-            case 'levels':
-            case 'level':
-                // Special permissions.
-                return $canDo->get('core.admin');
-
-            default:
-                // Default permissions.
-                return true;
-        }
+        return match ($view) {
+            // Special permissions.
+            'groups', 'group', 'levels', 'level' => $canDo->get('core.admin'),
+            // Default permissions.
+            default => true,
+        };
     }
 
     /**

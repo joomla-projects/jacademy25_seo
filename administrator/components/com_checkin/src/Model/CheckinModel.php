@@ -96,7 +96,7 @@ class CheckinModel extends ListModel
 
         foreach ($ids as $tn) {
             // Make sure we get the right tables based on prefix.
-            if (stripos($tn, $app->get('dbprefix')) !== 0) {
+            if (stripos((string) $tn, (string) $app->get('dbprefix')) !== 0) {
                 continue;
             }
 
@@ -173,11 +173,11 @@ class CheckinModel extends ListModel
 
             foreach ($tables as $tn) {
                 // Make sure we get the right tables based on prefix.
-                if (stripos($tn, $prefix) !== 0) {
+                if (stripos((string) $tn, (string) $prefix) !== 0) {
                     continue;
                 }
 
-                if ($this->getState('filter.search') && stripos($tn, $this->getState('filter.search')) === false) {
+                if ($this->getState('filter.search') && stripos((string) $tn, (string) $this->getState('filter.search')) === false) {
                     continue;
                 }
 
@@ -209,14 +209,14 @@ class CheckinModel extends ListModel
 
             // Order items by table
             if ($this->getState('list.ordering') == 'table') {
-                if (strtolower($this->getState('list.direction')) == 'asc') {
+                if (strtolower((string) $this->getState('list.direction')) == 'asc') {
                     ksort($results);
                 } else {
                     krsort($results);
                 }
             } else {
                 // Order items by number of items
-                if (strtolower($this->getState('list.direction')) == 'asc') {
+                if (strtolower((string) $this->getState('list.direction')) == 'asc') {
                     asort($results);
                 } else {
                     arsort($results);

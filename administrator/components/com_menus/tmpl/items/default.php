@@ -32,7 +32,7 @@ $userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.lft');
-$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$saveOrder = ($listOrder == 'a.lft' && strtolower((string) $listDirn) == 'asc');
 $menuType  = (string) $app->getUserState('com_menus.items.menutype', '');
 
 if ($saveOrder && $menuType && !empty($this->items)) {
@@ -102,7 +102,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                         </tr>
                         </thead>
                         <tbody <?php if ($saveOrder && $menuType) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>" data-nested="false"<?php
                                endif; ?>>
                         <?php
                         foreach ($this->items as $i => $item) :
@@ -123,7 +123,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                         $v = implode('-', $v);
                                         $v = '-' . $v . '-';
 
-                                        if (strpos($v, '-' . $_currentParentId . '-') !== false) {
+                                        if (str_contains($v, '-' . $_currentParentId . '-')) {
                                             $parentsStr .= ' ' . $k;
                                             $_currentParentId = $k;
                                             break;
@@ -214,7 +214,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                     <?php endif; ?>
                                 </th>
                                 <td class="small d-none d-md-table-cell">
-                                    <?php echo $this->escape($item->menutype_title ?: ucwords($item->menutype)); ?>
+                                    <?php echo $this->escape($item->menutype_title ?: ucwords((string) $item->menutype)); ?>
                                 </td>
                                 <?php if ($this->state->get('filter.client_id') == 0) : ?>
                                     <td class="text-center d-none d-md-table-cell">

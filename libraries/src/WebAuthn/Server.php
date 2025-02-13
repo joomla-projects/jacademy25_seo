@@ -75,28 +75,12 @@ final class Server
     public int $challengeSize = 32;
 
     /**
-     * The relaying party entity
-     *
-     * @var PublicKeyCredentialRpEntity
-     * @since 5.0.0
-     */
-    private PublicKeyCredentialRpEntity $rpEntity;
-
-    /**
      * COSE algorithm manager factory instance
      *
      * @var ManagerFactory
      * @since 5.0.0
      */
-    private ManagerFactory $coseAlgorithmManagerFactory;
-
-    /**
-     * Public Key credential source respoitory instance
-     *
-     * @var PublicKeyCredentialSourceRepository
-     * @since 5.0.0
-     */
-    private PublicKeyCredentialSourceRepository $publicKeyCredentialSourceRepository;
+    private readonly ManagerFactory $coseAlgorithmManagerFactory;
 
     /**
      * Token binding handler
@@ -105,7 +89,7 @@ final class Server
      * @since 5.0.0
      * @deprecated 6.0 Will be removed when we upgrade to WebAuthn library 5.0 or later
      */
-    private TokenBindingHandler $tokenBindingHandler;
+    private readonly TokenBindingHandler $tokenBindingHandler;
 
     /**
      * Authentication extension output checker
@@ -124,26 +108,31 @@ final class Server
     private array $selectedAlgorithms;
 
     /**
-     * Metadata statement repository service
-     *
-     * @var MetadataStatementRepository|null
-     * @since 5.0.0
-     */
-    private ?MetadataStatementRepository $metadataStatementRepository;
-
-    /**
      * Constructor
      *
-     * @param PublicKeyCredentialRpEntity $relayingParty The relaying party entity (server information)
+     * @param PublicKeyCredentialRpEntity $rpEntity The relaying party entity (server information)
      * @param PublicKeyCredentialSourceRepository $publicKeyCredentialSourceRepository Public Key repository service
      * @param MetadataStatementRepository|null $metadataStatementRepository Metadata Statement (MDS) service (optional)
      *
      * @since 5.0.0
      */
-    public function __construct(PublicKeyCredentialRpEntity $relayingParty, PublicKeyCredentialSourceRepository $publicKeyCredentialSourceRepository, ?MetadataStatementRepository $metadataStatementRepository)
+    public function __construct(/**
+     * The relaying party entity
+     *
+     * @since 5.0.0
+     */
+    private readonly PublicKeyCredentialRpEntity $rpEntity, /**
+     * Public Key credential source respoitory instance
+     *
+     * @since 5.0.0
+     */
+    private readonly PublicKeyCredentialSourceRepository $publicKeyCredentialSourceRepository, /**
+     * Metadata statement repository service
+     *
+     * @since 5.0.0
+     */
+    private readonly ?MetadataStatementRepository $metadataStatementRepository)
     {
-        $this->rpEntity = $relayingParty;
-
         $this->coseAlgorithmManagerFactory = new ManagerFactory();
         $this->coseAlgorithmManagerFactory->add('RS1', new RSA\RS1());
         $this->coseAlgorithmManagerFactory->add('RS256', new RSA\RS256());
@@ -159,10 +148,8 @@ final class Server
         $this->coseAlgorithmManagerFactory->add('Ed25519', new EdDSA\Ed25519());
 
         $this->selectedAlgorithms                  = ['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512', 'Ed25519'];
-        $this->publicKeyCredentialSourceRepository = $publicKeyCredentialSourceRepository;
         $this->tokenBindingHandler                 = new IgnoreTokenBindingHandler();
         $this->extensionOutputCheckerHandler       = new ExtensionOutputCheckerHandler();
-        $this->metadataStatementRepository         = $metadataStatementRepository;
     }
 
     /**
@@ -237,8 +224,8 @@ final class Server
             );
         }
 
-        $criteria   = $criteria ?? new AuthenticatorSelectionCriteria();
-        $extensions = $extensions ?? new AuthenticationExtensionsClientInputs();
+        $criteria ??= new AuthenticatorSelectionCriteria();
+        $extensions ??= new AuthenticationExtensionsClientInputs();
         $challenge  = random_bytes($this->challengeSize);
 
         return (new PublicKeyCredentialCreationOptions(
@@ -358,16 +345,16 @@ final class Server
          */
         try {
             $data = @json_decode($data, true) ?? [];
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $data = [];
         }
 
-        $data['response'] = $data['response'] ?? [];
+        $data['response'] ??= [];
 
         foreach (['authenticatorData', 'clientDataJSON', 'signature', 'userHandle'] as $key) {
             try {
                 $value = Base64::decode($data['response'][$key] ?? '');
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $value = '';
             }
             $data['response'][$key] = Base64UrlSafe::encodeUnpadded($value);

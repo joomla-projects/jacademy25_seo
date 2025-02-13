@@ -104,7 +104,7 @@ JLoader::setup();
 $loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
 
 // We need to pull our decorated class loader into memory before unregistering Composer's loader
-class_exists('\\Joomla\\CMS\\Autoload\\ClassLoader');
+class_exists(\Joomla\CMS\Autoload\ClassLoader::class);
 
 $loader->unregister();
 

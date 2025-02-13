@@ -41,7 +41,7 @@ use Joomla\Database\DatabaseDriver;
  *
  * @since  1.7.0
  */
-class Date extends \DateTime
+class Date extends \DateTime implements \Stringable
 {
     public const DAY_ABBR   = "\x021\x03";
     public const DAY_NAME   = "\x022\x03";
@@ -213,7 +213,7 @@ class Date extends \DateTime
      *
      * @since   1.7.0
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) parent::format(self::$format);
     }
@@ -245,24 +245,16 @@ class Date extends \DateTime
      */
     public function dayToString($day, $abbr = false)
     {
-        switch ($day) {
-            case 0:
-                return $abbr ? Text::_('SUN') : Text::_('SUNDAY');
-            case 1:
-                return $abbr ? Text::_('MON') : Text::_('MONDAY');
-            case 2:
-                return $abbr ? Text::_('TUE') : Text::_('TUESDAY');
-            case 3:
-                return $abbr ? Text::_('WED') : Text::_('WEDNESDAY');
-            case 4:
-                return $abbr ? Text::_('THU') : Text::_('THURSDAY');
-            case 5:
-                return $abbr ? Text::_('FRI') : Text::_('FRIDAY');
-            case 6:
-                return $abbr ? Text::_('SAT') : Text::_('SATURDAY');
-        }
-
-        return '';
+        return match ($day) {
+            0 => $abbr ? Text::_('SUN') : Text::_('SUNDAY'),
+            1 => $abbr ? Text::_('MON') : Text::_('MONDAY'),
+            2 => $abbr ? Text::_('TUE') : Text::_('TUESDAY'),
+            3 => $abbr ? Text::_('WED') : Text::_('WEDNESDAY'),
+            4 => $abbr ? Text::_('THU') : Text::_('THURSDAY'),
+            5 => $abbr ? Text::_('FRI') : Text::_('FRIDAY'),
+            6 => $abbr ? Text::_('SAT') : Text::_('SATURDAY'),
+            default => '',
+        };
     }
 
     /**
@@ -297,9 +289,9 @@ class Date extends \DateTime
         if ($translate) {
             // Do string replacements for date format options that can be translated.
             $format = preg_replace('/(^|[^\\\])D/', "\\1" . self::DAY_ABBR, $format);
-            $format = preg_replace('/(^|[^\\\])l/', "\\1" . self::DAY_NAME, $format);
-            $format = preg_replace('/(^|[^\\\])M/', "\\1" . self::MONTH_ABBR, $format);
-            $format = preg_replace('/(^|[^\\\])F/', "\\1" . self::MONTH_NAME, $format);
+            $format = preg_replace('/(^|[^\\\])l/', "\\1" . self::DAY_NAME, (string) $format);
+            $format = preg_replace('/(^|[^\\\])M/', "\\1" . self::MONTH_ABBR, (string) $format);
+            $format = preg_replace('/(^|[^\\\])F/', "\\1" . self::MONTH_NAME, (string) $format);
         }
 
         // If the returned time should not be local use UTC.
@@ -312,19 +304,19 @@ class Date extends \DateTime
 
         if ($translate) {
             // Manually modify the month and day strings in the formatted time.
-            if (strpos($return, self::DAY_ABBR) !== false) {
+            if (str_contains($return, self::DAY_ABBR)) {
                 $return = str_replace(self::DAY_ABBR, $this->dayToString(parent::format('w'), true), $return);
             }
 
-            if (strpos($return, self::DAY_NAME) !== false) {
+            if (str_contains($return, self::DAY_NAME)) {
                 $return = str_replace(self::DAY_NAME, $this->dayToString(parent::format('w')), $return);
             }
 
-            if (strpos($return, self::MONTH_ABBR) !== false) {
+            if (str_contains($return, self::MONTH_ABBR)) {
                 $return = str_replace(self::MONTH_ABBR, $this->monthToString(parent::format('n'), true), $return);
             }
 
-            if (strpos($return, self::MONTH_NAME) !== false) {
+            if (str_contains($return, self::MONTH_NAME)) {
                 $return = str_replace(self::MONTH_NAME, $this->monthToString(parent::format('n')), $return);
             }
         }
@@ -362,34 +354,21 @@ class Date extends \DateTime
      */
     public function monthToString($month, $abbr = false)
     {
-        switch ($month) {
-            case 1:
-                return $abbr ? Text::_('JANUARY_SHORT') : Text::_('JANUARY');
-            case 2:
-                return $abbr ? Text::_('FEBRUARY_SHORT') : Text::_('FEBRUARY');
-            case 3:
-                return $abbr ? Text::_('MARCH_SHORT') : Text::_('MARCH');
-            case 4:
-                return $abbr ? Text::_('APRIL_SHORT') : Text::_('APRIL');
-            case 5:
-                return $abbr ? Text::_('MAY_SHORT') : Text::_('MAY');
-            case 6:
-                return $abbr ? Text::_('JUNE_SHORT') : Text::_('JUNE');
-            case 7:
-                return $abbr ? Text::_('JULY_SHORT') : Text::_('JULY');
-            case 8:
-                return $abbr ? Text::_('AUGUST_SHORT') : Text::_('AUGUST');
-            case 9:
-                return $abbr ? Text::_('SEPTEMBER_SHORT') : Text::_('SEPTEMBER');
-            case 10:
-                return $abbr ? Text::_('OCTOBER_SHORT') : Text::_('OCTOBER');
-            case 11:
-                return $abbr ? Text::_('NOVEMBER_SHORT') : Text::_('NOVEMBER');
-            case 12:
-                return $abbr ? Text::_('DECEMBER_SHORT') : Text::_('DECEMBER');
-        }
-
-        return '';
+        return match ($month) {
+            1 => $abbr ? Text::_('JANUARY_SHORT') : Text::_('JANUARY'),
+            2 => $abbr ? Text::_('FEBRUARY_SHORT') : Text::_('FEBRUARY'),
+            3 => $abbr ? Text::_('MARCH_SHORT') : Text::_('MARCH'),
+            4 => $abbr ? Text::_('APRIL_SHORT') : Text::_('APRIL'),
+            5 => $abbr ? Text::_('MAY_SHORT') : Text::_('MAY'),
+            6 => $abbr ? Text::_('JUNE_SHORT') : Text::_('JUNE'),
+            7 => $abbr ? Text::_('JULY_SHORT') : Text::_('JULY'),
+            8 => $abbr ? Text::_('AUGUST_SHORT') : Text::_('AUGUST'),
+            9 => $abbr ? Text::_('SEPTEMBER_SHORT') : Text::_('SEPTEMBER'),
+            10 => $abbr ? Text::_('OCTOBER_SHORT') : Text::_('OCTOBER'),
+            11 => $abbr ? Text::_('NOVEMBER_SHORT') : Text::_('NOVEMBER'),
+            12 => $abbr ? Text::_('DECEMBER_SHORT') : Text::_('DECEMBER'),
+            default => '',
+        };
     }
 
     /**

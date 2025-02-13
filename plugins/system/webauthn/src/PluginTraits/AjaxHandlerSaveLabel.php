@@ -55,7 +55,7 @@ trait AjaxHandlerSaveLabel
             return;
         }
 
-        $credentialId = base64_decode($credentialId);
+        $credentialId = base64_decode((string) $credentialId);
 
         if (empty($credentialId) || !$repository->has($credentialId)) {
             $event->addResult(false);
@@ -90,7 +90,7 @@ trait AjaxHandlerSaveLabel
         // Save the new label
         try {
             $repository->setLabel($credentialId, $newLabel);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $event->addResult(false);
 
             return;

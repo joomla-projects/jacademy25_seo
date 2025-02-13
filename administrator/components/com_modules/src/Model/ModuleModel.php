@@ -411,8 +411,8 @@ class ModuleModel extends AdminModel
                 // Alter the title.
                 $m = null;
 
-                if (preg_match('#\((\d+)\)$#', $table->title, $m)) {
-                    $table->title = preg_replace('#\(\d+\)$#', '(' . ($m[1] + 1) . ')', $table->title);
+                if (preg_match('#\((\d+)\)$#', (string) $table->title, $m)) {
+                    $table->title = preg_replace('#\(\d+\)$#', '(' . ($m[1] + 1) . ')', (string) $table->title);
                 }
 
                 $data         = $this->generateNewTitle(0, $table->title, $table->position);
@@ -773,8 +773,8 @@ class ModuleModel extends AdminModel
      */
     protected function prepareTable($table)
     {
-        $table->title    = htmlspecialchars_decode($table->title, ENT_QUOTES);
-        $table->position = trim($table->position);
+        $table->title    = htmlspecialchars_decode((string) $table->title, ENT_QUOTES);
+        $table->position = trim((string) $table->position);
     }
 
     /**
@@ -837,7 +837,7 @@ class ModuleModel extends AdminModel
             Form::addFormPath($chromePath);
 
             foreach ($chromeFormFiles as $formFile) {
-                $form->loadFile(basename($formFile, '.xml'), false);
+                $form->loadFile(basename((string) $formFile, '.xml'), false);
             }
         }
 
@@ -858,7 +858,7 @@ class ModuleModel extends AdminModel
                 Form::addFormPath($chromePath);
 
                 foreach ($chromeFormFiles as $formFile) {
-                    $form->loadFile(basename($formFile, '.xml'), false);
+                    $form->loadFile(basename((string) $formFile, '.xml'), false);
                 }
             }
         }

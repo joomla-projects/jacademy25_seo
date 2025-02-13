@@ -39,11 +39,11 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'fp.ordering';
 
-if (strpos($listOrder, 'publish_up') !== false) {
+if (str_contains((string) $listOrder, 'publish_up')) {
     $orderingColumn = 'publish_up';
-} elseif (strpos($listOrder, 'publish_down') !== false) {
+} elseif (str_contains((string) $listOrder, 'publish_down')) {
     $orderingColumn = 'publish_down';
-} elseif (strpos($listOrder, 'modified') !== false) {
+} elseif (str_contains((string) $listOrder, 'modified')) {
     $orderingColumn = 'modified';
 } else {
     $orderingColumn = 'created';
@@ -152,7 +152,7 @@ $assoc = Associations::isEnabled();
                             </tr>
                         </thead>
                         <tbody<?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>"<?php
                               endif; ?>>
                         <?php $count = count($this->items); ?>
                         <?php foreach ($this->items as $i => $item) :

@@ -115,7 +115,7 @@ final class Profile extends CMSPlugin implements SubscriberInterface
 
                 foreach ($results as $v) {
                     $k                 = str_replace('profile.', '', $v[0]);
-                    $data->profile[$k] = json_decode($v[1], true);
+                    $data->profile[$k] = json_decode((string) $v[1], true);
 
                     if ($data->profile[$k] === null) {
                         $data->profile[$k] = $v[1];
@@ -124,19 +124,19 @@ final class Profile extends CMSPlugin implements SubscriberInterface
             }
 
             if (!HTMLHelper::isRegistered('users.url')) {
-                HTMLHelper::register('users.url', [__CLASS__, 'url']);
+                HTMLHelper::register('users.url', [self::class, 'url']);
             }
 
             if (!HTMLHelper::isRegistered('users.calendar')) {
-                HTMLHelper::register('users.calendar', [__CLASS__, 'calendar']);
+                HTMLHelper::register('users.calendar', [self::class, 'calendar']);
             }
 
             if (!HTMLHelper::isRegistered('users.tos')) {
-                HTMLHelper::register('users.tos', [__CLASS__, 'tos']);
+                HTMLHelper::register('users.tos', [self::class, 'tos']);
             }
 
             if (!HTMLHelper::isRegistered('users.dob')) {
-                HTMLHelper::register('users.dob', [__CLASS__, 'dob']);
+                HTMLHelper::register('users.dob', [self::class, 'dob']);
             }
         }
     }
@@ -157,7 +157,7 @@ final class Profile extends CMSPlugin implements SubscriberInterface
         // Convert website URL to utf8 for display
         $value = htmlspecialchars(PunycodeHelper::urlToUTF8($value), ENT_QUOTES, 'UTF-8');
 
-        if (strpos($value, 'http') === 0) {
+        if (str_starts_with($value, 'http')) {
             return '<a href="' . $value . '">' . $value . '</a>';
         }
 
@@ -328,7 +328,7 @@ final class Profile extends CMSPlugin implements SubscriberInterface
             try {
                 $date       = new Date($data['profile']['dob']);
                 $this->date = $date->format('Y-m-d H:i:s');
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Throw an exception if date is not valid.
                 throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
             }

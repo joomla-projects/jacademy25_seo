@@ -384,7 +384,7 @@ class ArticlesHelper implements DatabaseAwareInterface
                 // Remove any images belongs to the text
                 if (!$params->get('image')) {
                     // Remove any images and empty links from the intro text
-                    $item->displayIntrotext = preg_replace(['/\\<img[^>]*>/', '/<a[^>]*><\\/a>/'], '', $item->displayIntrotext);
+                    $item->displayIntrotext = preg_replace(['/\\<img[^>]*>/', '/<a[^>]*><\\/a>/'], '', (string) $item->displayIntrotext);
                 }
 
                 if ($introtext_limit != 0) {
@@ -398,10 +398,10 @@ class ArticlesHelper implements DatabaseAwareInterface
                 $item->imageSrc     = '';
 
                 if ($params->get('img_intro_full') === 'intro' && !empty($images->image_intro)) {
-                    $item->imageSrc      = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');
+                    $item->imageSrc      = htmlspecialchars((string) $images->image_intro, ENT_COMPAT, 'UTF-8');
                     $images->float_intro = 'mod-articles-image';
                 } elseif ($params->get('img_intro_full') === 'full' && !empty($images->image_fulltext)) {
-                    $item->imageSrc         = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
+                    $item->imageSrc         = htmlspecialchars((string) $images->image_fulltext, ENT_COMPAT, 'UTF-8');
                     $images->float_fulltext = 'mod-articles-image';
                 }
 

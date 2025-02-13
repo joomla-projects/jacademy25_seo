@@ -154,13 +154,13 @@ $command = new class () extends AbstractCommand {
 
                 $inflected = '';
 
-                if (strpos($string, '_CATEGORIES') !== false) {
+                if (str_contains($string, '_CATEGORIES')) {
                     $inflected = str_replace('_CATEGORIES', '_CATEGORY', $string);
-                } elseif (strpos($string, '_USERS') !== false) {
+                } elseif (str_contains($string, '_USERS')) {
                     $inflected = str_replace('_USERS', '_USER', $string);
-                } elseif (strpos($string, '_CATEGORY') !== false) {
+                } elseif (str_contains($string, '_CATEGORY')) {
                     $inflected = str_replace('_CATEGORY', '_CATEGORIES', $string);
-                } elseif (strpos($string, '_USER') !== false) {
+                } elseif (str_contains($string, '_USER')) {
                     $inflected = str_replace('_USER', '_USERS', $string);
                 }
 

@@ -94,8 +94,8 @@ class UpdateModel extends BaseDatabaseModel
             case 'custom':
                 // "Custom"
                 // @todo: check if the customurl is valid and not just "not empty".
-                if (trim($params->get('customurl', '')) != '') {
-                    $updateURL = trim($params->get('customurl', ''));
+                if (trim((string) $params->get('customurl', '')) != '') {
+                    $updateURL = trim((string) $params->get('customurl', ''));
                 } else {
                     Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
 
@@ -296,7 +296,7 @@ class UpdateModel extends BaseDatabaseModel
 
         $update = new Update();
 
-        $updateType = (pathinfo($updateObject->detailsurl, PATHINFO_EXTENSION) === 'xml') ? 'collection' : 'tuf';
+        $updateType = (pathinfo((string) $updateObject->detailsurl, PATHINFO_EXTENSION) === 'xml') ? 'collection' : 'tuf';
 
         // Check if we have a local JSON string with update metadata
         if ($updateType === 'tuf') {
@@ -373,7 +373,7 @@ class UpdateModel extends BaseDatabaseModel
     public function download()
     {
         $updateInfo = $this->getUpdateInformation();
-        $packageURL = trim($updateInfo['object']->downloadurl->_data);
+        $packageURL = trim((string) $updateInfo['object']->downloadurl->_data);
         $sources    = $updateInfo['object']->get('downloadSources', []);
 
         // We have to manually follow the redirects here so we set the option to false.
@@ -384,7 +384,7 @@ class UpdateModel extends BaseDatabaseModel
 
         try {
             $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Passing false here -> download failed message
             return $response;
         }
@@ -395,7 +395,7 @@ class UpdateModel extends BaseDatabaseModel
 
             try {
                 $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 // Passing false here -> download failed message
                 return $response;
             }
@@ -404,7 +404,7 @@ class UpdateModel extends BaseDatabaseModel
         // Remove protocol, path and query string from URL
         $basename = basename($packageURL);
 
-        if (strpos($basename, '?') !== false) {
+        if (str_contains($basename, '?')) {
             $basename = substr($basename, 0, strpos($basename, '?'));
         }
 
@@ -427,7 +427,7 @@ class UpdateModel extends BaseDatabaseModel
 
             while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror])) {
                 $name       = $sources[$mirror];
-                $packageURL = trim($name->url);
+                $packageURL = trim((string) $name->url);
                 $mirror++;
             }
 
@@ -441,7 +441,7 @@ class UpdateModel extends BaseDatabaseModel
 
                 while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror])) {
                     $name       = $sources[$mirror];
-                    $packageURL = trim($name->url);
+                    $packageURL = trim((string) $name->url);
                     $mirror++;
                 }
 
@@ -512,7 +512,7 @@ class UpdateModel extends BaseDatabaseModel
         if (is_file($target)) {
             try {
                 File::delete($target);
-            } catch (FilesystemException $exception) {
+            } catch (FilesystemException) {
                 return false;
             }
         }
@@ -520,7 +520,7 @@ class UpdateModel extends BaseDatabaseModel
         // Download the package
         try {
             $result = HttpFactory::getHttp([], ['curl', 'stream'])->get($url);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -534,7 +534,7 @@ class UpdateModel extends BaseDatabaseModel
         // Write the file to disk
         try {
             File::write($target, $body);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
             return false;
         }
 
@@ -591,7 +591,7 @@ class UpdateModel extends BaseDatabaseModel
         if (empty($basename)) {
             $updateInfo = $this->getUpdateInformation();
             $packageURL = $updateInfo['object']->downloadurl->_data;
-            $basename   = basename($packageURL);
+            $basename   = basename((string) $packageURL);
         }
 
         // Get the package name.
@@ -619,7 +619,7 @@ ENDDATA;
         if (is_file($configpath)) {
             try {
                 File::delete($configpath);
-            } catch (FilesystemException $exception) {
+            } catch (FilesystemException) {
                 return false;
             }
         }
@@ -627,7 +627,7 @@ ENDDATA;
         // Write new file. First try with File.
         try {
             $result = File::write($configpath, $data);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
             // In case File failed but direct access could help.
             $fp = @fopen($configpath, 'wt');
 
@@ -926,7 +926,7 @@ ENDDATA;
 
         try {
             Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', \JVERSION), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
     }
@@ -1019,7 +1019,7 @@ ENDDATA;
         $username = $credentials['username'] ?? null;
         $user     = $this->getCurrentUser();
 
-        if (strtolower($user->username) != strtolower($username)) {
+        if (strtolower($user->username) != strtolower((string) $username)) {
             return false;
         }
 
@@ -1075,7 +1075,7 @@ ENDDATA;
             if ($file !== null && is_file($file)) {
                 try {
                     File::delete($file);
-                } catch (FilesystemException $exception) {
+                } catch (FilesystemException) {
                 }
             }
         }
@@ -1412,7 +1412,7 @@ ENDDATA;
         $rows = $db->loadObjectList();
 
         foreach ($rows as $extension) {
-            $decode = json_decode($extension->manifest_cache);
+            $decode = json_decode((string) $extension->manifest_cache);
 
             // Remove unused fields so they do not cause javascript errors during pre-update check
             unset($decode->description);
@@ -1464,7 +1464,7 @@ ENDDATA;
         );
 
         if (\count($folderFilter) > 0) {
-            $folderFilter = array_map([$db, 'quote'], $folderFilter);
+            $folderFilter = array_map($db->quote(...), $folderFilter);
 
             $query->where($db->quoteName('folder') . ' IN (' . implode(',', $folderFilter) . ')');
         }
@@ -1473,7 +1473,7 @@ ENDDATA;
         $rows = $db->loadObjectList();
 
         foreach ($rows as $plugin) {
-            $decode = json_decode($plugin->manifest_cache);
+            $decode = json_decode((string) $plugin->manifest_cache);
 
             // Remove unused fields so they do not cause javascript errors during pre-update check
             unset($decode->description);
@@ -1596,7 +1596,7 @@ ENDDATA;
 
         try {
             $response = $http->get($updateSiteInfo['location']);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 
@@ -1746,9 +1746,7 @@ ENDDATA;
 
         $home = array_filter(
             $templates,
-            function ($value) {
-                return $value->home > 0;
-            }
+            fn($value) => $value->home > 0
         );
 
         $ids = ArrayHelper::getColumn($templates, 'id');
@@ -2033,8 +2031,8 @@ ENDDATA;
         $currentVersion = JVERSION;
 
         // Remove special version suffix for pull request patched packages
-        if (($pos = strpos($currentVersion, '+pr.')) !== false) {
-            $currentVersion = substr($currentVersion, 0, $pos);
+        if (($pos = strpos((string) $currentVersion, '+pr.')) !== false) {
+            $currentVersion = substr((string) $currentVersion, 0, $pos);
         }
 
         if (version_compare($versionPackage, $currentVersion, 'lt')) {

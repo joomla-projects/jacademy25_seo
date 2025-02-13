@@ -39,15 +39,6 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
     protected $autoloadLanguage = true;
 
     /**
-     * The document.
-     *
-     * @var Document
-     *
-     * @since  4.0.0
-     */
-    private $document;
-
-    /**
      * Returns an array of events this subscriber will listen to.
      *
      * @return  array
@@ -72,11 +63,15 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function __construct($dispatcher, Document $document, array $config = [])
+    public function __construct($dispatcher, /**
+     * The document.
+     *
+     *
+     * @since  4.0.0
+     */
+    private readonly Document $document, array $config = [])
     {
         parent::__construct($dispatcher, $config);
-
-        $this->document = $document;
     }
 
     /**

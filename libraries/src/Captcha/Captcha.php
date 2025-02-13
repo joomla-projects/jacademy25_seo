@@ -51,14 +51,6 @@ class Captcha implements DispatcherAwareInterface
     private $provider;
 
     /**
-     * Captcha Plugin name
-     *
-     * @var    string
-     * @since  2.5
-     */
-    private $name;
-
-    /**
      * Array of instances of this class.
      *
      * @var    Captcha[]
@@ -69,21 +61,24 @@ class Captcha implements DispatcherAwareInterface
     /**
      * Class constructor.
      *
-     * @param   string  $captcha  The plugin to use.
+     * @param string $name The plugin to use.
      * @param   array   $options  Associative array of options.
      *
      * @since   2.5
      * @throws  \RuntimeException
      */
-    public function __construct($captcha, $options)
+    public function __construct(/**
+     * Captcha Plugin name
+     *
+     * @since  2.5
+     */
+    private $name, $options)
     {
-        $this->name = $captcha;
-
         /** @var  CaptchaRegistry  $registry */
         $registry = $options['registry'] ?? Factory::getContainer()->get(CaptchaRegistry::class);
 
-        if ($registry->has($captcha)) {
-            $this->provider = $registry->get($captcha);
+        if ($registry->has($this->name)) {
+            $this->provider = $registry->get($this->name);
         } else {
             @trigger_error(
                 'Use of legacy Captcha is deprecated. Use onCaptchaSetup event to register your Captcha provider.',

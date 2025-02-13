@@ -43,15 +43,6 @@ class Router extends RouterView
     protected $noIDs = false;
 
     /**
-     * The category factory
-     *
-     * @var CategoryFactoryInterface
-     *
-     * @since  4.0.0
-     */
-    private $categoryFactory;
-
-    /**
      * The category cache
      *
      * @var  array
@@ -61,15 +52,6 @@ class Router extends RouterView
     private $categoryCache = [];
 
     /**
-     * The db
-     *
-     * @var DatabaseInterface
-     *
-     * @since  4.0.0
-     */
-    private $db;
-
-    /**
      * Content Component router constructor
      *
      * @param   SiteApplication           $app              The application object
@@ -77,11 +59,20 @@ class Router extends RouterView
      * @param   CategoryFactoryInterface  $categoryFactory  The category object
      * @param   DatabaseInterface         $db               The database object
      */
-    public function __construct(SiteApplication $app, AbstractMenu $menu, CategoryFactoryInterface $categoryFactory, DatabaseInterface $db)
+    public function __construct(SiteApplication $app, AbstractMenu $menu, /**
+     * The category factory
+     *
+     *
+     * @since  4.0.0
+     */
+    private readonly CategoryFactoryInterface $categoryFactory, /**
+     * The db
+     *
+     *
+     * @since  4.0.0
+     */
+    private readonly DatabaseInterface $db)
     {
-        $this->categoryFactory = $categoryFactory;
-        $this->db              = $db;
-
         $params      = ComponentHelper::getParams('com_content');
         $this->noIDs = (bool) $params->get('sef_ids');
         $categories  = new RouterViewConfiguration('categories');
@@ -127,7 +118,7 @@ class Router extends RouterView
 
             if ($this->noIDs) {
                 foreach ($path as &$segment) {
-                    [, $segment] = explode(':', $segment, 2);
+                    [, $segment] = explode(':', (string) $segment, 2);
                 }
             }
 
@@ -161,7 +152,7 @@ class Router extends RouterView
     public function getArticleSegment($id, $query)
     {
         if ($this->noIDs && strpos($id, ':')) {
-            list($void, $segment) = explode(':', $id, 2);
+            [$void, $segment] = explode(':', $id, 2);
 
             return [$void => $segment];
         }

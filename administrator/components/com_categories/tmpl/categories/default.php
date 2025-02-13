@@ -30,8 +30,8 @@ $userId    = $user->id;
 $extension = $this->escape($this->state->get('filter.extension'));
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
-$parts     = explode('.', $extension, 2);
+$saveOrder = ($listOrder == 'a.lft' && strtolower((string) $listDirn) == 'asc');
+$parts     = explode('.', (string) $extension, 2);
 $component = $parts[0];
 $section   = null;
 
@@ -127,7 +127,7 @@ if ($saveOrder && !empty($this->items)) {
                             </tr>
                         </thead>
                         <tbody <?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false" <?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>" data-nested="false" <?php
                                endif; ?>>
                             <?php foreach ($this->items as $i => $item) : ?>
                                 <?php
@@ -145,7 +145,7 @@ if ($saveOrder && !empty($this->items)) {
                                         foreach ($this->ordering as $k => $v) {
                                             $v = implode('-', $v);
                                             $v = '-' . $v . '-';
-                                            if (strpos($v, '-' . $_currentParentId . '-') !== false) {
+                                            if (str_contains($v, '-' . $_currentParentId . '-')) {
                                                 $parentsStr .= ' ' . $k;
                                                 $_currentParentId = $k;
                                                 break;

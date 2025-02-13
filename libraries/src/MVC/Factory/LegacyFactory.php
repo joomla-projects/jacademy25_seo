@@ -45,7 +45,7 @@ class LegacyFactory implements MVCFactoryInterface
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function createController($name, $prefix, array $config, CMSApplicationInterface $app, Input $input)
+    public function createController($name, $prefix, array $config, CMSApplicationInterface $app, Input $input): never
     {
         throw new \BadFunctionCallException('Legacy controller creation not supported.');
     }

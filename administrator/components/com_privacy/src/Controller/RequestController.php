@@ -384,20 +384,13 @@ class RequestController extends FormController
      */
     private function canTransition($item, $newStatus)
     {
-        switch ($item->status) {
-            case '0':
-                // A pending item can only move to invalid through this controller due to the requirement for a user to confirm the request
-                return $newStatus === '-1';
-
-            case '1':
-                // A confirmed item can be marked completed or invalid
-                return \in_array($newStatus, ['-1', '2'], true);
-
-            case '-1':
-            case '2':
-            default:
-                // An item which is already in an invalid or complete state cannot transition, likewise if we don't know the state don't change anything
-                return false;
-        }
+        return match ($item->status) {
+            // A pending item can only move to invalid through this controller due to the requirement for a user to confirm the request
+            '0' => $newStatus === '-1',
+            // A confirmed item can be marked completed or invalid
+            '1' => \in_array($newStatus, ['-1', '2'], true),
+            // An item which is already in an invalid or complete state cannot transition, likewise if we don't know the state don't change anything
+            default => false,
+        };
     }
 }

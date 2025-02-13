@@ -22,9 +22,9 @@ if ($module->content === null || $module->content === '') {
 
 $moduleTag              = $params->get('module_tag', 'div');
 $moduleAttribs          = [];
-$moduleAttribs['class'] = $module->position . ' card ' . htmlspecialchars($params->get('moduleclass_sfx', ''), ENT_QUOTES, 'UTF-8');
-$headerTag              = htmlspecialchars($params->get('header_tag', 'h3'), ENT_QUOTES, 'UTF-8');
-$headerClass            = htmlspecialchars($params->get('header_class', ''), ENT_QUOTES, 'UTF-8');
+$moduleAttribs['class'] = $module->position . ' card ' . htmlspecialchars((string) $params->get('moduleclass_sfx', ''), ENT_QUOTES, 'UTF-8');
+$headerTag              = htmlspecialchars((string) $params->get('header_tag', 'h3'), ENT_QUOTES, 'UTF-8');
+$headerClass            = htmlspecialchars((string) $params->get('header_class', ''), ENT_QUOTES, 'UTF-8');
 $headerAttribs          = [];
 $headerAttribs['class'] = $headerClass;
 
@@ -35,7 +35,7 @@ endif;
 
 // Add class from attributes if any
 if (!empty($attribs['class'])) {
-    $moduleAttribs['class'] .= ' ' . htmlspecialchars($attribs['class'], ENT_QUOTES, 'UTF-8');
+    $moduleAttribs['class'] .= ' ' . htmlspecialchars((string) $attribs['class'], ENT_QUOTES, 'UTF-8');
 }
 
 // Only add aria if the moduleTag is not a div
@@ -44,7 +44,7 @@ if ($moduleTag !== 'div') {
         $moduleAttribs['aria-labelledby'] = 'mod-' . $module->id;
         $headerAttribs['id']              = 'mod-' . $module->id;
     else :
-        $moduleAttribs['aria-label'] = htmlspecialchars($module->title, ENT_QUOTES, 'UTF-8');
+        $moduleAttribs['aria-label'] = htmlspecialchars((string) $module->title, ENT_QUOTES, 'UTF-8');
     endif;
 }
 

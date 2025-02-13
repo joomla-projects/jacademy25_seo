@@ -61,8 +61,8 @@ abstract class Menu
         ]))->getArgument('subject', $children);
 
         foreach ($children as $item) {
-            if (substr($item->link, 0, 8) === 'special:') {
-                $special = substr($item->link, 8);
+            if (str_starts_with((string) $item->link, 'special:')) {
+                $special = substr((string) $item->link, 8);
 
                 if ($special === 'language-forum') {
                     $item->link = 'index.php?option=com_admin&amp;view=help&amp;layout=langforum';
@@ -100,7 +100,7 @@ abstract class Menu
 
             // Exclude item with menu item option set to exclude from menu modules
             if ($itemParams->get('menu-permission')) {
-                $parts  = explode(';', $itemParams->get('menu-permission'));
+                $parts  = explode(';', (string) $itemParams->get('menu-permission'));
                 $action = $parts[0];
                 $asset  = $parts[1] ?? null;
 
@@ -148,7 +148,7 @@ abstract class Menu
             if ($item->element === 'com_categories') {
                 $assetName = $query['extension'] ?? 'com_content';
             } elseif ($item->element === 'com_fields') {
-                parse_str($item->link, $query);
+                parse_str((string) $item->link, $query);
 
                 // Only display Fields menus when enabled in the component
                 $createFields = null;
@@ -162,7 +162,7 @@ abstract class Menu
                     continue;
                 }
             } elseif ($item->element === 'com_workflow') {
-                parse_str($item->link, $query);
+                parse_str((string) $item->link, $query);
 
                 // Only display Workflow menus when enabled in the component
                 $workflow = null;
@@ -192,7 +192,7 @@ abstract class Menu
             ) {
                 continue;
             } elseif ($item->element === 'com_admin') {
-                parse_str($item->link, $query);
+                parse_str((string) $item->link, $query);
 
                 if (isset($query['view']) && $query['view'] === 'sysinfo' && !$user->authorise('core.admin')) {
                     $parent->removeChild($item);
@@ -203,11 +203,11 @@ abstract class Menu
                 $iconImage = $item->icon;
 
                 if ($iconImage) {
-                    if (substr($iconImage, 0, 6) === 'class:' && substr($iconImage, 6) === 'icon-home') {
+                    if (str_starts_with((string) $iconImage, 'class:') && substr((string) $iconImage, 6) === 'icon-home') {
                         $iconImage = '<span class="home-image icon-home" aria-hidden="true"></span>';
                         $iconImage .= '<span class="visually-hidden">' . Text::_('JDEFAULT') . '</span>';
-                    } elseif (substr($iconImage, 0, 6) === 'image:') {
-                        $iconImage = '&nbsp;<span class="badge bg-secondary">' . substr($iconImage, 6) . '</span>';
+                    } elseif (str_starts_with((string) $iconImage, 'image:')) {
+                        $iconImage = '&nbsp;<span class="badge bg-secondary">' . substr((string) $iconImage, 6) . '</span>';
                     }
 
                     $item->iconImage = $iconImage;

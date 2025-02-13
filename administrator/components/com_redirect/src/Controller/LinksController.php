@@ -126,7 +126,7 @@ class LinksController extends AdminController
         $this->checkToken();
 
         $batch_urls_request = $this->input->post->get('batch_urls', [], 'array');
-        $batch_urls_lines   = array_map('trim', explode("\n", $batch_urls_request[0]));
+        $batch_urls_lines   = array_map('trim', explode("\n", (string) $batch_urls_request[0]));
 
         $batch_urls = [];
 

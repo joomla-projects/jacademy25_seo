@@ -140,7 +140,7 @@ class OrderingField extends FormField
             $html[] = HTMLHelper::_('list.ordering', $this->name, $query, trim($attr), $this->value, $itemId ? 0 : 1, $this->id);
         }
 
-        return implode($html);
+        return implode('', $html);
     }
 
     /**
@@ -155,7 +155,7 @@ class OrderingField extends FormField
         $categoryId   = (int) $this->form->getValue('catid');
         $ucmType      = new UCMType();
         $ucmRow       = $ucmType->getType($ucmType->getTypeId($this->contentType));
-        $ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
+        $ucmMapCommon = json_decode((string) $ucmRow->field_mappings)->common;
 
         if (\is_object($ucmMapCommon)) {
             $ordering = $ucmMapCommon->core_ordering;
@@ -168,7 +168,7 @@ class OrderingField extends FormField
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);
         $query->select([$db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')])
-            ->from($db->quoteName(json_decode($ucmRow->table)->special->dbtable))
+            ->from($db->quoteName(json_decode((string) $ucmRow->table)->special->dbtable))
             ->where($db->quoteName('catid') . ' = :categoryId')
             ->order($db->quoteName('ordering'))
             ->bind(':categoryId', $categoryId, ParameterType::INTEGER);

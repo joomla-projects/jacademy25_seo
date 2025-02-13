@@ -31,7 +31,7 @@ class InvalidParameterExceptionHandler extends \Tobscure\JsonApi\Exception\Handl
      *
      * @since  4.0.0
      */
-    public function handle(\Exception $e)
+    public function handle(\Throwable $e)
     {
         $status = 400;
         $error  = ['title' => $e->getMessage()];

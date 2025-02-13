@@ -46,7 +46,7 @@ class ContactEmailSubjectRule extends FormRule
         $banned = $params->get('banned_subject');
 
         if ($banned) {
-            foreach (explode(';', $banned) as $item) {
+            foreach (explode(';', (string) $banned) as $item) {
                 $item = trim($item);
                 if ($item != '' && StringHelper::stristr($value, $item) !== false) {
                     return false;

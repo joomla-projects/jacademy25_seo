@@ -66,7 +66,7 @@ class FeedView extends BaseHtmlView
 
         // Configure the document description.
         if (!empty($explained)) {
-            $this->getDocument()->setDescription(html_entity_decode(strip_tags($explained), ENT_QUOTES, 'UTF-8'));
+            $this->getDocument()->setDescription(html_entity_decode(strip_tags((string) $explained), ENT_QUOTES, 'UTF-8'));
         }
 
         // Set the document link.

@@ -450,7 +450,7 @@ abstract class ToolbarButton
                     throw new \InvalidArgumentException(
                         \sprintf(
                             '%s::%s() miss first argument.',
-                            \get_called_class(),
+                            static::class,
                             $name
                         )
                     );
@@ -464,7 +464,7 @@ abstract class ToolbarButton
             \sprintf(
                 'Method %s() not found in class: %s',
                 $name,
-                \get_called_class()
+                static::class
             )
         );
     }
@@ -486,12 +486,7 @@ abstract class ToolbarButton
             return $accessors[array_search($name, $accessors, true)];
         }
 
-        // Getter with alias
-        if (isset($accessors[$name])) {
-            return $accessors[$name];
-        }
-
-        return false;
+        return $accessors[$name] ?? false;
     }
 
     /**

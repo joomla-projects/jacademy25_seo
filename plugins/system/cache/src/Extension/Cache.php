@@ -49,38 +49,6 @@ final class Cache extends CMSPlugin implements SubscriberInterface
     private $cache;
 
     /**
-     * The application's document factory interface
-     *
-     * @var   DocumentFactoryInterface
-     * @since 4.2.0
-     */
-    private $documentFactory;
-
-    /**
-     * Cache controller factory interface
-     *
-     * @var    CacheControllerFactoryInterface
-     * @since  4.2.0
-     */
-    private $cacheControllerFactory;
-
-    /**
-     * The application profiler, used when Debug Site is set to Yes in Global Configuration.
-     *
-     * @var    Profiler|null
-     * @since  4.2.0
-     */
-    private $profiler;
-
-    /**
-     * The frontend router, injected by the service provider.
-     *
-     * @var   SiteRouter|null
-     * @since 4.2.0
-     */
-    private $router;
-
-    /**
      * Constructor
      *
      * @param   DispatcherInterface              $dispatcher                 The object to observe
@@ -103,17 +71,32 @@ final class Cache extends CMSPlugin implements SubscriberInterface
     public function __construct(
         DispatcherInterface $dispatcher,
         array $config,
-        DocumentFactoryInterface $documentFactory,
-        CacheControllerFactoryInterface $cacheControllerFactory,
-        ?Profiler $profiler,
-        ?SiteRouter $router
+        /**
+         * The application's document factory interface
+         *
+         * @since 4.2.0
+         */
+        private readonly DocumentFactoryInterface $documentFactory,
+        /**
+         * Cache controller factory interface
+         *
+         * @since  4.2.0
+         */
+        private readonly CacheControllerFactoryInterface $cacheControllerFactory,
+        /**
+         * The application profiler, used when Debug Site is set to Yes in Global Configuration.
+         *
+         * @since  4.2.0
+         */
+        private readonly ?Profiler $profiler,
+        /**
+         * The frontend router, injected by the service provider.
+         *
+         * @since 4.2.0
+         */
+        private readonly ?SiteRouter $router
     ) {
         parent::__construct($dispatcher, $config);
-
-        $this->documentFactory        = $documentFactory;
-        $this->cacheControllerFactory = $cacheControllerFactory;
-        $this->profiler               = $profiler;
-        $this->router                 = $router;
     }
 
     /**
@@ -340,9 +323,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
             $exclusions       = str_replace(["\r\n", "\r"], "\n", $exclusions);
             $exclusions       = explode("\n", $exclusions);
             $exclusions       = array_map('trim', $exclusions);
-            $filterExpression = function ($x) {
-                return $x !== '';
-            };
+            $filterExpression = (fn($x) => $x !== '');
             $exclusions       = array_filter($exclusions, $filterExpression);
 
             // Gets the internal (non-SEF) and the external (possibly SEF) URIs.

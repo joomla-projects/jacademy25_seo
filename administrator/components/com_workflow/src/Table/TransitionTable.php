@@ -97,7 +97,7 @@ class TransitionTable extends Table
         $workflow = new WorkflowTable($this->getDbo(), $this->getDispatcher());
         $workflow->load($this->workflow_id);
 
-        $parts = explode('.', $workflow->extension);
+        $parts = explode('.', (string) $workflow->extension);
 
         $extension = array_shift($parts);
 
@@ -133,7 +133,7 @@ class TransitionTable extends Table
         $workflow = new WorkflowTable($this->getDbo(), $this->getDispatcher());
         $workflow->load($this->workflow_id);
 
-        $parts = explode('.', $workflow->extension);
+        $parts = explode('.', (string) $workflow->extension);
 
         $extension = array_shift($parts);
 

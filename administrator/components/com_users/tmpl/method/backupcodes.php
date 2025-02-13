@@ -24,7 +24,7 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 $cancelURL = Route::_('index.php?option=com_users&task=methods.display&user_id=' . $this->user->id);
 
 if (!empty($this->returnURL)) {
-    $cancelURL = $this->escape(base64_decode($this->returnURL));
+    $cancelURL = $this->escape(base64_decode((string) $this->returnURL));
 }
 
 if ($this->record->method != 'backupcodes') {

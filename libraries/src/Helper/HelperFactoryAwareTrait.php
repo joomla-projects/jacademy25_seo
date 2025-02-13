@@ -44,7 +44,7 @@ trait HelperFactoryAwareTrait
             return $this->helper;
         }
 
-        throw new \UnexpectedValueException('HelperFactory not set in ' . __CLASS__);
+        throw new \UnexpectedValueException('HelperFactory not set in ' . self::class);
     }
 
     /**

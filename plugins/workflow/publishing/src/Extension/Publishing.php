@@ -185,7 +185,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
 
         $form->setFieldAttribute($fieldname, 'type', 'spacer');
 
-        $label = '<span class="text-' . $textclass . '">' . htmlentities($text, ENT_COMPAT, 'UTF-8') . '</span>';
+        $label = '<span class="text-' . $textclass . '">' . htmlentities((string) $text, ENT_COMPAT, 'UTF-8') . '</span>';
         $form->setFieldAttribute($fieldname, 'label', Text::sprintf('PLG_WORKFLOW_PUBLISHING_PUBLISHED', $label));
 
         return true;
@@ -427,7 +427,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $parts = explode('.', $context);
+        $parts = explode('.', (string) $context);
 
         $component = $this->getApplication()->bootComponent($parts[0]);
 
@@ -457,7 +457,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $parts = explode('.', $subject->item_id);
+        $parts = explode('.', (string) $subject->item_id);
 
         $typeAlias = $parts[0] . (isset($parts[1]) ? '.' . $parts[1] : '');
 

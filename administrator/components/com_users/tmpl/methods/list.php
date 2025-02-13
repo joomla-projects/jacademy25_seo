@@ -34,7 +34,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
 ?>
 <div id="com-users-methods-list-container">
     <?php foreach ($this->methods as $methodName => $method) :
-        $methodClass = 'com-users-methods-list-method-name-' . htmlentities($method['name'])
+        $methodClass = 'com-users-methods-list-method-name-' . htmlentities((string) $method['name'])
             . ($this->defaultMethod == $methodName ? ' com-users-methods-list-method-default' : '');
         ?>
         <div class="com-users-methods-list-method <?php echo $methodClass?> <?php echo count($method['active']) ? 'com-users-methods-list-method-active' : '' ?>">
@@ -71,7 +71,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
                                 <div class="com-users-methods-list-method-record-info flex-grow-1 d-flex flex-column align-items-start gap-1">
                                     <?php if ($methodName === 'backupcodes' && $canAddEdit) : ?>
                                         <div class="alert alert-info mt-1 w-100">
-                                            <?php echo Text::sprintf('COM_USERS_MFA_BACKUPCODES_PRINT_PROMPT_HEAD', Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id), 'text-decoration-underline') ?>
+                                            <?php echo Text::sprintf('COM_USERS_MFA_BACKUPCODES_PRINT_PROMPT_HEAD', Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode((string) $this->returnURL)) : '') . '&user_id=' . $this->user->id), 'text-decoration-underline') ?>
                                         </div>
                                     <?php else : ?>
                                         <h4 class="com-users-methods-list-method-record-title-container mb-1 fs-3">
@@ -104,7 +104,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
                                 <div class="com-users-methods-list-method-record-actions my-2 d-flex flex-row flex-wrap justify-content-center align-content-center align-items-start">
                                     <?php if ($canAddEdit) : ?>
                                     <a class="com-users-methods-list-method-record-edit btn btn-secondary btn-sm mx-1 hasTooltip"
-                                       href="<?php echo Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
+                                       href="<?php echo Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode((string) $this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
                                        title="<?php echo Text::_('JACTION_EDIT') ?> <?php echo $this->escape($record->title); ?>">
                                         <span class="icon icon-pencil" aria-hidden="true"></span>
                                         <span class="visually-hidden"><?php echo Text::_('JACTION_EDIT') ?> <?php echo $this->escape($record->title); ?></span>
@@ -113,7 +113,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
 
                                     <?php if ($method['canDisable'] && $canDelete) : ?>
                                         <a class="com-users-methods-list-method-record-delete btn btn-danger btn-sm mx-1 hasTooltip"
-                                           href="<?php echo Route::_('index.php?option=com_users&task=method.delete&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id . '&' . Factory::getApplication()->getFormToken() . '=1')?>"
+                                           href="<?php echo Route::_('index.php?option=com_users&task=method.delete&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode((string) $this->returnURL)) : '') . '&user_id=' . $this->user->id . '&' . Factory::getApplication()->getFormToken() . '=1')?>"
                                            title="<?php echo Text::_('JACTION_DELETE') ?> <?php echo $this->escape($record->title); ?>">
                                             <span class="icon icon-trash" aria-hidden="true"></span>
                                             <span class="visually-hidden"><?php echo Text::_('JACTION_DELETE') ?> <?php echo $this->escape($record->title); ?></span>
@@ -128,7 +128,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
 
                 <?php if ($canAddEdit && (empty($method['active']) || $method['allowMultiple'])) : ?>
                     <div class="com-users-methods-list-method-addnew-container border-top pt-2">
-                        <a href="<?php echo Route::_('index.php?option=com_users&task=method.add&method=' . $this->escape(urlencode($method['name'])) . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
+                        <a href="<?php echo Route::_('index.php?option=com_users&task=method.add&method=' . $this->escape(urlencode((string) $method['name'])) . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode((string) $this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
                            class="com-users-methods-list-method-addnew btn btn-primary btn-sm"
                         >
                             <span class="icon-plus-2" aria-hidden="true"></span>

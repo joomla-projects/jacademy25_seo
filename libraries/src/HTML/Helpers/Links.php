@@ -65,7 +65,7 @@ abstract class Links
             $html[] = $layout->render('');
         }
 
-        return implode($html);
+        return implode('', $html);
     }
 
     /**
@@ -85,7 +85,7 @@ abstract class Links
             $html[] = HTMLHelper::_('links.link', $link);
         }
 
-        return implode($html);
+        return implode('', $html);
     }
 
     /**

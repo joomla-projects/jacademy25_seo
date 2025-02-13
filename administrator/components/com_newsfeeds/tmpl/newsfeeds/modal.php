@@ -85,11 +85,11 @@ $multilang = Multilanguage::isEnabled();
                     <?php
                     $lang = '';
                     if ($item->language && $multilang) {
-                        $tag = \strlen($item->language);
+                        $tag = \strlen((string) $item->language);
                         if ($tag == 5) {
-                            $lang = substr($item->language, 0, 2);
+                            $lang = substr((string) $item->language, 0, 2);
                         } elseif ($tag == 6) {
-                            $lang = substr($item->language, 0, 3);
+                            $lang = substr((string) $item->language, 0, 3);
                         }
                     }
 
@@ -112,7 +112,7 @@ $multilang = Multilanguage::isEnabled();
                                 . ' data-html="' . $this->escape($itemHtml) . '"';
                             ?>
                             <a href="javascript:void(0)" <?php echo $attribs; ?>
-                               onclick="if (window.parent && !window.parent.JoomlaExpectingPostMessage) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape($link); ?>', '<?php echo $this->escape($lang); ?>', null);">
+                               onclick="if (window.parent && !window.parent.JoomlaExpectingPostMessage) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes((string) $item->name)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape($link); ?>', '<?php echo $this->escape($lang); ?>', null);">
                             <?php echo $this->escape($item->name); ?></a>
                             <div class="small">
                                 <?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>

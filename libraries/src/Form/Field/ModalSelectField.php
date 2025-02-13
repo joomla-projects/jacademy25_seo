@@ -144,38 +144,22 @@ class ModalSelectField extends FormField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'select':
-                return $this->canDo['select'] ?? true;
-            case 'new':
-                return $this->canDo['new'] ?? false;
-            case 'edit':
-                return $this->canDo['edit'] ?? false;
-            case 'clear':
-                return $this->canDo['clear'] ?? true;
-            case 'urlSelect':
-                return $this->urls['select'] ?? '';
-            case 'urlNew':
-                return $this->urls['new'] ?? '';
-            case 'urlEdit':
-                return $this->urls['edit'] ?? '';
-            case 'urlCheckin':
-                return $this->urls['checkin'] ?? '';
-            case 'titleSelect':
-                return $this->modalTitles['select'] ?? '';
-            case 'titleNew':
-                return $this->modalTitles['new'] ?? '';
-            case 'titleEdit':
-                return $this->modalTitles['edit'] ?? '';
-            case 'iconSelect':
-                return $this->buttonIcons['select'] ?? '';
-            case 'sql_title_table':
-            case 'sql_title_column':
-            case 'sql_title_key':
-                return $this->$name;
-            default:
-                return parent::__get($name);
-        }
+        return match ($name) {
+            'select' => $this->canDo['select'] ?? true,
+            'new' => $this->canDo['new'] ?? false,
+            'edit' => $this->canDo['edit'] ?? false,
+            'clear' => $this->canDo['clear'] ?? true,
+            'urlSelect' => $this->urls['select'] ?? '',
+            'urlNew' => $this->urls['new'] ?? '',
+            'urlEdit' => $this->urls['edit'] ?? '',
+            'urlCheckin' => $this->urls['checkin'] ?? '',
+            'titleSelect' => $this->modalTitles['select'] ?? '',
+            'titleNew' => $this->modalTitles['new'] ?? '',
+            'titleEdit' => $this->modalTitles['edit'] ?? '',
+            'iconSelect' => $this->buttonIcons['select'] ?? '',
+            'sql_title_table', 'sql_title_column', 'sql_title_key' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**

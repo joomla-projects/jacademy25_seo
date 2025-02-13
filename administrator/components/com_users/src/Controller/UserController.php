@@ -77,7 +77,7 @@ class UserController extends FormController
         $result = parent::cancel();
 
         if ($return = $this->input->get('return', '', 'BASE64')) {
-            $return = base64_decode($return);
+            $return = base64_decode((string) $return);
 
             // Don't redirect to an external URL.
             if (!Uri::isInternal($return)) {
@@ -107,7 +107,7 @@ class UserController extends FormController
         $task   = $this->getTask();
 
         if ($task === 'save' && $return = $this->input->get('return', '', 'BASE64')) {
-            $return = base64_decode($return);
+            $return = base64_decode((string) $return);
 
             // Don't redirect to an external URL.
             if (!Uri::isInternal($return)) {

@@ -81,7 +81,7 @@ class Language
                     break;
                 }
             }
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             // We don't have a stemmer for the language
         }
     }
@@ -147,14 +147,14 @@ class Language
          */
         $input = StringHelper::strtolower($input);
         $input = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $input);
-        $input = preg_replace('#(^|\s)[+-,]+([\pL\pM]+)#mui', ' $1', $input);
-        $input = preg_replace('#([\pL\pM\pN]+)[+-.,]+(\s|$)#mui', '$1 ', $input);
-        $input = preg_replace('#([\pL\pM]+)[+.,]+([\pL\pM]+)#muiU', '$1 $2', $input);
-        $input = preg_replace('#(^|\s)[\'+-.,]+(\s|$)#mui', ' ', $input);
-        $input = preg_replace('#(^|\s)[\p{Pi}\p{Pf}]+(\s|$)#mui', ' ', $input);
-        $input = preg_replace('#[' . $quotes . ']+#mui', '\'', $input);
-        $input = preg_replace('#\s+#mui', ' ', $input);
-        $input = trim($input);
+        $input = preg_replace('#(^|\s)[+-,]+([\pL\pM]+)#mui', ' $1', (string) $input);
+        $input = preg_replace('#([\pL\pM\pN]+)[+-.,]+(\s|$)#mui', '$1 ', (string) $input);
+        $input = preg_replace('#([\pL\pM]+)[+.,]+([\pL\pM]+)#muiU', '$1 $2', (string) $input);
+        $input = preg_replace('#(^|\s)[\'+-.,]+(\s|$)#mui', ' ', (string) $input);
+        $input = preg_replace('#(^|\s)[\p{Pi}\p{Pf}]+(\s|$)#mui', ' ', (string) $input);
+        $input = preg_replace('#[' . $quotes . ']+#mui', '\'', (string) $input);
+        $input = preg_replace('#\s+#mui', ' ', (string) $input);
+        $input = trim((string) $input);
 
         // Explode the normalized string to get the terms.
         $terms = explode(' ', $input);

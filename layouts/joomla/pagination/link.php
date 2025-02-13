@@ -44,7 +44,7 @@ switch ((string) $item->text) {
 
     default:
         $icon = null;
-        $aria = Text::sprintf('JLIB_HTML_GOTO_PAGE', strtolower($item->text));
+        $aria = Text::sprintf('JLIB_HTML_GOTO_PAGE', strtolower((string) $item->text));
         break;
 }
 

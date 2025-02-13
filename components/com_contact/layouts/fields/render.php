@@ -30,7 +30,7 @@ if (!$context) {
     return;
 }
 
-$parts     = explode('.', $context);
+$parts     = explode('.', (string) $context);
 $component = $parts[0];
 $fields    = null;
 
@@ -48,7 +48,7 @@ if (!$fields || reset($fields)->context !== 'com_contact.mail') {
 // Loop through the fields and print them
 foreach ($fields as $field) {
     // If the value is empty do nothing
-    if (!strlen($field->value)) {
+    if (!strlen((string) $field->value)) {
         continue;
     }
 

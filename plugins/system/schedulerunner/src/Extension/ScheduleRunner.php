@@ -163,7 +163,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
         // Suppress all errors to avoid any output
         try {
             $this->runScheduler();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         ob_end_clean();
@@ -197,7 +197,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        if (!\strlen($hash) || $hash !== $this->getApplication()->getInput()->get('hash')) {
+        if (!\strlen((string) $hash) || $hash !== $this->getApplication()->getInput()->get('hash')) {
             throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 

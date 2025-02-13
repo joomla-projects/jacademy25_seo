@@ -228,7 +228,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         $this->explained = HTMLHelper::_('query.explained', $this->query);
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $this->params->get('pageclass_sfx', ''));
 
         // Check for layout override only if this is not the active menu item
         // If it is the active menu item, then the view and category id will match
@@ -293,7 +293,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
     protected function getLayoutFile($layout = null)
     {
         // Create and sanitize the file name.
-        $file = $this->_layout . '_' . preg_replace('/[^A-Z0-9_\.-]/i', '', $layout);
+        $file = $this->_layout . '_' . preg_replace('/[^A-Z0-9_\.-]/i', '', (string) $layout);
 
         // Check if the file exists.
         $filetofind = $this->_createFileName('template', ['name' => $file]);

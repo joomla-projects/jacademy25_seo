@@ -37,7 +37,7 @@ class LanguagesHelper
     {
         $filter = InputFilter::getInstance([], [], InputFilter::ONLY_BLOCK_DEFINED_TAGS, InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES);
 
-        return strtoupper($filter->clean($value, 'cmd'));
+        return strtoupper((string) $filter->clean($value, 'cmd'));
     }
 
     /**

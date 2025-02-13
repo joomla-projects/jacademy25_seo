@@ -76,7 +76,7 @@ class ComponentController extends FormController
         $form  = $model->getForm();
 
         // Make sure com_joomlaupdate and com_privacy can only be accessed by SuperUser
-        if (\in_array(strtolower($option), ['com_joomlaupdate', 'com_privacy'], true) && !$user->authorise('core.admin')) {
+        if (\in_array(strtolower((string) $option), ['com_joomlaupdate', 'com_privacy'], true) && !$user->authorise('core.admin')) {
             $this->setRedirect(Route::_('index.php', false), Text::_('JERROR_ALERTNOAUTHOR'), 'error');
         }
 
@@ -95,7 +95,7 @@ class ComponentController extends FormController
         $redirect = '';
 
         if (!empty($returnUri)) {
-            $redirect = '&return=' . urlencode($returnUri);
+            $redirect = '&return=' . urlencode((string) $returnUri);
         }
 
         // Validate the posted data.
@@ -162,7 +162,7 @@ class ComponentController extends FormController
                 $redirect = 'index.php?option=' . $option;
 
                 if (!empty($returnUri)) {
-                    $redirect = base64_decode($returnUri);
+                    $redirect = base64_decode((string) $returnUri);
                 }
 
                 // Don't redirect to an external URL.
@@ -198,7 +198,7 @@ class ComponentController extends FormController
         $redirect = 'index.php?option=' . $component;
 
         if (!empty($returnUri)) {
-            $redirect = base64_decode($returnUri);
+            $redirect = base64_decode((string) $returnUri);
         }
 
         // Don't redirect to an external URL.

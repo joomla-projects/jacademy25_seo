@@ -585,8 +585,8 @@ class UpdatesitesModel extends InstallerModel
         // Process search filter (update site id).
         $search = $this->getState('filter.search');
 
-        if (!empty($search) && stripos($search, 'id:') === 0) {
-            $uid = (int) substr($search, 3);
+        if (!empty($search) && stripos((string) $search, 'id:') === 0) {
+            $uid = (int) substr((string) $search, 3);
             $query->where($db->quoteName('s.update_site_id') . ' = :siteId')
                 ->bind(':siteId', $uid, ParameterType::INTEGER);
         }

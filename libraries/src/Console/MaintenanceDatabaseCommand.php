@@ -116,7 +116,7 @@ class MaintenanceDatabaseCommand extends AbstractCommand
                 $item['extension']->name,
                 $item['extension']->version_id,
                 $item['extension']->version,
-                strip_tags($item['errorsMessage'][0]) ?? '',
+                strip_tags((string) $item['errorsMessage'][0]) ?? '',
             ];
             $extInfo[] = [
                 '',

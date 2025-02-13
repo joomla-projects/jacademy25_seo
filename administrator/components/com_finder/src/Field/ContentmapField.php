@@ -63,7 +63,7 @@ class ContentmapField extends GroupedlistField
 
         try {
             $contentMap = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return [];
         }
 
@@ -109,7 +109,7 @@ class ContentmapField extends GroupedlistField
         foreach ($parents[$parent] as $item) {
             $levelPrefix = str_repeat('- ', $item->level - 1);
 
-            if (trim($item->text, '*') === 'Language') {
+            if (trim((string) $item->text, '*') === 'Language') {
                 $text = LanguageHelper::branchLanguageTitle($item->text);
             } else {
                 $key  = LanguageHelper::branchSingular($item->text);

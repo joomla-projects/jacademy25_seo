@@ -231,7 +231,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
         $instance = Table::getInstance('update');
         $instance->load($uid);
 
-        return trim($instance->detailsurl);
+        return trim((string) $instance->detailsurl);
     }
 
     /**
@@ -256,7 +256,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
             return '';
         }
 
-        return trim($downloadUrl->_data);
+        return trim((string) $downloadUrl->_data);
     }
 
     /**
@@ -408,7 +408,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
      */
     protected function compareLanguages($lang1, $lang2)
     {
-        return strcmp($lang1->name, $lang2->name);
+        return strcmp((string) $lang1->name, (string) $lang2->name);
     }
 
     /**

@@ -77,7 +77,7 @@ class FiltersModel extends ListModel
 
         // Check for a search filter.
         if ($search = $this->getState('filter.search')) {
-            $search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+            $search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim((string) $search), true) . '%'));
             $query->where($db->quoteName('a.title') . ' LIKE ' . $search);
         }
 

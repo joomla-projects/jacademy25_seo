@@ -193,7 +193,7 @@ class BannerModel extends BaseDatabaseModel
 
             try {
                 $this->_item = $cache->get($loader, [$id], md5(__METHOD__ . $id));
-            } catch (CacheExceptionInterface $e) {
+            } catch (CacheExceptionInterface) {
                 $this->_item = $loader($id);
             }
         }
@@ -214,7 +214,7 @@ class BannerModel extends BaseDatabaseModel
         $url  = $item->clickurl;
 
         // Check for links
-        if (!preg_match('#http[s]?://|index[2]?\.php#', $url)) {
+        if (!preg_match('#http[s]?://|index[2]?\.php#', (string) $url)) {
             $url = "http://$url";
         }
 

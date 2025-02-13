@@ -86,12 +86,12 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
                 $article->text = preg_replace($regex, '', $article->text);
             }
 
-            if (str_contains($article->text, 'loadmoduleid')) {
-                $article->text = preg_replace($regexmodid, '', $article->text);
+            if (str_contains((string) $article->text, 'loadmoduleid')) {
+                $article->text = preg_replace($regexmodid, '', (string) $article->text);
             }
 
-            if (str_contains($article->text, 'loadmodule')) {
-                $article->text = preg_replace($regexmod, '', $article->text);
+            if (str_contains((string) $article->text, 'loadmodule')) {
+                $article->text = preg_replace($regexmod, '', (string) $article->text);
             }
 
             return;
@@ -112,8 +112,8 @@ final class LoadModule extends CMSPlugin implements SubscriberInterface
                         $matcheslist[1] = $defaultStyle;
                     }
 
-                    $position = trim($matcheslist[0]);
-                    $style    = trim($matcheslist[1]);
+                    $position = trim((string) $matcheslist[0]);
+                    $style    = trim((string) $matcheslist[1]);
 
                     $output = $this->load($position, $style);
 

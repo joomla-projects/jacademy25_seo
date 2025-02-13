@@ -63,7 +63,7 @@ abstract class ModuleHelper
         }
 
         // If we didn't find it, and the name is mod_something, create a dummy object
-        if ($result === null && strpos($name, 'mod_') === 0) {
+        if ($result === null && str_starts_with($name, 'mod_')) {
             $result         = static::createDummyModule();
             $result->module = $name;
         }
@@ -183,7 +183,7 @@ abstract class ModuleHelper
         $basePath          = '';
 
         if ($paramsChromeStyle) {
-            $paramsChromeStyle   = explode('-', $paramsChromeStyle, 2);
+            $paramsChromeStyle   = explode('-', (string) $paramsChromeStyle, 2);
             $ChromeStyleTemplate = strtolower($paramsChromeStyle[0]);
             $attribs['style']    = $paramsChromeStyle[1];
 
@@ -226,7 +226,7 @@ abstract class ModuleHelper
             'attribs' => $attribs,
         ];
 
-        foreach (explode(' ', $attribs['style']) as $style) {
+        foreach (explode(' ', (string) $attribs['style']) as $style) {
             $moduleContent = LayoutHelper::render('chromes.' . $style, $displayData, $basePath);
 
             if ($moduleContent) {
@@ -279,7 +279,7 @@ abstract class ModuleHelper
         $app->scope = $module->module;
 
         // Get module path
-        $module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
+        $module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', (string) $module->module);
 
         $dispatcher = $app->bootModule($module->module, $app->getName())->getDispatcher($module, $app);
 
@@ -319,7 +319,7 @@ abstract class ModuleHelper
         $defaultLayout = $layout;
         $template      = $templateObj->template;
 
-        if (strpos($layout, ':') !== false) {
+        if (str_contains($layout, ':')) {
             // Get the template and file name from the string
             $temp          = explode(':', $layout);
             $template      = $temp[0] === '_' ? $template : $temp[0];
@@ -334,7 +334,7 @@ abstract class ModuleHelper
             $tPath = Path::check(JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php');
             $iPath = Path::check(JPATH_THEMES . '/' . $templateObj->parent . '/html/' . $module . '/' . $layout . '.php');
             $bPath = Path::check(JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // On error fallback to the default path
             return $dPath;
         }
@@ -482,7 +482,7 @@ abstract class ModuleHelper
             $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
                 ->createCacheController('callback', ['defaultgroup' => 'com_modules']);
 
-            $modules = $cache->get([$db, 'loadObjectList'], [], md5($cacheId), false);
+            $modules = $cache->get($db->loadObjectList(...), [], md5($cacheId), false);
         } catch (\RuntimeException $e) {
             $app->getLogger()->warning(
                 Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
@@ -531,9 +531,9 @@ abstract class ModuleHelper
                 continue;
             }
 
-            $module->name     = substr($module->module, 4);
+            $module->name     = substr((string) $module->module, 4);
             $module->style    = null;
-            $module->position = strtolower($module->position);
+            $module->position = strtolower((string) $module->position);
 
             $clean[$module->id] = $module;
         }

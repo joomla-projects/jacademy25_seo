@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Layout\LayoutHelper;
 
 $params  = $displayData->params;
-$images  = json_decode($displayData->images);
+$images  = json_decode((string) $displayData->images);
 
 if (empty($images->image_fulltext)) {
     return;

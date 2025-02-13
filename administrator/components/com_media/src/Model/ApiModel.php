@@ -170,7 +170,7 @@ class ApiModel extends BaseDatabaseModel
     {
         try {
             $file = $this->getFile($adapter, $path . '/' . $name);
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             // Do nothing
         }
 
@@ -220,7 +220,7 @@ class ApiModel extends BaseDatabaseModel
     {
         try {
             $file = $this->getFile($adapter, $path . '/' . $name);
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             // Do nothing
         }
 
@@ -487,7 +487,7 @@ class ApiModel extends BaseDatabaseModel
                 'trim',
                 explode(
                     ',',
-                    ComponentHelper::getParams('com_media')->get(
+                    (string) ComponentHelper::getParams('com_media')->get(
                         'image_extensions',
                         'bmp,gif,jpg,jpeg,png,webp,avif'
                     )
@@ -497,7 +497,7 @@ class ApiModel extends BaseDatabaseModel
                 'trim',
                 explode(
                     ',',
-                    ComponentHelper::getParams('com_media')->get(
+                    (string) ComponentHelper::getParams('com_media')->get(
                         'audio_extensions',
                         'mp3,m4a,mp4a,ogg'
                     )
@@ -507,7 +507,7 @@ class ApiModel extends BaseDatabaseModel
                 'trim',
                 explode(
                     ',',
-                    ComponentHelper::getParams('com_media')->get(
+                    (string) ComponentHelper::getParams('com_media')->get(
                         'video_extensions',
                         'mp4,mp4v,mpeg,mov,webm'
                     )
@@ -517,7 +517,7 @@ class ApiModel extends BaseDatabaseModel
                 'trim',
                 explode(
                     ',',
-                    ComponentHelper::getParams('com_media')->get(
+                    (string) ComponentHelper::getParams('com_media')->get(
                         'doc_extensions',
                         'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv'
                     )

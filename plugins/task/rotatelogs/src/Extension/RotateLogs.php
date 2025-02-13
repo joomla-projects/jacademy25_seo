@@ -103,7 +103,7 @@ final class RotateLogs extends CMSPlugin implements SubscriberInterface
                 foreach ($files as $file) {
                     try {
                         File::delete($logPath . '/' . $file);
-                    } catch (FilesystemException $exception) {
+                    } catch (FilesystemException) {
                     }
                 }
             } else {
@@ -146,7 +146,7 @@ final class RotateLogs extends CMSPlugin implements SubscriberInterface
 
         try {
             File::move($path . '/' . $filename, $rotatedFile);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
         }
     }
 
@@ -165,7 +165,7 @@ final class RotateLogs extends CMSPlugin implements SubscriberInterface
         $files    = Folder::files($path, '\.php$');
 
         foreach ($files as $file) {
-            $parts = explode('.', $file);
+            $parts = explode('.', (string) $file);
 
             /*
              * Rotated log file has this filename format [VERSION].[FILENAME].php. So if $parts has at least 3 elements

@@ -42,7 +42,7 @@ trait MVCFactoryAwareTrait
             return $this->mvcFactory;
         }
 
-        throw new \UnexpectedValueException('MVC Factory not set in ' . __CLASS__);
+        throw new \UnexpectedValueException('MVC Factory not set in ' . self::class);
     }
 
     /**

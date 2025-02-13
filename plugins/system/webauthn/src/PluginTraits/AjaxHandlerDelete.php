@@ -53,7 +53,7 @@ trait AjaxHandlerDelete
             return;
         }
 
-        $credentialId = base64_decode($credentialId);
+        $credentialId = base64_decode((string) $credentialId);
 
         if (empty($credentialId) || !$repository->has($credentialId)) {
             $event->addResult(false);
@@ -81,7 +81,7 @@ trait AjaxHandlerDelete
         // Delete the record
         try {
             $repository->remove($credentialId);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $event->addResult(false);
 
             return;

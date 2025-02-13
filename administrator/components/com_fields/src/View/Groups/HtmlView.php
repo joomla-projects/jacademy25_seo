@@ -144,10 +144,10 @@ class HtmlView extends BaseHtmlView
         $lang->load($component, JPATH_ADMINISTRATOR)
         || $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
-        $title = Text::sprintf('COM_FIELDS_VIEW_GROUPS_TITLE', Text::_(strtoupper($component)));
+        $title = Text::sprintf('COM_FIELDS_VIEW_GROUPS_TITLE', Text::_(strtoupper((string) $component)));
 
         // Prepare the toolbar.
-        ToolbarHelper::title($title, 'puzzle-piece fields ' . substr($component, 4) . '-groups');
+        ToolbarHelper::title($title, 'puzzle-piece fields ' . substr((string) $component, 4) . '-groups');
 
         if ($canDo->get('core.create')) {
             $toolbar->addNew('group.add');

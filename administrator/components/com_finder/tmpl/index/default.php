@@ -158,7 +158,7 @@ if (!$this->finderPlugins) {
                                 <?php endif; ?>
                                 </td>
                                 <td class="small break-word d-none d-md-table-cell">
-                                    <?php echo (strlen($item->url) > 80) ? substr($item->url, 0, 70) . '...' : $item->url; ?>
+                                    <?php echo (strlen((string) $item->url) > 80) ? substr((string) $item->url, 0, 70) . '...' : $item->url; ?>
                                 </td>
                             </tr>
                             <?php endforeach; ?>

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Layout\LayoutHelper;
 
 // Strip extension if given
-$icon = empty($displayData['icon']) ? 'dot-circle' : preg_replace('#\.[^ .]*$#', '', $displayData['icon']);
+$icon = empty($displayData['icon']) ? 'dot-circle' : preg_replace('#\.[^ .]*$#', '', (string) $displayData['icon']);
 ?>
 <h1 class="page-title">
     <?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => $icon]); ?>

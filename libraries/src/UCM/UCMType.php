@@ -168,7 +168,7 @@ class UCMType implements UCM
         $types = $this->db->loadObjectList();
 
         foreach ($types as $type) {
-            $tableFromType     = json_decode($type->table);
+            $tableFromType     = json_decode((string) $type->table);
             $tableNameFromType = $tableFromType->special->prefix . $tableFromType->special->type;
 
             if ($tableNameFromType === $tableName) {
@@ -223,7 +223,7 @@ class UCMType implements UCM
     public function fieldmapExpand($assoc = false)
     {
         if (!empty($this->type->field_mappings)) {
-            return $this->fieldmap = json_decode($this->type->field_mappings, $assoc);
+            return $this->fieldmap = json_decode((string) $this->type->field_mappings, $assoc);
         }
 
         return false;

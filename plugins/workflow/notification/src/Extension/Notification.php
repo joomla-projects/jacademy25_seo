@@ -47,14 +47,6 @@ final class Notification extends CMSPlugin implements SubscriberInterface
     protected $autoloadLanguage = true;
 
     /**
-     * The language factory.
-     *
-     * @var    LanguageFactoryInterface
-     * @since  4.4.0
-     */
-    private $languageFactory;
-
-    /**
      * Returns an array of events this subscriber will listen to.
      *
      * @return   array
@@ -79,11 +71,14 @@ final class Notification extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, LanguageFactoryInterface $languageFactory)
+    public function __construct(DispatcherInterface $dispatcher, array $config, /**
+     * The language factory.
+     *
+     * @since  4.4.0
+     */
+    private LanguageFactoryInterface $languageFactory)
     {
         parent::__construct($dispatcher, $config);
-
-        $this->languageFactory = $languageFactory;
     }
 
     /**

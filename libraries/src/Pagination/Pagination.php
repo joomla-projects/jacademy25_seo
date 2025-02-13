@@ -47,12 +47,6 @@ class Pagination
     public $total = null;
 
     /**
-     * @var    integer  Prefix used for request variables.
-     * @since  1.6
-     */
-    public $prefix = null;
-
-    /**
      * @var    integer  Value pagination object begins at
      * @since  3.0
      */
@@ -147,13 +141,15 @@ class Pagination
      *
      * @since   1.5
      */
-    public function __construct($total, $limitstart, $limit, $prefix = '', ?CMSApplication $app = null)
+    public function __construct($total, $limitstart, $limit, /**
+     * @since  1.6
+     */
+    public $prefix = '', ?CMSApplication $app = null)
     {
         // Value/type checking.
         $this->total      = (int) $total;
         $this->limitstart = (int) max($limitstart, 0);
         $this->limit      = (int) max($limit, 0);
-        $this->prefix     = $prefix;
         $this->app        = $app ?: Factory::getApplication();
 
         if ($this->limit > $this->total) {
@@ -453,7 +449,7 @@ class Pagination
     public function getPaginationLinks($layoutId = 'joomla.pagination.links', $options = [])
     {
         // Allow to receive a null layout
-        $layoutId = $layoutId ?? 'joomla.pagination.links';
+        $layoutId ??= 'joomla.pagination.links';
 
         $list = [
             'prefix'       => $this->prefix,

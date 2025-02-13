@@ -55,19 +55,11 @@ class ImageDocument extends Document
         // Get the image type
         $type = Factory::getApplication()->getInput()->get('type', 'png');
 
-        switch ($type) {
-            case 'jpg':
-            case 'jpeg':
-                $this->_mime = 'image/jpeg';
-                break;
-            case 'gif':
-                $this->_mime = 'image/gif';
-                break;
-            case 'png':
-            default:
-                $this->_mime = 'image/png';
-                break;
-        }
+        $this->_mime = match ($type) {
+            'jpg', 'jpeg' => 'image/jpeg',
+            'gif' => 'image/gif',
+            default => 'image/png',
+        };
 
         $this->_charset = null;
 

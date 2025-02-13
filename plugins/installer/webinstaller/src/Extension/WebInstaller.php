@@ -154,7 +154,7 @@ final class WebInstaller extends CMSPlugin implements SubscriberInterface
     private function isRTL()
     {
         if ($this->rtl === null) {
-            $this->rtl = strtolower($this->getApplication()->getDocument()->getDirection()) === 'rtl' ? 1 : 0;
+            $this->rtl = strtolower((string) $this->getApplication()->getDocument()->getDirection()) === 'rtl' ? 1 : 0;
         }
 
         return $this->rtl;
@@ -177,7 +177,7 @@ final class WebInstaller extends CMSPlugin implements SubscriberInterface
             if ((new UrlRule())->test($field, $installfrom) && preg_match('/\.xml\s*$/', $installfrom)) {
                 $update = new Update();
                 $update->loadFromXml($installfrom);
-                $package_url = trim($update->get('downloadurl', false)->_data);
+                $package_url = trim((string) $update->get('downloadurl', false)->_data);
 
                 if ($package_url) {
                     $installfrom = $package_url;

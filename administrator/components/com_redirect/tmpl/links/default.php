@@ -130,10 +130,10 @@ if ($pluginEnabled && $collectUrlsEnabled) {
                         <th scope="row" class="break-word">
                             <?php if ($canEdit) : ?>
                                 <a href="<?php echo Route::_('index.php?option=com_redirect&task=link.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->old_url); ?>">
-                                    <?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->old_url))); ?>
+                                    <?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode((string) $item->old_url))); ?>
                                 </a>
                             <?php else : ?>
-                                    <?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->old_url))); ?>
+                                    <?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode((string) $item->old_url))); ?>
                             <?php endif; ?>
                         </th>
                         <td class="small break-word">

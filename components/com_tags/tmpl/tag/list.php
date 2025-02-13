@@ -36,7 +36,7 @@ $htag = $this->params->get('show_page_heading') ? 'h2' : 'h1';
     <?php // We only show a tag description if there is a single tag. ?>
     <?php if (count($this->item) === 1 && ($this->params->get('tag_list_show_tag_image', 1) || $this->params->get('tag_list_show_tag_description', 1))) : ?>
         <div class="com-tags-tag-list__description category-desc">
-            <?php $images = json_decode($this->item[0]->images); ?>
+            <?php $images = json_decode((string) $this->item[0]->images); ?>
             <?php if ($this->params->get('tag_list_show_tag_image', 1) == 1 && !empty($images->image_fulltext)) : ?>
                 <?php echo HTMLHelper::_('image', $images->image_fulltext, ''); ?>
             <?php endif; ?>

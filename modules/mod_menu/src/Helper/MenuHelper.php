@@ -125,7 +125,7 @@ class MenuHelper
                             break;
 
                         case 'url':
-                            if ((strpos($item->link, 'index.php?') === 0) && (strpos($item->link, 'Itemid=') === false)) {
+                            if ((str_starts_with((string) $item->link, 'index.php?')) && (!str_contains((string) $item->link, 'Itemid='))) {
                                 // If this is an internal Joomla link, ensure the Itemid is set.
                                 $item->flink = $item->link . '&Itemid=' . $item->id;
                             }
@@ -150,7 +150,7 @@ class MenuHelper
                             break;
                     }
 
-                    if ((strpos($item->flink, 'index.php?') !== false) && strcasecmp(substr($item->flink, 0, 4), 'http')) {
+                    if ((str_contains((string) $item->flink, 'index.php?')) && strcasecmp(substr((string) $item->flink, 0, 4), 'http')) {
                         $item->flink = Route::_($item->flink, true, $itemParams->get('secure'));
                     } else {
                         $item->flink = Route::_($item->flink);
@@ -158,13 +158,13 @@ class MenuHelper
 
                     // We prevent the double encoding because for some reason the $item is shared for menu modules and we get double encoding
                     // when the cause of that is found the argument should be removed
-                    $item->title          = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8', false);
-                    $item->menu_icon      = htmlspecialchars($itemParams->get('menu_icon_css', ''), ENT_COMPAT, 'UTF-8', false);
-                    $item->anchor_css     = htmlspecialchars($itemParams->get('menu-anchor_css', ''), ENT_COMPAT, 'UTF-8', false);
-                    $item->anchor_title   = htmlspecialchars($itemParams->get('menu-anchor_title', ''), ENT_COMPAT, 'UTF-8', false);
-                    $item->anchor_rel     = htmlspecialchars($itemParams->get('menu-anchor_rel', ''), ENT_COMPAT, 'UTF-8', false);
-                    $item->menu_image     = htmlspecialchars($itemParams->get('menu_image', ''), ENT_COMPAT, 'UTF-8', false);
-                    $item->menu_image_css = htmlspecialchars($itemParams->get('menu_image_css', ''), ENT_COMPAT, 'UTF-8', false);
+                    $item->title          = htmlspecialchars((string) $item->title, ENT_COMPAT, 'UTF-8', false);
+                    $item->menu_icon      = htmlspecialchars((string) $itemParams->get('menu_icon_css', ''), ENT_COMPAT, 'UTF-8', false);
+                    $item->anchor_css     = htmlspecialchars((string) $itemParams->get('menu-anchor_css', ''), ENT_COMPAT, 'UTF-8', false);
+                    $item->anchor_title   = htmlspecialchars((string) $itemParams->get('menu-anchor_title', ''), ENT_COMPAT, 'UTF-8', false);
+                    $item->anchor_rel     = htmlspecialchars((string) $itemParams->get('menu-anchor_rel', ''), ENT_COMPAT, 'UTF-8', false);
+                    $item->menu_image     = htmlspecialchars((string) $itemParams->get('menu_image', ''), ENT_COMPAT, 'UTF-8', false);
+                    $item->menu_image_css = htmlspecialchars((string) $itemParams->get('menu_image_css', ''), ENT_COMPAT, 'UTF-8', false);
                 }
 
                 if (isset($items[$lastitem])) {

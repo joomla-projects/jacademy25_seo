@@ -52,14 +52,6 @@ final class Token extends CMSPlugin implements SubscriberInterface
     private $allowedAlgos = ['sha256', 'sha512'];
 
     /**
-     * The input filter
-     *
-     * @var    InputFilter
-     * @since  4.2.0
-     */
-    private $filter;
-
-    /**
      * Returns an array of events this subscriber will listen to.
      *
      * @return  array
@@ -80,11 +72,14 @@ final class Token extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, InputFilter $filter)
+    public function __construct(DispatcherInterface $dispatcher, array $config, /**
+     * The input filter
+     *
+     * @since  4.2.0
+     */
+    private InputFilter $filter)
     {
         parent::__construct($dispatcher, $config);
-
-        $this->filter = $filter;
     }
 
     /**
@@ -131,8 +126,8 @@ final class Token extends CMSPlugin implements SubscriberInterface
             $authHeader  = $this->getApplication()->getInput()->server->get('REDIRECT_HTTP_AUTHORIZATION', '', 'string');
         }
 
-        if (substr($authHeader, 0, 7) == 'Bearer ') {
-            $parts       = explode(' ', $authHeader, 2);
+        if (str_starts_with((string) $authHeader, 'Bearer ')) {
+            $parts       = explode(' ', (string) $authHeader, 2);
             $tokenString = trim($parts[1]);
             $tokenString = $this->filter->clean($tokenString, 'BASE64');
         }
@@ -147,9 +142,9 @@ final class Token extends CMSPlugin implements SubscriberInterface
         }
 
         // The token is a base64 encoded string. Make sure we can decode it.
-        $authString = @base64_decode($tokenString);
+        $authString = @base64_decode((string) $tokenString);
 
-        if (empty($authString) || (strpos($authString, ':') === false)) {
+        if (empty($authString) || (!str_contains($authString, ':'))) {
             return;
         }
 
@@ -163,7 +158,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        list($algo, $userId, $tokenHMAC) = $parts;
+        [$algo, $userId, $tokenHMAC] = $parts;
 
         /**
          * Verify the HMAC algorithm requested in the token string is allowed
@@ -180,7 +175,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
          */
         try {
             $siteSecret = $this->getApplication()->get('secret');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return;
         }
 
@@ -192,7 +187,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
         $referenceTokenData = $this->getTokenSeedForUser($userId);
         $referenceTokenData = empty($referenceTokenData) ? '' : $referenceTokenData;
         $referenceTokenData = base64_decode($referenceTokenData);
-        $referenceHMAC      = hash_hmac($algo, $referenceTokenData, $siteSecret);
+        $referenceHMAC      = hash_hmac($algo, $referenceTokenData, (string) $siteSecret);
 
         // Is the token enabled?
         $enabled = $this->isTokenEnabledForUser($userId);
@@ -282,7 +277,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
             $query->bind(':userId', $userId, ParameterType::INTEGER);
 
             return $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
     }
@@ -313,7 +308,7 @@ final class Token extends CMSPlugin implements SubscriberInterface
             $value = $db->setQuery($query)->loadResult();
 
             return $value == 1;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
     }

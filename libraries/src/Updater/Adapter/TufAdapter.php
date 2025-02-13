@@ -102,9 +102,7 @@ class TufAdapter extends UpdateAdapter
         }
 
         // We only want the latest version we support
-        usort($versions, function ($a, $b) {
-            return version_compare($b['version'], $a['version']);
-        });
+        usort($versions, fn($a, $b) => version_compare($b['version'], $a['version']));
 
         $constraintChecker = new ConstraintChecker();
 
@@ -161,7 +159,7 @@ class TufAdapter extends UpdateAdapter
 
         try {
             $values = $resolver->resolve($values);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

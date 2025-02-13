@@ -159,7 +159,7 @@ class ComponentHelper
 
             // Each group the user is in could have different filtering properties.
             $filterData = $filters->$groupId;
-            $filterType = strtoupper($filterData->filter_type);
+            $filterType = strtoupper((string) $filterData->filter_type);
 
             if ($filterType === 'NH') {
                 // Maximum HTML filtering.
@@ -169,8 +169,8 @@ class ComponentHelper
             } else {
                 // Forbidden list or allowed list.
                 // Preprocess the tags and attributes.
-                $tags           = explode(',', $filterData->filter_tags);
-                $attributes     = explode(',', $filterData->filter_attributes);
+                $tags           = explode(',', (string) $filterData->filter_tags);
+                $attributes     = explode(',', (string) $filterData->filter_attributes);
                 $tempTags       = [];
                 $tempAttributes = [];
 
@@ -408,7 +408,7 @@ class ComponentHelper
 
         try {
             static::$components = $cache->get($loader, [], __METHOD__);
-        } catch (CacheExceptionInterface $e) {
+        } catch (CacheExceptionInterface) {
             static::$components = $loader();
         }
 
@@ -446,7 +446,7 @@ class ComponentHelper
     {
         $reflect = new \ReflectionClass($object);
 
-        if (!$reflect->getNamespaceName() || \get_class($object) === ComponentDispatcher::class || \get_class($object) === ApiDispatcher::class) {
+        if (!$reflect->getNamespaceName() || $object::class === ComponentDispatcher::class || $object::class === ApiDispatcher::class) {
             return 'com_' . strtolower($alternativeName);
         }
 

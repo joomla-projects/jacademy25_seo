@@ -202,7 +202,7 @@ class Session extends BaseSession
          * This is no longer the case in Joomla 4 and will be converted
          * when saving new values in `self::set()`
          */
-        if (strpos($name, '.') !== false && parent::has('__' . $name)) {
+        if (str_contains($name, '.') && parent::has('__' . $name)) {
             return parent::get('__' . $name, $default);
         }
 
@@ -281,7 +281,7 @@ class Session extends BaseSession
          * This is no longer the case in Joomla 4 and will be converted
          * when saving new values in `self::set()`
          */
-        if (strpos($name, '.') !== false && parent::has('__' . $name)) {
+        if (str_contains($name, '.') && parent::has('__' . $name)) {
             return true;
         }
 
@@ -305,7 +305,7 @@ class Session extends BaseSession
 
             if (!empty($args[0])) {
                 @trigger_error(
-                    'Using ' . __METHOD__ . '() to remove a single element from the session is deprecated.  Use ' . __CLASS__ . '::remove() instead.',
+                    'Using ' . __METHOD__ . '() to remove a single element from the session is deprecated.  Use ' . self::class . '::remove() instead.',
                     E_USER_DEPRECATED
                 );
 

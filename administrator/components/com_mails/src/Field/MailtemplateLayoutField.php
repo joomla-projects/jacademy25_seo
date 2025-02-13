@@ -99,7 +99,7 @@ class MailtemplateLayoutField extends FormField
 
                     foreach ($files as $file) {
                         // Add an option to the template group
-                        $value = basename($file, '.php');
+                        $value = basename((string) $file, '.php');
                         $text  = $lang->hasKey($key = strtoupper('TPL_' . $template->element . '_MAILTEMPLATE_LAYOUT_' . $value))
                                     ? Text::_($key) : $value;
                         $groups[$template->name]['items'][] = HTMLHelper::_('select.option', $template->element . ':' . $value, $text);
@@ -126,6 +126,6 @@ class MailtemplateLayoutField extends FormField
             ['id' => $this->id, 'group.id' => 'id', 'list.attr' => $attr, 'list.select' => $selected]
         );
 
-        return implode($html);
+        return implode('', $html);
     }
 }

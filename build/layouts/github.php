@@ -1,12 +1,12 @@
 <?php
 
-$version = $version ?? '5.0.0'; // set in the build script by extracting it from the Version class
-$majorVersion = $majorVersion ?? substr($version, 0, strpos($version, '.'));
+$version ??= '5.0.0'; // set in the build script by extracting it from the Version class
+$majorVersion ??= substr($version, 0, strpos($version, '.'));
 $previousVersion = $previousRelease ?? '4.4.0'; // Last patch release
 $previousMajorVersion = substr($previousVersion, 0, strpos($previousVersion, '.'));
 $previousMajorMinorVersion = $previousMajorVersion . '.4';
-$tagVersion = $tagVersion ?? $version; // Set in the build script by extracting it from git
-$githubContent = $githubContent ?? []; // set by build script
+$tagVersion ??= $version; // Set in the build script by extracting it from git
+$githubContent ??= []; // set by build script
 
 $contributors = 'INSERT_HERE';
 $pullRequests = 'INSERT_HERE';
@@ -26,13 +26,13 @@ foreach (['FULL', 'UPGRADE', 'MINOR', 'POINT'] as $type) {
 
     $table[$type] = '';
     foreach($githubContent[$type] as $packageName => $hashes) {
-        if (str_ends_with($packageName, '.zip')) {
+        if (str_ends_with((string) $packageName, '.zip')) {
             $table[$type] .= "| [ZIP Archive (.zip)]";
-        } else if (str_ends_with($packageName, '.tar.gz')) {
+        } else if (str_ends_with((string) $packageName, '.tar.gz')) {
             $table[$type] .= "| [GNU Zip Archive (.tar.gz)]";
-        } else if (str_ends_with($packageName, '.tar.bz2')) {
+        } else if (str_ends_with((string) $packageName, '.tar.bz2')) {
             $table[$type] .= "| [Bzip2 Archive (.tar.zst)]";
-        } else if (str_ends_with($packageName, '.tar.zst')) {
+        } else if (str_ends_with((string) $packageName, '.tar.zst')) {
             $table[$type] .= "| [Zstandard Archive (.tar.zst)]";
         } else {
             // Unknown file types
@@ -42,9 +42,7 @@ foreach (['FULL', 'UPGRADE', 'MINOR', 'POINT'] as $type) {
     }
 }
 
-$echo = function($item) use ($table) {
-    return $table[$item] ?? '';
-};
+$echo = (fn($item) => $table[$item] ?? '');
 
 
 // Release Information

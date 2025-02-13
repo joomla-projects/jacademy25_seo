@@ -133,7 +133,7 @@ class FieldTable extends Table implements CurrentUserInterface
     public function check()
     {
         // Check for valid name
-        if (trim($this->title) == '') {
+        if (trim((string) $this->title) == '') {
             $this->setError(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
 
             return false;
@@ -229,7 +229,7 @@ class FieldTable extends Table implements CurrentUserInterface
      */
     protected function _getAssetName()
     {
-        $contextArray = explode('.', $this->context);
+        $contextArray = explode('.', (string) $this->context);
 
         return $contextArray[0] . '.field.' . (int) $this->id;
     }
@@ -267,7 +267,7 @@ class FieldTable extends Table implements CurrentUserInterface
      */
     protected function _getAssetParentId(?Table $table = null, $id = null)
     {
-        $contextArray = explode('.', $this->context);
+        $contextArray = explode('.', (string) $this->context);
         $component    = $contextArray[0];
 
         if ($this->group_id) {

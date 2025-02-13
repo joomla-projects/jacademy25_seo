@@ -107,10 +107,10 @@ class StreamString
      */
     public function stream_open($path, $mode, $options, &$openedPath)
     {
-        $this->currentString = &StringController::getRef(str_replace('string://', '', $path));
+        $this->currentString = &(new StringController())->getRef(str_replace('string://', '', $path));
 
         if ($this->currentString) {
-            $this->len  = \strlen($this->currentString);
+            $this->len  = \strlen((string) $this->currentString);
             $this->pos  = 0;
             $this->stat = $this->url_stat($path, 0);
 
@@ -151,7 +151,7 @@ class StreamString
     public function url_stat($path, $flags = 0)
     {
         $now    = time();
-        $string = &StringController::getRef(str_replace('string://', '', $path));
+        $string = &(new StringController())->getRef(str_replace('string://', '', $path));
         $stat   = [
             'dev'     => 0,
             'ino'     => 0,
@@ -160,12 +160,12 @@ class StreamString
             'uid'     => 0,
             'gid'     => 0,
             'rdev'    => 0,
-            'size'    => \strlen($string),
+            'size'    => \strlen((string) $string),
             'atime'   => $now,
             'mtime'   => $now,
             'ctime'   => $now,
             'blksize' => '512',
-            'blocks'  => ceil(\strlen($string) / 512),
+            'blocks'  => ceil(\strlen((string) $string) / 512),
         ];
 
         return $stat;
@@ -301,4 +301,4 @@ class StreamString
     }
 }
 
-stream_wrapper_register('string', '\\Joomla\\CMS\\Filesystem\\Streams\\StreamString') or die('StreamString Wrapper Registration Failed');
+stream_wrapper_register('string', \Joomla\CMS\Filesystem\Streams\StreamString::class) or die('StreamString Wrapper Registration Failed');

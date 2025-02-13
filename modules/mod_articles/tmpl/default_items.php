@@ -35,8 +35,8 @@ if ($params->get('articles_layout') == 1) {
                             <<?php echo $item_heading; ?> class="mod-articles-title" itemprop="name">
                                 <?php if ($params->get('link_titles') == 1) : ?>
                                     <?php $attributes = ['class' => 'mod-articles-link ' . $item->active, 'itemprop' => 'url']; ?>
-                                    <?php $link = htmlspecialchars($item->link, ENT_COMPAT, 'UTF-8', false); ?>
-                                    <?php $title = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8', false); ?>
+                                    <?php $link = htmlspecialchars((string) $item->link, ENT_COMPAT, 'UTF-8', false); ?>
+                                    <?php $title = htmlspecialchars((string) $item->title, ENT_COMPAT, 'UTF-8', false); ?>
                                     <?php echo HTMLHelper::_('link', $link, $title, $attributes); ?>
                                 <?php else : ?>
                                     <?php echo $item->title; ?>

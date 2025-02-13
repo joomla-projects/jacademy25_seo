@@ -130,7 +130,7 @@ class HtmlView extends BaseHtmlView
             $currentLink = $active->link;
 
             // If the current view is the active item and a newsfeed view for this feed, then the menu item params take priority
-            if (strpos($currentLink, 'view=newsfeed') && strpos($currentLink, '&id=' . (string) $item->id)) {
+            if (strpos((string) $currentLink, 'view=newsfeed') && strpos((string) $currentLink, '&id=' . (string) $item->id)) {
                 // $item->params are the newsfeed params, $temp are the menu item params
                 // Merge so that the menu item params take priority
                 $newsfeed_params->merge($temp);
@@ -180,9 +180,7 @@ class HtmlView extends BaseHtmlView
         try {
             $feed         = new FeedFactory();
             $this->rssDoc = $feed->getFeed($item->link);
-        } catch (\InvalidArgumentException $e) {
-            $msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
-        } catch (\RuntimeException $e) {
+        } catch (\InvalidArgumentException|\RuntimeException) {
             $msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
         }
 
@@ -197,7 +195,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $params->get('pageclass_sfx', ''));
 
         $this->params = $params;
         $this->state  = $state;

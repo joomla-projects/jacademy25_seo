@@ -17,7 +17,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\WebAsset\WebAssetManager;
 
 ?>
-<nav class="mod-breadcrumbs__wrapper" aria-label="<?php echo htmlspecialchars($module->title, ENT_QUOTES, 'UTF-8'); ?>">
+<nav class="mod-breadcrumbs__wrapper" aria-label="<?php echo htmlspecialchars((string) $module->title, ENT_QUOTES, 'UTF-8'); ?>">
     <ol class="mod-breadcrumbs breadcrumb px-3 py-2">
         <?php if ($params->get('showHere', 1)) : ?>
             <li class="mod-breadcrumbs__here float-start">

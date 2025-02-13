@@ -296,7 +296,7 @@ class LibraryAdapter extends InstallerAdapter
         $this->parent->removeFiles($this->getManifest()->media);
         $this->parent->removeFiles($this->getManifest()->languages);
 
-        $elementParts = explode('/', $this->extension->element);
+        $elementParts = explode('/', (string) $this->extension->element);
 
         // Delete empty vendor folders
         if (2 === \count($elementParts)) {
@@ -498,7 +498,7 @@ class LibraryAdapter extends InstallerAdapter
 
         try {
             return $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_LIB_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
             return false;

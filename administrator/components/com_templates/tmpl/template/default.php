@@ -117,7 +117,7 @@ if ($this->type == 'font') {
                 <?php elseif ($this->type == 'file') : ?>
                     <div class="row">
                         <div class="col-md-12" id="override-pane">
-                            <?php $overrideCheck = explode(DIRECTORY_SEPARATOR, $this->source->filename); ?>
+                            <?php $overrideCheck = explode(DIRECTORY_SEPARATOR, (string) $this->source->filename); ?>
                             <?php if (!empty($this->source->coreFile)) : ?>
                                 <h2><?php echo Text::_('COM_TEMPLATES_FILE_OVERRIDE_PANE'); ?></h2>
                             <?php endif; ?>
@@ -175,10 +175,10 @@ if ($this->type == 'font') {
                         <ul class="nav flex-column well">
                             <?php foreach ($this->archive as $file) : ?>
                                 <li>
-                                    <?php if (substr($file, -1) === DIRECTORY_SEPARATOR) : ?>
+                                    <?php if (substr((string) $file, -1) === DIRECTORY_SEPARATOR) : ?>
                                         <span class="icon-folder icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
                                     <?php endif; ?>
-                                    <?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
+                                    <?php if (substr((string) $file, -1) != DIRECTORY_SEPARATOR) : ?>
                                         <span class="icon-file icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
                                     <?php endif; ?>
                                 </li>
@@ -188,7 +188,7 @@ if ($this->type == 'font') {
                         <?php echo HTMLHelper::_('form.token'); ?>
                     </form>
                 <?php elseif ($this->type == 'image') : ?>
-                    <legend><?php echo $this->escape(basename($this->image['address'])); ?></legend>
+                    <legend><?php echo $this->escape(basename((string) $this->image['address'])); ?></legend>
                     <img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" style="max-width: 100%">
                     <form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post" name="adminForm" id="adminForm">
                         <fieldset class="adminform">

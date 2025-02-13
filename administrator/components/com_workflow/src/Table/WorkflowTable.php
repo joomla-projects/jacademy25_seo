@@ -129,7 +129,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
             return false;
         }
 
-        if (trim($this->title) === '') {
+        if (trim((string) $this->title) === '') {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_WORKFLOW'));
 
             return false;
@@ -262,7 +262,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
     {
         $k = $this->_tbl_key;
 
-        $parts = explode('.', $this->extension);
+        $parts = explode('.', (string) $this->extension);
 
         $extension = array_shift($parts);
 
@@ -295,7 +295,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
     {
         $assetId = null;
 
-        $parts = explode('.', $this->extension);
+        $parts = explode('.', (string) $this->extension);
 
         $extension = array_shift($parts);
 

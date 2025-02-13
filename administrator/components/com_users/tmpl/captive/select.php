@@ -52,7 +52,7 @@ $shownMethods = [];
                href="<?php echo Route::_('index.php?option=com_users&view=captive&record_id=' . $record->id)?>">
                 <div class="com-users-methods-list-method-image">
                 <img src="<?php echo Uri::root() . $this->getModel()->getMethodImage($record->method) ?>"
-                     alt="<?php echo $this->escape(strip_tags($record->title)) ?>"
+                     alt="<?php echo $this->escape(strip_tags((string) $record->title)) ?>"
                      class="img-fluid" />
                 </div>
                 <?php if (!$this->allowEntryBatching || !$allowEntryBatching) : ?>

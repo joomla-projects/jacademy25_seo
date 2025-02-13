@@ -98,7 +98,7 @@ class Database implements ServiceProviderInterface
                         ];
 
                         foreach (['cipher', 'ca', 'key', 'cert'] as $value) {
-                            $confVal = trim($conf->get('dbssl' . $value, ''));
+                            $confVal = trim((string) $conf->get('dbssl' . $value, ''));
 
                             if ($confVal !== '') {
                                 $options['ssl'][$value] = $confVal;

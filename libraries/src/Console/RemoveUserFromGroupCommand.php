@@ -214,7 +214,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
         }
 
         $groupList = [];
-        $option    = explode(',', $option);
+        $option    = explode(',', (string) $option);
 
         foreach ($option as $group) {
             $groupId = $this->getGroupId($group);

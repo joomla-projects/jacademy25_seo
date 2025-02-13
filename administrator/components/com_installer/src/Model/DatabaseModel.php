@@ -131,7 +131,7 @@ class DatabaseModel extends InstallerModel
             $errorMessages = [];
             $errorCount    = 0;
 
-            if (strcmp($result->element, 'joomla') === 0) {
+            if (strcmp((string) $result->element, 'joomla') === 0) {
                 $result->element = 'com_admin';
 
                 if (!$this->getDefaultTextFilters()) {
@@ -380,8 +380,8 @@ class DatabaseModel extends InstallerModel
         // Process search filter (update site id).
         $search = $this->getState('filter.search');
 
-        if (!empty($search) && stripos($search, 'id:') === 0) {
-            $ids = (int) substr($search, 3);
+        if (!empty($search) && stripos((string) $search, 'id:') === 0) {
+            $ids = (int) substr((string) $search, 3);
             $query->where($db->quoteName('schemas.extension_id') . ' = :eid')
                 ->bind(':eid', $ids, ParameterType::INTEGER);
         }
@@ -479,7 +479,7 @@ class DatabaseModel extends InstallerModel
 
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 
@@ -497,7 +497,7 @@ class DatabaseModel extends InstallerModel
      */
     public function compareUpdateVersion($extension)
     {
-        $updateVersion = json_decode($extension->manifest_cache)->version;
+        $updateVersion = json_decode((string) $extension->manifest_cache)->version;
 
         if ($extension->element === 'com_admin') {
             $extensionVersion = JVERSION;
@@ -553,7 +553,7 @@ class DatabaseModel extends InstallerModel
         foreach ($errors as $line => $error) {
             $key             = 'COM_INSTALLER_MSG_DATABASE_' . $error->queryType;
             $messages        = $error->msgElements;
-            $file            = basename($error->file);
+            $file            = basename((string) $error->file);
             $message0        = $messages[0] ?? ' ';
             $message1        = $messages[1] ?? ' ';
             $message2        = $messages[2] ?? ' ';

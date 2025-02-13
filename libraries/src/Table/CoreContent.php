@@ -86,13 +86,13 @@ class CoreContent extends Table implements CurrentUserInterface
             return false;
         }
 
-        if (trim($this->core_title) === '') {
+        if (trim((string) $this->core_title) === '') {
             $this->setError(Text::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
 
             return false;
         }
 
-        if (trim($this->core_alias) === '') {
+        if (trim((string) $this->core_alias) === '') {
             $this->core_alias = $this->core_title;
         }
 

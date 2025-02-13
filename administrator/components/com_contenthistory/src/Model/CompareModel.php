@@ -71,7 +71,7 @@ class CompareModel extends ListModel
         // Get the first history record's content type record so we can check ACL
         /** @var ContentType $contentTypeTable */
         $contentTypeTable = $this->getTable('ContentType');
-        $typeAlias        = explode('.', $table1->item_id);
+        $typeAlias        = explode('.', (string) $table1->item_id);
         array_pop($typeAlias);
         $typeAlias        = implode('.', $typeAlias);
 
@@ -171,7 +171,7 @@ class CompareModel extends ListModel
                 /** @var ContentType $contentTypeTable */
                 $contentTypeTable = $this->getTable('ContentType');
 
-                $typeAlias        = explode('.', $record->item_id);
+                $typeAlias        = explode('.', (string) $record->item_id);
                 $id               = array_pop($typeAlias);
                 $typeAlias        = implode('.', $typeAlias);
                 $contentTypeTable->load(['type_alias' => $typeAlias]);

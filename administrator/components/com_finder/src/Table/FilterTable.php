@@ -84,7 +84,7 @@ class FilterTable extends Table implements CurrentUserInterface
             return false;
         }
 
-        if (trim($this->alias) === '') {
+        if (trim((string) $this->alias) === '') {
             $this->alias = $this->title;
         }
 

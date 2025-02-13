@@ -102,7 +102,7 @@ class JoomlaInstallerScript
         if ($action === 'update') {
             // Get the version we are updating from
             if (!empty($installer->extension->manifest_cache)) {
-                $manifestValues = json_decode($installer->extension->manifest_cache, true);
+                $manifestValues = json_decode((string) $installer->extension->manifest_cache, true);
 
                 if (\array_key_exists('version', $manifestValues)) {
                     $this->fromVersion = $manifestValues['version'];
@@ -187,7 +187,7 @@ class JoomlaInstallerScript
             return;
         }
 
-        $params = json_decode($params, true);
+        $params = json_decode((string) $params, true);
 
         // Reset the last run parameter
         if (isset($params['lastrun'])) {
@@ -3070,7 +3070,7 @@ class JoomlaInstallerScript
             return false;
         }
 
-        $params = json_decode($params, true);
+        $params = json_decode((string) $params, true);
 
         // If there are no toolbars there is nothing to migrate
         if (!isset($params['configuration']['toolbars'])) {
@@ -3169,7 +3169,7 @@ class JoomlaInstallerScript
                 $tourItem->load($item->id);
 
                 // Tour follows Joomla naming convention
-                if (str_starts_with($tourItem->title, 'COM_GUIDEDTOURS_TOUR_') && str_ends_with($tourItem->title, '_TITLE')) {
+                if (str_starts_with((string) $tourItem->title, 'COM_GUIDEDTOURS_TOUR_') && str_ends_with((string) $tourItem->title, '_TITLE')) {
                     $uidTitle = 'joomla_' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $tourItem->title);
 
                     // Remove the last _TITLE part
@@ -3177,9 +3177,9 @@ class JoomlaInstallerScript
                     if ($pos !== false) {
                         $uidTitle = substr($uidTitle, 0, $pos);
                     }
-                } elseif (preg_match('#COM_(\w+)_TOUR_#', $tourItem->title) && str_ends_with($tourItem->title, '_TITLE')) {
+                } elseif (preg_match('#COM_(\w+)_TOUR_#', (string) $tourItem->title) && str_ends_with((string) $tourItem->title, '_TITLE')) {
                     // Tour follows component naming pattern
-                    $uidTitle = preg_replace('#COM_(\w+)_TOUR_#', '$1.', $tourItem->title);
+                    $uidTitle = preg_replace('#COM_(\w+)_TOUR_#', '$1.', (string) $tourItem->title);
 
                     // Remove the last _TITLE part
                     $pos = strrpos($uidTitle, "_TITLE");
@@ -3306,7 +3306,7 @@ class JoomlaInstallerScript
         try {
             // Using hard-coded string because a new language string would not be available in all cases
             Log::add('Fixing permissions for files and folders.', Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 

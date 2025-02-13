@@ -47,7 +47,7 @@ class CategoryFeedView extends AbstractView
 
         $ucmType      = new UCMType();
         $ucmRow       = $ucmType->getTypeByAlias($contentType);
-        $ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
+        $ucmMapCommon = json_decode((string) $ucmRow->field_mappings)->common;
         $createdField = null;
         $titleField   = null;
 
@@ -91,7 +91,7 @@ class CategoryFeedView extends AbstractView
 
             // Strip html from feed item title
             if ($titleField) {
-                $title = htmlspecialchars($item->$titleField, ENT_QUOTES, 'UTF-8');
+                $title = htmlspecialchars((string) $item->$titleField, ENT_QUOTES, 'UTF-8');
                 $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
             } else {
                 $title = '';

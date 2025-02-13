@@ -34,7 +34,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
                     <?php if ($params->get('dropdownimage', 1) && ($language->image)) : ?>
                         <?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name') ? '' : $language->title_native, null, true); ?>
                     <?php endif; ?>
-                    <?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
+                    <?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper((string) $language->sef); ?>
                 </button>
             <?php endif; ?>
         <?php endforeach; ?>
@@ -49,11 +49,11 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
             ?>
             <?php if (!$language->active) : ?>
                 <li>
-                    <a <?php echo $lbl; ?> href="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
+                    <a <?php echo $lbl; ?> href="<?php echo htmlspecialchars_decode(htmlspecialchars((string) $language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
                         <?php if ($params->get('dropdownimage', 1) && ($language->image)) : ?>
                             <?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name') ? '' : $language->title_native, null, true); ?>
                         <?php endif; ?>
-                        <?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
+                        <?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper((string) $language->sef); ?>
                     </a>
                 </li>
             <?php elseif ($params->get('show_active', 1)) : ?>
@@ -63,7 +63,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
                         <?php if ($params->get('dropdownimage', 1) && ($language->image)) : ?>
                             <?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name') ? '' : $language->title_native, null, true); ?>
                         <?php endif; ?>
-                        <?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
+                        <?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper((string) $language->sef); ?>
                     </a>
                 </li>
             <?php endif; ?>
@@ -82,15 +82,15 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
         ?>
         <?php if (!$language->active) : ?>
             <li>
-                <a <?php echo $lbl; ?> href="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
+                <a <?php echo $lbl; ?> href="<?php echo htmlspecialchars_decode(htmlspecialchars((string) $language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
                     <?php if ($params->get('image', 1)) : ?>
                         <?php if ($language->image) : ?>
                             <?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, ['title' => $language->title_native], true); ?>
                         <?php else : ?>
-                            <span class="label" title="<?php echo $language->title_native; ?>"><?php echo strtoupper($language->sef); ?></span>
+                            <span class="label" title="<?php echo $language->title_native; ?>"><?php echo strtoupper((string) $language->sef); ?></span>
                         <?php endif; ?>
                     <?php else : ?>
-                        <?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
+                        <?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper((string) $language->sef); ?>
                     <?php endif; ?>
                 </a>
             </li>
@@ -102,10 +102,10 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
                         <?php if ($language->image) : ?>
                             <?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, ['title' => $language->title_native], true); ?>
                         <?php else : ?>
-                            <span class="badge bg-secondary" title="<?php echo $language->title_native; ?>"><?php echo strtoupper($language->sef); ?></span>
+                            <span class="badge bg-secondary" title="<?php echo $language->title_native; ?>"><?php echo strtoupper((string) $language->sef); ?></span>
                         <?php endif; ?>
                     <?php else : ?>
-                        <?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
+                        <?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper((string) $language->sef); ?>
                     <?php endif; ?>
                 </a>
             </li>

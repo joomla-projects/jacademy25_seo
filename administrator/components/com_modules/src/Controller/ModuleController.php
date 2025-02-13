@@ -84,7 +84,7 @@ class ModuleController extends FormController
         $this->app->setUserState('com_modules.add.module.params', null);
 
         if ($return = $this->input->get('return', '', 'BASE64')) {
-            $return = base64_decode($return);
+            $return = base64_decode((string) $return);
 
             // Don't redirect to an external URL.
             if (!Uri::isInternal($return)) {
@@ -316,7 +316,7 @@ class ModuleController extends FormController
 
                 $orders2[$order->position]++;
                 $ord   = $orders2[$order->position];
-                $title = Text::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($order->title, ENT_QUOTES, 'UTF-8'));
+                $title = Text::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars((string) $order->title, ENT_QUOTES, 'UTF-8'));
 
                 $html[] = $order->position . ',' . $ord . ',' . $title;
             }

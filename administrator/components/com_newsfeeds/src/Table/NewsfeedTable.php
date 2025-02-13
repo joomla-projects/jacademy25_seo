@@ -85,7 +85,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
         }
 
         // Check for valid name.
-        if (trim($this->name) == '') {
+        if (trim((string) $this->name) == '') {
             $this->setError(Text::_('COM_NEWSFEEDS_WARNING_PROVIDE_VALID_NAME'));
 
             return false;

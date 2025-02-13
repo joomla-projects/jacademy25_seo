@@ -54,7 +54,7 @@ class MysqlChangeItem extends ChangeItem
         $find        = ['#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#'];
         $replace     = ['($3)', '$1'];
         $updateQuery = preg_replace($find, $replace, $this->updateQuery);
-        $wordArray   = preg_split("~'[^']*'(*SKIP)(*F)|\s+~u", trim($updateQuery, "; \t\n\r\0\x0B"));
+        $wordArray   = preg_split("~'[^']*'(*SKIP)(*F)|\s+~u", trim((string) $updateQuery, "; \t\n\r\0\x0B"));
 
         // First, make sure we have an array of at least 5 elements
         // if not, we can't make a check query for this one
@@ -275,40 +275,16 @@ class MysqlChangeItem extends ChangeItem
     {
         $uType = strtoupper(str_replace(';', '', $type));
 
-        switch ($uType) {
-            case 'BIGINT UNSIGNED':
-            case 'INT UNSIGNED':
-            case 'MEDIUMINT UNSIGNED':
-            case 'SMALLINT UNSIGNED':
-            case 'TINYINT UNSIGNED':
-                // Eg for "INT": "UPPER(type) REGEXP '^INT([(][0-9]+[)])? UNSIGNED$'"
-                $typeCheck = 'UPPER(type) REGEXP ' . $this->db->quote('^' . str_replace(' ', '([(][0-9]+[)])? ', $uType) . '$');
-                break;
-
-            case 'BIGINT':
-            case 'INT':
-            case 'MEDIUMINT':
-            case 'SMALLINT':
-            case 'TINYINT':
-                // Eg for "INT": "UPPER(type) REGEXP '^INT([(][0-9]+[)])?$'"
-                $typeCheck = 'UPPER(type) REGEXP ' . $this->db->quote('^' . $uType . '([(][0-9]+[)])?$');
-                break;
-
-            case 'MEDIUMTEXT':
-                $typeCheck = 'UPPER(type) IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')';
-                break;
-
-            case 'TEXT':
-                $typeCheck = 'UPPER(type) IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')';
-                break;
-
-            case 'TINYTEXT':
-                $typeCheck = 'UPPER(type) IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')';
-                break;
-
-            default:
-                $typeCheck = 'UPPER(type) = ' . $this->db->quote($uType);
-        }
+        $typeCheck = match ($uType) {
+            // Eg for "INT": "UPPER(type) REGEXP '^INT([(][0-9]+[)])? UNSIGNED$'"
+            'BIGINT UNSIGNED', 'INT UNSIGNED', 'MEDIUMINT UNSIGNED', 'SMALLINT UNSIGNED', 'TINYINT UNSIGNED' => 'UPPER(type) REGEXP ' . $this->db->quote('^' . str_replace(' ', '([(][0-9]+[)])? ', $uType) . '$'),
+            // Eg for "INT": "UPPER(type) REGEXP '^INT([(][0-9]+[)])?$'"
+            'BIGINT', 'INT', 'MEDIUMINT', 'SMALLINT', 'TINYINT' => 'UPPER(type) REGEXP ' . $this->db->quote('^' . $uType . '([(][0-9]+[)])?$'),
+            'MEDIUMTEXT' => 'UPPER(type) IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')',
+            'TEXT' => 'UPPER(type) IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')',
+            'TINYTEXT' => 'UPPER(type) IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')',
+            default => 'UPPER(type) = ' . $this->db->quote($uType),
+        };
 
         return $typeCheck;
     }
@@ -329,7 +305,7 @@ class MysqlChangeItem extends ChangeItem
 
         // Create the check
         if ($index !== false) {
-            if ($index == 0 || strtolower($changesArray[$index - 1]) !== 'not') {
+            if ($index == 0 || strtolower((string) $changesArray[$index - 1]) !== 'not') {
                 return ' `null` = ' . $this->db->quote('YES');
             }
 
@@ -354,7 +330,7 @@ class MysqlChangeItem extends ChangeItem
         // Skip types that do not support default values
         $type = strtolower($type);
 
-        if (substr($type, -4) === 'text' || substr($type, -4) === 'blob') {
+        if (str_ends_with($type, 'text') || str_ends_with($type, 'blob')) {
             return false;
         }
 
@@ -363,7 +339,7 @@ class MysqlChangeItem extends ChangeItem
 
         // Create the check
         if ($index !== false) {
-            if (strtolower($changesArray[$index + 1]) === 'null') {
+            if (strtolower((string) $changesArray[$index + 1]) === 'null') {
                 return ' `default` IS NULL';
             }
 

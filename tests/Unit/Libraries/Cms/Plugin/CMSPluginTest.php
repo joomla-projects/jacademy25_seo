@@ -256,7 +256,7 @@ class CMSPluginTest extends UnitTestCase
         };
         $plugin->registerListeners();
 
-        $this->assertEquals([[$plugin, 'unit']], $dispatcher->getListeners('test'));
+        $this->assertEquals([$plugin->unit(...)], $dispatcher->getListeners('test'));
     }
 
     /**

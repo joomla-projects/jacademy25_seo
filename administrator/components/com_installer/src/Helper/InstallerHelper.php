@@ -47,7 +47,7 @@ class InstallerHelper
         $options = [];
 
         foreach ($types as $type) {
-            $options[] = HTMLHelper::_('select.option', $type, Text::_('COM_INSTALLER_TYPE_' . strtoupper($type)));
+            $options[] = HTMLHelper::_('select.option', $type, Text::_('COM_INSTALLER_TYPE_' . strtoupper((string) $type)));
         }
 
         return $options;
@@ -159,9 +159,7 @@ class InstallerHelper
             $extensions
         );
         $arrayValues = array_map(
-            function (object $entry): int {
-                return $entry->extension_id;
-            },
+            fn(object $entry): int => $entry->extension_id,
             $extensions
         );
 
@@ -264,7 +262,7 @@ class InstallerHelper
 
         $prefix = (string) $installXmlFile->dlid['prefix'];
         $suffix = (string) $installXmlFile->dlid['suffix'];
-        $value  = substr($extension->get('extra_query'), \strlen($prefix));
+        $value  = substr((string) $extension->get('extra_query'), \strlen($prefix));
 
         if ($suffix) {
             $value = substr($value, 0, -\strlen($suffix));
@@ -324,7 +322,7 @@ class InstallerHelper
 
         try {
             $extension = new CMSObject($db->setQuery($query)->loadAssoc());
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return [
                 'supported' => false,
                 'valid'     => false,
@@ -362,9 +360,7 @@ class InstallerHelper
         };
         $extensions = array_filter($extensions, $filterClosure);
 
-        $mapClosure = function (CMSObject $extension) {
-            return $extension->get('update_site_id');
-        };
+        $mapClosure = (fn(CMSObject $extension) => $extension->get('update_site_id'));
 
         return array_map($mapClosure, $extensions);
     }
@@ -403,9 +399,7 @@ class InstallerHelper
         $extensions = array_filter($extensions, $filterClosure);
 
         // Return only the update site IDs
-        $mapClosure = function (CMSObject $extension) {
-            return $extension->get('update_site_id');
-        };
+        $mapClosure = (fn(CMSObject $extension) => $extension->get('update_site_id'));
 
         return array_map($mapClosure, $extensions);
     }
@@ -481,7 +475,7 @@ class InstallerHelper
             }
 
             return $items;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return [];
         }
     }

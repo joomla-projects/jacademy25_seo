@@ -20,7 +20,7 @@ use Joomla\CMS\Object\CMSObject;
  *
  * @since  2.5.0
  */
-class Rules
+class Rules implements \Stringable
 {
     /**
      * A named array.
@@ -188,7 +188,7 @@ class Rules
      *
      * @since   1.7.0
      */
-    public function __toString()
+    public function __toString(): string
     {
         $temp = [];
 
@@ -198,6 +198,6 @@ class Rules
             }
         }
 
-        return json_encode($temp, JSON_FORCE_OBJECT);
+        return (string) json_encode($temp, JSON_FORCE_OBJECT);
     }
 }

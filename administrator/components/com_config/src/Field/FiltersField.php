@@ -125,7 +125,7 @@ class FiltersField extends FormField
                 . ' name="' . $this->name . '[' . $group->value . '][filter_tags]"'
                 . ' type="text"'
                 . ' id="' . $this->id . $group->value . '_filter_tags" class="novalidate form-control"'
-                . ' value="' . htmlspecialchars($group_filter['filter_tags'], ENT_QUOTES) . '"'
+                . ' value="' . htmlspecialchars((string) $group_filter['filter_tags'], ENT_QUOTES) . '"'
                 . '>';
             $html[] = '		</td>';
             $html[] = '		<td>';
@@ -135,7 +135,7 @@ class FiltersField extends FormField
                 . ' name="' . $this->name . '[' . $group->value . '][filter_attributes]"'
                 . ' type="text"'
                 . ' id="' . $this->id . $group->value . '_filter_attributes" class="novalidate form-control"'
-                . ' value="' . htmlspecialchars($group_filter['filter_attributes'], ENT_QUOTES) . '"'
+                . ' value="' . htmlspecialchars((string) $group_filter['filter_attributes'], ENT_QUOTES) . '"'
                 . '>';
             $html[] = '		</td>';
             $html[] = '	</tr>';

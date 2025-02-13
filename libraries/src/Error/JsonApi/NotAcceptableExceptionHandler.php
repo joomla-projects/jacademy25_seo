@@ -48,7 +48,7 @@ class NotAcceptableExceptionHandler implements ExceptionHandlerInterface
      *
      * @since  4.0.0
      */
-    public function handle(\Exception $e)
+    public function handle(\Throwable $e)
     {
         $status = 406;
         $error  = ['title' => 'Not Acceptable'];

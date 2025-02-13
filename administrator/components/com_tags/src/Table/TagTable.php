@@ -85,7 +85,7 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
         }
 
         // Check for valid name.
-        if (trim($this->title) == '') {
+        if (trim((string) $this->title) == '') {
             throw new \UnexpectedValueException('The title is empty');
         }
 

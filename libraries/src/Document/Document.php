@@ -980,8 +980,8 @@ class Document
                 \sprintf(
                     'The $date parameter of %1$s must be a string or a %2$s instance, a %3$s was given.',
                     __METHOD__ . '()',
-                    'Joomla\\CMS\\Date\\Date',
-                    \is_object($date) ? (\get_class($date) . ' instance') : \gettype($date)
+                    \Joomla\CMS\Date\Date::class,
+                    \is_object($date) ? ($date::class . ' instance') : \gettype($date)
                 )
             );
         }
@@ -1056,19 +1056,12 @@ class Document
      */
     public function setLineEnd($style)
     {
-        switch ($style) {
-            case 'win':
-                $this->_lineEnd = "\15\12";
-                break;
-            case 'unix':
-                $this->_lineEnd = "\12";
-                break;
-            case 'mac':
-                $this->_lineEnd = "\15";
-                break;
-            default:
-                $this->_lineEnd = $style;
-        }
+        $this->_lineEnd = match ($style) {
+            'win' => "\15\12",
+            'unix' => "\12",
+            'mac' => "\15",
+            default => $style,
+        };
 
         return $this;
     }

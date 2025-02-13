@@ -401,7 +401,7 @@ class PluginAdapter extends InstallerAdapter
     protected function setupUninstall()
     {
         // Get the plugin folder so we can properly build the plugin path
-        if (trim($this->extension->folder) === '') {
+        if (trim((string) $this->extension->folder) === '') {
             throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_FOLDER_FIELD_EMPTY'));
         }
 

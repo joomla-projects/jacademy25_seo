@@ -65,7 +65,7 @@ trait GlobalFilters
 
             // Each group the user is in could have different filtering properties.
             $filterData = $filters->$groupId;
-            $filterType = strtoupper($filterData->filter_type);
+            $filterType = strtoupper((string) $filterData->filter_type);
 
             if ($filterType === 'NH') {
                 // Maximum HTML filtering.
@@ -77,8 +77,8 @@ trait GlobalFilters
                  * Forbidden or allowed lists.
                  * Preprocess the tags and attributes.
                  */
-                $tags           = explode(',', $filterData->filter_tags);
-                $attributes     = explode(',', $filterData->filter_attributes);
+                $tags           = explode(',', (string) $filterData->filter_tags);
+                $attributes     = explode(',', (string) $filterData->filter_attributes);
                 $tempTags       = [];
                 $tempAttributes = [];
 

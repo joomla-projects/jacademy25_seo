@@ -101,11 +101,11 @@ $n         = count($this->items);
                 <?php endif; ?>
 
                 <?php if ($this->params->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
-                    <?php $images = json_decode($item->images); ?>
+                    <?php $images = json_decode((string) $item->images); ?>
                     <span class="tag-body">
                         <?php if (!empty($images->image_intro)) : ?>
                             <?php $imgfloat = empty($images->float_intro) ? $this->params->get('float_intro') : $images->float_intro; ?>
-                            <div class="float-<?php echo htmlspecialchars($imgfloat, ENT_QUOTES, 'UTF-8'); ?> item-image">
+                            <div class="float-<?php echo htmlspecialchars((string) $imgfloat, ENT_QUOTES, 'UTF-8'); ?> item-image">
                                 <?php $imageOptions = []; ?>
                                 <?php if ($images->image_intro_caption) : ?>
                                         <?php $imageOptions['title'] = $images->image_intro_caption; ?>

@@ -23,13 +23,13 @@ function insertDefineOrDie($file, $keyword)
             // we only test the first 200 lines for a jexec die
             break;
         }
-        if (substr($line, 0, 4) === 'use ') {
+        if (str_starts_with($line, 'use ')) {
             $lastUse = $k;
         }
-        if (substr($line, 0, 10) === 'namespace ') {
+        if (str_starts_with($line, 'namespace ')) {
             $lastNamespace = $k;
         }
-        if ($lastComment === 0 && substr(trim($line), -2) === '*/') {
+        if ($lastComment === 0 && str_ends_with(trim($line), '*/')) {
             $lastComment = $k;
         }
 
@@ -159,7 +159,7 @@ $skipped    = [];
 $nojexec    = [];
 $jexecfound = [];
 foreach ($output as $file) {
-    if (substr($file, -4) !== '.php') {
+    if (!str_ends_with($file, '.php')) {
         continue;
     }
 

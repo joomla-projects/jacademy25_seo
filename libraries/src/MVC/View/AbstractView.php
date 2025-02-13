@@ -172,11 +172,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
             }
         }
 
-        if (isset($this->$property)) {
-            return $this->$property;
-        }
-
-        return $default;
+        return $this->$property ?? $default;
     }
 
     /**
@@ -246,7 +242,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
                     $this->_name = strtolower(substr($viewNamespace, $pos + 1));
                 }
             } else {
-                $className = \get_class($this);
+                $className = static::class;
                 $viewPos   = strpos($className, 'View');
 
                 if ($viewPos != false) {
@@ -276,7 +272,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
             return $this->document;
         }
 
-        throw new \UnexpectedValueException('Document not set in ' . __CLASS__);
+        throw new \UnexpectedValueException('Document not set in ' . self::class);
     }
 
     /**
@@ -308,7 +304,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
     {
         if (!$this->dispatcher) {
             @trigger_error(
-                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', self::class),
                 E_USER_DEPRECATED
             );
 

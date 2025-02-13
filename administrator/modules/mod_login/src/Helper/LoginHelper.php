@@ -47,9 +47,7 @@ class LoginHelper
 
         usort(
             $languages,
-            function ($a, $b) {
-                return strcmp($a['value'], $b['value']);
-            }
+            fn($a, $b) => strcmp((string) $a['value'], (string) $b['value'])
         );
 
         // Fix wrongly set parentheses in RTL languages

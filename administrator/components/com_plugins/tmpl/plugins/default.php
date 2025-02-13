@@ -77,7 +77,7 @@ if ($saveOrder) {
                     </tr>
                 </thead>
                 <tbody <?php if ($saveOrder) :
-                    ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
+                    ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>" data-nested="true"<?php
                        endif; ?>>
                 <?php foreach ($this->items as $i => $item) :
                     $ordering   = ($listOrder == 'ordering');

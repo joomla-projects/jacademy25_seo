@@ -300,9 +300,9 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         }
 
         // Check for a controller.task command.
-        if (strpos($command, '.') !== false) {
+        if (str_contains((string) $command, '.')) {
             // Explode the controller.task command.
-            list($type, $task) = explode('.', $command);
+            [$type, $task] = explode('.', (string) $command);
 
             // Define the controller filename and path.
             $file       = self::createFileName('controller', ['name' => $type, 'format' => $format]);
@@ -391,7 +391,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         }
 
         // Determine the methods to exclude from the base class.
-        $xMethods = get_class_methods('\\Joomla\\CMS\\MVC\\Controller\\BaseController');
+        $xMethods = get_class_methods(\Joomla\CMS\MVC\Controller\BaseController::class);
 
         // Get the public methods in this class using reflection.
         $r        = new \ReflectionClass($this);
@@ -438,7 +438,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                 // User-defined prefix
                 $this->model_prefix = $config['model_prefix'];
             } else {
-                $this->model_prefix = ucfirst($this->name) . 'Model';
+                $this->model_prefix = ucfirst((string) $this->name) . 'Model';
             }
         }
 
@@ -528,7 +528,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
-                    \get_class($this->app)
+                    $this->app::class
                 )
             );
         }
@@ -642,7 +642,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
-                    \get_class($this->app)
+                    $this->app::class
                 )
             );
         }
@@ -690,7 +690,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                 /** @var \Joomla\CMS\Cache\Controller\ViewController $cache */
                 $cache = Factory::getCache($option, 'view');
                 $cache->get($view, 'display');
-            } catch (CacheExceptionInterface $exception) {
+            } catch (CacheExceptionInterface) {
                 $view->display();
             }
         } else {
@@ -750,7 +750,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         if (!$prefix) {
             if ($this->factory instanceof LegacyFactory) {
                 $prefix = $this->model_prefix;
-            } elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0) {
+            } elseif (!empty($config['base_path']) && str_starts_with(Path::clean($config['base_path']), JPATH_ADMINISTRATOR)) {
                 // When the frontend uses an administrator model
                 $prefix = 'Administrator';
             } else {
@@ -800,7 +800,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         if (empty($this->name)) {
             $r = null;
 
-            if (!preg_match('/(.*)Controller/i', \get_class($this), $r)) {
+            if (!preg_match('/(.*)Controller/i', static::class, $r)) {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
             }
 
@@ -861,7 +861,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         if (!$prefix) {
             if ($this->factory instanceof LegacyFactory) {
                 $prefix = $this->getName() . 'View';
-            } elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0) {
+            } elseif (!empty($config['base_path']) && str_starts_with(Path::clean($config['base_path']), JPATH_ADMINISTRATOR)) {
                 // When the front uses an administrator view
                 $prefix = 'Administrator';
             } else {
@@ -899,7 +899,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
-                    \get_class($this->app)
+                    $this->app::class
                 )
             );
         }
@@ -942,7 +942,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
-                    \get_class($this->app)
+                    $this->app::class
                 )
             );
         }
@@ -1028,7 +1028,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
-                    \get_class($this->app)
+                    $this->app::class
                 )
             );
         }
@@ -1133,7 +1133,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
-                    \get_class($this->app)
+                    $this->app::class
                 )
             );
         }
@@ -1231,7 +1231,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
     {
         if (!$this->dispatcher) {
             @trigger_error(
-                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                \sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', self::class),
                 E_USER_DEPRECATED
             );
 

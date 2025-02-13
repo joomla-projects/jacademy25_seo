@@ -37,7 +37,7 @@ use Joomla\CMS\Language\Text;
                             <?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?>
                         </a>
                     <?php else : ?>
-                        <?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?>
+                        <?php echo htmlspecialchars((string) $user->name, ENT_QUOTES, 'UTF-8'); ?>
                     <?php endif; ?>
                 </th>
                 <td>

@@ -216,15 +216,15 @@ class SysinfoModel extends BaseDatabaseModel
     protected function cleanSectionPrivateData($sectionValues)
     {
         if (!\is_array($sectionValues)) {
-            if (strstr($sectionValues, JPATH_ROOT)) {
+            if (strstr((string) $sectionValues, JPATH_ROOT)) {
                 $sectionValues = 'xxxxxx';
             }
 
-            return \strlen($sectionValues) ? 'xxxxxx' : '';
+            return \strlen((string) $sectionValues) ? 'xxxxxx' : '';
         }
 
         foreach ($sectionValues as $setting => $value) {
-            $sectionValues[$setting] = \strlen($value) ? 'xxxxxx' : '';
+            $sectionValues[$setting] = \strlen((string) $value) ? 'xxxxxx' : '';
         }
 
         return $sectionValues;
@@ -413,7 +413,7 @@ class SysinfoModel extends BaseDatabaseModel
         $phpInfo = ob_get_clean();
         preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpInfo, $output);
         $output         = preg_replace('#<table[^>]*>#', '<table class="table">', $output[1][0]);
-        $output         = preg_replace('#(\w),(\w)#', '\1, \2', $output);
+        $output         = preg_replace('#(\w),(\w)#', '\1, \2', (string) $output);
         $output         = str_replace('<hr />', '', $output);
         $output         = str_replace('<div class="text-center">', '', $output);
         $output         = preg_replace('#<tr class="h">(.*)</tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output);
@@ -466,7 +466,7 @@ class SysinfoModel extends BaseDatabaseModel
         } catch (\Exception $e) {
             try {
                 Log::add(Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), Log::WARNING, 'jerror');
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 Factory::getApplication()->enqueueMessage(
                     Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
                     'warning'
@@ -481,7 +481,7 @@ class SysinfoModel extends BaseDatabaseModel
         }
 
         foreach ($extensions as $extension) {
-            if (\strlen($extension->name) == 0) {
+            if (\strlen((string) $extension->name) == 0) {
                 continue;
             }
 
@@ -636,7 +636,7 @@ class SysinfoModel extends BaseDatabaseModel
         $this->addDirectory('configuration.php', JPATH_CONFIGURATION . '/configuration.php');
 
         // Is there a cache path in configuration.php?
-        if ($cache_path = trim($registry->get('cache_path', ''))) {
+        if ($cache_path = trim((string) $registry->get('cache_path', ''))) {
             // Frontend and backend use same directory for caching.
             $this->addDirectory($cache_path, $cache_path, 'COM_ADMIN_CACHE_DIRECTORY');
         } else {
@@ -721,8 +721,8 @@ class SysinfoModel extends BaseDatabaseModel
     {
         $html  = strip_tags($html, '<h2><th><td>');
         $html  = preg_replace('/<th[^>]*>([^<]+)<\/th>/', '<info>\1</info>', $html);
-        $html  = preg_replace('/<td[^>]*>([^<]+)<\/td>/', '<info>\1</info>', $html);
-        $t     = preg_split('/(<h2[^>]*>[^<]+<\/h2>)/', $html, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $html  = preg_replace('/<td[^>]*>([^<]+)<\/td>/', '<info>\1</info>', (string) $html);
+        $t     = preg_split('/(<h2[^>]*>[^<]+<\/h2>)/', (string) $html, -1, PREG_SPLIT_DELIM_CAPTURE);
         $r     = [];
         $count = \count($t);
         $p1    = '<info>([^<]+)<\/info>';

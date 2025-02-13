@@ -23,20 +23,17 @@ use Joomla\Database\DatabaseInterface;
 class UserFactory implements UserFactoryInterface
 {
     /**
-     * The database.
-     *
-     * @var  DatabaseInterface
-     */
-    private $db;
-
-    /**
      * UserFactory constructor.
      *
      * @param   DatabaseInterface  $db  The database
      */
-    public function __construct(DatabaseInterface $db)
+    public function __construct(
+        /**
+         * The database.
+         */
+        private readonly DatabaseInterface $db
+    )
     {
-        $this->db = $db;
     }
 
     /**

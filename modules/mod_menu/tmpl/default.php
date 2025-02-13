@@ -19,7 +19,7 @@ $wa->registerAndUseScript('mod_menu', 'mod_menu/menu.min.js', [], ['type' => 'mo
 $id = '';
 
 if ($tagId = $params->get('tag_id', '')) {
-    $id = ' id="' . htmlspecialchars($tagId, ENT_QUOTES, 'UTF-8') . '"';
+    $id = ' id="' . htmlspecialchars((string) $tagId, ENT_QUOTES, 'UTF-8') . '"';
 }
 
 // The menu class is deprecated. Use mod-menu instead
@@ -63,18 +63,10 @@ if ($tagId = $params->get('tag_id', '')) {
 
     echo '<li class="' . $class . '">';
 
-    switch ($item->type) :
-        case 'separator':
-        case 'component':
-        case 'heading':
-        case 'url':
-            require ModuleHelper::getLayoutPath('mod_menu', 'default_' . $item->type);
-            break;
-
-        default:
-            require ModuleHelper::getLayoutPath('mod_menu', 'default_url');
-            break;
-    endswitch;
+    match ($item->type) {
+        'separator', 'component', 'heading', 'url' => require ModuleHelper::getLayoutPath('mod_menu', 'default_' . $item->type),
+        default => require ModuleHelper::getLayoutPath('mod_menu', 'default_url'),
+    };
 
     // The next item is deeper.
     if ($item->deeper) {

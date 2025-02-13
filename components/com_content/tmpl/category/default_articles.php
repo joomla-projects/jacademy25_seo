@@ -37,18 +37,11 @@ $langFilter = false;
 if (($this->params->get('filter_field') === 'tag') && (Multilanguage::isEnabled())) {
     $tagfilter = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
 
-    switch ($tagfilter) {
-        case 'current_language':
-            $langFilter = Factory::getApplication()->getLanguage()->getTag();
-            break;
-
-        case 'all':
-            $langFilter = false;
-            break;
-
-        default:
-            $langFilter = $tagfilter;
-    }
+    $langFilter = match ($tagfilter) {
+        'current_language' => Factory::getApplication()->getLanguage()->getTag(),
+        'all' => false,
+        default => $tagfilter,
+    };
 }
 
 // Check for at least one editable article
@@ -185,7 +178,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                                     <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, ['title' => $association['language']->title_native], true); ?>
                                     <a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
                                 <?php else : ?>
-                                    <?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
+                                    <?php $class = 'btn btn-secondary btn-sm btn-' . strtolower((string) $association['language']->lang_code); ?>
                                     <a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->lang_code; ?>
                                         <span class="visually-hidden"><?php echo $association['language']->title_native; ?></span>
                                     </a>
@@ -211,7 +204,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                                     <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, ['title' => $association['language']->title_native], true); ?>
                                     <a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
                                 <?php else : ?>
-                                    <?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
+                                    <?php $class = 'btn btn-secondary btn-sm btn-' . strtolower((string) $association['language']->lang_code); ?>
                                     <a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->lang_code; ?>
                                         <span class="visually-hidden"><?php echo $association['language']->title_native; ?></span>
                                     </a>

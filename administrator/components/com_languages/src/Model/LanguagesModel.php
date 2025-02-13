@@ -152,7 +152,7 @@ class LanguagesModel extends ListModel
 
         // Filter by search in title.
         if ($search = $this->getState('filter.search')) {
-            $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+            $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
             $query->where($db->quoteName('a.title') . ' LIKE :search')
                 ->bind(':search', $search);
         }

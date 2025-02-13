@@ -106,7 +106,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
         $ordering = $params->get('ordering', 'a.publish_up');
         $model->setState('list.ordering', $ordering);
 
-        if (trim($ordering) === 'rand()') {
+        if (trim((string) $ordering) === 'rand()') {
             $model->setState('list.ordering', $this->getDatabase()->getQuery(true)->rand());
         } else {
             $direction = $params->get('direction', 1) ? 'DESC' : 'ASC';
@@ -121,7 +121,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
         $items = $model->getItems();
 
         foreach ($items as &$item) {
-            $item->readmore = \strlen(trim($item->fulltext));
+            $item->readmore = \strlen(trim((string) $item->fulltext));
             $item->slug     = $item->id . ':' . $item->alias;
 
             if ($access || \in_array($item->access, $authorised)) {
@@ -139,25 +139,25 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
             // Remove any images belongs to the text
             if (!$params->get('image')) {
                 // Remove any images and empty links from the intro text
-                $item->introtext = preg_replace(['/\\<img[^>]*>/', '/<a[^>]*><\\/a>/'], '', $item->introtext);
+                $item->introtext = preg_replace(['/\\<img[^>]*>/', '/<a[^>]*><\\/a>/'], '', (string) $item->introtext);
             }
 
             // Show the Intro/Full image field of the article
             if ($params->get('img_intro_full') !== 'none') {
-                $images             = json_decode($item->images);
+                $images             = json_decode((string) $item->images);
                 $item->imageSrc     = '';
                 $item->imageAlt     = '';
                 $item->imageCaption = '';
 
                 if ($params->get('img_intro_full') === 'intro' && !empty($images->image_intro)) {
-                    $item->imageSrc = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');
+                    $item->imageSrc = htmlspecialchars((string) $images->image_intro, ENT_COMPAT, 'UTF-8');
                     $item->imageAlt = htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8');
 
                     if ($images->image_intro_caption) {
                         $item->imageCaption = htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8');
                     }
                 } elseif ($params->get('img_intro_full') === 'full' && !empty($images->image_fulltext)) {
-                    $item->imageSrc = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
+                    $item->imageSrc = htmlspecialchars((string) $images->image_fulltext, ENT_COMPAT, 'UTF-8');
                     $item->imageAlt = htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8');
 
                     if ($images->image_intro_caption) {

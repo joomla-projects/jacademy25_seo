@@ -113,7 +113,7 @@ class Cli extends Input
     public function unserialize($input)
     {
         // Unserialize the executable, args, options, data, and inputs.
-        list($this->executable, $this->args, $this->options, $this->data, $this->inputs) = unserialize($input);
+        [$this->executable, $this->args, $this->options, $this->data, $this->inputs] = unserialize($input);
 
         // Load the filter.
         if (isset($this->options['filter'])) {
@@ -147,12 +147,12 @@ class Cli extends Input
             $arg = $argv[$i];
 
             // --foo --bar=baz
-            if (substr($arg, 0, 2) === '--') {
-                $eqPos = strpos($arg, '=');
+            if (str_starts_with((string) $arg, '--')) {
+                $eqPos = strpos((string) $arg, '=');
 
                 // --foo
                 if ($eqPos === false) {
-                    $key = substr($arg, 2);
+                    $key = substr((string) $arg, 2);
 
                     // --foo value
                     if ($i + 1 < $j && $argv[$i + 1][0] !== '-') {
@@ -165,19 +165,19 @@ class Cli extends Input
                     $out[$key] = $value;
                 } else {
                     // --bar=baz
-                    $key       = substr($arg, 2, $eqPos - 2);
-                    $value     = substr($arg, $eqPos + 1);
+                    $key       = substr((string) $arg, 2, $eqPos - 2);
+                    $value     = substr((string) $arg, $eqPos + 1);
                     $out[$key] = $value;
                 }
-            } elseif (substr($arg, 0, 1) === '-') {
+            } elseif (str_starts_with((string) $arg, '-')) {
                 // -k=value -abc
                 // -k=value
-                if (substr($arg, 2, 1) === '=') {
-                    $key       = substr($arg, 1, 1);
-                    $value     = substr($arg, 3);
+                if (substr((string) $arg, 2, 1) === '=') {
+                    $key       = substr((string) $arg, 1, 1);
+                    $value     = substr((string) $arg, 3);
                     $out[$key] = $value;
                 } else { // -abc
-                    $chars = str_split(substr($arg, 1));
+                    $chars = str_split(substr((string) $arg, 1));
 
                     foreach ($chars as $char) {
                         $key       = $char;

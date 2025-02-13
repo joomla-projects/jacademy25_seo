@@ -64,7 +64,7 @@ endif;
                 <?php // Prepare variables for the link. ?>
                 <?php $link = 'index.php?option=com_modules&task=module.add&client_id=' . $this->state->get('client_id', 0) . $this->modalLink . '&eid=' . $item->extension_id; ?>
                 <?php $name = $this->escape($item->name); ?>
-                <?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
+                <?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags((string) $item->desc)), 200); ?>
                 <a href="<?php echo Route::_($link); ?>" class="new-module mb-3 comModulesSelectCard"
                     <?php echo !empty($function) ? 'data-function="' . $this->escape($function) . '"' : ''; ?>
                     aria-label="<?php echo Text::sprintf('COM_MODULES_SELECT_MODULE', $name); ?>">

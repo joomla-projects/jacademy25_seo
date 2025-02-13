@@ -197,19 +197,19 @@ $rootPath = \dirname(__DIR__);
 if (file_exists($rootPath . $versionFile)) {
     $fileContents = file_get_contents($rootPath . $versionFile);
     $fileContents = preg_replace("#MAJOR_VERSION\s*=\s*[^;]*#", "MAJOR_VERSION = " . $version['major'], $fileContents);
-    $fileContents = preg_replace("#MINOR_VERSION\s*=\s*[^;]*#", "MINOR_VERSION = " . $version['minor'], $fileContents);
-    $fileContents = preg_replace("#PATCH_VERSION\s*=\s*[^;]*#", "PATCH_VERSION = " . $version['patch'], $fileContents);
-    $fileContents = preg_replace("#EXTRA_VERSION\s*=\s*'[^\']*'#", "EXTRA_VERSION = '" . $version['extra'] . "'", $fileContents);
-    $fileContents = preg_replace("#RELEASE\s*=\s*'[^\']*'#", "RELEASE = '" . $version['main'] . "'", $fileContents);
-    $fileContents = preg_replace("#DEV_LEVEL\s*=\s*'[^\']*'#", "DEV_LEVEL = '" . $version['dev_devel'] . "'", $fileContents);
-    $fileContents = preg_replace("#DEV_STATUS\s*=\s*'[^\']*'#", "DEV_STATUS = '" . $version['dev_status'] . "'", $fileContents);
-    $fileContents = preg_replace("#BUILD\s*=\s*'[^\']*'#", "BUILD = '" . $version['build'] . "'", $fileContents);
-    $fileContents = preg_replace("#RELDATE\s*=\s*'[^\']*'#", "RELDATE = '" . $version['reldate'] . "'", $fileContents);
-    $fileContents = preg_replace("#RELTIME\s*=\s*'[^\']*'#", "RELTIME = '" . $version['reltime'] . "'", $fileContents);
-    $fileContents = preg_replace("#RELTZ\s*=\s*'[^\']*'#", "RELTZ = '" . $version['reltz'] . "'", $fileContents);
+    $fileContents = preg_replace("#MINOR_VERSION\s*=\s*[^;]*#", "MINOR_VERSION = " . $version['minor'], (string) $fileContents);
+    $fileContents = preg_replace("#PATCH_VERSION\s*=\s*[^;]*#", "PATCH_VERSION = " . $version['patch'], (string) $fileContents);
+    $fileContents = preg_replace("#EXTRA_VERSION\s*=\s*'[^\']*'#", "EXTRA_VERSION = '" . $version['extra'] . "'", (string) $fileContents);
+    $fileContents = preg_replace("#RELEASE\s*=\s*'[^\']*'#", "RELEASE = '" . $version['main'] . "'", (string) $fileContents);
+    $fileContents = preg_replace("#DEV_LEVEL\s*=\s*'[^\']*'#", "DEV_LEVEL = '" . $version['dev_devel'] . "'", (string) $fileContents);
+    $fileContents = preg_replace("#DEV_STATUS\s*=\s*'[^\']*'#", "DEV_STATUS = '" . $version['dev_status'] . "'", (string) $fileContents);
+    $fileContents = preg_replace("#BUILD\s*=\s*'[^\']*'#", "BUILD = '" . $version['build'] . "'", (string) $fileContents);
+    $fileContents = preg_replace("#RELDATE\s*=\s*'[^\']*'#", "RELDATE = '" . $version['reldate'] . "'", (string) $fileContents);
+    $fileContents = preg_replace("#RELTIME\s*=\s*'[^\']*'#", "RELTIME = '" . $version['reltime'] . "'", (string) $fileContents);
+    $fileContents = preg_replace("#RELTZ\s*=\s*'[^\']*'#", "RELTZ = '" . $version['reltz'] . "'", (string) $fileContents);
 
     if (!empty($version['codename'])) {
-        $fileContents = preg_replace("#CODENAME\s*=\s*'[^\']*'#", "CODENAME = '" . $version['codename'] . "'", $fileContents);
+        $fileContents = preg_replace("#CODENAME\s*=\s*'[^\']*'#", "CODENAME = '" . $version['codename'] . "'", (string) $fileContents);
     }
 
     file_put_contents($rootPath . $versionFile, $fileContents);
@@ -220,7 +220,7 @@ foreach ($coreXmlFiles as $coreXmlFile) {
     if (file_exists($rootPath . $coreXmlFile)) {
         $fileContents = file_get_contents($rootPath . $coreXmlFile);
         $fileContents = preg_replace('#<version>[^<]*</version>#', '<version>' . $version['main'] . '.' . $version['dev_devel'] . '</version>', $fileContents);
-        $fileContents = preg_replace('#<creationDate>[^<]*</creationDate>#', '<creationDate>' . $version['credate'] . '</creationDate>', $fileContents);
+        $fileContents = preg_replace('#<creationDate>[^<]*</creationDate>#', '<creationDate>' . $version['credate'] . '</creationDate>', (string) $fileContents);
         file_put_contents($rootPath . $coreXmlFile, $fileContents);
     }
 }
@@ -230,7 +230,7 @@ foreach ($languageXmlFiles as $languageXmlFile) {
     if (file_exists($rootPath . $languageXmlFile)) {
         $fileContents = file_get_contents($rootPath . $languageXmlFile);
         $fileContents = preg_replace('#<version>[^<]*</version>#', '<version>' . $version['release'] . '</version>', $fileContents);
-        $fileContents = preg_replace('#<creationDate>[^<]*</creationDate>#', '<creationDate>' . $version['credate'] . '</creationDate>', $fileContents);
+        $fileContents = preg_replace('#<creationDate>[^<]*</creationDate>#', '<creationDate>' . $version['credate'] . '</creationDate>', (string) $fileContents);
         file_put_contents($rootPath . $languageXmlFile, $fileContents);
     }
 }
@@ -239,7 +239,7 @@ foreach ($languageXmlFiles as $languageXmlFile) {
 if (file_exists($rootPath . $languagePackXmlFile)) {
     $fileContents = file_get_contents($rootPath . $languagePackXmlFile);
     $fileContents = preg_replace('#<version>[^<]*</version>#', '<version>' . $version['release'] . '.1</version>', $fileContents);
-    $fileContents = preg_replace('#<creationDate>[^<]*</creationDate>#', '<creationDate>' . $version['credate'] . '</creationDate>', $fileContents);
+    $fileContents = preg_replace('#<creationDate>[^<]*</creationDate>#', '<creationDate>' . $version['credate'] . '</creationDate>', (string) $fileContents);
     file_put_contents($rootPath . $languagePackXmlFile, $fileContents);
 }
 
@@ -266,7 +266,7 @@ foreach ($readMeFiles as $readMeFile) {
     if (file_exists($rootPath . $readMeFile)) {
         $fileContents = file_get_contents($rootPath . $readMeFile);
         $fileContents = preg_replace('#Joomla! [0-9]+\.[0-9]+ (|\[)version#', 'Joomla! ' . $version['main'] . ' $1version', $fileContents);
-        $fileContents = preg_replace('#Joomla_[0-9]+\.[0-9]+_version#', 'Joomla_' . $version['main'] . '_version', $fileContents);
+        $fileContents = preg_replace('#Joomla_[0-9]+\.[0-9]+_version#', 'Joomla_' . $version['main'] . '_version', (string) $fileContents);
         file_put_contents($rootPath . $readMeFile, $fileContents);
     }
 }
@@ -282,7 +282,7 @@ foreach ($iterator as $file) {
         $relativePath = str_replace($rootPath, '', $filePath);
 
         // Exclude certain extensions.
-        if (preg_match('#\.(png|jpeg|jpg|gif|bmp|ico|webp|svg|woff|woff2|ttf|eot)$#', $filePath)) {
+        if (preg_match('#\.(png|jpeg|jpg|gif|bmp|ico|webp|svg|woff|woff2|ttf|eot)$#', (string) $filePath)) {
             continue;
         }
 

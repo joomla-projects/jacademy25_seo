@@ -64,10 +64,10 @@ if (!$format) {
     if ($moduleId && $table->load($moduleId) && $table->enabled) {
         $helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
 
-        if (strpos($module, '_')) {
-            $parts = explode('_', $module);
-        } elseif (strpos($module, '-')) {
-            $parts = explode('-', $module);
+        if (strpos((string) $module, '_')) {
+            $parts = explode('_', (string) $module);
+        } elseif (strpos((string) $module, '-')) {
+            $parts = explode('-', (string) $module);
         }
 
         if ($parts) {
@@ -79,7 +79,7 @@ if (!$format) {
 
             $class .= 'Helper';
         } else {
-            $class = 'Mod' . ucfirst($module) . 'Helper';
+            $class = 'Mod' . ucfirst((string) $module) . 'Helper';
         }
 
         $method = $input->get('method') ?: 'get';
@@ -130,7 +130,7 @@ if (!$format) {
     try {
         $dispatcher = $app->getDispatcher();
         $group      = $input->get('group', 'ajax');
-        $eventName  = 'onAjax' . ucfirst($input->get('plugin', ''));
+        $eventName  = 'onAjax' . ucfirst((string) $input->get('plugin', ''));
 
         PluginHelper::importPlugin($group, null, true, $dispatcher);
 
@@ -155,10 +155,10 @@ if (!$format) {
         $basePath   = ($table->client_id) ? JPATH_ADMINISTRATOR : JPATH_SITE;
         $helperFile = $basePath . '/templates/' . $template . '/helper.php';
 
-        if (strpos($template, '_')) {
-            $parts = explode('_', $template);
-        } elseif (strpos($template, '-')) {
-            $parts = explode('-', $template);
+        if (strpos((string) $template, '_')) {
+            $parts = explode('_', (string) $template);
+        } elseif (strpos((string) $template, '-')) {
+            $parts = explode('-', (string) $template);
         }
 
         if ($parts) {
@@ -170,7 +170,7 @@ if (!$format) {
 
             $class .= 'Helper';
         } else {
-            $class = 'Tpl' . ucfirst($template) . 'Helper';
+            $class = 'Tpl' . ucfirst((string) $template) . 'Helper';
         }
 
         $method = $input->get('method') ?: 'get';
@@ -233,13 +233,13 @@ switch ($format) {
             $app->setHeader('status', $results->getCode(), true);
 
             // Echo exception type and message
-            $out = \get_class($results) . ': ' . $results->getMessage();
+            $out = $results::class . ': ' . $results->getMessage();
         } elseif (\is_scalar($results) || $results instanceof StringableInterface) {
             // Output string/ null
             $out = (string) $results;
         } else {
             // Output array/ object
-            $out = implode((array) $results);
+            $out = implode('', (array) $results);
         }
 
         echo $out;

@@ -787,7 +787,7 @@ final class SiteApplication extends CMSApplication
                 $oldPath          = StringHelper::strtolower(substr($oldUri->getPath(), \strlen($base) + 1));
                 $activePathPrefix = StringHelper::strtolower($active->route);
 
-                $position = strpos($oldPath, $activePathPrefix);
+                $position = strpos($oldPath, (string) $activePathPrefix);
 
                 if ($position !== false) {
                     $oldUri->setPath($base . '/' . substr_replace($oldPath, $item->route, $position, \strlen($activePathPrefix)));

@@ -312,7 +312,7 @@ class GroupModel extends AdminModel
             // Pre-select some filters (Status, Language, Access) in edit form if those have been selected in Field Group Manager
             if (!$data->id) {
                 // Check for which context the Field Group Manager is used and get selected fields
-                $context = substr($app->getUserState('com_fields.groups.filter.context', ''), 4);
+                $context = substr((string) $app->getUserState('com_fields.groups.filter.context', ''), 4);
                 $filters = (array) $app->getUserState('com_fields.groups.' . $context . '.filter');
 
                 $data->set(

@@ -129,7 +129,7 @@ class ExportRequestEvent extends PrivacyEvent implements ResultAwareInterface
     public function typeCheckResult($data): void
     {
         if (!\is_array($data)) {
-            throw new \InvalidArgumentException(\sprintf('Event %s only accepts Array results.', \get_class($this)));
+            throw new \InvalidArgumentException(\sprintf('Event %s only accepts Array results.', static::class));
         }
 
         // Validate items in array
@@ -138,7 +138,7 @@ class ExportRequestEvent extends PrivacyEvent implements ResultAwareInterface
                 throw new \InvalidArgumentException(
                     \sprintf(
                         'Event %s only accepts Joomla\Component\Privacy\Administrator\Export\Domain in result array.',
-                        \get_class($this)
+                        static::class
                     )
                 );
             }

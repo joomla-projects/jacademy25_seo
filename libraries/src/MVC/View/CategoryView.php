@@ -181,7 +181,7 @@ class CategoryView extends HtmlView
         $children = [$category->id => $children];
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $params->get('pageclass_sfx', ''));
 
         if ($this->runPlugins) {
             PluginHelper::importPlugin('content');

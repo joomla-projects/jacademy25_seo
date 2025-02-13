@@ -146,12 +146,12 @@ class ConstraintChecker
     protected function checkTargetplatform(array $targetPlatform)
     {
         // Lower case and remove the exclamation mark
-        $product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
+        $product = strtolower((string) InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
 
         // Check that the product matches and that the version matches (optionally a regexp)
         if (
             $product === $targetPlatform["name"]
-            && preg_match('/^' . $targetPlatform["version"] . '/', JVERSION)
+            && preg_match('/^' . $targetPlatform["version"] . '/', (string) JVERSION)
         ) {
             return true;
         }

@@ -73,7 +73,7 @@ class BufferStreamHandler
     public static function stream_register()
     {
         if (!self::$registered) {
-            stream_wrapper_register('buffer', '\\Joomla\\CMS\\Utility\\BufferStreamHandler');
+            stream_wrapper_register('buffer', \Joomla\CMS\Utility\BufferStreamHandler::class);
 
             self::$registered = true;
         }
@@ -117,7 +117,7 @@ class BufferStreamHandler
      */
     public function stream_read($count)
     {
-        $ret = substr($this->buffers[$this->name], $this->position, $count);
+        $ret = substr((string) $this->buffers[$this->name], $this->position, $count);
         $this->position += \strlen($ret);
 
         return $ret;
@@ -135,8 +135,8 @@ class BufferStreamHandler
      */
     public function stream_write($data)
     {
-        $left                       = substr($this->buffers[$this->name], 0, $this->position);
-        $right                      = substr($this->buffers[$this->name], $this->position + \strlen($data));
+        $left                       = substr((string) $this->buffers[$this->name], 0, $this->position);
+        $right                      = substr((string) $this->buffers[$this->name], $this->position + \strlen($data));
         $this->buffers[$this->name] = $left . $data . $right;
         $this->position += \strlen($data);
 
@@ -166,7 +166,7 @@ class BufferStreamHandler
      */
     public function stream_eof()
     {
-        return $this->position >= \strlen($this->buffers[$this->name]);
+        return $this->position >= \strlen((string) $this->buffers[$this->name]);
     }
 
     /**
@@ -183,18 +183,12 @@ class BufferStreamHandler
      */
     public function stream_seek($offset, $whence)
     {
-        switch ($whence) {
-            case SEEK_SET:
-                return $this->seek_set($offset);
-
-            case SEEK_CUR:
-                return $this->seek_cur($offset);
-
-            case SEEK_END:
-                return $this->seek_end($offset);
-        }
-
-        return false;
+        return match ($whence) {
+            SEEK_SET => $this->seek_set($offset),
+            SEEK_CUR => $this->seek_cur($offset),
+            SEEK_END => $this->seek_end($offset),
+            default => false,
+        };
     }
 
     /**
@@ -206,7 +200,7 @@ class BufferStreamHandler
      */
     protected function seek_set($offset)
     {
-        if ($offset < 0 || $offset > \strlen($this->buffers[$this->name])) {
+        if ($offset < 0 || $offset > \strlen((string) $this->buffers[$this->name])) {
             return false;
         }
 
@@ -242,7 +236,7 @@ class BufferStreamHandler
      */
     protected function seek_end($offset)
     {
-        $offset += \strlen($this->buffers[$this->name]);
+        $offset += \strlen((string) $this->buffers[$this->name]);
 
         if ($offset < 0) {
             return false;

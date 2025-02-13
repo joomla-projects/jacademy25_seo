@@ -116,7 +116,7 @@ abstract class Dropdown
         $dropDownList .= '</ul></div>';
 
         static::$dropDownList                  = null;
-        static::$loaded[__CLASS__ . '::start'] = false;
+        static::$loaded[self::class . '::start'] = false;
 
         return $dropDownList;
     }

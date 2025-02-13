@@ -84,9 +84,9 @@ class ContentHistory extends Table implements CurrentUserInterface
      */
     public function store($updateNulls = false)
     {
-        $this->character_count = \strlen($this->version_data);
+        $this->character_count = \strlen((string) $this->version_data);
         $typeTable             = new ContentType($this->getDbo(), $this->getDispatcher());
-        $typeAlias             = explode('.', $this->item_id);
+        $typeAlias             = explode('.', (string) $this->item_id);
         array_pop($typeAlias);
         $typeTable->load(['type_alias' => implode('.', $typeAlias)]);
 
@@ -116,7 +116,7 @@ class ContentHistory extends Table implements CurrentUserInterface
      */
     public function getSha1($jsonData, ContentType $typeTable)
     {
-        $object = \is_object($jsonData) ? $jsonData : json_decode($jsonData);
+        $object = \is_object($jsonData) ? $jsonData : json_decode((string) $jsonData);
 
         if (isset($typeTable->content_history_options) && \is_object(json_decode($typeTable->content_history_options))) {
             $options             = json_decode($typeTable->content_history_options);

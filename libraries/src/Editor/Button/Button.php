@@ -16,30 +16,6 @@ namespace Joomla\CMS\Editor\Button;
 final class Button implements ButtonInterface
 {
     /**
-     * Button name, CMD string.
-     *
-     * @return string
-     * @since   5.0.0
-     */
-    protected $name;
-
-    /**
-     * Button properties.
-     *
-     * @return array
-     * @since   5.0.0
-     */
-    protected $props = [];
-
-    /**
-     * Button options.
-     *
-     * @return array
-     * @since   5.0.0
-     */
-    protected $options = [];
-
-    /**
      * Class constructor;
      *
      * @param string $name    The button name
@@ -48,11 +24,8 @@ final class Button implements ButtonInterface
      *
      * @since   5.0.0
      */
-    public function __construct(string $name, array $props = [], array $options = [])
+    public function __construct(protected string $name, protected array $props = [], protected array $options = [])
     {
-        $this->name    = $name;
-        $this->props   = $props;
-        $this->options = $options;
     }
 
     /**

@@ -156,7 +156,7 @@ trait ExtensionManagerTrait
                     $container->set($type, new Module(new ModuleDispatcherFactory(''), new HelperFactory('')));
                     break;
                 case PluginInterface::class:
-                    list($pluginName, $pluginType) = explode(':', $extensionName);
+                    [$pluginName, $pluginType] = explode(':', $extensionName);
                     $container->set($type, $this->loadPluginFromFilesystem($pluginName, $pluginType));
             }
         }
@@ -221,7 +221,7 @@ trait ExtensionManagerTrait
 
         // Editors don't follow the convention
         if ($type === 'editors') {
-            $className = 'PlgEditor' . ucfirst($plugin);
+            $className = 'PlgEditor' . ucfirst((string) $plugin);
         }
 
         // Editor buttons don't follow the convention

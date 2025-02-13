@@ -98,7 +98,7 @@ class TinymcebuilderField extends FormField
             Factory::getApplication()->enqueueMessage(Text::sprintf('PLG_TINY_LEGACY_WARNING', '#'), 'warning');
 
             if (\is_object($plugin) && !empty($plugin->params)) {
-                $setParams = (object) json_decode($plugin->params);
+                $setParams = (object) json_decode((string) $plugin->params);
             }
         }
 

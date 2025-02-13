@@ -125,11 +125,11 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             $match = 'Controller';
 
             // If there is a namespace append a backslash
-            if (strpos(\get_class($this), '\\')) {
+            if (strpos(static::class, '\\')) {
                 $match .= '\\\\';
             }
 
-            if (!preg_match('/(.*)' . $match . '(.*)/i', \get_class($this), $r)) {
+            if (!preg_match('/(.*)' . $match . '(.*)/i', static::class, $r)) {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
             }
 

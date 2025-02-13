@@ -41,8 +41,8 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
 
         $data = parent::getLayoutData();
 
-        $data['headerText'] = trim($data['params']->get('header_text', ''));
-        $data['footerText'] = trim($data['params']->get('footer_text', ''));
+        $data['headerText'] = trim((string) $data['params']->get('header_text', ''));
+        $data['footerText'] = trim((string) $data['params']->get('footer_text', ''));
         $data['list']       = $this->getHelperFactory()->getHelper('BannersHelper')->getBanners($data['params'], $this->getApplication());
 
         return $data;

@@ -66,13 +66,10 @@ class CaptchaField extends FormField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'plugin':
-            case 'namespace':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'plugin', 'namespace' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -139,7 +136,7 @@ class CaptchaField extends FormField
         // Obs: Don't put required="required" in the xml file, you just need to have validate="captcha"
         $this->required = true;
 
-        if (strpos($this->class, 'required') === false) {
+        if (!str_contains((string) $this->class, 'required')) {
             $this->class .= ' required';
         }
 

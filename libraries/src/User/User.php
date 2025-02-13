@@ -301,7 +301,7 @@ class User
             \sprintf(
                 '%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
                 __METHOD__,
-                __CLASS__
+                self::class
             ),
             E_USER_DEPRECATED
         );

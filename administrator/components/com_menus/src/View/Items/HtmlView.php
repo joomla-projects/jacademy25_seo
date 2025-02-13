@@ -177,7 +177,7 @@ class HtmlView extends BaseHtmlView
                                 }
                             }
 
-                            $vars['layout'] = $vars['layout'] ?? 'default';
+                            $vars['layout'] ??= 'default';
 
                             // Attempt to load the layout xml file.
                             // If Alternative Menu Item, get template folder for layout file
@@ -230,7 +230,7 @@ class HtmlView extends BaseHtmlView
 
                         $value = implode(' » ', $titleParts);
                     } else {
-                        if (preg_match("/^index.php\?option=([a-zA-Z\-0-9_]*)/", $item->link, $result)) {
+                        if (preg_match("/^index.php\?option=([a-zA-Z\-0-9_]*)/", (string) $item->link, $result)) {
                             $value = Text::sprintf('COM_MENUS_TYPE_UNEXISTING', $result[1]);
                         } else {
                             $value = Text::_('COM_MENUS_TYPE_UNKNOWN');

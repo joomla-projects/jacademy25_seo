@@ -45,7 +45,7 @@ class BasicButton extends ToolbarButton
      *
      * @throws  \LogicException
      */
-    public function fetchButton($type = 'Basic')
+    public function fetchButton($type = 'Basic'): never
     {
         throw new \LogicException('This is a new button in 4.0, please use render() instead.');
     }

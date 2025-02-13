@@ -72,7 +72,7 @@ class TasksListCommand extends AbstractCommand
         $tasks = array_map(
             function (\stdClass $task): array {
                 $enabled  = $task->state === 1;
-                $rule     = json_decode($task->execution_rules);
+                $rule     = json_decode((string) $task->execution_rules);
 
                 if ($rule->{'rule-type'} === 'manual') {
                     $nextRun = 'Manual';

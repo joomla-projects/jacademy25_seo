@@ -88,7 +88,7 @@ $canChange = $user->authorise('core.edit.state', 'com_scheduler');
                                                 title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->taskname); ?>"> <?php echo $this->escape($item->taskname); ?>
                                             </a>
                                         <?php else : ?>
-                                            <?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->taskname))); ?>
+                                            <?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode((string) $item->taskname))); ?>
                                         <?php endif; ?>
                                     </th>
                                     <!-- Item type -->

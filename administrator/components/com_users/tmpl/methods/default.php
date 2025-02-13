@@ -25,7 +25,7 @@ use Joomla\Component\Users\Administrator\View\Methods\HtmlView;
         </div>
         <?php if ($this->mfaActive) : ?>
             <div>
-                <a href="<?php echo Route::_('index.php?option=com_users&task=methods.disable&' . Factory::getApplication()->getFormToken() . '=1' . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id) ?>"
+                <a href="<?php echo Route::_('index.php?option=com_users&task=methods.disable&' . Factory::getApplication()->getFormToken() . '=1' . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode((string) $this->returnURL)) : '') . '&user_id=' . $this->user->id) ?>"
                    class="btn btn-danger btn-sm">
                     <?php echo Text::_('COM_USERS_MFA_LIST_REMOVEALL'); ?>
                 </a>

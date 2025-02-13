@@ -126,7 +126,7 @@ class PluginsModel extends ListModel
 
         $db = $this->getDatabase();
 
-        if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0)) {
+        if ($ordering == 'name' || (!empty($search) && stripos((string) $search, 'id:') !== 0)) {
             $db->setQuery($query);
             $result = $db->loadObjectList();
             $this->translate($result);
@@ -141,7 +141,7 @@ class PluginsModel extends ListModel
                 }
             }
 
-            $orderingDirection = strtolower($this->getState('list.direction'));
+            $orderingDirection = strtolower((string) $this->getState('list.direction'));
             $direction         = ($orderingDirection == 'desc') ? -1 : 1;
             $result            = ArrayHelper::sortObjects($result, $ordering, $direction, true, true);
 
@@ -261,8 +261,8 @@ class PluginsModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $ids = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $ids = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.extension_id') . ' = :id');
                 $query->bind(':id', $ids, ParameterType::INTEGER);
             }

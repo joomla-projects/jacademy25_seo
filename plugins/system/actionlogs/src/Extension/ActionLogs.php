@@ -182,7 +182,7 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
 
         try {
             $values = $db->setQuery($query)->loadObject();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return;
         }
 
@@ -199,15 +199,15 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
         $data->actionlogs->actionlogsExcludeSelf = $values->exclude_self;
 
         if (!HTMLHelper::isRegistered('users.actionlogsNotify')) {
-            HTMLHelper::register('users.actionlogsNotify', [__CLASS__, 'renderActionlogsNotify']);
+            HTMLHelper::register('users.actionlogsNotify', [self::class, 'renderActionlogsNotify']);
         }
 
         if (!HTMLHelper::isRegistered('users.actionlogsExtensions')) {
-            HTMLHelper::register('users.actionlogsExtensions', [__CLASS__, 'renderActionlogsExtensions']);
+            HTMLHelper::register('users.actionlogsExtensions', [self::class, 'renderActionlogsExtensions']);
         }
 
         if (!HTMLHelper::isRegistered('users.actionlogsExcludeSelf')) {
-            HTMLHelper::register('users.actionlogsExcludeSelf', [__CLASS__, 'renderActionlogsExcludeSelf']);
+            HTMLHelper::register('users.actionlogsExcludeSelf', [self::class, 'renderActionlogsExcludeSelf']);
         }
     }
 
@@ -303,7 +303,7 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // Do nothing.
         }
     }
@@ -336,7 +336,7 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // Do nothing.
         }
     }
@@ -424,12 +424,12 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
 
         try {
             $values = $db->setQuery($query)->loadObjectList();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return;
         }
 
         foreach ($values as $item) {
-            $userExt = substr($item->extensions, 2);
+            $userExt = substr((string) $item->extensions, 2);
             $userExt = substr($userExt, 0, -2);
             $user    = explode('","', $userExt);
             $common  = array_intersect($globalExt, $user);
@@ -445,7 +445,7 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
 
             try {
                 $db->setQuery($query)->execute();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 // Do nothing.
             }
         }

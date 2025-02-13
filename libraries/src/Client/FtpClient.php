@@ -479,9 +479,9 @@ class FtpClient
         }
 
         // Match the system string to an OS
-        if (strpos(strtoupper($ret), 'MAC') !== false) {
+        if (str_contains(strtoupper($ret), 'MAC')) {
             $ret = 'MAC';
-        } elseif (strpos(strtoupper($ret), 'WIN') !== false) {
+        } elseif (str_contains(strtoupper($ret), 'WIN')) {
             $ret = 'WIN';
         } else {
             $ret = 'UNIX';
@@ -882,7 +882,7 @@ class FtpClient
                 $os = 'WIN';
             }
 
-            $buffer = preg_replace('/' . CRLF . '/', $this->_lineEndings[$os], $buffer);
+            $buffer = preg_replace('/' . CRLF . '/', (string) $this->_lineEndings[$os], $buffer);
         }
 
         if (!$this->_verifyResponse(226)) {
@@ -1311,7 +1311,7 @@ class FtpClient
                 return false;
             }
 
-            $list = preg_replace('#^' . preg_quote($path, '#') . '[/\\\\]?#', '', $list);
+            $list = preg_replace('#^' . preg_quote((string) $path, '#') . '[/\\\\]?#', '', $list);
 
             if ($keys = array_merge(array_keys($list, '.'), array_keys($list, '..'))) {
                 foreach ($keys as $key) {
@@ -1361,8 +1361,8 @@ class FtpClient
             return false;
         }
 
-        $data = preg_split('/[' . CRLF . ']+/', $data, -1, PREG_SPLIT_NO_EMPTY);
-        $data = preg_replace('#^' . preg_quote(substr($path, 1), '#') . '[/\\\\]?#', '', $data);
+        $data = preg_split('/[' . CRLF . ']+/', (string) $data, -1, PREG_SPLIT_NO_EMPTY);
+        $data = preg_replace('#^' . preg_quote(substr((string) $path, 1), '#') . '[/\\\\]?#', '', $data);
 
         if ($keys = array_merge(array_keys($data, '.'), array_keys($data, '..'))) {
             foreach ($keys as $key) {
@@ -1444,7 +1444,7 @@ class FtpClient
                 return false;
             }
 
-            $contents = explode(CRLF, $data);
+            $contents = explode(CRLF, (string) $data);
         }
 
         // If only raw output is requested we are done

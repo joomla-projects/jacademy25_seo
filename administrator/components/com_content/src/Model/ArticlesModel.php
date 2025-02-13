@@ -418,25 +418,25 @@ class ArticlesModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $search = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $search = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :search')
                     ->bind(':search', $search, ParameterType::INTEGER);
-            } elseif (stripos($search, 'author:') === 0) {
-                $search = '%' . substr($search, 7) . '%';
+            } elseif (stripos((string) $search, 'author:') === 0) {
+                $search = '%' . substr((string) $search, 7) . '%';
                 $query->where('(' . $db->quoteName('ua.name') . ' LIKE :search1 OR ' . $db->quoteName('ua.username') . ' LIKE :search2)')
                     ->bind([':search1', ':search2'], $search);
-            } elseif (stripos($search, 'content:') === 0) {
-                $search = '%' . substr($search, 8) . '%';
+            } elseif (stripos((string) $search, 'content:') === 0) {
+                $search = '%' . substr((string) $search, 8) . '%';
                 $query->where('(' . $db->quoteName('a.introtext') . ' LIKE :search1 OR ' . $db->quoteName('a.fulltext') . ' LIKE :search2)')
                     ->bind([':search1', ':search2'], $search);
-            } elseif (stripos($search, 'checkedout:') === 0) {
-                $search = '%' . substr($search, 11) . '%';
+            } elseif (stripos((string) $search, 'checkedout:') === 0) {
+                $search = '%' . substr((string) $search, 11) . '%';
                 $query->where('(' . $db->quoteName('uc.name') . ' LIKE :search1 OR ' . $db->quoteName('uc.username') . ' LIKE :search2)'
                     . ' AND ' . $db->quoteName('a.checked_out') . ' IS NOT NULL')
                     ->bind([':search1', ':search2'], $search);
             } else {
-                $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+                $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
                 $query->where(
                     '(' . $db->quoteName('a.title') . ' LIKE :search1 OR ' . $db->quoteName('a.alias') . ' LIKE :search2'
                         . ' OR ' . $db->quoteName('a.note') . ' LIKE :search3)'

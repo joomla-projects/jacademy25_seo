@@ -141,4 +141,4 @@ Factory::getDocument()->getWebAssetManager()
     ->useScript('webcomponent.field-fancy-select');
 ?>
 
-<joomla-field-fancy-select <?php echo $attr2; ?>><?php echo implode($html); ?></joomla-field-fancy-select>
+<joomla-field-fancy-select <?php echo $attr2; ?>><?php echo implode('', $html); ?></joomla-field-fancy-select>

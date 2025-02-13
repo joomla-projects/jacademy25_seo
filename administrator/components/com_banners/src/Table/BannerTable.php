@@ -96,10 +96,10 @@ class BannerTable extends Table implements VersionableTableInterface
         }
 
         // Set name
-        $this->name = htmlspecialchars_decode($this->name, ENT_QUOTES);
+        $this->name = htmlspecialchars_decode((string) $this->name, ENT_QUOTES);
 
         // Set alias
-        if (trim($this->alias) == '') {
+        if (trim((string) $this->alias) == '') {
             $this->alias = $this->name;
         }
 

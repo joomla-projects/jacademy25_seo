@@ -99,7 +99,7 @@ trait WorkflowServiceTrait
             AbstractEvent::create(
                 'onWorkflowFunctionalityUsed',
                 [
-                    'eventClass'    => 'Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent',
+                    'eventClass'    => \Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent::class,
                     'subject'       => $this,
                     'extension'     => $extension,
                     'functionality' => $functionality,
@@ -131,7 +131,7 @@ trait WorkflowServiceTrait
 
         array_shift($parts);
 
-        return ucfirst(array_shift($parts));
+        return ucfirst((string) array_shift($parts));
     }
 
     /**

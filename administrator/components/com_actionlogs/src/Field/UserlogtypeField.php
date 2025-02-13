@@ -57,7 +57,7 @@ class UserlogtypeField extends ListField
         $globalExt  = $params->get('loggable_extensions', []);
 
         if (!empty($extensions)) {
-            $userExt = substr($extensions[0], 2);
+            $userExt = substr((string) $extensions[0], 2);
             $userExt = substr($userExt, 0, -2);
             $userExt = explode('","', $userExt);
         }

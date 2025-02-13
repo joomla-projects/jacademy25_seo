@@ -402,7 +402,7 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface
         $validatedData['status'] = 0;
 
         // The user cannot create a request for their own account
-        if (strtolower($this->getCurrentUser()->email) === strtolower($validatedData['email'])) {
+        if (strtolower($this->getCurrentUser()->email) === strtolower((string) $validatedData['email'])) {
             $this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_FOR_SELF'));
 
             return false;

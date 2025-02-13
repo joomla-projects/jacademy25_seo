@@ -415,7 +415,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
     {
         // Try to locate the filter form automatically. Example: ContentModelArticles => "filter_articles"
         if (empty($this->filterFormName)) {
-            $classNameParts = explode('Model', \get_called_class());
+            $classNameParts = explode('Model', static::class);
 
             if (\count($classNameParts) >= 2) {
                 $this->filterFormName = 'filter_' . str_replace('\\', '', strtolower($classNameParts[1]));
@@ -429,7 +429,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
         try {
             // Get the form.
             return $this->loadForm($this->context . '.filter', $this->filterFormName, ['control' => '', 'load_data' => $loadData]);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
         }
 
         return null;
@@ -503,7 +503,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
                         // Extra validations
                         switch ($name) {
                             case 'fullordering':
-                                $orderingParts = explode(' ', $value);
+                                $orderingParts = explode(' ', (string) $value);
 
                                 if (\count($orderingParts) >= 2) {
                                     // Latest part will be considered the direction
@@ -547,7 +547,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
                                 break;
 
                             case 'direction':
-                                if ($value && (!\in_array(strtoupper($value), ['ASC', 'DESC', '']))) {
+                                if ($value && (!\in_array(strtoupper((string) $value), ['ASC', 'DESC', '']))) {
                                     $value = $direction;
                                 }
                                 break;
@@ -558,7 +558,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
                                 break;
 
                             case 'select':
-                                $explodedValue = explode(',', $value);
+                                $explodedValue = explode(',', (string) $value);
 
                                 foreach ($explodedValue as &$field) {
                                     $field = $inputFilter->clean($field, 'cmd');
@@ -589,7 +589,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
                 // Check if the ordering direction is valid, otherwise use the incoming value.
                 $value = $app->getUserStateFromRequest($this->context . '.orderdirn', 'filter_order_Dir', $direction);
 
-                if (!$value || !\in_array(strtoupper($value), ['ASC', 'DESC', ''])) {
+                if (!$value || !\in_array(strtoupper((string) $value), ['ASC', 'DESC', ''])) {
                     $value = $direction;
                     $app->setUserState($this->context . '.orderdirn', $value);
                 }
@@ -607,7 +607,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
             // Support old direction field
             $oldDirection = $app->getInput()->get('filter_order_Dir');
 
-            if (!empty($oldDirection) && \in_array(strtoupper($oldDirection), ['ASC', 'DESC', ''])) {
+            if (!empty($oldDirection) && \in_array(strtoupper((string) $oldDirection), ['ASC', 'DESC', ''])) {
                 $this->setState('list.direction', $oldDirection);
             }
 
@@ -646,7 +646,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
         $new_state = $input->get($request, null, $type);
 
         // BC for Search Tools which uses different naming
-        if ($new_state === null && strpos($request, 'filter_') === 0) {
+        if ($new_state === null && str_starts_with($request, 'filter_')) {
             $name    = substr($request, 7);
             $filters = $app->getInput()->get('filter', [], 'array');
 

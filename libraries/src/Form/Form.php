@@ -60,14 +60,6 @@ class Form implements CurrentUserInterface
     protected $errors = [];
 
     /**
-     * The name of the form instance.
-     *
-     * @var    string
-     * @since  1.7.0
-     */
-    protected $name;
-
-    /**
      * The form object options for use in rendering and validation.
      *
      * @var    array
@@ -117,11 +109,13 @@ class Form implements CurrentUserInterface
      *
      * @since   1.7.0
      */
-    public function __construct($name, array $options = [])
+    public function __construct(/**
+     * The name of the form instance.
+     *
+     * @since  1.7.0
+     */
+    protected $name, array $options = [])
     {
-        // Set the name for the form.
-        $this->name = $name;
-
         // Initialise the Registry data.
         $this->data = new Registry();
 
@@ -142,7 +136,7 @@ class Form implements CurrentUserInterface
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
         }
 
         // The data must be an object or array.
@@ -219,7 +213,7 @@ class Form implements CurrentUserInterface
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
         }
 
         // Attempt to find the field by name and group.
@@ -251,7 +245,7 @@ class Form implements CurrentUserInterface
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
         }
 
         // Find the form field element from the definition.
@@ -325,7 +319,7 @@ class Form implements CurrentUserInterface
 
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
         }
 
         if ($group) {
@@ -601,7 +595,7 @@ class Form implements CurrentUserInterface
         if (\is_string($data)) {
             try {
                 $data = new \SimpleXMLElement($data);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 return false;
             }
         }
@@ -722,7 +716,7 @@ class Form implements CurrentUserInterface
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
         }
 
         // Find the form field element from the definition.
@@ -753,7 +747,7 @@ class Form implements CurrentUserInterface
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
         }
 
         // Get the fields elements for a given group.
@@ -808,7 +802,7 @@ class Form implements CurrentUserInterface
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
         }
 
         // Find the form field element from the definition.
@@ -894,7 +888,7 @@ class Form implements CurrentUserInterface
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
         }
 
         // Find the form field element from the definition.
@@ -933,13 +927,13 @@ class Form implements CurrentUserInterface
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
         }
 
         // Make sure the elements to set are valid.
         foreach ($elements as $element) {
             if (!($element instanceof \SimpleXMLElement)) {
-                throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+                throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
             }
         }
 
@@ -1024,7 +1018,7 @@ class Form implements CurrentUserInterface
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
         }
 
         $input  = new Registry($data);
@@ -1081,7 +1075,7 @@ class Form implements CurrentUserInterface
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
         }
 
         $return = true;
@@ -1167,7 +1161,7 @@ class Form implements CurrentUserInterface
     {
         // Make sure there is a valid SimpleXMLElement
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
         }
 
         $input  = new Registry($data);
@@ -1219,7 +1213,7 @@ class Form implements CurrentUserInterface
 
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
         }
 
         // Let's get the appropriate field element based on the method arguments.
@@ -1292,7 +1286,7 @@ class Form implements CurrentUserInterface
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
         }
 
         /*
@@ -1324,7 +1318,7 @@ class Form implements CurrentUserInterface
 
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
         }
 
         // Get only fields in a specific group?
@@ -1341,7 +1335,7 @@ class Form implements CurrentUserInterface
                         $fields = array_merge($fields, $tmp);
                     } else {
                         // If we want to exclude nested groups then we need to check each field.
-                        $groupNames = explode('.', $group);
+                        $groupNames = explode('.', (string) $group);
 
                         foreach ($tmp as $field) {
                             // Get the names of the groups that the field is in.
@@ -1383,7 +1377,7 @@ class Form implements CurrentUserInterface
 
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
         }
 
         // Make sure there is actually a group to find.
@@ -1453,7 +1447,7 @@ class Form implements CurrentUserInterface
     {
         // Make sure there is a valid SimpleXMLElement.
         if (!($element instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
         }
 
         // Get the field type.
@@ -1465,7 +1459,7 @@ class Form implements CurrentUserInterface
         if ($field instanceof DatabaseAwareInterface) {
             try {
                 $field->setDatabase($this->getDatabase());
-            } catch (DatabaseNotFoundException $e) {
+            } catch (DatabaseNotFoundException) {
                 @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
                 $field->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
@@ -1487,7 +1481,7 @@ class Form implements CurrentUserInterface
          * else the value of the 'default' attribute for the field.
          */
         if ($value === null) {
-            $default = (string) ($element['default'] ? $element['default'] : $element->default);
+            $default = (string) ($element['default'] ?: $element->default);
 
             if (($translate = $element['translate_default']) && ((string) $translate === 'true' || (string) $translate === '1')) {
                 $lang = Factory::getLanguage();
@@ -1526,7 +1520,7 @@ class Form implements CurrentUserInterface
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', static::class, __METHOD__));
         }
 
         // Get any addfieldpath attributes from the form definition.
@@ -1695,7 +1689,7 @@ class Form implements CurrentUserInterface
 
         // Only instantiate the form if it does not already exist.
         if (!isset($forms[$name])) {
-            $data = trim($data);
+            $data = trim((string) $data);
 
             if (empty($data)) {
                 throw new \InvalidArgumentException(\sprintf('%1$s(%2$s, *%3$s*)', __METHOD__, $name, \gettype($data)));
@@ -1705,7 +1699,7 @@ class Form implements CurrentUserInterface
             $forms[$name] = Factory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
 
             // Load the data.
-            if (substr($data, 0, 1) === '<') {
+            if (str_starts_with($data, '<')) {
                 if ($forms[$name]->load($data, $replace, $xpath) == false) {
                     throw new \RuntimeException(\sprintf('%s() could not load form', __METHOD__));
                 }
@@ -1803,15 +1797,10 @@ class Form implements CurrentUserInterface
                 self::addNode($source, $child);
             } else {
                 // This node does exist.
-                switch ($type) {
-                    case 'field':
-                        self::mergeNode($fields[0], $child);
-                        break;
-
-                    default:
-                        self::mergeNodes($fields[0], $child);
-                        break;
-                }
+                match ($type) {
+                    'field' => self::mergeNode($fields[0], $child),
+                    default => self::mergeNodes($fields[0], $child),
+                };
             }
         }
     }
@@ -1948,12 +1937,12 @@ class Form implements CurrentUserInterface
             if ($v['attributes']) {
                 $attr = [];
                 foreach ($v['attributes'] as $attrName => $attrValue) {
-                    $attr[] = htmlspecialchars($attrName) . '="' . htmlspecialchars($attrValue) . '"';
+                    $attr[] = htmlspecialchars((string) $attrName) . '="' . htmlspecialchars((string) $attrValue) . '"';
                 }
                 $attrStr = implode(' ', $attr);
             }
 
-            $html[] = '<input type="hidden" name="' . htmlspecialchars($n) . '" value="' . htmlspecialchars($v['value']) . '" ' . $attrStr . '>';
+            $html[] = '<input type="hidden" name="' . htmlspecialchars($n) . '" value="' . htmlspecialchars((string) $v['value']) . '" ' . $attrStr . '>';
         }
 
         // Add the form token

@@ -35,7 +35,7 @@ Factory::getDocument()->getWebAssetManager()->useScript('list-view');
 <a href="#" class="js-stools-column-order<?php echo $selected; ?> js-stools-button-sort"
     <?php echo $id; ?>
     data-order="<?php echo $data->order; ?>"
-    data-direction="<?php echo strtoupper($data->direction); ?>"
+    data-direction="<?php echo strtoupper((string) $data->direction); ?>"
     data-caption="<?php echo $caption; ?>"
     <?php if (!empty($sort)) : ?>
         data-sort="<?php echo $sort; ?>"

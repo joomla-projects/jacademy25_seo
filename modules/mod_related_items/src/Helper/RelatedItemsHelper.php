@@ -85,8 +85,8 @@ class RelatedItemsHelper implements DatabaseAwareInterface
             $db->setQuery($query);
 
             try {
-                $metakey = trim($db->loadResult());
-            } catch (\RuntimeException $e) {
+                $metakey = trim((string) $db->loadResult());
+            } catch (\RuntimeException) {
                 $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
                 return [];
@@ -150,7 +150,7 @@ class RelatedItemsHelper implements DatabaseAwareInterface
 
                 try {
                     $articleIds = $db->loadColumn();
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
                     return [];

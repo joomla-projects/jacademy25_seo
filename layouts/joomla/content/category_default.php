@@ -23,7 +23,7 @@ $params    = $displayData->params;
 $category  = $displayData->get('category');
 $extension = $category->extension;
 $canEdit   = $params->get('access-edit');
-$className = substr($extension, 4);
+$className = substr((string) $extension, 4);
 $htag      = $params->get('show_page_heading') ? 'h2' : 'h1';
 
 $app = Factory::getApplication();
@@ -45,7 +45,7 @@ $afterDisplayContent = trim(implode("\n", $results));
  * This will work for the core components but not necessarily for other components
  * that may have different pluralisation rules.
  */
-if (substr($className, -1) === 's') {
+if (str_ends_with($className, 's')) {
     $className = rtrim($className, 's');
 }
 

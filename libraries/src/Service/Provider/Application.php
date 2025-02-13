@@ -87,7 +87,7 @@ class Application implements ServiceProviderInterface
                     $app->setMenuFactory($container->get(MenuFactoryInterface::class));
 
                     // Ensure that session purging is configured now we have a dispatcher
-                    $app->getDispatcher()->addListener(SessionEvents::START, [$app, 'afterSessionStart'], Priority::HIGH);
+                    $app->getDispatcher()->addListener(SessionEvents::START, $app->afterSessionStart(...), Priority::HIGH);
 
                     return $app;
                 },
@@ -107,7 +107,7 @@ class Application implements ServiceProviderInterface
                     $app->setMenuFactory($container->get(MenuFactoryInterface::class));
 
                     // Ensure that session purging is configured now we have a dispatcher
-                    $app->getDispatcher()->addListener(SessionEvents::START, [$app, 'afterSessionStart'], Priority::HIGH);
+                    $app->getDispatcher()->addListener(SessionEvents::START, $app->afterSessionStart(...), Priority::HIGH);
 
                     return $app;
                 },
@@ -179,13 +179,13 @@ class Application implements ServiceProviderInterface
                 'JApplicationApi',
                 function (Container $container) {
                     $app = new ApiApplication(null, $container->get('config'), null, $container);
-                    $app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+                    $app->setDispatcher($container->get(\Joomla\Event\DispatcherInterface::class));
                     $app->setLogger($container->get(LoggerInterface::class));
-                    $app->setSession($container->get('Joomla\Session\SessionInterface'));
+                    $app->setSession($container->get(\Joomla\Session\SessionInterface::class));
                     $app->setMenuFactory($container->get(MenuFactoryInterface::class));
 
                     // Ensure that session purging is configured now we have a dispatcher
-                    $app->getDispatcher()->addListener(SessionEvents::START, [$app, 'afterSessionStart'], Priority::HIGH);
+                    $app->getDispatcher()->addListener(SessionEvents::START, $app->afterSessionStart(...), Priority::HIGH);
 
                     return $app;
                 },

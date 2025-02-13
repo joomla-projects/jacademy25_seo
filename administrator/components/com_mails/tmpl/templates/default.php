@@ -69,7 +69,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
                         </thead>
                         <tbody>
                         <?php foreach ($this->items as $i => $item) :
-                            list($component, $sub_id) = explode('.', $item->template_id, 2);
+                            [$component, $sub_id] = explode('.', (string) $item->template_id, 2);
                             $sub_id = str_replace('.', '_', $sub_id);
                             ?>
                             <tr class="row<?php echo $i % 2; ?>">

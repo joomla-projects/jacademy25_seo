@@ -178,7 +178,7 @@ class Menu extends Nested
 
         $originalAlias = trim($this->alias);
         $this->alias   = !$originalAlias ? $this->title : $originalAlias;
-        $this->alias   = ApplicationHelper::stringURLSafe(trim($this->alias), $this->language);
+        $this->alias   = ApplicationHelper::stringURLSafe(trim((string) $this->alias), $this->language);
 
         if ($this->parent_id == 1 && $this->client_id == 0) {
             // Verify that a first level menu item alias is not 'component'.

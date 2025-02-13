@@ -35,11 +35,11 @@ class ViewModelLoader extends NamespaceBased
         $prefix = '';
 
         if (\count($methodCall->getArgs()) === 0) {
-            $name = end(explode('\\', $scope->getNamespace()));
+            $name = end(explode('\\', (string) $scope->getNamespace()));
         }
 
         if (\count($methodCall->getArgs()) < 2) {
-            $prefix = strpos($scope->getNamespace(), 'Site') ? 'Site' : 'Administrator';
+            $prefix = strpos((string) $scope->getNamespace(), 'Site') ? 'Site' : 'Administrator';
         }
 
         if (\count($methodCall->getArgs()) > 0) {

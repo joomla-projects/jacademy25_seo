@@ -45,14 +45,6 @@ class FileLayout extends BaseLayout
     protected $layoutId = '';
 
     /**
-     * Base path to use when loading layout files
-     *
-     * @var    string
-     * @since  3.0
-     */
-    protected $basePath = null;
-
-    /**
      * Full path to actual layout files, after possible template override check
      *
      * @var    string
@@ -77,14 +69,18 @@ class FileLayout extends BaseLayout
      *
      * @since   3.0
      */
-    public function __construct($layoutId, $basePath = null, $options = null)
+    public function __construct($layoutId, /**
+     * Base path to use when loading layout files
+     *
+     * @since  3.0
+     */
+    protected $basePath = null, $options = null)
     {
         // Initialise / Load options
         $this->setOptions($options);
 
         // Main properties
         $this->setLayoutId($layoutId);
-        $this->basePath = $basePath;
 
         // Init Environment
         $this->setComponent($this->options->get('component', 'auto'));
@@ -411,7 +407,7 @@ class FileLayout extends BaseLayout
         $component = $option ?? $this->options->get('component', null);
 
         // Valid option format
-        if (!empty($component) && substr_count($component, 'com_')) {
+        if (!empty($component) && substr_count((string) $component, 'com_')) {
             // Latest check: component exists and is enabled
             return ComponentHelper::isEnabled($component);
         }
@@ -432,19 +428,11 @@ class FileLayout extends BaseLayout
     {
         $component = null;
 
-        switch ((string) $option) {
-            case 'none':
-                $component = null;
-                break;
-
-            case 'auto':
-                $component = ApplicationHelper::getComponentName();
-                break;
-
-            default:
-                $component = $option;
-                break;
-        }
+        $component = match ((string) $option) {
+            'none' => null,
+            'auto' => ApplicationHelper::getComponentName(),
+            default => $option,
+        };
 
         // Extra checks
         if (!$this->validComponent($component)) {
@@ -469,21 +457,11 @@ class FileLayout extends BaseLayout
     public function setClient($client)
     {
         // Force string conversion to avoid unexpected states
-        switch ((string) $client) {
-            case 'site':
-            case '0':
-                $client = 0;
-                break;
-
-            case 'admin':
-            case '1':
-                $client = 1;
-                break;
-
-            default:
-                $client = (int) Factory::getApplication()->isClient('administrator');
-                break;
-        }
+        $client = match ((string) $client) {
+            'site', '0' => 0,
+            'admin', '1' => 1,
+            default => (int) Factory::getApplication()->isClient('administrator'),
+        };
 
         $this->options->set('client', $client);
 

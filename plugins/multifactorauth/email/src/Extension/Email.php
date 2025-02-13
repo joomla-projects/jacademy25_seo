@@ -173,7 +173,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 
         try {
             $this->sendCode($key, $user);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return;
         }
 
@@ -445,9 +445,7 @@ class Email extends CMSPlugin implements SubscriberInterface
         // If I already have the email Method go back
         $emailRecords = array_filter(
             $userMfaRecords,
-            function (MfaTable $record) {
-                return $record->method == 'email';
-            }
+            fn(MfaTable $record) => $record->method == 'email'
         );
 
         if (\count($emailRecords)) {
@@ -476,7 +474,7 @@ class Email extends CMSPlugin implements SubscriberInterface
                     'user_id' => $user->id,
                 ]
             );
-        } catch (\Exception $event) {
+        } catch (\Exception) {
             // Fail gracefully
         }
     }

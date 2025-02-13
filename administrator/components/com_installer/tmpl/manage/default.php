@@ -143,7 +143,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     <?php if (!empty($item->creationDate)) : ?>
                                         <?php try {
                                             echo HTMLHelper::date($item->creationDate, $createdDateFormat);
-                                        } catch (Exception $e) {
+                                        } catch (Exception) {
                                             echo $item->creationDate;
                                         }?>
                                     <?php else : ?>

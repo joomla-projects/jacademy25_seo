@@ -147,7 +147,7 @@ class HtmlView extends BaseHtmlView
 
         $this->workflowID    = $this->workflow->id;
 
-        $parts = explode('.', $this->workflow->extension);
+        $parts = explode('.', (string) $this->workflow->extension);
 
         $this->extension = array_shift($parts);
 

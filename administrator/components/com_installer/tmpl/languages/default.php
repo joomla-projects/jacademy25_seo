@@ -68,7 +68,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         $currentShortVersion = preg_replace('#^([0-9\.]+)(|.*)$#', '$1', $version->getShortVersion());
                         $i = 0;
                         foreach ($this->items as $language) :
-                            preg_match('#^pkg_([a-z]{2,3}-[A-Z]{2})$#', $language->element, $element);
+                            preg_match('#^pkg_([a-z]{2,3}-[A-Z]{2})$#', (string) $language->element, $element);
                             $language->code  = $element[1];
                             ?>
                             <tr class="row<?php echo $i % 2; ?>">
@@ -92,7 +92,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 <td class="d-none d-md-table-cell">
                                         <?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
                                         <?php // Display a Note if language pack version is not equal to Joomla version ?>
-                                        <?php if (strpos($language->version, $minorVersion) !== 0 || strpos($language->version, $currentShortVersion) !== 0) : ?>
+                                        <?php if (!str_starts_with((string) $language->version, $minorVersion) || !str_starts_with((string) $language->version, (string) $currentShortVersion)) : ?>
                                             <span class="badge bg-warning"><?php echo $language->version; ?></span>
                                             <span class="icon-info-circle" aria-hidden="true" tabindex="0"></span>
                                             <div role="tooltip" class="text-start" id="tip<?php echo $language->code; ?>">

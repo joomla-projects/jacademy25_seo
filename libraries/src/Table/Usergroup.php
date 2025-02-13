@@ -57,7 +57,7 @@ class Usergroup extends Table
         }
 
         // Validate the title.
-        if ((trim($this->title)) == '') {
+        if ((trim((string) $this->title)) == '') {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE'));
 
             return false;
@@ -74,7 +74,7 @@ class Usergroup extends Table
         // There is a unique index on the (parent_id, title) field in the table.
         $db       = $this->_db;
         $parentId = (int) $this->parent_id;
-        $title    = trim($this->title);
+        $title    = trim((string) $this->title);
         $id       = (int) $this->id;
         $query    = $db->getQuery(true)
             ->select('COUNT(title)')
@@ -186,7 +186,7 @@ class Usergroup extends Table
         // If there is an update failure, return false to break out of the recursion
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 
@@ -297,7 +297,7 @@ class Usergroup extends Table
 
         foreach ($rules as $rule) {
             foreach ($ids as $id) {
-                if (strstr($rule->rules, '[' . $id) || strstr($rule->rules, ',' . $id) || strstr($rule->rules, $id . ']')) {
+                if (strstr((string) $rule->rules, '[' . $id) || strstr((string) $rule->rules, ',' . $id) || strstr((string) $rule->rules, $id . ']')) {
                     $matchIds[] = $rule->id;
                 }
             }

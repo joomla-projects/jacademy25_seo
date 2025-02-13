@@ -60,7 +60,7 @@ class PostgresqlChangeItem extends ChangeItem
         $find        = ['#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#'];
         $replace     = ['($3)', '$1'];
         $updateQuery = preg_replace($find, $replace, $this->updateQuery);
-        $wordArray   = preg_split($splitIntoWords, $updateQuery, -1, PREG_SPLIT_NO_EMPTY);
+        $wordArray   = preg_split($splitIntoWords, (string) $updateQuery, -1, PREG_SPLIT_NO_EMPTY);
 
         $totalWords = \count($wordArray);
 
@@ -76,7 +76,7 @@ class PostgresqlChangeItem extends ChangeItem
 
         if ($command === 'ALTER TABLE') {
             // Check only the last action
-            $actions = ltrim(substr($updateQuery, strpos($updateQuery, $wordArray[2]) + \strlen($wordArray[2])));
+            $actions = ltrim(substr((string) $updateQuery, strpos((string) $updateQuery, $wordArray[2]) + \strlen($wordArray[2])));
             $actions = preg_split($splitIntoActions, $actions);
 
             // Get the last action
@@ -119,7 +119,7 @@ class PostgresqlChangeItem extends ChangeItem
                     $this->fixQuote($wordArray[5]),
                 ];
             } elseif ($alterCommand === 'ALTER COLUMN') {
-                $alterAction = strtoupper($wordArray[6]);
+                $alterAction = strtoupper((string) $wordArray[6]);
 
                 if ($alterAction === 'TYPE') {
                     $type = implode(' ', \array_slice($wordArray, 7));
@@ -155,9 +155,9 @@ class PostgresqlChangeItem extends ChangeItem
                         $type,
                     ];
                 } elseif ($alterAction === 'SET') {
-                    $alterType = strtoupper($wordArray[7]);
+                    $alterType = strtoupper((string) $wordArray[7]);
 
-                    if ($alterType === 'NOT' && strtoupper($wordArray[8]) === 'NULL') {
+                    if ($alterType === 'NOT' && strtoupper((string) $wordArray[8]) === 'NULL') {
                         $result = 'SELECT column_name, data_type, is_nullable'
                             . ' FROM information_schema.columns'
                             . ' WHERE table_name=' . $this->fixQuote($wordArray[2])
@@ -191,7 +191,7 @@ class PostgresqlChangeItem extends ChangeItem
                         ];
                     }
                 } elseif ($alterAction === 'DROP') {
-                    $alterType = strtoupper($wordArray[7]);
+                    $alterType = strtoupper((string) $wordArray[7]);
 
                     if ($alterType === 'DEFAULT') {
                         $result = 'SELECT column_name, data_type, is_nullable , column_default'
@@ -207,7 +207,7 @@ class PostgresqlChangeItem extends ChangeItem
                             $this->fixQuote($wordArray[5]),
                             'NOT DEFAULT',
                         ];
-                    } elseif ($alterType === 'NOT' && strtoupper($wordArray[8]) === 'NULL') {
+                    } elseif ($alterType === 'NOT' && strtoupper((string) $wordArray[8]) === 'NULL') {
                         $result = 'SELECT column_name, data_type, is_nullable , column_default'
                             . ' FROM information_schema.columns'
                             . ' WHERE table_name=' . $this->fixQuote($wordArray[2])

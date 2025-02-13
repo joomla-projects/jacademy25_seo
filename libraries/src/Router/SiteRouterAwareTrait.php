@@ -41,7 +41,7 @@ trait SiteRouterAwareTrait
             return $this->router;
         }
 
-        throw new \UnexpectedValueException('SiteRouter not set in ' . __CLASS__);
+        throw new \UnexpectedValueException('SiteRouter not set in ' . self::class);
     }
 
     /**

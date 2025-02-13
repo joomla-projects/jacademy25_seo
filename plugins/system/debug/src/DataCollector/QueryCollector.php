@@ -36,30 +36,6 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
     private $name = 'queries';
 
     /**
-     * The query monitor.
-     *
-     * @var    DebugMonitor
-     * @since  4.0.0
-     */
-    private $queryMonitor;
-
-    /**
-     * Profile data.
-     *
-     * @var   array
-     * @since 4.0.0
-     */
-    private $profiles;
-
-    /**
-     * Explain data.
-     *
-     * @var   array
-     * @since 4.0.0
-     */
-    private $explains;
-
-    /**
      * Accumulated Duration.
      *
      * @var   integer
@@ -85,14 +61,24 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
      *
      * @since 4.0.0
      */
-    public function __construct(Registry $params, DebugMonitor $queryMonitor, array $profiles, array $explains)
+    public function __construct(Registry $params, /**
+     * The query monitor.
+     *
+     * @since  4.0.0
+     */
+    private readonly DebugMonitor $queryMonitor, /**
+     * Profile data.
+     *
+     * @since 4.0.0
+     */
+    private array $profiles, /**
+     * Explain data.
+     *
+     * @since 4.0.0
+     */
+    private array $explains)
     {
-        $this->queryMonitor = $queryMonitor;
-
         parent::__construct($params);
-
-        $this->profiles = $profiles;
-        $this->explains = $explains;
     }
 
     /**
@@ -219,7 +205,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 
                     $isCaller = 0;
 
-                    if (\Joomla\Database\DatabaseDriver::class === $class && false === strpos($file, 'DatabaseDriver.php')) {
+                    if (\Joomla\Database\DatabaseDriver::class === $class && !str_contains($file, 'DatabaseDriver.php')) {
                         $callerLocation = $location;
                         $isCaller       = 1;
                     }

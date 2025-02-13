@@ -229,7 +229,7 @@ foreach ($filesDifference as $file) {
 
     if ($matches !== false) {
         foreach ($matches as $match) {
-            if (\dirname($match) === \dirname($file) && strtolower(basename($match)) === strtolower(basename($file))) {
+            if (\dirname((string) $match) === \dirname($file) && strtolower(basename((string) $match)) === strtolower(basename($file))) {
                 // File has been renamed only: Add to renamed files list
                 $renamedFiles[] = substr($file, 0, -1) . ' => ' . $match;
 

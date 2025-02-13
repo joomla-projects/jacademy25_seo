@@ -61,13 +61,10 @@ class TemplatestyleField extends GroupedlistField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'clientName':
-            case 'template':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'clientName', 'template' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**

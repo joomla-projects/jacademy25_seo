@@ -34,7 +34,7 @@ class Dispatcher extends AbstractModuleDispatcher
     {
         $data = parent::getLayoutData();
 
-        $data['sitename'] = htmlspecialchars($this->getApplication()->get('sitename', ''), ENT_QUOTES, 'UTF-8');
+        $data['sitename'] = htmlspecialchars((string) $this->getApplication()->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 
         return $data;
     }

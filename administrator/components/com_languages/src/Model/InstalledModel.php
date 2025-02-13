@@ -226,9 +226,9 @@ class InstalledModel extends ListModel
             // Filter by search term.
             if (!empty($search)) {
                 if (
-                    stripos($installedLanguage->name, $search) === false
-                    && stripos($installedLanguage->nativeName, $search) === false
-                    && stripos($installedLanguage->language, $search) === false
+                    stripos((string) $installedLanguage->name, (string) $search) === false
+                    && stripos((string) $installedLanguage->nativeName, (string) $search) === false
+                    && stripos((string) $installedLanguage->language, (string) $search) === false
                 ) {
                     unset($installedLanguages[$key]);
                 }
@@ -238,7 +238,7 @@ class InstalledModel extends ListModel
         // Process ordering.
         $listOrder          = $this->getState('list.ordering', 'name');
         $listDirn           = $this->getState('list.direction', 'ASC');
-        $installedLanguages = ArrayHelper::sortObjects($installedLanguages, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
+        $installedLanguages = ArrayHelper::sortObjects($installedLanguages, $listOrder, strtolower((string) $listDirn) === 'desc' ? -1 : 1, true, true);
 
         // Process pagination.
         $limit = (int) $this->getState('list.limit', 25);

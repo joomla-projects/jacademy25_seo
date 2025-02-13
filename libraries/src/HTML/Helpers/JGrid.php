@@ -105,7 +105,7 @@ abstract class JGrid
             $html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
         }
 
-        return implode($html);
+        return implode('', $html);
     }
 
     /**
@@ -365,8 +365,8 @@ abstract class JGrid
             $i,
             'checkin',
             $prefix,
-            html_entity_decode($activeTitle, ENT_QUOTES, 'UTF-8'),
-            html_entity_decode($inactiveTitle, ENT_QUOTES, 'UTF-8'),
+            html_entity_decode((string) $activeTitle, ENT_QUOTES, 'UTF-8'),
+            html_entity_decode((string) $inactiveTitle, ENT_QUOTES, 'UTF-8'),
             true,
             'checkedout',
             'checkedout',

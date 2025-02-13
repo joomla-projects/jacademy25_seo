@@ -146,7 +146,7 @@ class Token
             // Populate the token instance.
             $langs         = array_fill(0, \count($term), $lang);
             $this->term    = implode($spacer, $term);
-            $this->stem    = implode($spacer, array_map([Helper::class, 'stem'], $term, $langs));
+            $this->stem    = implode($spacer, array_map(Helper::stem(...), $term, $langs));
             $this->numeric = false;
             $this->common  = false;
             $this->phrase  = true;
@@ -164,7 +164,7 @@ class Token
             // Populate the token instance.
             $this->term    = $term;
             $this->stem    = Helper::stem($this->term, $lang);
-            $this->numeric = (is_numeric($this->term) || (bool) preg_match('#^[0-9,.\-\+]+$#', $this->term));
+            $this->numeric = (is_numeric($this->term) || (bool) preg_match('#^[0-9,.\-\+]+$#', (string) $this->term));
             $this->common  = $this->numeric ? false : Helper::isCommon($this->term, $lang);
             $this->phrase  = false;
             $this->length  = StringHelper::strlen($this->term);

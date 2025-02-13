@@ -70,7 +70,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         $this->setState('article.catid', $input->getInt('catid', $catId));
 
         $return = $input->get('return', '', 'base64');
-        $this->setState('return_page', base64_decode($return));
+        $this->setState('return_page', base64_decode((string) $return));
 
         $this->setState('layout', $input->getString('layout'));
     }
@@ -190,7 +190,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
      */
     public function getReturnPage()
     {
-        return base64_encode($this->getState('return_page', ''));
+        return base64_encode((string) $this->getState('return_page', ''));
     }
 
     /**

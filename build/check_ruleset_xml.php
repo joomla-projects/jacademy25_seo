@@ -63,16 +63,16 @@ foreach ($rulesetLines as $line => $text) {
     $path = str_replace('\.', '.', $matches[1]);
 
     // Remove start of string anchor if used
-    if (substr($path, 0, 1) === '^') {
+    if (str_starts_with($path, '^')) {
         $path = substr($path, 1);
     }
 
     // Remove asterisk from the end of paths of folders
-    if (substr($path, -2) === '/*') {
+    if (str_ends_with($path, '/*')) {
         $path = substr($path, 0, -1);
     }
 
-    if (substr($path, -1) === '/') {
+    if (str_ends_with($path, '/')) {
         if (!is_dir(\dirname(__DIR__) . '/' . $path)) {
             echo 'Line no. ' . $line + 1 . ': Folder "' . $path . '" doesn\'t exist.' . PHP_EOL;
             $obsoleteLineIdxs[] = $line;

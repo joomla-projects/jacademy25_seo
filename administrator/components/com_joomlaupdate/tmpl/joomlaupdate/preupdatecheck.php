@@ -92,7 +92,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
     Factory::getApplication()->enqueueMessage(
         Text::sprintf(
             'COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_BACKEND_TEMPLATE_USED_NOTICE',
-            ucfirst($this->defaultBackendTemplate)
+            ucfirst((string) $this->defaultBackendTemplate)
         ),
         'info'
     );
@@ -303,7 +303,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                                                 <?php echo $extension->name; ?>
                                             </th>
                                             <td class="extype">
-                                                <?php echo Text::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
+                                                <?php echo Text::_('COM_INSTALLER_TYPE_' . strtoupper((string) $extension->type)); ?>
                                             </td>
                                             <td class="instver hidden">
                                                 <?php echo $extension->version; ?>

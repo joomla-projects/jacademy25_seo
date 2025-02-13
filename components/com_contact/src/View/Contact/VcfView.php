@@ -56,7 +56,7 @@ class VcfView extends AbstractView
         $this->getDocument()->setMimeEncoding('text/directory', true);
 
         // Compute lastname, firstname and middlename
-        $item->name = trim($item->name);
+        $item->name = trim((string) $item->name);
 
         // "Lastname, Firstname Middlename" format support
         // e.g. "de Gaulle, Charles"
@@ -86,7 +86,7 @@ class VcfView extends AbstractView
             $card_name  = $firstname . ($middlename ? ' ' . $middlename : '') . ($lastname ? ' ' . $lastname : '');
         }
 
-        $rev = date('c', strtotime($item->modified));
+        $rev = date('c', strtotime((string) $item->modified));
 
         Factory::getApplication()->setHeader('Content-disposition', 'attachment; filename="' . $card_name . '.vcf"', true);
 

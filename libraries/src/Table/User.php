@@ -215,7 +215,7 @@ class User extends Table
         }
 
         if (
-            preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $this->username) || StringHelper::strlen($this->username) < 2
+            preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', (string) $this->username) || StringHelper::strlen($this->username) < 2
             || $filterInput->clean($this->username, 'TRIM') !== $this->username || StringHelper::strlen($this->username) > 150
         ) {
             $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));

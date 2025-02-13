@@ -82,7 +82,7 @@ trait AdditionalLoginButtons
         $image = HTMLHelper::_('image', 'plg_system_webauthn/fido-passkey-black.svg', '', '', true, true);
 
         // If you can't find the image then skip it
-        $image = $image ? JPATH_ROOT . substr($image, \strlen(Uri::root(true))) : '';
+        $image = $image ? JPATH_ROOT . substr((string) $image, \strlen(Uri::root(true))) : '';
 
         // Extract image if it exists
         $image = file_exists($image) ? file_get_contents($image) : '';
@@ -138,7 +138,7 @@ trait AdditionalLoginButtons
              */
             try {
                 $document = $this->getApplication()->getDocument();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $document = null;
             }
 

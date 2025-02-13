@@ -564,7 +564,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                         $db->execute();
 
                         $stepval = true;
-                    } catch (ExecutionFailureException $e) {
+                    } catch (ExecutionFailureException) {
                         // The database API will have already logged the error it caught, we just need to alert the user to the issue
                         Log::add(Text::_('JLIB_INSTALLER_ABORT_ERROR_DELETING_EXTENSIONS_RECORD'), Log::WARNING, 'jerror');
 
@@ -1049,8 +1049,8 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
         // Get the name of the sql file to process
         foreach ($element->children() as $file) {
-            $fCharset = strtolower($file->attributes()->charset) === 'utf8' ? 'utf8' : '';
-            $fDriver  = strtolower($file->attributes()->driver);
+            $fCharset = strtolower((string) $file->attributes()->charset) === 'utf8' ? 'utf8' : '';
+            $fDriver  = strtolower((string) $file->attributes()->driver);
 
             if ($fDriver === 'mysqli' || $fDriver === 'pdomysql') {
                 $fDriver = 'mysql';
@@ -1062,7 +1062,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 continue;
             }
 
-            $sqlfile = $this->getPath('extension_root') . '/' . trim($file);
+            $sqlfile = $this->getPath('extension_root') . '/' . trim((string) $file);
 
             // Check that sql files exists before reading. Otherwise raise error for rollback
             if (!file_exists($sqlfile)) {
@@ -1090,9 +1090,9 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
             // Process each query in the $queries array (split out of sql file).
             foreach ($queries as $query) {
-                $canFail = \strlen($query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
-                    strtoupper(substr($query, -self::CAN_FAIL_MARKER_LENGTH - 1)) === (self::CAN_FAIL_MARKER . ';');
-                $query   = $canFail ? (substr($query, 0, -self::CAN_FAIL_MARKER_LENGTH - 1) . ';') : $query;
+                $canFail = \strlen((string) $query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
+                    strtoupper(substr((string) $query, -self::CAN_FAIL_MARKER_LENGTH - 1)) === (self::CAN_FAIL_MARKER . ';');
+                $query   = $canFail ? (substr((string) $query, 0, -self::CAN_FAIL_MARKER_LENGTH - 1) . ';') : $query;
 
                 try {
                     $db->setQuery($query)->execute();
@@ -1207,7 +1207,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             $attrs = $entry->attributes();
 
             // Assuming that the type is a mandatory attribute but if it is not mandatory then there should be a discussion for it.
-            $uDriver = strtolower($attrs['type']);
+            $uDriver = strtolower((string) $attrs['type']);
 
             if ($uDriver === 'mysqli' || $uDriver === 'pdomysql') {
                 $uDriver = 'mysql';
@@ -1279,9 +1279,9 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
             // Process each query in the $queries array (split out of sql file).
             foreach ($queries as $query) {
-                $canFail = \strlen($query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
-                    strtoupper(substr($query, -self::CAN_FAIL_MARKER_LENGTH - 1)) === (self::CAN_FAIL_MARKER . ';');
-                $query   = $canFail ? (substr($query, 0, -self::CAN_FAIL_MARKER_LENGTH - 1) . ';') : $query;
+                $canFail = \strlen((string) $query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
+                    strtoupper(substr((string) $query, -self::CAN_FAIL_MARKER_LENGTH - 1)) === (self::CAN_FAIL_MARKER . ';');
+                $query   = $canFail ? (substr((string) $query, 0, -self::CAN_FAIL_MARKER_LENGTH - 1) . ';') : $query;
 
                 $queryString = (string) $query;
                 $queryString = str_replace(["\r", "\n"], ['', ' '], substr($queryString, 0, 80));
@@ -1351,7 +1351,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             } else {
                 $db->insertObject('#__schemas', $o);
             }
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             /**
              * Safe fallback: delete any existing record and insert afresh.
              *
@@ -2048,7 +2048,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                     $this->setPath('manifest', $file);
 
                     // Set the installation source path to that of the manifest file
-                    $this->setPath('source', \dirname($file));
+                    $this->setPath('source', \dirname((string) $file));
 
                     return true;
                 }
@@ -2401,7 +2401,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             foreach ($custom as $adapter) {
                 // Setup the class name
                 // @todo - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
-                $class = $this->_classprefix . ucfirst(trim($adapter));
+                $class = $this->_classprefix . ucfirst(trim((string) $adapter));
 
                 // If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
                 if (!class_exists($class)) {

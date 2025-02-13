@@ -248,7 +248,7 @@ class CategoryModel extends ListModel
         $search = $this->getState('list.filter');
 
         if (!empty($search)) {
-            $search = '%' . trim($search) . '%';
+            $search = '%' . trim((string) $search) . '%';
             $query->where($db->quoteName('a.name') . ' LIKE :name ');
             $query->bind(':name', $search);
         }
@@ -327,7 +327,7 @@ class CategoryModel extends ListModel
 
         $listOrder = $input->get('filter_order_Dir', 'ASC');
 
-        if (!\in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
+        if (!\in_array(strtoupper((string) $listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 

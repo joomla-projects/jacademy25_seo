@@ -88,11 +88,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         <?php
                         $lang = '';
                         if ($item->language && Multilanguage::isEnabled()) {
-                            $tag = \strlen($item->language);
+                            $tag = \strlen((string) $item->language);
                             if ($tag == 5) {
-                                $lang = substr($item->language, 0, 2);
+                                $lang = substr((string) $item->language, 0, 2);
                             } elseif ($tag == 6) {
-                                $lang = substr($item->language, 0, 3);
+                                $lang = substr((string) $item->language, 0, 3);
                             }
                         }
 
@@ -114,7 +114,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     . ' data-html="' . $this->escape($itemHtml) . '"';
                                 ?>
                                 <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
-                                <a href="javascript:void(0)" <?php echo $attribs; ?> onclick="if (window.parent && !window.parent.JoomlaExpectingPostMessage) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', null, '<?php echo $this->escape(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
+                                <a href="javascript:void(0)" <?php echo $attribs; ?> onclick="if (window.parent && !window.parent.JoomlaExpectingPostMessage) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes((string) $item->title)); ?>', null, '<?php echo $this->escape(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
                                     <?php echo $this->escape($item->title); ?></a>
                                 <div class="small" title="<?php echo $this->escape($item->path); ?>">
                                     <?php if (empty($item->note)) : ?>

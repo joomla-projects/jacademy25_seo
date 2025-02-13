@@ -52,22 +52,6 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
     use MailerFactoryAwareTrait;
 
     /**
-     * The namespace to create the objects from.
-     *
-     * @var    string
-     * @since  4.0.0
-     */
-    private $namespace;
-
-    /**
-     * The namespace to create the objects from.
-     *
-     * @var    LoggerInterface
-     * @since  4.0.0
-     */
-    private $logger;
-
-    /**
      * The namespace must be like:
      * Joomla\Component\Content
      *
@@ -76,10 +60,21 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
      *
      * @since   4.0.0
      */
-    public function __construct($namespace, ?LoggerInterface $logger = null)
+    public function __construct(
+        /**
+         * The namespace to create the objects from.
+         *
+         * @since  4.0.0
+         */
+        private $namespace,
+        /**
+         * The namespace to create the objects from.
+         *
+         * @since  4.0.0
+         */
+        private ?LoggerInterface $logger = null
+    )
     {
-        $this->namespace = $namespace;
-        $this->logger    = $logger;
     }
 
     /**
@@ -102,7 +97,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         $name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
         $prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
-        $className = $this->getClassName('Controller\\' . ucfirst($name) . 'Controller', $prefix);
+        $className = $this->getClassName('Controller\\' . ucfirst((string) $name) . 'Controller', $prefix);
 
         if (!$className) {
             return null;
@@ -153,7 +148,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
             $prefix = Factory::getApplication()->getName();
         }
 
-        $className = $this->getClassName('Model\\' . ucfirst($name) . 'Model', $prefix);
+        $className = $this->getClassName('Model\\' . ucfirst((string) $name) . 'Model', $prefix);
 
         if (!$className) {
             return null;
@@ -170,7 +165,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         if ($model instanceof DatabaseAwareInterface) {
             try {
                 $model->setDatabase($this->getDatabase());
-            } catch (DatabaseNotFoundException $e) {
+            } catch (DatabaseNotFoundException) {
                 @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
                 $model->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
@@ -211,7 +206,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
             $prefix = Factory::getApplication()->getName();
         }
 
-        $className = $this->getClassName('View\\' . ucfirst($name) . '\\' . ucfirst($type) . 'View', $prefix);
+        $className = $this->getClassName('View\\' . ucfirst((string) $name) . '\\' . ucfirst((string) $type) . 'View', $prefix);
 
         if (!$className) {
             return null;
@@ -257,8 +252,8 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
             $prefix = Factory::getApplication()->getName();
         }
 
-        $className = $this->getClassName('Table\\' . ucfirst($name) . 'Table', $prefix)
-            ?: $this->getClassName('Table\\' . ucfirst($name) . 'Table', 'Administrator');
+        $className = $this->getClassName('Table\\' . ucfirst((string) $name) . 'Table', $prefix)
+            ?: $this->getClassName('Table\\' . ucfirst((string) $name) . 'Table', 'Administrator');
 
         if (!$className) {
             return null;
@@ -266,7 +261,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $db = \array_key_exists('dbo', $config) ? $config['dbo'] : $this->getDatabase();
-        } catch (DatabaseNotFoundException $e) {
+        } catch (DatabaseNotFoundException) {
             @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
@@ -320,7 +315,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setFormFactory($this->getFormFactory());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }
@@ -342,7 +337,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setDispatcher($this->getDispatcher());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }
@@ -364,7 +359,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setSiteRouter($this->getSiteRouter());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }
@@ -386,7 +381,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setCacheControllerFactory($this->getCacheControllerFactory());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }
@@ -408,7 +403,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setUserFactory($this->getUserFactory());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }
@@ -430,7 +425,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setMailerFactory($this->getMailerFactory());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }

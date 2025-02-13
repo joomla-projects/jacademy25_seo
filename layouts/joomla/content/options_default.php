@@ -27,7 +27,7 @@ $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
             <?php echo $displayData->description; ?>
         </div>
     <?php endif; ?>
-    <?php $fieldsnames = explode(',', $displayData->fieldsname); ?>
+    <?php $fieldsnames = explode(',', (string) $displayData->fieldsname); ?>
         <div class="form-grid">
         <?php foreach ($fieldsnames as $fieldname) : ?>
             <?php foreach ($displayData->form->getFieldset($fieldname) as $field) : ?>

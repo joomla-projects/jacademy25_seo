@@ -87,14 +87,12 @@ class RssParserTest extends UnitTestCase
             ->with(
                 'cloud',
                 $this->callback(
-                    function ($value) use ($cloud) {
-                        return \is_object($value)
-                            && $value->domain === $cloud['domain']
-                            && $value->port === $cloud['port']
-                            && $value->path === $cloud['path']
-                            && $value->registerProcedure === $cloud['registerProcedure']
-                            && $value->protocol === $cloud['protocol'];
-                    }
+                    fn($value) => \is_object($value)
+                        && $value->domain === $cloud['domain']
+                        && $value->port === $cloud['port']
+                        && $value->path === $cloud['path']
+                        && $value->registerProcedure === $cloud['registerProcedure']
+                        && $value->protocol === $cloud['protocol']
                 )
             );
 
@@ -226,17 +224,15 @@ class RssParserTest extends UnitTestCase
             ->with(
                 'image',
                 $this->callback(
-                    function ($value) use ($image) {
-                        return $value instanceof FeedLink
-                            && $value->uri === $image['url']
-                            && $value->relation === null
-                            && $value->type === 'logo'
-                            && $value->language === null
-                            && $value->title === $image['title']
-                            && $value->description === $image['description']
-                            && $value->height === ''
-                            && $value->width === '';
-                    }
+                    fn($value) => $value instanceof FeedLink
+                        && $value->uri === $image['url']
+                        && $value->relation === null
+                        && $value->type === 'logo'
+                        && $value->language === null
+                        && $value->title === $image['title']
+                        && $value->description === $image['description']
+                        && $value->height === ''
+                        && $value->width === ''
                 )
             );
 
@@ -331,9 +327,7 @@ class RssParserTest extends UnitTestCase
             ->with(
                 'link',
                 $this->callback(
-                    function ($value) use ($link) {
-                        return $value instanceof FeedLink && $value->uri === $link;
-                    }
+                    fn($value) => $value instanceof FeedLink && $value->uri === $link
                 )
             );
 
@@ -371,11 +365,9 @@ class RssParserTest extends UnitTestCase
             ->with(
                 'author',
                 $this->callback(
-                    function ($value) use ($editor) {
-                        return $value instanceof FeedPerson
-                            && $value->name === $editor['name']
-                            && $value->email === $editor['email'];
-                    }
+                    fn($value) => $value instanceof FeedPerson
+                        && $value->name === $editor['name']
+                        && $value->email === $editor['email']
                 )
             );
 
@@ -665,11 +657,9 @@ class RssParserTest extends UnitTestCase
                 ['isPermaLink', true],
                 ['comments', ''],
                 ['author', $this->callback(
-                    function ($value) use ($entry) {
-                        return $value instanceof FeedPerson
-                            && $value->name === $entry['authorName']
-                            && $value->email === $entry['authorEmail'];
-                    }
+                    fn($value) => $value instanceof FeedPerson
+                        && $value->name === $entry['authorName']
+                        && $value->email === $entry['authorEmail']
                 ),
                 ]
             );
@@ -684,12 +674,10 @@ class RssParserTest extends UnitTestCase
             ->method('addLink')
             ->with(
                 $this->callback(
-                    function ($value) use ($entry) {
-                        return $value instanceof FeedLink
-                            && $value->uri === $entry['enclosureUrl']
-                            && $value->type === $entry['enclosureType']
-                            && $value->length === (int) $entry['enclosureLength'];
-                    }
+                    fn($value) => $value instanceof FeedLink
+                        && $value->uri === $entry['enclosureUrl']
+                        && $value->type === $entry['enclosureType']
+                        && $value->length === (int) $entry['enclosureLength']
                 )
             );
 

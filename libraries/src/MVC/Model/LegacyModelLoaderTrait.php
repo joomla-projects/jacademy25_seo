@@ -46,7 +46,7 @@ trait LegacyModelLoaderTrait
      */
     protected static function _createFileName($type, $parts = [])
     {
-        return $type === 'model' ? strtolower($parts['name']) . '.php' : '';
+        return $type === 'model' ? strtolower((string) $parts['name']) . '.php' : '';
     }
 
     /**
@@ -80,7 +80,7 @@ trait LegacyModelLoaderTrait
             return $model;
         }
 
-        $modelClass = $prefix . ucfirst($type);
+        $modelClass = $prefix . ucfirst((string) $type);
 
         if (!class_exists($modelClass)) {
             $path = Path::find(self::addIncludePath(null, $prefix), self::_createFileName('model', ['name' => $type]));
@@ -160,12 +160,12 @@ trait LegacyModelLoaderTrait
         $sitePath  = Path::clean(JPATH_SITE . '/components/' . $componentName);
 
         foreach (self::addIncludePath() as $path) {
-            if (strpos($path, $adminPath) !== false) {
+            if (str_contains($path, $adminPath)) {
                 $client = 'Administrator';
                 break;
             }
 
-            if (strpos($path, $sitePath) !== false) {
+            if (str_contains($path, $sitePath)) {
                 $client = 'Site';
                 break;
             }

@@ -180,7 +180,7 @@ class MenusModel extends ListModel
             ->bind(':clientId', $clientId, ParameterType::INTEGER);
 
         // Filter by search in title or menutype
-        if ($search = trim($this->getState('filter.search', ''))) {
+        if ($search = trim((string) $this->getState('filter.search', ''))) {
             $search = '%' . str_replace(' ', '%', $search) . '%';
             $query->extendWhere(
                 'AND',

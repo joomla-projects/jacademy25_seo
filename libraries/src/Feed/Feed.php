@@ -89,8 +89,8 @@ class Feed implements \ArrayAccess, \Countable
             throw new \InvalidArgumentException(
                 \sprintf(
                     '%1$s "author" must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
-                    \get_class($this),
-                    \is_object($value) ? \get_class($value) : \gettype($value)
+                    static::class,
+                    get_debug_type($value)
                 )
             );
         }
@@ -100,7 +100,7 @@ class Feed implements \ArrayAccess, \Countable
             throw new \InvalidArgumentException(
                 \sprintf(
                     'Cannot directly set %1$s property "%2$s".',
-                    \get_class($this),
+                    static::class,
                     $name
                 )
             );
@@ -241,8 +241,8 @@ class Feed implements \ArrayAccess, \Countable
             throw new \InvalidArgumentException(
                 \sprintf(
                     '%1$s entries must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
-                    \get_class($this),
-                    \is_object($value) ? \get_class($value) : \gettype($value)
+                    static::class,
+                    get_debug_type($value)
                 )
             );
         }

@@ -90,11 +90,11 @@ if ($iconClass === '' && $itemIconClass) {
 }
 
 if ($iconImage) {
-    if (substr($iconImage, 0, 6) == 'class:' && substr($iconImage, 6) == 'icon-home') {
+    if (str_starts_with((string) $iconImage, 'class:') && substr((string) $iconImage, 6) == 'icon-home') {
         $iconImage = '<span class="home-image icon-home" aria-hidden="true"></span>';
         $iconImage .= '<span class="visually-hidden">' . Text::_('JDEFAULT') . '</span>';
-    } elseif (substr($iconImage, 0, 6) == 'image:') {
-        $iconImage = '&nbsp;<span class="badge">' . substr($iconImage, 6) . '</span>';
+    } elseif (str_starts_with((string) $iconImage, 'image:')) {
+        $iconImage = '&nbsp;<span class="badge">' . substr((string) $iconImage, 6) . '</span>';
     } else {
         $iconImage = '';
     }
@@ -168,7 +168,7 @@ if (!empty($current->dashboard)) {
 // Recurse through children if they exist
 if ($this->enabled && $current->hasChildren()) {
     if ($current->level > 1) {
-        $id = $current->id ? ' id="menu-' . strtolower($current->id) . '"' : '';
+        $id = $current->id ? ' id="menu-' . strtolower((string) $current->id) . '"' : '';
 
         echo '<ul' . $id . ' class="mm-collapse collapse-level-' . $current->level . '">' . "\n";
     } else {

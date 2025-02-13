@@ -65,7 +65,7 @@ class ViewController extends CacheController
                 $this->cache->unlock($id);
             }
 
-            $data = unserialize(trim($data));
+            $data = unserialize(trim((string) $data));
 
             if ($wrkarounds) {
                 echo Cache::getWorkarounds($data);
@@ -157,6 +157,6 @@ class ViewController extends CacheController
      */
     protected function _makeId($view, $method)
     {
-        return md5(serialize([Cache::makeId(), \get_class($view), $method]));
+        return md5(serialize([Cache::makeId(), $view::class, $method]));
     }
 }

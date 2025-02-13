@@ -525,7 +525,7 @@ class Cache
         if (isset($data['module']) && \is_array($data['module'])) {
             // Iterate through the module positions and push them into the document buffer.
             foreach ($data['module'] as $name => $contents) {
-                $document->setBuffer($contents, 'module', $name);
+                $document->setBuffer($contents, 'module');
             }
         }
 

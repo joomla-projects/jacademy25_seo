@@ -42,7 +42,7 @@ class Dispatcher extends AbstractModuleDispatcher
         }
 
         // Replace 'images/' to '../images/' when using an image from /images in backend.
-        $this->module->content = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', $this->module->content);
+        $this->module->content = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', (string) $this->module->content);
 
         return $data;
     }

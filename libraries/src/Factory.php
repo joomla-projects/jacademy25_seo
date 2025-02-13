@@ -267,7 +267,7 @@ abstract class Factory
             \sprintf(
                 '%1$s() is deprecated. Load the session from the dependency injection container or via %2$s::getApplication()->getSession().',
                 __METHOD__,
-                __CLASS__
+                self::class
             ),
             E_USER_DEPRECATED
         );
@@ -296,7 +296,7 @@ abstract class Factory
             \sprintf(
                 '%1$s() is deprecated. Load the language from the dependency injection container or via %2$s::getApplication()->getLanguage().',
                 __METHOD__,
-                __CLASS__
+                self::class
             ),
             E_USER_DEPRECATED
         );
@@ -329,7 +329,7 @@ abstract class Factory
             \sprintf(
                 '%1$s() is deprecated. Load the document from the dependency injection container or via %2$s::getApplication()->getDocument().',
                 __METHOD__,
-                __CLASS__
+                self::class
             ),
             E_USER_DEPRECATED
         );
@@ -364,7 +364,7 @@ abstract class Factory
             \sprintf(
                 '%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
                 __METHOD__,
-                __CLASS__
+                self::class
             ),
             E_USER_DEPRECATED
         );
@@ -523,11 +523,11 @@ abstract class Factory
 
                 if (!class_exists($classname)) {
                     // The class does not exist, default to Date
-                    $classname = 'Joomla\\CMS\\Date\\Date';
+                    $classname = \Joomla\CMS\Date\Date::class;
                 }
             } else {
                 // No tag, so default to Date
-                $classname = 'Joomla\\CMS\\Date\\Date';
+                $classname = \Joomla\CMS\Date\Date::class;
             }
         }
 
@@ -672,7 +672,7 @@ abstract class Factory
             ];
 
             foreach (['cipher', 'ca', 'key', 'cert'] as $value) {
-                $confVal = trim($conf->get('dbssl' . $value, ''));
+                $confVal = trim((string) $conf->get('dbssl' . $value, ''));
 
                 if ($confVal !== '') {
                     $options['ssl'][$value] = $confVal;
@@ -734,7 +734,7 @@ abstract class Factory
             \sprintf(
                 '%1$s() is deprecated. Load the language from the dependency injection container or via %2$s::getApplication()->getLanguage().',
                 __METHOD__,
-                __CLASS__
+                self::class
             ),
             E_USER_DEPRECATED
         );
@@ -765,7 +765,7 @@ abstract class Factory
             \sprintf(
                 '%1$s() is deprecated. Load the document from the dependency injection container or via %2$s::getApplication()->getDocument().',
                 __METHOD__,
-                __CLASS__
+                self::class
             ),
             E_USER_DEPRECATED
         );

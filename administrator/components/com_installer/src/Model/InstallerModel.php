@@ -101,7 +101,7 @@ class InstallerModel extends ListModel
                     $found = 0;
 
                     foreach ($searchFields as $key => $field) {
-                        if (!$found && preg_match('/' . $escapedSearchString . '/i', $item->{$field})) {
+                        if (!$found && preg_match('/' . $escapedSearchString . '/i', (string) $item->{$field})) {
                             $found = 1;
                         }
                     }
@@ -115,7 +115,7 @@ class InstallerModel extends ListModel
 
             // Process ordering.
             // Sort array object by selected ordering and selected direction. Sort is case insensitive and using locale sorting.
-            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, false, true);
+            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower((string) $listDirn) == 'desc' ? -1 : 1, false, true);
 
             // Process pagination.
             $total                                      = \count($result);
@@ -149,7 +149,7 @@ class InstallerModel extends ListModel
         $lang = Factory::getLanguage();
 
         foreach ($items as &$item) {
-            if (\strlen($item->manifest_cache) && $data = json_decode($item->manifest_cache)) {
+            if (\strlen((string) $item->manifest_cache) && $data = json_decode((string) $item->manifest_cache)) {
                 foreach ($data as $key => $value) {
                     if ($key == 'type') {
                         // Ignore the type field
@@ -163,7 +163,7 @@ class InstallerModel extends ListModel
             $item->author_info       = @$item->authorEmail . '<br>' . @$item->authorUrl;
             $item->client            = Text::_([0 => 'JSITE', 1 => 'JADMINISTRATOR', 3 => 'JAPI'][$item->client_id] ?? 'JSITE');
             $item->client_translated = $item->client;
-            $item->type_translated   = Text::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
+            $item->type_translated   = Text::_('COM_INSTALLER_TYPE_' . strtoupper((string) $item->type));
             $item->folder_translated = @$item->folder ? $item->folder : Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
 
             $path = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
@@ -179,7 +179,7 @@ class InstallerModel extends ListModel
                     $lang->load("$extension.sys", JPATH_SITE);
                     break;
                 case 'library':
-                    $parts     = explode('/', $item->element);
+                    $parts     = explode('/', (string) $item->element);
                     $vendor    = (isset($parts[1]) ? $parts[0] : null);
                     $extension = 'lib_' . ($vendor ? implode('_', $parts) : $item->element);
 

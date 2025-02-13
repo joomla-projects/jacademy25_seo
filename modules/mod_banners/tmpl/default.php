@@ -35,7 +35,7 @@ use Joomla\CMS\Uri\Uri;
             <?php $imageurl = $imageobject->url; ?>
             <?php if (!empty($imageurl) && (MediaHelper::isImage($imageurl) || MediaHelper::getMimeType($imageurl) === 'image/svg+xml')) : ?>
                 <?php // Image based banner ?>
-                <?php $baseurl = strpos($imageurl, 'http') === 0 ? '' : Uri::base(); ?>
+                <?php $baseurl = str_starts_with((string) $imageurl, 'http') ? '' : Uri::base(); ?>
                 <?php $alt = $item->params->get('alt'); ?>
                 <?php $alt = $alt ?: $item->name; ?>
                 <?php $alt = $alt ?: Text::_('MOD_BANNERS_BANNER'); ?>
@@ -59,7 +59,7 @@ use Joomla\CMS\Uri\Uri;
                         <?php // Open in a new window ?>
                         <a
                             href="<?php echo $link; ?>" target="_blank" rel="noopener noreferrer"
-                            title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
+                            title="<?php echo htmlspecialchars((string) $item->name, ENT_QUOTES, 'UTF-8'); ?>">
                             <?php echo $image; ?>
                         </a>
                     <?php elseif ($target == 2) : ?>
@@ -68,14 +68,14 @@ use Joomla\CMS\Uri\Uri;
                             href="<?php echo $link; ?>" onclick="window.open(this.href, '',
                                 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550');
                                 return false"
-                            title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
+                            title="<?php echo htmlspecialchars((string) $item->name, ENT_QUOTES, 'UTF-8'); ?>">
                             <?php echo $image; ?>
                         </a>
                     <?php else : ?>
                         <?php // Open in parent window ?>
                         <a
                             href="<?php echo $link; ?>"
-                            title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
+                            title="<?php echo htmlspecialchars((string) $item->name, ENT_QUOTES, 'UTF-8'); ?>">
                             <?php echo $image; ?>
                         </a>
                     <?php endif; ?>

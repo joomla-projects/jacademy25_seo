@@ -149,7 +149,7 @@ class FieldsHelper
             $assignedCatIds = $item->catid ?? $item->fieldscatid;
 
             if (!\is_array($assignedCatIds)) {
-                $assignedCatIds = explode(',', $assignedCatIds);
+                $assignedCatIds = explode(',', (string) $assignedCatIds);
             }
 
             // Fields without any category assigned should show as well
@@ -175,9 +175,7 @@ class FieldsHelper
             PluginHelper::importPlugin('fields', null, true, $dispatcher);
 
             $fieldIds = array_map(
-                function ($f) {
-                    return $f->id;
-                },
+                fn($f) => $f->id,
                 $fields
             );
 
@@ -226,9 +224,7 @@ class FieldsHelper
                     ]))->getArgument('result', []);
 
                     if (\is_array($value)) {
-                        $value = array_filter($value, function ($v) {
-                            return $v !== '' && $v !== null;
-                        });
+                        $value = array_filter($value, fn($v) => $v !== '' && $v !== null);
                         $value = $value ? implode(' ', $value) : '';
                     }
 
@@ -453,7 +449,7 @@ class FieldsHelper
             }
 
             $fieldset->setAttribute('label', $label);
-            $fieldset->setAttribute('description', strip_tags($description));
+            $fieldset->setAttribute('description', strip_tags((string) $description));
 
             // Looping through the fields for that context
             foreach ($fieldsPerGroup[$group->id] as $field) {

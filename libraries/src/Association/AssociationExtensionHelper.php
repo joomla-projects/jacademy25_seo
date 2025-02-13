@@ -238,13 +238,13 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
         }
 
         $tmp = $fields[$fieldName];
-        $pos = strpos($tmp, '.');
+        $pos = strpos((string) $tmp, '.');
 
         if ($pos === false) {
             return $tmp;
         }
 
-        return substr($tmp, $pos + 1);
+        return substr((string) $tmp, $pos + 1);
     }
 
     /**

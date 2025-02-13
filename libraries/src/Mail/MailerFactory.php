@@ -24,21 +24,19 @@ use Joomla\Registry\Registry;
 class MailerFactory implements MailerFactoryInterface
 {
     /**
-     * The default configuration.
-     *
-     * @var     Registry
-     * @since   4.4.0
-     */
-    private $defaultConfiguration;
-
-    /**
      * The MailerFactory constructor.
      *
      * @param   Registry  $defaultConfiguration  The default configuration
      */
-    public function __construct(Registry $defaultConfiguration)
+    public function __construct(
+        /**
+         * The default configuration.
+         *
+         * @since   4.4.0
+         */
+        private readonly Registry $defaultConfiguration
+    )
     {
-        $this->defaultConfiguration = $defaultConfiguration;
     }
 
     /**
@@ -82,25 +80,17 @@ class MailerFactory implements MailerFactoryInterface
                 if ($mailer->setFrom($mailfrom, MailHelper::cleanLine($fromname), false) === false) {
                     Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
                 }
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
             }
         }
 
         // Default mailer is to use PHP's mail function
-        switch ($mailType) {
-            case 'smtp':
-                $mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
-                break;
-
-            case 'sendmail':
-                $mailer->isSendmail();
-                break;
-
-            default:
-                $mailer->isMail();
-                break;
-        }
+        match ($mailType) {
+            'smtp' => $mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport),
+            'sendmail' => $mailer->isSendmail(),
+            default => $mailer->isMail(),
+        };
 
         return $mailer;
     }

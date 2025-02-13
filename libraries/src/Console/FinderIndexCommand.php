@@ -62,14 +62,6 @@ class FinderIndexCommand extends AbstractCommand implements LanguageAwareInterfa
     private $ioStyle;
 
     /**
-     * Database connector
-     *
-     * @var    DatabaseInterface
-     * @since  4.0.0
-     */
-    private $db;
-
-    /**
      * Start time for the index process
      *
      * @var    string
@@ -131,9 +123,13 @@ class FinderIndexCommand extends AbstractCommand implements LanguageAwareInterfa
      *
      * @since   4.0.0
      */
-    public function __construct(DatabaseInterface $db)
+    public function __construct(/**
+     * Database connector
+     *
+     * @since  4.0.0
+     */
+    private DatabaseInterface $db)
     {
-        $this->db = $db;
         parent::__construct();
     }
 
@@ -245,7 +241,7 @@ EOF;
 
         try {
             $language = $this->getLanguage();
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             @trigger_error(\sprintf('Language must be set in 6.0 in %s', __METHOD__), E_USER_DEPRECATED);
             $language = Factory::getLanguage();
         }

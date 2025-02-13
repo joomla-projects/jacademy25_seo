@@ -72,22 +72,6 @@ class Stream
     protected $filename;
 
     /**
-     * Prefix of the connection for writing
-     *
-     * @var    string
-     * @since  1.7.0
-     */
-    protected $writeprefix;
-
-    /**
-     * Prefix of the connection for reading
-     *
-     * @var    string
-     * @since  1.7.0
-     */
-    protected $readprefix;
-
-    /**
      * Read Processing method
      * @var    string  gz, bz, f
      * If a scheme is detected, fopen will be defaulted
@@ -129,14 +113,6 @@ class Stream
     protected $context = null;
 
     /**
-     * Context options; used to rebuild the context
-     *
-     * @var    array
-     * @since  3.0.0
-     */
-    protected $contextOptions;
-
-    /**
      * The mode under which the file was opened
      *
      * @var    string
@@ -149,17 +125,29 @@ class Stream
      *
      * @param   string  $writeprefix  Prefix of the stream (optional). Unlike the JPATH_*, this has a final path separator!
      * @param   string  $readprefix   The read prefix (optional).
-     * @param   array   $context      The context options (optional).
+     * @param array $contextOptions The context options (optional).
      *
      * @since   1.7.0
      * @deprecated  4.4 will be removed in 6.0
      *              Use Joomla\Filesystem\Stream::__construct() instead.
      */
-    public function __construct($writeprefix = '', $readprefix = '', $context = [])
+    public function __construct(/**
+     * Prefix of the connection for writing
+     *
+     * @since  1.7.0
+     */
+    protected $writeprefix = '', /**
+     * Prefix of the connection for reading
+     *
+     * @since  1.7.0
+     */
+    protected $readprefix = '', /**
+     * Context options; used to rebuild the context
+     *
+     * @since  3.0.0
+     */
+    protected $contextOptions = [])
     {
-        $this->writeprefix    = $writeprefix;
-        $this->readprefix     = $readprefix;
-        $this->contextOptions = $context;
         $this->_buildContext();
     }
 
@@ -233,23 +221,11 @@ class Stream
         } elseif ($detectProcessingMode) {
             $ext = strtolower(File::getExt($this->filename));
 
-            switch ($ext) {
-                case 'tgz':
-                case 'gz':
-                case 'gzip':
-                    $this->processingmethod = 'gz';
-                    break;
-
-                case 'tbz2':
-                case 'bz2':
-                case 'bzip2':
-                    $this->processingmethod = 'bz';
-                    break;
-
-                default:
-                    $this->processingmethod = 'f';
-                    break;
-            }
+            $this->processingmethod = match ($ext) {
+                'tgz', 'gz', 'gzip' => 'gz',
+                'tbz2', 'bz2', 'bzip2' => 'bz',
+                default => 'f',
+            };
         }
 
         // Capture PHP errors
@@ -327,20 +303,11 @@ class Stream
         $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
-        switch ($this->processingmethod) {
-            case 'gz':
-                $res = gzclose($this->fh);
-                break;
-
-            case 'bz':
-                $res = bzclose($this->fh);
-                break;
-
-            case 'f':
-            default:
-                $res = fclose($this->fh);
-                break;
-        }
+        $res = match ($this->processingmethod) {
+            'gz' => gzclose($this->fh),
+            'bz' => bzclose($this->fh),
+            default => fclose($this->fh),
+        };
 
         if (!$res) {
             $this->setError($php_errormsg);
@@ -385,17 +352,10 @@ class Stream
         $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
-        switch ($this->processingmethod) {
-            case 'gz':
-                $res = gzeof($this->fh);
-                break;
-
-            case 'bz':
-            case 'f':
-            default:
-                $res = feof($this->fh);
-                break;
-        }
+        $res = match ($this->processingmethod) {
+            'gz' => gzeof($this->fh),
+            default => feof($this->fh),
+        };
 
         if ($php_errormsg) {
             $this->setError($php_errormsg);
@@ -496,17 +456,10 @@ class Stream
         $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
-        switch ($this->processingmethod) {
-            case 'gz':
-                $res = $length ? gzgets($this->fh, $length) : gzgets($this->fh);
-                break;
-
-            case 'bz':
-            case 'f':
-            default:
-                $res = $length ? fgets($this->fh, $length) : fgets($this->fh);
-                break;
-        }
+        $res = match ($this->processingmethod) {
+            'gz' => $length ? gzgets($this->fh, $length) : gzgets($this->fh),
+            default => $length ? fgets($this->fh, $length) : fgets($this->fh),
+        };
 
         if (!$res) {
             $this->setError($php_errormsg);
@@ -566,20 +519,11 @@ class Stream
 
         do {
             // Do chunked reads where relevant
-            switch ($this->processingmethod) {
-                case 'bz':
-                    $res = ($remaining > 0) ? bzread($this->fh, $remaining) : bzread($this->fh, $this->chunksize);
-                    break;
-
-                case 'gz':
-                    $res = ($remaining > 0) ? gzread($this->fh, $remaining) : gzread($this->fh, $this->chunksize);
-                    break;
-
-                case 'f':
-                default:
-                    $res = ($remaining > 0) ? fread($this->fh, $remaining) : fread($this->fh, $this->chunksize);
-                    break;
-            }
+            $res = match ($this->processingmethod) {
+                'bz' => ($remaining > 0) ? bzread($this->fh, $remaining) : bzread($this->fh, $this->chunksize),
+                'gz' => ($remaining > 0) ? gzread($this->fh, $remaining) : gzread($this->fh, $this->chunksize),
+                default => ($remaining > 0) ? fread($this->fh, $remaining) : fread($this->fh, $this->chunksize),
+            };
 
             if (!$res) {
                 $this->setError($php_errormsg);
@@ -642,17 +586,10 @@ class Stream
         $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
-        switch ($this->processingmethod) {
-            case 'gz':
-                $res = gzseek($this->fh, $offset, $whence);
-                break;
-
-            case 'bz':
-            case 'f':
-            default:
-                $res = fseek($this->fh, $offset, $whence);
-                break;
-        }
+        $res = match ($this->processingmethod) {
+            'gz' => gzseek($this->fh, $offset, $whence),
+            default => fseek($this->fh, $offset, $whence),
+        };
 
         // Seek, interestingly, returns 0 on success or -1 on failure.
         if ($res == -1) {
@@ -691,17 +628,10 @@ class Stream
         $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
-        switch ($this->processingmethod) {
-            case 'gz':
-                $res = gztell($this->fh);
-                break;
-
-            case 'bz':
-            case 'f':
-            default:
-                $res = ftell($this->fh);
-                break;
-        }
+        $res = match ($this->processingmethod) {
+            'gz' => gztell($this->fh),
+            default => ftell($this->fh),
+        };
 
         // May return 0 so check if it's really false
         if ($res === false) {
@@ -833,16 +763,10 @@ class Stream
         $sch = parse_url($filename, PHP_URL_SCHEME);
 
         // Scheme specific options; ftp's chmod support is fun.
-        switch ($sch) {
-            case 'ftp':
-            case 'ftps':
-                $res = FilesystemHelper::ftpChmod($filename, $mode);
-                break;
-
-            default:
-                $res = chmod($filename, $mode);
-                break;
-        }
+        $res = match ($sch) {
+            'ftp', 'ftps' => FilesystemHelper::ftpChmod($filename, $mode),
+            default => chmod($filename, $mode),
+        };
 
         // Seek, interestingly, returns 0 on success or -1 on failure
         if (!$res) {

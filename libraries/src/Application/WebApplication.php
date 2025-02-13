@@ -144,7 +144,7 @@ abstract class WebApplication extends AbstractWebApplication
     {
         // Only create the object if it doesn't exist.
         if (empty(static::$instance)) {
-            if (!is_subclass_of($name, '\\Joomla\\CMS\\Application\\WebApplication')) {
+            if (!is_subclass_of($name, \Joomla\CMS\Application\WebApplication::class)) {
                 throw new \RuntimeException(\sprintf('Unable to load application: %s', $name), 500);
             }
 
@@ -397,7 +397,7 @@ abstract class WebApplication extends AbstractWebApplication
         }
 
         // Check to see if an explicit base URI has been set.
-        $siteUri = trim($this->get('site_uri', ''));
+        $siteUri = trim((string) $this->get('site_uri', ''));
 
         if ($siteUri !== '') {
             $uri  = Uri::getInstance($siteUri);
@@ -408,19 +408,19 @@ abstract class WebApplication extends AbstractWebApplication
             $uri = Uri::getInstance($this->get('uri.request'));
 
             // If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
-            if (strpos(PHP_SAPI, 'cgi') !== false && !\ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI'])) {
+            if (str_contains(PHP_SAPI, 'cgi') && !\ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI'])) {
                 // We aren't expecting PATH_INFO within PHP_SELF so this should work.
-                $path = \dirname($_SERVER['PHP_SELF']);
+                $path = \dirname((string) $_SERVER['PHP_SELF']);
             } else {
                 // Pretty much everything else should be handled with SCRIPT_NAME.
-                $path = \dirname($_SERVER['SCRIPT_NAME']);
+                $path = \dirname((string) $_SERVER['SCRIPT_NAME']);
             }
         }
 
         $host = $uri->toString(['scheme', 'user', 'pass', 'host', 'port']);
 
         // Check if the path includes "index.php".
-        if (strpos($path, 'index.php') !== false) {
+        if (str_contains($path, 'index.php')) {
             // Remove the index.php portion of the path.
             $path = substr_replace($path, '', strpos($path, 'index.php'), 9);
         }
@@ -433,15 +433,15 @@ abstract class WebApplication extends AbstractWebApplication
         $this->set('uri.base.path', $path . '/');
 
         // Set the extended (non-base) part of the request URI as the route.
-        if (stripos($this->get('uri.request'), $this->get('uri.base.full')) === 0) {
-            $this->set('uri.route', substr_replace($this->get('uri.request'), '', 0, \strlen($this->get('uri.base.full'))));
+        if (stripos((string) $this->get('uri.request'), (string) $this->get('uri.base.full')) === 0) {
+            $this->set('uri.route', substr_replace($this->get('uri.request'), '', 0, \strlen((string) $this->get('uri.base.full'))));
         }
 
         // Get an explicitly set media URI is present.
-        $mediaURI = trim($this->get('media_uri', ''));
+        $mediaURI = trim((string) $this->get('media_uri', ''));
 
         if ($mediaURI) {
-            if (strpos($mediaURI, '://') !== false) {
+            if (str_contains($mediaURI, '://')) {
                 $this->set('uri.media.full', $mediaURI);
                 $this->set('uri.media.path', $mediaURI);
             } else {

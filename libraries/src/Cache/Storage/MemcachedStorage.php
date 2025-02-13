@@ -188,7 +188,7 @@ class MemcachedStorage extends CacheStorage
                     continue;
                 }
 
-                $namearr = explode('-', $key->name);
+                $namearr = explode('-', (string) $key->name);
 
                 if ($namearr !== false && $namearr[0] == $secret && $namearr[1] === 'cache') {
                     $group = $namearr[2];
@@ -307,7 +307,7 @@ class MemcachedStorage extends CacheStorage
             $prefix = $this->_hash . '-cache-' . $group . '-';
 
             foreach ($index as $key => $value) {
-                if (strpos($value->name, $prefix) === 0 xor $mode !== 'group') {
+                if (str_starts_with((string) $value->name, $prefix) xor $mode !== 'group') {
                     static::$_db->delete($value->name);
                     unset($index[$key]);
                 }

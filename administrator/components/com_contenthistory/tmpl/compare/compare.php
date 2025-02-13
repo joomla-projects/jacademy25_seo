@@ -57,7 +57,7 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                             <?php if ($subValue->value != $newSubValue) : ?>
                                 <tr>
                                     <th scope="row"><em>&nbsp;&nbsp;<?php echo $subValue->label; ?></em></th>
-                                    <td class="original"><?php echo htmlspecialchars($subValue->value, ENT_COMPAT, 'UTF-8'); ?></td>
+                                    <td class="original"><?php echo htmlspecialchars((string) $subValue->value, ENT_COMPAT, 'UTF-8'); ?></td>
                                     <td class="changed" ><?php echo htmlspecialchars($newSubValue, ENT_COMPAT, 'UTF-8'); ?></td>
                                     <td class="diff">&nbsp;</td>
                                 </tr>
@@ -69,9 +69,9 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
                         <th scope="row">
                             <?php echo $value->label; ?>
                         </th>
-                        <td class="original"><?php echo htmlspecialchars($value->value); ?></td>
+                        <td class="original"><?php echo htmlspecialchars((string) $value->value); ?></td>
                         <?php $object2->$name->value = is_object($object2->$name->value) ? json_encode($object2->$name->value) : $object2->$name->value; ?>
-                        <td class="changed"><?php echo htmlspecialchars($object2->$name->value, ENT_COMPAT, 'UTF-8'); ?></td>
+                        <td class="changed"><?php echo htmlspecialchars((string) $object2->$name->value, ENT_COMPAT, 'UTF-8'); ?></td>
                         <td class="diff">&nbsp;</td>
                     </tr>
                 <?php endif; ?>

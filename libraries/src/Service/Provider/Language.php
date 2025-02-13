@@ -40,9 +40,7 @@ class Language implements ServiceProviderInterface
             ->alias(CachingLanguageFactory::class, LanguageFactoryInterface::class)
             ->share(
                 LanguageFactoryInterface::class,
-                function (Container $container) {
-                    return new CachingLanguageFactory();
-                },
+                fn(Container $container) => new CachingLanguageFactory(),
                 true
             );
     }

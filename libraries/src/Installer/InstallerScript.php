@@ -344,7 +344,7 @@ class InstallerScript
     {
         if (!empty($this->cliScriptFiles)) {
             foreach ($this->cliScriptFiles as $file) {
-                $name = basename($file);
+                $name = basename((string) $file);
 
                 if (file_exists(JPATH_ROOT . $file) && !File::move(JPATH_ROOT . $file, JPATH_ROOT . '/cli/' . $name)) {
                     echo Text::sprintf('JLIB_INSTALLER_FILE_ERROR_MOVE', $name);

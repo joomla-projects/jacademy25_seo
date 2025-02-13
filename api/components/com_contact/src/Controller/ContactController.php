@@ -214,7 +214,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
             'contactname'  => $contact->name,
             'email'        => PunycodeHelper::emailToPunycode($data['contact_email']),
             'subject'      => $data['contact_subject'],
-            'body'         => stripslashes($data['contact_message']),
+            'body'         => stripslashes((string) $data['contact_message']),
             'url'          => Uri::base(),
             'customfields' => '',
         ];

@@ -185,7 +185,7 @@ class ScriptsRenderer extends DocumentRenderer
         $this->renderedSrc[$src] = true;
 
         // Check if script uses media version.
-        if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto')) {
+        if ($version && !str_contains((string) $src, '?') && ($mediaVersion || $version !== 'auto')) {
             $src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
         }
 
@@ -197,7 +197,7 @@ class ScriptsRenderer extends DocumentRenderer
         }
 
         // Render the element with attributes
-        $buffer .= '<script src="' . htmlspecialchars($src) . '"';
+        $buffer .= '<script src="' . htmlspecialchars((string) $src) . '"';
         $buffer .= $this->renderAttributes($attribs);
         $buffer .= '></script>';
 

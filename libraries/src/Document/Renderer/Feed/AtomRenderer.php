@@ -170,7 +170,7 @@ class AtomRenderer extends DocumentRenderer
             if (!empty($item->category)) {
                 if (\is_array($item->category)) {
                     foreach ($item->category as $cat) {
-                        $feed .= "		<category term=\"" . htmlspecialchars($cat, ENT_COMPAT, 'UTF-8') . "\" />\n";
+                        $feed .= "		<category term=\"" . htmlspecialchars((string) $cat, ENT_COMPAT, 'UTF-8') . "\" />\n";
                     }
                 } else {
                     $feed .= "		<category term=\"" . htmlspecialchars($item->category, ENT_COMPAT, 'UTF-8') . "\" />\n";

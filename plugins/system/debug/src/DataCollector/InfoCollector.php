@@ -40,14 +40,6 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
     private $name = 'info';
 
     /**
-     * Request ID.
-     *
-     * @var   string
-     * @since 4.0.0
-     */
-    private $requestId;
-
-    /**
      * InfoDataCollector constructor.
      *
      * @param   Registry  $params     Parameters
@@ -55,10 +47,13 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
      *
      * @since  4.0.0
      */
-    public function __construct(Registry $params, $requestId)
+    public function __construct(Registry $params, /**
+     * Request ID.
+     *
+     * @since 4.0.0
+     */
+    private $requestId)
     {
-        $this->requestId = $requestId;
-
         parent::__construct($params);
     }
 

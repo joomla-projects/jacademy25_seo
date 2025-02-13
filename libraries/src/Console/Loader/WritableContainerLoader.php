@@ -25,22 +25,6 @@ use Symfony\Component\Console\Exception\CommandNotFoundException;
 final class WritableContainerLoader implements WritableLoaderInterface
 {
     /**
-     * The service container.
-     *
-     * @var    ContainerInterface
-     * @since  4.0.0
-     */
-    private $container;
-
-    /**
-     * The command name to service ID map.
-     *
-     * @var    string[]
-     * @since  4.0.0
-     */
-    private $commandMap;
-
-    /**
      * Constructor.
      *
      * @param   ContainerInterface  $container   A container from which to load command services.
@@ -48,10 +32,21 @@ final class WritableContainerLoader implements WritableLoaderInterface
      *
      * @since   4.0.0
      */
-    public function __construct(ContainerInterface $container, array $commandMap)
+    public function __construct(
+        /**
+         * The service container.
+         *
+         * @since  4.0.0
+         */
+        private readonly ContainerInterface $container,
+        /**
+         * The command name to service ID map.
+         *
+         * @since  4.0.0
+         */
+        private array $commandMap
+    )
     {
-        $this->container  = $container;
-        $this->commandMap = $commandMap;
     }
 
     /**

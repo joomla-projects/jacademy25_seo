@@ -69,31 +69,31 @@ class SiteRouter extends Router
 
         // Add core rules
         if ((int) $this->app->get('force_ssl') === 2) {
-            $this->attachParseRule([$this, 'parseCheckSSL'], self::PROCESS_BEFORE);
+            $this->attachParseRule($this->parseCheckSSL(...), self::PROCESS_BEFORE);
         }
 
-        $this->attachParseRule([$this, 'parseInit'], self::PROCESS_BEFORE);
-        $this->attachBuildRule([$this, 'buildInit'], self::PROCESS_BEFORE);
-        $this->attachBuildRule([$this, 'buildComponentPreprocess'], self::PROCESS_BEFORE);
+        $this->attachParseRule($this->parseInit(...), self::PROCESS_BEFORE);
+        $this->attachBuildRule($this->buildInit(...), self::PROCESS_BEFORE);
+        $this->attachBuildRule($this->buildComponentPreprocess(...), self::PROCESS_BEFORE);
 
         if ($this->app->get('sef', 1)) {
             if ($this->app->get('sef_suffix')) {
-                $this->attachParseRule([$this, 'parseFormat'], self::PROCESS_BEFORE);
-                $this->attachBuildRule([$this, 'buildFormat'], self::PROCESS_AFTER);
+                $this->attachParseRule($this->parseFormat(...), self::PROCESS_BEFORE);
+                $this->attachBuildRule($this->buildFormat(...), self::PROCESS_AFTER);
             }
 
-            $this->attachParseRule([$this, 'parseSefRoute'], self::PROCESS_DURING);
-            $this->attachBuildRule([$this, 'buildSefRoute'], self::PROCESS_DURING);
-            $this->attachParseRule([$this, 'parsePaginationData'], self::PROCESS_AFTER);
-            $this->attachBuildRule([$this, 'buildPaginationData'], self::PROCESS_AFTER);
+            $this->attachParseRule($this->parseSefRoute(...), self::PROCESS_DURING);
+            $this->attachBuildRule($this->buildSefRoute(...), self::PROCESS_DURING);
+            $this->attachParseRule($this->parsePaginationData(...), self::PROCESS_AFTER);
+            $this->attachBuildRule($this->buildPaginationData(...), self::PROCESS_AFTER);
 
             if ($this->app->get('sef_rewrite')) {
-                $this->attachBuildRule([$this, 'buildRewrite'], self::PROCESS_AFTER);
+                $this->attachBuildRule($this->buildRewrite(...), self::PROCESS_AFTER);
             }
         }
 
-        $this->attachParseRule([$this, 'parseRawRoute'], self::PROCESS_DURING);
-        $this->attachBuildRule([$this, 'buildBase'], self::PROCESS_AFTER);
+        $this->attachParseRule($this->parseRawRoute(...), self::PROCESS_DURING);
+        $this->attachBuildRule($this->buildBase(...), self::PROCESS_AFTER);
     }
 
     /**
@@ -138,7 +138,7 @@ class SiteRouter extends Router
          */
         try {
             $baseUri = Uri::base(true);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $baseUri = '';
         }
 
@@ -178,7 +178,7 @@ class SiteRouter extends Router
         $route = $uri->getPath();
 
         // Identify format
-        if (!(substr($route, -9) === 'index.php' || substr($route, -1) === '/') && $suffix = pathinfo($route, PATHINFO_EXTENSION)) {
+        if (!(str_ends_with($route, 'index.php') || str_ends_with($route, '/')) && $suffix = pathinfo($route, PATHINFO_EXTENSION)) {
             $uri->setVar('format', $suffix);
             $route = str_replace('.' . $suffix, '', $route);
             $uri->setPath($route);
@@ -253,7 +253,7 @@ class SiteRouter extends Router
             if (!$found) {
                 $found = $this->menu->getDefault($lang_tag);
             } else {
-                $route = trim(substr($route, \strlen($found->route)), '/');
+                $route = trim(substr($route, \strlen((string) $found->route)), '/');
             }
 
             if ($found) {
@@ -282,7 +282,7 @@ class SiteRouter extends Router
 
             if (\count($segments)) {
                 // Handle component route
-                $component = preg_replace('/[^A-Z0-9_\.-]/i', '', $uri->getVar('option'));
+                $component = preg_replace('/[^A-Z0-9_\.-]/i', '', (string) $uri->getVar('option'));
                 $crouter   = $this->getComponentRouter($component);
                 $uri->setQuery(array_merge($uri->getQuery(true), $crouter->parse($segments)));
             }
@@ -458,7 +458,7 @@ class SiteRouter extends Router
 
             unset($query['Itemid']);
         } else {
-            $tmp = 'component/' . substr($query['option'], 4) . '/' . $tmp;
+            $tmp = 'component/' . substr((string) $query['option'], 4) . '/' . $tmp;
         }
 
         // Get the route
@@ -509,7 +509,7 @@ class SiteRouter extends Router
         $route = $uri->getPath();
 
         // Identify format
-        if (!(substr($route, -9) === 'index.php' || substr($route, -1) === '/') && $format = $uri->getVar('format', 'html')) {
+        if (!(str_ends_with($route, 'index.php') || str_ends_with($route, '/')) && $format = $uri->getVar('format', 'html')) {
             $route .= '.' . $format;
             $uri->setPath($route);
             $uri->delVar('format');

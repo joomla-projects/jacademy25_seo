@@ -114,7 +114,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         );
 
         // Register own event to add the checker later, once a document is created
-        $this->getDispatcher()->addListener('onBeforeCompileHead', [$this, 'addJooa11y']);
+        $this->getDispatcher()->addListener('onBeforeCompileHead', $this->addJooa11y(...));
     }
 
     /**
@@ -137,7 +137,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
             ->getTag();
 
         // Get the right locale
-        $splitLang = explode('-', $getLang);
+        $splitLang = explode('-', (string) $getLang);
         $lang      = $splitLang[0];
         $country   = $splitLang[1] ?? '';
 
@@ -203,7 +203,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         {
             $result = [];
             foreach ($props as $prop) {
-                $decodedValue = json_decode($prop->value);
+                $decodedValue = json_decode((string) $prop->value);
                 if (is_numeric($decodedValue) || \is_bool($decodedValue)) {
                     $result[$prop->key] = $decodedValue;
                 } else {

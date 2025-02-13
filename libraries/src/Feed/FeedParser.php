@@ -210,7 +210,7 @@ abstract class FeedParser
             return $this->namespaces[$prefix];
         }
 
-        $className = \get_class($this) . ucfirst($prefix);
+        $className = static::class . ucfirst($prefix);
 
         if (class_exists($className)) {
             $this->namespaces[$prefix] = new $className();

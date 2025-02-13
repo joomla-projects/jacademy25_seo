@@ -29,27 +29,21 @@ use Joomla\Event\SubscriberInterface;
 final class NamespaceMap extends CMSPlugin implements SubscriberInterface
 {
     /**
-     * The namespace map file creator
-     *
-     * @var \JNamespacePsr4Map
-     */
-    private $fileCreator = null;
-
-    /**
      * Constructor
      *
      * @param   DispatcherInterface  $subject  The object to observe
-     * @param   \JNamespacePsr4Map   $map      The namespace map creator
+     * @param \JNamespacePsr4Map $fileCreator The namespace map creator
      * @param   array                $config   An optional associative array of configuration settings.
      *                                         Recognized key values include 'name', 'group', 'params', 'language'
      *                                         (this list is not meant to be comprehensive).
      *
      * @since   4.0.0
      */
-    public function __construct(DispatcherInterface $dispatcher, \JNamespacePsr4Map $map, array $config = [])
+    public function __construct(DispatcherInterface $dispatcher, /**
+     * The namespace map file creator
+     */
+    private readonly \JNamespacePsr4Map $fileCreator, array $config = [])
     {
-        $this->fileCreator = $map;
-
         parent::__construct($dispatcher, $config);
     }
 

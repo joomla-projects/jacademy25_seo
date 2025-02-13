@@ -71,7 +71,7 @@ class LoginModel extends FormModel
 
         // Check for return URL from the request first
         if ($return = $input->get('return', '', 'BASE64')) {
-            $data['return'] = base64_decode($return);
+            $data['return'] = base64_decode((string) $return);
 
             if (!Uri::isInternal($data['return'])) {
                 $data['return'] = '';
@@ -148,7 +148,7 @@ class LoginModel extends FormModel
 
         try {
             return $db->loadResult();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return '';
         }
     }

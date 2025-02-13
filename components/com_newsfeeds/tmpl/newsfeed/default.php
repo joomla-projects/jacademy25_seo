@@ -39,7 +39,7 @@ use Joomla\Filter\OutputFilter;
     <?php elseif ($myrtl == 2) : ?>
         <?php $direction = ' redirect-rtl'; ?>
     <?php endif; ?>
-    <?php $images = json_decode($this->item->images); ?>
+    <?php $images = json_decode((string) $this->item->images); ?>
     <div class="com-newsfeeds-newsfeed newsfeed<?php echo $direction; ?>">
         <?php if ($this->params->get('display_num')) : ?>
         <h1 class="<?php echo $direction; ?>">
@@ -126,18 +126,18 @@ use Joomla\Filter\OutputFilter;
                     <?php if (empty($this->rssDoc[$i])) : ?>
                         <?php break; ?>
                     <?php endif; ?>
-                    <?php $uri  = $this->rssDoc[$i]->uri || !$this->rssDoc[$i]->isPermaLink ? trim($this->rssDoc[$i]->uri) : trim($this->rssDoc[$i]->guid); ?>
+                    <?php $uri  = $this->rssDoc[$i]->uri || !$this->rssDoc[$i]->isPermaLink ? trim((string) $this->rssDoc[$i]->uri) : trim((string) $this->rssDoc[$i]->guid); ?>
                     <?php $uri  = !$uri || stripos($uri, 'http') !== 0 ? $this->item->link : $uri; ?>
-                    <?php $text = $this->rssDoc[$i]->content !== '' ? trim($this->rssDoc[$i]->content) : ''; ?>
+                    <?php $text = $this->rssDoc[$i]->content !== '' ? trim((string) $this->rssDoc[$i]->content) : ''; ?>
                     <li>
                         <?php if (!empty($uri)) : ?>
                             <h3 class="feed-link">
-                                <a href="<?php echo htmlspecialchars($uri); ?>" target="_blank" rel="noopener">
-                                    <?php echo trim($this->rssDoc[$i]->title); ?>
+                                <a href="<?php echo htmlspecialchars((string) $uri); ?>" target="_blank" rel="noopener">
+                                    <?php echo trim((string) $this->rssDoc[$i]->title); ?>
                                 </a>
                             </h3>
                         <?php else : ?>
-                            <h3 class="feed-link"><?php echo trim($this->rssDoc[$i]->title); ?></h3>
+                            <h3 class="feed-link"><?php echo trim((string) $this->rssDoc[$i]->title); ?></h3>
                         <?php endif; ?>
 
                         <?php if ($this->params->get('show_item_description') && $text !== '') : ?>

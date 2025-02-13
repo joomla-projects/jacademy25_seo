@@ -179,7 +179,7 @@ class MailModel extends AdminModel
         try {
             // Build email message format.
             $data = [
-                'subject'       => stripslashes($subject),
+                'subject'       => stripslashes((string) $subject),
                 'body'          => $message_body,
                 'subjectprefix' => $params->get('mailSubjectPrefix', ''),
                 'bodysuffix'    => $params->get('mailBodySuffix', ''),

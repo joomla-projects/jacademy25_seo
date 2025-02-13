@@ -24,23 +24,6 @@ use Joomla\Registry\Registry;
 final class CodeMirrorProvider extends AbstractEditorProvider
 {
     /**
-     * A Registry object holding the parameters for the plugin
-     *
-     * @var    Registry
-     * @since  5.0.0
-     */
-    protected $params;
-
-    /**
-     * The application object
-     *
-     * @var    CMSApplicationInterface
-     *
-     * @since  5.0.0
-     */
-    protected $application;
-
-    /**
      * Class constructor
      *
      * @param   Registry                 $params
@@ -49,11 +32,19 @@ final class CodeMirrorProvider extends AbstractEditorProvider
      *
      * @since  5.0.0
      */
-    public function __construct(Registry $params, CMSApplicationInterface $application, DispatcherInterface $dispatcher)
+    public function __construct(/**
+     * A Registry object holding the parameters for the plugin
+     *
+     * @since  5.0.0
+     */
+    protected Registry $params, /**
+     * The application object
+     *
+     *
+     * @since  5.0.0
+     */
+    protected CMSApplicationInterface $application, DispatcherInterface $dispatcher)
     {
-        $this->params      = $params;
-        $this->application = $application;
-
         $this->setDispatcher($dispatcher);
     }
 
@@ -144,7 +135,7 @@ final class CodeMirrorProvider extends AbstractEditorProvider
                 }
 
                 // Prepend root path if we have a file
-                $module = str_ends_with($item->module, '.js') ? Uri::root(true) . '/' . $item->module : $item->module;
+                $module = str_ends_with((string) $item->module, '.js') ? Uri::root(true) . '/' . $item->module : $item->module;
 
                 $options->customExtensions[] = [$module, $methods];
             }

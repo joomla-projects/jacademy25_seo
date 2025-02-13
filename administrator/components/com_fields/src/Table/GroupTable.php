@@ -100,7 +100,7 @@ class GroupTable extends Table implements CurrentUserInterface
     public function check()
     {
         // Check for a title.
-        if (trim($this->title) == '') {
+        if (trim((string) $this->title) == '') {
             $this->setError(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_GROUP'));
 
             return false;
@@ -164,7 +164,7 @@ class GroupTable extends Table implements CurrentUserInterface
      */
     protected function _getAssetName()
     {
-        $component = explode('.', $this->context);
+        $component = explode('.', (string) $this->context);
 
         return $component[0] . '.fieldgroup.' . (int) $this->id;
     }
@@ -202,7 +202,7 @@ class GroupTable extends Table implements CurrentUserInterface
      */
     protected function _getAssetParentId(?Table $table = null, $id = null)
     {
-        $component = explode('.', $this->context);
+        $component = explode('.', (string) $this->context);
         $db        = $this->getDbo();
         $query     = $db->getQuery(true)
             ->select($db->quoteName('id'))

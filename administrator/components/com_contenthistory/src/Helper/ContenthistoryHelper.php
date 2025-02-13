@@ -159,12 +159,12 @@ class ContenthistoryHelper
     public static function getFormFile(ContentType $typesTable)
     {
         // First, see if we have a file name in the $typesTable
-        $options = json_decode($typesTable->content_history_options);
+        $options = json_decode((string) $typesTable->content_history_options);
 
         if (\is_object($options) && isset($options->formFile) && is_file(JPATH_ROOT . '/' . $options->formFile)) {
             $result = JPATH_ROOT . '/' . $options->formFile;
         } else {
-            $aliasArray = explode('.', $typesTable->type_alias);
+            $aliasArray = explode('.', (string) $typesTable->type_alias);
             $component  = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
             $path       = Folder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
             array_shift($aliasArray);
@@ -201,7 +201,7 @@ class ContenthistoryHelper
 
             try {
                 $result = $db->loadResult();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Ignore any errors and just return false
                 return false;
             }
@@ -222,7 +222,7 @@ class ContenthistoryHelper
      */
     public static function hideFields($object, ContentType $typeTable)
     {
-        if ($options = json_decode($typeTable->content_history_options)) {
+        if ($options = json_decode((string) $typeTable->content_history_options)) {
             if (isset($options->hideFields) && \is_array($options->hideFields)) {
                 foreach ($options->hideFields as $field) {
                     unset($object->$field);
@@ -321,7 +321,7 @@ class ContenthistoryHelper
     {
         $object     = static::decodeFields($table->version_data);
         $typesTable = Table::getInstance('ContentType', 'Joomla\\CMS\\Table\\');
-        $typeAlias  = explode('.', $table->item_id);
+        $typeAlias  = explode('.', (string) $table->item_id);
         array_pop($typeAlias);
         $typesTable->load(['type_alias' => implode('.', $typeAlias)]);
         $formValues = static::getFormValues($object, $typesTable);
@@ -345,7 +345,7 @@ class ContenthistoryHelper
      */
     public static function processLookupFields($object, ContentType $typesTable)
     {
-        if ($options = json_decode($typesTable->content_history_options)) {
+        if ($options = json_decode((string) $typesTable->content_history_options)) {
             if (isset($options->displayLookup) && \is_array($options->displayLookup)) {
                 foreach ($options->displayLookup as $lookup) {
                     $sourceColumn = $lookup->sourceColumn ?? false;

@@ -70,7 +70,7 @@ class MenuType extends Table implements CurrentUserInterface
         }
 
         // Sanitise data.
-        if (trim($this->title) === '') {
+        if (trim((string) $this->title) === '') {
             $this->title = $this->menutype;
         }
 
@@ -129,7 +129,7 @@ class MenuType extends Table implements CurrentUserInterface
 
             if ($this->_db->loadRowList()) {
                 $this->setError(
-                    Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
+                    Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', static::class, Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
                 );
 
                 return false;
@@ -148,7 +148,7 @@ class MenuType extends Table implements CurrentUserInterface
 
             if ($this->_db->loadRowList()) {
                 $this->setError(
-                    Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
+                    Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', static::class, Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
                 );
 
                 return false;
@@ -197,7 +197,7 @@ class MenuType extends Table implements CurrentUserInterface
     public function delete($pk = null)
     {
         $k  = $this->_tbl_key;
-        $pk = $pk === null ? $this->$k : $pk;
+        $pk ??= $this->$k;
 
         // If no primary key is given, return false.
         if ($pk !== null) {
@@ -226,7 +226,7 @@ class MenuType extends Table implements CurrentUserInterface
             $this->_db->setQuery($query);
 
             if ($this->_db->loadRowList()) {
-                $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
+                $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', static::class, Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
 
                 return false;
             }
@@ -243,7 +243,7 @@ class MenuType extends Table implements CurrentUserInterface
             $this->_db->setQuery($query);
 
             if ($this->_db->loadRowList()) {
-                $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
+                $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', static::class, Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
 
                 return false;
             }
@@ -316,6 +316,6 @@ class MenuType extends Table implements CurrentUserInterface
             $assetId = $asset->id;
         }
 
-        return $assetId === null ? parent::_getAssetParentId($table, $id) : $assetId;
+        return $assetId ?? parent::_getAssetParentId($table, $id);
     }
 }

@@ -25,10 +25,10 @@ foreach ($field->subform_rows as $subform_row) {
 
     // Iterate over each sub field inside of that row
     foreach ($subform_row as $subfield) {
-        $class   = trim($subfield->params->get('render_class', ''));
-        $layout  = trim($subfield->params->get('layout', 'render'));
+        $class   = trim((string) $subfield->params->get('render_class', ''));
+        $layout  = trim((string) $subfield->params->get('layout', 'render'));
         $content = trim(
-            FieldsHelper::render(
+            (string) FieldsHelper::render(
                 $context,
                 'field.' . $layout, // normally just 'field.render'
                 ['field' => $subfield]

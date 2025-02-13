@@ -50,7 +50,7 @@ class BreadcrumbsHelper
 
         for ($i = 0; $i < $count; $i++) {
             $crumbs[$i]       = new \stdClass();
-            $crumbs[$i]->name = stripslashes(htmlspecialchars($items[$i]->name, ENT_COMPAT, 'UTF-8'));
+            $crumbs[$i]->name = stripslashes(htmlspecialchars((string) $items[$i]->name, ENT_COMPAT, 'UTF-8'));
             $crumbs[$i]->link = $items[$i]->link;
         }
 
@@ -82,7 +82,7 @@ class BreadcrumbsHelper
         }
 
         $item       = new \stdClass();
-        $item->name = htmlspecialchars($params->get('homeText', $app->getLanguage()->_('MOD_BREADCRUMBS_HOME')), ENT_COMPAT, 'UTF-8');
+        $item->name = htmlspecialchars((string) $params->get('homeText', $app->getLanguage()->_('MOD_BREADCRUMBS_HOME')), ENT_COMPAT, 'UTF-8');
         $item->link = 'index.php?Itemid=' . $home->id;
 
         return $item;

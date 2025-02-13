@@ -188,14 +188,14 @@ class TransitionsModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+            $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
             $query->where('(' . $db->quoteName('t.title') . ' LIKE :search1 OR ' . $db->quoteName('t.description') . ' LIKE :search2)')
                 ->bind([':search1', ':search2'], $search);
         }
 
         // Add the list ordering clause.
         $orderCol   = $this->state->get('list.ordering', 't.id');
-        $orderDirn  = strtoupper($this->state->get('list.direction', 'ASC'));
+        $orderDirn  = strtoupper((string) $this->state->get('list.direction', 'ASC'));
 
         $query->order($db->escape($orderCol) . ' ' . ($orderDirn === 'DESC' ? 'DESC' : 'ASC'));
 

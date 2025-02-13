@@ -118,9 +118,9 @@ class ComponentDispatcher extends Dispatcher
         $command = $this->input->getCmd('task', 'display');
 
         // Check for a controller.task command.
-        if (strpos($command, '.') !== false) {
+        if (str_contains($command, '.')) {
             // Explode the controller.task command.
-            list($controller, $task) = explode('.', $command);
+            [$controller, $task] = explode('.', $command);
 
             $this->input->set('controller', $controller);
             $this->input->set('task', $task);
@@ -135,7 +135,7 @@ class ComponentDispatcher extends Dispatcher
 
         // Set name of controller if it is passed in the request
         if ($this->input->exists('controller')) {
-            $config['name'] = strtolower($this->input->get('controller'));
+            $config['name'] = strtolower((string) $this->input->get('controller'));
         }
 
         // Execute the task for this component

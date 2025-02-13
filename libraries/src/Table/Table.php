@@ -60,14 +60,6 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     private static $tableFields;
 
     /**
-     * Name of the database table to model.
-     *
-     * @var    string
-     * @since  1.7.0
-     */
-    protected $_tbl = '';
-
-    /**
      * Name of the primary key field in the table.
      *
      * @var    string
@@ -160,18 +152,20 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      * be overridden by child classes to explicitly set the table and key fields
      * for a particular database table.
      *
-     * @param   string                $table       Name of the table to model.
+     * @param string $_tbl Name of the table to model.
      * @param   mixed                 $key         Name of the primary key field in the table or array of field names that compose the primary key.
      * @param   DatabaseDriver        $db          DatabaseDriver object.
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.7.0
      */
-    public function __construct($table, $key, DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
+    public function __construct(/**
+     * Name of the database table to model.
+     *
+     * @since  1.7.0
+     */
+    protected $_tbl, $key, DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
-        // Set internal variables.
-        $this->_tbl = $table;
-
         // Set the key to be an array.
         if (\is_string($key)) {
             $key = [$key];
@@ -295,11 +289,11 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         // Sanitize and prepare the table class name.
         $type       = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 
-        $tableClass       = $prefix . ucfirst($type);
+        $tableClass       = $prefix . ucfirst((string) $type);
         $tableClassLegacy = $tableClass;
 
         if ($prefix === 'JTable') {
-            $tableClass = '\\Joomla\\CMS\\Table\\' . ucfirst($type);
+            $tableClass = '\\Joomla\\CMS\\Table\\' . ucfirst((string) $type);
         }
 
         // Only try to load the class if it doesn't already exist.
@@ -309,7 +303,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             $pathIndex = 0;
 
             while (!class_exists($tableClass) && !class_exists($tableClassLegacy) && $pathIndex < \count($paths)) {
-                if ($tryThis = Path::find($paths[$pathIndex++], strtolower($type) . '.php')) {
+                if ($tryThis = Path::find($paths[$pathIndex++], strtolower((string) $type) . '.php')) {
                     // Import the class file.
                     include_once $tryThis;
                 }
@@ -370,7 +364,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             // Check and add each individual new path.
             foreach ($path as $dir) {
                 // Sanitize path.
-                $dir = trim($dir);
+                $dir = trim((string) $dir);
 
                 // Add to the front of the list so that custom paths are searched first.
                 if (!\in_array($dir, self::$_includePaths)) {
@@ -604,7 +598,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         // Get the default values for the class from the table.
         foreach ($this->getFields() as $k => $v) {
             // If the property is not the primary key or private, reset it.
-            if (!\in_array($k, $this->_tbl_keys) && (strpos($k, '_') !== 0)) {
+            if (!\in_array($k, $this->_tbl_keys) && (!str_starts_with((string) $k, '_'))) {
                 $this->$k = $v->Default;
             }
         }
@@ -641,7 +635,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             throw new \InvalidArgumentException(
                 \sprintf(
                     'Could not bind the data source in %1$s::bind(), the source must be an array or object but a "%2$s" was given.',
-                    \get_class($this),
+                    static::class,
                     \gettype($src)
                 )
             );
@@ -768,7 +762,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         foreach ($keys as $field => $value) {
             // Check that $field is in the table.
             if (!\in_array($field, $fields)) {
-                throw new \UnexpectedValueException(\sprintf('Missing field in database: %s &#160; %s.', \get_class($this), $field));
+                throw new \UnexpectedValueException(\sprintf('Missing field in database: %s &#160; %s.', static::class, $field));
             }
 
             // Add the search tuple to the query.
@@ -1422,7 +1416,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     {
         // Check if there is an ordering field set
         if (!$this->hasField('ordering')) {
-            throw new \UnexpectedValueException(\sprintf('%s does not support ordering.', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s does not support ordering.', static::class));
         }
 
         // Get the largest ordering value for a given where clause.
@@ -1477,7 +1471,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     {
         // Check if there is an ordering field set
         if (!$this->hasField('ordering')) {
-            throw new \UnexpectedValueException(\sprintf('%s does not support ordering.', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s does not support ordering.', static::class));
         }
 
         $quotedOrderingField = $this->_db->quoteName($this->getColumnAlias('ordering'));
@@ -1556,7 +1550,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     {
         // Check if there is an ordering field set
         if (!$this->hasField('ordering')) {
-            throw new \UnexpectedValueException(\sprintf('%s does not support ordering.', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('%s does not support ordering.', static::class));
         }
 
         $orderingField       = $this->getColumnAlias('ordering');
@@ -1823,7 +1817,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         $return = $this->_columnAlias[$column] ?? $column;
 
         // Sanitize the name
-        $return = preg_replace('#[^A-Z0-9_]#i', '', $return);
+        $return = preg_replace('#[^A-Z0-9_]#i', '', (string) $return);
 
         return $return;
     }

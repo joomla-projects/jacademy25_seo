@@ -38,7 +38,7 @@ class OutputFilter extends BaseOutputFilter
     {
         $regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
 
-        return preg_replace_callback("#$regex#i", ['\\Joomla\\CMS\\Filter\\OutputFilter', 'ampReplaceCallback'], $input);
+        return preg_replace_callback("#$regex#i", \Joomla\CMS\Filter\OutputFilter::ampReplaceCallback(...), $input);
     }
 
     /**
@@ -96,7 +96,7 @@ class OutputFilter extends BaseOutputFilter
         $str = preg_replace('/(\s|[^A-Za-z0-9\-])+/', '-', $str);
 
         // Trim dashes at beginning and end of alias
-        $str = trim($str, '-');
+        $str = trim((string) $str, '-');
 
         return $str;
     }

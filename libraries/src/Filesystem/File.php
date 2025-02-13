@@ -56,7 +56,7 @@ class File
         $ext = substr($file, $dot + 1);
 
         // Extension cannot contain slashes.
-        if (strpos($ext, '/') !== false || (DIRECTORY_SEPARATOR === '\\' && strpos($ext, '\\') !== false)) {
+        if (str_contains($ext, '/') || (DIRECTORY_SEPARATOR === '\\' && str_contains($ext, '\\'))) {
             return '';
         }
 
@@ -103,7 +103,7 @@ class File
 
         $regex = ['#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#'];
 
-        return trim(preg_replace($regex, '', $file));
+        return trim((string) preg_replace($regex, '', $file));
     }
 
     /**

@@ -182,7 +182,7 @@ class CategoryModel extends AdminModel
 
         $extension = $app->getInput()->get('extension', 'com_content');
         $this->setState('category.extension', $extension);
-        $parts = explode('.', $extension);
+        $parts = explode('.', (string) $extension);
 
         // Extract the component name
         $this->setState('category.component', $parts[0]);
@@ -274,7 +274,7 @@ class CategoryModel extends AdminModel
         }
 
         $categoryId = $jinput->get('id');
-        $parts      = explode('.', $extension);
+        $parts      = explode('.', (string) $extension);
         $assetKey   = $categoryId ? $extension . '.category.' . $categoryId : $parts[0];
 
         if (!$this->getCurrentUser()->authorise('core.edit.state', $assetKey)) {
@@ -334,7 +334,7 @@ class CategoryModel extends AdminModel
             // Pre-select some filters (Status, Language, Access) in edit form if those have been selected in Category Manager
             if (!$data->id) {
                 // Check for which extension the Category Manager is used and get selected fields
-                $extension = substr($app->getUserState('com_categories.categories.filter.extension', ''), 4);
+                $extension = substr((string) $app->getUserState('com_categories.categories.filter.extension', ''), 4);
                 $filters   = (array) $app->getUserState('com_categories.categories.' . $extension . '.filter');
 
                 $data->set(
@@ -438,7 +438,7 @@ class CategoryModel extends AdminModel
             $path  = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/helpers/category.php");
 
             if (file_exists($path)) {
-                $cName = ucfirst($eName) . ucfirst($section) . 'HelperCategory';
+                $cName = ucfirst($eName) . ucfirst((string) $section) . 'HelperCategory';
 
                 \JLoader::register($cName, $path);
 
@@ -1283,7 +1283,7 @@ class CategoryModel extends AdminModel
         $extension = $this->getState('category.extension', '');
 
         $this->hasAssociation = Associations::isEnabled();
-        $extension            = explode('.', $extension);
+        $extension            = explode('.', (string) $extension);
         $component            = array_shift($extension);
         $cname                = str_replace('com_', '', $component);
 

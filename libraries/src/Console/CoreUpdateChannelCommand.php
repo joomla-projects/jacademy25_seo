@@ -41,22 +41,17 @@ class CoreUpdateChannelCommand extends AbstractCommand
     protected static $defaultName = 'core:update:channel';
 
     /**
-     * @var    DatabaseInterface
-     * @since  5.1.0
-     */
-    private $db;
-
-    /**
      * CoreUpdateChannelCommand constructor.
      *
      * @param   DatabaseInterface  $db  Database Instance
      *
      * @since 5.1.0
      */
-    public function __construct(DatabaseInterface $db)
+    public function __construct(/**
+     * @since  5.1.0
+     */
+    private readonly DatabaseInterface $db)
     {
-        $this->db = $db;
-
         parent::__construct();
     }
 

@@ -21,23 +21,21 @@ namespace Joomla\CMS\Session;
 final class SessionManager
 {
     /**
-     * Session handler.
-     *
-     * @var    \SessionHandlerInterface
-     * @since  4.0.0
-     */
-    private $sessionHandler;
-
-    /**
      * SessionManager constructor.
      *
      * @param   \SessionHandlerInterface  $sessionHandler  Session handler.
      *
      * @since   4.0.0
      */
-    public function __construct(\SessionHandlerInterface $sessionHandler)
+    public function __construct(
+        /**
+         * Session handler.
+         *
+         * @since  4.0.0
+         */
+        private readonly \SessionHandlerInterface $sessionHandler
+    )
     {
-        $this->sessionHandler = $sessionHandler;
     }
 
     /**

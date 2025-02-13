@@ -156,7 +156,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
                 $this->introtext = $array['articletext'];
                 $this->fulltext  = '';
             } else {
-                list($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
+                [$this->introtext, $this->fulltext] = preg_split($pattern, $array['articletext'], 2);
             }
         }
 
@@ -197,13 +197,13 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
             return false;
         }
 
-        if (trim($this->title) == '') {
+        if (trim((string) $this->title) == '') {
             $this->setError(Text::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
 
             return false;
         }
 
-        if (trim($this->alias) == '') {
+        if (trim((string) $this->alias) == '') {
             $this->alias = $this->title;
         }
 

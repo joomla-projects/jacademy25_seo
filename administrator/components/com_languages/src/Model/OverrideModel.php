@@ -57,9 +57,9 @@ class OverrideModel extends AdminModel
             $langName = $language;
         }
 
-        $form->setValue('client', null, Text::_('COM_LANGUAGES_VIEW_OVERRIDE_CLIENT_' . strtoupper($client)));
+        $form->setValue('client', null, Text::_('COM_LANGUAGES_VIEW_OVERRIDE_CLIENT_' . strtoupper((string) $client)));
         $form->setValue('language', null, Text::sprintf('COM_LANGUAGES_VIEW_OVERRIDE_LANGUAGE', $langName, $language));
-        $form->setValue('file', null, Path::clean(\constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini'));
+        $form->setValue('file', null, Path::clean(\constant('JPATH_' . strtoupper((string) $client)) . '/language/overrides/' . $language . '.override.ini'));
 
         return $form;
     }
@@ -98,7 +98,7 @@ class OverrideModel extends AdminModel
     {
         $input    = Factory::getApplication()->getInput();
         $pk       = !empty($pk) ? $pk : $input->get('id');
-        $fileName = \constant('JPATH_' . strtoupper($this->getState('filter.client')))
+        $fileName = \constant('JPATH_' . strtoupper((string) $this->getState('filter.client')))
             . '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
         $strings  = LanguageHelper::parseIniFile($fileName);
 

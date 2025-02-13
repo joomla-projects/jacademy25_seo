@@ -325,7 +325,7 @@ class Workflow
 
         $transition = $this->db->setQuery($query)->loadObject();
 
-        $parts  = explode('.', $this->extension);
+        $parts  = explode('.', (string) $this->extension);
         $option = reset($parts);
 
         if (!empty($transition->id) && $user->authorise('core.execute.transition', $option . '.transition.' . (int) $transition->id)) {
@@ -382,7 +382,7 @@ class Workflow
             AbstractEvent::create(
                 'onWorkflowBeforeTransition',
                 [
-                    'eventClass'     => 'Joomla\CMS\Event\Workflow\WorkflowTransitionEvent',
+                    'eventClass'     => \Joomla\CMS\Event\Workflow\WorkflowTransitionEvent::class,
                     'subject'        => $this,
                     'extension'      => $this->extension,
                     'pks'            => $pks,
@@ -446,7 +446,7 @@ class Workflow
                 ->bind(':extension', $this->extension);
 
             $this->db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -478,7 +478,7 @@ class Workflow
                 ->bind(':extension', $this->extension);
 
             $this->db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -508,7 +508,7 @@ class Workflow
                 ->bind(':extension', $this->extension);
 
             $this->db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

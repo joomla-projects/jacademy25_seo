@@ -63,8 +63,8 @@ class TourModel extends AdminModel
         $input = Factory::getApplication()->getInput();
 
         // Language keys must include GUIDEDTOUR to prevent save issues
-        if (strpos($data['description'], 'GUIDEDTOUR') !== false) {
-            $data['description'] = strip_tags($data['description']);
+        if (str_contains((string) $data['description'], 'GUIDEDTOUR')) {
+            $data['description'] = strip_tags((string) $data['description']);
         }
 
         if ($input->get('task') == 'save2copy') {
@@ -96,7 +96,7 @@ class TourModel extends AdminModel
     {
         $date = Factory::getDate()->toSql();
 
-        $table->title = htmlspecialchars_decode($table->title, ENT_QUOTES);
+        $table->title = htmlspecialchars_decode((string) $table->title, ENT_QUOTES);
 
         if (empty($table->id)) {
             // Set the values
@@ -562,7 +562,7 @@ class TourModel extends AdminModel
             if ($result === null) {
                 return false;
             }
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -597,7 +597,7 @@ class TourModel extends AdminModel
 
         try {
             $result = $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

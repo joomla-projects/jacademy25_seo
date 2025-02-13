@@ -52,7 +52,7 @@ final class ApiDispatcher extends ComponentDispatcher
 
         // Set name of controller if it is passed in the request
         if ($this->input->exists('controller')) {
-            $config['name'] = strtolower($this->input->get('controller'));
+            $config['name'] = strtolower((string) $this->input->get('controller'));
         }
 
         $controller = $this->input->get('controller');

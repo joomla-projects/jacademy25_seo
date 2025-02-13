@@ -43,7 +43,7 @@ abstract class ModuleListEvent extends ModuleEvent
     public function __construct($name, array $arguments = [])
     {
         // This event has a dummy subject for now
-        $this->arguments['subject'] = $this->arguments['subject'] ?? new \stdClass();
+        $this->arguments['subject'] ??= new \stdClass();
 
         parent::__construct($name, $arguments);
 
@@ -73,9 +73,7 @@ abstract class ModuleListEvent extends ModuleEvent
     protected function onSetModules(array $value): array
     {
         // Filter out Module elements. Non empty result means invalid data
-        $valid = !array_filter($value, function ($item) {
-            return !\is_object($item);
-        });
+        $valid = !array_filter($value, fn($item) => !\is_object($item));
 
         if (!$valid) {
             throw new \UnexpectedValueException("Argument 'modules' of event {$this->name} is not of the expected type");

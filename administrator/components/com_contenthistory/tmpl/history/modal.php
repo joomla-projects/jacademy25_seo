@@ -87,7 +87,7 @@ $wa->useScript('multiselect')
                             <?php endif; ?>
                         </th>
                         <td class="d-none d-md-table-cell">
-                            <?php echo htmlspecialchars($item->version_note); ?>
+                            <?php echo htmlspecialchars((string) $item->version_note); ?>
                         </td>
                         <td>
                             <?php if ($item->keep_forever) : ?>
@@ -102,7 +102,7 @@ $wa->useScript('multiselect')
                             <?php endif; ?>
                         </td>
                         <td class="d-none d-md-table-cell">
-                            <?php echo empty($item->editor) ? $item->editor_user_id : htmlspecialchars($item->editor); ?>
+                            <?php echo empty($item->editor) ? $item->editor_user_id : htmlspecialchars((string) $item->editor); ?>
                         </td>
                         <td class="text-end">
                             <?php echo number_format((int) $item->character_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')); ?>
