@@ -138,7 +138,7 @@ $wa->useScript('joomla.dialog-autocreate');
                 $text .= '<button type="button" data-joomla-dialog="' . htmlspecialchars(json_encode($dataAttribs)) . '" class="btn btn-primary btn-sm ms-2"><span class="fas fa-repeat fa-fw" aria-hidden="true"></span></button>';
 
                 echo Text::sprintf('INSTL_SELECTED_INSTALL_LANGUAGE', $text);
-            ?>
+                ?>
         </div>
         <template id="languageSelect">
             <div class="mb-3">
