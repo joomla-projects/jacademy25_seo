@@ -13,7 +13,6 @@ use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
-use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 
@@ -29,7 +28,6 @@ use Joomla\Registry\Registry;
 class Changelog
 {
     use LegacyErrorHandlingTrait;
-    use LegacyPropertyManagementTrait;
 
     /**
      * Update manifest `<element>` element
@@ -37,7 +35,7 @@ class Changelog
      * @var    string
      * @since  4.0.0
      */
-    protected $element;
+    public $element;
 
     /**
      * Update manifest `<type>` element
@@ -45,7 +43,7 @@ class Changelog
      * @var    string
      * @since  4.0.0
      */
-    protected $type;
+    public $type;
 
     /**
      * Update manifest `<version>` element
@@ -53,7 +51,7 @@ class Changelog
      * @var    string
      * @since  4.0.0
      */
-    protected $version;
+    public $version;
 
     /**
      * Update manifest `<security>` element
@@ -61,7 +59,7 @@ class Changelog
      * @var    array
      * @since  4.0.0
      */
-    protected $security = [];
+    public $security = [];
 
     /**
      * Update manifest `<fix>` element
@@ -69,7 +67,7 @@ class Changelog
      * @var    array
      * @since  4.0.0
      */
-    protected $fix = [];
+    public $fix = [];
 
     /**
      * Update manifest `<language>` element
@@ -77,7 +75,7 @@ class Changelog
      * @var    array
      * @since  4.0.0
      */
-    protected $language = [];
+    public $language = [];
 
     /**
      * Update manifest `<addition>` element
@@ -85,7 +83,7 @@ class Changelog
      * @var    array
      * @since  4.0.0
      */
-    protected $addition = [];
+    public $addition = [];
 
     /**
      * Update manifest `<change>` elements
@@ -93,7 +91,7 @@ class Changelog
      * @var    array
      * @since  4.0.0
      */
-    protected $change = [];
+    public $change = [];
 
     /**
      * Update manifest `<remove>` element
@@ -101,7 +99,7 @@ class Changelog
      * @var    array
      * @since  4.0.0
      */
-    protected $remove = [];
+    public $remove = [];
 
     /**
      * Update manifest `<maintainer>` element
@@ -109,7 +107,7 @@ class Changelog
      * @var    array
      * @since  4.0.0
      */
-    protected $note = [];
+    public $note = [];
 
     /**
      * List of node items
@@ -141,7 +139,7 @@ class Changelog
      * @var    \stdClass
      * @since  4.0.0
      */
-    protected $currentChangelog;
+    public $currentChangelog;
 
     /**
      * The version to match the changelog
@@ -157,7 +155,7 @@ class Changelog
      * @var    \stdClass
      * @since  4.0.0
      */
-    protected $latest;
+    public $latest;
 
     /**
      * Update manifest `<folder>` element
@@ -165,7 +163,7 @@ class Changelog
      * @var    string
      * @since  5.1.1
      */
-    protected $folder;
+    public $folder;
 
     /**
      * Gets the reference to the current direct parent
