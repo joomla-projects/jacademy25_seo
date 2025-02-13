@@ -333,7 +333,7 @@ class MailTemplate
                 $this->addLayoutTemplateData([
                     'siteName' => $app->get('sitename'),
                     'lang'     => substr($this->language, 0, 2),
-                    'mail'   => $mail
+                    'mail'     => $mail,
                 ]);
 
                 $layout = $config->get('mail_htmllayout', 'mailtemplate');
