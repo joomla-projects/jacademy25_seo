@@ -27,7 +27,7 @@ $rectorConfig->withSets([
 // Skip some rules and folders/files
 $rectorConfig->withSkip([
     // Ignore vendor
-    '*/vendor/*'
+    '*/vendor/*',
 ]);
 
 // The bootstrap file, which finds the core classes and loads the extension namespace
