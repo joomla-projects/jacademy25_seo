@@ -5,26 +5,24 @@ import FsExtra from 'fs-extra';
 import LightningCSS from 'lightningcss';
 import Sass from 'sass-embedded';
 
+const silenceDeprecationList = [
+  `media_source${sep}templates`,
+  `installation${sep}template`,
+  `media_source${sep}plg_installer_webinstaller`,
+  `vendor${sep}fontawesome-free`,
+  `media_source${sep}system${sep}scss${sep}joomla-fontawesome.scss`,
+  `media_source${sep}com_media`,
+  `media_source${sep}plg_system_guidedtours${sep}scss${sep}guidedtours.scss`,
+];
+
+const shouldSilenceDeprecation = (file) => silenceDeprecationList.filter((path) => new RegExp(String.raw(`/${path}/`, 'i')).match(file)).length;
+
 export const compile = async (file) => {
   const cssFile = file
     .replace(`${sep}scss${sep}`, `${sep}css${sep}`)
     .replace('.scss', '.css')
     .replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
-  const silenceThese = /media_source\/templates/.test(file)
-    || /media_source\\templates/.test(file)
-    || /installation\/template/.test(file)
-    || /installation\\template/.test(file)
-    || /media_source\/plg_installer_webinstaller/.test(file)
-    || /media_source\\plg_installer_webinstaller/.test(file)
-    || /vendor\/fontawesome-free/.test(file)
-    || /vendor\\fontawesome-free/.test(file)
-    || /media_source\/system\/scss\/joomla-fontawesome.scss/.test(file)
-    || /media_source\\system\\scss\\joomla-fontawesome.scss/.test(file)
-    || /media_source\/com_media\/scss\/media-manager.scss/.test(file)
-    || /media_source\\com_media\\scss\\media-manager.scss/.test(file)
-    || /media_source\/plg_system_guidedtours\/scss\/guidedtours.scss/.test(file)
-    || /media_source\\plg_system_guidedtours\\scss\\guidedtours.scss/.test(file);
-  const options = silenceThese ? { silenceDeprecations: ['mixed-decls', 'color-functions', 'import', 'global-builtin'] } : {};
+  const options = shouldSilenceDeprecation ? { silenceDeprecations: ['mixed-decls', 'color-functions', 'import', 'global-builtin'] } : {};
   let compiled;
 
   try {
