@@ -38,6 +38,13 @@ steps:
     commands:
       - ./libraries/vendor/bin/phpstan
 
+  - name: rector
+    image: joomlaprojects/docker-images:php8.2
+    depends_on: [ phpcs ]
+    failure: ignore
+    commands:
+      - ./libraries/vendor/bin/rector process --dry-run --config build/rector.php .
+
   - name: npm
     image: node:20-bullseye-slim
     depends_on: [ phpcs ]
@@ -433,6 +440,6 @@ trigger:
 
 ---
 kind: signature
-hmac: fedcefde305c98f4dfc926b9039f83692827337da9e689e423c9de93a97248dd
+hmac: 6fcb7d3c397c5006f807ac3c661caa4441fa31f6b4a6f3675b152cce6214498e
 
 ...

@@ -118,7 +118,8 @@
     "joomla/mediawiki": "^3.0",
     "joomla/test": "~3.0",
     "phpstan/phpstan": "^2.1.2",
-    "phpstan/phpstan-deprecation-rules": "^2.0.1"
+    "phpstan/phpstan-deprecation-rules": "^2.0.1",
+    "rector/rector": "^2.0.8"
   },
   "replace": {
     "paragonie/random_compat": "9.99.99",
