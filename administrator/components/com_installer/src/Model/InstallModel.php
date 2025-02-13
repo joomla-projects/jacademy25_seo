@@ -182,21 +182,17 @@ class InstallModel extends BaseDatabaseModel
         if (isset($package['dir']) && is_dir($package['dir'])) {
             $installer->setPath('source', $package['dir']);
 
-            if (!$installer->findManifest()) {
-                // If a manifest isn't found at the source, this may be a Joomla package; check the package directory for the Joomla manifest
-                if (file_exists($package['dir'] . '/administrator/manifests/files/joomla.xml')) {
-                    // We have a Joomla package
-                    if (\in_array($installType, ['upload', 'url'])) {
-                        InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
-                    }
-
-                    $app->enqueueMessage(
-                        Text::sprintf('COM_INSTALLER_UNABLE_TO_INSTALL_JOOMLA_PACKAGE', Route::_('index.php?option=com_joomlaupdate')),
-                        'warning'
-                    );
-
-                    return false;
+            // If a manifest isn't found at the source, this may be a Joomla package; check the package directory for the Joomla manifest
+            if (!$installer->findManifest() && file_exists($package['dir'] . '/administrator/manifests/files/joomla.xml')) {
+                // We have a Joomla package
+                if (\in_array($installType, ['upload', 'url'])) {
+                    InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
                 }
+                $app->enqueueMessage(
+                    Text::sprintf('COM_INSTALLER_UNABLE_TO_INSTALL_JOOMLA_PACKAGE', Route::_('index.php?option=com_joomlaupdate')),
+                    'warning'
+                );
+                return false;
             }
         }
 

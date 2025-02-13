@@ -259,19 +259,15 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
         foreach ($pks as $i => $pk) {
             $table->reset();
 
-            if ($table->load($pk)) {
-                if ($table->user_id_to != $user->id) {
-                    // Prune items that you can't change.
-                    unset($pks[$i]);
-
-                    try {
-                        Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                    } catch (\RuntimeException $exception) {
-                        Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
-                    }
-
-                    return false;
+            if ($table->load($pk) && $table->user_id_to != $user->id) {
+                // Prune items that you can't change.
+                unset($pks[$i]);
+                try {
+                    Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+                } catch (\RuntimeException $exception) {
+                    Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
                 }
+                return false;
             }
         }
 

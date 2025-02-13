@@ -291,12 +291,10 @@ class BannerModel extends AdminModel
 
         // Access checks.
         foreach ($pks as $i => $pk) {
-            if ($table->load($pk)) {
-                if (!$this->canEditState($table)) {
-                    // Prune items that you can't change.
-                    unset($pks[$i]);
-                    Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
-                }
+            if ($table->load($pk) && !$this->canEditState($table)) {
+                // Prune items that you can't change.
+                unset($pks[$i]);
+                Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
             }
         }
 

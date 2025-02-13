@@ -120,12 +120,10 @@ class DiscoverModel extends InstallerModel
         // Process search filter.
         $search = $this->getState('filter.search');
 
-        if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $ids = (int) substr($search, 3);
-                $query->where($db->quoteName('extension_id') . ' = :eid')
-                    ->bind(':eid', $ids, ParameterType::INTEGER);
-            }
+        if (!empty($search) && stripos($search, 'id:') === 0) {
+            $ids = (int) substr($search, 3);
+            $query->where($db->quoteName('extension_id') . ' = :eid')
+                ->bind(':eid', $ids, ParameterType::INTEGER);
         }
 
         // Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).

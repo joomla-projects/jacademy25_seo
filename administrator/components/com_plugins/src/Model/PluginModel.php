@@ -283,11 +283,9 @@ class PluginModel extends AdminModel
         $lang->load('plg_' . $folder . '_' . $element, JPATH_ADMINISTRATOR)
             || $lang->load('plg_' . $folder . '_' . $element, JPATH_PLUGINS . '/' . $folder . '/' . $element);
 
-        if (file_exists($formFile)) {
-            // Get the plugin form.
-            if (!$form->loadFile($formFile, false, '//config')) {
-                throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
-            }
+        // Get the plugin form.
+        if (file_exists($formFile) && !$form->loadFile($formFile, false, '//config')) {
+            throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
         }
 
         // Attempt to load the xml file.

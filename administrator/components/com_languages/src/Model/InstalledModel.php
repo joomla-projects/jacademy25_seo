@@ -216,22 +216,14 @@ class InstalledModel extends ListModel
 
         foreach ($installedLanguages as $key => $installedLanguage) {
             // Filter by client id.
-            if (\in_array($clientId, [0, 1])) {
-                if ($installedLanguage->client_id !== $clientId) {
-                    unset($installedLanguages[$key]);
-                    continue;
-                }
+            if (\in_array($clientId, [0, 1]) && $installedLanguage->client_id !== $clientId) {
+                unset($installedLanguages[$key]);
+                continue;
             }
 
             // Filter by search term.
-            if (!empty($search)) {
-                if (
-                    stripos($installedLanguage->name, $search) === false
-                    && stripos($installedLanguage->nativeName, $search) === false
-                    && stripos($installedLanguage->language, $search) === false
-                ) {
-                    unset($installedLanguages[$key]);
-                }
+            if (!empty($search) && (stripos($installedLanguage->name, $search) === false && stripos($installedLanguage->nativeName, $search) === false && stripos($installedLanguage->language, $search) === false)) {
+                unset($installedLanguages[$key]);
             }
         }
 

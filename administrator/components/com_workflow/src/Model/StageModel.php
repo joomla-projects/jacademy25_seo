@@ -281,12 +281,9 @@ class StageModel extends AdminModel
     {
         $table = $this->getTable();
 
-        if ($table->load($pk)) {
-            if (!$table->published) {
-                $this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
-
-                return false;
-            }
+        if ($table->load($pk) && !$table->published) {
+            $this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+            return false;
         }
 
         if (empty($table->id) || !$this->canEditState($table)) {
@@ -295,12 +292,10 @@ class StageModel extends AdminModel
             return false;
         }
 
-        if ($value) {
-            // Verify that the home page for this language is unique per client id
-            if ($table->load(['default' => '1', 'workflow_id' => $table->workflow_id])) {
-                $table->default = 0;
-                $table->store();
-            }
+        // Verify that the home page for this language is unique per client id
+        if ($value && $table->load(['default' => '1', 'workflow_id' => $table->workflow_id])) {
+            $table->default = 0;
+            $table->store();
         }
 
         if ($table->load($pk)) {

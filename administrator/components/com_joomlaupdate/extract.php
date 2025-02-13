@@ -1354,14 +1354,11 @@ class ZIPExtraction
             $data .= $mydata;
             $leftBytes -= $reallyReadBytes;
 
-            if ($reallyReadBytes < $toReadBytes) {
-                // We read less than requested!
-                if ($this->isEOF()) {
-                    $this->debugMsg('EOF when reading symlink data', self::LOG_WARNING);
-                    $this->setError('The archive file is corrupt or truncated');
-
-                    return false;
-                }
+            // We read less than requested!
+            if ($reallyReadBytes < $toReadBytes && $this->isEOF()) {
+                $this->debugMsg('EOF when reading symlink data', self::LOG_WARNING);
+                $this->setError('The archive file is corrupt or truncated');
+                return false;
             }
         }
 
@@ -1443,15 +1440,12 @@ class ZIPExtraction
             $leftBytes -= $reallyReadBytes;
             $this->dataReadLength += $reallyReadBytes;
 
-            if ($reallyReadBytes < $toReadBytes) {
-                // We read less than requested! Why? Did we hit local EOF?
-                if ($this->isEOF()) {
-                    // Nope. The archive is corrupt
-                    $this->debugMsg('EOF when reading stored file data', self::LOG_WARNING);
-                    $this->setError('The archive file is corrupt or truncated');
-
-                    return false;
-                }
+            // We read less than requested! Why? Did we hit local EOF?
+            if ($reallyReadBytes < $toReadBytes && $this->isEOF()) {
+                // Nope. The archive is corrupt
+                $this->debugMsg('EOF when reading stored file data', self::LOG_WARNING);
+                $this->setError('The archive file is corrupt or truncated');
+                return false;
             }
 
             if (\is_resource($outfp)) {

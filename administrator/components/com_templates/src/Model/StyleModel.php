@@ -403,11 +403,9 @@ class StyleModel extends AdminModel
         $lang->load('tpl_' . $template, $client->path)
             || $lang->load('tpl_' . $template, $client->path . '/templates/' . $template);
 
-        if (file_exists($formFile)) {
-            // Get the template form.
-            if (!$form->loadFile($formFile, false, '//config')) {
-                throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
-            }
+        // Get the template form.
+        if (file_exists($formFile) && !$form->loadFile($formFile, false, '//config')) {
+            throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
         }
 
         // Disable home field if it is default style

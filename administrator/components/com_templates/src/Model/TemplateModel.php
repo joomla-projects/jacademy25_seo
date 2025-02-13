@@ -734,12 +734,9 @@ class TemplateModel extends FormModel
             // Delete new folder if it exists
             $toPath = $this->getState('to_path');
 
-            if (is_dir(Path::clean($toPath))) {
-                if (!Folder::delete($toPath)) {
-                    $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
-
-                    return false;
-                }
+            if (is_dir(Path::clean($toPath)) && !Folder::delete($toPath)) {
+                $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
+                return false;
             }
 
             // Copy all files from $fromName template to $newName folder

@@ -162,17 +162,15 @@ class HtmlView extends BaseHtmlView
                                 $file = JPATH_SITE . '/components/' . $item->componentname . '/view/' . $vars['view'] . '/metadata.xml';
                             }
 
-                            if (is_file($file) && $xml = simplexml_load_file($file)) {
-                                // Look for the first view node off of the root node.
-                                if ($view = $xml->xpath('view[1]')) {
-                                    // Add view title if present.
-                                    if (!empty($view[0]['title'])) {
-                                        $viewTitle = trim((string) $view[0]['title']);
+                            // Look for the first view node off of the root node.
+                            if (is_file($file) && ($xml = simplexml_load_file($file)) && $view = $xml->xpath('view[1]')) {
+                                // Add view title if present.
+                                if (!empty($view[0]['title'])) {
+                                    $viewTitle = trim((string) $view[0]['title']);
 
-                                        // Check if the key is valid. Needed due to B/C so we don't show untranslated keys. This check should be removed with Joomla 4.
-                                        if ($lang->hasKey($viewTitle)) {
-                                            $titleParts[] = Text::_($viewTitle);
-                                        }
+                                    // Check if the key is valid. Needed due to B/C so we don't show untranslated keys. This check should be removed with Joomla 4.
+                                    if ($lang->hasKey($viewTitle)) {
+                                        $titleParts[] = Text::_($viewTitle);
                                     }
                                 }
                             }
@@ -209,10 +207,8 @@ class HtmlView extends BaseHtmlView
 
                             if (is_file($file) && $xml = simplexml_load_file($file)) {
                                 // Look for the first view node off of the root node.
-                                if ($layout = $xml->xpath('layout[1]')) {
-                                    if (!empty($layout[0]['title'])) {
-                                        $titleParts[] = Text::_(trim((string) $layout[0]['title']));
-                                    }
+                                if (($layout = $xml->xpath('layout[1]')) && !empty($layout[0]['title'])) {
+                                    $titleParts[] = Text::_(trim((string) $layout[0]['title']));
                                 }
 
                                 if (!empty($layout[0]->message[0])) {

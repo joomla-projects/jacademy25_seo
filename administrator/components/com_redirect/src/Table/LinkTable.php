@@ -80,13 +80,10 @@ class LinkTable extends Table
             return false;
         }
 
-        if (empty($this->new_url) && ComponentHelper::getParams('com_redirect')->get('mode', 0) == true) {
-            // Else if an empty URL and in redirect mode only throw the same error if the code is a 3xx status code
-            if ($this->header < 400 && $this->header >= 300) {
-                $this->setError(Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
-
-                return false;
-            }
+        // Else if an empty URL and in redirect mode only throw the same error if the code is a 3xx status code
+        if (empty($this->new_url) && ComponentHelper::getParams('com_redirect')->get('mode', 0) == true && ($this->header < 400 && $this->header >= 300)) {
+            $this->setError(Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
+            return false;
         }
 
         // Check for duplicates

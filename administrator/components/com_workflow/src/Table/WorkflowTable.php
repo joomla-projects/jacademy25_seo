@@ -207,19 +207,15 @@ class WorkflowTable extends Table implements CurrentUserInterface
             $this->modified_by = $this->created_by;
         }
 
-        if ((int) $this->default === 1) {
-            // Verify that the default is unique for this workflow
-            if (
-                $table->load(
-                    [
-                    'default'   => '1',
-                    'extension' => $this->extension,
-                    ]
-                )
-            ) {
-                $table->default = 0;
-                $table->store();
-            }
+        // Verify that the default is unique for this workflow
+        if ((int) $this->default === 1 && $table->load(
+            [
+            'default'   => '1',
+            'extension' => $this->extension,
+            ]
+        )) {
+            $table->default = 0;
+            $table->store();
         }
 
         return parent::store($updateNulls);

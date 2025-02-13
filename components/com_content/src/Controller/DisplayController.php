@@ -110,12 +110,10 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
             throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 403);
         }
 
-        if ($vName === 'article' && \in_array($this->input->getMethod(), ['GET', 'POST'])) {
-            // Get/Create the model
-            if ($model = $this->getModel($vName)) {
-                if (ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1) {
-                    $model->hit();
-                }
+        // Get/Create the model
+        if ($vName === 'article' && \in_array($this->input->getMethod(), ['GET', 'POST']) && $model = $this->getModel($vName)) {
+            if (ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1) {
+                $model->hit();
             }
         }
 

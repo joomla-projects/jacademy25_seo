@@ -357,10 +357,8 @@ class RequestController extends FormController
             return;
         }
 
-        if (!$model->logRequestCreated($model->getState($model->getName() . '.id'))) {
-            if ($error = $model->getError()) {
-                $this->app->enqueueMessage($error, 'warning');
-            }
+        if (!$model->logRequestCreated($model->getState($model->getName() . '.id')) && $error = $model->getError()) {
+            $this->app->enqueueMessage($error, 'warning');
         }
 
         if (!$model->notifyUserAdminCreatedRequest($model->getState($model->getName() . '.id'))) {

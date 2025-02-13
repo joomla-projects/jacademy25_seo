@@ -454,10 +454,8 @@ class ItemsModel extends ListModel
         }
 
         // Implement View Level Access
-        if (!$user->authorise('core.admin')) {
-            if ($groups = $user->getAuthorisedViewLevels()) {
-                $query->whereIn($db->quoteName('a.access'), $groups);
-            }
+        if (!$user->authorise('core.admin') && $groups = $user->getAuthorisedViewLevels()) {
+            $query->whereIn($db->quoteName('a.access'), $groups);
         }
 
         // Filter on the language.

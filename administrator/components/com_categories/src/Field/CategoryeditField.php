@@ -244,10 +244,8 @@ class CategoryeditField extends ListField
         // Pad the option text with spaces using depth level as a multiplier.
         foreach ($options as $option) {
             // Translate ROOT
-            if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories') {
-                if ($option->level == 0) {
-                    $option->text = Text::_('JGLOBAL_ROOT_PARENT');
-                }
+            if (($this->element['parent'] == true || $jinput->get('option') == 'com_categories') && $option->level == 0) {
+                $option->text = Text::_('JGLOBAL_ROOT_PARENT');
             }
 
             if ($option->published == 1) {

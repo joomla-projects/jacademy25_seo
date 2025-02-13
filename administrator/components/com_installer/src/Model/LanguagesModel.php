@@ -164,13 +164,8 @@ class LanguagesModel extends ListModel
                 $language->$key = (string) $value;
             }
 
-            if ($search) {
-                if (
-                    strpos(strtolower($language->name), $search) === false
-                    && strpos(strtolower($language->element), $search) === false
-                ) {
-                    continue;
-                }
+            if ($search && (strpos(strtolower($language->name), $search) === false && strpos(strtolower($language->element), $search) === false)) {
+                continue;
             }
 
             $languages[$language->name] = $language;

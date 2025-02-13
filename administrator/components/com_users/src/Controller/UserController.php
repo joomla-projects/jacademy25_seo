@@ -48,11 +48,9 @@ class UserController extends FormController
     protected function allowEdit($data = [], $key = 'id')
     {
         // Check if this person is a Super Admin
-        if (Access::check($data[$key], 'core.admin')) {
-            // If I'm not a Super Admin, then disallow the edit.
-            if (!$this->app->getIdentity()->authorise('core.admin')) {
-                return false;
-            }
+        // If I'm not a Super Admin, then disallow the edit.
+        if (Access::check($data[$key], 'core.admin') && !$this->app->getIdentity()->authorise('core.admin')) {
+            return false;
         }
 
         // Allow users to edit their own account

@@ -464,13 +464,10 @@ class TracksModel extends ListModel
                 // Run the packager
                 $delete = Folder::files($app->get('tmp_path') . '/', uniqid('banners_tracks_'), false, true);
 
-                if (!empty($delete)) {
-                    if (!File::delete($delete)) {
-                        // File::delete throws an error
-                        $this->setError(Text::_('COM_BANNERS_ERR_ZIP_DELETE_FAILURE'));
-
-                        return false;
-                    }
+                if (!empty($delete) && !File::delete($delete)) {
+                    // File::delete throws an error
+                    $this->setError(Text::_('COM_BANNERS_ERR_ZIP_DELETE_FAILURE'));
+                    return false;
                 }
 
                 $archive = new Archive();

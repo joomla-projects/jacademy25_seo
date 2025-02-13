@@ -635,10 +635,8 @@ class MessagesModel extends BaseDatabaseModel
             }
         }
 
-        if ($options['type'] == 'link') {
-            if (empty($options['link'])) {
-                throw new \Exception('Post-installation message definitions need an action (URL) when they are of type "link"', 500);
-            }
+        if ($options['type'] == 'link' && empty($options['link'])) {
+            throw new \Exception('Post-installation message definitions need an action (URL) when they are of type "link"', 500);
         }
 
         // The condition file and method are only required when the type is not "message"

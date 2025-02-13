@@ -508,29 +508,26 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 
             $data['session_filesystem_path'] = Path::clean($data['session_filesystem_path']);
 
-            if ($currentPath !== $data['session_filesystem_path']) {
-                if (!is_dir(Path::clean($data['session_filesystem_path'])) && !Folder::create($data['session_filesystem_path'])) {
-                    try {
-                        Log::add(
-                            Text::sprintf(
-                                'COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT',
-                                $data['session_filesystem_path']
-                            ),
-                            Log::WARNING,
-                            'jerror'
-                        );
-                    } catch (\RuntimeException $logException) {
-                        $app->enqueueMessage(
-                            Text::sprintf(
-                                'COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT',
-                                $data['session_filesystem_path']
-                            ),
-                            'warning'
-                        );
-                    }
-
-                    $data['session_filesystem_path'] = $currentPath;
+            if ($currentPath !== $data['session_filesystem_path'] && (!is_dir(Path::clean($data['session_filesystem_path'])) && !Folder::create($data['session_filesystem_path']))) {
+                try {
+                    Log::add(
+                        Text::sprintf(
+                            'COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT',
+                            $data['session_filesystem_path']
+                        ),
+                        Log::WARNING,
+                        'jerror'
+                    );
+                } catch (\RuntimeException $logException) {
+                    $app->enqueueMessage(
+                        Text::sprintf(
+                            'COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT',
+                            $data['session_filesystem_path']
+                        ),
+                        'warning'
+                    );
                 }
+                $data['session_filesystem_path'] = $currentPath;
             }
         }
 

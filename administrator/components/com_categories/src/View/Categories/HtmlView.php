@@ -324,12 +324,10 @@ class HtmlView extends BaseHtmlView
          * -locally  searching in a component help file if helpURL param exists in the component and is set to ''
          * -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
          */
-        if (!$url) {
-            if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL')) {
-                $debug = $lang->setDebug(false);
-                $url   = Text::_($lang_help_url);
-                $lang->setDebug($debug);
-            }
+        if (!$url && $lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL')) {
+            $debug = $lang->setDebug(false);
+            $url   = Text::_($lang_help_url);
+            $lang->setDebug($debug);
         }
 
         $toolbar->help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);

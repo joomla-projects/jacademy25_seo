@@ -625,10 +625,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      */
     public function validate($form, $data, $group = null)
     {
-        if (!$this->getCurrentUser()->authorise('core.admin', 'com_content')) {
-            if (isset($data['rules'])) {
-                unset($data['rules']);
-            }
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_content') && isset($data['rules'])) {
+            unset($data['rules']);
         }
 
         return parent::validate($form, $data, $group);
@@ -754,42 +752,32 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         }
 
         // Automatic handling of alias for empty fields
-        if (\in_array($input->get('task'), ['apply', 'save', 'save2new']) && (!isset($data['id']) || (int) $data['id'] == 0)) {
-            if ($data['alias'] == null) {
-                if ($app->get('unicodeslugs') == 1) {
-                    $data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
-                } else {
-                    $data['alias'] = OutputFilter::stringURLSafe($data['title']);
-                }
-
-                $table = $this->getTable();
-
-                if ($table->load(['alias' => $data['alias'], 'catid' => $data['catid']])) {
-                    $msg = Text::_('COM_CONTENT_SAVE_WARNING');
-                }
-
-                list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-                $data['alias']       = $alias;
-
-                if (isset($msg)) {
-                    $app->enqueueMessage($msg, 'warning');
-                }
+        if (\in_array($input->get('task'), ['apply', 'save', 'save2new']) && (!isset($data['id']) || (int) $data['id'] == 0) && $data['alias'] == null) {
+            if ($app->get('unicodeslugs') == 1) {
+                $data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
+            } else {
+                $data['alias'] = OutputFilter::stringURLSafe($data['title']);
+            }
+            $table = $this->getTable();
+            if ($table->load(['alias' => $data['alias'], 'catid' => $data['catid']])) {
+                $msg = Text::_('COM_CONTENT_SAVE_WARNING');
+            }
+            list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+            $data['alias']       = $alias;
+            if (isset($msg)) {
+                $app->enqueueMessage($msg, 'warning');
             }
         }
 
         if (parent::save($data)) {
             // Check if featured is set and if not managed by workflow
-            if (isset($data['featured']) && !$this->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article')) {
-                if (
-                    !$this->featured(
-                        $this->getState($this->getName() . '.id'),
-                        $data['featured'],
-                        $data['featured_up'] ?? null,
-                        $data['featured_down'] ?? null
-                    )
-                ) {
-                    return false;
-                }
+            if (isset($data['featured']) && !$this->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article') && !$this->featured(
+                $this->getState($this->getName() . '.id'),
+                $data['featured'],
+                $data['featured_up'] ?? null,
+                $data['featured_down'] ?? null
+            )) {
+                return false;
             }
 
             $this->workflowAfterSave($data);

@@ -323,12 +323,10 @@ class HtmlView extends BaseHtmlView
          */
         $url = (string) $this->form->getXml()->help['url'];
 
-        if (!$url) {
-            if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL')) {
-                $debug = $lang->setDebug(false);
-                $url   = Text::_($lang_help_url);
-                $lang->setDebug($debug);
-            }
+        if (!$url && $lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL')) {
+            $debug = $lang->setDebug(false);
+            $url   = Text::_($lang_help_url);
+            $lang->setDebug($debug);
         }
 
         $toolbar->help($ref_key, $componentParams->exists('helpURL'), $url, $component);

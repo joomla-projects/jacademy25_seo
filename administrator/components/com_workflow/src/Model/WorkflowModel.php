@@ -270,12 +270,9 @@ class WorkflowModel extends AdminModel
     {
         $table = $this->getTable();
 
-        if ($table->load($pk)) {
-            if ($table->published !== 1) {
-                $this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
-
-                return false;
-            }
+        if ($table->load($pk) && $table->published !== 1) {
+            $this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+            return false;
         }
 
         if (empty($table->id) || !$this->canEditState($table)) {
@@ -286,20 +283,16 @@ class WorkflowModel extends AdminModel
 
         $date = Factory::getDate()->toSql();
 
-        if ($value) {
-            // Unset other default item
-            if (
-                $table->load(
-                    [
-                    'default'   => '1',
-                    'extension' => $table->extension,
-                    ]
-                )
-            ) {
-                $table->default  = 0;
-                $table->modified = $date;
-                $table->store();
-            }
+        // Unset other default item
+        if ($value && $table->load(
+            [
+            'default'   => '1',
+            'extension' => $table->extension,
+            ]
+        )) {
+            $table->default  = 0;
+            $table->modified = $date;
+            $table->store();
         }
 
         if ($table->load($pk)) {

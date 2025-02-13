@@ -128,18 +128,13 @@ class ContactController extends FormController implements UserFactoryAwareInterf
         }
 
         // Check for a valid session cookie
-        if ($contact->params->get('validate_session', 0)) {
-            if (Factory::getSession()->getState() !== 'active') {
-                $this->app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_INVALID'), 'warning');
-
-                // Save the data in the session.
-                $this->app->setUserState('com_contact.contact.data', $data);
-
-                // Redirect back to the contact form.
-                $this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub . '&catid=' . $contact->catid, false));
-
-                return false;
-            }
+        if ($contact->params->get('validate_session', 0) && Factory::getSession()->getState() !== 'active') {
+            $this->app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_INVALID'), 'warning');
+            // Save the data in the session.
+            $this->app->setUserState('com_contact.contact.data', $data);
+            // Redirect back to the contact form.
+            $this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub . '&catid=' . $contact->catid, false));
+            return false;
         }
 
         // Contact plugins

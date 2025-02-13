@@ -284,10 +284,8 @@ class TagModel extends ListModel
                     $table->load($id);
 
                     // Check published state.
-                    if ($published = $this->getState('tag.state')) {
-                        if ($table->published != $published) {
-                            continue;
-                        }
+                    if (($published = $this->getState('tag.state')) && $table->published != $published) {
+                        continue;
                     }
 
                     if (!\in_array($table->access, $this->getCurrentUser()->getAuthorisedViewLevels())) {

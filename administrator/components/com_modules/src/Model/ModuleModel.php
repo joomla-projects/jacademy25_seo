@@ -128,10 +128,8 @@ class ModuleModel extends AdminModel
         // Load the User state.
         $pk = $app->getInput()->getInt('id');
 
-        if (!$pk) {
-            if ($extensionId = (int) $app->getUserState('com_modules.add.module.extension_id')) {
-                $this->setState('extension.id', $extensionId);
-            }
+        if (!$pk && $extensionId = (int) $app->getUserState('com_modules.add.module.extension_id')) {
+            $this->setState('extension.id', $extensionId);
         }
 
         $this->setState('module.id', $pk);
@@ -880,10 +878,8 @@ class ModuleModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
-        if (!$this->getCurrentUser()->authorise('core.admin', 'com_modules')) {
-            if (isset($data['rules'])) {
-                unset($data['rules']);
-            }
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_modules') && isset($data['rules'])) {
+            unset($data['rules']);
         }
 
         return parent::validate($form, $data, $group);

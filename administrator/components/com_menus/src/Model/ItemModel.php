@@ -161,28 +161,22 @@ class ItemModel extends AdminModel
         $newIds = [];
 
         // Check that the parent exists
-        if ($parentId) {
-            if (!$table->load($parentId)) {
-                if ($error = $table->getError()) {
-                    // Fatal error
-                    $this->setError($error);
-
-                    return false;
-                }
-
-                // Non-fatal error
-                $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
-                $parentId = 0;
-            }
-        }
-
-        // If the parent is 0, set it to the ID of the root item in the tree
-        if (empty($parentId)) {
-            if (!$parentId = $table->getRootId()) {
-                $this->setError($table->getError());
+        if ($parentId && !$table->load($parentId)) {
+            if ($error = $table->getError()) {
+                // Fatal error
+                $this->setError($error);
 
                 return false;
             }
+            // Non-fatal error
+            $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+            $parentId = 0;
+        }
+
+        // If the parent is 0, set it to the ID of the root item in the tree
+        if (empty($parentId) && !$parentId = $table->getRootId()) {
+            $this->setError($table->getError());
+            return false;
         }
 
         // Check that user has create permission for menus
@@ -349,19 +343,16 @@ class ItemModel extends AdminModel
         $db    = $this->getDatabase();
 
         // Check that the parent exists.
-        if ($parentId) {
-            if (!$table->load($parentId)) {
-                if ($error = $table->getError()) {
-                    // Fatal error
-                    $this->setError($error);
+        if ($parentId && !$table->load($parentId)) {
+            if ($error = $table->getError()) {
+                // Fatal error
+                $this->setError($error);
 
-                    return false;
-                }
-
-                // Non-fatal error
-                $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
-                $parentId = 0;
+                return false;
             }
+            // Non-fatal error
+            $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+            $parentId = 0;
         }
 
         // Check that user has create and edit permission for menus
@@ -650,11 +641,9 @@ class ItemModel extends AdminModel
         }
 
         // If the link has been set in the state, possibly changing link type.
-        if ($link = $this->getState('item.link')) {
-            // Check if we are changing away from the actual link type.
-            if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id === (int) $this->getState('item.id')) {
-                $table->link = $link;
-            }
+        // Check if we are changing away from the actual link type.
+        if (($link = $this->getState('item.link')) && (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id === (int) $this->getState('item.id'))) {
+            $table->link = $link;
         }
 
         switch ($table->type) {

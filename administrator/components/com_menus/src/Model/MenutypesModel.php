@@ -528,28 +528,26 @@ class MenutypesModel extends BaseDatabaseModel
                 }
 
                 // Load layout metadata if it exists.
-                if (is_file($file)) {
-                    // Attempt to load the xml file.
-                    if ($xml = simplexml_load_file($file)) {
-                        // Look for the first view node off of the root node.
-                        if ($menu = $xml->xpath('layout[1]')) {
-                            $menu = $menu[0];
+                // Attempt to load the xml file.
+                if (is_file($file) && $xml = simplexml_load_file($file)) {
+                    // Look for the first view node off of the root node.
+                    if ($menu = $xml->xpath('layout[1]')) {
+                        $menu = $menu[0];
 
-                            // If the view is hidden from the menu, discard it and move on to the next view.
-                            if (!empty($menu['hidden']) && $menu['hidden'] == 'true') {
-                                unset($xml);
-                                unset($o);
-                                continue;
-                            }
+                        // If the view is hidden from the menu, discard it and move on to the next view.
+                        if (!empty($menu['hidden']) && $menu['hidden'] == 'true') {
+                            unset($xml);
+                            unset($o);
+                            continue;
+                        }
 
-                            // Populate the title and description if they exist.
-                            if (!empty($menu['title'])) {
-                                $o->title = trim((string) $menu['title']);
-                            }
+                        // Populate the title and description if they exist.
+                        if (!empty($menu['title'])) {
+                            $o->title = trim((string) $menu['title']);
+                        }
 
-                            if (!empty($menu->message[0])) {
-                                $o->description = trim((string) $menu->message[0]);
-                            }
+                        if (!empty($menu->message[0])) {
+                            $o->description = trim((string) $menu->message[0]);
                         }
                     }
                 }

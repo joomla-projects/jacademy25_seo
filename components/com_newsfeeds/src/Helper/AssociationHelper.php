@@ -41,18 +41,13 @@ abstract class AssociationHelper extends CategoryAssociationHelper
         $view   = $view ?? $jinput->get('view');
         $id     = empty($id) ? $jinput->getInt('id') : $id;
 
-        if ($view === 'newsfeed') {
-            if ($id) {
-                $associations = Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $id);
-
-                $return = [];
-
-                foreach ($associations as $tag => $item) {
-                    $return[$tag] = RouteHelper::getNewsfeedRoute($item->id, (int) $item->catid, $item->language);
-                }
-
-                return $return;
+        if ($view === 'newsfeed' && $id) {
+            $associations = Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $id);
+            $return = [];
+            foreach ($associations as $tag => $item) {
+                $return[$tag] = RouteHelper::getNewsfeedRoute($item->id, (int) $item->catid, $item->language);
             }
+            return $return;
         }
 
         if ($view === 'category' || $view === 'categories') {

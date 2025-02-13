@@ -172,10 +172,8 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::title(Text::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
 
         // If a new item, can save the item.  Allow users with edit permissions to apply changes to prevent returning to grid.
-        if ($isNew && $canDo->get('core.create')) {
-            if ($canDo->get('core.edit')) {
-                $toolbar->apply('item.apply');
-            }
+        if ($isNew && $canDo->get('core.create') && $canDo->get('core.edit')) {
+            $toolbar->apply('item.apply');
         }
 
         // If not checked out, can save the item.

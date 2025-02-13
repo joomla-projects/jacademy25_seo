@@ -260,12 +260,10 @@ class PluginsModel extends ListModel
         // Filter by search in name or id.
         $search = $this->getState('filter.search');
 
-        if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $ids = (int) substr($search, 3);
-                $query->where($db->quoteName('a.extension_id') . ' = :id');
-                $query->bind(':id', $ids, ParameterType::INTEGER);
-            }
+        if (!empty($search) && stripos($search, 'id:') === 0) {
+            $ids = (int) substr($search, 3);
+            $query->where($db->quoteName('a.extension_id') . ' = :id');
+            $query->bind(':id', $ids, ParameterType::INTEGER);
         }
 
         return $query;
