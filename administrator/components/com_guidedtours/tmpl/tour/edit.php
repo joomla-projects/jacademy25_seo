@@ -41,7 +41,7 @@ $wa->useScript('keepalive')
         </div>
     </div>
 
-    <?php if ($this->item->id != 0 && strpos($this->item->title, 'GUIDEDTOUR') !== false) : ?>
+    <?php if ($this->item->id != 0 && str_contains($this->item->title, 'GUIDEDTOUR')) : ?>
         <div class="row title-alias form-vertical mb-3">
             <div class="col-12">
                 <?php $this->form->setFieldAttribute('title_translation', 'label', Text::sprintf('COM_GUIDEDTOURS_TITLE_TRANSLATION', $lang)); ?>
@@ -59,7 +59,7 @@ $wa->useScript('keepalive')
                 <?php echo $this->form->renderField('url'); ?>
                 <?php echo $this->form->renderField('description'); ?>
 
-                <?php if ($this->item->id != 0 && strpos($this->item->description, 'GUIDEDTOUR') !== false) : ?>
+                <?php if ($this->item->id != 0 && str_contains($this->item->description, 'GUIDEDTOUR')) : ?>
                     <?php $this->form->setFieldAttribute('description_translation', 'label', Text::sprintf('COM_GUIDEDTOURS_DESCRIPTION_TRANSLATION', $lang)); ?>
                     <?php echo $this->form->renderField('description_translation'); ?>
                 <?php endif; ?>

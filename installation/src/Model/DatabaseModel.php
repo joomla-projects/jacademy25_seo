@@ -204,7 +204,7 @@ class DatabaseModel extends BaseInstallationModel
         }
 
         // @internal Check for asc(00) Null in name.
-        if (strpos($options->db_name, \chr(00)) !== false) {
+        if (str_contains($options->db_name, \chr(00))) {
             throw new \RuntimeException(Text::_('INSTL_DATABASE_NAME_INVALID_CHAR'));
         }
 
@@ -339,7 +339,7 @@ class DatabaseModel extends BaseInstallationModel
         if ($tables) {
             foreach ($tables as $table) {
                 // If the table uses the given prefix, back it up.
-                if (strpos($table, $prefix) === 0) {
+                if (str_starts_with($table, $prefix)) {
                     // Backup table name.
                     $backupTable = str_replace($prefix, $backup, $table);
 

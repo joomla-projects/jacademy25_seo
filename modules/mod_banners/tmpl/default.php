@@ -35,7 +35,7 @@ use Joomla\CMS\Uri\Uri;
             <?php $imageurl = $imageobject->url; ?>
             <?php if (!empty($imageurl) && (MediaHelper::isImage($imageurl) || MediaHelper::getMimeType($imageurl) === 'image/svg+xml')) : ?>
                 <?php // Image based banner ?>
-                <?php $baseurl = strpos($imageurl, 'http') === 0 ? '' : Uri::base(); ?>
+                <?php $baseurl = str_starts_with($imageurl, 'http') ? '' : Uri::base(); ?>
                 <?php $alt = $item->params->get('alt'); ?>
                 <?php $alt = $alt ?: $item->name; ?>
                 <?php $alt = $alt ?: Text::_('MOD_BANNERS_BANNER'); ?>

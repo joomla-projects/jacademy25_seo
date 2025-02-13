@@ -25,9 +25,9 @@ $user = $app->getIdentity();
                 <?php
                     $child->img = $child->img ?? '';
 
-                if (substr($child->img, 0, 6) === 'class:') {
+                if (str_starts_with($child->img, 'class:')) {
                     $iconImage = '<span class="icon-' . substr($child->img, 6) . '" aria-hidden="true"></span>';
-                } elseif (substr($child->img, 0, 6) === 'image:') {
+                } elseif (str_starts_with($child->img, 'image:')) {
                     $iconImage = '<img src="' . substr($child->img, 6) . '" aria-hidden="true">';
                 } elseif (!empty($child->img)) {
                     $iconImage = '<img src="' . $child->img . '" aria-hidden="true">';

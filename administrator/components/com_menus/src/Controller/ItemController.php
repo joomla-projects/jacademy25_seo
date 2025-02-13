@@ -330,7 +330,7 @@ class ItemController extends FormController
         if ($data['type'] == 'url') {
             $data['link'] = str_replace(['"', '>', '<'], '', $data['link']);
 
-            if (strstr($data['link'], ':')) {
+            if (str_contains($data['link'], ':')) {
                 $segments = explode(':', $data['link']);
                 $protocol = strtolower($segments[0]);
                 $scheme   = [

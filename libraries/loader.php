@@ -200,7 +200,7 @@ abstract class JLoader
             }
 
             // If we are importing a library from the Joomla namespace set the class to autoload.
-            if (strpos($path, 'joomla') === 0) {
+            if (str_starts_with($path, 'joomla')) {
                 // Since we are in the Joomla namespace prepend the classname with J.
                 $class = 'J' . $class;
 
@@ -504,7 +504,7 @@ abstract class JLoader
 
         // Loop through registered namespaces until we find a match.
         foreach (self::$namespaces as $ns => $paths) {
-            if (strpos($class, "{$ns}\\") === 0) {
+            if (str_starts_with($class, "{$ns}\\")) {
                 $nsPath = trim(str_replace('\\', DIRECTORY_SEPARATOR, $ns), DIRECTORY_SEPARATOR);
 
                 // Loop through paths registered to this namespace until we find a match.
@@ -512,7 +512,7 @@ abstract class JLoader
                     $classFilePath = realpath($path . DIRECTORY_SEPARATOR . substr_replace($classPath, '', 0, strlen($nsPath) + 1));
 
                     // We do not allow files outside the namespace root to be loaded
-                    if (strpos($classFilePath, realpath($path)) !== 0) {
+                    if (!str_starts_with($classFilePath, realpath($path))) {
                         continue;
                     }
 
@@ -592,7 +592,7 @@ abstract class JLoader
         foreach (self::$prefixes as $prefix => $lookup) {
             $chr = strlen($prefix) < strlen($class) ? $class[strlen($prefix)] : 0;
 
-            if (strpos($class, $prefix) === 0 && ($chr === strtoupper($chr))) {
+            if (str_starts_with($class, $prefix) && ($chr === strtoupper($chr))) {
                 return self::_load(substr($class, strlen($prefix)), $lookup);
             }
         }
@@ -621,7 +621,7 @@ abstract class JLoader
             $path = realpath($base . '/' . implode('/', array_map('strtolower', $parts)) . '.php');
 
             // Load the file if it exists and is in the lookup path.
-            if (strpos($path, realpath($base)) === 0 && is_file($path)) {
+            if (str_starts_with($path, realpath($base)) && is_file($path)) {
                 $found = (bool) include_once $path;
 
                 if ($found) {
@@ -639,7 +639,7 @@ abstract class JLoader
                 $path = realpath($base . '/' . implode('/', array_map('strtolower', [$parts[0], $parts[0]])) . '.php');
 
                 // Load the file if it exists and is in the lookup path.
-                if (strpos($path, realpath($base)) === 0 && is_file($path)) {
+                if (str_starts_with($path, realpath($base)) && is_file($path)) {
                     $found = (bool) include_once $path;
 
                     if ($found) {

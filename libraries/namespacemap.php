@@ -221,7 +221,7 @@ class JNamespacePsr4Map
             }
 
             // Check if we need to use administrator path
-            $isAdministrator = strpos($namespacePath, JPATH_ADMINISTRATOR) === 0;
+            $isAdministrator = str_starts_with($namespacePath, JPATH_ADMINISTRATOR);
             $path            = substr($namespacePath, strlen($isAdministrator ? JPATH_ADMINISTRATOR : JPATH_SITE));
 
             // Add the site path when a component

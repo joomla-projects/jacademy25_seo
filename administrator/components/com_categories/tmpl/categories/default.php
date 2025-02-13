@@ -145,7 +145,7 @@ if ($saveOrder && !empty($this->items)) {
                                         foreach ($this->ordering as $k => $v) {
                                             $v = implode('-', $v);
                                             $v = '-' . $v . '-';
-                                            if (strpos($v, '-' . $_currentParentId . '-') !== false) {
+                                            if (str_contains($v, '-' . $_currentParentId . '-')) {
                                                 $parentsStr .= ' ' . $k;
                                                 $_currentParentId = $k;
                                                 break;

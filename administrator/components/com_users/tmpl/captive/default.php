@@ -89,7 +89,7 @@ $this->getDocument()->getWebAssetManager()
                     $this->renderOptions['input_attributes']
                 );
 
-                if (strpos($attributes['class'], 'form-control') === false) {
+                if (!str_contains($attributes['class'], 'form-control')) {
                     $attributes['class'] .= ' form-control';
                 }
                 ?>

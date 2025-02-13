@@ -62,7 +62,7 @@ if (!$displayData->get('show_options', 1)) {
         }
 
         // Check if it is the correct fieldset to ignore
-        if (strpos($name, 'basic') === 0) {
+        if (str_starts_with($name, 'basic')) {
             // Ignore only the fieldsets which are defined by the options not the custom fields ones
             $ignoreFieldsets[] = $name;
         }

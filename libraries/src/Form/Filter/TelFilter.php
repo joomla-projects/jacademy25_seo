@@ -47,11 +47,11 @@ class TelFilter implements FormFilterInterface
         if (preg_match('/^(?:\+?1[-. ]?)?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$/', $value) == 1) {
             $number = (string) preg_replace('/[^\d]/', '', $value);
 
-            if (substr($number, 0, 1) === '1') {
+            if (str_starts_with($number, '1')) {
                 $number = substr($number, 1);
             }
 
-            if (substr($number, 0, 2) === '+1') {
+            if (str_starts_with($number, '+1')) {
                 $number = substr($number, 2);
             }
 
@@ -65,7 +65,7 @@ class TelFilter implements FormFilterInterface
             $result      = $countrycode . '.' . $number;
         } elseif (preg_match('/^\+[0-9]{1,3}\.[0-9]{4,14}(?:x.+)?$/', $value) == 1) {
             // If not, does it match EPP?
-            if (strstr($value, 'x')) {
+            if (str_contains($value, 'x')) {
                 $xpos  = strpos($value, 'x');
                 $value = substr($value, 0, $xpos);
             }
