@@ -128,9 +128,10 @@ $wa->useScript('joomla.dialog-autocreate');
             <span class="fas fa-globe me-1" aria-hidden="true"></span>
             <?php
                 $dataAttribs = [
-                    'textHeader' => Text::_('INSTL_SELECT_INSTALL_LANG'),
-                    'iconHeader' => 'icon-language',
-                    'src'        => '#languageSelect',
+                    'textHeader'      => Text::_('INSTL_SELECT_INSTALL_LANG'),
+                    'iconHeader'      => 'icon-language',
+                    'src'             => '#languageSelect',
+                    'preferredParent' => 'body',
                 ];
 
                 $text = '<span class="ms-1 fw-bold" id="languageForm-current"></span>';
