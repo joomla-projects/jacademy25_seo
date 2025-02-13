@@ -11,10 +11,14 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\ValueObject\PhpVersion;
 
 $rectorConfig = RectorConfig::configure();
+
+// Setup parallel
+$rectorConfig->withParallel(120, 2, 10);
 
 // Min version
 $rectorConfig->withPhpVersion(PhpVersion::PHP_81);
@@ -26,6 +30,11 @@ $rectorConfig->withSets([
 
 // Skip some rules and folders/files
 $rectorConfig->withSkip([
+    // Ignore read only constructor property changes
+    ReadOnlyPropertyRector::class,
+    // Ignore template and layout files
+    '*/tmpl/*',
+    '*/layouts/*',
     // Ignore vendor
     '*/vendor/*',
 ]);
