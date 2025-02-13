@@ -131,7 +131,6 @@ $wa->useScript('joomla.dialog-autocreate');
                     'textHeader'      => Text::_('INSTL_SELECT_INSTALL_LANG'),
                     'iconHeader'      => 'icon-language',
                     'src'             => '#languageSelect',
-                    'preferredParent' => 'body',
                 ];
 
                 $text = '<span class="ms-1 fw-bold" id="languageForm-current"></span>';
