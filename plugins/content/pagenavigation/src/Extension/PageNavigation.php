@@ -11,12 +11,14 @@
 namespace Joomla\Plugin\Content\PageNavigation\Extension;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Event\Content\BeforeDisplayEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -27,24 +29,39 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.5
  */
-final class PageNavigation extends CMSPlugin
+final class PageNavigation extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentBeforeDisplay' => 'onContentBeforeDisplay',
+        ];
+    }
+
+    /**
      * If in the article view and the parameter is enabled shows the page navigation
      *
-     * @param   string   $context  The context of the content being passed to the plugin
-     * @param   object   &$row     The article object
-     * @param   mixed    &$params  The article params
-     * @param   integer  $page     The 'page' number
+     * @param   BeforeDisplayEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   1.6
      */
-    public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
+    public function onContentBeforeDisplay(BeforeDisplayEvent $event)
     {
+        $context = $event->getContext();
+        $row     = $event->getItem();
+        $params  = $event->getParams();
+
         $app   = $this->getApplication();
         $view  = $app->getInput()->get('view');
         $print = $app->getInput()->getBool('print');
@@ -86,20 +103,20 @@ final class PageNavigation extends CMSPlugin
                 $orderDate = $params->get('order_date');
 
                 switch ($orderDate) {
-                    // Use created if modified is not set
                     case 'modified':
+                        // Use created if modified is not set
                         $orderby = 'CASE WHEN ' . $db->quoteName('a.modified') . ' IS NULL THEN ' .
                             $db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.modified') . ' END';
                         break;
 
-                    // Use created if publish_up is not set
                     case 'published':
+                        // Use created if publish_up is not set
                         $orderby = 'CASE WHEN ' . $db->quoteName('a.publish_up') . ' IS NULL THEN ' .
                             $db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.publish_up') . ' END';
                         break;
 
-                    // Use created as default
                     default:
+                        // Use created as default
                         $orderby = $db->quoteName('a.created');
                         break;
                 }

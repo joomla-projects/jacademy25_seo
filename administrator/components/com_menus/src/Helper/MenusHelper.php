@@ -14,16 +14,16 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Menu\PreprocessMenuItemsEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Menu;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -455,8 +455,7 @@ class MenusHelper extends ContentHelper
         ]))->getArgument('subject', $items);
 
         foreach ($items as $item) {
-            /** @var \Joomla\CMS\Table\Menu $table */
-            $table = Table::getInstance('Menu');
+            $table = new Menu($db);
 
             $item->alias = $menutype . '-' . $item->title;
 
@@ -550,7 +549,7 @@ class MenusHelper extends ContentHelper
                 throw new \Exception($table->getError());
             }
 
-            $item->id = $table->get('id');
+            $item->id = $table->id;
 
             if ($item->hasChildren()) {
                 static::installPresetItems($item, $menutype);
@@ -615,7 +614,7 @@ class MenusHelper extends ContentHelper
 
                 $folder = JPATH_ADMINISTRATOR . '/components/' . $component->option . '/presets/';
 
-                if (!Folder::exists($folder)) {
+                if (!is_dir($folder)) {
                     continue;
                 }
 
@@ -889,6 +888,14 @@ class MenusHelper extends ContentHelper
             $params->set('menu-quicktask-title', (string) $node['quicktask-title']);
             $params->set('menu-quicktask-icon', (string) $node['quicktask-icon']);
             $params->set('menu-quicktask-permission', (string) $node['quicktask-permission']);
+        }
+
+        if ($item->ajaxbadge) {
+            $params->set('ajax-badge', $item->ajaxbadge);
+        }
+
+        if ($item->dashboard) {
+            $params->set('dashboard', $item->dashboard);
         }
 
         // Translate attributes for iterator values

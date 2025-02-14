@@ -22,7 +22,6 @@ use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Asset;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
@@ -69,7 +68,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
         $input = Factory::getApplication()->getInput();
 
         $user  = $this->getCurrentUser();
-        $this->setState('user.id', $user->get('id'));
+        $this->setState('user.id', $user->id);
 
         $messageId = (int) $input->getInt('message_id');
         $this->setState('message.id', $messageId);
@@ -300,7 +299,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
 
         // Assign empty values.
         if (empty($table->user_id_from)) {
-            $table->user_id_from = $this->getCurrentUser()->get('id');
+            $table->user_id_from = $this->getCurrentUser()->id;
         }
 
         if ((int) $table->date_time == 0) {
@@ -366,7 +365,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
             $app      = Factory::getApplication();
             $linkMode = $app->get('force_ssl', 0) >= 1 ? Route::TLS_FORCE : Route::TLS_IGNORE;
             $sitename = $app->get('sitename');
-            $fromName = $fromUser->get('name');
+            $fromName = $fromUser->name;
             $siteURL  = Route::link(
                 'administrator',
                 'index.php?option=com_messages&view=message&message_id=' . $table->message_id,
@@ -430,8 +429,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
         $db = $this->getDatabase();
 
         try {
-            /** @var Asset $table */
-            $table  = Table::getInstance('Asset');
+            $table  = new Asset($db);
             $rootId = $table->getRootId();
 
             /** @var Rule[] $rules */

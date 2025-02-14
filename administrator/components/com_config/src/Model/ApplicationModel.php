@@ -18,7 +18,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
 use Joomla\CMS\Event\Application\BeforeSaveConfigurationEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -28,12 +27,13 @@ use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Table\Asset;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use Joomla\Filter\OutputFilter;
 use Joomla\Registry\Registry;
@@ -67,7 +67,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  mixed  A JForm object on success, false on failure
+     * @return  mixed  A Form object on success, false on failure
      *
      * @since   1.6
      */
@@ -299,6 +299,19 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             'prefix'   => $data['dbprefix'],
         ];
 
+        // Validate database name
+        if (\in_array($options['driver'], ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options['database'])) {
+            $app->enqueueMessage(Text::_('COM_CONFIG_FIELD_DATABASE_NAME_INVALID_MSG_POSTGRES'), 'warning');
+
+            return false;
+        }
+
+        if (\in_array($options['driver'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options['database'])) {
+            $app->enqueueMessage(Text::_('COM_CONFIG_FIELD_DATABASE_NAME_INVALID_MSG_MYSQL'), 'warning');
+
+            return false;
+        }
+
         if ((int) $data['dbencryption'] !== 0) {
             $options['ssl'] = [
                 'enable'             => true,
@@ -374,7 +387,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 
             // Check that we aren't removing our Super User permission
             // Need to get groups from database, since they might have changed
-            $myGroups      = Access::getGroupsByUser($this->getCurrentUser()->get('id'));
+            $myGroups      = Access::getGroupsByUser($this->getCurrentUser()->id);
             $myRules       = $rules->getData();
             $hasSuperAdmin = $myRules['core.admin']->allow($myGroups);
 
@@ -384,7 +397,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 return false;
             }
 
-            $asset = Table::getInstance('asset');
+            $asset = new Asset($this->getDatabase());
 
             if ($asset->loadByName('root.1')) {
                 $asset->rules = (string) $rules;
@@ -407,7 +420,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         if (isset($data['filters'])) {
             $registry = new Registry(['filters' => $data['filters']]);
 
-            $extension = Table::getInstance('extension');
+            $extension = new Extension($this->getDatabase());
 
             // Get extension_id
             $extensionId = $extension->find(['name' => 'com_config']);
@@ -496,7 +509,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             $data['session_filesystem_path'] = Path::clean($data['session_filesystem_path']);
 
             if ($currentPath !== $data['session_filesystem_path']) {
-                if (!Folder::exists($data['session_filesystem_path']) && !Folder::create($data['session_filesystem_path'])) {
+                if (!is_dir(Path::clean($data['session_filesystem_path'])) && !Folder::create($data['session_filesystem_path'])) {
                     try {
                         Log::add(
                             Text::sprintf(
@@ -930,8 +943,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         try {
-            /** @var Asset $asset */
-            $asset  = Table::getInstance('asset');
+            $asset  = new Asset($this->getDatabase());
             $result = $asset->loadByName($permission['component']);
 
             if ($result === false) {
@@ -943,8 +955,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 $asset->title = (string) $permission['title'];
 
                 // Get the parent asset id so we have a correct tree.
-                /** @var Asset $parentAsset */
-                $parentAsset = Table::getInstance('Asset');
+                $parentAsset = new Asset($this->getDatabase());
 
                 if (strpos($asset->name, '.') !== false) {
                     $assetParts = explode('.', $asset->name);
@@ -1215,7 +1226,8 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 'method'   => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)),
             ]
         );
-        $mailer->addRecipient($app->get('mailfrom'), $app->get('fromname'));
+        $mailer->addRecipient($user->email, $user->name);
+
 
         try {
             $mailSent = $mailer->send();
@@ -1230,9 +1242,9 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 
             // If JMail send the mail using PHP Mail as fallback.
             if ($mail->Mailer !== $app->get('mailer')) {
-                $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS_FALLBACK', $app->get('mailfrom'), $methodName), 'warning');
+                $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS_FALLBACK', $user->email, $methodName), 'warning');
             } else {
-                $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $app->get('mailfrom'), $methodName), 'message');
+                $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $user->email, $methodName), 'message');
             }
 
             return true;
