@@ -18,9 +18,9 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Table\Category;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
@@ -700,8 +700,7 @@ abstract class AdminModel extends FormModel
      *
      * @since   3.1
      *
-     * @deprecated  6.0 will be removed in 7.0
-     *              Please use batchTags
+     * @deprecated  5.3 will be removed in 7.0
      */
     protected function batchTag($value, $pks, $contexts)
     {
@@ -1030,9 +1029,9 @@ abstract class AdminModel extends FormModel
             }
         }
 
-        // Convert to the CMSObject before adding other data.
-        $properties = $table->getProperties(1);
-        $item       = ArrayHelper::toObject($properties, CMSObject::class);
+        // Convert to \stdClass before adding other data
+        $properties = get_object_vars($table);
+        $item       = ArrayHelper::toObject($properties);
 
         if (property_exists($item, 'params')) {
             $registry     = new Registry($item->params);
@@ -1133,8 +1132,6 @@ abstract class AdminModel extends FormModel
 
                     // Prune items that you can't change.
                     unset($pks[$i]);
-
-                    return false;
                 }
 
                 /**
@@ -1544,7 +1541,7 @@ abstract class AdminModel extends FormModel
     {
         // Check that the category exists
         if ($categoryId) {
-            $categoryTable = Table::getInstance('Category');
+            $categoryTable = new Category($this->getDatabase());
 
             if (!$categoryTable->load($categoryId)) {
                 if ($error = $categoryTable->getError()) {

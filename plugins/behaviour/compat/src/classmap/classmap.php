@@ -468,7 +468,7 @@ JLoader::registerAlias('JExtensionHelper', '\\Joomla\\CMS\\Extension\\ExtensionH
 JLoader::registerAlias('JHtml', '\\Joomla\\CMS\\HTML\\HTMLHelper', '6.0');
 
 JLoader::registerAlias('JFile', '\\Joomla\\CMS\\Filesystem\\File', '6.0');
-JLoader::registerAlias('JFolder', '\\Joomla\\Filesystem\\Folder', '6.0');
+JLoader::registerAlias('JFolder', '\\Joomla\\CMS\\Filesystem\\Folder', '6.0');
 JLoader::registerAlias('JFilesystemHelper', '\\Joomla\\CMS\\Filesystem\\FilesystemHelper', '6.0');
 JLoader::registerAlias('JFilesystemPatcher', '\\Joomla\\CMS\\Filesystem\\Patcher', '6.0');
 JLoader::registerAlias('JPath', '\\Joomla\\CMS\\Filesystem\\Path', '6.0');
@@ -514,3 +514,6 @@ JLoader::registerAlias('JHtmlString', '\\Joomla\\CMS\\HTML\\Helpers\\StringHelpe
 JLoader::registerAlias('JHtmlTag', '\\Joomla\\CMS\\HTML\\Helpers\\Tag', '6.0');
 JLoader::registerAlias('JHtmlTel', '\\Joomla\\CMS\\HTML\\Helpers\\Telephone', '6.0');
 JLoader::registerAlias('JHtmlUser', '\\Joomla\\CMS\\HTML\\Helpers\\User', '6.0');
+
+// As JLoader is not managing the \Joomla\Input namespace, we need to use the native class alias function
+class_alias('\\Joomla\\Input\\Input', '\\Joomla\\CMS\\Input\\Input');
