@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Asset;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
@@ -380,7 +380,7 @@ class JoomlaInstallerScript
             if (!$installer->refreshManifestCache($extension->extension_id)) {
                 $this->collectError(
                     __METHOD__,
-                    new \Exception(sprintf(
+                    new \Exception(\sprintf(
                         'Error on updating manifest cache: (type, element, folder, client) = (%s, %s, %s, %s)',
                         $extension->type,
                         $extension->element,
@@ -435,6 +435,15 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/mysql/5.1.0-2024-03-08.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.1.0-2024-03-28.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.1.1-2024-04-18.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.2.0-2024-07-02.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.2.0-2024-07-19.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.2.0-2024-08-22.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.2.0-2024-09-17.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.2.2-2024-09-24.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.3.0-2024-10-13.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.3.0-2024-10-26.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.3.0-2024-12-09.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.3.0-2024-12-19.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-03-11.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-03-17.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-07-12.sql',
@@ -456,6 +465,21 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/5.1.0-2024-03-08.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.1.0-2024-03-28.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/5.1.1-2024-04-18.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.2.0-2024-07-02.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.2.0-2024-07-19.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.2.0-2024-08-22.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.2.0-2024-09-17.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.2.2-2024-09-24.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.3.0-2024-10-26.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.3.0-2024-12-09.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.3.0-2024-12-19.sql',
+            '/administrator/components/com_finder/helpers/indexer/adapter.php',
+            '/administrator/components/com_finder/helpers/indexer/helper.php',
+            '/administrator/components/com_finder/helpers/indexer/parser.php',
+            '/administrator/components/com_finder/helpers/indexer/query.php',
+            '/administrator/components/com_finder/helpers/indexer/result.php',
+            '/administrator/components/com_finder/helpers/indexer/taxonomy.php',
+            '/administrator/components/com_finder/helpers/indexer/token.php',
             '/libraries/src/Application/BaseApplication.php',
             '/libraries/src/Application/CLI/CliInput.php',
             '/libraries/src/Application/CLI/CliOutput.php',
@@ -476,6 +500,7 @@ class JoomlaInstallerScript
             '/libraries/src/Application/CLI/Output/Processor',
             '/libraries/src/Application/CLI/Output',
             '/libraries/src/Application/CLI',
+            '/administrator/components/com_finder/helpers/indexer',
         ];
 
         $status['files_checked']   = $files;
@@ -489,7 +514,7 @@ class JoomlaInstallerScript
                     if (File::delete(JPATH_ROOT . $file)) {
                         $status['files_deleted'][] = $file;
                     } else {
-                        $status['files_errors'][] = sprintf('Error on deleting file or folder %s', $file);
+                        $status['files_errors'][] = \sprintf('Error on deleting file or folder %s', $file);
                     }
                 }
             }
@@ -503,7 +528,7 @@ class JoomlaInstallerScript
                     if (Folder::delete(JPATH_ROOT . $folder)) {
                         $status['folders_deleted'][] = $folder;
                     } else {
-                        $status['folders_errors'][] = sprintf('Error on deleting file or folder %s', $folder);
+                        $status['folders_errors'][] = \sprintf('Error on deleting file or folder %s', $folder);
                     }
                 }
             }
@@ -539,8 +564,7 @@ class JoomlaInstallerScript
         ];
 
         foreach ($newComponents as $component) {
-            /** @var \Joomla\CMS\Table\Asset $asset */
-            $asset = Table::getInstance('Asset');
+            $asset = new Asset(Factory::getDbo());
 
             if ($asset->loadByName($component)) {
                 continue;

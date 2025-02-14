@@ -74,6 +74,12 @@ final class Compat extends CMSPlugin implements SubscriberInterface
         if ($this->params->get('classes_aliases', '1')) {
             require_once \dirname(__DIR__) . '/classmap/classmap.php';
         }
+
+        /**
+         * Load the constant early as it is used in class files before the class itself is loaded.
+         * @deprecated 4.4.0 will be removed in 7.0
+         */
+        \defined('JPATH_PLATFORM') or \define('JPATH_PLATFORM', __DIR__);
     }
 
     /**

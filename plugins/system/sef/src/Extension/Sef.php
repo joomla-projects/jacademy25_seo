@@ -10,6 +10,10 @@
 
 namespace Joomla\Plugin\System\Sef\Extension;
 
+use Joomla\CMS\Event\Application\AfterDispatchEvent;
+use Joomla\CMS\Event\Application\AfterInitialiseEvent;
+use Joomla\CMS\Event\Application\AfterRenderEvent;
+use Joomla\CMS\Event\Application\AfterRouteEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
@@ -56,14 +60,16 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     /**
      * After initialise.
      *
+     * @param   AfterInitialiseEvent $event  The event instance.
+     *
      * @return  void
      *
      * @since   5.1.0
      */
-    public function onAfterInitialise()
+    public function onAfterInitialise(AfterInitialiseEvent $event)
     {
         $router = $this->getSiteRouter();
-        $app    = $this->getApplication();
+        $app    = $event->getApplication();
 
         if (
             $app->get('sef')
@@ -83,13 +89,15 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     /**
      * OnAfterRoute listener
      *
+     * @param   AfterRouteEvent $event  The event instance.
+     *
      * @return void
      *
      * @since   5.1.0
      */
-    public function onAfterRoute()
+    public function onAfterRoute(AfterRouteEvent $event)
     {
-        $app = $this->getApplication();
+        $app = $event->getApplication();
 
         // Following code only for Site application, GET requests and HTML documents
         if (
@@ -98,6 +106,30 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             || $app->getInput()->get('format', 'html') !== 'html'
         ) {
             return;
+        }
+
+        $router = $this->getSiteRouter();
+
+        /**
+         * The URL was successfully parsed, but is "tainted", e.g. parts of
+         * it were recoverably wrong. So we take the parsed variables, build
+         * a new URL and redirect to that.
+         */
+        if ($router->isTainted()) {
+            $parsedVars = $router->getVars();
+
+            if ($app->getLanguageFilter()) {
+                $parsedVars['lang'] = $parsedVars['language'];
+                unset($parsedVars['language']);
+            }
+
+            $newRoute = Route::_($parsedVars, false);
+            $origUri  = clone Uri::getInstance();
+            $route    = $origUri->toString(['path', 'query']);
+
+            if ($route !== $newRoute) {
+                $app->redirect($newRoute, 301);
+            }
         }
 
         // Enforce removing index.php with a redirect
@@ -109,20 +141,33 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         if ($app->get('sef') && !$app->get('sef_suffix') && $this->params->get('trailingslash', '-1') != '-1') {
             $this->enforceTrailingSlash();
         }
+
+        // Enforce adding a suffix with a redirect
+        if ($app->get('sef') && $app->get('sef_suffix') && $this->params->get('enforcesuffix')) {
+            $this->enforceSuffix();
+        }
+
+        // Enforce SEF URLs
+        if ($this->params->get('strictrouting') && $app->getInput()->getMethod() == 'GET') {
+            $this->enforceSEF();
+        }
     }
 
     /**
      * Add the canonical uri to the head.
      *
+     * @param   AfterDispatchEvent $event  The event instance.
+     *
      * @return  void
      *
      * @since   3.5
      */
-    public function onAfterDispatch()
+    public function onAfterDispatch(AfterDispatchEvent $event)
     {
-        $doc = $this->getApplication()->getDocument();
+        $app = $event->getApplication();
+        $doc = $app->getDocument();
 
-        if (!$this->getApplication()->isClient('site') || $doc->getType() !== 'html') {
+        if (!$app->isClient('site') || $doc->getType() !== 'html') {
             return;
         }
 
@@ -162,20 +207,23 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     /**
      * Convert the site URL to fit to the HTTP request.
      *
+     * @param   AfterRenderEvent $event  The event instance.
+     *
      * @return  void
      */
-    public function onAfterRender()
+    public function onAfterRender(AfterRenderEvent $event)
     {
-        if (!$this->getApplication()->isClient('site')) {
+        $app = $event->getApplication();
+        if (!$app->isClient('site')) {
             return;
         }
 
         // Replace src links.
         $base   = Uri::base(true) . '/';
-        $buffer = $this->getApplication()->getBody();
+        $buffer = $app->getBody();
 
         // For feeds we need to search for the URL with domain.
-        $prefix = $this->getApplication()->getDocument()->getType() === 'feed' ? Uri::root() : '';
+        $prefix = $app->getDocument()->getType() === 'feed' ? Uri::root() : '';
 
         // Replace index.php URI by SEF URI.
         if (strpos($buffer, 'href="' . $prefix . 'index.php?') !== false) {
@@ -271,7 +319,49 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         }
 
         // Use the replaced HTML body.
-        $this->getApplication()->setBody($buffer);
+        $app->setBody($buffer);
+    }
+
+    /**
+     * Enforce the URL suffix with a redirect
+     *
+     * @return  void
+     *
+     * @since   5.2.0
+     */
+    public function enforceSuffix()
+    {
+        $origUri = Uri::getInstance();
+        $route   = $origUri->getPath();
+
+        if (substr($route, -9) === 'index.php' || substr($route, -1) === '/') {
+            // We don't want suffixes when the URL ends in index.php or with a /
+            return;
+        }
+
+        $suffix       = pathinfo($route, PATHINFO_EXTENSION);
+        $nonSEFSuffix = $origUri->getVar('format');
+
+        if ($nonSEFSuffix && $suffix !== $nonSEFSuffix) {
+            // There is a URL query parameter named "format", which isn't the same to the suffix
+            $pathWithoutSuffix = ($suffix !== '') ? substr($route, 0, -(\strlen($suffix) + 1)) : $route;
+
+            $origUri->delVar('format');
+            $origUri->setPath($pathWithoutSuffix . '.' . $nonSEFSuffix);
+            $this->getApplication()->redirect($origUri->toString(), 301);
+        }
+
+        if ($suffix && $suffix == $nonSEFSuffix) {
+            // There is a URL query parameter named "format", which is identical to the suffix
+            $origUri->delVar('format');
+            $this->getApplication()->redirect($origUri->toString(), 301);
+        }
+
+        if (!$suffix) {
+            // We don't have a suffix, so we default to .html at the end
+            $origUri->setPath($route . '.html');
+            $this->getApplication()->redirect($origUri->toString(), 301);
+        }
     }
 
     /**
@@ -312,7 +402,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     {
         $path = $uri->getPath();
 
-        if ($path != '/' && str_ends_with($path, '/')) {
+        if ($path != Uri::base(true) . '/' && str_ends_with($path, '/')) {
             $uri->setPath(substr($path, 0, -1));
         }
     }
@@ -359,6 +449,36 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             // Add trailingslash
             $originalUri->setPath($originalUri->getPath() . '/');
             $this->getApplication()->redirect($originalUri->toString(), 301);
+        }
+    }
+
+    /**
+     * Enforce a redirect from URL with query parameters to SEF URL
+     *
+     * @return  void
+     *
+     * @since   5.2.0
+     */
+    protected function enforceSEF()
+    {
+        $app     = $this->getApplication();
+        $origUri = clone Uri::getInstance();
+
+        if (\count($origUri->getQuery(true))) {
+            $parsedVars = $app->getInput()->getArray();
+
+            if ($app->getLanguageFilter()) {
+                $parsedVars['lang'] = $parsedVars['language'];
+                unset($parsedVars['language']);
+            }
+
+            $route    = $origUri->toString(['path', 'query']);
+            $newRoute = Route::_($parsedVars, false);
+            $newUri   = new Uri($newRoute);
+
+            if (!\count($newUri->getQuery(true)) && $route !== $newRoute) {
+                $app->redirect($newRoute, 301);
+            }
         }
     }
 

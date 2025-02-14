@@ -87,13 +87,13 @@ class FieldModel extends AdminModel
     /**
      * Constructor
      *
-     * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         parent::__construct($config, $factory);
 
@@ -140,7 +140,7 @@ class FieldModel extends AdminModel
         $input = Factory::getApplication()->getInput();
 
         if ($input->get('task') == 'save2copy') {
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
             $origTable->load($input->getInt('id'));
 
             if ($data['title'] == $origTable->title) {
@@ -330,7 +330,7 @@ class FieldModel extends AdminModel
             try {
                 $rule->setDatabase($this->getDatabase());
             } catch (DatabaseNotFoundException $e) {
-                @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+                @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
                 $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
         }
@@ -938,24 +938,18 @@ class FieldModel extends AdminModel
                 // get selected fields
                 $filters = (array) $app->getUserState('com_fields.fields.filter');
 
-                $data->set('state', $input->getInt('state', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
-                $data->set('language', $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-                $data->set('group_id', $input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
-                $data->set(
+                $data->state            = $input->getInt('state', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null));
+                $data->language         = $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
+                $data->group_id         = $input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null));
+                $data->assigned_cat_ids = $input->get(
                     'assigned_cat_ids',
-                    $input->get(
-                        'assigned_cat_ids',
-                        (!empty($filters['assigned_cat_ids']) ? (array)$filters['assigned_cat_ids'] : [0]),
-                        'array'
-                    )
+                    (!empty($filters['assigned_cat_ids']) ? (array)$filters['assigned_cat_ids'] : [0]),
+                    'array'
                 );
-                $data->set(
-                    'access',
-                    $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
-                );
+                $data->access = $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
 
                 // Set the type if available from the request
-                $data->set('type', $input->getWord('type', $this->state->get('field.type', $data->get('type'))));
+                $data->type = $input->getWord('type', $this->state->get('field.type', $data->type));
             }
 
             if ($data->label && !isset($data->params['label'])) {
@@ -1118,15 +1112,13 @@ class FieldModel extends AdminModel
     /**
      * Clean the cache
      *
-     * @param   string   $group     The cache group
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   3.7.0
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         $context = Factory::getApplication()->getInput()->get('context');
 
@@ -1192,7 +1184,7 @@ class FieldModel extends AdminModel
                 }
 
                 // Get the new item ID
-                $newId = $table->get('id');
+                $newId = $table->id;
 
                 // Add the new ID to the array
                 $newIds[$pk] = $newId;
