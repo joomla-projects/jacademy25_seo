@@ -50,7 +50,7 @@ class FeatureEvent extends AbstractImmutableEvent
             $parts = explode('.', $arguments['extension']);
 
             $arguments['extensionName'] ??= $parts[0];
-            $arguments['section'] ??= $parts[1];
+            $arguments['section']       ??= $parts[1];
         }
 
         if (!isset($arguments['pks']) || !\is_array($arguments['pks'])) {
