@@ -18,9 +18,9 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Table\Category;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
@@ -200,7 +200,7 @@ abstract class AdminModel extends FormModel
      * @since   1.6
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
         parent::__construct($config, $factory, $formFactory);
 
@@ -325,7 +325,13 @@ abstract class AdminModel extends FormModel
 
         foreach ($this->batch_commands as $identifier => $command) {
             if (!empty($commands[$identifier])) {
-                if (!$this->$command($commands[$identifier], $pks, $contexts)) {
+                if ($command === 'batchTag') {
+                    $removeTags = ArrayHelper::getValue($commands, 'tag_addremove', 'a') === 'r';
+
+                    if (!$this->batchTags($commands[$identifier], $pks, $contexts, $removeTags)) {
+                        return false;
+                    }
+                } elseif (!$this->$command($commands[$identifier], $pks, $contexts)) {
                     return false;
                 }
 
@@ -497,7 +503,7 @@ abstract class AdminModel extends FormModel
             }
 
             // Get the new item ID
-            $newId = $this->table->get('id');
+            $newId = $this->table->id;
 
             if (!empty($oldAssetId)) {
                 $dbType = strtolower($db->getServerType());
@@ -693,8 +699,27 @@ abstract class AdminModel extends FormModel
      * @return  boolean  True if successful, false otherwise and internal error is set.
      *
      * @since   3.1
+     *
+     * @deprecated  5.3 will be removed in 7.0
      */
     protected function batchTag($value, $pks, $contexts)
+    {
+        return $this->batchTags($value, $pks, $contexts);
+    }
+
+    /**
+     * Batch tag a list of item.
+     *
+     * @param   integer  $value       The value of the new tag.
+     * @param   array    $pks         An array of row IDs.
+     * @param   array    $contexts    An array of item contexts.
+     * @param   boolean  $removeTags  Flag indicating whether the tags in $value have to be removed.
+     *
+     * @return  boolean  True if successful, false otherwise and internal error is set.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function batchTags($value, $pks, $contexts, $removeTags = false)
     {
         // Initialize re-usable member properties, and re-usable local variables
         $this->initBatch();
@@ -711,6 +736,7 @@ abstract class AdminModel extends FormModel
                         'subject'     => $this->table,
                         'newTags'     => $tags,
                         'replaceTags' => false,
+                        'removeTags'  => $removeTags,
                     ]
                 );
 
@@ -1003,9 +1029,9 @@ abstract class AdminModel extends FormModel
             }
         }
 
-        // Convert to the CMSObject before adding other data.
-        $properties = $table->getProperties(1);
-        $item       = ArrayHelper::toObject($properties, CMSObject::class);
+        // Convert to \stdClass before adding other data
+        $properties = get_object_vars($table);
+        $item       = ArrayHelper::toObject($properties);
 
         if (property_exists($item, 'params')) {
             $registry     = new Registry($item->params);
@@ -1106,8 +1132,6 @@ abstract class AdminModel extends FormModel
 
                     // Prune items that you can't change.
                     unset($pks[$i]);
-
-                    return false;
                 }
 
                 /**
@@ -1116,7 +1140,7 @@ abstract class AdminModel extends FormModel
                  */
                 $publishedColumnName = $table->getColumnAlias('published');
 
-                if (property_exists($table, $publishedColumnName) && $table->get($publishedColumnName, $value) == $value) {
+                if (property_exists($table, $publishedColumnName) && (isset($table->$publishedColumnName) ? $table->$publishedColumnName : $value) == $value) {
                     unset($pks[$i]);
                 }
             }
@@ -1517,7 +1541,7 @@ abstract class AdminModel extends FormModel
     {
         // Check that the category exists
         if ($categoryId) {
-            $categoryTable = Table::getInstance('Category');
+            $categoryTable = new Category($this->getDatabase());
 
             if (!$categoryTable->load($categoryId)) {
                 if ($error = $categoryTable->getError()) {

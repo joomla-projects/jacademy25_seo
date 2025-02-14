@@ -177,7 +177,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
             default:
                 $trace = debug_backtrace();
                 trigger_error(
-                    sprintf(
+                    \sprintf(
                         'Undefined property via __get(): %1$s in %2$s on line %3$s',
                         $name,
                         $trace[0]['file'],
@@ -388,23 +388,6 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
     }
 
     /**
-     * Flag if the application instance is a CLI or web based application.
-     *
-     * Helper function, you should use the native PHP functions to detect if it is a CLI application.
-     *
-     * @return  boolean
-     *
-     * @since       4.0.0
-     *
-     * @deprecated  4.0 will be removed in 6.0
-     *              Will be removed without replacement. CLI will be handled by the joomla/console package instead
-     */
-    public function isCli()
-    {
-        return true;
-    }
-
-    /**
      * Sets the session for the application to use, if required.
      *
      * @param   SessionInterface  $session  A session object.
@@ -444,7 +427,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
      */
     public function getLongVersion(): string
     {
-        return sprintf('Joomla! <info>%s</info> (debug: %s)', (new Version())->getShortVersion(), (\defined('JDEBUG') && JDEBUG ? 'Yes' : 'No'));
+        return \sprintf('Joomla! <info>%s</info> (debug: %s)', (new Version())->getShortVersion(), (\defined('JDEBUG') && JDEBUG ? 'Yes' : 'No'));
     }
 
     /**
