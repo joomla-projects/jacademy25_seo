@@ -2475,7 +2475,7 @@ class Installer implements DatabaseAwareInterface
         $name = strtolower($name);
 
         if (!isset($this->adapters[$name])) {
-            throw new \InvalidArgumentException(sprintf('The %s install adapter does not exist.', $name));
+            throw new \InvalidArgumentException(\sprintf('The %s install adapter does not exist.', $name));
         }
 
         if (\is_string($this->adapters[$name])) {
