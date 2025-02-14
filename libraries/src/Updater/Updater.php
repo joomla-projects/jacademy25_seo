@@ -12,7 +12,8 @@ namespace Joomla\CMS\Updater;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Extension;
+use Joomla\CMS\Table\Update as UpdateTable;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
@@ -329,11 +330,8 @@ class Updater implements DatabaseAwareInterface
                 foreach ($update_result['updates'] as $current_update) {
                     $current_update->extra_query = $updateSite['extra_query'];
 
-                    /** @var \Joomla\CMS\Table\Update $update */
-                    $update = Table::getInstance('update');
-
-                    /** @var \Joomla\CMS\Table\Extension $extension */
-                    $extension = Table::getInstance('extension');
+                    $update    = new UpdateTable($this->getDbo());
+                    $extension = new Extension($this->getDbo());
 
                     $uid = $update
                         ->find(
