@@ -16,15 +16,15 @@ const silenceDeprecationList = [
   `media_source${sep}plg_system_guidedtours${sep}scss${sep}guidedtours.scss`,
 ];
 
-const shouldSilenceDeprecation = (file) => silenceDeprecationList.filter((path) => new RegExp(String.raw(`/${path}/`, 'i')).match(file)).length;
+
+
+const shouldSilenceDeprecation = (file) => silenceDeprecationList.some((path) => new RegExp(String.raw`${path}`, 'i').test(file));
+const getOutputFile = (file) => file.replace(`${sep}scss${sep}`, `${sep}css${sep}`).replace('.scss', '.css').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
 
 export const handleScssFile = async (file) => {
-  const cssFile = file
-    .replace(`${sep}scss${sep}`, `${sep}css${sep}`)
-    .replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`)
-    .replace('.scss', '.css');
-  const options = shouldSilenceDeprecation ? { silenceDeprecations: ['mixed-decls', 'color-functions', 'import', 'global-builtin'] } : {};
   let compiled;
+  const cssFile = getOutputFile(file);
+  const options = shouldSilenceDeprecation(file) ? { silenceDeprecations: ['mixed-decls', 'color-functions', 'import', 'global-builtin'] } : {};
 
   try {
     compiled = Sass.compile(file, options);
