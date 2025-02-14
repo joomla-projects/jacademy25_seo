@@ -769,7 +769,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                 }
 
                 [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-                $data['alias']       = $alias;
+                $data['alias']   = $alias;
 
                 if (isset($msg)) {
                     $app->enqueueMessage($msg, 'warning');
