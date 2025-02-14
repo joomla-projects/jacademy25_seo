@@ -65,6 +65,20 @@ class ExtensionInstallCommand extends AbstractCommand
     public const INSTALLATION_SUCCESSFUL = 0;
 
     /**
+     * Command constructor.
+     *
+     * @param   DatabaseInterface  $db  The database
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct(DatabaseInterface $db)
+    {
+        parent::__construct();
+
+        $this->setDatabase($db);
+    }
+
+    /**
      * Configures the IO
      *
      * @param   InputInterface   $input   Console Input
@@ -133,7 +147,7 @@ class ExtensionInstallCommand extends AbstractCommand
         }
 
         $jInstaller = new Installer();
-        $jInstaller->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
+        $jInstaller->setDatabase($this->getDatabase());
         $result     = $jInstaller->install($package['extractdir']);
         InstallerHelper::cleanupInstall($tmpPath, $package['extractdir']);
 
@@ -166,7 +180,7 @@ class ExtensionInstallCommand extends AbstractCommand
         }
 
         $jInstaller = new Installer();
-        $jInstaller->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
+        $jInstaller->setDatabase($this->getDatabase());
         $result     = $jInstaller->install($package['extractdir']);
         InstallerHelper::cleanupInstall($path, $package['extractdir']);
 
