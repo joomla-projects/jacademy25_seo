@@ -105,6 +105,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var SearchesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $app                 = Factory::getApplication();
         $this->items         = $model->getItems();
@@ -120,11 +121,6 @@ class HtmlView extends BaseHtmlView
 
         if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Check if component is enabled

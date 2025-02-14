@@ -96,6 +96,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var ItemModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state   = $model->getState();
         $this->form    = $model->getForm();
@@ -108,11 +109,6 @@ class HtmlView extends BaseHtmlView
         // No need to check for create, because then the moduletype select is empty
         if (!empty($this->item->id) && !$this->canDo->get('core.edit')) {
             throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         if ($this->getLayout() === 'modalreturn') {

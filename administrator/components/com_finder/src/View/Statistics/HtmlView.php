@@ -47,14 +47,10 @@ class HtmlView extends BaseHtmlView
     {
         /** @var StatisticsModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         // Load the view data.
         $this->data = $model->getData();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         parent::display($tpl);
     }

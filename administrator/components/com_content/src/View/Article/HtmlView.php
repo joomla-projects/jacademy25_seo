@@ -100,6 +100,7 @@ class HtmlView extends BaseHtmlView
 
         /** @var ArticleModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->form  = $model->getForm();
         $this->item  = $model->getItem();
@@ -110,11 +111,6 @@ class HtmlView extends BaseHtmlView
             parent::display($tpl);
 
             return;
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         $input          = Factory::getApplication()->getInput();

@@ -86,6 +86,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var InstalledModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->option        = $model->getOption();
         $this->pagination    = $model->getPagination();
@@ -94,11 +95,6 @@ class HtmlView extends BaseHtmlView
         $this->state         = $model->getState();
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $this->addToolbar();
 

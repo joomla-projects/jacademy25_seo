@@ -91,6 +91,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var ModulesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
@@ -127,11 +128,6 @@ class HtmlView extends BaseHtmlView
             if ($positionExists === false) {
                 $positionField->addOption($selectedPosition, ['value' => $selectedPosition]);
             }
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // We do not need the Language filter when modules are not filtered

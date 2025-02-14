@@ -89,15 +89,11 @@ class HtmlView extends BaseHtmlView
     {
         /** @var WorkflowModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state      = $model->getState();
         $this->form       = $model->getForm();
         $this->item       = $model->getItem();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $extension = $this->state->get('filter.extension');
 

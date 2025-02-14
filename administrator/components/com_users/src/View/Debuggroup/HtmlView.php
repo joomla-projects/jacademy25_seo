@@ -98,6 +98,7 @@ class HtmlView extends BaseHtmlView
 
         /** @var DebuggroupModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->actions       = $model->getDebugActions();
         $this->items         = $model->getItems();
@@ -106,11 +107,6 @@ class HtmlView extends BaseHtmlView
         $this->group         = $model->getGroup();
         $this->filterForm    = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         $this->addToolbar();
 

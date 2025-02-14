@@ -80,6 +80,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var ModuleModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->state = $model->getState();
 
@@ -98,11 +99,6 @@ class HtmlView extends BaseHtmlView
             parent::display($tpl);
 
             return;
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         if ($this->getLayout() !== 'modal') {

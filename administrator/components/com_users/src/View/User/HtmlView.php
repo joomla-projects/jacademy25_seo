@@ -101,6 +101,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
     {
         /** @var UserModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         // If no item found, dont show the edit screen, redirect with message
         if (false === $this->item = $model->getItem()) {
@@ -111,11 +112,6 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 
         $this->form  = $model->getForm();
         $this->state = $model->getState();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
 
         // Prevent user from modifying own group(s)
         $user = $this->getCurrentUser();

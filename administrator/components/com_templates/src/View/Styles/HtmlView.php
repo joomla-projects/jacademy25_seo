@@ -86,6 +86,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var StylesModel $model */
         $model = $this->getModel();
+        $model->setUseExceptions(true);
 
         $this->items         = $model->getItems();
         $this->pagination    = $model->getPagination();
@@ -99,11 +100,6 @@ class HtmlView extends BaseHtmlView
         if ((int) $this->state->get('client_id') !== 0) {
             unset($this->activeFilters['menuitem']);
             $this->filterForm->removeField('menuitem', 'filter');
-        }
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         $this->addToolbar();

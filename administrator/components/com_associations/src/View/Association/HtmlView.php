@@ -223,11 +223,7 @@ class HtmlView extends BaseHtmlView
     {
         /** @var AssociationModel $model */
         $model = $this->getModel();
-
-        // Check for errors.
-        if (\count($errors = $model->getErrors())) {
-            throw new GenericDataException(implode("\n", $errors), 500);
-        }
+        $model->setUseExceptions(true);
 
         $this->app  = Factory::getApplication();
         $this->form = $model->getForm();
