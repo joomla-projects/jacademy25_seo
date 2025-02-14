@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Console;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\Console\Command\AbstractCommand;
