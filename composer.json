@@ -107,7 +107,6 @@
     "web-token/jwt-library": "^3.4.7",
     "phpseclib/bcmath_compat": "^2.0.3",
     "jfcherng/php-diff": "^6.16.2",
-    "voku/portable-utf8": "dev-joomla-5.3 as 6.0.13",
     "php-tuf/php-tuf": "^1.0.2",
     "php-debugbar/php-debugbar": "^2.1"
   },
