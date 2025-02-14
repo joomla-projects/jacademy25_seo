@@ -111,11 +111,11 @@ class ExecRuleHelper
                 $nextExec      = $string ? $nextExec->toSql() : $nextExec;
                 break;
             case 'interval-days':
-                $now                 = Factory::getDate('now', 'UTC');
-                $intervalDays        = $executionRules['interval-days'];
-                $interval            = new \DateInterval('P' . $intervalDays . 'D');
-                $nextExec            = $now->add($interval);
-                $execTime            = $executionRules['exec-time'];
+                $now             = Factory::getDate('now', 'UTC');
+                $intervalDays    = $executionRules['interval-days'];
+                $interval        = new \DateInterval('P' . $intervalDays . 'D');
+                $nextExec        = $now->add($interval);
+                $execTime        = $executionRules['exec-time'];
                 [$hour, $minute] = explode(':', $execTime);
                 $nextExec->setTime($hour, $minute);
                 $nextExec = $string ? $nextExec->toSql() : $nextExec;
@@ -130,7 +130,7 @@ class ExecRuleHelper
                 $nextExecMonth  = $nextExec->format('n');
                 $nextExec->setDate($nextExecYear, $nextExecMonth, $execDay);
 
-                $execTime            = $executionRules['exec-time'];
+                $execTime        = $executionRules['exec-time'];
                 [$hour, $minute] = explode(':', $execTime);
                 $nextExec->setTime($hour, $minute);
                 $nextExec = $string ? $nextExec->toSql() : $nextExec;

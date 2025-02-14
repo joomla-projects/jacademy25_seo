@@ -240,8 +240,8 @@ class TagModel extends AdminModel
 
                 if ($data['title'] == $origTable->title) {
                     [$title, $alias] = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-                    $data['title']       = $title;
-                    $data['alias']       = $alias;
+                    $data['title']   = $title;
+                    $data['alias']   = $alias;
                 } elseif ($data['alias'] == $origTable->alias) {
                     $data['alias'] = '';
                 }

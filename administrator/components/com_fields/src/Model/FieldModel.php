@@ -145,9 +145,9 @@ class FieldModel extends AdminModel
 
             if ($data['title'] == $origTable->title) {
                 [$title, $name] = $this->generateNewTitle($data['group_id'], $data['name'], $data['title']);
-                $data['title']      = $title;
-                $data['label']      = $title;
-                $data['name']       = $name;
+                $data['title']  = $title;
+                $data['label']  = $title;
+                $data['name']   = $name;
             } else {
                 if ($data['name'] == $origTable->name) {
                     $data['name'] = '';

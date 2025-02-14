@@ -279,8 +279,8 @@ class ItemModel extends AdminModel
 
             // Alter the title & alias
             [$title, $alias] = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
-            $table->title        = $title;
-            $table->alias        = $alias;
+            $table->title    = $title;
+            $table->alias    = $alias;
 
             // Check the row.
             if (!$table->check()) {
@@ -1381,8 +1381,8 @@ class ItemModel extends AdminModel
 
             if ($table->title === $origTable->title) {
                 [$title, $alias] = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
-                $table->title        = $title;
-                $table->alias        = $alias;
+                $table->title    = $title;
+                $table->alias    = $alias;
             }
 
             if ($table->alias === $origTable->alias) {

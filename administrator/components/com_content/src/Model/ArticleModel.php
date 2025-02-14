@@ -746,8 +746,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
             if ($data['title'] == $origTable->title) {
                 [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-                $data['title']       = $title;
-                $data['alias']       = $alias;
+                $data['title']   = $title;
+                $data['alias']   = $alias;
             } elseif ($data['alias'] == $origTable->alias) {
                 $data['alias'] = '';
             }

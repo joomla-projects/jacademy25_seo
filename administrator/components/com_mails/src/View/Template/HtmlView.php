@@ -91,8 +91,8 @@ class HtmlView extends BaseHtmlView
         }
 
         [$extension, $template_id] = explode('.', $this->item->template_id, 2);
-        $fields                        = ['subject', 'body', 'htmlbody'];
-        $this->templateData            = [];
+        $fields                    = ['subject', 'body', 'htmlbody'];
+        $this->templateData        = [];
 
         MailsHelper::loadTranslationFiles($extension, $this->item->language);
 
