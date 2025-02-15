@@ -70,7 +70,7 @@ class ContactSerializer extends JoomlaSerializer
         $serializer = new JoomlaSerializer('categories');
 
         $resource = (new Resource($model->catid, $serializer))
-            ->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/content/categories/' . $model->catid));
+            ->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/contact/categories/' . $model->catid));
 
         return new Relationship($resource);
     }
