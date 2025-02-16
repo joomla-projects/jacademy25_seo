@@ -119,7 +119,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         $this->event_before_change_featured = $config['event_before_change_featured'] ?? $this->event_before_change_featured;
         $this->event_before_change_featured ??= 'onContentBeforeChangeFeatured';
         $this->event_after_change_featured  = $config['event_after_change_featured'] ?? $this->event_after_change_featured;
-        $this->event_after_change_featured  ??= 'onContentAfterChangeFeatured';
+        $this->event_after_change_featured ??= 'onContentAfterChangeFeatured';
 
         $this->setUpWorkflow('com_content.article');
     }
