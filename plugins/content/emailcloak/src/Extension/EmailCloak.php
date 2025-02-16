@@ -39,8 +39,8 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onContentPrepare' => 'onContentPrepare',
-            'onFinderResult'   => 'onFinderResult',
+            'onContentPrepare'                => 'onContentPrepare',
+            'onFinderResult'                  => 'onFinderResult',
             'onCustomFieldsAfterPrepareField' => 'onCustomFieldsAfterPrepareField'
         ];
     }
