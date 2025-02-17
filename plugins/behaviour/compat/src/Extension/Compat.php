@@ -80,6 +80,13 @@ final class Compat extends CMSPlugin implements SubscriberInterface
          * @deprecated 4.4.0 will be removed in 7.0
          */
         \defined('JPATH_PLATFORM') or \define('JPATH_PLATFORM', __DIR__);
+
+        /**
+        * Include classes which are removed in 7.0
+        */
+        if ($this->params->get('legacy_classes', '1')) {
+            \JLoader::registerNamespace('\\Joomla\\CMS\\Input', JPATH_PLUGINS . '/behaviour/compat/classes/INput');
+        }
     }
 
     /**
