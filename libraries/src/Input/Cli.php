@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Input;
 
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
