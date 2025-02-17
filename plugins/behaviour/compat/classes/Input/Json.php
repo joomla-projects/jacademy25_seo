@@ -35,6 +35,7 @@ class Json extends Input
      * @deprecated   4.3 will be removed in 6.0.
      *               Use Joomla\Input\Json instead
      */
+    // phpcs:ignore
     private $_raw;
 
     /**
