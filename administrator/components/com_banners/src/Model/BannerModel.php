@@ -352,6 +352,7 @@ class BannerModel extends AdminModel
             // Set the values
             $table->created    = $date->toSql();
             $table->created_by = $user->id;
+            $table->version    = 1;
 
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
@@ -369,10 +370,8 @@ class BannerModel extends AdminModel
             // Set the values
             $table->modified    = $date->toSql();
             $table->modified_by = $user->id;
+            $table->version++;
         }
-
-        // Increment the content version number.
-        $table->version++;
     }
 
     /**
@@ -423,7 +422,7 @@ class BannerModel extends AdminModel
         if ($createCategory && $this->canCreateCategory()) {
             $category = [
                 // Remove #new# prefix, if exists.
-                'title'     => strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'],
+                'title'     => str_starts_with($data['catid'], '#new#') ? substr($data['catid'], 5) : $data['catid'],
                 'parent_id' => 1,
                 'extension' => 'com_banners',
                 'language'  => $data['language'],
@@ -449,15 +448,18 @@ class BannerModel extends AdminModel
         // Alter the name for save as copy
         if ($input->get('task') == 'save2copy') {
             /** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $origTable */
-            $origTable = clone $this->getTable();
+            $origTable = $this->getTable();
             $origTable->load($input->getInt('id'));
 
             if ($data['name'] == $origTable->name) {
+
                 [$name, $alias]     = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
                 $data['name']       = $name;
                 $data['alias']      = $alias;
-            } elseif ($data['alias'] == $origTable->alias) {
-                $data['alias'] = '';
+            } else {
+                if ($data['alias'] == $origTable->alias) {
+                    $data['alias'] = '';
+                }
             }
 
             $data['state'] = 0;

@@ -404,7 +404,7 @@ class UpdateModel extends BaseDatabaseModel
         // Remove protocol, path and query string from URL
         $basename = basename($packageURL);
 
-        if (strpos($basename, '?') !== false) {
+        if (str_contains($basename, '?')) {
             $basename = substr($basename, 0, strpos($basename, '?'));
         }
 
@@ -890,10 +890,6 @@ ENDDATA;
         PluginHelper::importPlugin('installer');
 
         $app = Factory::getApplication();
-
-        // Trigger event after joomla update.
-        // @TODO: The event dispatched twice, here and at the end of current method. One of it should be removed.
-        $app->getDispatcher()->dispatch('onJoomlaAfterUpdate', new AfterJoomlaUpdateEvent('onJoomlaAfterUpdate'));
 
         // Remove the update package.
         $tempdir = $app->get('tmp_path');
