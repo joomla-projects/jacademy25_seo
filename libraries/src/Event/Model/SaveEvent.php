@@ -28,7 +28,7 @@ abstract class SaveEvent extends ModelEvent
      * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
-    protected $legacyArgumentsOrder = ['context', 'subject', 'isNew', 'data'];
+    protected $legacyArgumentsOrder = ['context', 'subject', 'isNew', 'data', 'oldData'];
 
     /**
      * Setter for the subject argument.
@@ -92,5 +92,17 @@ abstract class SaveEvent extends ModelEvent
     public function getData()
     {
         return $this->arguments['data'];
+    }
+
+    /**
+     * Getter for the old data.
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getOldData()
+    {
+        return $this->arguments['oldData'] ?? [];
     }
 }

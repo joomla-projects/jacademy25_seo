@@ -1313,6 +1313,7 @@ class ItemModel extends AdminModel
     {
         $pk      = $data['id'] ?? (int) $this->getState('item.id');
         $isNew   = true;
+        $oldData = [];
         $db      = $this->getDatabase();
         $query   = $db->getQuery(true);
         $table   = $this->getTable();
@@ -1324,7 +1325,8 @@ class ItemModel extends AdminModel
         // Load the row if saving an existing item.
         if ($pk > 0) {
             $table->load($pk);
-            $isNew = false;
+            $isNew   = false;
+            $oldData = get_object_vars($table);
         }
 
         if (!$isNew) {
@@ -1401,7 +1403,7 @@ class ItemModel extends AdminModel
         }
 
         // Trigger the before save event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew, $data]);
+        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew, $data, $oldData]);
 
         // Store the data.
         if (\in_array(false, $result, true) || !$table->store()) {
@@ -1411,7 +1413,7 @@ class ItemModel extends AdminModel
         }
 
         // Trigger the after save event.
-        Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew]);
+        Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew, $oldData]);
 
         // Rebuild the tree path.
         if (!$table->rebuildPath($table->id)) {

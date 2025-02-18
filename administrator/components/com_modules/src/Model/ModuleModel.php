@@ -904,6 +904,7 @@ class ModuleModel extends AdminModel
         $table      = $this->getTable();
         $pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('module.id');
         $isNew      = true;
+        $oldData    = [];
         $context    = $this->option . '.' . $this->name;
 
         // Include the plugins for the save event.
@@ -912,7 +913,8 @@ class ModuleModel extends AdminModel
         // Load the row if saving an existing record.
         if ($pk > 0) {
             $table->load($pk);
-            $isNew = false;
+            $isNew   = false;
+            $oldData = get_object_vars($table);
         }
 
         // Alter the title and published state for Save as Copy
@@ -944,7 +946,7 @@ class ModuleModel extends AdminModel
         }
 
         // Trigger the before save event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew]);
+        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew, $oldData]);
 
         if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
@@ -1033,7 +1035,7 @@ class ModuleModel extends AdminModel
         }
 
         // Trigger the after save event.
-        Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew]);
+        Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew, $oldData]);
 
         // Compute the extension id of this module in case the controller wants it.
         $query->clear()

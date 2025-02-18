@@ -1251,9 +1251,10 @@ abstract class AdminModel extends FormModel
             $table->newTags = $data['tags'];
         }
 
-        $key   = $table->getKeyName();
-        $pk    = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
-        $isNew = true;
+        $key     = $table->getKeyName();
+        $pk      = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+        $isNew   = true;
+        $oldData = [];
 
         // Include the plugins for the save events.
         PluginHelper::importPlugin($this->events_map['save'], null, true, $dispatcher);
@@ -1263,7 +1264,8 @@ abstract class AdminModel extends FormModel
             // Load the row if saving an existing record.
             if ($pk > 0) {
                 $table->load($pk);
-                $isNew = false;
+                $isNew   = false;
+                $oldData = get_object_vars($table);
             }
 
             // Bind the data.
@@ -1289,6 +1291,7 @@ abstract class AdminModel extends FormModel
                 'subject' => $table,
                 'isNew'   => $isNew,
                 'data'    => $data,
+                'oldData' => $oldData,
             ]);
             $result = $dispatcher->dispatch($this->event_before_save, $beforeSaveEvent)->getArgument('result', []);
 
@@ -1314,6 +1317,7 @@ abstract class AdminModel extends FormModel
                 'subject' => $table,
                 'isNew'   => $isNew,
                 'data'    => $data,
+                'oldData' => $oldData,
             ]));
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
