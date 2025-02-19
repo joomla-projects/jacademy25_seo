@@ -16,7 +16,6 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Tests\Integration\DBTestInterface;
 use Joomla\Tests\Integration\DBTestTrait;
 use Joomla\Tests\Integration\IntegrationTestCase;
-use ReflectionClass;
 
 /**
  * Test class for \Joomla\CMS\Table\Table.
@@ -210,7 +209,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
             ],
         ];
 
-        $reflection          = new ReflectionClass($this->object);
+        $reflection          = new \ReflectionClass($this->object);
         $reflection_property = $reflection->getProperty('_jsonEncode');
         $reflection_property->setAccessible(true);
 
