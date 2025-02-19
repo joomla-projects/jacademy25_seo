@@ -14,8 +14,10 @@ use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
+use Joomla\CMS\Event\Cache\AfterPurgeEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\Utilities\ArrayHelper;
@@ -55,11 +57,12 @@ class CacheModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   3.5
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -70,7 +73,7 @@ class CacheModel extends ListModel
             ];
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -87,9 +90,6 @@ class CacheModel extends ListModel
      */
     protected function populateState($ordering = 'group', $direction = 'asc')
     {
-        // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-
         parent::populateState($ordering, $direction);
     }
 
@@ -192,7 +192,7 @@ class CacheModel extends ListModel
     public function getTotal()
     {
         if (empty($this->_total)) {
-            $this->_total = count($this->getData());
+            $this->_total = \count($this->getData());
         }
 
         return $this->_total;
@@ -230,7 +230,7 @@ class CacheModel extends ListModel
             return false;
         }
 
-        Factory::getApplication()->triggerEvent('onAfterPurge', [$group]);
+        $this->getDispatcher()->dispatch('onAfterPurge', new AfterPurgeEvent('onAfterPurge', ['subject' => $group]));
 
         return true;
     }
@@ -270,7 +270,7 @@ class CacheModel extends ListModel
             return false;
         }
 
-        Factory::getApplication()->triggerEvent('onAfterPurge', []);
+        $this->getDispatcher()->dispatch('onAfterPurge', new AfterPurgeEvent('onAfterPurge'));
 
         return true;
     }

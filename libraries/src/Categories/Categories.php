@@ -18,7 +18,7 @@ use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -117,9 +117,9 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
         $this->_statefield = $options['statefield'] ?? 'state';
 
-        $options['access']      = $options['access'] ?? 'true';
-        $options['published']   = $options['published'] ?? 1;
-        $options['countItems']  = $options['countItems'] ?? 0;
+        $options['access'] ??= 'true';
+        $options['published'] ??= 1;
+        $options['countItems'] ??= 0;
         $options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
 
         $this->_options = $options;
@@ -237,7 +237,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         try {
             $db = $this->getDatabase();
         } catch (DatabaseNotFoundException $e) {
-            @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
