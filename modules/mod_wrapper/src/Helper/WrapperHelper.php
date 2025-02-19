@@ -52,7 +52,7 @@ class WrapperHelper
             if (strpos($url, '/') === 0) {
                 // Relative URL in component. use server http_host.
                 $url = 'http://' . $app->getInput()->server->get('HTTP_HOST') . $url;
-            } elseif (strpos($url, 'http') === false && strpos($url, 'https') === false) {
+            } elseif (!str_contains($url, 'http') && !str_contains($url, 'https')) {
                 $url = 'http://' . $url;
             }
         }
