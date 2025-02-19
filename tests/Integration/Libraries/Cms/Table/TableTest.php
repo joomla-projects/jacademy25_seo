@@ -16,6 +16,7 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Tests\Integration\DBTestInterface;
 use Joomla\Tests\Integration\DBTestTrait;
 use Joomla\Tests\Integration\IntegrationTestCase;
+use ReflectionClass;
 
 /**
  * Test class for \Joomla\CMS\Table\Table.
