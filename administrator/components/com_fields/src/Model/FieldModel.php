@@ -1170,7 +1170,7 @@ class FieldModel extends AdminModel
             if ($user->authorise('core.create', $component . '.fieldgroup.' . $value)) {
 
                 // Find all assigned categories to this field
-                $db = $this->getDatabase();
+                $db    = $this->getDatabase();
                 $query = $db->getQuery(true);
 
                 $query->select($db->quoteName('category_id'))
