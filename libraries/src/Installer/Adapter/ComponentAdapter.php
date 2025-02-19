@@ -11,7 +11,6 @@ namespace Joomla\CMS\Installer\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
@@ -21,6 +20,7 @@ use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
@@ -1360,6 +1360,7 @@ class ComponentAdapter extends InstallerAdapter
         $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
         $this->parent->extension->name           = $manifest_details['name'];
+        $this->parent->extension->changelogurl   = $manifest_details['changelogurl'];
 
         // Namespace is optional
         if (isset($manifest_details['namespace'])) {

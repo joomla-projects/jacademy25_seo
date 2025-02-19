@@ -628,7 +628,7 @@ class User
             $array['password'] = UserHelper::hashPassword($array['password']);
 
             // Set the registration timestamp
-            $this->set('registerDate', Factory::getDate()->toSql());
+            $this->registerDate = Factory::getDate()->toSql();
         } else {
             // Updating an existing user
             if (!empty($array['password'])) {
@@ -649,8 +649,10 @@ class User
 
                 $array['password'] = UserHelper::hashPassword($array['password']);
 
-                // Reset the change password flag
-                $array['requireReset'] = 0;
+                // Reset the change password flag if it was set previously
+                if ($this->requireReset) {
+                    $array['requireReset'] = 0;
+                }
             } else {
                 $array['password'] = $this->password;
             }
@@ -675,10 +677,8 @@ class User
         }
 
         // Bind the array
-        if (!$this->setProperties($array)) {
-            $this->setError(Text::_('JLIB_USER_ERROR_BIND_ARRAY'));
-
-            return false;
+        foreach ($array as $key => $value) {
+            $this->$key = $value;
         }
 
         // Make sure its an integer
@@ -882,7 +882,9 @@ class User
         }
 
         // Assuming all is well at this point let's bind the data
-        $this->setProperties($table->getProperties());
+        foreach ($table->getProperties() as $key => $value) {
+            $this->$key = $value;
+        }
 
         // The user is no longer a guest
         if ($this->id != 0) {

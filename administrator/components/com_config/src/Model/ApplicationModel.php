@@ -18,7 +18,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
 use Joomla\CMS\Event\Application\BeforeSaveConfigurationEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -34,6 +33,7 @@ use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use Joomla\Filter\OutputFilter;
 use Joomla\Registry\Registry;
@@ -298,6 +298,19 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             'database' => $data['db'],
             'prefix'   => $data['dbprefix'],
         ];
+
+        // Validate database name
+        if (\in_array($options['driver'], ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options['database'])) {
+            $app->enqueueMessage(Text::_('COM_CONFIG_FIELD_DATABASE_NAME_INVALID_MSG_POSTGRES'), 'warning');
+
+            return false;
+        }
+
+        if (\in_array($options['driver'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options['database'])) {
+            $app->enqueueMessage(Text::_('COM_CONFIG_FIELD_DATABASE_NAME_INVALID_MSG_MYSQL'), 'warning');
+
+            return false;
+        }
 
         if ((int) $data['dbencryption'] !== 0) {
             $options['ssl'] = [
@@ -871,7 +884,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         // We are creating a new item so we don't have an item id so don't allow.
-        if (substr($permission['component'], -6) === '.false') {
+        if (str_ends_with($permission['component'], '.false')) {
             $app->enqueueMessage(Text::_('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS'), 'error');
 
             return false;
@@ -946,7 +959,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 /** @var Asset $parentAsset */
                 $parentAsset = Table::getInstance('Asset');
 
-                if (strpos($asset->name, '.') !== false) {
+                if (str_contains($asset->name, '.')) {
                     $assetParts = explode('.', $asset->name);
                     $parentAsset->loadByName($assetParts[0]);
                     $parentAssetId = $parentAsset->id;
@@ -1215,7 +1228,8 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 'method'   => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)),
             ]
         );
-        $mailer->addRecipient($app->get('mailfrom'), $app->get('fromname'));
+        $mailer->addRecipient($user->email, $user->name);
+
 
         try {
             $mailSent = $mailer->send();
@@ -1230,9 +1244,9 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 
             // If JMail send the mail using PHP Mail as fallback.
             if ($mail->Mailer !== $app->get('mailer')) {
-                $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS_FALLBACK', $app->get('mailfrom'), $methodName), 'warning');
+                $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS_FALLBACK', $user->email, $methodName), 'warning');
             } else {
-                $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $app->get('mailfrom'), $methodName), 'message');
+                $app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $user->email, $methodName), 'message');
             }
 
             return true;

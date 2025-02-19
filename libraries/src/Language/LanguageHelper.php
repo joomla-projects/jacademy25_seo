@@ -131,6 +131,8 @@ class LanguageHelper
                 }
             }
         }
+
+        return null;
     }
 
     /**
@@ -227,7 +229,7 @@ class LanguageHelper
             if ($cache->contains('installedlanguages')) {
                 $installedLanguages = $cache->get('installedlanguages');
             } else {
-                $db = $db ?? Factory::getContainer()->get(DatabaseInterface::class);
+                $db ??= Factory::getContainer()->get(DatabaseInterface::class);
 
                 $query = $db->getQuery(true)
                     ->select(
