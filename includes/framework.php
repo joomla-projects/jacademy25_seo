@@ -9,7 +9,6 @@
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Service\Provider\EnvsConfig;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 use Joomla\Utilities\IpHelper;
@@ -45,16 +44,20 @@ ob_start();
 require_once JPATH_CONFIGURATION . '/configuration.php';
 ob_end_clean();
 
+// getenv() is not thread-safe and it can cause segmentaion fault, so we should try $_SERVER first
+$envs = !empty($_SERVER) ? $_SERVER : getenv();
+
 // System configuration.
 $config                  = new JConfig();
-$config->error_reporting = EnvsConfig::get('error_reporting', $config->error_reporting);
-$config->debug           = EnvsConfig::get('debug', $config->debug);
-if (EnvsConfig::has('log_deprecated')) {
-    $config->log_deprecated = EnvsConfig::get('log_deprecated');
+$config->error_reporting = $envs['JOOMLA_ERROR_REPORTING'] ?? $config->error_reporting;
+$config->debug           = (bool) ($envs['JOOMLA_DEBUG'] ?? $config->debug);
+if (isset($envs['JOOMLA_LOG_DEPRECATED'])) {
+    $config->log_deprecated = (int) $envs['JOOMLA_LOG_DEPRECATED'];
 }
-if (EnvsConfig::has('behind_loadbalancer')) {
-    $config->behind_loadbalancer = EnvsConfig::get('behind_loadbalancer');
+if (isset($envs['JOOMLA_BEHIND_LOADBALANCER'])) {
+    $config->behind_loadbalancer = (bool) $envs['JOOMLA_BEHIND_LOADBALANCER'];
 }
+unset($envs);
 
 // Set the error_reporting, and adjust a global Error Handler
 switch ($config->error_reporting) {

@@ -10,7 +10,8 @@
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Service\Provider\EnvsConfig;
+// Ensure sensible default for JDEBUG is set.
+\define('JDEBUG', (bool) ($_SERVER['JOOMLA_DEBUG'] ?? getenv('JOOMLA_DEBUG')));
 
 // Check if a configuration file already exists.
 if (
@@ -24,9 +25,6 @@ if (
 
 // Import the Joomla Platform.
 require_once JPATH_LIBRARIES . '/bootstrap.php';
-
-// Ensure sensible default for JDEBUG is set.
-\define('JDEBUG', EnvsConfig::get('debug', false));
 
 // If debug mode enabled, set new Exception handler with debug enabled.
 if (JDEBUG) {
