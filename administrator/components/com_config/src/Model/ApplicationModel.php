@@ -884,7 +884,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         // We are creating a new item so we don't have an item id so don't allow.
-        if (substr($permission['component'], -6) === '.false') {
+        if (str_ends_with($permission['component'], '.false')) {
             $app->enqueueMessage(Text::_('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS'), 'error');
 
             return false;
@@ -957,7 +957,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 // Get the parent asset id so we have a correct tree.
                 $parentAsset = new Asset($this->getDatabase());
 
-                if (strpos($asset->name, '.') !== false) {
+                if (str_contains($asset->name, '.')) {
                     $assetParts = explode('.', $asset->name);
                     $parentAsset->loadByName($assetParts[0]);
                     $parentAssetId = $parentAsset->id;
