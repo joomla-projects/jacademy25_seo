@@ -562,7 +562,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface,
 
         try {
             $factory = $this->getUserFactory();
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             return;
         }
 
