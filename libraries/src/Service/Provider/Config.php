@@ -65,7 +65,7 @@ class Config implements ServiceProviderInterface
     private function loadEnvs(): Registry
     {
         // getenv() is not thread-safe and it can cause segmentaion fault, so we should try $_SERVER first
-        $envs = empty($_SERVER) ? getenv() : $_SERVER;
+        $envs = !empty($_SERVER) ? $_SERVER : getenv();
 
         $config = new Registry();
 
