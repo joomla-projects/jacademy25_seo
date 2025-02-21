@@ -1168,7 +1168,6 @@ class FieldModel extends AdminModel
 
         foreach ($pks as $pk) {
             if ($user->authorise('core.create', $component . '.fieldgroup.' . $value)) {
-
                 // Find all assigned categories to this field
                 $db    = $this->getDatabase();
                 $query = $db->getQuery(true);
