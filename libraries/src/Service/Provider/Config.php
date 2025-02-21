@@ -39,19 +39,17 @@ class Config implements ServiceProviderInterface
             ->share(
                 'JConfig',
                 function (Container $container) {
-                    $config = new Registry();
-
-                    if (is_file(JPATH_CONFIGURATION . '/configuration.php')) {
-                        \JLoader::register('JConfig', JPATH_CONFIGURATION . '/configuration.php');
-
-                        if (!class_exists('JConfig')) {
-                            throw new \RuntimeException('Configuration class does not exist.');
-                        }
-
-                        $config->loadObject(new \JConfig());
+                    if (!is_file(JPATH_CONFIGURATION . '/configuration.php')) {
+                        return (new Registry())->merge($this->loadEnvs());
                     }
 
-                    return $config->merge($this->loadEnvs());
+                    \JLoader::register('JConfig', JPATH_CONFIGURATION . '/configuration.php');
+
+                    if (!class_exists('JConfig')) {
+                        throw new \RuntimeException('Configuration class does not exist.');
+                    }
+
+                    return (new Registry(new \JConfig()))->merge($this->loadEnvs());
                 },
                 true
             );
