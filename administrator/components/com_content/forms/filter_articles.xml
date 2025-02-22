@@ -59,7 +59,7 @@
 			type="list"
 			label="JFEATURED"
 			filtermode="selector"
-			onchange="Joomla.resetFilters(this)"
+			class="js-select-submit-on-change"
 			validate="options"
 			>
 			<option value="">COM_CONTENT_SELECT_FEATURED</option>
