@@ -45,7 +45,7 @@ final class Joomlaupdate extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onExtensionAfterSave'   => 'onExtensionAfterSave'
+            'onExtensionAfterSave' => 'onExtensionAfterSave'
         ];
     }
 
@@ -61,7 +61,7 @@ final class Joomlaupdate extends CMSPlugin implements SubscriberInterface
     public function onExtensionAfterSave(AfterSaveEvent $event): void
     {
         $context = $event->getContext();
-        $item = $event->getItem();
+        $item    = $event->getItem();
 
         if ($context !== 'com_config.component') {
             return;
