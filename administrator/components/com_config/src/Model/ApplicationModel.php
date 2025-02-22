@@ -299,6 +299,19 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             'prefix'   => $data['dbprefix'],
         ];
 
+        // Validate database name
+        if (\in_array($options['driver'], ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options['database'])) {
+            $app->enqueueMessage(Text::_('COM_CONFIG_FIELD_DATABASE_NAME_INVALID_MSG_POSTGRES'), 'warning');
+
+            return false;
+        }
+
+        if (\in_array($options['driver'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options['database'])) {
+            $app->enqueueMessage(Text::_('COM_CONFIG_FIELD_DATABASE_NAME_INVALID_MSG_MYSQL'), 'warning');
+
+            return false;
+        }
+
         if ((int) $data['dbencryption'] !== 0) {
             $options['ssl'] = [
                 'enable'             => true,
@@ -871,7 +884,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         }
 
         // We are creating a new item so we don't have an item id so don't allow.
-        if (substr($permission['component'], -6) === '.false') {
+        if (str_ends_with($permission['component'], '.false')) {
             $app->enqueueMessage(Text::_('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS'), 'error');
 
             return false;
@@ -946,7 +959,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
                 /** @var Asset $parentAsset */
                 $parentAsset = Table::getInstance('Asset');
 
-                if (strpos($asset->name, '.') !== false) {
+                if (str_contains($asset->name, '.')) {
                     $assetParts = explode('.', $asset->name);
                     $parentAsset->loadByName($assetParts[0]);
                     $parentAssetId = $parentAsset->id;
