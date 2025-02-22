@@ -76,11 +76,8 @@ class ArticlesModel extends ListModel
                 'rating_count', 'rating',
                 'stage', 'wa.stage_id',
                 'ws.title',
+                'fp.ordering',
             ];
-
-            if ($this->isFeatured() === '1') {
-                $config['filter_fields'][] = 'fp.ordering';
-            }
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
@@ -314,16 +311,16 @@ class ArticlesModel extends ListModel
         }
 
         // Filter by featured.
-        $featured = $this->isFeatured();
+        $featured = $this->getState('filter.featured');
 
-        if ($featured === '1') {
+        $defaultOrdering = 'a.id';
+
+        if ($featured) {
             $query->select($db->quoteName('fp.ordering'));
             $defaultOrdering = 'fp.ordering';
-        } else {
-            $defaultOrdering = 'a.id';
         }
 
-        if (\in_array($featured, ['0', '1'])) {
+        if (\in_array($featured, [0, 1])) {
             $featured = (int) $featured;
             $query->where($db->quoteName('a.featured') . ' = :featured')
                 ->bind(':featured', $featured, ParameterType::INTEGER);
@@ -667,17 +664,5 @@ class ArticlesModel extends ListModel
         }
 
         return (int) $db->setQuery($query)->loadResult();
-    }
-
-    /**
-     * Method to get the value of featured selector.
-     *
-     * @return  string  Returns the value of featured selector.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function isFeatured()
-    {
-        return $this->getUserStateFromRequest($this->context . '.featured', 'featured', 'int');
     }
 }
