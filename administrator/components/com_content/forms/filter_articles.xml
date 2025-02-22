@@ -11,6 +11,19 @@
 		/>
 
 		<field
+			name="featured"
+			type="list"
+			label="JFEATURED"
+			filtermode="selector"
+			class="js-select-submit-on-change"
+			validate="options"
+			>
+			<option value="">COM_CONTENT_SELECT_FEATURED</option>
+			<option value="0">COM_CONTENT_FILTER_FEATURED_NO</option>
+			<option value="1">COM_CONTENT_FILTER_FEATURED_YES</option>
+		</field>
+
+		<field
 			name="stage"
 			type="workflowstage"
 			label="JOPTION_SELECT_STAGE"
@@ -52,20 +65,6 @@
 			hint="JOPTION_SELECT_ACCESS"
 			class="js-select-submit-on-change"
 		/>
-
-
-		<field
-			name="featured"
-			type="list"
-			label="JFEATURED"
-			filtermode="selector"
-			class="js-select-submit-on-change"
-			validate="options"
-			>
-			<option value="">COM_CONTENT_SELECT_FEATURED</option>
-			<option value="0">COM_CONTENT_FILTER_FEATURED_NO</option>
-			<option value="1">COM_CONTENT_FILTER_FEATURED_YES</option>
-		</field>
 
 		<field
 			name="author_id"
