@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Administrator\Model\ArticlesModel;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
@@ -165,9 +166,14 @@ class ArticlesController extends AdminController
      */
     public function getQuickiconFeatured()
     {
+        /**
+         * @var ArticlesModel $model
+         */
         $model = $this->getModel('articles');
 
-        $amount = (int) $model->getTotal($featured = '1');
+        $model->setState('filter.featured', '1');
+
+        $amount = (int) $model->getTotal();
 
         $result = [];
 
