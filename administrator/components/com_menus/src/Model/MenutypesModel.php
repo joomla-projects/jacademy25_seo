@@ -279,7 +279,7 @@ class MenutypesModel extends BaseDatabaseModel
             $view = basename($viewPath);
 
             // Ignore private views.
-            if (strpos($view, '_') !== 0) {
+            if (!str_starts_with($view, '_')) {
                 // Determine if a metadata file exists for the view.
                 $file = $viewPath . '/metadata.xml';
 
@@ -411,7 +411,14 @@ class MenutypesModel extends BaseDatabaseModel
                 $request['sub']        = (string) $attributes->sub;
             }
 
-            $o->request = array_filter($request, 'strlen');
+            $o->request = array_filter($request, function ($value) {
+                if (\is_array($value)) {
+                    return !empty($value);
+                }
+
+                return \strlen($value);
+            });
+
             $options[]  = new CMSObject($o);
 
             // Do not repeat the default view link (index.php?option=com_abc).
@@ -463,7 +470,7 @@ class MenutypesModel extends BaseDatabaseModel
         // Build list of standard layout names
         foreach ($layouts as $layout) {
             // Ignore private layouts.
-            if (strpos(basename($layout), '_') === false) {
+            if (!str_contains(basename($layout), '_')) {
                 // Get the layout name.
                 $layoutNames[] = basename($layout, '.xml');
             }
@@ -502,7 +509,7 @@ class MenutypesModel extends BaseDatabaseModel
         // Process the found layouts.
         foreach ($layouts as $layout) {
             // Ignore private layouts.
-            if (strpos(basename($layout), '_') === false) {
+            if (!str_contains(basename($layout), '_')) {
                 $file = $layout;
 
                 // Get the layout name.

@@ -435,12 +435,30 @@ class Image
 
         if ($this->isTransparent()) {
             // Get the transparent color values for the current image.
-            $rgba  = imagecolorsforindex($this->getHandle(), imagecolortransparent($this->getHandle()));
-            $color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
-
-            // Set the transparent color values for the new image.
-            imagecolortransparent($handle, $color);
-            imagefill($handle, 0, 0, $color);
+            $ict  = imagecolortransparent($this->getHandle());
+            $ctot = imagecolorstotal($this->getHandle());
+            // Sanitize imagecolortransparent & imagecolorstotal
+            if ($ctot === 255 && $ict === 255) {
+                $ict = 254;
+            }
+            if ($ctot === 0 && $ict === 0) {
+                $ctot = 1;
+            }
+            if ($ict >= 0 && $ict < $ctot) {
+                $rgba = imagecolorsforindex($this->getHandle(), $ict);
+                if (!empty($rgba)) {
+                    $color = imagecolorallocatealpha(
+                        $handle,
+                        $rgba['red'],
+                        $rgba['green'],
+                        $rgba['blue'],
+                        $rgba['alpha']
+                    );
+                    // Set the transparent color values for the new image.
+                    imagecolortransparent($handle, $color);
+                    imagefill($handle, 0, 0, $color);
+                }
+            }
         }
 
         if (!$this->generateBestQuality) {
@@ -713,12 +731,30 @@ class Image
 
         if ($this->isTransparent()) {
             // Get the transparent color values for the current image.
-            $rgba  = imagecolorsforindex($this->getHandle(), imagecolortransparent($this->getHandle()));
-            $color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
-
-            // Set the transparent color values for the new image.
-            imagecolortransparent($handle, $color);
-            imagefill($handle, 0, 0, $color);
+            $ict  = imagecolortransparent($this->getHandle());
+            $ctot = imagecolorstotal($this->getHandle());
+            // Sanitize imagecolortransparent & imagecolorstotal
+            if ($ctot === 255 && $ict === 255) {
+                $ict = 254;
+            }
+            if ($ctot === 0 && $ict === 0) {
+                $ctot = 1;
+            }
+            if ($ict >= 0 && $ict < $ctot) {
+                $rgba = imagecolorsforindex($this->getHandle(), $ict);
+                if (!empty($rgba)) {
+                    $color = imagecolorallocatealpha(
+                        $handle,
+                        $rgba['red'],
+                        $rgba['green'],
+                        $rgba['blue'],
+                        $rgba['alpha']
+                    );
+                    // Set the transparent color values for the new image.
+                    imagecolortransparent($handle, $color);
+                    imagefill($handle, 0, 0, $color);
+                }
+            }
         }
 
         if (!$this->generateBestQuality) {
@@ -1044,7 +1080,7 @@ class Image
     protected function sanitizeHeight($height, $width)
     {
         // If no height was given we will assume it is a square and use the width.
-        $height = ($height === null) ? $width : $height;
+        $height = $height ?? $width;
 
         // If we were given a percentage, calculate the integer value.
         if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $height)) {
@@ -1083,7 +1119,7 @@ class Image
     protected function sanitizeWidth($width, $height)
     {
         // If no width was given we will assume it is a square and use the height.
-        $width = ($width === null) ? $height : $width;
+        $width = $width ?? $height;
 
         // If we were given a percentage, calculate the integer value.
         if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $width)) {

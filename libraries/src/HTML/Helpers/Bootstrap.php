@@ -676,7 +676,7 @@ abstract class Bootstrap
 
         static::$loaded[__METHOD__][$selector] = $opt;
 
-        return '<div id="' . $selector . '" class="accordion" role="tablist">';
+        return '<div id="' . $selector . '" class="accordion">';
     }
 
     /**
@@ -715,11 +715,11 @@ abstract class Bootstrap
         return <<<HTMLSTR
 <div class="accordion-item $class">
   <h2 class="accordion-header" id="$id-heading">
-    <button class="accordion-button $collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#$id" aria-expanded="$ariaExpanded" aria-controls="$id" role="tab">
+    <button class="accordion-button $collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#$id" aria-expanded="$ariaExpanded" aria-controls="$id">
 		$text
     </button>
   </h2>
-  <div id="$id" class="accordion-collapse collapse $in" aria-labelledby="$id-heading" $parent role="tabpanel">
+  <div id="$id" class="accordion-collapse collapse $in" aria-labelledby="$id-heading" $parent>
     <div class="accordion-body">
 HTMLSTR;
     }
@@ -849,7 +849,7 @@ HTMLSTR;
     {
         static $tabLayout = null;
 
-        $tabLayout = $tabLayout === null ? new FileLayout('libraries.html.bootstrap.tab.addtab') : $tabLayout;
+        $tabLayout = $tabLayout ?? new FileLayout('libraries.html.bootstrap.tab.addtab');
         $active    = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
         return $tabLayout->render(['id' => preg_replace('/^[\.#]/', '', $id), 'active' => $active, 'title' => $title]);
