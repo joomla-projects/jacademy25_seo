@@ -134,21 +134,19 @@ class UpdateModel extends BaseDatabaseModel
         $db->setQuery($query);
         $update_site = $db->loadObject();
 
-        if ($update_site->location !== $updateURL || $update_site->type !== $updateType) {
-            // Modify the database record.
-            $update_site->last_check_timestamp = 0;
-            $update_site->location             = $updateURL;
-            $update_site->type                 = $updateType;
-            $db->updateObject('#__update_sites', $update_site, 'update_site_id');
+        // Modify the database record.
+        $update_site->last_check_timestamp = 0;
+        $update_site->location             = $updateURL;
+        $update_site->type                 = $updateType;
+        $db->updateObject('#__update_sites', $update_site, 'update_site_id');
 
-            // Remove cached updates.
-            $query->clear()
-                ->delete($db->quoteName('#__updates'))
-                ->where($db->quoteName('extension_id') . ' = :id')
-                ->bind(':id', $id, ParameterType::INTEGER);
-            $db->setQuery($query);
-            $db->execute();
-        }
+        // Remove cached updates.
+        $query->clear()
+            ->delete($db->quoteName('#__updates'))
+            ->where($db->quoteName('extension_id') . ' = :id')
+            ->bind(':id', $id, ParameterType::INTEGER);
+        $db->setQuery($query);
+        $db->execute();
     }
 
     /**
