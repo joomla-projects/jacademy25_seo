@@ -315,15 +315,18 @@ class ArticlesModel extends ListModel
 
         $defaultOrdering = 'a.id';
 
-        if ($featured) {
-            $query->select($db->quoteName('fp.ordering'));
-            $defaultOrdering = 'fp.ordering';
-        }
-
-        if (\in_array($featured, [0, 1])) {
+        if (is_numeric($featured) && \in_array($featured, [0, 1])) {
             $featured = (int) $featured;
             $query->where($db->quoteName('a.featured') . ' = :featured')
                 ->bind(':featured', $featured, ParameterType::INTEGER);
+
+            $query->where($db->quoteName('a.featured') . ' = :featured')
+                ->bind(':featured', $featured, ParameterType::INTEGER);
+
+            if ($featured) {
+                $query->select($db->quoteName('fp.ordering'));
+                $defaultOrdering = 'fp.ordering';
+            }
         }
 
         // Filter by access level on categories.
