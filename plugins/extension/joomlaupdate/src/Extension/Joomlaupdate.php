@@ -4,7 +4,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.joomla
  *
- * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2025 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ namespace Joomla\Plugin\Extension\Joomlaupdate\Extension;
 use Joomla\CMS\Event\Model\AfterSaveEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -21,9 +20,9 @@ use Joomla\Event\SubscriberInterface;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Joomla! main extension plugin.
+ * The extension plugin for com_joomlaupdate
  *
- * @since  1.6
+ * @since   __DEPLOY_VERSION__
  */
 final class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 {
