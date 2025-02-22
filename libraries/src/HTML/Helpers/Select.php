@@ -140,7 +140,7 @@ abstract class Select
         $id = str_replace(['[', ']', ' '], '', $id);
 
         // If the selectbox contains "form-select-color-state" then load the JS file
-        if (strpos($attribs, 'form-select-color-state') !== false) {
+        if (str_contains($attribs, 'form-select-color-state')) {
             Factory::getDocument()->getWebAssetManager()
                 ->registerAndUseScript(
                     'webcomponent.select-colour',
@@ -321,7 +321,7 @@ abstract class Select
         $data = [];
 
         for ($i = $start; $i <= $end; $i += $inc) {
-            $data[$i] = $format ? sprintf($format, $i) : $i;
+            $data[$i] = $format ? \sprintf($format, $i) : $i;
         }
 
         // Tell genericlist() to use array keys

@@ -121,8 +121,8 @@ class CollectionAdapter extends UpdateAdapter
                 }
                 break;
             case 'EXTENSION':
-                $update = Table::getInstance('update');
-                $update->set('update_site_id', $this->updateSiteId);
+                $update                 = Table::getInstance('update');
+                $update->update_site_id = $this->updateSiteId;
 
                 foreach ($this->updatecols as $col) {
                     // Reset the values if it doesn't exist
@@ -227,7 +227,7 @@ class CollectionAdapter extends UpdateAdapter
 
         if (!xml_parse($this->xmlParser, $response->body)) {
             // If the URL is missing the .xml extension, try appending it and retry loading the update
-            if (!$this->appendExtension && (substr($this->_url, -4) !== '.xml')) {
+            if (!$this->appendExtension && (!str_ends_with($this->_url, '.xml'))) {
                 $options['append_extension'] = true;
 
                 return $this->findUpdate($options);

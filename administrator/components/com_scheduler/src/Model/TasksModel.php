@@ -35,17 +35,19 @@ use Joomla\Utilities\ArrayHelper;
  */
 class TasksModel extends ListModel
 {
+    protected $listForbiddenList = ['select', 'multi_ordering'];
+
     /**
      * Constructor.
      *
-     * @param   array                     $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface|null  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   4.1.0
      * @throws  \Exception
      * @see     \JControllerLegacy
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -137,6 +139,7 @@ class TasksModel extends ListModel
                     $db->quoteName('a.priority'),
                     $db->quoteName('a.ordering'),
                     $db->quoteName('a.note'),
+                    $db->quoteName('a.created_by'),
                     $db->quoteName('a.checked_out'),
                     $db->quoteName('a.checked_out_time'),
                 ]
@@ -270,7 +273,7 @@ class TasksModel extends ListModel
         if (is_numeric($locked) && $locked != 0) {
             $now              = Factory::getDate('now', 'GMT');
             $timeout          = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
-            $timeout          = new \DateInterval(sprintf('PT%dS', $timeout));
+            $timeout          = new \DateInterval(\sprintf('PT%dS', $timeout));
             $timeoutThreshold = (clone $now)->sub($timeout)->toSql();
             $now              = $now->toSql();
 
@@ -342,8 +345,19 @@ class TasksModel extends ListModel
                 }
             }
         } else {
-            // @todo Should add quoting here
-            $query->order($multiOrdering);
+            $orderClauses = [];
+
+            // Loop through provided clauses
+            foreach ($multiOrdering as $ordering) {
+                [$column, $direction] = explode(' ', $ordering);
+
+                $orderClauses[] = $db->quoteName($column) . ' ' . $direction;
+            }
+
+            // At least one correct order clause
+            if (\count($orderClauses) > 0) {
+                $query->order($orderClauses);
+            }
         }
 
         return $query;
@@ -434,6 +448,44 @@ class TasksModel extends ListModel
      */
     protected function populateState($ordering = 'a.next_execution', $direction = 'ASC'): void
     {
+        $app = Factory::getApplication();
+
+        // Clean the multiorder values
+        if ($list = $app->getUserStateFromRequest($this->context . '.list', 'list', [], 'array')) {
+            if (!empty($list['multi_ordering']) && \is_array($list['multi_ordering'])) {
+                $orderClauses = [];
+
+                // Loop through provided clauses
+                foreach ($list['multi_ordering'] as $multiOrdering) {
+                    // Split the combined string into individual variables
+                    $multiOrderingParts = explode(' ', $multiOrdering, 2);
+
+                    // Check that at least the column is present
+                    if (\count($multiOrderingParts) < 1) {
+                        continue;
+                    }
+
+                    // Assign variables
+                    $multiOrderingColumn = $multiOrderingParts[0];
+                    $multiOrderingDir    = \count($multiOrderingParts) === 2 ? $multiOrderingParts[1] : 'asc';
+
+                    // Validate provided column
+                    if (!\in_array($multiOrderingColumn, $this->filter_fields)) {
+                        continue;
+                    }
+
+                    // Validate order dir
+                    if (strtolower($multiOrderingDir) !== 'asc' && strtolower($multiOrderingDir) !== 'desc') {
+                        continue;
+                    }
+
+                    $orderClauses[] = $multiOrderingColumn . ' ' . $multiOrderingDir;
+                }
+
+                $this->setState('list.multi_ordering', $orderClauses);
+            }
+        }
+
         // Call the parent method
         parent::populateState($ordering, $direction);
     }

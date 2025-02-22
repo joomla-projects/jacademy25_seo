@@ -51,15 +51,15 @@ class Cli extends Input
     /**
      * Constructor.
      *
-     * @param   array  $source   Source data (Optional, default is $_REQUEST)
-     * @param   array  $options  Array of configuration parameters (Optional)
+     * @param   ?array  $source   Source data (Optional, default is $_REQUEST)
+     * @param   array   $options  Array of configuration parameters (Optional)
      *
      * @since   1.7.0
      *
      * @deprecated  4.3 will be removed in 6.0
      *              Use the `joomla/console` package instead
      */
-    public function __construct(array $source = null, array $options = [])
+    public function __construct(?array $source = null, array $options = [])
     {
         if (isset($options['filter'])) {
             $this->filter = $options['filter'];
@@ -147,7 +147,7 @@ class Cli extends Input
             $arg = $argv[$i];
 
             // --foo --bar=baz
-            if (substr($arg, 0, 2) === '--') {
+            if (str_starts_with($arg, '--')) {
                 $eqPos = strpos($arg, '=');
 
                 // --foo
@@ -169,7 +169,7 @@ class Cli extends Input
                     $value     = substr($arg, $eqPos + 1);
                     $out[$key] = $value;
                 }
-            } elseif (substr($arg, 0, 1) === '-') {
+            } elseif (str_starts_with($arg, '-')) {
                 // -k=value -abc
                 // -k=value
                 if (substr($arg, 2, 1) === '=') {

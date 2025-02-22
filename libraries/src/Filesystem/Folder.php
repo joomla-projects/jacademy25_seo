@@ -136,7 +136,7 @@ abstract class Folder
 
                             if (!$stream->copy($sfid, $dfid)) {
                                 throw new \RuntimeException(
-                                    sprintf(
+                                    \sprintf(
                                         "Cannot copy file: %s",
                                         Path::removeRoot($stream->getError())
                                     ),
@@ -237,7 +237,7 @@ abstract class Folder
                 foreach ($obdArray as $test) {
                     $test = Path::clean($test);
 
-                    if (strpos($path, $test) === 0 || strpos($path, realpath($test)) === 0) {
+                    if (str_starts_with($path, $test) || str_starts_with($path, realpath($test))) {
                         $inBaseDir = true;
                         break;
                     }
