@@ -32,6 +32,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.7.0
  */
+#[\AllowDynamicProperties]
 class Update
 {
     use LegacyErrorHandlingTrait;
@@ -642,7 +643,7 @@ class Update
         try {
             $http     = HttpFactory::getHttp($httpOption);
             $response = $http->get($url);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 
