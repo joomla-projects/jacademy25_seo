@@ -95,7 +95,7 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
                     <a href="<?php echo Route::_(RouteHelper::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
                         <?php 
                             $decoded_image = urldecode($images->image_intro);
-                            echo HTMLHelper::_('image', $decoded_image, $images->image_intro_alt); 
+                            echo HTMLHelper::_('image', $decoded_image, $images->image_intro_alt);
                         ?>
                     </a>
                 <?php endif; ?>
