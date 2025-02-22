@@ -258,7 +258,7 @@ class QuickIconHelper
             if ($params->get('show_featured')) {
                 $tmp = [
                     'image'  => 'icon-star featured',
-                    'link'   => Route::_('index.php?option=com_content&view=articles&featured=1'),
+                    'link'   => Route::_('index.php?option=com_content&view=articles&filter[featured]=1'),
                     'name'   => 'MOD_QUICKICON_FEATURED_MANAGER',
                     'access' => ['core.manage', 'com_content'],
                     'group'  => 'MOD_QUICKICON_SITE',

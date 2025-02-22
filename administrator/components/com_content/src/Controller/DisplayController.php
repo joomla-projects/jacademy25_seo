@@ -62,8 +62,8 @@ class DisplayController extends BaseController
             return false;
         }
 
-        if ($view === 'featured') {
-            $this->setRedirect(Route::_('index.php?option=com_content&view=articles&featured=1', false));
+        if ($view === 'featured' || $this->input->getInt('featured')) {
+            $this->setRedirect(Route::_('index.php?option=com_content&view=articles&filter[featured]=1', false));
             return false;
         }
 

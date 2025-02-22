@@ -76,11 +76,8 @@ class ArticlesModel extends ListModel
                 'rating_count', 'rating',
                 'stage', 'wa.stage_id',
                 'ws.title',
+                'fp.ordering',
             ];
-
-            if ($this->isFeatured() === '1') {
-                $config['filter_fields'][] = 'fp.ordering';
-            }
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
@@ -179,6 +176,7 @@ class ArticlesModel extends ListModel
         $id .= ':' . $this->getState('filter.search');
         $id .= ':' . serialize($this->getState('filter.access'));
         $id .= ':' . $this->getState('filter.published');
+        $id .= ':' . $this->getState('filter.featured');
         $id .= ':' . serialize($this->getState('filter.category_id'));
         $id .= ':' . serialize($this->getState('filter.author_id'));
         $id .= ':' . $this->getState('filter.language');
@@ -314,19 +312,22 @@ class ArticlesModel extends ListModel
         }
 
         // Filter by featured.
-        $featured = $this->isFeatured();
+        $featured = $this->getState('filter.featured');
 
-        if ($featured === '1') {
-            $query->select($db->quoteName('fp.ordering'));
-            $defaultOrdering = 'fp.ordering';
-        } else {
-            $defaultOrdering = 'a.id';
-        }
+        $defaultOrdering = 'a.id';
 
-        if (\in_array($featured, ['0', '1'])) {
+        if (is_numeric($featured) && \in_array($featured, [0, 1])) {
             $featured = (int) $featured;
             $query->where($db->quoteName('a.featured') . ' = :featured')
                 ->bind(':featured', $featured, ParameterType::INTEGER);
+
+            $query->where($db->quoteName('a.featured') . ' = :featured')
+                ->bind(':featured', $featured, ParameterType::INTEGER);
+
+            if ($featured) {
+                $query->select($db->quoteName('fp.ordering'));
+                $defaultOrdering = 'fp.ordering';
+            }
         }
 
         // Filter by access level on categories.
@@ -642,42 +643,5 @@ class ArticlesModel extends ListModel
         }
 
         return $items;
-    }
-
-    /**
-     * Get total of articles
-     *
-     * @param   string  $featured  Featured selector
-     *
-     * @return  integer  Total number of articles
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function getTotal($featured = '')
-    {
-        $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
-
-        $query->select('COUNT(*)')
-            ->from($db->quoteName('#__content'))
-            ->where($db->quoteName('state') . ' = 1');
-
-        if ($featured) {
-            $query->where($db->quoteName('featured') . ' = 1');
-        }
-
-        return (int) $db->setQuery($query)->loadResult();
-    }
-
-    /**
-     * Method to get the value of featured selector.
-     *
-     * @return  string  Returns the value of featured selector.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function isFeatured()
-    {
-        return $this->getUserStateFromRequest($this->context . '.featured', 'featured', 'int');
     }
 }

@@ -120,8 +120,6 @@ class HtmlView extends BaseHtmlView
         $this->vote          = PluginHelper::isEnabled('content', 'vote');
         $this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1;
 
-        $featured = $this->state->get('filter.featured');
-
         if (!\count($this->items) && $this->isEmptyState = $model->getIsEmptyState()) {
             $this->setLayout('emptystate');
         }
@@ -134,7 +132,7 @@ class HtmlView extends BaseHtmlView
 
         // Check for errors.
 
-        if (\count($errors = $model->getErrors()) || $this->transitions === false && $featured === '1') {
+        if (\count($errors = $model->getErrors()) || $this->transitions === false) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -186,14 +184,9 @@ class HtmlView extends BaseHtmlView
     {
         $canDo    = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
         $user     = $this->getCurrentUser();
-        $featured = $this->state->get('filter.featured');
         $toolbar  = $this->getDocument()->getToolbar();
 
-        if ($featured === '1') {
-            ToolbarHelper::title(Text::_('COM_CONTENT_FEATURED_TITLE'), 'star featured');
-        } else {
-            ToolbarHelper::title(Text::_('COM_CONTENT_ARTICLES_TITLE'), 'copy article');
-        }
+        ToolbarHelper::title(Text::_('COM_CONTENT_ARTICLES_TITLE'), 'copy article');
 
         if ($canDo->get('core.create') || \count($user->getAuthorisedCategories('com_content', 'core.create')) > 0) {
             $toolbar->addNew('article.add');
@@ -252,7 +245,6 @@ class HtmlView extends BaseHtmlView
             if (
                 $user->authorise('core.create', 'com_content')
                 && $user->authorise('core.edit', 'com_content')
-                && $featured !== '1'
             ) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
                     ->popupType('inline')
