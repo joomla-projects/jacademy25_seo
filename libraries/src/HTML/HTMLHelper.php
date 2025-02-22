@@ -761,8 +761,8 @@ abstract class HTMLHelper
                 }
 
                 // Set the attribute
-                [$key, $value] = explode('=', $attribute);
-                $attributes[$key]  = trim($value, '"');
+                [$key, $value]    = explode('=', $attribute);
+                $attributes[$key] = trim($value, '"');
             }
 
             // Add the attributes from the string to the original attributes
