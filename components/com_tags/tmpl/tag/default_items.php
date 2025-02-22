@@ -94,8 +94,9 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
                 <?php if ($this->params->get('tag_list_show_item_image', 1) == 1 && !empty($images->image_intro)) : ?>
                     <a href="<?php echo Route::_(RouteHelper::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
                         <?php 
-                        $replace_img = str_replace("%20"," ", $images->image_intro);
-                        echo HTMLHelper::_('image', $replace_img, $images->image_intro_alt); ?>
+                            $decoded_image = urldecode($images->image_intro);
+                            echo HTMLHelper::_('image', $decoded_image, $images->image_intro_alt); 
+                        ?>
                     </a>
                 <?php endif; ?>
                 <?php if ($this->params->get('tag_list_show_item_description', 1)) : ?>
