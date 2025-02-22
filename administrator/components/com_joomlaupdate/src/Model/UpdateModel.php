@@ -385,7 +385,7 @@ class UpdateModel extends BaseDatabaseModel
 
         try {
             $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Passing false here -> download failed message
             return $response;
         }
@@ -396,7 +396,7 @@ class UpdateModel extends BaseDatabaseModel
 
             try {
                 $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 // Passing false here -> download failed message
                 return $response;
             }
@@ -405,7 +405,7 @@ class UpdateModel extends BaseDatabaseModel
         // Remove protocol, path and query string from URL
         $basename = basename($packageURL);
 
-        if (strpos($basename, '?') !== false) {
+        if (str_contains($basename, '?')) {
             $basename = substr($basename, 0, strpos($basename, '?'));
         }
 
@@ -585,7 +585,7 @@ class UpdateModel extends BaseDatabaseModel
         if (is_file($target)) {
             try {
                 File::delete($target);
-            } catch (FilesystemException $exception) {
+            } catch (FilesystemException) {
                 return false;
             }
         }
@@ -593,7 +593,7 @@ class UpdateModel extends BaseDatabaseModel
         // Download the package
         try {
             $result = HttpFactory::getHttp([], ['curl', 'stream'])->get($url);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -607,7 +607,7 @@ class UpdateModel extends BaseDatabaseModel
         // Write the file to disk
         try {
             File::write($target, $body);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
             return false;
         }
 
@@ -692,7 +692,7 @@ ENDDATA;
         if (is_file($configpath)) {
             try {
                 File::delete($configpath);
-            } catch (FilesystemException $exception) {
+            } catch (FilesystemException) {
                 return false;
             }
         }
@@ -700,7 +700,7 @@ ENDDATA;
         // Write new file. First try with File.
         try {
             $result = File::write($configpath, $data);
-        } catch (FilesystemException $exception) {
+        } catch (FilesystemException) {
             // In case File failed but direct access could help.
             $fp = @fopen($configpath, 'wt');
 
@@ -999,7 +999,7 @@ ENDDATA;
 
         try {
             Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', \JVERSION), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
     }
@@ -1148,7 +1148,7 @@ ENDDATA;
             if ($file !== null && is_file($file)) {
                 try {
                     File::delete($file);
-                } catch (FilesystemException $exception) {
+                } catch (FilesystemException) {
                 }
             }
         }
@@ -1669,7 +1669,7 @@ ENDDATA;
 
         try {
             $response = $http->get($updateSiteInfo['location']);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 
