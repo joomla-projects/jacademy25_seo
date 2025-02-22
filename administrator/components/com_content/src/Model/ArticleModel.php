@@ -676,7 +676,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         if ($createCategory && $this->canCreateCategory()) {
             $category = [
                 // Remove #new# prefix, if exists.
-                'title'     => strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'],
+                'title'     => str_starts_with($data['catid'], '#new#') ? substr($data['catid'], 5) : $data['catid'],
                 'parent_id' => 1,
                 'extension' => 'com_content',
                 'language'  => $data['language'],
@@ -739,9 +739,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             }
 
             if ($data['title'] == $origTable->title) {
-                list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-                $data['title']       = $title;
-                $data['alias']       = $alias;
+                [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+                $data['title']   = $title;
+                $data['alias']   = $alias;
             } elseif ($data['alias'] == $origTable->alias) {
                 $data['alias'] = '';
             }
@@ -762,8 +762,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                     $msg = Text::_('COM_CONTENT_SAVE_WARNING');
                 }
 
-                list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-                $data['alias']       = $alias;
+                [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+                $data['alias']   = $alias;
 
                 if (isset($msg)) {
                     $app->enqueueMessage($msg, 'warning');
@@ -1032,15 +1032,13 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     /**
      * Custom clean the cache of com_content and content modules
      *
-     * @param   string   $group     The cache group
-     * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              @deprecated   4.3 will be removed in 6.0
+     * @param  string  $group  Cache group name.
      *
      * @return  void
      *
      * @since   1.6
      */
-    protected function cleanCache($group = null, $clientId = 0)
+    protected function cleanCache($group = null)
     {
         parent::cleanCache('com_content');
         parent::cleanCache('mod_articles_archive');

@@ -19,7 +19,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Menu;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
@@ -72,7 +72,7 @@ class MenusHelper extends ContentHelper
         if (\is_string($request)) {
             $args = [];
 
-            if (strpos($request, 'index.php') === 0) {
+            if (str_starts_with($request, 'index.php')) {
                 parse_str(parse_url(htmlspecialchars_decode($request), PHP_URL_QUERY), $args);
             } else {
                 parse_str($request, $args);
@@ -455,8 +455,7 @@ class MenusHelper extends ContentHelper
         ]))->getArgument('subject', $items);
 
         foreach ($items as $item) {
-            /** @var \Joomla\CMS\Table\Menu $table */
-            $table = Table::getInstance('Menu');
+            $table = new Menu($db);
 
             $item->alias = $menutype . '-' . $item->title;
 
@@ -480,7 +479,7 @@ class MenusHelper extends ContentHelper
                 ];
                 $table->load($keys);
             } elseif ($item->type == 'url' || $item->type == 'component') {
-                if (substr($item->link, 0, 8) === 'special:') {
+                if (str_starts_with($item->link, 'special:')) {
                     $special = substr($item->link, 8);
 
                     if ($special === 'language-forum') {
