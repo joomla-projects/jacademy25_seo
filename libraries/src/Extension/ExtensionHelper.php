@@ -208,6 +208,7 @@ class ExtensionHelper
         ['plugin', 'joomla', 'extension', 0],
         ['plugin', 'namespacemap', 'extension', 0],
         ['plugin', 'finder', 'extension', 0],
+        ['plugin', 'joomlaupdate', 'extension', 0],
 
         // Core plugin extensions - fields
         ['plugin', 'calendar', 'fields', 0],
