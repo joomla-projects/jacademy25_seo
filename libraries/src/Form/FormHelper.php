@@ -213,7 +213,7 @@ class FormHelper
             $subPrefix = '';
 
             if (strpos($name, '.')) {
-                list($subPrefix, $name) = explode('.', $name);
+                [$subPrefix, $name] = explode('.', $name);
                 $subPrefix              = ucfirst($subPrefix) . '\\';
             }
 
@@ -229,7 +229,7 @@ class FormHelper
         $prefix = 'J';
 
         if (strpos($type, '.')) {
-            list($prefix, $type) = explode('.', $type);
+            [$prefix, $type] = explode('.', $type);
         }
 
         $class = StringHelper::ucfirst($prefix, '_') . 'Form' . StringHelper::ucfirst($entity, '_') . StringHelper::ucfirst($type, '_');
