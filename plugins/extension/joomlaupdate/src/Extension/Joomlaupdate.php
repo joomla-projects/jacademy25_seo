@@ -81,6 +81,5 @@ final class Joomlaupdate extends CMSPlugin implements SubscriberInterface
         }
 
         $updateModel->applyUpdateSite();
-        $updateModel->refreshUpdates(true);
     }
 }
