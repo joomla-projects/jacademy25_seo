@@ -191,12 +191,11 @@ class ArticlesController extends AdminController
         $this->checkToken();
 
         $articlesModel = $this->getModel('articles');
-        $featured      = $articlesModel->isFeatured();
+        $featured      = $articlesModel->getState('filter.featured');
 
         // Delete unfeatured items.
         if ($featured === '0') {
-            parent::delete();
-            return;
+            return parent::delete();
         }
 
         // Delete featured items.
@@ -226,6 +225,6 @@ class ArticlesController extends AdminController
         }
 
         $this->setMessage(Text::plural('COM_CONTENT_N_ITEMS_DELETED', \count($ids)));
-        $this->setRedirect('index.php?option=com_content&view=articles&featured=1');
+        $this->setRedirect('index.php?option=com_content&view=articles&filter[featured]=1');
     }
 }
