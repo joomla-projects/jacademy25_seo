@@ -2002,15 +2002,15 @@ class TemplateModel extends FormModel
         }
 
         $user = $this->getCurrentUser();
-        unset($xml->languages);
-        unset($xml->media);
-        unset($xml->files);
-        unset($xml->parent);
-        unset($xml->inheritable);
+        unset($xml->languages, $xml->media, $xml->files, $xml->parent, $xml->inheritable, $xml->update, $xml->updateservers);
+
+
+
+
 
         // Remove the update parts
-        unset($xml->update);
-        unset($xml->updateservers);
+
+
 
         if (isset($xml->creationDate)) {
             $xml->creationDate = (new Date('now'))->format('F Y');

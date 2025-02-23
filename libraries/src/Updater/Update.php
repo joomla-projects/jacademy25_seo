@@ -487,8 +487,8 @@ class Update
                         $this->$key = $val;
                     }
 
-                    unset($this->latest);
-                    unset($this->currentUpdate);
+                    unset($this->latest, $this->currentUpdate);
+
                 } elseif (isset($this->currentUpdate)) {
                     // The update might be for an older version of j!
                     unset($this->currentUpdate);
