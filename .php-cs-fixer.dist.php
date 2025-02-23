@@ -91,6 +91,8 @@ $config
             'native_function_invocation'                       => ['include' => ['@compiler_optimized']],
             // Adds null to type declarations when parameter have a default null value
             'nullable_type_declaration_for_default_null_value' => true,
+            // Removes unneeded parentheses around control statements
+            'no_unneeded_control_parentheses'                  => true,
         ]
     )
     ->setFinder($finder);
