@@ -659,9 +659,6 @@ class User
 
             // Prevent updating internal fields
             unset($array['registerDate'], $array['lastvisitDate'], $array['lastResetTime'], $array['resetCount']);
-
-
-
         }
 
         if (\array_key_exists('params', $array)) {

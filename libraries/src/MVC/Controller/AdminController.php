@@ -308,7 +308,6 @@ class AdminController extends BaseController
         foreach ($pks as $i => $pk) {
             if ($pk === 0) {
                 unset($pks[$i], $order[$i]);
-
             }
         }
 
@@ -403,7 +402,6 @@ class AdminController extends BaseController
         foreach ($pks as $i => $pk) {
             if ($pk === 0) {
                 unset($pks[$i], $order[$i]);
-
             }
         }
 

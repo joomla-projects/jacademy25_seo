@@ -202,7 +202,6 @@ class ComponentModel extends FormModel
 
             // We don't need this anymore
             unset($data['option'], $data['params']['rules']);
-
         }
 
         // Load the previous Data
