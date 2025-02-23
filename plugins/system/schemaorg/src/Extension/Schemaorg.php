@@ -543,7 +543,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
     {
         $context = $event->getContext();
 
-        if ($context === 'com_media.file') {
+        if (empty($event->getItem()->id)) {
             return;
         }
 
