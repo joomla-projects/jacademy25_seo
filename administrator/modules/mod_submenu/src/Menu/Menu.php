@@ -213,7 +213,7 @@ abstract class Menu
                     if (str_starts_with($iconImage, 'class:') && substr($iconImage, 6) === 'icon-home') {
                         $iconImage = '<span class="home-image icon-home" aria-hidden="true"></span>';
                         $iconImage .= '<span class="visually-hidden">' . Text::_('JDEFAULT') . '</span>';
-                    } elseif (str_starts_with($iconImage, 'image:') {
+                    } elseif (str_starts_with($iconImage, 'image:')) {
                         if ($languageCodeParams) {
                             $new_code = $languageCodeParams->get(strtolower(substr($iconImage, 6)));
                             $text     = $new_code ?: substr($iconImage, 6);
