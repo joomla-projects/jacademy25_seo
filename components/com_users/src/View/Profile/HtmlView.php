@@ -142,7 +142,7 @@ class HtmlView extends BaseHtmlView
 
         if (
             $active && isset($active->query['layout'], $active->query['option'])
-              && $active->query['option'] === 'com_users'
+            && $active->query['option'] === 'com_users'
             && isset($active->query['view']) && $active->query['view'] === 'profile'
         ) {
             $this->setLayout($active->query['layout']);
