@@ -541,7 +541,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      */
     public function onContentAfterDelete(Model\AfterDeleteEvent $event)
     {
-        if (empty($event->getItem()->id)){
+        if (empty($event->getItem()->id)) {
             return;
         }
 
