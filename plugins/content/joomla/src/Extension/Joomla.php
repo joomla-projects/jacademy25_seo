@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\Content\Joomla\Extension;
 
 use Joomla\CMS\Cache\CacheControllerFactory;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model\AfterChangeStateEvent;
 use Joomla\CMS\Event\Model\AfterSaveEvent;
 use Joomla\CMS\Event\Model\BeforeChangeStateEvent;
