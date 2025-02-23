@@ -547,9 +547,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $itemId = $event->getItem()->id;
-
-        $this->deleteSchemaOrg($itemId, $context);
+        $this->deleteSchemaOrg($event->getItem()->id, $context);
     }
 
     /**
