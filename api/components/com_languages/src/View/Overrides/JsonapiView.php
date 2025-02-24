@@ -99,7 +99,6 @@ class JsonapiView extends BaseApiView
         $item->value = $item->override;
         unset($item->key, $item->override);
 
-
         return parent::prepareItem($item);
     }
 }

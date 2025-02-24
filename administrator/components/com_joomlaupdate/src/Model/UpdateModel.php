@@ -1417,8 +1417,6 @@ ENDDATA;
             // Remove unused fields so they do not cause javascript errors during pre-update check
             unset($decode->description, $decode->copyright, $decode->creationDate);
 
-
-
             $this->translateExtensionName($extension);
             $extension->version
                 = $decode->version ?? Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
@@ -1477,8 +1475,6 @@ ENDDATA;
 
             // Remove unused fields so they do not cause javascript errors during pre-update check
             unset($decode->description, $decode->copyright, $decode->creationDate);
-
-
 
             $this->translateExtensionName($plugin);
             $plugin->version = $decode->version ?? Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
