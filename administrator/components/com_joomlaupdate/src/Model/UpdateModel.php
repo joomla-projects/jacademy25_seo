@@ -89,7 +89,7 @@ class UpdateModel extends BaseDatabaseModel
     {
         $params       = ComponentHelper::getParams('com_joomlaupdate');
         $updateSource = $updateSource ?: $params->get('updatesource', 'default');
-        $updateURL    = trim($updateURL ?: $params->get('customurl', 'default'));
+        $updateURL    = trim($updateURL ?: $params->get('customurl', ''));
 
         // Determine the intended update URL.
         switch ($updateSource) {
