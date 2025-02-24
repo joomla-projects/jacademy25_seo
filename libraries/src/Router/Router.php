@@ -109,7 +109,7 @@ class Router
     {
         if (empty(self::$instances[$client])) {
             // Create a Router object
-            $classname = 'JRouter' . ucfirst($client);
+            $classname = __NAMESPACE__ . '\\' . ucfirst(strtolower($client)) . 'Router';
 
             if (!class_exists($classname)) {
                 throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
