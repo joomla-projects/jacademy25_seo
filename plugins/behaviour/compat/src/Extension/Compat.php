@@ -11,6 +11,8 @@
 namespace Joomla\Plugin\Behaviour\Compat\Extension;
 
 use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Priority;
@@ -92,6 +94,10 @@ final class Compat extends CMSPlugin implements SubscriberInterface
      */
     public function onAfterInitialiseDocument(AfterInitialiseDocumentEvent $event)
     {
+        if (!HTMLHelper::isRegistered('bootstrap.framework')) {
+            HTMLHelper::register('bootstrap.framework', 'Joomla\Plugin\Behaviour\Compat\Extension\Compat::framework');
+        }
+
         /**
          * Load the es5 assets stubs, they are needed if an extension
          * directly uses a core es5 asset which has no function in Joomla 5+
@@ -114,5 +120,26 @@ final class Compat extends CMSPlugin implements SubscriberInterface
                 ->getRegistry()
                 ->addRegistryFile('media/plg_behaviour_compat/removed.asset.json');
         }
+    }
+
+    /**
+     * Method to load the ALL the Bootstrap Components
+     *
+     * If debugging mode is on an uncompressed version of Bootstrap is included for easier debugging.
+     *
+     * @param   mixed  $debug  Is debugging mode on? [optional]
+     *
+     * @return  void
+     */
+    public static function framework($debug = null): void
+    {
+        $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+
+        array_map(
+            function ($script) use ($wa) {
+                $wa->useScript('bootstrap.' . $script);
+            },
+            ['alert', 'button', 'carousel', 'collapse', 'dropdown', 'modal', 'offcanvas', 'popover', 'scrollspy', 'tab', 'toast']
+        );
     }
 }
