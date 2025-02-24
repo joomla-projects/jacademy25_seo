@@ -87,9 +87,9 @@ class UpdateModel extends BaseDatabaseModel
      */
     public function applyUpdateSite(?string $updateSource = null, ?string $updateURL = null)
     {
-        $params = ComponentHelper::getParams('com_joomlaupdate');
+        $params       = ComponentHelper::getParams('com_joomlaupdate');
         $updateSource = $updateSource ?: $params->get('updatesource', 'default');
-        $updateURL = trim($updateURL ?: $params->get('customurl', 'default'));
+        $updateURL    = trim($updateURL ?: $params->get('customurl', 'default'));
 
         // Determine the intended update URL.
         switch ($updateSource) {
