@@ -85,18 +85,18 @@ class UpdateModel extends BaseDatabaseModel
      *
      * @since    2.5.4
      */
-    public function applyUpdateSite()
+    public function applyUpdateSite(?string $updateSource = null, ?string $updateURL = null)
     {
-        // Determine the intended update URL.
         $params = ComponentHelper::getParams('com_joomlaupdate');
+        $updateSource = $updateSource ?: $params->get('updatesource', 'default');
+        $updateURL = trim($updateURL ?: $params->get('customurl', 'default'));
 
-        switch ($params->get('updatesource', 'default')) {
+        // Determine the intended update URL.
+        switch ($updateSource) {
             case 'custom':
                 // "Custom"
                 // @todo: check if the customurl is valid and not just "not empty".
-                if (trim($params->get('customurl', '')) != '') {
-                    $updateURL = trim($params->get('customurl', ''));
-                } else {
+                if ($updateURL === '') {
                     Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
 
                     return;

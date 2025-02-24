@@ -14,6 +14,7 @@ use Joomla\CMS\Event\Model\AfterSaveEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -79,6 +80,12 @@ final class Joomlaupdate extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $updateModel->applyUpdateSite();
+        $params = new Registry($item->params);
+
+        // Apply updated config
+        $updateModel->applyUpdateSite(
+            $params->get('updatesource'),
+            $params->get('customurl'),
+        );
     }
 }
