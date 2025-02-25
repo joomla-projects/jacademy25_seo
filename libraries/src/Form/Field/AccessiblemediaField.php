@@ -69,6 +69,14 @@ class AccessiblemediaField extends SubformField
     protected $layout;
 
     /**
+     * Media types like 'images, audios, documents, videos'
+     *
+     * @var string
+     * @since 5.3.0
+     */
+    protected $types;
+
+    /**
      * Method to get certain otherwise inaccessible properties from the form field object.
      *
      * @param   string  $name  The property name for which to get the value.
@@ -84,6 +92,7 @@ class AccessiblemediaField extends SubformField
             case 'preview':
             case 'previewHeight':
             case 'previewWidth':
+            case 'types':
                 return $this->$name;
         }
 
@@ -105,6 +114,7 @@ class AccessiblemediaField extends SubformField
         switch ($name) {
             case 'directory':
             case 'preview':
+            case 'types':
                 $this->$name = (string) $value;
                 break;
 
@@ -179,6 +189,7 @@ class AccessiblemediaField extends SubformField
         $this->preview       = (string) $this->element['preview'];
         $this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
         $this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
+        $this->types         = isset($this->element['types']) ? (string) $this->element['types'] : 'images';
 
         $xml = <<<XML
 <?xml version="1.0" encoding="utf-8"?>
@@ -195,6 +206,7 @@ class AccessiblemediaField extends SubformField
 			preview="$this->preview"
 			preview_width="$this->previewWidth"
 			preview_height="$this->previewHeight"
+			types="$this->types"
 			schemes="http,https,ftp,ftps,data,file"
 			validate="url"
 			relative="true"
