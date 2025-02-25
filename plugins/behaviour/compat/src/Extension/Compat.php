@@ -11,11 +11,12 @@
 namespace Joomla\Plugin\Behaviour\Compat\Extension;
 
 use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
+use Joomla\CMS\Event\Application\AfterRouteEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
-use Joomla\Plugin\Behaviour\Compat\HTMLHelper\Bootstrap;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -44,6 +45,7 @@ final class Compat extends CMSPlugin implements SubscriberInterface
          */
         return [
             'onAfterInitialiseDocument' => ['onAfterInitialiseDocument', Priority::HIGH],
+            'onAfterRoute'              => ['onAfterRoute', Priority::HIGH],
         ];
     }
 
@@ -84,6 +86,27 @@ final class Compat extends CMSPlugin implements SubscriberInterface
     }
 
     /**
+     * The after Route logic
+     *
+     * @param  AfterRouteEvent $event
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function onAfterRoute($event)
+    {
+        /**
+         * Load the deprecated HTMLHelper classes/functions
+         * likely be removed in Joomla 7.0
+         */
+        if ($this->params->get('html_helpers', '1')) {
+            // Restore HTMLHelper::Bootstrap('framework')
+            Factory::getContainer()->get(\Joomla\CMS\HTML\Registry::class)
+                ->register('bootstrap', \Joomla\Plugin\Behaviour\Compat\HTMLHelper\Bootstrap::class, true);
+        }
+    }
+
+    /**
      * We run as early as possible, this should be the first event
      *
      * @param  AfterInitialiseDocumentEvent $event
@@ -93,15 +116,6 @@ final class Compat extends CMSPlugin implements SubscriberInterface
      */
     public function onAfterInitialiseDocument(AfterInitialiseDocumentEvent $event)
     {
-        /**
-         * Load the deprecated HTMLHelper classes/functions
-         * likely be removed in Joomla 7.0
-         */
-        if ($this->params->get('html_helpers', '1')) {
-            // Restore HTMLHelper::Bootstrap('framework')
-            new Bootstrap();
-        }
-
         /**
          * Load the es5 assets stubs, they are needed if an extension
          * directly uses a core es5 asset which has no function in Joomla 5+
