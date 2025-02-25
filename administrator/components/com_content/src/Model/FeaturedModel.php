@@ -23,7 +23,7 @@ use Joomla\Database\QueryInterface;
  * Methods supporting a list of featured article records.
  *
  * @since  1.6
- * 
+ *
  * @deprecated  6.0 will be removed in 8.0
  *              Use \Joomla\Component\Content\Administrator\Model\ArticlesModel instead
  *              set the filter.featured state to 1 to get only featured articles
