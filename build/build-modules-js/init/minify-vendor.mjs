@@ -15,7 +15,6 @@ const folders = [
   'media/vendor/es-module-shims/js',
   'media/vendor/qrcode/js',
   'media/vendor/short-and-sweet/js',
-  'media/vendor/webcomponentsjs/js',
 ];
 
 let allFiles = [];
@@ -23,7 +22,6 @@ let allFiles = [];
 const noMinified = ['accessibility.min.js', 'short-and-sweet.min.js'];
 
 const alreadyMinified = [
-  'media/vendor/webcomponentsjs/js/webcomponents-bundle.js',
   'media/vendor/debugbar/vendor/highlightjs/highlight.pack.js',
 ];
 
