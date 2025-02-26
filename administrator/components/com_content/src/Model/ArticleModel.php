@@ -755,7 +755,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             if (empty($this->workflowEnabled)) {
                 $data['state'] = 0;
             } else {
-                $data['transition'] = 1;
+                $data['transition'] = '';
             }
         }
 
