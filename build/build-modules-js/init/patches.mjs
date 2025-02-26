@@ -15,7 +15,7 @@ export const patchPackages = async (options) => {
 
   // Joomla's hack to expose the chosen base classes so we can extend it ourselves
   // (it was better than the many hacks we had before. But I'm still ashamed of myself).
-  let dest = join(mediaVendorPath, 'chosen');
+  const dest = join(mediaVendorPath, 'chosen');
   const chosenPath = `${dest}/${options.settings.vendors['chosen-js'].js['chosen.jquery.js']}`;
   let ChosenJs = await readFile(chosenPath, { encoding: 'utf8' });
   ChosenJs = ChosenJs.replace(
