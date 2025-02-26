@@ -28,8 +28,9 @@
 				validate="CssIdentifier"
 			/>
 
-			<field type="list"
+			<field
 				name="types"
+				type="list"
 				label="PLG_FIELDS_MEDIA_PARAMS_TYPES_LABEL"
 				description="PLG_FIELDS_MEDIA_PARAMS_TYPES_DESCRIPTION"
 				default="images"
