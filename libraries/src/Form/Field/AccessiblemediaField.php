@@ -71,8 +71,8 @@ class AccessiblemediaField extends SubformField
     /**
      * Media types like 'images, audios, documents, videos'
      *
-     * @var string
-     * @since 5.3.0
+     * @var    string
+     * @since  __DEPLOY_VERSION__
      */
     protected $types;
 
