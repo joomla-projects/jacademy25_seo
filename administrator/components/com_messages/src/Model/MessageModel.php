@@ -101,7 +101,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
 
                     try {
                         Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                    } catch (\RuntimeException $exception) {
+                    } catch (\RuntimeException) {
                         Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
                     }
 
@@ -265,7 +265,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
 
                     try {
                         Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                    } catch (\RuntimeException $exception) {
+                    } catch (\RuntimeException) {
                         Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
                     }
 
