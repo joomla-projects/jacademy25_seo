@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Language\Text;
+use SimpleXMLElement;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -133,7 +134,7 @@ class AccessiblemediaField extends SubformField
     /**
      * Method to attach a Form object to the field.
      *
-     * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+     * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
      * @param   string             $group    The field name group control value.
      *
@@ -141,7 +142,7 @@ class AccessiblemediaField extends SubformField
      *
      * @since   4.0.0
      */
-    public function setup(\SimpleXMLElement $element, $value, $group = null)
+    public function setup(SimpleXMLElement $element, $value, $group = null)
     {
         /**
          * When you have subforms which are not repeatable (i.e. a subform custom field with the
@@ -194,7 +195,7 @@ class AccessiblemediaField extends SubformField
         $this->types         = isset($this->element['types']) ? (string) $this->element['types'] : 'images';
 
         // Build the form source
-        $xml = new \SimpleXMLElement('<form />');
+        $xml      = new \SimpleXMLElement('<form />');
         $fieldset = $xml->addChild('fieldset');
         $fieldset->addAttribute('name', 'accessiblemedia');
         $fieldset->addAttribute('label', 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_LABEL');
@@ -215,7 +216,7 @@ class AccessiblemediaField extends SubformField
         $mediaTypes = explode(',', $this->types);
 
         // We need in alt text and alt empty checkbox only for images
-        if (in_array('images', $mediaTypes)) {
+        if (\in_array('images', $mediaTypes)) {
             $altText = $fieldset->addChild('field');
             $altText->addAttribute('name', 'alt_text');
             $altText->addAttribute('type', 'text');
@@ -229,7 +230,7 @@ class AccessiblemediaField extends SubformField
         }
 
         foreach (['audios', 'videos', 'documents'] as $fileType) {
-            if (in_array($fileType, $mediaTypes)) {
+            if (\in_array($fileType, $mediaTypes)) {
                 $fileName = $fieldset->addChild('field');
                 $fileName->addAttribute('name', 'linktext');
                 $fileName->addAttribute('type', 'text');
