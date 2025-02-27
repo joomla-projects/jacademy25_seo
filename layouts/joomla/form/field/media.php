@@ -85,10 +85,10 @@ if ($showPreview) {
         $src = '';
     }
 
-    $width = $previewWidth;
+    $width  = $previewWidth;
     $height = $previewHeight;
-    $style = ($width > 0) ? 'max-width:' . $width . 'px;' : '';
-    $style .= ($height > 0) ? 'max-height:' . $height . 'px;' : '';
+    $style  = ($width > 0) ? 'max-width:' . $width . 'px;' : '';
+    $style  .= ($height > 0) ? 'max-height:' . $height . 'px;' : '';
 
     $imgattr = [
         'class' => 'media-preview',
@@ -148,9 +148,9 @@ $doc->addScriptOptions('media-picker-api', ['apiBaseUrl' => Uri::base(true) . '/
 
 if (!$doc->getScriptOptions('media-picker')) {
     $doc->addScriptOptions('media-picker', [
-        'images' => $imagesExt,
-        'audios' => $audiosExt,
-        'videos' => $videosExt,
+        'images'    => $imagesExt,
+        'audios'    => $audiosExt,
+        'videos'    => $videosExt,
         'documents' => $documentsExt,
     ]);
 }
