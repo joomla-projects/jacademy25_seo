@@ -23,31 +23,31 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
- * @var  string   $asset           The asset text
- * @var  string   $authorField     The label text
- * @var  integer  $authorId        The author id
- * @var  string   $class           The class text
- * @var  boolean  $disabled        True if field is disabled
- * @var  string   $folder          The folder text
- * @var  string   $id              The label text
- * @var  string   $link            The link text
- * @var  string   $name            The name text
- * @var  string   $preview         The preview image relative path
- * @var  integer  $previewHeight   The image preview height
- * @var  integer  $previewWidth    The image preview width
- * @var  string   $onchange        The onchange text
- * @var  boolean  $readonly        True if field is readonly
- * @var  integer  $size            The size text
- * @var  string   $value           The value text
- * @var  string   $src             The path and filename of the image
- * @var  string   $mediaTypes      The ids of supported media types for the Media Manager
- * @var  array    $mediaTypeNames  The names of supported media types for the Media Manager
- * @var  array    $imagesExt       The supported extensions for images
- * @var  array    $audiosExt       The supported extensions for audios
- * @var  array    $videosExt       The supported extensions for videos
- * @var  array    $documentsExt    The supported extensions for documents
- * @var  string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
- * @var  array    $dataAttributes  Miscellaneous data attribute for eg, data-*
+ * @var  string $asset The asset text
+ * @var  string $authorField The label text
+ * @var  integer $authorId The author id
+ * @var  string $class The class text
+ * @var  boolean $disabled True if field is disabled
+ * @var  string $folder The folder text
+ * @var  string $id The label text
+ * @var  string $link The link text
+ * @var  string $name The name text
+ * @var  string $preview The preview image relative path
+ * @var  integer $previewHeight The image preview height
+ * @var  integer $previewWidth The image preview width
+ * @var  string $onchange The onchange text
+ * @var  boolean $readonly True if field is readonly
+ * @var  integer $size The size text
+ * @var  string $value The value text
+ * @var  string $src The path and filename of the image
+ * @var  string $mediaTypes The ids of supported media types for the Media Manager
+ * @var  array $mediaTypeNames The names of supported media types for the Media Manager
+ * @var  array $imagesExt The supported extensions for images
+ * @var  array $audiosExt The supported extensions for audios
+ * @var  array $videosExt The supported extensions for videos
+ * @var  array $documentsExt The supported extensions for documents
+ * @var  string $dataAttribute Miscellaneous data attributes preprocessed for HTML output
+ * @var  array $dataAttributes Miscellaneous data attribute for eg, data-*
  */
 
 $attr = '';
@@ -85,9 +85,9 @@ if ($showPreview) {
         $src = '';
     }
 
-    $width  = $previewWidth;
+    $width = $previewWidth;
     $height = $previewHeight;
-    $style  = ($width > 0) ? 'max-width:' . $width . 'px;' : '';
+    $style = ($width > 0) ? 'max-width:' . $width . 'px;' : '';
     $style .= ($height > 0) ? 'max-height:' . $height . 'px;' : '';
 
     $imgattr = [
@@ -97,7 +97,7 @@ if ($showPreview) {
 
     $img = HTMLHelper::_('image', $src, Text::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
 
-    $previewImg      = '<div class="preview_img">' . $img . '</div>';
+    $previewImg = '<div class="preview_img">' . $img . '</div>';
     $previewImgEmpty = '<div class="preview_empty"' . ($src ? ' class="hidden"' : '') . '>'
         . Text::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
 
@@ -144,49 +144,81 @@ $wam->useStyle('webcomponent.field-media')
     ->useScript('webcomponent.field-media')
     ->useScript('webcomponent.media-select');
 
-$doc->addScriptOptions('media-picker-api', ['apiBaseUrl' => Uri::base(true) . '/index.php?option=com_media&format=json']);
+$doc->addScriptOptions('media-picker-api', ['apiBaseUrl' => Uri::base(true) . '/index.php?option=com_media&format=json']
+);
 
 if (!$doc->getScriptOptions('media-picker')) {
     $doc->addScriptOptions('media-picker', [
-        'images'    => $imagesExt,
-        'audios'    => $audiosExt,
-        'videos'    => $videosExt,
+        'images' => $imagesExt,
+        'audios' => $audiosExt,
+        'videos' => $videosExt,
         'documents' => $documentsExt,
     ]);
 }
 
 $imagesOnly = false;
 
-if(count($mediaTypeNames) == 1 && in_array('images', $mediaTypeNames)){
+if (count($mediaTypeNames) == 1 && in_array('images', $mediaTypeNames)) {
     $imagesOnly = true;
 }
 
 ?>
 <joomla-field-media class="field-media-wrapper"
-    types="<?php echo $this->escape(implode(',', $mediaTypeNames)); ?>"
-    base-path="<?php echo $this->escape(Uri::root()); ?>"
-    root-folder="<?php echo $this->escape(ComponentHelper::getParams('com_media')->get('image_path', 'images')); ?>"
-    url="<?php echo $url; ?>"
-    input=".field-media-input"
-    button-select=".button-select"
-    button-clear=".button-clear"
-    modal-title="<?php echo $this->escape(Text::_($imagesOnly ? 'JLIB_FORM_CHANGE_IMAGE' : 'JLIB_FORM_CHANGE_FILE')); ?>"
-    preview="static"
-    preview-container=".field-media-preview"
-    preview-width="<?php echo $previewWidth; ?>"
-    preview-height="<?php echo $previewHeight; ?>"
-    supported-extensions="<?php echo $this->escape(json_encode(['images' => $imagesAllowedExt, 'audios' => $audiosAllowedExt, 'videos' => $videosAllowedExt, 'documents' => $documentsAllowedExt])); ?>">
-    <?php if ($showPreview) : ?>
+                    types="<?php
+                    echo $this->escape(implode(',', $mediaTypeNames)); ?>"
+                    base-path="<?php
+                    echo $this->escape(Uri::root()); ?>"
+                    root-folder="<?php
+                    echo $this->escape(ComponentHelper::getParams('com_media')->get('image_path', 'images')); ?>"
+                    url="<?php
+                    echo $url; ?>"
+                    input=".field-media-input"
+                    button-select=".button-select"
+                    button-clear=".button-clear"
+                    modal-title="<?php
+                    echo $this->escape(Text::_($imagesOnly ? 'JLIB_FORM_CHANGE_IMAGE' : 'JLIB_FORM_CHANGE_FILE')); ?>"
+                    preview="static"
+                    preview-container=".field-media-preview"
+                    preview-width="<?php
+                    echo $previewWidth; ?>"
+                    preview-height="<?php
+                    echo $previewHeight; ?>"
+                    supported-extensions="<?php
+                    echo $this->escape(
+                        json_encode(
+                            [
+                                'images' => $imagesAllowedExt,
+                                'audios' => $audiosAllowedExt,
+                                'videos' => $videosAllowedExt,
+                                'documents' => $documentsAllowedExt
+                            ]
+                        )
+                    ); ?>">
+    <?php
+    if ($showPreview) : ?>
         <div class="field-media-preview">
-            <?php echo ' ' . $previewImgEmpty; ?>
-            <?php echo ' ' . $previewImg; ?>
+            <?php
+            echo ' ' . $previewImgEmpty; ?>
+            <?php
+            echo ' ' . $previewImg; ?>
         </div>
-    <?php endif; ?>
+    <?php
+    endif; ?>
     <div class="input-group">
-        <input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php echo $attr; ?>>
-        <?php if (!$disabled) : ?>
-            <button type="button" class="btn btn-success button-select"><?php echo Text::_('JLIB_FORM_BUTTON_SELECT'); ?></button>
-            <button type="button" class="btn btn-danger button-clear"><span class="icon-times" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('JLIB_FORM_BUTTON_CLEAR'); ?></span></button>
-        <?php endif; ?>
+        <input type="text" name="<?php
+        echo $name; ?>" id="<?php
+        echo $id; ?>" value="<?php
+        echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php
+        echo $attr; ?>>
+        <?php
+        if (!$disabled) : ?>
+            <button type="button" class="btn btn-success button-select"><?php
+                echo Text::_('JLIB_FORM_BUTTON_SELECT'); ?></button>
+            <button type="button" class="btn btn-danger button-clear"><span class="icon-times"
+                                                                            aria-hidden="true"></span><span
+                    class="visually-hidden"><?php
+                    echo Text::_('JLIB_FORM_BUTTON_CLEAR'); ?></span></button>
+        <?php
+        endif; ?>
     </div>
 </joomla-field-media>
