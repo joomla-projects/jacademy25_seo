@@ -10,6 +10,8 @@
 namespace Joomla\CMS\Form\Field;
 
 // phpcs:disable PSR1.Files.SideEffects
+use Joomla\CMS\Language\Text;
+
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
@@ -229,12 +231,13 @@ class AccessiblemediaField extends SubformField
         foreach (['audios', 'videos', 'documents'] as $fileType) {
             if (in_array($fileType, $mediaTypes)) {
                 $fileName = $fieldset->addChild('field');
-                $fileName->addAttribute('name', 'filename');
+                $fileName->addAttribute('name', 'linktext');
                 $fileName->addAttribute('type', 'text');
-                $fileName->addAttribute('label', 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_FILENAME');
-                $fileName->addAttribute('description', 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_FILENAME_DESC');
+                $fileName->addAttribute('label', 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT');
+                $fileName->addAttribute('description', 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DESC');
                 $fileName->addAttribute('filter', 'string');
-                $fileName->addAttribute('default', 'filename');
+                $fileName->addAttribute('default', Text::_('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE'));
+                $fileName->addAttribute('hint', Text::_('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE'));
 
                 break;
             }
