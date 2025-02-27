@@ -193,7 +193,7 @@ class AccessiblemediaField extends SubformField
         $this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
         $this->types         = isset($this->element['types']) ? (string) $this->element['types'] : 'images';
 
-// Build the form source
+        // Build the form source
         $xml = new \SimpleXMLElement('<form />');
         $fieldset = $xml->addChild('fieldset');
         $fieldset->addAttribute('name', 'accessiblemedia');
