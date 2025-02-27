@@ -23,31 +23,31 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
- * @var  string $asset The asset text
- * @var  string $authorField The label text
- * @var  integer $authorId The author id
- * @var  string $class The class text
- * @var  boolean $disabled True if field is disabled
- * @var  string $folder The folder text
- * @var  string $id The label text
- * @var  string $link The link text
- * @var  string $name The name text
- * @var  string $preview The preview image relative path
- * @var  integer $previewHeight The image preview height
- * @var  integer $previewWidth The image preview width
- * @var  string $onchange The onchange text
- * @var  boolean $readonly True if field is readonly
- * @var  integer $size The size text
- * @var  string $value The value text
- * @var  string $src The path and filename of the image
- * @var  string $mediaTypes The ids of supported media types for the Media Manager
- * @var  array $mediaTypeNames The names of supported media types for the Media Manager
- * @var  array $imagesExt The supported extensions for images
- * @var  array $audiosExt The supported extensions for audios
- * @var  array $videosExt The supported extensions for videos
- * @var  array $documentsExt The supported extensions for documents
- * @var  string $dataAttribute Miscellaneous data attributes preprocessed for HTML output
- * @var  array $dataAttributes Miscellaneous data attribute for eg, data-*
+ * @var  string   $asset           The asset text
+ * @var  string   $authorField     The label text
+ * @var  integer  $authorId        The author id
+ * @var  string   $class           The class text
+ * @var  boolean  $disabled        True if field is disabled
+ * @var  string   $folder          The folder text
+ * @var  string   $id              The label text
+ * @var  string   $link            The link text
+ * @var  string   $name            The name text
+ * @var  string   $preview         The preview image relative path
+ * @var  integer  $previewHeight   The image preview height
+ * @var  integer  $previewWidth    The image preview width
+ * @var  string   $onchange        The onchange text
+ * @var  boolean  $readonly        True if field is readonly
+ * @var  integer  $size            The size text
+ * @var  string   $value           The value text
+ * @var  string   $src             The path and filename of the image
+ * @var  string   $mediaTypes      The ids of supported media types for the Media Manager
+ * @var  array    $mediaTypeNames  The names of supported media types for the Media Manager
+ * @var  array    $imagesExt       The supported extensions for images
+ * @var  array    $audiosExt       The supported extensions for audios
+ * @var  array    $videosExt       The supported extensions for videos
+ * @var  array    $documentsExt    The supported extensions for documents
+ * @var  string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var  array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
 
 $attr = '';
