@@ -12,6 +12,7 @@
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 use Joomla\Utilities\IpHelper;
+use Symfony\Component\Dotenv\Dotenv;
 
 // System includes
 require_once JPATH_LIBRARIES . '/bootstrap.php';
@@ -37,6 +38,11 @@ if (
     echo 'Installation from a public folder is not supported, revert your Server configuration to point at Joomla\'s root folder to continue.';
 
     exit;
+}
+
+// Load .env files
+if (file_exists(JPATH_ROOT . '/.env.local.php') || file_exists(JPATH_ROOT . '/.env')) {
+    (new Dotenv('JOOMLA_ENV', 'JOOMLA_DEBUG'))->bootEnv(JPATH_ROOT . '/.env', 'prod');
 }
 
 // Pre-Load configuration. Don't remove the Output Buffering due to BOM issues, see JCode 26026
