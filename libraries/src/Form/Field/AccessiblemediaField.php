@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Language\Text;
-use SimpleXMLElement;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -229,19 +228,15 @@ class AccessiblemediaField extends SubformField
             $altEmpty->addAttribute('description', 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_ALT_EMPTY_DESC');
         }
 
-        foreach (['audios', 'videos', 'documents'] as $fileType) {
-            if (\in_array($fileType, $mediaTypes)) {
-                $fileName = $fieldset->addChild('field');
-                $fileName->addAttribute('name', 'linktext');
-                $fileName->addAttribute('type', 'text');
-                $fileName->addAttribute('label', 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT');
-                $fileName->addAttribute('description', 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DESC');
-                $fileName->addAttribute('filter', 'string');
-                $fileName->addAttribute('default', Text::_('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE'));
-                $fileName->addAttribute('hint', Text::_('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE'));
-
-                break;
-            }
+        if (\in_array('documents', $mediaTypes)) {
+            $fileName = $fieldset->addChild('field');
+            $fileName->addAttribute('name', 'linktext');
+            $fileName->addAttribute('type', 'text');
+            $fileName->addAttribute('label', 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT');
+            $fileName->addAttribute('description', 'JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DESC');
+            $fileName->addAttribute('filter', 'string');
+            $fileName->addAttribute('default', Text::_('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE'));
+            $fileName->addAttribute('hint', Text::_('JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_LINKTEXT_DEFAULT_VALUE'));
         }
 
         $this->formsource = $xml->asXML();
