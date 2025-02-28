@@ -11,9 +11,11 @@
 namespace Joomla\Plugin\Editors\TinyMCE\Extension;
 
 use Joomla\CMS\Event\Editor\EditorSetupEvent;
+use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\String\StringableInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -80,11 +82,21 @@ final class TinyMCE extends CMSPlugin implements SubscriberInterface, Dispatcher
      *
      * @since   5.0.0
      */
-    public function onAjaxTinymce()
+    public function onAjaxTinymce(AjaxEvent $event)
     {
+        // Create response object, with list of the templates
+        $response = new class () implements StringableInterface {
+            public $data = [];
+
+            public function __toString(): string
+            {
+                return json_encode($this->data);
+            }
+        };
+        $event->updateEventResult($response);
+
         if (!Session::checkToken('request')) {
-            echo json_encode([]);
-            exit();
+            return;
         }
 
         $this->loadLanguage();
@@ -94,8 +106,7 @@ final class TinyMCE extends CMSPlugin implements SubscriberInterface, Dispatcher
         $template  = $this->getApplication()->getInput()->getPath('template', '');
 
         if ('' === $template) {
-            echo json_encode([]);
-            exit();
+            return;
         }
 
         $filepaths = is_dir(JPATH_ROOT . '/templates/' . $template)
@@ -118,7 +129,7 @@ final class TinyMCE extends CMSPlugin implements SubscriberInterface, Dispatcher
             ];
         }
 
-        echo json_encode($templates);
-        exit();
+        // Add the list of templates to the response
+        $response->data = $templates;
     }
 }

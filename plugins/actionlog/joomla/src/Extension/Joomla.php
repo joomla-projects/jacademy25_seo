@@ -164,7 +164,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             return;
         }
 
-        list($option, $contentType) = explode('.', $params->type_alias);
+        [$option, $contentType] = explode('.', $params->type_alias);
 
         if (!$this->checkLoggable($option)) {
             return;
@@ -272,7 +272,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             return;
         }
 
-        list(, $contentType) = explode('.', $params->type_alias);
+        [, $contentType] = explode('.', $params->type_alias);
 
         switch ($value) {
             case 0:
@@ -316,7 +316,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
 
         try {
             $items = $db->loadObjectList($params->id_holder);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $items = [];
         }
 
@@ -531,11 +531,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
         $table   = $event->getItem();
         $isNew   = $event->getIsNew();
 
-        $option = $this->getApplication()->getInput()->getCmd('option');
-
-        if ($table->module != null) {
-            $option = 'com_modules';
-        }
+        [$option] = explode('.', $context);
 
         if (!$this->checkLoggable($option)) {
             return;
@@ -548,7 +544,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
             return;
         }
 
-        list(, $contentType) = explode('.', $params->type_alias);
+        [, $contentType] = explode('.', $params->type_alias);
 
         if ($isNew) {
             $messageLanguageKey = $params->text_prefix . '_' . $params->type_title . '_ADDED';
@@ -879,7 +875,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
 
         try {
             $loggedInUser = $db->loadObject();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return;
         }
 
@@ -1311,7 +1307,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public function onBeforeTourSaveUserState(AbstractEvent $event): void
     {
