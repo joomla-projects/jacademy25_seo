@@ -20,7 +20,8 @@
           :width="thumbWidth"
           :height="thumbHeight"
         >
-        <div v-if="!thumbURL"
+        <div
+          v-if="!thumbURL"
           class="file-icon"
         >
           <span class="fas fa-file-audio" />
