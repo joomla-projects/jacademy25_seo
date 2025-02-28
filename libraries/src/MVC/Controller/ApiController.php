@@ -342,7 +342,7 @@ class ApiController extends BaseController
     {
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
         $inflector = InflectorFactory::create()->build();
-        $model = $this->getModel($inflector->singularize($this->contentType));
+        $model     = $this->getModel($inflector->singularize($this->contentType));
 
         if (!$model) {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
@@ -392,7 +392,7 @@ class ApiController extends BaseController
     {
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
         $inflector = InflectorFactory::create()->build();
-        $model = $this->getModel($inflector->singularize($this->contentType));
+        $model     = $this->getModel($inflector->singularize($this->contentType));
 
         if (!$model) {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
