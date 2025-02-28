@@ -18,7 +18,9 @@
           :width="thumbWidth"
           :height="thumbHeight"
         >
-        <div v-if="!thumbURL" class="file-icon">
+        <div v-if="!thumbURL"
+          class="file-icon"
+        >
           <span class="fas fa-file" />
         </div>
       </div>

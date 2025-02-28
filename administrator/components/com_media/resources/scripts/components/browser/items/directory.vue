@@ -22,7 +22,9 @@
           :width="thumbWidth"
           :height="thumbHeight"
         >
-        <div v-if="!thumbURL" class="folder-icon">
+        <div v-if="!thumbURL"
+          class="folder-icon"
+        >
           <span class="icon-folder" />
         </div>
       </div>

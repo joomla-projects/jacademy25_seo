@@ -17,7 +17,9 @@
           :width="thumbWidth"
           :height="thumbHeight"
         >
-        <div v-if="!thumbURL" class="file-icon">
+        <div v-if="!thumbURL"
+          class="file-icon"
+        >
           <span class="icon-file-alt" />
         </div>
       </div>
