@@ -339,7 +339,7 @@ class Updater implements DatabaseAwareInterface
                                 'element'   => $current_update->element,
                                 'type'      => $current_update->type,
                                 'client_id' => $current_update->client_id,
-                                'folder'    => isset($current_update->folder) ? $current_update->folder : '',
+                                'folder'    => $current_update->folder ?? '',
                             ]
                         );
 
@@ -349,7 +349,7 @@ class Updater implements DatabaseAwareInterface
                                 'element'   => $current_update->element,
                                 'type'      => $current_update->type,
                                 'client_id' => $current_update->client_id,
-                                'folder'    => isset($current_update->folder) ? $current_update->folder : '',
+                                'folder'    => $current_update->folder ?? '',
                             ]
                         );
 

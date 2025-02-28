@@ -208,7 +208,7 @@ abstract class UpdateAdapter
 
         try {
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Do nothing
         }
     }
@@ -240,7 +240,7 @@ abstract class UpdateAdapter
 
         try {
             $name = $db->loadResult();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Do nothing
         }
 
@@ -273,8 +273,8 @@ abstract class UpdateAdapter
             $this->appendExtension = $options['append_extension'];
         }
 
-        if ($this->appendExtension && (substr($url, -4) !== '.xml')) {
-            if (substr($url, -1) !== '/') {
+        if ($this->appendExtension && (!str_ends_with($url, '.xml'))) {
+            if (!str_ends_with($url, '/')) {
                 $url .= '/';
             }
 
@@ -306,7 +306,7 @@ abstract class UpdateAdapter
         try {
             $http     = HttpFactory::getHttp($httpOption);
             $response = $http->get($url, $headers, 20);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 
@@ -325,7 +325,7 @@ abstract class UpdateAdapter
 
         if ($response === null || $response->code !== 200) {
             // If the URL is missing the .xml extension, try appending it and retry loading the update
-            if (!$this->appendExtension && (substr($url, -4) !== '.xml')) {
+            if (!$this->appendExtension && (!str_ends_with($url, '.xml'))) {
                 $options['append_extension'] = true;
 
                 return $this->getUpdateSiteResponse($options);

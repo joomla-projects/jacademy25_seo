@@ -309,7 +309,7 @@ class ActionlogsHelper
 
         try {
             $rows = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $rows = [];
         }
 
