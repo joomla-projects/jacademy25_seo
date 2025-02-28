@@ -120,7 +120,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
     {
         if ($config instanceof DispatcherInterface) {
             @trigger_error(
-                sprintf(
+                \sprintf(
                     'Passing an instance of %1$s to %2$s() will not be supported in 7.0. '
                     . 'Starting from 7.0 CMSPlugin class will no longer implement DispatcherAwareInterface.',
                     DispatcherInterface::class,
