@@ -97,7 +97,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         try {
             $formFile = Path::check($formFile);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // Log?
             return false;
         }
@@ -300,7 +300,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         try {
             $users = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return;
         }
 
@@ -330,7 +330,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
                 $mailer->send();
                 $mailSent = true;
-            } catch (MailerException $exception) {
+            } catch (MailerException) {
                 Log::add($this->getApplication()->getLanguage()->_('PLG_SYSTEM_TASK_NOTIFICATION_NOTIFY_SEND_EMAIL_FAIL'), Log::ERROR);
             }
         }
@@ -345,7 +345,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.3.0
      * @throws \Exception
      */
     private function saveLog(array $data): void
