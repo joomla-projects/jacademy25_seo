@@ -1,1 +1,1 @@
-var $ = jQuery.noConflict();
+window.$ = jQuery.noConflict();
