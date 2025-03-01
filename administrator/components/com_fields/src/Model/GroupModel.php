@@ -92,7 +92,7 @@ class GroupModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  Form  A Form object on success
+     * @return  Form  A Form object
      *
      * @since   3.7.0
      * @throws  \Exception on failure

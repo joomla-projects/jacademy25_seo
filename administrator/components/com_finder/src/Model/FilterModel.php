@@ -98,14 +98,13 @@ class FilterModel extends AdminModel
      * @param   array    $data      Data for the form. [optional]
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
      *
-     * @return  Form  A Form object on success
+     * @return  Form  A Form object
      *
      * @since   2.5
      * @throws  \Exception on failure
      */
     public function getForm($data = [], $loadData = true)
     {
-        // Get the form.
         return $this->loadForm('com_finder.filter', 'filter', ['control' => 'jform', 'load_data' => $loadData]);
     }
 

@@ -154,7 +154,7 @@ class TaskModel extends AdminModel
      * @param   array  $data      Data that needs to go into the form
      * @param   bool   $loadData  Should the form load its data from the DB?
      *
-     * @return Form  A Form object on success
+     * @return Form  A Form object
      *
      * @since  4.1.0
      * @throws \Exception

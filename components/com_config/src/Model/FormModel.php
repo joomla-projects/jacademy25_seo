@@ -121,7 +121,7 @@ abstract class FormModel extends BaseForm
      * @param   boolean  $clear    Optional argument to force load a new form.
      * @param   string   $xpath    An optional xpath to search for the fields.
      *
-     * @return  Form  A Form object on success
+     * @return  Form  A Form object
      *
      * @see     Form
      * @since   3.2
