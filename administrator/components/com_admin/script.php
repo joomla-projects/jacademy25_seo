@@ -503,6 +503,9 @@ class JoomlaInstallerScript
             '/libraries/src/Input/Files.php',
             '/libraries/src/Input/Input.php',
             '/libraries/src/Input/Json.php',
+            '/media/legacy/js/tabs-state.js',
+            '/media/legacy/js/tabs-state.min.js',
+            '/media/legacy/js/tabs-state.min.js.gz',
         ];
 
         $folders = [
