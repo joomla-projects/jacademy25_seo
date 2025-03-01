@@ -354,7 +354,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         $table = new self($this->getDbo(), $this->getDispatcher());
 
         $alias = $this->alias;
-        $i = 1;
+        $i     = 1;
         while ($table->load(['alias' => $alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
             $alias = $this->alias . '-' . $i++;
         }
