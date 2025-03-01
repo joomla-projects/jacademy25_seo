@@ -330,8 +330,8 @@ class Updater implements DatabaseAwareInterface
                 foreach ($update_result['updates'] as $current_update) {
                     $current_update->extra_query = $updateSite['extra_query'];
 
-                    $update    = new UpdateTable($this->getDbo());
-                    $extension = new Extension($this->getDbo());
+                    $update    = new UpdateTable($this->getDatabase());
+                    $extension = new Extension($this->getDatabase());
 
                     $uid = $update
                         ->find(
