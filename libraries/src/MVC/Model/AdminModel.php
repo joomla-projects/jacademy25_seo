@@ -972,7 +972,7 @@ abstract class AdminModel extends FormModel
             if (preg_match($pattern, $alias, $match)) {
                 // For "august-2024-3" --> "august-2024-4".
                 $counter = (int)$match[3] + 1;
-                $alias = preg_replace($pattern, $match[1] . '-' . $match[2] . '-' . $counter, $alias);
+                $alias   = preg_replace($pattern, $match[1] . '-' . $match[2] . '-' . $counter, $alias);
             } else {
                 // For "august-2024" --> "august-2024-2".
                 $alias .= '-2';
