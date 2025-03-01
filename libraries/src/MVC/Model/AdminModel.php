@@ -966,7 +966,17 @@ abstract class AdminModel extends FormModel
                 $title = StringHelper::increment($title);
             }
 
-            $alias = StringHelper::increment($alias, 'dash');
+            // Check if the alias already ends with a counter(at the 3rd position after -), e.g. "august-2024-3".
+            $pattern = '/^(.*?)-(\d+)-(\d+)$/'; 
+            if (preg_match($pattern, $alias, $match)) { 
+                // For "august-2024-3" --> "august-2024-4".
+                $counter = (int)$match[3] + 1; 
+                $alias = preg_replace($pattern, $match[1] . '-' . $match[2] . '-' . $counter, $alias); 
+            } else {
+                // For "august-2024" --> "august-2024-2".
+                $alias .= '-2';
+            }
+
         }
 
         return [$title, $alias];
