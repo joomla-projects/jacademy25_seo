@@ -33,7 +33,6 @@ use Joomla\Registry\Registry;
  */
 abstract class UpdateAdapter
 {
-    use LegacyErrorHandlingTrait;
     use LegacyPropertyManagementTrait;
 
     /**

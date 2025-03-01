@@ -31,7 +31,6 @@ use Joomla\DI\ContainerAwareInterface;
 class Updater implements DatabaseAwareInterface
 {
     use DatabaseAwareTrait;
-    use LegacyErrorHandlingTrait;
     use LegacyPropertyManagementTrait;
 
     /**
