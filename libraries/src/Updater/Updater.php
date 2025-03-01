@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Updater;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Update as UpdateTable;
