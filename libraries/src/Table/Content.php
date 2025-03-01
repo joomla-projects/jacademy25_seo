@@ -350,18 +350,17 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
             }
         }
 
-        // Verify that the alias is unique
+        // Verify that the alias is unique: if not, append -1, -2, etc.
         $table = new self($this->getDbo(), $this->getDispatcher());
 
-        if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
-            // Is the existing article trashed?
-            $this->setError(Text::_('COM_CONTENT_ERROR_UNIQUE_ALIAS'));
+        $alias = $this->alias;
+        $i = 1;
+        while ($table->load(['alias' => $alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
+            $alias = $this->alias . '-' . $i++;
+        }
 
-            if ($table->state === -2) {
-                $this->setError(Text::_('COM_CONTENT_ERROR_UNIQUE_ALIAS_TRASHED'));
-            }
-
-            return false;
+        if ($i > 1) {
+            $this->alias = $alias;
         }
 
         return parent::store($updateNulls);
