@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Service\Provider;
 
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseFactory;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Mysql\MysqlDriver;
 use Joomla\DI\Container;
@@ -83,7 +84,7 @@ class Database implements ServiceProviderInterface
                     }
 
                     $options = [
-                        'driver'   => $dbtype,
+                        'factory'  => new DatabaseFactory(),
                         'host'     => $conf->get('host'),
                         'user'     => $conf->get('user'),
                         'password' => $conf->get('password'),
@@ -120,7 +121,7 @@ class Database implements ServiceProviderInterface
                     }
 
                     try {
-                        $db = DatabaseDriver::getInstance($options);
+                        $db = $options['factory']->getDriver($dbtype, $options);
                     } catch (\RuntimeException $e) {
                         if (!headers_sent()) {
                             header('HTTP/1.1 500 Internal Server Error');
