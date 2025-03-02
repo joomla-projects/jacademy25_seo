@@ -283,6 +283,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
             $mailer->addRecipient($contact->email_to);
             $mailer->setReplyTo($templateData['email'], $templateData['name']);
             $mailer->addTemplateData($templateData);
+            $mailer->addUnsafeTags(['name', 'email', 'body']);
             $sent = $mailer->send();
 
             // If we are supposed to copy the sender, do so.
@@ -291,6 +292,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
                 $mailer->addRecipient($templateData['email']);
                 $mailer->setReplyTo($templateData['email'], $templateData['name']);
                 $mailer->addTemplateData($templateData);
+                $mailer->addUnsafeTags(['name', 'email', 'body']);
                 $sent = $mailer->send();
             }
         } catch (MailDisabledException | phpMailerException $exception) {
@@ -342,7 +344,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
      */
     protected function allowEdit($data = [], $key = 'id')
     {
-        $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+        $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 
         if (!$recordId) {
             return false;
@@ -362,7 +364,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
 
             // Fallback on edit.own.
             if ($user->authorise('core.edit.own', $this->option . '.category.' . $categoryId)) {
-                return ($record->created_by === $user->id);
+                return $record->created_by === $user->id;
             }
 
             return false;
