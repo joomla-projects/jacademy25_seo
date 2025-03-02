@@ -59,7 +59,7 @@ class OutputFilterTest extends UnitTestCase
     public function testStringURLSafe()
     {
         $this->assertEquals(
-            '1234567890-qwertyuiop-qwertyuiop-asdfghjkl-asdfghjkl-zxcvbnm-zxcvbnm',
+            '1234567890-_-qwertyuiop-qwertyuiop-asdfghjkl-asdfghjkl-zxcvbnm-zxcvbnm',
             OutputFilter::stringURLSafe('`1234567890-=~!@#$%^&*()_+	qwertyuiop[]\QWERTYUIOP{}|asdfghjkl;\'ASDFGHJKL:"zxcvbnm,./ZXCVBNM<>?'),
             'Should clean keyboard string down to ASCII-7'
         );
