@@ -420,7 +420,7 @@ class TaskModel extends AdminModel
      */
     private function hasRunningTasks($db): bool
     {
-        $lockCountQuery = $db->getQuery(true)
+        $lockCountQuery = $db->createQuery()
             ->select('COUNT(id)')
             ->from($db->quoteName(self::TASK_TABLE))
             ->where($db->quoteName('locked') . ' IS NOT NULL')
@@ -450,7 +450,7 @@ class TaskModel extends AdminModel
      */
     private function buildLockQuery($db, $now, $options)
     {
-        $lockQuery = $db->getQuery(true)
+        $lockQuery = $db->createQuery()
             ->update($db->quoteName(self::TASK_TABLE))
             ->set($db->quoteName('locked') . ' = :now1')
             ->bind(':now1', $now);
@@ -495,7 +495,7 @@ class TaskModel extends AdminModel
      */
     private function getNextTaskId($db, $now, $options)
     {
-        $idQuery = $db->getQuery(true)
+        $idQuery = $db->createQuery()
             ->from($db->quoteName(self::TASK_TABLE))
             ->select($db->quoteName('id'));
 
@@ -543,7 +543,7 @@ class TaskModel extends AdminModel
      */
     private function fetchTask($db, $now): ?\stdClass
     {
-        $getQuery = $db->getQuery(true)
+        $getQuery = $db->createQuery()
             ->select('*')
             ->from($db->quoteName(self::TASK_TABLE))
             ->where($db->quoteName('locked') . ' = :now')

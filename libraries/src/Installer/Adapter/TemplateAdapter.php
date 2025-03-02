@@ -180,14 +180,14 @@ class TemplateAdapter extends InstallerAdapter
     protected function finaliseUninstall(): bool
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $element     = $this->extension->element;
         $clientId    = $this->extension->client_id;
         $extensionId = $this->extension->extension_id;
 
         // Set menu that assigned to the template back to default template
-        $subQuery = $db->getQuery(true)
+        $subQuery = $db->createQuery()
             ->select($db->quoteName('s.id'))
             ->from($db->quoteName('#__template_styles', 's'))
             ->where(
@@ -208,7 +208,7 @@ class TemplateAdapter extends InstallerAdapter
         $db->execute();
 
         // Remove the template's styles
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__template_styles'))
             ->where(
                 [
@@ -222,7 +222,7 @@ class TemplateAdapter extends InstallerAdapter
         $db->execute();
 
         // Remove the schema version
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__schemas'))
             ->where($db->quoteName('extension_id') . ' = :extension_id')
             ->bind(':extension_id', $extensionId, ParameterType::INTEGER);
@@ -230,7 +230,7 @@ class TemplateAdapter extends InstallerAdapter
         $db->execute();
 
         // Remove any overrides
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__template_overrides'))
             ->where($db->quoteName('template') . ' = :template')
             ->bind(':template', $element);
@@ -315,7 +315,7 @@ class TemplateAdapter extends InstallerAdapter
     {
         if (\in_array($this->route, ['install', 'discover_install'])) {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
             $lang  = Factory::getLanguage();
             $debug = $lang->setDebug(false);
 
@@ -463,7 +463,7 @@ class TemplateAdapter extends InstallerAdapter
         }
 
         // Deny removing a parent template if there are children
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__template_styles'))
             ->where(
@@ -481,7 +481,7 @@ class TemplateAdapter extends InstallerAdapter
         }
 
         // Deny remove default template
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__template_styles'))
             ->where(

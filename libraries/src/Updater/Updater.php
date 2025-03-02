@@ -154,7 +154,7 @@ class Updater extends Adapter
 
             // Make sure there is no update left over in the database.
             $db    = $this->getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__updates'))
                 ->where($db->quoteName('update_site_id') . ' = :id')
                 ->bind(':id', $result['update_site_id'], ParameterType::INTEGER);
@@ -193,7 +193,7 @@ class Updater extends Adapter
     private function getUpdateSites($eid = 0)
     {
         $db    = $this->getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select(
             [
@@ -370,12 +370,12 @@ class Updater extends Adapter
         $db        = $this->getDbo();
         $timestamp = (int) $timestamp;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('DISTINCT ' . $db->quoteName('update_site_id'))
             ->from($db->quoteName('#__updates'));
 
         if ($timestamp) {
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select($db->quoteName('update_site_id'))
                 ->from($db->quoteName('#__update_sites'))
                 ->where(
@@ -414,7 +414,7 @@ class Updater extends Adapter
         $db           = $this->getDbo();
         $updateSiteId = (int) $updateSiteId;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__update_sites'))
             ->set($db->quoteName('last_check_timestamp') . ' = :timestamp')
             ->where($db->quoteName('update_site_id') . ' = :id')
