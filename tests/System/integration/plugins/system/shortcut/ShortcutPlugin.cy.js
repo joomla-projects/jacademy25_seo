@@ -5,7 +5,7 @@ afterEach(() => {
 });
 
 describe('Test that the shortcut system plugin', () => {
-  it('can apply (save&close) edit form', () => {
+  it('can save (apply) edit form', () => {
     cy.visit('/administrator/index.php?option=com_banners&task=banner.add');
     cy.get('#jform_name').clear().type('Test banner').blur();
     cy.get('body').type('JA');
@@ -14,7 +14,7 @@ describe('Test that the shortcut system plugin', () => {
     cy.get('#jform_name').should('have.value', 'Test banner');
   });
 
-  it('can save edit form', () => {
+  it('can save and close edit form', () => {
     cy.visit('/administrator/index.php?option=com_contact&task=contact.add');
     cy.get('#jform_name').clear().type('Test contact').blur();
     cy.get('body').type('JS');
