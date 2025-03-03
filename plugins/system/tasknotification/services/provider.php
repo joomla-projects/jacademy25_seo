@@ -35,13 +35,32 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin     = new TaskNotification(
-                    $container->get(DispatcherInterface::class),
-                    (array) PluginHelper::getPlugin('system', 'tasknotification')
-                );
-                $plugin->setApplication(Factory::getApplication());
-                $plugin->setDatabase($container->get(DatabaseInterface::class));
-                $plugin->setUserFactory($container->get(UserFactoryInterface::class));
+                $construct = function(?TaskNotification $plugin = null) use ($container) {
+                    $eager  = !$plugin;
+                    $params = [
+                        $container->get(DispatcherInterface::class),
+                        (array) PluginHelper::getPlugin('system', 'tasknotification'),
+                    ];
+
+                    if ($eager) {
+                        $plugin = new TaskNotification(...$params);
+                    } else {
+                        $plugin->__construct(...$params);
+                    }
+
+                    $plugin->setApplication(Factory::getApplication());
+                    $plugin->setDatabase($container->get(DatabaseInterface::class));
+                    $plugin->setUserFactory($container->get(UserFactoryInterface::class));
+
+                    return $eager ? $plugin : null;
+                };
+
+                if (PHP_VERSION_ID >= 80400) {
+                    $reflector = new ReflectionClass(TaskNotification::class);
+                    $plugin    = $reflector->newLazyGhost($construct);
+                } else {
+                    $plugin = $construct();
+                }
 
                 return $plugin;
             }

@@ -13,6 +13,7 @@ use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -231,15 +232,18 @@ abstract class PluginHelper
 
         $plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
-        if ($dispatcher && $plugin instanceof DispatcherAwareInterface) {
-            $plugin->setDispatcher($dispatcher);
-        }
+        // @TODO: This piece of code breaks everything, and triggering Lazy Object instantiation !!!
+//        if ($dispatcher && $plugin instanceof DispatcherAwareInterface) {
+//            $plugin->setDispatcher($dispatcher);
+//        }
 
         if (!$autocreate) {
             return;
         }
 
-        $plugin->registerListeners();
+        if ($plugin->registerListeners() && $plugin instanceof SubscriberInterface) {
+            $dispatcher->addSubscriber($plugin);
+        }
     }
 
     /**
