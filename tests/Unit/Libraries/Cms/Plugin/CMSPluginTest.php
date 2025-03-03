@@ -253,7 +253,7 @@ class CMSPluginTest extends UnitTestCase
             public function unit()
             {
             }
-        };1;
+        };
 
         if ($plugin->registerListeners()) {
             $dispatcher->addSubscriber($plugin);
