@@ -561,7 +561,7 @@ class TourModel extends AdminModel
             if ($result === null) {
                 return false;
             }
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -596,7 +596,7 @@ class TourModel extends AdminModel
 
         try {
             $result = $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
