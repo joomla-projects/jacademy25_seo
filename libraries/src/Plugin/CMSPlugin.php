@@ -228,7 +228,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         // Plugins which are SubscriberInterface implementations are handled without legacy layer support
         if ($this instanceof SubscriberInterface) {
             // The subscriber registration handled by PluginHelper::import().
-            // Return boolean instead of void, to distinguish overridden registerListeners(), need for backward compatibility.
+            // Return boolean instead of void, to distinguish overridden registerListeners(), needed for backward compatibility.
             return true;
         }
 
