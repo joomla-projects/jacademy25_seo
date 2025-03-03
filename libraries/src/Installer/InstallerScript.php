@@ -25,9 +25,6 @@ use Joomla\Filesystem\Path;
  * Base install script for use by extensions providing helper methods for common behaviours.
  *
  * @since  3.6
-     *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
-     *             Use InstallerScriptTrait instead.
  */
 class InstallerScript
 {
