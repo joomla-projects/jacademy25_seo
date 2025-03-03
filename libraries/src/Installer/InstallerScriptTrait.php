@@ -260,7 +260,7 @@ trait InstallerScriptTrait
      * @throws \Exception
      * @since   __DEPLOY_VERSION__
      */
-    protected function addDashboardMenu(string $dashboard, string $preset)
+    protected function addDashboardMenuModule(string $dashboard, string $preset)
     {
         $model  = Factory::getApplication()->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
         $module = [
