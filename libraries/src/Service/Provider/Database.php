@@ -84,7 +84,6 @@ class Database implements ServiceProviderInterface
                     }
 
                     $options = [
-                        'factory'  => new DatabaseFactory(),
                         'host'     => $conf->get('host'),
                         'user'     => $conf->get('user'),
                         'password' => $conf->get('password'),
@@ -121,7 +120,7 @@ class Database implements ServiceProviderInterface
                     }
 
                     try {
-                        $db = $options['factory']->getDriver($dbtype, $options);
+                        $db = (new DatabaseFactory())->getDriver($dbtype, $options);
                     } catch (\RuntimeException $e) {
                         if (!headers_sent()) {
                             header('HTTP/1.1 500 Internal Server Error');
