@@ -35,7 +35,7 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $construct = function(?TaskNotification $plugin = null) use ($container) {
+                $construct = function (?TaskNotification $plugin = null) use ($container) {
                     $eager  = !$plugin;
                     $params = [
                         $container->get(DispatcherInterface::class),

@@ -233,9 +233,9 @@ abstract class PluginHelper
         $plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
         // @TODO: This piece of code breaks everything, and triggering Lazy Object instantiation !!!
-//        if ($dispatcher && $plugin instanceof DispatcherAwareInterface) {
-//            $plugin->setDispatcher($dispatcher);
-//        }
+        // if ($dispatcher && $plugin instanceof DispatcherAwareInterface) {
+        //     $plugin->setDispatcher($dispatcher);
+        // }
 
         if (!$autocreate) {
             return;

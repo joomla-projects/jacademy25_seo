@@ -33,7 +33,7 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $construct = function(?ScheduleRunner $plugin = null) use ($container) {
+                $construct = function (?ScheduleRunner $plugin = null) use ($container) {
                     $eager  = !$plugin;
                     $params = [
                         $container->get(DispatcherInterface::class),

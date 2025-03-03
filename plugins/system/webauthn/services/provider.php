@@ -42,7 +42,7 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $construct = function(?Webauthn $plugin = null) use ($container) {
+                $construct = function (?Webauthn $plugin = null) use ($container) {
                     $eager   = !$plugin;
                     $app     = Factory::getApplication();
                     $session = $container->has('session') ? $container->get('session') : $this->getSession($app);
@@ -55,8 +55,7 @@ return new class () implements ServiceProviderInterface {
                     $metadataRepository = null;
                     $params             = new Registry($config['params'] ?? '{}');
 
-                    if ($params->get('attestationSupport', 0) == 1)
-                    {
+                    if ($params->get('attestationSupport', 0) == 1) {
                         $metadataRepository = $container->has(MetadataStatementRepository::class)
                             ? $container->get(MetadataStatementRepository::class)
                             : new MetadataRepository();
