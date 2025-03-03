@@ -31,31 +31,26 @@ return new class () implements ServiceProviderInterface {
     public function register(Container $container): void
     {
         $container->set(
+            ScheduleRunner::class,
+            function (Container $container) {
+                $plugin = new ScheduleRunner(
+                    $container->get(DispatcherInterface::class),
+                    (array) PluginHelper::getPlugin('system', 'schedulerunner')
+                );
+                $plugin->setApplication(Factory::getApplication());
+
+                return $plugin;
+            }
+        )->set(
             PluginInterface::class,
             function (Container $container) {
-                $construct = function (?ScheduleRunner $plugin = null) use ($container) {
-                    $eager  = !$plugin;
-                    $params = [
-                        $container->get(DispatcherInterface::class),
-                        (array) PluginHelper::getPlugin('system', 'schedulerunner'),
-                    ];
-
-                    if ($eager) {
-                        $plugin = new ScheduleRunner(...$params);
-                    } else {
-                        $plugin->__construct(...$params);
-                    }
-
-                    $plugin->setApplication(Factory::getApplication());
-
-                    return $eager ? $plugin : null;
-                };
-
                 if (PHP_VERSION_ID >= 80400) {
                     $reflector = new ReflectionClass(ScheduleRunner::class);
-                    $plugin    = $reflector->newLazyGhost($construct);
+                    $plugin    = $reflector->newLazyProxy(function () use ($container) {
+                        return $container->get(ScheduleRunner::class);
+                    });
                 } else {
-                    $plugin = $construct();
+                    $plugin = $container->get(ScheduleRunner::class);
                 }
 
                 return $plugin;

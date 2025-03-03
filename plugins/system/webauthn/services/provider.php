@@ -40,53 +40,48 @@ return new class () implements ServiceProviderInterface {
     public function register(Container $container)
     {
         $container->set(
+            Webauthn::class,
+            function (Container $container) {
+                $app     = Factory::getApplication();
+                $session = $container->has('session') ? $container->get('session') : $this->getSession($app);
+
+                $db                    = $container->get(DatabaseInterface::class);
+                $credentialsRepository = $container->has(PublicKeyCredentialSourceRepository::class)
+                    ? $container->get(PublicKeyCredentialSourceRepository::class)
+                    : new CredentialRepository($db);
+
+                $metadataRepository = null;
+                $params             = new Registry($config['params'] ?? '{}');
+
+                if ($params->get('attestationSupport', 0) == 1) {
+                    $metadataRepository = $container->has(MetadataStatementRepository::class)
+                        ? $container->get(MetadataStatementRepository::class)
+                        : new MetadataRepository();
+                }
+
+                $authenticationHelper = $container->has(Authentication::class)
+                    ? $container->get(Authentication::class)
+                    : new Authentication($app, $session, $credentialsRepository, $metadataRepository);
+
+                $plugin = new Webauthn(
+                    $container->get(DispatcherInterface::class),
+                    (array) PluginHelper::getPlugin('system', 'webauthn'),
+                    $authenticationHelper
+                );
+                $plugin->setApplication($app);
+
+                return $plugin;
+            }
+        )->set(
             PluginInterface::class,
             function (Container $container) {
-                $construct = function (?Webauthn $plugin = null) use ($container) {
-                    $eager   = !$plugin;
-                    $app     = Factory::getApplication();
-                    $session = $container->has('session') ? $container->get('session') : $this->getSession($app);
-
-                    $db                    = $container->get(DatabaseInterface::class);
-                    $credentialsRepository = $container->has(PublicKeyCredentialSourceRepository::class)
-                        ? $container->get(PublicKeyCredentialSourceRepository::class)
-                        : new CredentialRepository($db);
-
-                    $metadataRepository = null;
-                    $params             = new Registry($config['params'] ?? '{}');
-
-                    if ($params->get('attestationSupport', 0) == 1) {
-                        $metadataRepository = $container->has(MetadataStatementRepository::class)
-                            ? $container->get(MetadataStatementRepository::class)
-                            : new MetadataRepository();
-                    }
-
-                    $authenticationHelper = $container->has(Authentication::class)
-                        ? $container->get(Authentication::class)
-                        : new Authentication($app, $session, $credentialsRepository, $metadataRepository);
-
-                    $params = [
-                        $container->get(DispatcherInterface::class),
-                        (array) PluginHelper::getPlugin('system', 'webauthn'),
-                        $authenticationHelper,
-                    ];
-
-                    if ($eager) {
-                        $plugin = new Webauthn(...$params);
-                    } else {
-                        $plugin->__construct(...$params);
-                    }
-
-                    $plugin->setApplication($app);
-
-                    return $eager ? $plugin : null;
-                };
-
                 if (PHP_VERSION_ID >= 80400) {
                     $reflector = new ReflectionClass(Webauthn::class);
-                    $plugin    = $reflector->newLazyGhost($construct);
+                    $plugin    = $reflector->newLazyProxy(function () use ($container) {
+                        return $container->get(Webauthn::class);
+                    });
                 } else {
-                    $plugin = $construct();
+                    $plugin = $container->get(Webauthn::class);
                 }
 
                 return $plugin;
