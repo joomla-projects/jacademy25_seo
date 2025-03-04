@@ -404,7 +404,7 @@ abstract class HTMLHelper
         }
 
         // If http is present in filename
-        if (strpos($file, 'http') === 0 || strpos($file, '//') === 0) {
+        if (str_starts_with($file, 'http') || str_starts_with($file, '//')) {
             $includes = [$file];
         } else {
             // Extract extension and strip the file
@@ -755,7 +755,7 @@ abstract class HTMLHelper
             // Go through each argument
             foreach (explode(' ', $attribs) as $attribute) {
                 // When an argument without a value, default to an empty string
-                if (strpos($attribute, '=') === false) {
+                if (!str_contains($attribute, '=')) {
                     $attributes[$attribute] = '';
                     continue;
                 }
@@ -796,10 +796,10 @@ abstract class HTMLHelper
     {
         @trigger_error('Method HTMLHelper::stylesheet() is deprecated, and will be removed in 7.0', \E_USER_DEPRECATED);
 
-        $options['relative'] ??= false;
-        $options['pathOnly'] ??= false;
+        $options['relative']      ??= false;
+        $options['pathOnly']      ??= false;
         $options['detectBrowser'] ??= false;
-        $options['detectDebug'] ??= true;
+        $options['detectDebug']   ??= true;
 
         $includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
@@ -848,10 +848,10 @@ abstract class HTMLHelper
     {
         @trigger_error('Method HTMLHelper::script() is deprecated, and will be removed in 7.0', \E_USER_DEPRECATED);
 
-        $options['relative'] ??= false;
-        $options['pathOnly'] ??= false;
+        $options['relative']      ??= false;
+        $options['pathOnly']      ??= false;
         $options['detectBrowser'] ??= false;
-        $options['detectDebug'] ??= true;
+        $options['detectDebug']   ??= true;
 
         $includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
@@ -1037,7 +1037,7 @@ abstract class HTMLHelper
         // Don't process empty strings
         if ($content !== '' || $title !== '') {
             // Split title into title and content if the title contains '::' (old Mootools format).
-            if ($content === '' && !(strpos($title, '::') === false)) {
+            if ($content === '' && !(!str_contains($title, '::'))) {
                 list($title, $content) = explode('::', $title, 2);
             }
 
@@ -1355,7 +1355,7 @@ abstract class HTMLHelper
          * If there is % character left after replacing, that mean one of unsupported format is used
          * the conversion false
          */
-        if (strpos($format, '%') !== false) {
+        if (str_contains($format, '%')) {
             return false;
         }
 
