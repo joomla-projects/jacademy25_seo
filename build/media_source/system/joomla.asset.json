@@ -618,6 +618,20 @@
       ]
     },
     {
+      "name": "joomla.columns.toggle",
+      "type": "script",
+      "class": "TableColumnsAssetItem",
+      "uri": "system/joomla-columns-toggle.js",
+      "dependencies": [
+        "wcpolyfill",
+        "core"
+      ],
+      "attributes": {
+        "defer": true,
+        "type": "module"
+      }
+    },
+    {
       "name": "joomla.dialog",
       "type": "script",
       "uri": "system/joomla-dialog.min.js",
