@@ -247,6 +247,7 @@ class ClientsModel extends ListModel
             $state          = 1;
             $countPublished = $db->loadAssocList('cid', 'count_published');
         } catch (\RuntimeException $e) {
+            // @todo: 6.0 - Update Error handling
             $this->setError($e->getMessage());
 
             return false;
@@ -257,6 +258,7 @@ class ClientsModel extends ListModel
             $state            = 0;
             $countUnpublished = $db->loadAssocList('cid', 'count_published');
         } catch (\RuntimeException $e) {
+            // @todo: 6.0 - Update Error handling
             $this->setError($e->getMessage());
 
             return false;
@@ -267,6 +269,7 @@ class ClientsModel extends ListModel
             $state        = -2;
             $countTrashed = $db->loadAssocList('cid', 'count_published');
         } catch (\RuntimeException $e) {
+            // @todo: 6.0 - Update Error handling
             $this->setError($e->getMessage());
 
             return false;
@@ -277,6 +280,7 @@ class ClientsModel extends ListModel
             $state         = 2;
             $countArchived = $db->loadAssocList('cid', 'count_published');
         } catch (\RuntimeException $e) {
+            // @todo: 6.0 - Update Error handling
             $this->setError($e->getMessage());
 
             return false;

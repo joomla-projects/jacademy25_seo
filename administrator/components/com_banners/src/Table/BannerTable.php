@@ -42,6 +42,12 @@ class BannerTable extends Table implements VersionableTableInterface
     protected $_supportNullValue = true;
 
     /**
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $created;
+
+    /**
      * Constructor
      *
      * @param   DatabaseDriver        $db          Database connector object
@@ -91,6 +97,7 @@ class BannerTable extends Table implements VersionableTableInterface
         try {
             parent::check();
         } catch (\Exception $e) {
+            // @todo: 6.0 - Update Error handling
             $this->setError($e->getMessage());
 
             return false;
@@ -111,7 +118,9 @@ class BannerTable extends Table implements VersionableTableInterface
         }
 
         // Check for a valid category.
-        if (!$this->catid = (int) $this->catid) {
+        $this->catid = (int) $this->catid;
+        if (!$this->catid) {
+            // @todo: 6.0 - Update Error handling
             $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
 
             return false;
@@ -133,6 +142,7 @@ class BannerTable extends Table implements VersionableTableInterface
 
         // Check the publish down date is not earlier than publish up.
         if (!\is_null($this->publish_down) && !\is_null($this->publish_up) && $this->publish_down < $this->publish_up) {
+            // @todo: 6.0 - Update Error handling
             $this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 
             return false;
@@ -176,12 +186,14 @@ class BannerTable extends Table implements VersionableTableInterface
             $registry = new Registry($array['params']);
 
             if ((int) $registry->get('width', 0) < 0) {
+                // @todo: 6.0 - Update Error handling
                 $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', Text::_('COM_BANNERS_FIELD_WIDTH_LABEL')));
 
                 return false;
             }
 
             if ((int) $registry->get('height', 0) < 0) {
+                // @todo: 6.0 - Update Error handling
                 $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', Text::_('COM_BANNERS_FIELD_HEIGHT_LABEL')));
 
                 return false;
@@ -257,6 +269,7 @@ class BannerTable extends Table implements VersionableTableInterface
             // Get the old row
             $oldrow = new self($db, $this->getDispatcher());
 
+            // @todo: 6.0 - Update Error handling
             if (!$oldrow->load($this->id) && $oldrow->getError()) {
                 $this->setError($oldrow->getError());
             }
@@ -265,6 +278,7 @@ class BannerTable extends Table implements VersionableTableInterface
             $table = new self($db, $this->getDispatcher());
 
             if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
+                // @todo: 6.0 - Update Error handling
                 $this->setError(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
 
                 return false;
@@ -280,6 +294,7 @@ class BannerTable extends Table implements VersionableTableInterface
             }
         }
 
+        // @todo: 6.0 - Update Error handling
         return \count($this->getErrors()) == 0;
     }
 
@@ -311,6 +326,7 @@ class BannerTable extends Table implements VersionableTableInterface
                 $pks = [$this->$k];
             } else {
                 // Nothing to set publishing state on, return false.
+                // @todo: 6.0 - Update Error handling
                 $this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
                 return false;
@@ -324,6 +340,7 @@ class BannerTable extends Table implements VersionableTableInterface
         foreach ($pks as $pk) {
             // Load the banner
             if (!$table->load($pk)) {
+                // @todo: 6.0 - Update Error handling
                 $this->setError($table->getError());
             }
 
@@ -339,11 +356,13 @@ class BannerTable extends Table implements VersionableTableInterface
 
                 // Store the row
                 if (!$table->store()) {
+                    // @todo: 6.0 - Update Error handling
                     $this->setError($table->getError());
                 }
             }
         }
 
+        // @todo: 6.0 - Update Error handling
         return \count($this->getErrors()) == 0;
     }
 
