@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Input;
 
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -147,7 +148,7 @@ class Cli extends Input
             $arg = $argv[$i];
 
             // --foo --bar=baz
-            if (substr($arg, 0, 2) === '--') {
+            if (str_starts_with($arg, '--')) {
                 $eqPos = strpos($arg, '=');
 
                 // --foo
@@ -169,7 +170,7 @@ class Cli extends Input
                     $value     = substr($arg, $eqPos + 1);
                     $out[$key] = $value;
                 }
-            } elseif (substr($arg, 0, 1) === '-') {
+            } elseif (str_starts_with($arg, '-')) {
                 // -k=value -abc
                 // -k=value
                 if (substr($arg, 2, 1) === '=') {
