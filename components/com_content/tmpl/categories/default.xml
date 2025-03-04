@@ -461,7 +461,7 @@
 				class="form-select"
 				menuitems="true"
 				extension="com_content"
-				view="article"
+				view="categories"
 			/>
 
 			<field
