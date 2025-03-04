@@ -149,14 +149,14 @@ steps:
   - name: prepare_system_tests
     depends_on:
       - npm
-    image: joomlaprojects/docker-images:systemtests8.1
+    image: joomlaprojects/docker-images:cypress8.4
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
     environment:
       CYPRESS_VERIFY_TIMEOUT: 100000
     commands:
-      - mv cypress.config.dist.mjs cypress.config.mjs
+      - cp cypress.config.dist.mjs cypress.config.mjs
       - npx cypress install
       - npx cypress verify
 
@@ -170,7 +170,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysql mysqli mysql
+      - bash tests/System/entrypoint.sh "$(pwd)" cmysql mysqli mysql
 
   - name: phpmax-system-mysql
     depends_on:
@@ -182,7 +182,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
+      - bash tests/System/entrypoint.sh "$(pwd)" cmysqlmax mysqli mysql
     when:
       event:
         exclude:
@@ -199,7 +199,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
+      - bash tests/System/entrypoint.sh "$(pwd)" cpostgres pgsql postgres
     when:
       event:
         exclude:
@@ -215,7 +215,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres
+      - bash tests/System/entrypoint.sh "$(pwd)" cpostgresmax pgsql postgres
 
   - name: artifacts-system-tests
     image: joomlaprojects/docker-images:packager
@@ -366,6 +366,8 @@ steps:
       - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
       - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --disable-patch-packages
       - mv build/tmp/packages/* transfer/
+      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-zip --exclude-gzip --exclude-bzip2 --debug-build
+      - mv build/tmp/packages/* transfer/
 
   - name: upload
     image: joomlaprojects/docker-images:packager
@@ -413,6 +415,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 30eba55fa6dc380b38852a3c4969b68ef3e0d55e8eb36a0a38c5c739cea10aa1
+hmac: 7a66cf654e4db4fc71641913f1f224b37632d74edf76ade55097cd66a0ec1df4
 
 ...
