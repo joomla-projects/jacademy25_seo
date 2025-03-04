@@ -185,3 +185,20 @@ $tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
         <?php echo HTMLHelper::_('form.token'); ?>
     </div>
 </form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let articleIdField = document.querySelector('input[name="jform[id]"]');
+
+        if (articleIdField.value == "0") {
+            var stateDropdown = document.querySelector("select[name='jform[state]']");
+            if (stateDropdown) {
+                for (var i = 0; i < stateDropdown.options.length; i++) {
+                    if (stateDropdown.options[i].value == "-2") {
+                        stateDropdown.options[i].remove(); // Remove "Trashed"
+                    }
+                }
+            }
+        }
+    });
+</script>
