@@ -193,10 +193,9 @@ $tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
         if (articleIdField.value == "0") {
             var stateDropdown = document.querySelector("select[name='jform[state]']");
             if (stateDropdown) {
-                for (var i = 0; i < stateDropdown.options.length; i++) {
-                    if (stateDropdown.options[i].value == "-2") {
-                        stateDropdown.options[i].remove(); // Remove "Trashed"
-                    }
+                let trashedOption = stateDropdown.querySelector("option[value='-2']");
+                if (trashedOption) {
+                    trashedOption.remove();
                 }
             }
         }
