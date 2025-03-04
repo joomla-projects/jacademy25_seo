@@ -207,7 +207,9 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
             $this->alias = $this->title;
         }
 
+        error_log("alias in content php: " . $this->alias);
         $this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
+        error_log("alias after stringURLSafe in content php: " . $this->alias);
 
         if (trim(str_replace('-', '', $this->alias)) == '') {
             $this->alias = Factory::getDate()->format('Y-m-d-H-i-s');

@@ -966,7 +966,8 @@ abstract class AdminModel extends FormModel
                 $title = StringHelper::increment($title);
             }
 
-            $alias = StringHelper::increment($alias, 'underscore');
+            $alias = StringHelper::increment($alias, 'dash');
+            error_log('alias: ' . $alias);
         }
 
         return [$title, $alias];
