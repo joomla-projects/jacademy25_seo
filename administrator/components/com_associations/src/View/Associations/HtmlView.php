@@ -208,7 +208,8 @@ class HtmlView extends BaseHtmlView
 
                     if ($this->getLayout() == 'modal') {
                         // We need to change the category filter to only show categories tagged to All or to the forced language.
-                        if ($forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
+                        $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD');
+                        if ($forcedLanguage) {
                             $this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
                         }
                     }
@@ -228,7 +229,9 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (\count($errors = $model->getErrors())) {
+        // @todo: 6.0 - Update Error handling
+        $errors = $model->getErrors();
+        if (\count($errors)) {
             throw new \Exception(implode("\n", $errors), 500);
         }
 
