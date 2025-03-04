@@ -12,9 +12,6 @@
 
 use Symfony\Component\Dotenv\Dotenv;
 
-// Ensure sensible default for JDEBUG is set.
-\define('JDEBUG', (bool) ($_SERVER['JOOMLA_DEBUG'] ?? getenv('JOOMLA_DEBUG')));
-
 // Check if a configuration file already exists.
 if (
     file_exists(JPATH_CONFIGURATION . '/configuration.php')
@@ -32,6 +29,9 @@ require_once JPATH_LIBRARIES . '/bootstrap.php';
 if (file_exists(JPATH_ROOT . '/.env.local.php') || file_exists(JPATH_ROOT . '/.env')) {
     (new Dotenv('JOOMLA_ENV', 'JOOMLA_DEBUG'))->bootEnv(JPATH_ROOT . '/.env', 'prod');
 }
+
+// Ensure sensible default for JDEBUG is set.
+\define('JDEBUG', (bool) ($_SERVER['JOOMLA_DEBUG'] ?? getenv('JOOMLA_DEBUG')));
 
 // If debug mode enabled, set new Exception handler with debug enabled.
 if (JDEBUG) {
