@@ -531,7 +531,7 @@ class ConsoleApplication extends Application implements CMSApplicationInterface,
          */
         try {
             $uri = Uri::getInstance($liveSite);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $uri = Uri::getInstance('https://joomla.invalid/set/by/console/application');
         }
 
