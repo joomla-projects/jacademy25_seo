@@ -146,7 +146,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                     <?php endif; ?>
                                 </td>
                                 <td class="text-center d-md-table-cell">
-                                    <?php if (empty($item->activaton ) || $item->activation === '0') : ?>
+                                    <?php if (empty($item->activation ) || $item->activation === '0') : ?>
                                         <span class="icon-check" aria-hidden="true" aria-describedby="tip-activated<?php echo $i; ?>"></span>
                                         <div role="tooltip" id="tip-activated<?php echo $i; ?>">
                                             <?php echo Text::_('COM_USERS_ACTIVATED'); ?>
