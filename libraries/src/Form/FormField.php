@@ -899,6 +899,24 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     }
 
     /**
+     * Method to remove the trashed option from new items in the list field.
+     * @since   __DEPLOY_VERSION__
+     */
+    public function removeTrashedOption()
+    {
+        if ($this->element instanceof \SimpleXMLElement && ($list = $this->element->xpath('option'))) {
+            foreach ($list as $option) {
+                if ((string) $option['value'] === '-2') {
+                    $dom = dom_import_simplexml($option);
+                    $dom->parentNode->removeChild($dom);
+
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
      * Method to get the field name used.
      *
      * @param   string  $fieldName  The field element name.
