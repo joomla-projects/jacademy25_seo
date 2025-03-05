@@ -242,10 +242,8 @@ class ListField extends FormField
      */
     public function removeOption(string $value): static
     {
-        foreach ($this->element->option as $option)
-        {
-            if ((string) $option['value'] === $value)
-            {
+        foreach ($this->element->option as $option) {
+            if ((string) $option['value'] === $value) {
                 $dom = dom_import_simplexml($option);
                 $dom->parentNode->removeChild($dom);
             }
