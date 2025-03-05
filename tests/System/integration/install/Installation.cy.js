@@ -19,6 +19,10 @@ describe('Install Joomla', () => {
     cy.task('deleteRelativePath', 'configuration.php');
     cy.installJoomla(config);
 
+    // Disable compat plugin
+    // TODO: Temp disable due to breaking tests in 6.0
+    // cy.db_enableExtension(0, 'plg_behaviour_compat');
+
     cy.doAdministratorLogin(config.username, config.password, false);
     cy.cancelTour();
     cy.disableStatistics();
