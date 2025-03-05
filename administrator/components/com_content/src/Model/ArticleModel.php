@@ -483,9 +483,15 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
         $record->id = $id;
 
-        if ($id == 0) {
-            $stateField = $form->getField('state');
-            $stateField->removeTrashedOption(); 
+        // Remove trashed option from state field for new article form
+        if ($id == 0)
+        {
+            $field = $form->getField('state');
+
+            if ($field !== false && $field->type === 'List')
+            {
+                $field->removeOption(-2);
+            }
         }
 
         // For new articles we load the potential state + associations

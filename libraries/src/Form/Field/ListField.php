@@ -232,6 +232,29 @@ class ListField extends FormField
     }
 
     /**
+     * Method to remove an option from list field.
+     *
+     * @param   string  $value  The value of the option to remove
+     *
+     * @return  static  For chaining.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function removeOption(string $value): static
+    {
+        foreach ($this->element->option as $option)
+        {
+            if ((string) $option['value'] === $value)
+            {
+                $dom = dom_import_simplexml($option);
+                $dom->parentNode->removeChild($dom);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Method to get certain otherwise inaccessible properties from the form field object.
      *
      * @param   string  $name  The property name for which to get the value.
