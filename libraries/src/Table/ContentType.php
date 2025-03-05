@@ -143,7 +143,7 @@ class ContentType extends Table
         $tableInfo = json_decode($this->table);
 
         if (\is_object($tableInfo) && isset($tableInfo->special)) {
-            if (\is_object($tableInfo->special) && isset($tableInfo->special->type) && isset($tableInfo->special->prefix)) {
+            if (\is_object($tableInfo->special) && isset($tableInfo->special->type, $tableInfo->special->prefix)) {
                 if (isset($tableInfo->special->class)) {
                     $class = $tableInfo->special->class;
 
