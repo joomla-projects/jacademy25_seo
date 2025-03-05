@@ -76,6 +76,7 @@ class ArticlesModel extends ListModel
                 'rating_count', 'rating',
                 'stage', 'wa.stage_id',
                 'ws.title',
+                'fp.ordering',
             ];
 
             if (Associations::isEnabled()) {
@@ -175,6 +176,7 @@ class ArticlesModel extends ListModel
         $id .= ':' . $this->getState('filter.search');
         $id .= ':' . serialize($this->getState('filter.access'));
         $id .= ':' . $this->getState('filter.published');
+        $id .= ':' . $this->getState('filter.featured');
         $id .= ':' . serialize($this->getState('filter.category_id'));
         $id .= ':' . serialize($this->getState('filter.author_id'));
         $id .= ':' . $this->getState('filter.language');
@@ -310,12 +312,22 @@ class ArticlesModel extends ListModel
         }
 
         // Filter by featured.
-        $featured = (string) $this->getState('filter.featured');
+        $featured = $this->getState('filter.featured');
 
-        if (\in_array($featured, ['0','1'])) {
+        $defaultOrdering = 'a.id';
+
+        if (is_numeric($featured) && \in_array($featured, [0, 1])) {
             $featured = (int) $featured;
             $query->where($db->quoteName('a.featured') . ' = :featured')
                 ->bind(':featured', $featured, ParameterType::INTEGER);
+
+            $query->where($db->quoteName('a.featured') . ' = :featured')
+                ->bind(':featured', $featured, ParameterType::INTEGER);
+
+            if ($featured) {
+                $query->select($db->quoteName('fp.ordering'));
+                $defaultOrdering = 'fp.ordering';
+            }
         }
 
         // Filter by access level on categories.
@@ -493,7 +505,7 @@ class ArticlesModel extends ListModel
         }
 
         // Add the list ordering clause.
-        $orderCol  = $this->state->get('list.ordering', 'a.id');
+        $orderCol  = $this->state->get('list.ordering', $defaultOrdering);
         $orderDirn = $this->state->get('list.direction', 'DESC');
 
         if ($orderCol === 'a.ordering' || $orderCol === 'category_title') {

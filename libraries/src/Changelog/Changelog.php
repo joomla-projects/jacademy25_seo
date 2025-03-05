@@ -12,7 +12,6 @@ namespace Joomla\CMS\Changelog;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 
@@ -27,8 +26,6 @@ use Joomla\Registry\Registry;
  */
 class Changelog
 {
-    use LegacyErrorHandlingTrait;
-
     /**
      * Update manifest `<element>` element
      *
@@ -352,7 +349,7 @@ class Changelog
         try {
             $http     = HttpFactory::getHttp($httpOption);
             $response = $http->get($url);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 
