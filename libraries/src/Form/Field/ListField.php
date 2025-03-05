@@ -232,6 +232,27 @@ class ListField extends FormField
     }
 
     /**
+     * Method to remove the trashed option from the list field.
+     *
+     * @return  ListField  For chaining.
+     *
+     * @since   3.7.0
+     */
+    public function removeTrashedOption()
+    {
+        if ($this->element instanceof \SimpleXMLElement && ($list = $this->element->xpath('option'))) {
+            foreach ($list as $option) {
+                if ((string) $option['value'] === '-2') {
+                    $dom = dom_import_simplexml($option);
+                    $dom->parentNode->removeChild($dom);
+
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
      * Method to get certain otherwise inaccessible properties from the form field object.
      *
      * @param   string  $name  The property name for which to get the value.

@@ -483,6 +483,11 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
         $record->id = $id;
 
+        if ($id == 0) {
+            $stateField = $form->getField('state');
+            $stateField->removeTrashedOption(); 
+        }
+
         // For new articles we load the potential state + associations
         if ($id == 0 && $formField = $form->getField('catid')) {
             $assignedCatids = $data['catid'] ?? $form->getValue('catid');
