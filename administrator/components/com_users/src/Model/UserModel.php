@@ -510,7 +510,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                         $table->block      = 0;
                         $table->activation = '';
                     }
-                    
+
 
                     // Allow an exception to be thrown.
                     try {
