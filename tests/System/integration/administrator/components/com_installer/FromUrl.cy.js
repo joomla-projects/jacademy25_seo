@@ -8,7 +8,7 @@ describe('Test in backend that the Installer', () => {
     cy.get('h1.page-title').should('contain.text', 'Extensions: Install');
   });
 
-  it('can install extension from URL tab', () => {
+  it('can install a component from URL tab', () => {
     cy.get('joomla-tab-element#url').should('exist');
     cy.get('joomla-tab-element#url').click({ force: true });
     cy.get('button#installbutton_url').should('contain.text', 'Check & Install');
@@ -16,5 +16,14 @@ describe('Test in backend that the Installer', () => {
     cy.get('button#installbutton_url').click({ force: true });
     // Check if the installation was successful
     cy.contains('Installation of the component was successful.');
+    // Uninstall the component
+    cy.visit('/administrator/index.php?option=com_installer&view=manage');
+    cy.searchForItem('Joomla! Patch Tester');
+    cy.checkAllResults();
+    cy.clickToolbarButton('Action');
+    cy.contains('Uninstall').click();
+    cy.clickDialogConfirm(true);
+    // Check if the uninstallation was successful
+    cy.contains('Uninstalling the component was successful');
   });
 });
