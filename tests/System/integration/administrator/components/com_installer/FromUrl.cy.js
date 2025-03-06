@@ -8,7 +8,7 @@ describe('Test in backend that the Installer', () => {
     cy.get('h1.page-title').should('contain.text', 'Extensions: Install');
   });
 
-  it('can install a component from URL tab', () => {
+  it('can install and uninstall a component from URL tab', () => {
     cy.get('joomla-tab-element#url').should('exist');
     cy.get('joomla-tab-element#url').click({ force: true });
     cy.get('button#installbutton_url').should('contain.text', 'Check & Install');
