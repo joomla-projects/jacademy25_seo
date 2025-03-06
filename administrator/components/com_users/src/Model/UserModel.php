@@ -506,8 +506,9 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                     // Ignore activated accounts.
                     unset($pks[$i]);
                 } elseif ($allow) {
+                    if(!empty($table->activation)){
                     $table->block      = 0;
-                    $table->activation = '';
+                    $table->activation = '';}
 
                     // Allow an exception to be thrown.
                     try {
