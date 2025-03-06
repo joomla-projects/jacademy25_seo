@@ -50,7 +50,7 @@ describe('Test in frontend that the users registration view', () => {
 
     cy.doFrontendLogin();
     cy.get('@activatelinkadmin').then((url) => cy.visit(url));
-    cy.checkForSystemMessage('The user\'s account has been activated and the user has been notified about it.');
+    cy.checkForSystemMessage('The user\'s account has been Verified and the user has been notified about it.');
     cy.doFrontendLogout();
     cy.task('getMails').then((mails) => {
       cy.wrap(mails).should('have.lengthOf', 3);
