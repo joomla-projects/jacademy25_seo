@@ -16,6 +16,7 @@ describe('Test in backend that the Installer', () => {
     cy.get('button#installbutton_url').click({ force: true });
     // Check if the installation was successful
     cy.contains('Installation of the component was successful.');
+
     // Uninstall the component
     cy.visit('/administrator/index.php?option=com_installer&view=manage');
     cy.searchForItem('Joomla! Patch Tester');
