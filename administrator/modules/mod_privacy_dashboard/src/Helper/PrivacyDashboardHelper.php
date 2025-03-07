@@ -13,6 +13,10 @@ namespace Joomla\Module\PrivacyDashboard\Administrator\Helper;
 use Joomla\CMS\Factory;
 use Joomla\Database\Exception\ExecutionFailureException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper class for admin privacy dashboard module
  *
@@ -46,7 +50,7 @@ class PrivacyDashboardHelper
 
         try {
             return $db->loadObjectList();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return [];
         }
     }

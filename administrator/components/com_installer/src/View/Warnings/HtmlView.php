@@ -10,8 +10,12 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Warnings;
 
-use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Installer\Administrator\Model\WarningsModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Extension Manager Warning View
@@ -31,7 +35,10 @@ class HtmlView extends InstallerViewDefault
      */
     public function display($tpl = null)
     {
-        $this->messages = $this->get('Items');
+        /** @var WarningsModel $model */
+        $model = $this->getModel();
+
+        $this->messages = $model->getItems();
 
         if (!\count($this->messages)) {
             $this->setLayout('emptystate');
@@ -49,8 +56,10 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
+        $toolbar = $this->getDocument()->getToolbar();
+
         parent::addToolbar();
 
-        ToolbarHelper::help('Information:_Warnings');
+        $toolbar->help('Information:_Warnings');
     }
 }

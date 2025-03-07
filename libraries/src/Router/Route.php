@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Exception\KeyNotFoundException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Route handling class
  *
@@ -48,7 +52,7 @@ class Route
      * @var    Router[]
      * @since  3.0.1
      */
-    private static $_router = array();
+    private static $_router = [];
 
     /**
      * Translates an internal Joomla URL to a humanly readable URL. This method builds links for the current active client.
@@ -68,8 +72,11 @@ class Route
     public static function _($url, $xhtml = true, $tls = self::TLS_IGNORE, $absolute = false)
     {
         try {
-            // @deprecated  4.0 Before 3.9.7 this method silently converted $tls to integer
-            if (!is_int($tls)) {
+            /**
+             * @deprecated  3.9 int conversion will be removed in 6.0
+             *              Before 3.9.7 this method silently converted $tls to integer
+             */
+            if (!\is_int($tls)) {
                 @trigger_error(
                     __METHOD__ . '() called with incompatible variable type on parameter $tls.',
                     E_USER_DEPRECATED
@@ -78,7 +85,10 @@ class Route
                 $tls = (int) $tls;
             }
 
-            // @todo  Deprecate in 4.0 Before 3.9.7 this method accepted -1.
+            /**
+             * @deprecated  3.9 -1 as valid value will be removed in 6.0
+             *              Before 3.9.7 this method accepted -1.
+             */
             if ($tls === -1) {
                 $tls = self::TLS_DISABLE;
             }
@@ -87,8 +97,11 @@ class Route
             $client = $app->getName();
 
             return static::link($client, $url, $xhtml, $tls, $absolute);
-        } catch (\RuntimeException $e) {
-            // @deprecated  4.0 Before 3.9.0 this method failed silently on router error. This B/C will be removed in Joomla 4.0.
+        } catch (\RuntimeException) {
+            /**
+             * @deprecated  3.9 this method will not fail silently from 6.0
+             *              Before 3.9.0 this method failed silently on router error. This B/C will be removed in Joomla 6.0
+             */
             return null;
         }
     }
@@ -115,7 +128,7 @@ class Route
     public static function link($client, $url, $xhtml = true, $tls = self::TLS_IGNORE, $absolute = false)
     {
         // If we cannot process this $url exit early.
-        if (!\is_array($url) && (strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0)) {
+        if (!\is_array($url) && (!str_starts_with($url, '&')) && (!str_starts_with($url, 'index.php'))) {
             return $url;
         }
 
@@ -123,7 +136,7 @@ class Route
         if ($client && !isset(self::$_router[$client])) {
             try {
                 self::$_router[$client] = Factory::getContainer()->get(ucfirst($client) . 'Router') ?: Factory::getApplication()::getRouter($client);
-            } catch (KeyNotFoundException $e) {
+            } catch (KeyNotFoundException) {
                 self::$_router[$client] = Factory::getApplication()::getRouter($client);
             }
         }
@@ -135,7 +148,7 @@ class Route
 
         // Build route.
         $uri    = self::$_router[$client]->build($url);
-        $scheme = array('path', 'query', 'fragment');
+        $scheme = ['path', 'query', 'fragment'];
 
         /*
          * Get the secure/unsecure URLs.
@@ -156,17 +169,17 @@ class Route
 
             if (!\is_array($scheme_host_port)) {
                 $uri2             = Uri::getInstance();
-                $scheme_host_port = array($uri2->getScheme(), $uri2->getHost(), $uri2->getPort());
+                $scheme_host_port = [$uri2->getScheme(), $uri2->getHost(), $uri2->getPort()];
             }
 
-            if (is_null($uri->getScheme())) {
+            if (\is_null($uri->getScheme())) {
                 $uri->setScheme($scheme_host_port[0]);
             }
 
             $uri->setHost($scheme_host_port[1]);
             $uri->setPort($scheme_host_port[2]);
 
-            $scheme = array_merge($scheme, array('host', 'port', 'scheme'));
+            $scheme = array_merge($scheme, ['host', 'port', 'scheme']);
         }
 
         $url = $uri->toString($scheme);

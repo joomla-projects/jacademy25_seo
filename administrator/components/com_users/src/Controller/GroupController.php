@@ -13,6 +13,10 @@ namespace Joomla\Component\Users\Administrator\Controller;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\MVC\Controller\FormController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * User view level controller class.
  *
@@ -40,7 +44,7 @@ class GroupController extends FormController
      */
     protected function allowSave($data, $key = 'id')
     {
-        return ($this->app->getIdentity()->authorise('core.admin', $this->option) && parent::allowSave($data, $key));
+        return $this->app->getIdentity()->authorise('core.admin', $this->option) && parent::allowSave($data, $key);
     }
 
     /**
@@ -55,7 +59,7 @@ class GroupController extends FormController
      *
      * @since   1.6
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         // Check if this group is a Super Admin
         if (Access::checkGroup($data[$key], 'core.admin')) {

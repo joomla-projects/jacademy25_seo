@@ -17,8 +17,11 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Component\Privacy\Administrator\Table\ConsentTable;
 use Joomla\Database\Exception\ExecutionFailureException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Remind confirmation model class.
@@ -39,7 +42,7 @@ class RemindModel extends AdminModel
     public function remindRequest($data)
     {
         // Get the form.
-        $form = $this->getForm();
+        $form          = $this->getForm();
         $data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
         // Check for an error.
@@ -48,7 +51,7 @@ class RemindModel extends AdminModel
         }
 
         // Filter and validate the form data.
-        $data = $form->filter($data);
+        $data   = $form->filter($data);
         $return = $form->validate($data);
 
         // Check for an error.
@@ -66,10 +69,7 @@ class RemindModel extends AdminModel
             return false;
         }
 
-        /** @var ConsentTable $table */
-        $table = $this->getTable();
-
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName(['r.id', 'r.user_id', 'r.token']));
         $query->from($db->quoteName('#__privacy_consents', 'r'));
@@ -85,7 +85,7 @@ class RemindModel extends AdminModel
 
         try {
             $remind = $db->loadObject();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             $this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REMIND'));
 
             return false;
@@ -141,7 +141,7 @@ class RemindModel extends AdminModel
             return false;
         }
 
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         if ($input->getMethod() === 'GET') {
             $form->setValue('remind_token', '', $input->get->getAlnum('remind_token'));

@@ -14,6 +14,10 @@ use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * File Model
  *
@@ -61,7 +65,7 @@ class FileModel extends FormModel
      */
     public function getFileInformation($path)
     {
-        list($adapter, $path) = explode(':', $path, 2);
+        [$adapter, $path] = explode(':', $path, 2);
 
         return $this->bootComponent('com_media')->getMVCFactory()->createModel('Api', 'Administrator')
             ->getFile($adapter, $path, ['url' => true, 'content' => true]);

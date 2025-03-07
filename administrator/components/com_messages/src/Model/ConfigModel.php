@@ -11,10 +11,13 @@
 namespace Joomla\Component\Messages\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Message configuration model.
@@ -38,9 +41,9 @@ class ConfigModel extends FormModel
      */
     protected function populateState()
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
-        $this->setState('user.id', $user->get('id'));
+        $this->setState('user.id', $user->id);
 
         // Load the parameters.
         $params = ComponentHelper::getParams('com_messages');
@@ -50,16 +53,16 @@ class ConfigModel extends FormModel
     /**
      * Method to get a single record.
      *
-     * @return  mixed  Object on success, false on failure.
+     * @return  \stdClass|false  Object on success, false on failure.
      *
      * @since   1.6
      */
-    public function &getItem()
+    public function getItem()
     {
-        $item   = new CMSObject();
+        $item   = new Registry();
         $userid = (int) $this->getState('user.id');
 
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
         $query->select(
             [
@@ -82,7 +85,8 @@ class ConfigModel extends FormModel
         }
 
         foreach ($rows as $row) {
-            $item->set($row->cfg_name, $row->cfg_value);
+            $property        = $row->cfg_name;
+            $item->$property = $row->cfg_value;
         }
 
         $this->preprocessData('com_messages.config', $item);
@@ -100,10 +104,10 @@ class ConfigModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_messages.config', 'config', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_messages.config', 'config', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -140,7 +144,7 @@ class ConfigModel extends FormModel
                 return false;
             }
 
-            if (count($data)) {
+            if (\count($data)) {
                 $query = $db->getQuery(true)
                     ->insert($db->quoteName('#__messages_cfg'))
                     ->columns(
@@ -175,10 +179,10 @@ class ConfigModel extends FormModel
             }
 
             return true;
-        } else {
-            $this->setError('COM_MESSAGES_ERR_INVALID_USER');
-
-            return false;
         }
+
+        $this->setError('COM_MESSAGES_ERR_INVALID_USER');
+
+        return false;
     }
 }

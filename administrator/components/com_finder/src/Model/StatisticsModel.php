@@ -12,8 +12,11 @@ namespace Joomla\Component\Finder\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Statistics model class for Finder.
@@ -25,16 +28,16 @@ class StatisticsModel extends BaseDatabaseModel
     /**
      * Method to get the component statistics
      *
-     * @return  CMSObject The component statistics
+     * @return  \stdClass The component statistics
      *
      * @since   2.5
      */
     public function getData()
     {
         // Initialise
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $data = new CMSObject();
+        $data  = new \stdClass();
 
         $query->select('COUNT(term_id)')
             ->from($db->quoteName('#__finder_terms'));
@@ -70,7 +73,7 @@ class StatisticsModel extends BaseDatabaseModel
         $db->setQuery($query);
         $data->type_list = $db->loadObjectList();
 
-        $lang  = Factory::getLanguage();
+        $lang    = Factory::getLanguage();
         $plugins = PluginHelper::getPlugin('finder');
 
         foreach ($plugins as $plugin) {

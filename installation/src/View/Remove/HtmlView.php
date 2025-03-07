@@ -10,15 +10,21 @@
 
 namespace Joomla\CMS\Installation\View\Remove;
 
-use Joomla\CMS\Installation\View\DefaultView;
+use Joomla\CMS\Installation\Model\ChecksModel;
+use Joomla\CMS\Installation\Model\LanguagesModel;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Version;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The HTML Joomla Core Install Remove View
  *
  * @since  3.1
  */
-class HtmlView extends DefaultView
+class HtmlView extends BaseHtmlView
 {
     /**
      * Is the Joomla Version a development version?
@@ -73,14 +79,18 @@ class HtmlView extends DefaultView
     {
         $this->development = (new Version())->isInDevelopmentState();
 
-        $this->items = $this->get('Items', 'Languages');
+        /** @var LanguagesModel $languagesModel */
+        $languagesModel = $this->getModel('Languages');
+        $this->items    = $languagesModel->getItems();
 
-        $this->installed_languages = new \stdClass();
-        $this->installed_languages->administrator = $this->get('InstalledlangsAdministrator', 'Languages');
-        $this->installed_languages->frontend = $this->get('InstalledlangsFrontend', 'Languages');
+        $this->installed_languages                = new \stdClass();
+        $this->installed_languages->administrator = $languagesModel->getInstalledlangsAdministrator();
+        $this->installed_languages->frontend      = $languagesModel->getInstalledlangsFrontend();
 
-        $this->phpoptions = $this->get('PhpOptions', 'Checks');
-        $this->phpsettings = $this->get('PhpSettings', 'Checks');
+        /** @var ChecksModel $checksModel */
+        $checksModel       = $this->getModel('Checks');
+        $this->phpoptions  = $checksModel->getPhpOptions();
+        $this->phpsettings = $checksModel->getPhpSettings();
 
         parent::display($tpl);
     }

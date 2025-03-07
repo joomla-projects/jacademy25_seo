@@ -17,6 +17,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command for performing session metadata garbage collection
  *
@@ -86,7 +90,7 @@ class SessionMetadataGcCommand extends AbstractCommand
 
         $symfonyStyle->success('Metadata garbage collection completed.');
 
-        return Command::FAILURE;
+        return Command::SUCCESS;
     }
 
     /**

@@ -13,6 +13,10 @@ namespace Joomla\CMS\Installation\View;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Generic Installation View
  *
@@ -39,7 +43,11 @@ class DefaultView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->form = $this->get('Form');
+        $model = $this->getModel();
+
+        if (\is_callable([$model, 'getForm'])) {
+            $this->form = $model->getForm();
+        }
 
         parent::display($tpl);
     }

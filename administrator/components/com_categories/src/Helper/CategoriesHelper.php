@@ -12,8 +12,12 @@ namespace Joomla\Component\Categories\Administrator\Helper;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Table\Table;
+use Joomla\Component\Categories\Administrator\Table\CategoryTable;
 use Joomla\Database\ParameterType;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Categories helper.
@@ -33,7 +37,7 @@ class CategoriesHelper
     public static function getAssociations($pk, $extension = 'com_content')
     {
         $langAssociations = Associations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
-        $associations     = array();
+        $associations     = [];
         $user             = Factory::getUser();
         $groups           = $user->getAuthorisedViewLevels();
 
@@ -70,10 +74,10 @@ class CategoriesHelper
      */
     public static function validateCategoryId($catid, $extension)
     {
-        $categoryTable = Table::getInstance('CategoryTable', '\\Joomla\\Component\\Categories\\Administrator\\Table\\');
+        $categoryTable = new CategoryTable(Factory::getDbo());
 
-        $data = array();
-        $data['id'] = $catid;
+        $data              = [];
+        $data['id']        = $catid;
         $data['extension'] = $extension;
 
         if (!$categoryTable->load($data)) {

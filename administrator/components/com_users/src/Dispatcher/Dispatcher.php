@@ -12,6 +12,10 @@ namespace Joomla\Component\Users\Administrator\Dispatcher;
 
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * ComponentDispatcher class for com_users
  *
@@ -34,7 +38,7 @@ class Dispatcher extends ComponentDispatcher
         $allowedTasks = ['user.edit', 'user.apply', 'user.save', 'user.cancel'];
 
         // Allow users to edit their own account
-        if (in_array($task, $allowedTasks, true) || ($view === 'user' && $layout === 'edit')) {
+        if (\in_array($task, $allowedTasks, true) || ($view === 'user' && $layout === 'edit')) {
             $user = $this->app->getIdentity();
             $id   = $this->input->getInt('id');
 
@@ -55,12 +59,12 @@ class Dispatcher extends ComponentDispatcher
         $isAllowedTask = array_reduce(
             $allowedViews,
             function ($carry, $taskPrefix) use ($task) {
-                return $carry || strpos($task ?? '', $taskPrefix . '.') === 0;
+                return $carry || str_starts_with($task ?? '', $taskPrefix . '.');
             },
             false
         );
 
-        if (in_array(strtolower($view ?? ''), $allowedViews) || $isAllowedTask) {
+        if (\in_array(strtolower($view ?? ''), $allowedViews) || $isAllowedTask) {
             return;
         }
 

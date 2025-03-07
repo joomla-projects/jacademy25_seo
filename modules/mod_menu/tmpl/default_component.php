@@ -10,10 +10,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Filter\OutputFilter;
 
-$attributes = array();
+$attributes = [];
 
 if ($item->anchor_title) {
     $attributes['title'] = $item->anchor_title;
@@ -54,11 +54,9 @@ if ($item->menu_icon) {
         $image_attributes['class'] = $item->menu_image_css;
     }
 
-    $linktype = HTMLHelper::_('image', $item->menu_image, $item->title, $image_attributes);
+    $linktype = HTMLHelper::_('image', $item->menu_image, '', $image_attributes);
 
-    if ($itemParams->get('menu_text', 1)) {
-        $linktype .= '<span class="image-title">' . $item->title . '</span>';
-    }
+    $linktype .= '<span class="image-title' . ($itemParams->get('menu_text', 1) ? '' : ' visually-hidden') . '">' . $item->title . '</span>';
 }
 
 if ($item->browserNav == 1) {

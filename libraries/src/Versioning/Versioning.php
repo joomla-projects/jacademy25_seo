@@ -13,9 +13,14 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\ContentHistory;
+use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Database\ParameterType;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Handle the versioning of content items
@@ -36,9 +41,9 @@ class Versioning
      */
     public static function get($typeAlias, $id)
     {
-        $db = Factory::getDbo();
+        $db     = Factory::getDbo();
         $itemid = $typeAlias . '.' . $id;
-        $query = $db->getQuery(true);
+        $query  = $db->getQuery(true);
         $query->select($db->quoteName('h.version_note') . ',' . $db->quoteName('h.save_date') . ',' . $db->quoteName('u.name'))
             ->from($db->quoteName('#__history', 'h'))
             ->leftJoin($db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('h.editor_user_id'))
@@ -62,9 +67,9 @@ class Versioning
      */
     public static function delete($typeAlias, $id)
     {
-        $db = Factory::getDbo();
+        $db     = Factory::getDbo();
         $itemid = $typeAlias . '.' . $id;
-        $query = $db->getQuery(true);
+        $query  = $db->getQuery(true);
         $query->delete($db->quoteName('#__history'))
             ->where($db->quoteName('item_id') . ' = :item_id')
             ->bind(':item_id', $itemid, ParameterType::STRING);
@@ -88,10 +93,10 @@ class Versioning
      */
     public static function store($typeAlias, $id, $data, $note = '')
     {
-        $typeTable = Table::getInstance('Contenttype', 'JTable');
-        $typeTable->load(array('type_alias' => $typeAlias));
+        $typeTable = new ContentType(Factory::getDbo());
+        $typeTable->load(['type_alias' => $typeAlias]);
 
-        $historyTable = Table::getInstance('Contenthistory', 'JTable');
+        $historyTable          = new ContentHistory(Factory::getDbo());
         $historyTable->item_id = $typeAlias . '.' . $id;
 
         $aliasParts = explode('.', $typeAlias);
@@ -112,7 +117,7 @@ class Versioning
                 'onContentVersioningPrepareTable',
                 [
                     'subject'   => $historyTable,
-                    'extension' => $typeAlias
+                    'extension' => $typeAlias,
                 ]
             );
 
@@ -128,10 +133,10 @@ class Versioning
         if ($historyRow = $historyTable->getHashMatch()) {
             if (!$note || ($historyRow->version_note === $note)) {
                 return true;
-            } else {
-                // Update existing row to set version note
-                $historyTable->version_id = $historyRow->version_id;
             }
+
+            // Update existing row to set version note
+            $historyTable->version_id = $historyRow->version_id;
         }
 
         $result = $historyTable->store();

@@ -11,11 +11,14 @@
 namespace Joomla\Module\Breadcrumbs\Site\Helper;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper for mod_breadcrumbs
@@ -27,30 +30,22 @@ class BreadcrumbsHelper
     /**
      * Retrieve breadcrumb items
      *
-     * @param   Registry        $params  The module parameters
-     * @param   CMSApplication  $app     The application
+     * @param   Registry         $params  The module parameters
+     * @param   SiteApplication  $app     The application
      *
      * @return  array
+     *
+     * @since   4.4.0
      */
-    public static function getList(Registry $params, CMSApplication $app)
+    public function getBreadcrumbs(Registry $params, SiteApplication $app): array
     {
         // Get the PathWay object from the application
         $pathway = $app->getPathway();
         $items   = $pathway->getPathway();
-        $lang    = $app->getLanguage();
-        $menu    = $app->getMenu();
-
-        // Look for the home menu
-        if (Multilanguage::isEnabled()) {
-            $home = $menu->getDefault($lang->getTag());
-        } else {
-            $home  = $menu->getDefault();
-        }
-
-        $count = \count($items);
+        $count   = \count($items);
 
         // Don't use $items here as it references JPathway properties directly
-        $crumbs = array();
+        $crumbs = [];
 
         for ($i = 0; $i < $count; $i++) {
             $crumbs[$i]       = new \stdClass();
@@ -59,40 +54,78 @@ class BreadcrumbsHelper
         }
 
         if ($params->get('showHome', 1)) {
-            $item       = new \stdClass();
-            $item->name = htmlspecialchars($params->get('homeText', Text::_('MOD_BREADCRUMBS_HOME')), ENT_COMPAT, 'UTF-8');
-            $item->link = 'index.php?Itemid=' . $home->id;
-            array_unshift($crumbs, $item);
+            array_unshift($crumbs, $this->getHomeItem($params, $app));
         }
 
         return $crumbs;
     }
 
     /**
-     * Set the breadcrumbs separator for the breadcrumbs display.
+     * Retrieve home item (start page)
      *
-     * @param   string  $custom  Custom xhtml compliant string to separate the items of the breadcrumbs
+     * @param   Registry         $params  The module parameters
+     * @param   SiteApplication  $app     The application
      *
-     * @return  string  Separator string
+     * @return  object
      *
-     * @since   1.5
+     * @since   4.4.0
      */
-    public static function setSeparator($custom = null)
+    public function getHomeItem(Registry $params, SiteApplication $app): object
     {
-        $lang = Factory::getApplication()->getLanguage();
+        $menu = $app->getMenu();
 
-        // If a custom separator has not been provided we try to load a template
-        // specific one first, and if that is not present we load the default separator
-        if ($custom === null) {
-            if ($lang->isRtl()) {
-                $_separator = HTMLHelper::_('image', 'system/arrow_rtl.png', null, null, true);
-            } else {
-                $_separator = HTMLHelper::_('image', 'system/arrow.png', null, null, true);
-            }
+        if (Multilanguage::isEnabled()) {
+            $home = $menu->getDefault($app->getLanguage()->getTag());
         } else {
-            $_separator = htmlspecialchars($custom, ENT_COMPAT, 'UTF-8');
+            $home = $menu->getDefault();
         }
 
-        return $_separator;
+        $item       = new \stdClass();
+        $item->name = htmlspecialchars($params->get('homeText', $app->getLanguage()->_('MOD_BREADCRUMBS_HOME')), ENT_COMPAT, 'UTF-8');
+        $item->link = 'index.php?Itemid=' . $home->id;
+
+        return $item;
+    }
+
+    /**
+     * Retrieve breadcrumb items
+     *
+     * @param   Registry        $params  The module parameters
+     * @param   CMSApplication  $app     The application
+     *
+     * @return  array
+     *
+     * @since   1.5
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *             Use the non-static method getBreadcrumbs
+     *             Example: Factory::getApplication()->bootModule('mod_breadcrumbs', 'site')
+     *                          ->getHelper('BreadcrumbsHelper')
+     *                          ->getBreadcrumbs($params, Factory::getApplication())
+     */
+    public static function getList(Registry $params, CMSApplication $app)
+    {
+        return (new self())->getBreadcrumbs($params, Factory::getApplication());
+    }
+
+    /**
+     * Retrieve home item (start page)
+     *
+     * @param   Registry        $params  The module parameters
+     * @param   CMSApplication  $app     The application
+     *
+     * @return  object
+     *
+     * @since   4.2.0
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *             Use the non-static method getHomeItem
+     *             Example: Factory::getApplication()->bootModule('mod_breadcrumbs', 'site')
+     *                          ->getHelper('BreadcrumbsHelper')
+     *                          ->getHomeItem($params, Factory::getApplication())
+     */
+    public static function getHome(Registry $params, CMSApplication $app)
+    {
+        return (new self())->getHomeItem($params, Factory::getApplication());
     }
 }

@@ -10,8 +10,13 @@
 namespace Joomla\CMS\Plugin;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Event\AbstractImmutableEvent;
+use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageAwareInterface;
+use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -20,14 +25,27 @@ use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugin Class
  *
  * @since  1.5
+ *
+ * @TODO  Starting from 7.0 the class will no longer implement DispatcherAwareInterface and LanguageAwareInterface
  */
-abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
+abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, LanguageAwareInterface
 {
-    use DispatcherAwareTrait;
+    use DispatcherAwareTrait {
+        setDispatcher as traitSetDispatcher;
+        getDispatcher as traitGetDispatcher;
+    }
+    use LanguageAwareTrait {
+        setLanguage as traitSetLanguage;
+        getLanguage as traitGetLanguage;
+    }
 
     /**
      * A Registry object holding the parameters for the plugin
@@ -71,7 +89,12 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
      * @var    boolean
      * @since  4.0.0
      *
-     * @deprecated
+     * @deprecated  4.3 will be removed in 6.0
+     *              Implement your plugin methods accepting an AbstractEvent object
+     *              Example:
+     *              onEventTriggerName(AbstractEvent $event) {
+     *                  $context = $event->getArgument(...);
+     *              }
      */
     protected $allowLegacyListeners = true;
 
@@ -87,15 +110,31 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
     /**
      * Constructor
      *
-     * @param   DispatcherInterface  &$subject  The object to observe
-     * @param   array                $config    An optional associative array of configuration settings.
-     *                                          Recognized key values include 'name', 'group', 'params', 'language'
-     *                                         (this list is not meant to be comprehensive).
+     * @param array $config      An optional associative array of configuration settings.
+     *                           Recognized key values include 'name', 'group', 'params', 'language'
+     *                           (this list is not meant to be comprehensive).
      *
      * @since   1.5
      */
-    public function __construct(&$subject, $config = array())
+    public function __construct($config = [])
     {
+        if ($config instanceof DispatcherInterface) {
+            @trigger_error(
+                \sprintf(
+                    'Passing an instance of %1$s to %2$s() will not be supported in 7.0. '
+                    . 'Starting from 7.0 CMSPlugin class will no longer implement DispatcherAwareInterface.',
+                    DispatcherInterface::class,
+                    __METHOD__
+                ),
+                \E_USER_DEPRECATED
+            );
+
+            // Set the dispatcher we are to register our listeners with
+            $this->setDispatcher($config);
+
+            $config = \func_num_args() > 1 ? func_get_arg(1) : [];
+        }
+
         // Get the parameters.
         if (isset($config['params'])) {
             if ($config['params'] instanceof Registry) {
@@ -122,7 +161,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
         if (property_exists($this, 'app')) {
             @trigger_error('The application should be injected through setApplication() and requested through getApplication().', E_USER_DEPRECATED);
-            $reflection = new \ReflectionClass($this);
+            $reflection  = new \ReflectionClass($this);
             $appProperty = $reflection->getProperty('app');
 
             if ($appProperty->isPrivate() === false && \is_null($this->app)) {
@@ -139,9 +178,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
                 $this->db = Factory::getDbo();
             }
         }
-
-        // Set the dispatcher we are to register our listeners with
-        $this->setDispatcher($subject);
     }
 
     /**
@@ -173,34 +209,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
     }
 
     /**
-     * Translates the given key with the local applications language. If arguments are available, then
-     * injects them into the translated string.
-     *
-     * @param   string   $key        The key to translate
-     * @param   mixed[]  $arguments  The arguments
-     *
-     * @return  string  The translated string
-     *
-     * @since   4.2.0
-     *
-     * @see     sprintf
-     */
-    protected function translate(string $key): string
-    {
-        $language = $this->getApplication()->getLanguage();
-
-        $arguments = \func_get_args();
-
-        if (count($arguments) > 1) {
-            $arguments[0] = $language->_($key);
-
-            return \call_user_func_array('sprintf', $arguments);
-        }
-
-        return $language->_($key);
-    }
-
-    /**
      * Registers legacy Listeners to the Dispatcher, emulating how plugins worked under Joomla! 3.x and below.
      *
      * By default, this method will look for all public methods whose name starts with "on". It will register
@@ -225,11 +233,11 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
         }
 
         $reflectedObject = new \ReflectionObject($this);
-        $methods = $reflectedObject->getMethods(\ReflectionMethod::IS_PUBLIC);
+        $methods         = $reflectedObject->getMethods(\ReflectionMethod::IS_PUBLIC);
 
         /** @var \ReflectionMethod $method */
         foreach ($methods as $method) {
-            if (substr($method->name, 0, 2) !== 'on') {
+            if (!str_starts_with($method->name, 'on')) {
                 continue;
             }
 
@@ -251,7 +259,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
             }
 
             /** @var \ReflectionParameter $param */
-            $param = array_shift($parameters);
+            $param     = array_shift($parameters);
             $paramName = $param->getName();
 
             // No type hint / type hint class not an event or parameter name is not "event"? It's a legacy listener.
@@ -298,7 +306,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
                 }
 
                 // Convert to indexed array for unpacking.
-                $arguments = \array_values($arguments);
+                $arguments = array_values($arguments);
 
                 $result = $this->{$methodName}(...$arguments);
 
@@ -307,9 +315,13 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
                     return;
                 }
 
-                // Restore the old results and add the new result from our method call
-                $allResults[]    = $result;
-                $event['result'] = $allResults;
+                if ($event instanceof ResultAwareInterface) {
+                    $event->addResult($result);
+                } elseif (!$event instanceof AbstractImmutableEvent) {
+                    // Restore the old results and add the new result from our method call
+                    $allResults[]    = $result;
+                    $event['result'] = $allResults;
+                }
             }
         );
     }
@@ -354,13 +366,13 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
         // Handle standard typehints.
         if ($reflectionType instanceof \ReflectionNamedType) {
-            return \is_a($reflectionType->getName(), EventInterface::class, true);
+            return is_a($reflectionType->getName(), EventInterface::class, true);
         }
 
         // Handle PHP 8 union types.
         if ($reflectionType instanceof \ReflectionUnionType) {
             foreach ($reflectionType->getTypes() as $type) {
-                if (!\is_a($type->getName(), EventInterface::class, true)) {
+                if (!is_a($type->getName(), EventInterface::class, true)) {
                     return false;
                 }
             }
@@ -395,5 +407,88 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
     public function setApplication(CMSApplicationInterface $application): void
     {
         $this->application = $application;
+
+        if ($application->getLanguage()) {
+            $this->setLanguage($application->getLanguage());
+        }
+    }
+
+    /**
+     * Set the language to use.
+     *
+     * @param   Language  $language  The language to use
+     *
+     * @return  void
+     *
+     * @since   5.3.0
+     *
+     * @deprecated  5.2 will be removed in 7.0
+     *              Plugin should use the language from Application, and only after the app is initialised
+     */
+    public function setLanguage(Language $language): void
+    {
+        $this->traitSetLanguage($language);
+    }
+
+    /**
+     * Get the Language.
+     *
+     * @return  Language
+     *
+     * @throws  \UnexpectedValueException May be thrown if the language has not been set.
+     *
+     * @since   5.3.0
+     *
+     * @deprecated  5.2 will be removed in 7.0
+     *              Plugin should use the language from Application, and only after the app is initialised.
+     */
+    protected function getLanguage(): Language
+    {
+        @trigger_error(
+            __CLASS__ . ': Use of LanguageAwareInterface over CMSPlugin will be removed in 7.0.',
+            \E_USER_DEPRECATED
+        );
+
+        return $this->traitGetLanguage();
+    }
+
+    /**
+     * Set the dispatcher to use.
+     *
+     * @param   DispatcherInterface  $dispatcher  The dispatcher to use.
+     *
+     * @return  $this
+     *
+     * @since   5.3.0
+     *
+     * @deprecated  5.2 will be removed in 7.0
+     *              Plugin should implement DispatcherAwareInterface on its own, when it is needed.
+     */
+    public function setDispatcher(DispatcherInterface $dispatcher)
+    {
+        @trigger_error(
+            __CLASS__ . ': Use of DispatcherAwareInterface over CMSPlugin will be removed in 7.0.'
+            . ' Plugin should implement DispatcherAwareInterface on its own, when it is needed.',
+            \E_USER_DEPRECATED
+        );
+
+        return $this->traitSetDispatcher($dispatcher);
+    }
+
+    /**
+     * Get the event dispatcher.
+     *
+     * @return  DispatcherInterface
+     *
+     * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
+     *
+     * @since   5.3.0
+     *
+     * @deprecated  5.2 will be removed in 7.0
+     *              Plugin should implement DispatcherAwareInterface on its own, when it is needed.
+     */
+    public function getDispatcher()
+    {
+        return $this->traitGetDispatcher();
     }
 }

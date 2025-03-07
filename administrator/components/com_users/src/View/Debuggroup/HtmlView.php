@@ -11,13 +11,16 @@
 namespace Joomla\Component\Users\Administrator\View\Debuggroup;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Users\Administrator\Model\DebuggroupModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of User Group ACL permissions.
@@ -52,7 +55,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state.
      *
-     * @var   CMSObject
+     * @var   \Joomla\Registry\Registry
      * @since 1.6
      */
     protected $state;
@@ -93,16 +96,19 @@ class HtmlView extends BaseHtmlView
             throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        $this->actions       = $this->get('DebugActions');
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->state         = $this->get('State');
-        $this->group         = $this->get('Group');
-        $this->filterForm    = $this->get('FilterForm');
-        $this->activeFilters = $this->get('ActiveFilters');
+        /** @var DebuggroupModel $model */
+        $model = $this->getModel();
+
+        $this->actions       = $model->getDebugActions();
+        $this->items         = $model->getItems();
+        $this->pagination    = $model->getPagination();
+        $this->state         = $model->getState();
+        $this->group         = $model->getGroup();
+        $this->filterForm    = $model->getFilterForm();
+        $this->activeFilters = $model->getActiveFilters();
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -120,16 +126,17 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo = ContentHelper::getActions('com_users');
+        $canDo   = ContentHelper::getActions('com_users');
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::sprintf('COM_USERS_VIEW_DEBUG_GROUP_TITLE', $this->group->id, $this->escape($this->group->title)), 'users groups');
-        ToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
+        $toolbar->cancel('group.cancel');
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            ToolbarHelper::preferences('com_users');
-            ToolbarHelper::divider();
+            $toolbar->preferences('com_users');
+            $toolbar->divider();
         }
 
-        ToolbarHelper::help('Permissions_for_Group');
+        $toolbar->help('Permissions_for_Group');
     }
 }

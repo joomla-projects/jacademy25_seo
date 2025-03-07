@@ -12,6 +12,10 @@ namespace Joomla\Component\Mails\Administrator\Helper;
 
 use Joomla\CMS\Factory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Mailtags HTML helper class.
  *
@@ -31,9 +35,9 @@ abstract class MailsHelper
      */
     public static function mailtags($mail, $fieldname)
     {
-        Factory::getApplication()->triggerEvent('onMailBeforeTagsRendering', array($mail->template_id, &$mail));
+        Factory::getApplication()->triggerEvent('onMailBeforeTagsRendering', [$mail->template_id, &$mail]);
 
-        if (!isset($mail->params['tags']) || !count($mail->params['tags'])) {
+        if (!isset($mail->params['tags']) || !\count($mail->params['tags'])) {
             return '';
         }
 
@@ -55,14 +59,15 @@ abstract class MailsHelper
      * Load the translation files for an extension
      *
      * @param   string  $extension  Extension name
+     * @param   string  $language   Language to load
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public static function loadTranslationFiles($extension)
+    public static function loadTranslationFiles($extension, $language = 'en-GB')
     {
-        static $cache = array();
+        static $cache = [];
 
         $extension = strtolower($extension);
 
@@ -70,13 +75,17 @@ abstract class MailsHelper
             return;
         }
 
-        $lang   = Factory::getLanguage();
+        $lang   = Factory::getApplication()->getLanguage();
         $source = '';
 
         switch (substr($extension, 0, 3)) {
             case 'com':
             default:
                 $source = JPATH_ADMINISTRATOR . '/components/' . $extension;
+
+                $lang->load($extension, JPATH_SITE, $language, true)
+                || $lang->load($extension, JPATH_SITE . '/components/' . $extension, $language, true);
+
                 break;
 
             case 'mod':
@@ -86,18 +95,18 @@ abstract class MailsHelper
             case 'plg':
                 $parts = explode('_', $extension, 3);
 
-                if (count($parts) > 2) {
+                if (\count($parts) > 2) {
                     $source = JPATH_PLUGINS . '/' . $parts[1] . '/' . $parts[2];
                 }
                 break;
         }
 
-        $lang->load($extension, JPATH_ADMINISTRATOR)
-        || $lang->load($extension, $source);
+        $lang->load($extension, JPATH_ADMINISTRATOR, $language, true)
+        || $lang->load($extension, $source, $language, true);
 
         if (!$lang->hasKey(strtoupper($extension))) {
-            $lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
-            || $lang->load($extension . '.sys', $source);
+            $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $language, true)
+            || $lang->load($extension . '.sys', $source, $language, true);
         }
 
         $cache[$extension] = true;

@@ -11,6 +11,10 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Form\FormField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Single checkbox field.
@@ -77,7 +81,7 @@ class CheckboxField extends FormField
     public function __set($name, $value)
     {
         if ($name === 'checked') {
-            $value = (string) $value;
+            $value         = (string) $value;
             $this->checked = ($value === 'true' || $value == $name || $value === '1');
 
             return;
@@ -114,7 +118,7 @@ class CheckboxField extends FormField
         $return = parent::setup($element, $value, $group);
 
         if ($return) {
-            $checked = (string) $this->element['checked'];
+            $checked       = (string) $this->element['checked'];
             $this->checked = ($checked === 'true' || $checked === 'checked' || $checked === '1');
 
             empty($this->value) || $this->checked ? null : $this->checked = true;
@@ -133,7 +137,8 @@ class CheckboxField extends FormField
     protected function getLayoutData()
     {
         $data            = parent::getLayoutData();
-        $data['value']   = $this->default ?: '1';
+        // Allow any non-empty string, such as '0', to be used as the default value for a checkbox
+        $data['value']   = $this->default !== null && $this->default !== '' ? $this->default : '1';
         $data['checked'] = $this->checked || $this->value;
 
         return $data;

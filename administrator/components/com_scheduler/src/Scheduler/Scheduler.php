@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\User\User;
 use Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent;
 use Joomla\Component\Scheduler\Administrator\Model\TaskModel;
 use Joomla\Component\Scheduler\Administrator\Model\TasksModel;
@@ -23,6 +24,10 @@ use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The Scheduler class provides the core functionality of ComScheduler.
@@ -134,7 +139,7 @@ class Scheduler
 
         try {
             $task->run();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // We suppress the exception here, it's still accessible with `$task->getContent()['exception']`.
         }
 
@@ -144,7 +149,7 @@ class Scheduler
         $duration          = $executionSnapshot['duration'] ?? 0;
 
         if (\array_key_exists($exitCode, self::LOG_TEXT)) {
-            $level = in_array($exitCode, [Status::OK, Status::WILL_RESUME]) ? 'info' : 'warning';
+            $level = \in_array($exitCode, [Status::OK, Status::WILL_RESUME]) ? 'info' : 'warning';
             $task->log(Text::sprintf(self::LOG_TEXT[$exitCode], $taskId, $duration, $netDuration), $level);
 
             return $task;
@@ -172,8 +177,8 @@ class Scheduler
     {
         $resolver->setDefaults(
             [
-                'id' => 0,
-                'allowDisabled' => false,
+                'id'              => 0,
+                'allowDisabled'   => false,
                 'allowConcurrent' => false,
             ]
         )
@@ -216,7 +221,7 @@ class Scheduler
 
             /** @var TaskModel $model */
             $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         if (!isset($model)) {
@@ -288,7 +293,7 @@ class Scheduler
             /** @var TasksModel $model */
             $model = $component->getMVCFactory()
                 ->createModel('Tasks', 'Administrator', ['ignore_request' => true]);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         if (!$model) {
@@ -320,5 +325,32 @@ class Scheduler
         }
 
         return $model->getItems() ?: [];
+    }
+
+    /**
+     * Determine whether a {@see User} is allowed to run a task record. Expects a task as an object from
+     * {@see fetchTaskRecords}.
+     *
+     * @param   object  $taskRecord  The task record to check authorization against.
+     * @param   User    $user        The user to check authorization for.
+     *
+     * @return boolean  True if the user is authorized to run the task.
+     *
+     * @since 5.2.4
+     */
+    public static function isAuthorizedToRun(object $taskRecord, User $user): bool
+    {
+        /**
+         * We allow the user to run a task if they have the permission or if they created the task & still have the authority
+         * to create tasks.
+         */
+        if (
+            $user->authorise('core.testrun', 'com_scheduler.task.' . $taskRecord->id)
+            || ($user->id == $taskRecord->created_by && $user->authorise('core.create', 'com_scheduler'))
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }

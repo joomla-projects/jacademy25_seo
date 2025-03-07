@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Postinstall\Administrator\Helper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper class for postinstall messages
  *
@@ -28,9 +32,9 @@ class PostinstallHelper
      */
     public function parsePath($path)
     {
-        if (strpos($path, 'site://') !== false) {
+        if (str_starts_with($path, 'site://')) {
             $path = JPATH_ROOT . str_replace('site://', '/', $path);
-        } elseif (strpos($path, 'admin://') !== false) {
+        } elseif (str_starts_with($path, 'admin://')) {
             $path = JPATH_ADMINISTRATOR . str_replace('admin://', '/', $path);
         }
 

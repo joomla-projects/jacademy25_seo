@@ -12,18 +12,23 @@ namespace Joomla\CMS\Changelog;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
-use RuntimeException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Changelog class.
  *
  * @since  4.0.0
  */
-class Changelog extends CMSObject
+class Changelog
 {
+    use LegacyPropertyManagementTrait;
+
     /**
      * Update manifest `<element>` element
      *
@@ -54,7 +59,7 @@ class Changelog extends CMSObject
      * @var    array
      * @since  4.0.0
      */
-    protected $security = array();
+    protected $security = [];
 
     /**
      * Update manifest `<fix>` element
@@ -62,7 +67,7 @@ class Changelog extends CMSObject
      * @var    array
      * @since  4.0.0
      */
-    protected $fix = array();
+    protected $fix = [];
 
     /**
      * Update manifest `<language>` element
@@ -70,7 +75,7 @@ class Changelog extends CMSObject
      * @var    array
      * @since  4.0.0
      */
-    protected $language = array();
+    protected $language = [];
 
     /**
      * Update manifest `<addition>` element
@@ -78,7 +83,7 @@ class Changelog extends CMSObject
      * @var    array
      * @since  4.0.0
      */
-    protected $addition = array();
+    protected $addition = [];
 
     /**
      * Update manifest `<change>` elements
@@ -86,7 +91,7 @@ class Changelog extends CMSObject
      * @var    array
      * @since  4.0.0
      */
-    protected $change = array();
+    protected $change = [];
 
     /**
      * Update manifest `<remove>` element
@@ -94,7 +99,7 @@ class Changelog extends CMSObject
      * @var    array
      * @since  4.0.0
      */
-    protected $remove = array();
+    protected $remove = [];
 
     /**
      * Update manifest `<maintainer>` element
@@ -102,7 +107,7 @@ class Changelog extends CMSObject
      * @var    array
      * @since  4.0.0
      */
-    protected $note = array();
+    protected $note = [];
 
     /**
      * List of node items
@@ -110,12 +115,12 @@ class Changelog extends CMSObject
      * @var    array
      * @since  4.0.0
      */
-    private $items = array();
+    private $items = [];
 
     /**
      * Resource handle for the XML Parser
      *
-     * @var    resource
+     * @var    \XMLParser
      * @since  4.0.0
      */
     protected $xmlParser;
@@ -126,7 +131,7 @@ class Changelog extends CMSObject
      * @var    array
      * @since  4.0.0
      */
-    protected $stack = array('base');
+    protected $stack = ['base'];
 
     /**
      * Object containing the current update data
@@ -151,6 +156,14 @@ class Changelog extends CMSObject
      * @since  4.0.0
      */
     protected $latest;
+
+    /**
+     * Update manifest `<folder>` element
+     *
+     * @var    string
+     * @since  5.1.1
+     */
+    protected $folder;
 
     /**
      * Gets the reference to the current direct parent
@@ -202,7 +215,7 @@ class Changelog extends CMSObject
      * @note    This is public because it is called externally
      * @since   1.7.0
      */
-    public function startElement($parser, $name, $attrs = array())
+    public function startElement($parser, $name, $attrs = [])
     {
         $this->stack[] = $name;
         $tag           = $this->getStackLocation();
@@ -210,6 +223,11 @@ class Changelog extends CMSObject
         // Reset the data
         if (isset($this->$tag)) {
             $this->$tag->data = '';
+        }
+
+        // Skip technical elements
+        if ($name === 'CHANGELOGS' || $name === 'CHANGELOG' || $name === 'ITEM') {
+            return;
         }
 
         $name = strtolower($name);
@@ -249,9 +267,9 @@ class Changelog extends CMSObject
             case 'CHANGE':
             case 'REMOVE':
             case 'NOTE':
-                $name = strtolower($name);
+                $name                                = strtolower($name);
                 $this->currentChangelog->$name->data = $this->items;
-                $this->items = array();
+                $this->items                         = [];
                 break;
             case 'CHANGELOG':
                 if (version_compare($this->currentChangelog->version->data, $this->matchVersion, '==') === true) {
@@ -268,8 +286,7 @@ class Changelog extends CMSObject
                         $this->$key = $val;
                     }
 
-                    unset($this->latest);
-                    unset($this->currentChangelog);
+                    unset($this->latest, $this->currentChangelog);
                 } elseif (isset($this->currentChangelog)) {
                     // The update might be for an older version of j!
                     unset($this->currentChangelog);
@@ -334,7 +351,7 @@ class Changelog extends CMSObject
         try {
             $http     = HttpFactory::getHttp($httpOption);
             $response = $http->get($url);
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 
@@ -354,7 +371,7 @@ class Changelog extends CMSObject
 
         if (!xml_parse($this->xmlParser, $response->body)) {
             Log::add(
-                sprintf(
+                \sprintf(
                     'XML error: %s at line %d',
                     xml_error_string(xml_get_error_code($this->xmlParser)),
                     xml_get_current_line_number($this->xmlParser)

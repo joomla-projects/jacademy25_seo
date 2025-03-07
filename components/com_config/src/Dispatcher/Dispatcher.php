@@ -13,6 +13,10 @@ namespace Joomla\Component\Config\Site\Dispatcher;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * ComponentDispatcher class for com_config
  *
@@ -37,7 +41,7 @@ class Dispatcher extends ComponentDispatcher
         $view = $this->input->get('view');
         $user = $this->app->getIdentity();
 
-        if (substr($task, 0, 8) === 'modules.' || $view === 'modules') {
+        if (str_starts_with($task, 'modules.') || $view === 'modules') {
             if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id'))) {
                 throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
             }

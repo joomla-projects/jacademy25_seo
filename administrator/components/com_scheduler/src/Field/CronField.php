@@ -14,6 +14,10 @@ use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Multi-select form field, supporting inputs of:
  * minutes, hours, days of week, days of month and months.
@@ -60,7 +64,7 @@ class CronField extends ListField
      * @since  4.1.0
      */
     private const PREPARED_RESPONSE_LABELS = [
-        'months'    => [
+        'months' => [
             'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
             'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER',
         ],
@@ -155,7 +159,7 @@ class CronField extends ListField
         if ($this->wildcard) {
             try {
                 $options[] = HTMLHelper::_('select.option', '*', '*');
-            } catch (\InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException) {
             }
         }
 
@@ -176,7 +180,7 @@ class CronField extends ListField
         for ([$i, $l] = [$optionLower, 0]; $i <= $optionUpper; $i++, $l++) {
             try {
                 $options[] = HTMLHelper::_('select.option', (string) ($i), $labels[$l]);
-            } catch (\InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException) {
             }
         }
 

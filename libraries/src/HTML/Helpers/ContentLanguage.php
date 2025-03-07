@@ -11,7 +11,10 @@ namespace Joomla\CMS\HTML\Helpers;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Utility class working with content language select lists
@@ -64,11 +67,11 @@ abstract class ContentLanguage
         }
 
         if ($all) {
-            $all_option = array(new CMSObject(array('value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE')));
+            $all_option = [(object) ['value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE']];
 
             return array_merge($all_option, static::$items);
-        } else {
-            return static::$items;
         }
+
+        return static::$items;
     }
 }
