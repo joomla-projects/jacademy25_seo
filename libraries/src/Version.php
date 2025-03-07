@@ -39,7 +39,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MAJOR_VERSION = 5;
+    public const MAJOR_VERSION = 6;
 
     /**
      * Minor release version.
@@ -55,7 +55,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const PATCH_VERSION = 1;
+    public const PATCH_VERSION = 0;
 
     /**
      * Extra release version info.
@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'rc2-dev';
+    public const EXTRA_VERSION = 'alpha1-dev';
 
     /**
      * Development status.
@@ -82,7 +82,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const CODENAME = 'Kuboresha';
+    public const CODENAME = 'Kuimarisha';
 
     /**
      * Release date.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '18-November-2023';
+    public const RELDATE = '14-August-2024';
 
     /**
      * Release time.
@@ -98,7 +98,8 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTIME = '14:48';
+
+    public const RELTIME = '08:38';
 
     /**
      * Release timezone.
@@ -106,7 +107,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTZ = 'GMT';
+    public const RELTZ = 'UTC';
 
     /**
      * Copyright Notice.

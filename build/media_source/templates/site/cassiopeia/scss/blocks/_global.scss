@@ -7,6 +7,12 @@
   @media screen and (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;
   }
+
+  &:has(.sticky-top) {
+    [id] {
+      scroll-margin-top: var(--cassiopeia-scroll-margin-top, 10rem);
+    }
+  }
 }
 
 html {
@@ -56,13 +62,12 @@ h6 {
 a {
   color: var(--#{$prefix}link-color);
 
-  &:not([class]) {
-    text-decoration: underline;
+  &:hover {
+    color: var(--#{$prefix}link-hover-color);
   }
 
-  &:not(.btn):hover,
-  &:not(.btn):focus {
-    color: var(--cassiopeia-color-hover);
+  &:not([class]) {
+    text-decoration: underline;
   }
 
   &.navbar-brand {

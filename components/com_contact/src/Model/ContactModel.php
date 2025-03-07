@@ -104,7 +104,7 @@ class ContactModel extends FormModel
      */
     public function getForm($data = [], $loadData = true)
     {
-        $form = $this->loadForm('com_contact.contact', 'contact', ['control' => 'jform', 'load_data' => true]);
+        $form = $this->loadForm('com_contact.contact', 'contact', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -169,7 +169,7 @@ class ContactModel extends FormModel
      *
      * @param   integer  $pk  Id for the contact
      *
-     * @return  mixed Object or null
+     * @return  mixed \stdClass or null
      *
      * @since   1.6.0
      */
@@ -252,7 +252,7 @@ class ContactModel extends FormModel
                 }
 
                 // Compute access permissions.
-                if (($access = $this->getState('filter.access'))) {
+                if ($this->getState('filter.access')) {
                     // If the access filter has been set, we already know this user can view.
                     $data->params->set('access-view', true);
                 } else {
