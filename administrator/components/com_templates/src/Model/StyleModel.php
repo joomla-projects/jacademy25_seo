@@ -324,7 +324,7 @@ class StyleModel extends AdminModel
     {
         $clientId = $this->getState('item.client_id');
         $template = $this->getState('item.template');
-        $lang     = Factory::getLanguage();
+        $lang     = Factory::getApplication()->getLanguage();
         $client   = ApplicationHelper::getClientInfo($clientId);
 
         if (!$form->loadFile('style_' . $client->name, true)) {
@@ -341,8 +341,10 @@ class StyleModel extends AdminModel
 
         // Load the core and/or local language file(s).
         // Default to using parent template language constants
-        $lang->load('tpl_' . $styleObj->parent, $client->path)
+        if (!empty($styleObj->parent)) {
+            $lang->load('tpl_' . $styleObj->parent, $client->path)
             || $lang->load('tpl_' . $styleObj->parent, $client->path . '/templates/' . $styleObj->parent);
+        }
 
         // Apply any, optional, overrides for child template language constants
         $lang->load('tpl_' . $template, $client->path)
