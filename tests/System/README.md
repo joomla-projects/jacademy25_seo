@@ -68,6 +68,7 @@ npm ci
 cp cypress.config.dist.mjs cypress.config.mjs
 ```
 4. Adjust the parameter `baseUrl` in the `cypress.config.mjs` file, it should point to the Joomla base URL.
+   The Joomla System Tests can be run over either HTTP or HTTPS.
 5. Adapt the env variables in the file `cypress.config.mjs`, they should point to the site, user data and database environment. Ensure that the `smtp_port` is not in use on your system.
 
 
@@ -357,3 +358,16 @@ If you encounter the following error while running the Joomla System Tests on sl
       ...
     }
 ```
+
+### PHP Version Compatibility Issue
+
+If the Joomla installation fails with an error message such as:
+
+```
+Error: Unwanted PHP Deprecated: ... is deprecated since 8.4
+```
+
+this indicates that your web server is running PHP 8.4,
+which does not match the recommended version specified in the Joomla technical requirements at this time.
+Please consult the technical requirements to verify the current recommended PHP version and
+adjust your web server’s PHP configuration accordingly.
