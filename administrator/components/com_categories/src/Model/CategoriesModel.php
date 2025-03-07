@@ -16,7 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Category;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -43,12 +43,12 @@ class CategoriesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                     $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface|null  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -251,7 +251,7 @@ class CategoriesModel extends ListModel
 
         if (\count($categoryId)) {
             // Case: Using both categories filter and by level filter
-            $categoryTable    = Table::getInstance('Category', 'JTable');
+            $categoryTable    = new Category($db);
             $subCatItemsWhere = [];
 
             foreach ($categoryId as $filterCatId) {

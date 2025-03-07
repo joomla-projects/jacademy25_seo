@@ -59,7 +59,7 @@ trait MultiFactorAuthenticationHandler
         // Multi-factor Authentication checks take place only for logged in users.
         try {
             $user = $this->getIdentity();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -255,7 +255,7 @@ trait MultiFactorAuthenticationHandler
         // Make sure we are logged in
         try {
             $user = $this->getIdentity();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // This would happen if we are in CLI or under an old Joomla! version. Either case is not supported.
             return false;
         }
@@ -356,7 +356,7 @@ trait MultiFactorAuthenticationHandler
 
         try {
             $result = $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $result = 1;
         }
 
@@ -419,7 +419,7 @@ trait MultiFactorAuthenticationHandler
                     Factory::getApplication()->bootComponent('com_users')->getMVCFactory()->createTable('Mfa', 'Administrator')->save(
                         [
                             'user_id'    => $user->id,
-                            'title'      => sprintf("%s %s", Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_METHOD_TITLE'), $config['yubikey']),
+                            'title'      => \sprintf("%s %s", Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_METHOD_TITLE'), $config['yubikey']),
                             'method'     => 'yubikey',
                             'default'    => 0,
                             'created_on' => Date::getInstance()->toSql(),
@@ -491,7 +491,7 @@ trait MultiFactorAuthenticationHandler
         // Is this already decrypted?
         try {
             $decrypted = @json_decode($stringToDecrypt, true);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $decrypted = null;
         }
 

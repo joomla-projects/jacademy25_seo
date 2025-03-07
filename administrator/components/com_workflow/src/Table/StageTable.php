@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 
@@ -40,12 +40,12 @@ class StageTable extends Table
     protected $_supportNullValue = true;
 
     /**
-     * @param   DatabaseDriver        $db          Database connector object
+     * @param   DatabaseInterface     $db          Database connector object
      * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since  4.0.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseInterface $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__workflow_stages', 'id', $db, $dispatcher);
     }
@@ -250,14 +250,14 @@ class StageTable extends Table
     /**
      * Get the parent asset id for the record
      *
-     * @param   Table|null    $table  A Table object for the asset parent.
-     * @param   integer|null  $id     The id for the asset
+     * @param   ?Table    $table  A Table object for the asset parent.
+     * @param   ?integer  $id     The id for the asset
      *
      * @return  integer  The id of the asset's parent
      *
      * @since  4.0.0
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $asset = new Asset($this->getDbo(), $this->getDispatcher());
 
