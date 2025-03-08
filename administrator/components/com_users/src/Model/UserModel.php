@@ -330,7 +330,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                 $allow = (!$iAmSuperAdmin && Access::check($pk, 'core.admin')) ? false : $allow;
 
                 if ($allow) {
-                    $user_to_trash= $this->getUserFactory()->loadUserById($pk);
+                    $user_to_trash        = $this->getUserFactory()->loadUserById($pk);
                     $user_to_trash->block = 2;
 
                     if (!$user_to_trash->save()) {
