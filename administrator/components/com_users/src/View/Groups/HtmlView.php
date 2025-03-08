@@ -116,6 +116,11 @@ class HtmlView extends BaseHtmlView
             $toolbar->divider();
         }
 
+        if ($canDo->get('core.trash')) {
+            $toolbar->archive('groups.trash')
+                ->message('JTRASHED');
+        }
+
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
             $toolbar->preferences('com_users');
             $toolbar->divider();

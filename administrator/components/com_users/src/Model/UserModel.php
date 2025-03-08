@@ -302,6 +302,57 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     }
 
     /**
+     * Method to trash user records.
+     *
+     * @param   array  $pks  The ids of the items to publish.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception
+     */
+    public function trash(&$pks)
+    {
+        $user  = $this->getCurrentUser();
+        $table = $this->getTable();
+        $pks   = (array) $pks;
+
+        $iAmSuperAdmin = $user->authorise('core.admin');
+
+        if (\in_array($user->id, $pks)) {
+            $this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_TRASH_SELF'));
+            return false;
+        }
+
+        foreach ($pks as $i => $pk) {
+            if ($table->load($pk)) {
+                $allow = $user->authorise('core.trash', 'com_users');
+                $allow = (!$iAmSuperAdmin && Access::check($pk, 'core.admin')) ? false : $allow;
+
+                if ($allow) {
+                    $user_to_trash= $this->getUserFactory()->loadUserById($pk);
+                    $user_to_trash->block = 2;
+
+                    if (!$user_to_trash->save()) {
+                        $this->setError($user_to_trash->getError());
+                        return false;
+                    }
+                } else {
+                    unset($pks[$i]);
+                    Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_TRASH_NOT_PERMITTED'), 'error');
+                }
+            }
+
+            Factory::getApplication()->enqueueMessage(
+                Text::_('User moved to Trash. Delete again to remove permanently.'),
+                'notice'
+            );
+        }
+
+        return true;
+    }
+
+    /**
      * Method to delete rows.
      *
      * @param   array  &$pks  An array of item ids.

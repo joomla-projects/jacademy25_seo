@@ -157,6 +157,7 @@ class HtmlView extends BaseHtmlView
                 $childBar->unpublish('notes.unpublish')->listCheck(true);
                 $childBar->archive('notes.archive')->listCheck(true);
                 $childBar->checkin('notes.checkin')->listCheck(true);
+                $childBar->trash('notes.trash');
             }
 
             if ($this->state->get('filter.published') != -2 && $canDo->get('core.edit.state')) {
