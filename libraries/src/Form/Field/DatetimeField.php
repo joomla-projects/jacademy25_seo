@@ -216,20 +216,20 @@ class DatetimeField extends FormField
     /**
      * Method to filter a field value.
      *
-     * @param   mixed     $value  The optional value to use as the default for the field.
-     * @param   string    $group  The optional dot-separated form group path on which to find the field.
-     * @param   Registry  $input  An optional Registry object with the entire data set to filter
-     *                            against the entire form.
+     * @param   mixed      $value  The optional value to use as the default for the field.
+     * @param   string     $group  The optional dot-separated form group path on which to find the field.
+     * @param   ?Registry  $input  An optional Registry object with the entire data set to filter
+     *                             against the entire form.
      *
      * @return  mixed   The filtered value.
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function filter($value, $group = null, Registry $input = null)
+    public function filter($value, $group = null, ?Registry $input = null)
     {
         // Make sure there is a valid SimpleXMLElement.
         if (!($this->element instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s `element` is not an instance of SimpleXMLElement', __METHOD__));
+            throw new \UnexpectedValueException(\sprintf('%s `element` is not an instance of SimpleXMLElement', __METHOD__));
         }
 
         if (!$value) {
