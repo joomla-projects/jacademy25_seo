@@ -100,7 +100,7 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 
 .calendar-container table tbody td.day.selected { /* Cell showing today date */
   color: var(--bs-white);
-  background: var(--bs-info);
+  background: var(--bs-cyan);
   border: 0;
 }
 
@@ -129,7 +129,7 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 .calendar-container table tbody td.day:hover {
   color: var(--bs-white);
   cursor: pointer;
-  background: var(--bs-info);
+  background: var(--bs-cyan);
 }
 
 .calendar-container table tbody td.day:hover:after {
