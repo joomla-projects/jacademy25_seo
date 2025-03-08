@@ -11,7 +11,6 @@
 namespace Joomla\Component\Media\Administrator\Controller;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Filesystem\TmpFileUpload;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -22,6 +21,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
+use Joomla\Component\Media\Administrator\File\TmpFileUpload;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
 
