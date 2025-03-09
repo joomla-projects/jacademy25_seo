@@ -32,13 +32,11 @@ use Joomla\CMS\Language\Text;
                             <?php echo HTMLHelper::_('users.' . $field->fieldname, $field->value); ?>
                         <?php elseif (HTMLHelper::isRegistered('users.' . $field->type)) : ?>
                             <?php echo HTMLHelper::_('users.' . $field->type, $field->value); ?>
+                        <?php elseif (!empty($this->data->params) && is_array($field->options) && count($field->options) > 0) : ?>
+                            <?php $optionIndex = array_search($this->data->params[$field->fieldname], array_column($field->options, 'value')); ?>
+                            <?php echo HTMLHelper::_('users.value', ((array)$field->options[$optionIndex])['text']); ?>
                         <?php else : ?>
-                            <?php if (!empty($this->data->params) && is_array($field->options) && count($field->options) > 0) : ?>
-                                <?php $optionIndex = array_search($this->data->params[$field->fieldname], array_column($field->options, 'value')); ?>
-                                <?php echo HTMLHelper::_('users.value', ((array)$field->options[$optionIndex])['text']); ?>
-                            <?php else : ?>
-                                <?php echo HTMLHelper::_('users.value', $field->value); ?>
-                            <?php endif; ?>
+                            <?php echo HTMLHelper::_('users.value', $field->value); ?>
                         <?php endif; ?>
                     </dd>
                 <?php endif; ?>
