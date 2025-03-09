@@ -33,7 +33,7 @@ use Joomla\CMS\Language\Text;
                         <?php elseif (HTMLHelper::isRegistered('users.' . $field->type)) : ?>
                             <?php echo HTMLHelper::_('users.' . $field->type, $field->value); ?>
                         <?php else : ?>
-                            <?php if (is_array($field->options) && count($field->options) > 0) : ?>
+                            <?php if (!empty($this->data->params) && is_array($field->options) && count($field->options) > 0) : ?>
                                 <?php $optionIndex = array_search($this->data->params[$field->fieldname], array_column($field->options, 'value')); ?>
                                 <?php echo HTMLHelper::_('users.value', ((array)$field->options[$optionIndex])['text']); ?>
                             <?php else : ?>
