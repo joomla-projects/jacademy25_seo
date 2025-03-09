@@ -85,18 +85,18 @@ class UpdateModel extends BaseDatabaseModel
      *
      * @since    2.5.4
      */
-    public function applyUpdateSite()
+    public function applyUpdateSite(?string $updateSource = null, ?string $updateURL = null)
     {
-        // Determine the intended update URL.
-        $params = ComponentHelper::getParams('com_joomlaupdate');
+        $params       = ComponentHelper::getParams('com_joomlaupdate');
+        $updateSource = $updateSource ?: $params->get('updatesource', 'default');
+        $updateURL    = trim($updateURL ?: $params->get('customurl', ''));
 
-        switch ($params->get('updatesource', 'default')) {
+        // Determine the intended update URL.
+        switch ($updateSource) {
             case 'custom':
                 // "Custom"
                 // @todo: check if the customurl is valid and not just "not empty".
-                if (trim($params->get('customurl', '')) != '') {
-                    $updateURL = trim($params->get('customurl', ''));
-                } else {
+                if ($updateURL === '') {
                     Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
 
                     return;
@@ -134,21 +134,19 @@ class UpdateModel extends BaseDatabaseModel
         $db->setQuery($query);
         $update_site = $db->loadObject();
 
-        if ($update_site->location !== $updateURL || $update_site->type !== $updateType) {
-            // Modify the database record.
-            $update_site->last_check_timestamp = 0;
-            $update_site->location             = $updateURL;
-            $update_site->type                 = $updateType;
-            $db->updateObject('#__update_sites', $update_site, 'update_site_id');
+        // Modify the database record.
+        $update_site->last_check_timestamp = 0;
+        $update_site->location             = $updateURL;
+        $update_site->type                 = $updateType;
+        $db->updateObject('#__update_sites', $update_site, 'update_site_id');
 
-            // Remove cached updates.
-            $query->clear()
-                ->delete($db->quoteName('#__updates'))
-                ->where($db->quoteName('extension_id') . ' = :id')
-                ->bind(':id', $id, ParameterType::INTEGER);
-            $db->setQuery($query);
-            $db->execute();
-        }
+        // Remove cached updates.
+        $query->clear()
+            ->delete($db->quoteName('#__updates'))
+            ->where($db->quoteName('extension_id') . ' = :id')
+            ->bind(':id', $id, ParameterType::INTEGER);
+        $db->setQuery($query);
+        $db->execute();
     }
 
     /**
@@ -1413,9 +1411,7 @@ ENDDATA;
             $decode = json_decode($extension->manifest_cache);
 
             // Remove unused fields so they do not cause javascript errors during pre-update check
-            unset($decode->description);
-            unset($decode->copyright);
-            unset($decode->creationDate);
+            unset($decode->description, $decode->copyright, $decode->creationDate);
 
             $this->translateExtensionName($extension);
             $extension->version
@@ -1474,9 +1470,7 @@ ENDDATA;
             $decode = json_decode($plugin->manifest_cache);
 
             // Remove unused fields so they do not cause javascript errors during pre-update check
-            unset($decode->description);
-            unset($decode->copyright);
-            unset($decode->creationDate);
+            unset($decode->description, $decode->copyright, $decode->creationDate);
 
             $this->translateExtensionName($plugin);
             $plugin->version = $decode->version ?? Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
