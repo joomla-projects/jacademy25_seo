@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS "#__categories" (
   "rgt" bigint DEFAULT 0 NOT NULL,
   "level" integer DEFAULT 0 NOT NULL,
   "path" varchar(255) DEFAULT '' NOT NULL,
-  "extension" varchar(50) DEFAULT '' NOT NULL,
+  "extension" varchar(100) DEFAULT '' NOT NULL,
   "title" varchar(255) DEFAULT '' NOT NULL,
   "alias" varchar(255) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,

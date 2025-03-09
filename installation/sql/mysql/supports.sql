@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `#__categories` (
   `rgt` int NOT NULL DEFAULT 0,
   `level` int unsigned NOT NULL DEFAULT 0,
   `path` varchar(400) NOT NULL DEFAULT '',
-  `extension` varchar(50) NOT NULL DEFAULT '',
+  `extension` varchar(100) NOT NULL DEFAULT '',
   `title` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',

@@ -1167,7 +1167,7 @@ CREATE TABLE IF NOT EXISTS "#__workflows" (
   "published" smallint DEFAULT 0 NOT NULL,
   "title" varchar(255) DEFAULT '' NOT NULL,
   "description" text NOT NULL,
-  "extension" varchar(50) NOT NULL,
+  "extension" varchar(255) NOT NULL,
   "default" smallint NOT NULL  DEFAULT 0,
   "ordering" bigint NOT NULL DEFAULT 0,
   "created" timestamp without time zone NOT NULL,
@@ -1201,7 +1201,7 @@ SELECT setval('#__workflows_id_seq', 2, false);
 CREATE TABLE IF NOT EXISTS "#__workflow_associations" (
   "item_id" bigint DEFAULT 0 NOT NULL,
   "stage_id" bigint DEFAULT 0 NOT NULL,
-  "extension" varchar(50) NOT NULL,
+  "extension" varchar(255) NOT NULL,
   PRIMARY KEY ("item_id", "extension")
 );
 CREATE INDEX "#__workflow_associations_idx_item_stage_extension" ON "#__workflow_associations" ("item_id", "stage_id", "extension");

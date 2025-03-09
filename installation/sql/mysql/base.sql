@@ -1140,7 +1140,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   `published` tinyint NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `extension` varchar(50) NOT NULL,
+  `extension` varchar(255) NOT NULL,
   `default` tinyint NOT NULL  DEFAULT 0,
   `ordering` int NOT NULL DEFAULT 0,
   `created` datetime NOT NULL,
@@ -1177,7 +1177,7 @@ INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description
 CREATE TABLE IF NOT EXISTS `#__workflow_associations` (
   `item_id` int NOT NULL DEFAULT 0 COMMENT 'Extension table id value',
   `stage_id` int NOT NULL COMMENT 'Foreign Key to #__workflow_stages.id',
-  `extension` varchar(50) NOT NULL,
+  `extension` varchar(255) NOT NULL,
   PRIMARY KEY (`item_id`, `extension`),
   KEY `idx_item_stage_extension` (`item_id`, `stage_id`, `extension`),
   KEY `idx_item_id` (`item_id`),
