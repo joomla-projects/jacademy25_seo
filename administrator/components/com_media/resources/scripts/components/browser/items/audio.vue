@@ -1,6 +1,6 @@
 <template>
   <div
-    class="media-browser-audio "
+    class="media-browser-audio"
     tabindex="0"
     @dblclick="openPreview()"
     @mouseleave="hideActions()"
