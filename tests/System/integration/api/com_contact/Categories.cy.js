@@ -22,7 +22,7 @@ describe('Test that contact categories API endpoint', () => {
       description: 'automated test contact category description',
       parent_id: 1,
       extension: 'com_contacts',
-     })
+    })
       .then((response) => {
         cy.wrap(response).its('body').its('data').its('attributes')
           .its('title')
