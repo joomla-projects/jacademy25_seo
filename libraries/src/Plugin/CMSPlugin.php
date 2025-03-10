@@ -435,7 +435,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      *
      * @deprecated  5.2 will be removed in 7.0
      *              Plugin should use the language from Application, and only after the app is initialised
@@ -452,7 +452,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      *
      * @throws  \UnexpectedValueException May be thrown if the language has not been set.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      *
      * @deprecated  5.2 will be removed in 7.0
      *              Plugin should use the language from Application, and only after the app is initialised.
@@ -474,7 +474,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      *
      * @return  $this
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      *
      * @deprecated  5.2 will be removed in 7.0
      *              Plugin should implement DispatcherAwareInterface on its own, when it is needed.
@@ -497,7 +497,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      *
      * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      *
      * @deprecated  5.2 will be removed in 7.0
      *              Plugin should implement DispatcherAwareInterface on its own, when it is needed.
