@@ -194,7 +194,7 @@ class CoreContent extends Table implements CurrentUserInterface
             throw new \UnexpectedValueException('Null type alias not allowed.');
         }
 
-        $db    = $this->getDbo();
+        $db    =Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
         $query->select($db->quoteName('core_content_id'))
             ->from($db->quoteName('#__ucm_content'))
@@ -281,7 +281,7 @@ class CoreContent extends Table implements CurrentUserInterface
     protected function storeUcmBase($updateNulls = true, $isNew = false)
     {
         // Store the ucm_base row
-        $db         = $this->getDbo();
+        $db         =Factory::getContainer()->get(DatabaseInterface::class);
         $query      = $db->getQuery(true);
         $languageId = ContentHelper::getLanguageId($this->core_language);
 

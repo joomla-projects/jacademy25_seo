@@ -58,6 +58,7 @@
 			type="checkbox"
 			label="COM_CONTACT_CONTACT_EMAIL_A_COPY_LABEL"
 			id="contact-email-copy"
+			default="0"
 		/>
 	</fieldset>
 

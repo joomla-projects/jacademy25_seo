@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Language;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\Tests\Unit\UnitTestCase;
+use Joomla\CMS\Factory;
 
 /**
  * Test class for \Joomla\CMS\Language\LanguageAwareTrait
@@ -38,7 +39,8 @@ class LanguageAwareTraitTest extends UnitTestCase
 
             public function get(): Language
             {
-                return $this->getLanguage();
+                return Factory::getApplication()->getLanguage();
+
             }
         };
 
@@ -63,7 +65,8 @@ class LanguageAwareTraitTest extends UnitTestCase
 
             public function get(): Language
             {
-                return $this->getLanguage();
+                return Factory::getApplication()->getLanguage();
+
             }
         };
 

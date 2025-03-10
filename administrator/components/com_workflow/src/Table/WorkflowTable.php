@@ -68,7 +68,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
      */
     public function delete($pk = null)
     {
-        $db  = $this->getDbo();
+        $db  = Factory::getContainer()->get(DatabaseInterface::class);
         $app = Factory::getApplication();
         $pk  = (int) $pk;
 
@@ -142,7 +142,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
                 return false;
             }
         } else {
-            $db    = $this->getDbo();
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true);
 
             $query

@@ -50,13 +50,13 @@ describe('Test in frontend that the users registration view', () => {
 
     cy.doFrontendLogin();
     cy.get('@activatelinkadmin').then((url) => cy.visit(url));
-    cy.checkForSystemMessage('The user\'s account has been activated and the user has been notified about it.');
+    cy.checkForSystemMessage('The user\'s account has been Verified and the user has been notified about it.');
     cy.doFrontendLogout();
     cy.task('getMails').then((mails) => {
       cy.wrap(mails).should('have.lengthOf', 3);
-      cy.wrap(mails[2].headers.subject).should('have.string', `Account activated for test user at ${Cypress.env('sitename')}`);
+      cy.wrap(mails[2].headers.subject).invoke('replace', /\s+/g, ' ').should('have.string', `Account Verified for test user at ${Cypress.env('sitename')}`);
       cy.wrap(mails[2].headers.to).should('equal', 'testuser@example.com');
-      cy.wrap(mails[2].body).should('have.string', 'Hello test user,\n\nYour account has been activated by an administrator.');
+      cy.wrap(mails[2].body).should('have.string', 'Hello test user,\n\nYour account has been Verified by an administrator.');
       cy.wrap(mails[2].html).should('be.false');
     });
     cy.doFrontendLogin('testuser', `${Cypress.env('password')}-test`);

@@ -210,7 +210,8 @@ class HtmlView extends BaseHtmlView
         $toolbar->divider();
 
         // Get the help information for the menu item.
-        $lang = $this->getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
+
 
         $help = $this->get('Help');
 

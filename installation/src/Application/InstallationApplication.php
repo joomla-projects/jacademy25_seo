@@ -461,7 +461,8 @@ final class InstallationApplication extends CMSApplication
         $this->loadLanguage($lang);
 
         // Register the language object with Factory
-        Factory::$language = $this->getLanguage();
+        Factory::$language = Factory::getApplication()->getLanguage();
+
     }
 
     /**
@@ -480,7 +481,8 @@ final class InstallationApplication extends CMSApplication
     public function loadDocument(?Document $document = null)
     {
         if ($document === null) {
-            $lang = $this->getLanguage();
+            $lang = Factory::getApplication()->getLanguage();
+
             $type = $this->input->get('format', 'html', 'word');
             $date = new Date('now');
 

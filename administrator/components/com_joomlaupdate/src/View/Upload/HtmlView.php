@@ -73,7 +73,8 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         // Load com_installer's language
-        $language = $this->getLanguage();
+        $language = Factory::getApplication()->getLanguage();
+
         $language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
         $language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
 

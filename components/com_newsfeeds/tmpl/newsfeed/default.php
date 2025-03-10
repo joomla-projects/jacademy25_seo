@@ -22,7 +22,8 @@ use Joomla\Filter\OutputFilter;
 <?php if (!empty($this->msg)) : ?>
     <?php echo $this->msg; ?>
 <?php else : ?>
-    <?php $lang      = $this->getLanguage(); ?>
+    <?php $lang      = Factory::getApplication()->getLanguage();
+ ?>
     <?php $myrtl     = $this->item->rtl; ?>
     <?php $direction = ' '; ?>
     <?php $isRtl     = $lang->isRtl(); ?>

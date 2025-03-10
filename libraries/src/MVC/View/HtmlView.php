@@ -371,7 +371,8 @@ class HtmlView extends AbstractView implements CurrentUserInterface
 
         try {
             // Load the language file for the template
-            $lang = $this->getLanguage();
+            $lang = Factory::getApplication()->getLanguage();
+
         } catch (\UnexpectedValueException $e) {
             $lang = Factory::getApplication()->getLanguage();
         }

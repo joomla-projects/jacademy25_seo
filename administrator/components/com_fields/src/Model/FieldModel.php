@@ -163,7 +163,7 @@ class FieldModel extends AdminModel
         $message = $this->checkDefaultValue($data);
 
         if ($message !== true) {
-            $this->setError($message);
+            throw new RuntimeException($message);
 
             return false;
         }
