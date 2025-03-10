@@ -19,7 +19,8 @@ use Joomla\CMS\Router\Route;
 HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
 // Load user_profile plugin language
-$lang = $this->getLanguage();
+$lang = Factory::getApplication()->getLanguage();
+
 $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */

@@ -153,7 +153,7 @@ class Updater extends Adapter
             }
 
             // Make sure there is no update left over in the database.
-            $db    = $this->getDbo();
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__updates'))
                 ->where($db->quoteName('update_site_id') . ' = :id')
@@ -192,7 +192,7 @@ class Updater extends Adapter
      */
     private function getUpdateSites($eid = 0)
     {
-        $db    = $this->getDbo();
+        $db    =Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
 
         $query->select(
@@ -367,7 +367,7 @@ class Updater extends Adapter
      */
     private function getSitesWithUpdates($timestamp = 0)
     {
-        $db        = $this->getDbo();
+        $db        =Factory::getContainer()->get(DatabaseInterface::class);
         $timestamp = (int) $timestamp;
 
         $query = $db->getQuery(true)
@@ -411,7 +411,7 @@ class Updater extends Adapter
     private function updateLastCheckTimestamp($updateSiteId)
     {
         $timestamp    = time();
-        $db           = $this->getDbo();
+        $db           = Factory::getContainer()->get(DatabaseInterface::class);
         $updateSiteId = (int) $updateSiteId;
 
         $query = $db->getQuery(true)

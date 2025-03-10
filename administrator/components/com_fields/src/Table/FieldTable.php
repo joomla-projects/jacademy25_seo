@@ -298,7 +298,7 @@ class FieldTable extends Table implements CurrentUserInterface
      */
     private function getAssetId($name)
     {
-        $db    = $this->getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__assets'))

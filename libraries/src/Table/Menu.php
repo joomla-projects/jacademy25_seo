@@ -171,7 +171,7 @@ class Menu extends Nested
      */
     public function store($updateNulls = true)
     {
-        $db = $this->getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Verify that the alias is unique
         $table = new self($db, $this->getDispatcher());

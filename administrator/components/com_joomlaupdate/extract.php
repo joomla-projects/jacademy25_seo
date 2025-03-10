@@ -1252,7 +1252,7 @@ class ZIPExtraction
             $message = 'Could not open archive for reading. Check that the file exists, is '
                 . 'readable by the web server and is not in a directory made out of reach by chroot, '
                 . 'open_basedir restrictions or any other restriction put in place by your host.';
-            $this->setError($message);
+                throw new RuntimeException($message);
 
             return;
         }

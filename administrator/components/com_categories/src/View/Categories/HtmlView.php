@@ -175,7 +175,8 @@ class HtmlView extends BaseHtmlView
         }
 
         // Need to load the menu language file as mod_menu hasn't been loaded yet.
-        $lang = $this->getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
+
         $lang->load($component, JPATH_BASE)
         || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
 

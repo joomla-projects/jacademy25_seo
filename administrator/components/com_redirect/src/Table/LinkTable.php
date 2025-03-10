@@ -96,7 +96,7 @@ class LinkTable extends Table
             return false;
         }
 
-        $db = $this->getDbo();
+        $db =Factory::getContainer()->get(DatabaseInterface::class);
 
         // Check for existing name
         $query = $db->getQuery(true)

@@ -213,7 +213,7 @@ class BannerTable extends Table implements VersionableTableInterface
      */
     public function store($updateNulls = true)
     {
-        $db = $this->getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         if (empty($this->id)) {
             $purchaseType = $this->purchase_type;

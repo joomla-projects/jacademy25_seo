@@ -223,7 +223,8 @@ class HtmlView extends BaseHtmlView
         }
 
         if (\in_array($this->getLayout(), ['preupdatecheck', 'update', 'upload'])) {
-            $language = $this->getLanguage();
+            $language = Factory::getApplication()->getLanguage();
+
             $language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
             $language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
 

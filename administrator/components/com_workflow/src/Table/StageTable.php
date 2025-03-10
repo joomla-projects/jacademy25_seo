@@ -63,7 +63,7 @@ class StageTable extends Table
      */
     public function delete($pk = null)
     {
-        $db  = $this->getDbo();
+        $db  =Factory::getContainer()->get(DatabaseInterface::class);
         $app = Factory::getApplication();
         $pk  = (int) $pk;
 
@@ -134,7 +134,7 @@ class StageTable extends Table
                 return false;
             }
         } else {
-            $db    = $this->getDbo();
+            $db    =Factory::getContainer()->get(DatabaseInterface::class); 
             $query = $db->getQuery(true);
 
             $query

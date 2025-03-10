@@ -174,7 +174,8 @@ class HtmlView extends BaseHtmlView
         }
 
         // Get the help information for the menu item.
-        $lang = $this->getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
+
 
         $help = $this->get('Help');
 

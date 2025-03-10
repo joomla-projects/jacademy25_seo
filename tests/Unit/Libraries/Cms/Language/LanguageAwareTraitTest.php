@@ -38,7 +38,8 @@ class LanguageAwareTraitTest extends UnitTestCase
 
             public function get(): Language
             {
-                return $this->getLanguage();
+                return Factory::getApplication()->getLanguage();
+
             }
         };
 
@@ -63,7 +64,8 @@ class LanguageAwareTraitTest extends UnitTestCase
 
             public function get(): Language
             {
-                return $this->getLanguage();
+                return Factory::getApplication()->getLanguage();
+
             }
         };
 
