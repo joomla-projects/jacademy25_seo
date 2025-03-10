@@ -15,7 +15,7 @@ namespace Joomla\Component\Media\Administrator\File;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class wrapper for uploaded file $_FILE.
+ * Class wrapper for uploaded file $_FILE.1
  *
  * @since  __DEPLOY_VERSION__
  */
