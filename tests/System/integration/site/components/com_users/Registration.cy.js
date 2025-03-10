@@ -54,9 +54,9 @@ describe('Test in frontend that the users registration view', () => {
     cy.doFrontendLogout();
     cy.task('getMails').then((mails) => {
       cy.wrap(mails).should('have.lengthOf', 3);
-      cy.wrap(mails[2].headers.subject).should('have.string', `Account activated for test user at ${Cypress.env('sitename')}`);
+      cy.wrap(mails[2].headers.subject).should('have.string', `Account Verified for test user at ${Cypress.env('sitename')}`);
       cy.wrap(mails[2].headers.to).should('equal', 'testuser@example.com');
-      cy.wrap(mails[2].body).should('have.string', 'Hello test user,\n\nYour account has been activated by an administrator.');
+      cy.wrap(mails[2].body).should('have.string', 'Hello test user,\n\nYour account has been Verified by an administrator.');
       cy.wrap(mails[2].html).should('be.false');
     });
     cy.doFrontendLogin('testuser', `${Cypress.env('password')}-test`);
