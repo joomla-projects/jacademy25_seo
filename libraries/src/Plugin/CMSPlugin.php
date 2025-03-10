@@ -346,7 +346,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      * @since   4.0.0
      *
      * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
-     *              Plugin should implement SubscriberInterface.1
+     *              Plugin should implement SubscriberInterface.
      */
     final protected function registerListener(string $methodName)
     {
