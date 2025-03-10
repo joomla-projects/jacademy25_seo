@@ -206,8 +206,9 @@ class ApiController extends BaseController
 
             // Create tmp file
             if ($mediaContent) {
+                $tmpContent   = $mediaContent;
                 $tmpFile      = Path::clean($this->app->get('tmp_path') . '/tmp_upload/' . uniqid('tmp-', true));
-                $mediaLength  = \strlen($mediaContent);
+                $mediaLength  = \strlen($tmpContent);
                 $mediaContent = new TmpFileUpload([
                     'name'     => $name,
                     'tmp_name' => $tmpFile,
@@ -215,7 +216,7 @@ class ApiController extends BaseController
                     'error'    => 0,
                 ]);
 
-                if (!File::write($tmpFile, $mediaContent)) {
+                if (!File::write($tmpFile, $tmpContent)) {
                     throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
                 }
             }
@@ -322,8 +323,9 @@ class ApiController extends BaseController
 
             // Create tmp file
             if ($mediaContent) {
+                $tmpContent   = $mediaContent;
                 $tmpFile      = Path::clean($this->app->get('tmp_path') . '/tmp_upload/' . uniqid('tmp-', true));
-                $mediaLength  = \strlen($mediaContent);
+                $mediaLength  = \strlen($tmpContent);
                 $mediaContent = new TmpFileUpload([
                     'name'     => $name,
                     'tmp_name' => $tmpFile,
@@ -331,7 +333,7 @@ class ApiController extends BaseController
                     'error'    => 0,
                 ]);
 
-                if (!File::write($tmpFile, $mediaContent)) {
+                if (!File::write($tmpFile, $tmpContent)) {
                     throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
                 }
             }

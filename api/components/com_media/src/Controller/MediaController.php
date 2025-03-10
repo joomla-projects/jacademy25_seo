@@ -323,14 +323,15 @@ class MediaController extends ApiController
         $model = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
 
         $json         = $this->input->json;
-        $name         = $json->getString('name');
+        $name         = basename($json->getString('path', ''));
         $mediaContent = base64_decode($json->get('content', '', 'raw'));
         $tmpFile      = '';
 
         // Create tmp file
         if ($mediaContent) {
+            $tmpContent   = $mediaContent;
             $tmpFile      = Path::clean($this->app->get('tmp_path') . '/tmp_upload/' . uniqid('tmp-', true));
-            $mediaLength  = \strlen($mediaContent);
+            $mediaLength  = \strlen($tmpContent);
             $mediaContent = new TmpFileUpload([
                 'name'     => $name,
                 'tmp_name' => $tmpFile,
@@ -340,7 +341,7 @@ class MediaController extends ApiController
 
             $this->checkContent($mediaLength);
 
-            if (!File::write($tmpFile, $mediaContent)) {
+            if (!File::write($tmpFile, $tmpContent)) {
                 throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
             }
         }
