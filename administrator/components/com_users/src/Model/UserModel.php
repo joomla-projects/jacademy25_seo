@@ -483,73 +483,80 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      * @throws  \Exception
      */
     public function activate(&$pks)
-    {
-        $user = $this->getCurrentUser();
+{
+    $user = $this->getCurrentUser();
 
-        // Check if I am a Super Admin
-        $iAmSuperAdmin = $user->authorise('core.admin');
-        $table         = $this->getTable();
-        $pks           = (array) $pks;
+    // Check if I am a Super Admin
+    $iAmSuperAdmin = $user->authorise('core.admin');
+    $table         = $this->getTable();
+    $pks           = (array) $pks;
 
-        PluginHelper::importPlugin($this->events_map['save']);
+    PluginHelper::importPlugin($this->events_map['save']);
 
-        // Access checks.
-        foreach ($pks as $i => $pk) {
-            if ($table->load($pk)) {
-                $old   = $table->getProperties();
-                $allow = $user->authorise('core.edit.state', 'com_users');
+    // Access checks.
+    foreach ($pks as $i => $pk) {
+        if ($table->load($pk)) {
+            $old   = $table->getProperties();
+            $allow = $user->authorise('core.edit.state', 'com_users');
 
-                // Don't allow non-super-admin to delete a super admin
-                $allow = (!$iAmSuperAdmin && Access::check($pk, 'core.admin')) ? false : $allow;
+            // Don't allow non-super-admin to modify a super admin
+            $allow = (!$iAmSuperAdmin && Access::check($pk, 'core.admin')) ? false : $allow;
 
-                if (empty($table->activation)) {
-                    // Ignore activated accounts.
-                    unset($pks[$i]);
-                } elseif ($allow) {
-                    $table->block      = 0;
-                    $table->activation = '';
+            if (empty($table->activation)) {
+                // If the user is already activated, update the status
+                unset($pks[$i]);
+            } elseif ($allow) {
+                // ✅ Set email verified status
+                $table->activation = '';  // Clear activation token (email verified)
+                $table->emailVerified = 1; // Add a new field if needed (set to true)
 
-                    // Allow an exception to be thrown.
-                    try {
-                        if (!$table->check()) {
-                            $this->setError($table->getError());
+                // ✅ Immediately update UI (Modify only if your table supports it)
+                if (property_exists($table, 'activated')) {
+                    $table->activated = 1;  // Update UI field for activation
+                }
 
-                            return false;
-                        }
+                // Keep "block" only if admin has approved
+                if ($table->approved_by_admin) {
+                    $table->block = 0; // Unblock only if admin approves
+                }
 
-                        // Trigger the before save event.
-                        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$old, false, $table->getProperties()]);
-
-                        if (\in_array(false, $result, true)) {
-                            // Plugin will have to raise it's own error or throw an exception.
-                            return false;
-                        }
-
-                        // Store the table.
-                        if (!$table->store()) {
-                            $this->setError($table->getError());
-
-                            return false;
-                        }
-
-                        // Fire the after save event
-                        Factory::getApplication()->triggerEvent($this->event_after_save, [$table->getProperties(), false, true, null]);
-                    } catch (\Exception $e) {
-                        $this->setError($e->getMessage());
-
+                try {
+                    if (!$table->check()) {
+                        $this->setError($table->getError());
                         return false;
                     }
-                } else {
-                    // Prune items that you can't change.
-                    unset($pks[$i]);
-                    Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
+
+                    // Trigger the before save event.
+                    $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$old, false, $table->getProperties()]);
+
+                    if (\in_array(false, $result, true)) {
+                        return false;
+                    }
+
+                    // Store the table.
+                    if (!$table->store()) {
+                        $this->setError($table->getError());
+                        return false;
+                    }
+
+                    // Fire the after save event
+                    Factory::getApplication()->triggerEvent($this->event_after_save, [$table->getProperties(), false, true, null]);
+                } catch (\Exception $e) {
+                    $this->setError($e->getMessage());
+                    return false;
                 }
+            } else {
+                // Prune items that you can't change.
+                unset($pks[$i]);
+                Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
             }
         }
-
-        return true;
     }
 
+    return true;
+}
+
+    
     /**
      * Method to perform batch operations on an item or a set of items.
      *
