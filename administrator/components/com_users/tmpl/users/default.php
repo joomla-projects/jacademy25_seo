@@ -159,6 +159,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
     <?php endif; ?>
 </td>
 
+
                                 <?php if ($mfa) : ?>
                                 <td class="text-center d-none d-md-table-cell">
                                     <?php if ($item->mfaRecords > 0 || !empty($item->otpKey)) : ?>
