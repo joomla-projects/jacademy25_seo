@@ -437,6 +437,7 @@ class Users
         if (empty($value)) {
             return static::value($value);
         }
+
         switch ($value) {
             case 'os':
                 return Text::_('COM_USERS_USER_COLORSCHEME_OPTION_FOLLOW_OS');
@@ -445,6 +446,7 @@ class Users
             case 'dark':
                 return Text::_('COM_USERS_USER_COLORSCHEME_OPTION_DARK');
         }
+
         return static::value('');
     }
 
@@ -464,6 +466,7 @@ class Users
         } elseif ($value == 1) {
             return Text::_('JYES');
         }
+
         return static::value('');
     }
 }
