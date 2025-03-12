@@ -45,15 +45,12 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 if (PHP_VERSION_ID >= 80400) {
-                    $reflector = new ReflectionClass(ScheduleRunner::class);
-                    $plugin    = $reflector->newLazyProxy(function () use ($container) {
+                    return (new ReflectionClass(ScheduleRunner::class))->newLazyProxy(function () use ($container) {
                         return $container->get(ScheduleRunner::class);
                     });
-                } else {
-                    $plugin = $container->get(ScheduleRunner::class);
                 }
 
-                return $plugin;
+                return $container->get(ScheduleRunner::class);
             }
         );
     }
