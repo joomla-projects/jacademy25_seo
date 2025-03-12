@@ -304,7 +304,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     /**
      * Method to trash user records.
      *
-     * @param   array  $pks  The ids of the items to publish.
+     * @param   array  $pks  The ids of the items to trash.
      *
      * @return  boolean  True on success.
      *

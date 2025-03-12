@@ -173,6 +173,10 @@ class HtmlView extends BaseHtmlView
                     ->message('JGLOBAL_CONFIRM_DELETE')
                     ->listCheck(true);
             }
+
+            if ($canDo->get('core.trash')) {
+                $childBar->trash('user.trash', 'JTOOLBAR_TRASH');
+            }
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {

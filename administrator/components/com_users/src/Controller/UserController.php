@@ -15,6 +15,8 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -145,6 +147,31 @@ class UserController extends FormController
         $this->setRedirect(Route::_('index.php?option=com_users&view=users' . $this->getRedirectToListAppend(), false));
 
         return parent::batch($model);
+    }
+
+    /**
+     * Trashes a user.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function trash()
+    {
+        $app = Factory::getApplication();
+        $input = $app->input;
+        $userId = $input->get('cid', [], 'array');
+
+        if (!$userId) {
+            $app->enqueueMessage(Text::_('COM_USERS_ERROR_USER_NOT_FOUND'), 'error');
+            return;
+        }
+
+        $model = $this->getModel('User', 'Administrator', []);
+        $model->trash($userId);
+
+        $app->enqueueMessage(Text::sprintf('COM_USERS_USER_TRASHED_SUCCESS', 2), 'message');
+        $this->setRedirect(Route::_('index.php?option=com_users&view=users', false));
     }
 
     /**

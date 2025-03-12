@@ -139,6 +139,9 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                 </td>
                                 <td class="text-center d-md-table-cell">
                                     <?php $self = $loggeduser->id == $item->id; ?>
+                                    <?php if ($item->block == 2) {
+                                        echo '<span class="badge bg-danger">' . Text::_('COM_USERS_TRASHED') . '</span>';
+                                    } ?>
                                     <?php if ($canChange) : ?>
                                         <?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.blockStates', $self), $item->block, $i, 'users.', !$self); ?>
                                     <?php else : ?>
@@ -227,3 +230,4 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
         </div>
     </div>
 </form>
+
