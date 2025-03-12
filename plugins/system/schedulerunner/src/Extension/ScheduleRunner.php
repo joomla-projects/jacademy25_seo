@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\System\ScheduleRunner\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\LazySubscriberInterface;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
@@ -42,7 +43,7 @@ use Joomla\Registry\Registry;
  *
  * @since 4.1.0
  */
-final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
+final class ScheduleRunner extends CMSPlugin implements SubscriberInterface, LazySubscriberInterface
 {
     /**
      * Length of auto-generated webcron key.

@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\TaskNotification\Extension;
 
+use Joomla\CMS\Event\LazySubscriberInterface;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
@@ -40,7 +41,7 @@ use PHPMailer\PHPMailer\Exception as MailerException;
  *
  * @since 4.1.0
  */
-final class TaskNotification extends CMSPlugin implements SubscriberInterface
+final class TaskNotification extends CMSPlugin implements SubscriberInterface, LazySubscriberInterface
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;

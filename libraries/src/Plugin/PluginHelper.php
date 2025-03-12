@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Plugin;
 
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
+use Joomla\CMS\Event\LazySubscriberInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
@@ -232,17 +233,14 @@ abstract class PluginHelper
 
         $plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
-        // @TODO: This piece of code breaks everything, and triggering Lazy Object instantiation !!!
-        // if ($dispatcher && $plugin instanceof DispatcherAwareInterface) {
-        //     $plugin->setDispatcher($dispatcher);
-        // }
-
         if (!$autocreate) {
             return;
         }
 
-        if ($plugin->registerListeners() && $plugin instanceof SubscriberInterface) {
+        if ($plugin instanceof LazySubscriberInterface) {
             $dispatcher->addSubscriber($plugin);
+        } else {
+            $plugin->registerListeners();
         }
     }
 

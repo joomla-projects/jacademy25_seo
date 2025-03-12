@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\System\Webauthn\Extension;
 
 use Joomla\CMS\Event\CoreEventAware;
+use Joomla\CMS\Event\LazySubscriberInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -42,7 +43,7 @@ use Joomla\Plugin\System\Webauthn\PluginTraits\UserProfileFields;
  *
  * @since  4.0.0
  */
-final class Webauthn extends CMSPlugin implements SubscriberInterface
+final class Webauthn extends CMSPlugin implements SubscriberInterface, LazySubscriberInterface
 {
     // Add WebAuthn buttons
     use AdditionalLoginButtons;
