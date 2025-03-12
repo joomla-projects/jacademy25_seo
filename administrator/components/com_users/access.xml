@@ -6,6 +6,7 @@
 		<action name="core.manage" title="JACTION_MANAGE" />
 		<action name="core.create" title="JACTION_CREATE" />
 		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.trash" title="JACTION_TRASH" />
 		<action name="core.edit" title="JACTION_EDIT" />
 		<action name="core.edit.state" title="JACTION_EDITSTATE" />
 		<action name="core.edit.value" title="JACTION_EDITVALUE" />
@@ -13,6 +14,7 @@
 	<section name="category">
 		<action name="core.create" title="JACTION_CREATE" />
 		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.trash" title="JACTION_TRASH" />
 		<action name="core.edit" title="JACTION_EDIT" />
 		<action name="core.edit.state" title="JACTION_EDITSTATE" />
 		<action name="core.edit.own" title="JACTION_EDITOWN" />
@@ -20,6 +22,7 @@
 	<section name="fieldgroup">
 		<action name="core.create" title="JACTION_CREATE" />
 		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.trash" title="JACTION_TRASH" />
 		<action name="core.edit" title="JACTION_EDIT" />
 		<action name="core.edit.state" title="JACTION_EDITSTATE" />
 		<action name="core.edit.own" title="JACTION_EDITOWN" />
@@ -27,6 +30,7 @@
 	</section>
 	<section name="field">
 		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.trash" title="JACTION_TRASH" />
 		<action name="core.edit" title="JACTION_EDIT" />
 		<action name="core.edit.state" title="JACTION_EDITSTATE" />
 		<action name="core.edit.value" title="JACTION_EDITVALUE" />
