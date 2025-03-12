@@ -228,6 +228,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         // Plugins which are SubscriberInterface implementations are handled without legacy layer support
         if ($this instanceof SubscriberInterface) {
             $this->getDispatcher()->addSubscriber($this);
+
+            return;
         }
 
         $reflectedObject = new \ReflectionObject($this);
