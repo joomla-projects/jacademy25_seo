@@ -158,8 +158,8 @@ class UserController extends FormController
      */
     public function trash()
     {
-        $app = Factory::getApplication();
-        $input = $app->input;
+        $app    = Factory::getApplication();
+        $input  = $app->input;
         $userId = $input->get('cid', [], 'array');
 
         if (!$userId) {
