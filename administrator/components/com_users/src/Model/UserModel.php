@@ -420,6 +420,8 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                     // If unblocking, also change password reset count to zero to unblock reset
                     if ($table->block === 0) {
                         $table->resetCount = 0;
+                        //code for sortig manual fix acxtivation issue
+                        $table->activation = '';
                     }
 
                     // Allow an exception to be thrown.
