@@ -386,6 +386,11 @@ class User
      */
     public function authorise($action, $assetname = null)
     {
+        // Deny access if the user is deleted
+        if ($this->block == 2) {
+            return false;
+        }
+
         // Make sure we only check for core.admin once during the run.
         if ($this->isRoot === null) {
             $this->isRoot = false;

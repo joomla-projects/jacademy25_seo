@@ -173,6 +173,10 @@ class UsersModel extends ListModel
                 $items = parent::getItems();
             }
 
+            $items = array_filter($items, function ($item) {
+                return $item->block != 2;  // Exclude deleted users
+            });
+
             // Bail out on an error or empty list.
             if (empty($items)) {
                 $this->cache[$store] = $items;

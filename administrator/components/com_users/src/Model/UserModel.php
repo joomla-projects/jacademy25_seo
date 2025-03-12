@@ -339,12 +339,13 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
 
                 if ($allow) {
                     // Get users data for the users to delete.
-                    $user_to_delete = $this->getUserFactory()->loadUserById($pk);
+                    $user_to_delete        = $this->getUserFactory()->loadUserById($pk);
+                    $user_to_delete->block = 2;
 
                     // Fire the before delete event.
                     Factory::getApplication()->triggerEvent($this->event_before_delete, [$table->getProperties()]);
 
-                    if (!$table->delete($pk)) {
+                    if (!$user_to_delete->save()) {
                         $this->setError($table->getError());
 
                         return false;
