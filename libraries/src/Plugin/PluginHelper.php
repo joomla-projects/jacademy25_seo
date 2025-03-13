@@ -232,11 +232,6 @@ abstract class PluginHelper
 
         $plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
-        // TODO: Remove in 7.0
-        if ($dispatcher && $plugin instanceof DispatcherAwareInterface && !$plugin instanceof PluginWithSubscriberInterface) {
-            $plugin->setDispatcher($dispatcher);
-        }
-
         if (!$autocreate) {
             return;
         }
@@ -245,6 +240,10 @@ abstract class PluginHelper
         if ($plugin instanceof PluginWithSubscriberInterface) {
             $dispatcher->addSubscriber($plugin);
         } else {
+            if ($dispatcher && $plugin instanceof DispatcherAwareInterface) {
+                $plugin->setDispatcher($dispatcher);
+            }
+
             $plugin->registerListeners();
         }
     }
