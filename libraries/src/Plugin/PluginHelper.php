@@ -232,7 +232,7 @@ abstract class PluginHelper
 
         $plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
-        if ($dispatcher && $plugin instanceof DispatcherAwareInterface && !$plugin instanceof DispatcherAwareInterface) {
+        if ($dispatcher && $plugin instanceof DispatcherAwareInterface && !$plugin instanceof PluginWithSubscriberInterface) {
             $plugin->setDispatcher($dispatcher);
         }
 
