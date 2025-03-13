@@ -7,7 +7,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Event;
+namespace Joomla\CMS\Extension;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,6 +23,6 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-interface LazySubscriberInterface extends SubscriberInterface
+interface PluginWithSubscriberInterface extends SubscriberInterface
 {
 }

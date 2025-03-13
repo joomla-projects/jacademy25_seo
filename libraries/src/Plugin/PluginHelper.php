@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Plugin;
 
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
-use Joomla\CMS\Event\LazySubscriberInterface;
+use Joomla\CMS\Extension\PluginWithSubscriberInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherInterface;
 
@@ -235,7 +235,7 @@ abstract class PluginHelper
             return;
         }
 
-        if ($plugin instanceof LazySubscriberInterface) {
+        if ($plugin instanceof PluginWithSubscriberInterface) {
             $dispatcher->addSubscriber($plugin);
         } else {
             $plugin->registerListeners();
