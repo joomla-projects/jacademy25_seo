@@ -155,15 +155,16 @@ class CategoryeditField extends ListField
         // Is this field used to select parent category for a category ?
         $isParentCategoryField = isset($this->element['parent']) || $jinput->getCmd('option') === 'com_categories';
 
-        // The extension to load categories
-        $extension = isset($this->element['extension']) ? (string) $this->element['extension'] : (string) $jinput->getCmd('extension', 'com_content');
+        // Load the category options for a given extension.
 
         // For categories the old category is the category id or 0 for new category.
         if ($isParentCategoryField) {
             $oldCat    = $jinput->get('id', 0);
             $oldParent = $this->form->getValue($name, 0);
+            $extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('extension', 'com_content');
         } else { // For items the old category is the category they are in when opened or 0 if new.
             $oldCat    = $this->form->getValue($name, 0);
+            $extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('option', 'com_content');
         }
 
         // Account for case that a submitted form has a multi-value category id field (e.g. a filtering form), just use the first category
