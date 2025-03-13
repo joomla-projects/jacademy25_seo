@@ -12,6 +12,7 @@ namespace Joomla\CMS\Plugin;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Extension\PluginWithSubscriberInterface;
 use Joomla\CMS\Factory;
+use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -231,10 +232,16 @@ abstract class PluginHelper
 
         $plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
+        // TODO: Remove in 7.0
+        if ($dispatcher && $plugin instanceof DispatcherAwareInterface && !$plugin instanceof PluginWithSubscriberInterface) {
+            $plugin->setDispatcher($dispatcher);
+        }
+
         if (!$autocreate) {
             return;
         }
 
+        // TODO: In 7.0 remove registerListeners and check only for SubscriberInterface
         if ($plugin instanceof PluginWithSubscriberInterface) {
             $dispatcher->addSubscriber($plugin);
         } else {
