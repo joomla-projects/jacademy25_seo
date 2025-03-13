@@ -16,7 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\System\Webauthn\Authentication;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AdditionalLoginButtons;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandler;
@@ -43,7 +42,7 @@ use Joomla\Plugin\System\Webauthn\PluginTraits\UserProfileFields;
  *
  * @since  4.0.0
  */
-final class Webauthn extends CMSPlugin implements SubscriberInterface, LazySubscriberInterface
+final class Webauthn extends CMSPlugin implements LazySubscriberInterface
 {
     // Add WebAuthn buttons
     use AdditionalLoginButtons;

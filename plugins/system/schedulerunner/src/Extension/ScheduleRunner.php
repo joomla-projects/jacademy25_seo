@@ -25,7 +25,6 @@ use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
-use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -43,7 +42,7 @@ use Joomla\Registry\Registry;
  *
  * @since 4.1.0
  */
-final class ScheduleRunner extends CMSPlugin implements SubscriberInterface, LazySubscriberInterface
+final class ScheduleRunner extends CMSPlugin implements LazySubscriberInterface
 {
     /**
      * Length of auto-generated webcron key.
