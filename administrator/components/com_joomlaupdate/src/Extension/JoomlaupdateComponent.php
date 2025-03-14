@@ -105,7 +105,7 @@ class JoomlaupdateComponent extends MVCComponent implements ConfigServiceInterfa
                 $data->set('autoupdate_status', AutoupdateRegisterState::Unsubscribe->value);
             }
         } elseif ($autoupdateStatus === AutoupdateState::Enabled->value) {
-            // If autoupdate is enabled and we are nor subscribed force subscription process
+            // If autoupdate is enabled and we are not subscribed force subscription process
             if ($autoupdateRegisterStatus !== AutoupdateRegisterState::Subscribed->value) {
                 $data->set('autoupdate_status', AutoupdateRegisterState::Subscribe->value);
             }
