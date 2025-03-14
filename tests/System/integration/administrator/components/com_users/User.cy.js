@@ -34,8 +34,8 @@ describe('Test in backend that the user form', () => {
   it('can reset password for a user', () => {
     cy.db_createUser({
       name: 'automated test user',
-      username: 'test2',
-      email: 'test2@example.com',
+      username: 'test',
+      email: 'test@example.com',
       password: '098f6bcd4621d373cade4e832627b4f6',
       group_id: 8,
       requireReset: 1,
@@ -47,7 +47,7 @@ describe('Test in backend that the user form', () => {
 
       // Check that the user is redirected to the password reset page
       cy.visit('administrator/index.php');
-      cy.get('#mod-login-username').type('test2');
+      cy.get('#mod-login-username').type('test');
       cy.get('#mod-login-password').type('test');
       cy.get('#btn-login-submit').click();
       cy.contains('You are required to reset your password before proceeding.').should('exist');
