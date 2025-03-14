@@ -339,23 +339,29 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
 
                 if ($allow) {
                     // Get users data for the users to delete.
-                    $user_to_delete           = $this->getUserFactory()->loadUserById($pk);
-                    $user_to_delete->block    = 2;
-                    $user_to_delete->name     = "deleted_" . $user_to_delete->id;
-                    $user_to_delete->email    = 'deleted_' . $user_to_delete->id . '@example.com';
-                    $user_to_delete->username = "deleted_" . $user_to_delete->id;
+                    $user_to_delete = $this->getUserFactory()->loadUserById($pk);
 
-                    // Fire the before delete event.
-                    Factory::getApplication()->triggerEvent($this->event_before_delete, [$table->getProperties()]);
+                    if ($user_to_delete->block == 2){
+                        // Fire the before delete event.
+                        Factory::getApplication()->triggerEvent($this->event_before_delete, [$table->getProperties()]);
 
-                    if (!$user_to_delete->save()) {
-                        $this->setError($table->getError());
+                        if (!$table->delete($pk)) {
+                            $this->setError($table->getError());
+                            return false;
+                        }
 
-                        return false;
+                        // Trigger the after delete event.
+                        Factory::getApplication()->triggerEvent($this->event_after_delete, [$user_to_delete->getProperties(), true, $this->getError()]);
+                    
+                    } else {
+                        $user_to_delete->block = 2;
+
+                        if (!$user_to_delete->save()) {
+                            $this->setError($table->getError());
+                            return false;
+                        }
                     }
 
-                    // Trigger the after delete event.
-                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$user_to_delete->getProperties(), true, $this->getError()]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
