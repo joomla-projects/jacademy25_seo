@@ -1,6 +1,8 @@
 describe('Test in backend that the Smart Search', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
+  });
+  afterEach(() => {
     cy.task('queryDB', "DELETE FROM #__content WHERE title = 'Test article'");
   });
 
