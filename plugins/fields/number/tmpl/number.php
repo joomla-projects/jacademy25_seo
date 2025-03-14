@@ -15,8 +15,7 @@ $value = $field->value;
 if (is_numeric($value)) {
     $value = (float) $value;
 } else {
-    $value = '';
-    $value = isset($min) ? $min : $value;
+    $value = $min ?? '';
 }
 
 echo $value;
