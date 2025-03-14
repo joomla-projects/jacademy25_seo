@@ -14,9 +14,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Category;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
@@ -37,12 +38,13 @@ class ArticlesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      * @see     \Joomla\CMS\MVC\Controller\BaseController
      */
-    public function __construct($config = [])
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
@@ -74,6 +76,7 @@ class ArticlesModel extends ListModel
                 'rating_count', 'rating',
                 'stage', 'wa.stage_id',
                 'ws.title',
+                'fp.ordering',
             ];
 
             if (Associations::isEnabled()) {
@@ -81,7 +84,7 @@ class ArticlesModel extends ListModel
             }
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -102,11 +105,6 @@ class ArticlesModel extends ListModel
 
         if (!$params->get('workflow_enabled')) {
             $form->removeField('stage', 'filter');
-        } else {
-            $ordering = $form->getField('fullordering', 'list');
-
-            $ordering->addOption('JSTAGE_ASC', ['value' => 'ws.title ASC']);
-            $ordering->addOption('JSTAGE_DESC', ['value' => 'ws.title DESC']);
         }
 
         return $form;
@@ -141,6 +139,14 @@ class ArticlesModel extends ListModel
             $this->context .= '.' . $forcedLanguage;
         }
 
+        // Required content filters for the administrator menu
+        $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
+        $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
+        $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
+        $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
+        $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
+        $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
+
         // List state information.
         parent::populateState($ordering, $direction);
 
@@ -170,6 +176,7 @@ class ArticlesModel extends ListModel
         $id .= ':' . $this->getState('filter.search');
         $id .= ':' . serialize($this->getState('filter.access'));
         $id .= ':' . $this->getState('filter.published');
+        $id .= ':' . $this->getState('filter.featured');
         $id .= ':' . serialize($this->getState('filter.category_id'));
         $id .= ':' . serialize($this->getState('filter.author_id'));
         $id .= ':' . $this->getState('filter.language');
@@ -305,12 +312,22 @@ class ArticlesModel extends ListModel
         }
 
         // Filter by featured.
-        $featured = (string) $this->getState('filter.featured');
+        $featured = $this->getState('filter.featured');
 
-        if (\in_array($featured, ['0','1'])) {
+        $defaultOrdering = 'a.id';
+
+        if (is_numeric($featured) && \in_array($featured, [0, 1])) {
             $featured = (int) $featured;
             $query->where($db->quoteName('a.featured') . ' = :featured')
                 ->bind(':featured', $featured, ParameterType::INTEGER);
+
+            $query->where($db->quoteName('a.featured') . ' = :featured')
+                ->bind(':featured', $featured, ParameterType::INTEGER);
+
+            if ($featured) {
+                $query->select($db->quoteName('fp.ordering'));
+                $defaultOrdering = 'fp.ordering';
+            }
         }
 
         // Filter by access level on categories.
@@ -358,7 +375,7 @@ class ArticlesModel extends ListModel
         // Case: Using both categories filter and by level filter
         if (\count($categoryId)) {
             $categoryId       = ArrayHelper::toInteger($categoryId);
-            $categoryTable    = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
+            $categoryTable    = new Category($db);
             $subCatItemsWhere = [];
 
             foreach ($categoryId as $key => $filter_catid) {
@@ -488,7 +505,7 @@ class ArticlesModel extends ListModel
         }
 
         // Add the list ordering clause.
-        $orderCol  = $this->state->get('list.ordering', 'a.id');
+        $orderCol  = $this->state->get('list.ordering', $defaultOrdering);
         $orderDirn = $this->state->get('list.direction', 'DESC');
 
         if ($orderCol === 'a.ordering' || $orderCol === 'category_title') {
