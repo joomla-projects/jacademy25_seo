@@ -739,11 +739,11 @@ class UpdateController extends BaseController
         if ($registrationState === AutoupdateRegisterState::Subscribe) {
             /** @var UpdateModel $model */
             $model = $this->getModel('Update');
-            $model->changeAutoUpdateRegistration($registrationState);
+            $result = $model->changeAutoUpdateRegistration($registrationState);
 
             $result = [
                 'active'  => true,
-                'healthy' => true
+                'healthy' => $result
             ];
 
             echo json_encode($result);
