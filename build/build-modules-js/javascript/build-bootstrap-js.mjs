@@ -3,7 +3,7 @@ import {
 } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { transform } from 'esbuild';
-import rimraf from 'rimraf';
+import { rimrafSync } from 'rimraf';
 import { rollup } from 'rollup';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
@@ -98,7 +98,7 @@ const build = async () => {
 };
 
 export const bootstrapJs = async () => {
-  rimraf.sync(resolve(outputFolder));
+  rimrafSync(resolve(outputFolder));
 
   try {
     await build(resolve(inputFolder, 'index.es6.js'));
