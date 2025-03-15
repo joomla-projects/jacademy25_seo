@@ -57,9 +57,9 @@ class ConstraintChecker
     {
         $this->failedEnvironmentConstraints = new \stdClass();
 
-        $params = ComponentHelper::getParams('com_joomlaupdate');
-
         if (!isset($channel)) {
+            $params = ComponentHelper::getParams('com_joomlaupdate');
+
             $channel = (Version::MAJOR_VERSION + ($params->get('updatesource', 'default') == 'next' ? 1 : 0)) . '.x';
         }
 
