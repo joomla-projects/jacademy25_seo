@@ -176,7 +176,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
             $sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy', 0));
         }
 
-        if (!$sent ) {
+        if (!$sent) {
             throw new SendEmail('Error sending message');
         }
 
