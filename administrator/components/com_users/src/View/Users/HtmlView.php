@@ -159,7 +159,7 @@ class HtmlView extends BaseHtmlView
             }
 
             if ($canDo->get('core.delete')) {
-                $input = Factory::getApplication()->input;
+                $input       = Factory::getApplication()->input;
                 $filterState = $input->get('filter[state]', '', 'string');
 
                 if ($filterState == '2') { // Soft deleted users tab

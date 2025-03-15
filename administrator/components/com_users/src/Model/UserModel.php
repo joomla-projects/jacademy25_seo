@@ -341,7 +341,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                     // Get users data for the users to delete.
                     $user_to_delete = $this->getUserFactory()->loadUserById($pk);
 
-                    if ($user_to_delete->block == 2){
+                    if ($user_to_delete->block == 2) {
                         // Fire the before delete event.
                         Factory::getApplication()->triggerEvent($this->event_before_delete, [$table->getProperties()]);
 
@@ -352,7 +352,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
 
                         // Trigger the after delete event.
                         Factory::getApplication()->triggerEvent($this->event_after_delete, [$user_to_delete->getProperties(), true, $this->getError()]);
-                    
+
                     } else {
                         $user_to_delete->block = 2;
 
