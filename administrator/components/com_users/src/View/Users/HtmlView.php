@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\View\Users;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -159,8 +158,7 @@ class HtmlView extends BaseHtmlView
             }
 
             if ($canDo->get('core.delete')) {
-                $input       = Factory::getApplication()->input;
-                $filterState = $input->get('filter[state]', '', 'string');
+                $filterState = $this->state->get('filter.state');
 
                 if ($filterState == '2') { // Soft deleted users tab
                     $deleteMessage = Text::_('JGLOBAL_CONFIRM_DELETE');

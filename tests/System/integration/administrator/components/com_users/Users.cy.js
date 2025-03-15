@@ -22,14 +22,28 @@ describe('Test in backend that the user list', () => {
     cy.contains('New User Details');
   });
 
-  it('can delete the test user', () => {
+  it('can soft delete the test user', () => {
     cy.db_createUser({ name: 'Test user' }).then(() => {
       cy.searchForItem('Test user');
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Delete').click();
-      cy.clickDialogConfirm(true);
+      cy.checkForSystemMessage('User deleted.');
+    });
+  });
 
+  it('can hard delete the test user', () => {
+    cy.db_createUser({ name: 'Test user' }).then(() => {
+      cy.searchForItem('Test user');
+      cy.checkAllResults();
+      cy.clickToolbarButton('Action');
+      cy.contains('Delete').click();
+      cy.checkForSystemMessage('User deleted.');
+      cy.setFilter('state', 'Deleted');
+      cy.checkAllResults();
+      cy.clickToolbarButton('Action');
+      cy.contains('Delete').click();
+      cy.clickDialogConfirm(true);
       cy.checkForSystemMessage('User deleted.');
     });
   });
