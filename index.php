@@ -36,7 +36,10 @@ if (file_exists(__DIR__ . '/defines.php')) {
 require_once __DIR__ . '/includes/defines.php';
 
 // Check the existence of an update-extraction config file
-if ($_GET['jautoupdate'] === '1' && file_exists(JPATH_ADMINISTRATOR . '/components/com_joomlaupdate/update.php')) {
+if (
+    !empty($_GET['jautoupdate'])
+    && is_file(JPATH_ADMINISTRATOR . '/components/com_joomlaupdate/update.php')
+) {
     // Load extraction script and...
     require_once JPATH_ADMINISTRATOR . '/components/com_joomlaupdate/extract.php';
 

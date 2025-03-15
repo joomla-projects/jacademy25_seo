@@ -18,6 +18,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -732,6 +733,27 @@ class UpdateController extends BaseController
 
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
+        // Edge case: the current state requires the registration, i.e. because it's a new installation
+        $registrationState = AutoupdateRegisterState::tryFrom($params->get('autoupdate_status', ''));
+
+        if ($this->app->getIdentity()->authorise('core.admin', 'com_joomlaupdate')
+            && $registrationState === AutoupdateRegisterState::Subscribe
+        ) {
+            /** @var UpdateModel $model */
+            $model = $this->getModel('Update');
+            $result = $model->changeAutoUpdateRegistration($registrationState);
+
+            $result = [
+                'active'  => true,
+                'healthy' => $result
+            ];
+
+            echo json_encode($result);
+
+            $this->app->close();
+        }
+
+        // Default case: connection already active, check date
         $lastCheck = date_create_from_format('Y-m-d H:i:s', $params->get('update_last_check', ''));
 
         $result = [
