@@ -49,34 +49,35 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
     /**
      * The content type of the item.
      *
-     * @var    string
-     * @since  4.0.0
+     * @var string
+     * @since 4.0.0
      */
     protected $contentType = 'contacts';
 
     /**
      * The default view for the display method.
      *
-     * @var    string
-     * @since  3.0
+     * @var string
+     * @since 3.0
      */
     protected $default_view = 'contacts';
 
     /**
      * Method to allow extended classes to manipulate the data to be saved for an extension.
      *
-     * @param   array  $data  An array of input data.
+     * @param array $data An array of input data.
      *
-     * @return  array
+     * @return array
      *
-     * @since   4.0.0
+     * @since 4.0.0
      */
     protected function preprocessSaveData(array $data): array
     {
         foreach (FieldsHelper::getFields('com_contact.contact') as $field) {
             if (isset($data[$field->name])) {
-                !isset($data['com_fields']) && $data['com_fields'] = [];
-
+                if (!isset($data['com_fields'])) {
+                    $data['com_fields'] = [];
+                }
                 $data['com_fields'][$field->name] = $data[$field->name];
                 unset($data[$field->name]);
             }
@@ -88,10 +89,10 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
     /**
      * Submit contact form
      *
-     * @param   integer  $id Leave empty if you want to retrieve data from the request
-     * @return  static  A \JControllerLegacy object to support chaining.
+     * @param integer $id Leave empty if you want to retrieve data from the request.
+     * @return static A \JControllerLegacy object to support chaining.
      *
-     * @since   4.0.0
+     * @since 4.0.0
      */
     public function submitForm($id = null)
     {
@@ -101,7 +102,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
 
         $modelName = Inflector::singularize($this->contentType);
 
-        /** @var  \Joomla\Component\Contact\Site\Model\ContactModel $model */
+        /** @var \Joomla\Component\Contact\Site\Model\ContactModel $model */
         $model = $this->getModel($modelName, 'Site');
 
         if (!$model) {
@@ -110,7 +111,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
 
         $model->setState('filter.published', 1);
 
-        $data    = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+        $data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
         $contact = $model->getItem($id);
 
         if ($contact->id === null) {
@@ -136,39 +137,23 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
         }
 
         if (!$model->validate($form, $data)) {
-            $errors   = $model->getErrors();
+            $errors = $model->getErrors();
             $messages = [];
 
             for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
-                if ($errors[$i] instanceof \Exception) {
-                    $messages[] = "{$errors[$i]->getMessage()}";
-                } else {
-                    $messages[] = "{$errors[$i]}";
-                }
+                $messages[] = $errors[$i] instanceof \Exception ? $errors[$i]->getMessage() : $errors[$i];
             }
 
             throw new InvalidParameterException(implode("\n", $messages));
         }
 
-        // Validation succeeded, continue with custom handlers
-        $results = $this->getDispatcher()->dispatch('onValidateContact', new ValidateContactEvent('onValidateContact', [
-            'subject' => $contact,
-            'data'    => &$data, // @todo: Remove reference in Joomla 6, @deprecated: Data modification onValidateContact is not allowed, use onSubmitContact instead
-        ]))->getArgument('result', []);
-
-        foreach ($results as $result) {
-            if ($result instanceof \Exception) {
-                throw new InvalidParameterException($result->getMessage());
-            }
-        }
-
-        // Passed Validation: Process the contact plugins to integrate with other applications
+        // Passed validation, process plugins
         $event = $this->getDispatcher()->dispatch('onSubmitContact', new SubmitContactEvent('onSubmitContact', [
             'subject' => $contact,
-            'data'    => &$data, // @todo: Remove reference in Joomla 6, see SubmitContactEvent::__constructor()
+            'data' => &$data
         ]));
+
         // Get the final data
-        
         $data = $event->getArgument('data', $data);
         $params = ComponentHelper::getParams('com_contact');
 
@@ -181,85 +166,5 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
         }
 
         return $this;
-    }
-
-    /**
-     * Method to get a model object, loading it if required.
-     *
-     * @param   array      $data               The data to send in the email.
-     * @param   \stdClass  $contact            The user information to send the email to
-     * @param   boolean    $emailCopyToSender  True to send a copy of the email to the user.
-     *
-     * @return  boolean  True on success sending the email, false on failure.
-     *
-     * @since   1.6.4
-     */
-    private function _sendEmail($data, $contact, $emailCopyToSender)
-    {
-        $app = $this->app;
-
-        $app->getLanguage()->load('com_contact', JPATH_SITE, $app->getLanguage()->getTag(), true);
-
-        if ($contact->email_to == '' && $contact->user_id != 0) {
-            $contact_user      = $this->getUserFactory()->loadUserById($contact->user_id);
-            $contact->email_to = $contact_user->get('email');
-        }
-
-        $templateData = [
-            'sitename'     => $app->get('sitename'),
-            'name'         => $data['contact_name'],
-            'contactname'  => $contact->name,
-            'email'        => PunycodeHelper::emailToPunycode($data['contact_email']),
-            'subject'      => $data['contact_subject'],
-            'body'         => stripslashes($data['contact_message']),
-            'url'          => Uri::base(),
-            'customfields' => '',
-        ];
-
-        // Load the custom fields
-        if (!empty($data['com_fields']) && $fields = FieldsHelper::getFields('com_contact.mail', $contact, true, $data['com_fields'])) {
-            $output = FieldsHelper::render(
-                'com_contact.mail',
-                'fields.render',
-                [
-                    'context' => 'com_contact.mail',
-                    'item'    => $contact,
-                    'fields'  => $fields,
-                ]
-            );
-
-            if ($output) {
-                $templateData['customfields'] = $output;
-            }
-        }
-
-        try {
-            $mailer = new MailTemplate('com_contact.mail', $app->getLanguage()->getTag());
-            $mailer->addRecipient($contact->email_to);
-            $mailer->setReplyTo($templateData['email'], $templateData['name']);
-            $mailer->addTemplateData($templateData);
-            $sent = $mailer->send();
-
-            // If we are supposed to copy the sender, do so.
-            if ($emailCopyToSender == true && !empty($data['contact_email_copy'])) {
-                $mailer = new MailTemplate('com_contact.mail.copy', $app->getLanguage()->getTag());
-                $mailer->addRecipient($templateData['email']);
-                $mailer->setReplyTo($templateData['email'], $templateData['name']);
-                $mailer->addTemplateData($templateData);
-                $sent = $mailer->send();
-            }
-        } catch (MailDisabledException | phpMailerException $exception) {
-            try {
-                Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
-
-                $sent = false;
-            } catch (\RuntimeException $exception) {
-                Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
-
-                $sent = false;
-            }
-        }
-
-        return $sent;
     }
 }
