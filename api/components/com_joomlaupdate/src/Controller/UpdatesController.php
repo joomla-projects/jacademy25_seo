@@ -127,8 +127,6 @@ class UpdatesController extends BaseController
             throw new \RuntimeException($e->getMessage());
         }
 
-        $modelName = $this->input->get('model', $this->contentType);
-
         /** @var UpdateModel $model */
         $model = $this->getModel('Update', 'Administrator', ['ignore_request' => true, 'state' => $this->modelState]);
 
