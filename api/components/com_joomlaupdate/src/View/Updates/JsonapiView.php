@@ -11,7 +11,9 @@
 namespace Joomla\Component\Joomlaupdate\Api\View\Updates;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 use Tobscure\JsonApi\Resource;
@@ -95,11 +97,23 @@ class JsonapiView extends BaseApiView
         $model = $this->getModel();
 
         try {
+            // Perform the finalization action
             $model->finaliseUpgrade();
         } catch (\Throwable $e) {
             $model->collectError('finaliseUpgrade', $e);
         }
 
+        try {
+            // Load actionlog plugins.
+            PluginHelper::importPlugin('actionlog');
+
+            // Perform the cleanup action
+            $model->cleanUp();
+        } catch (\Throwable $e) {
+            $model->collectError('cleanUp', $e);
+        }
+
+        // Reset source
         $model->resetUpdateSource();
 
         $success = true;
