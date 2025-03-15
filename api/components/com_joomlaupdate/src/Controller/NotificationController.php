@@ -67,7 +67,7 @@ class NotificationController extends BaseController
      */
     public function success()
     {
-//        $this->validateUpdateToken();
+        $this->validateUpdateToken();
 
         $fromVersion = $this->input->json->getString('fromVersion', null);
 
