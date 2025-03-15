@@ -88,12 +88,15 @@ class JsonapiView extends BaseApiView
         return $this->getDocument()->render();
     }
 
-    public function finalizeUpdate()
+    public function finalizeUpdate($fromVersion)
     {
         /**
          * @var UpdateModel $model
          */
         $model = $this->getModel();
+
+        // Write old version to state for usage in model
+        Factory::getApplication()->setUserState('com_joomlaupdate.oldversion', $fromVersion);
 
         try {
             // Perform the finalization action
