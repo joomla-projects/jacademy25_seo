@@ -45,13 +45,6 @@ class ConstraintChecker
     protected $channel;
 
     /**
-     * True if we should stay in the patch release
-     *
-     * @var boolean
-     */
-    protected $patchOnly = false;
-
-    /**
      * Constructor, used to populate the failed
      *
      * @param string|null $channel  The channel to be used for updating
@@ -64,15 +57,10 @@ class ConstraintChecker
     {
         $this->failedEnvironmentConstraints = new \stdClass();
 
-        $params = ComponentHelper::getParams('com_joomlaupdate');
-
         if (!isset($channel)) {
-            $channel = (Version::MAJOR_VERSION + ($params->get('updatesource', 'default') == 'next' ? 1 : 0)) . '.x';
-        }
+            $params = ComponentHelper::getParams('com_joomlaupdate');
 
-        // We should stay in the patch release
-        if ($params->get('patchOnly')) {
-            $this->patchOnly = true;
+            $channel = (Version::MAJOR_VERSION + ($params->get('updatesource', 'default') == 'next' ? 1 : 0)) . '.x';
         }
 
         $this->channel = $channel;
@@ -110,12 +98,6 @@ class ConstraintChecker
             isset($candidate['stability'])
             && !$this->checkStability($candidate['stability'], $minimumStability)
         ) {
-            return false;
-        }
-
-        list($major, $minor) = explode('.', $candidate['version']);
-
-        if ($this->patchOnly && version_compare(Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION, $major . '.' . $minor) !== 0) {
             return false;
         }
 

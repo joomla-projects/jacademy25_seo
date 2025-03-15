@@ -35,12 +35,10 @@ if (Joomla && Joomla.getOptions('js-auto-update')) {
         // Not active
         if (!healthStatus.active) {
           update('warning', Joomla.Text._('PLG_QUICKICON_AUTOUPDATE_DISABLED'));
+        } else if (!healthStatus.healthy) {
+          update('danger', Joomla.Text._('PLG_QUICKICON_AUTOUPDATE_OUTDATED'));
         } else {
-          if (!healthStatus.healthy) {
-            update('danger', Joomla.Text._('PLG_QUICKICON_AUTOUPDATE_OUTDATED'));
-          } else {
-            update('success', Joomla.Text._('PLG_QUICKICON_AUTOUPDATE_OK'));
-          }
+          update('success', Joomla.Text._('PLG_QUICKICON_AUTOUPDATE_OK'));
         }
       } else {
         // An error occurred

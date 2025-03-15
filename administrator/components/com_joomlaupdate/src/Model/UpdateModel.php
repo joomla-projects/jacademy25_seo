@@ -550,7 +550,7 @@ class UpdateModel extends BaseDatabaseModel
 
         $requestData = [
             'url' => Uri::root(),
-            'key' => $this->getAutoUpdateToken()
+            'key' => $this->getAutoUpdateToken(),
         ];
 
         // JHttp transport throws an exception when there's no response.
@@ -583,7 +583,7 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Get extension row
-        $extension = new Extension($this->getDatabase());
+        $extension   = new Extension($this->getDatabase());
         $extensionId = $extension->find(['element' => 'com_joomlaupdate']);
         $extension->load($extensionId);
 
@@ -615,7 +615,7 @@ class UpdateModel extends BaseDatabaseModel
     protected function getAutoUpdateToken(): string
     {
         // Get extension row
-        $extension = new Extension($this->getDatabase());
+        $extension   = new Extension($this->getDatabase());
         $extensionId = $extension->find(['element' => 'com_joomlaupdate']);
         $extension->load($extensionId);
 

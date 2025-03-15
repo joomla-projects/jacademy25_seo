@@ -11,7 +11,6 @@
 namespace Joomla\Component\Joomlaupdate\Api\View\Updates;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
@@ -89,12 +88,15 @@ class JsonapiView extends BaseApiView
         return $this->getDocument()->render();
     }
 
-    public function finalizeUpdate()
+    public function finalizeUpdate($fromVersion)
     {
         /**
          * @var UpdateModel $model
          */
         $model = $this->getModel();
+
+        // Write old version to state for usage in model
+        Factory::getApplication()->setUserState('com_joomlaupdate.oldversion', $fromVersion);
 
         try {
             // Perform the finalization action
