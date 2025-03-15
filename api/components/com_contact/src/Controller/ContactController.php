@@ -171,7 +171,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
         $data = $event->getArgument('data', $data);
 
         // Send the email
-        $sent = false;
+        $sent = $event->getArgument('result', $params->get('custom_reply') ? true : false);
 
         $params = ComponentHelper::getParams('com_contact');
 
@@ -179,7 +179,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
             $sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy', 0));
         }
 
-        if (!$sent) {
+        if (!$sent && !$params->get('custom_reply')) {
             throw new SendEmail('Error sending message');
         }
 
