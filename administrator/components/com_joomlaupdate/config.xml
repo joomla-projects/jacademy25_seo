@@ -112,9 +112,9 @@
 			showon="updatesource:default[AND]minimum_stability:4[AND]autoupdate:1"
 		/>
 		<field
-			name="auto_update_disabled"
+			name="automated_updates_disabled"
 			type="note"
-			label="COM_JOOMLAUPDATE_CONFIG_AUTO_UPDATE_DISABLED_LABEL"
+			label="COM_JOOMLAUPDATE_CONFIG_AUTOMATED_UPDATES_DISABLED_LABEL"
 			class="alert alert-info w-100"
 			showon="updatesource!:default[OR]minimum_stability!:4"
 		/>

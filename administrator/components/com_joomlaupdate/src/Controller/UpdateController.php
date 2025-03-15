@@ -716,7 +716,7 @@ class UpdateController extends BaseController
     }
 
     /**
-     * Fetch and report health status of the automated update in \JSON format, for AJAX requests
+     * Fetch and report health status of the automated updates in \JSON format, for AJAX requests
      *
      * @return  void
      *
