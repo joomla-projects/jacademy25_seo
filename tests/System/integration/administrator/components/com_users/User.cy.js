@@ -59,7 +59,7 @@ describe('Test in backend that the user form', () => {
 
       // Check that the user can login with the new password
       cy.visit('administrator/index.php');
-      cy.get('#mod-login-username').type('test');
+      cy.get('#mod-login-username').type('test2');
       cy.get('#mod-login-password').type('testresetpswd');
       cy.get('#btn-login-submit').click();
 
