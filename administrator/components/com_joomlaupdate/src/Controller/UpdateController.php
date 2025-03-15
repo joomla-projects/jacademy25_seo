@@ -736,7 +736,7 @@ class UpdateController extends BaseController
         // Edge case: the current state requires the registration, i.e. because it's a new installation
         $registrationState = AutoupdateRegisterState::tryFrom($params->get('autoupdate_status', ''));
 
-        if ($this->app->getIdentity()->authorise('core.admin')
+        if ($this->app->getIdentity()->authorise('core.admin', 'com_joomlaupdate')
             && $registrationState === AutoupdateRegisterState::Subscribe
         ) {
             /** @var UpdateModel $model */
