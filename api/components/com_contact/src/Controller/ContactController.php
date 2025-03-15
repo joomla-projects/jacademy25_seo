@@ -168,18 +168,15 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
             'data'    => &$data, // @todo: Remove reference in Joomla 6, see SubmitContactEvent::__constructor()
         ]));
         // Get the final data
+        
         $data = $event->getArgument('data', $data);
-
-        // Send the email
-        $sent = $event->getArgument('result', $params->get('custom_reply') ? true : false);
-
         $params = ComponentHelper::getParams('com_contact');
 
         if (!$params->get('custom_reply')) {
             $sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy', 0));
         }
 
-        if (!$sent && !$params->get('custom_reply')) {
+        if (!$sent) {
             throw new SendEmail('Error sending message');
         }
 
