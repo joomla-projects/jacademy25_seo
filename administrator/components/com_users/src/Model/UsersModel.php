@@ -174,7 +174,11 @@ class UsersModel extends ListModel
             }
 
             $items = array_filter($items, function ($item) {
-                return $item->block != 2;  // Exclude deleted users
+                $state = $this->getState('filter.state');
+                if ($state !== "2") {
+                    return $item->block != 2;
+                }
+                return true;
             });
 
             // Bail out on an error or empty list.

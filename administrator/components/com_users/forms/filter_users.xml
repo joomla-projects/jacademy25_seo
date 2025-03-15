@@ -16,6 +16,7 @@
 			class="js-select-submit-on-change"
 			>
 			<option value="">COM_USERS_FILTER_STATE</option>
+			<option value="2">COM_USERS_DELETED_OPTION</option>
 		</field>
 		<field
 			name="mfa"
