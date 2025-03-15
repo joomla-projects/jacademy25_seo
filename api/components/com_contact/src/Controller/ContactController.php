@@ -11,26 +11,17 @@
 namespace Joomla\Component\Contact\Api\Controller;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\Contact\SubmitContactEvent;
-use Joomla\CMS\Event\Contact\ValidateContactEvent;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Mail\Exception\MailDisabledException;
-use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Controller\Exception\SendEmail;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
-use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\Inflector;
-use PHPMailer\PHPMailer\Exception as phpMailerException;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -63,30 +54,6 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
     protected $default_view = 'contacts';
 
     /**
-     * Method to allow extended classes to manipulate the data to be saved for an extension.
-     *
-     * @param array $data An array of input data.
-     *
-     * @return array
-     *
-     * @since 4.0.0
-     */
-    protected function preprocessSaveData(array $data): array
-    {
-        foreach (FieldsHelper::getFields('com_contact.contact') as $field) {
-            if (isset($data[$field->name])) {
-                if (!isset($data['com_fields'])) {
-                    $data['com_fields'] = [];
-                }
-                $data['com_fields'][$field->name] = $data[$field->name];
-                unset($data[$field->name]);
-            }
-        }
-
-        return $data;
-    }
-
-    /**
      * Submit contact form
      *
      * @param integer $id Leave empty if you want to retrieve data from the request.
@@ -111,7 +78,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
 
         $model->setState('filter.published', 1);
 
-        $data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+        $data    = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
         $contact = $model->getItem($id);
 
         if ($contact->id === null) {
@@ -137,7 +104,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
         }
 
         if (!$model->validate($form, $data)) {
-            $errors = $model->getErrors();
+            $errors   = $model->getErrors();
             $messages = [];
 
             for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
@@ -150,11 +117,11 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
         // Passed validation, process plugins
         $event = $this->getDispatcher()->dispatch('onSubmitContact', new SubmitContactEvent('onSubmitContact', [
             'subject' => $contact,
-            'data' => &$data
+            'data'    => &$data
         ]));
 
         // Get the final data
-        $data = $event->getArgument('data', $data);
+        $data   = $event->getArgument('data', $data);
         $params = ComponentHelper::getParams('com_contact');
 
         if (!$params->get('custom_reply')) {
