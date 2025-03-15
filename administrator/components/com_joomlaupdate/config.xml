@@ -118,5 +118,12 @@
 			class="alert alert-info w-100"
 			showon="updatesource!:default[OR]minimum_stability!:4"
 		/>
+		<field
+			name="auto_update_email"
+			type="note"
+			label="COM_JOOMLAUPDATE_CONFIG_AUTO_UPDATE_EMAIL_LABEL"
+			class="alert alert-info w-100"
+			showon="updatesource!:default[OR]minimum_stability!:4"
+		/>
 	</fieldset>
 </config>
