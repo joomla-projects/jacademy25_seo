@@ -46,7 +46,7 @@ use Joomla\Event\EventInterface;
  *
  * @since  2.5.5
  *
- * @TODO  Starting from 6.0 the class will no longer implement DatabaseModelInterface
+ * @TODO  Starting from 7.0 the class will no longer implement DatabaseModelInterface
  */
 abstract class BaseDatabaseModel extends BaseModel implements
     DatabaseAwareInterface,
@@ -394,7 +394,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   4.2.0
      * @throws  \UnexpectedValueException
      *
-     * @deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 7.0
      *              Use getDatabase() instead
      *              Example: $model->getDatabase();
      */
