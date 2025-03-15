@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Users\Administrator\Model\UsersModel;
+use Joomla\CMS\Factory;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -158,8 +159,15 @@ class HtmlView extends BaseHtmlView
             }
 
             if ($canDo->get('core.delete')) {
+                $input = Factory::getApplication()->input;
+                $filterState = $input->get('filter[state]', '', 'string');
+
+                if ($filterState == '2') { // Soft deleted users tab
+                    $deleteMessage = Text::_('JGLOBAL_CONFIRM_DELETE');
+                }
+
                 $childBar->delete('users.delete', 'JTOOLBAR_DELETE')
-                    ->message('JGLOBAL_CONFIRM_DELETE')
+                    ->message($deleteMessage)
                     ->listCheck(true);
             }
         }
