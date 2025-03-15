@@ -10,42 +10,42 @@
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Extension;
 use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
 use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateState;
 use Joomla\Database\DatabaseInterface;
-use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Post-installation message about the new Multi-factor Authentication: condition check.
+ * Post-installation message about the new Automated Update: condition check.
  *
- * Returns true if neither of the two new core MFA plugins are enabled.
+ * Returns true it is disabled.
  *
- * @return  AutoupdateState
+ * @return  bool
  * @since   __DEPLOY_VERSION__
  */
-function com_joomlaupdate_postinstall_autoupdate_condition(): AutoupdateState
+function com_joomlaupdate_postinstall_autoupdate_condition(): bool
 {
     return AutoupdateState::tryFrom(ComponentHelper::getParams('com_joomlaupdate')->get('autoupdate', '0')) === AutoupdateState::Disabled;
 }
 
 /**
- * Post-installation message about the new Multi-factor Authentication: action.
+ * Post-installation message about the new Automated Update: action.
  *
- * Enables the core MFA plugins.
+ * Enables the Automated Update.
  *
  * @return  void
- * @since   4.2.0
+ * @since   __DEPLOY_VERSION__
  */
 function com_joomlaupdate_postinstall_autoupdate_action(): void
 {
     $db = Factory::getContainer()->get(DatabaseInterface::class);
     // Get extension row
-    $extension = new Extension($db);
+    $extension   = new Extension($db);
     $extensionId = $extension->find(['element' => 'com_joomlaupdate']);
     $extension->load($extensionId);
 
