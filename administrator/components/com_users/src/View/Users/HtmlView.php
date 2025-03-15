@@ -165,7 +165,7 @@ class HtmlView extends BaseHtmlView
                 }
 
                 $childBar->delete('users.delete', 'JTOOLBAR_DELETE')
-                    ->message($deleteMessage)
+                    ->message(isset($deleteMessage) ? $deleteMessage : null)
                     ->listCheck(true);
             }
         }
