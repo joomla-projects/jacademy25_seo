@@ -13,14 +13,11 @@ namespace Joomla\Plugin\Extension\Joomlaupdate\Extension;
 use Joomla\CMS\Event\Model\AfterSaveEvent;
 use Joomla\CMS\Event\User\BeforeSaveEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
 use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateState;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
@@ -55,7 +52,7 @@ final class Joomlaupdate extends CMSPlugin implements SubscriberInterface
     {
         return [
             'onExtensionBeforeSave' => 'onExtensionBeforeSave',
-            'onExtensionAfterSave' => 'onExtensionAfterSave',
+            'onExtensionAfterSave'  => 'onExtensionAfterSave',
         ];
     }
 
@@ -143,7 +140,8 @@ final class Joomlaupdate extends CMSPlugin implements SubscriberInterface
         $autoupdateRegisterStatus = AutoupdateRegisterState::from((int)$data->get('autoupdate_status'));
 
         // Check if action is required
-        if ($autoupdateRegisterStatus === AutoupdateRegisterState::Unsubscribed
+        if (
+            $autoupdateRegisterStatus === AutoupdateRegisterState::Unsubscribed
             || $autoupdateRegisterStatus === AutoupdateRegisterState::Subscribed
         ) {
             return;

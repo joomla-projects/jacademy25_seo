@@ -98,7 +98,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
 
         // Don't send when automated updates are active and working
         $registrationState = AutoupdateRegisterState::tryFrom($updateParams->get('autoupdate_status', ''));
-        $lastUpdateCheck = date_create_from_format('Y-m-d H:i:s', $updateParams->get('update_last_check', ''));
+        $lastUpdateCheck   = date_create_from_format('Y-m-d H:i:s', $updateParams->get('update_last_check', ''));
 
         if ($registrationState === AutoupdateRegisterState::Subscribed && $lastUpdateCheck !== false && $lastUpdateCheck->diff(new \DateTime())->days < 4) {
             return Status::OK;

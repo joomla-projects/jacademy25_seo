@@ -10,15 +10,17 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Enum;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Autoupdate State Enum
  */
 enum AutoupdateRegisterState: int
 {
-    case Unsubscribe = -1;
+    case Unsubscribe  = -1;
     case Unsubscribed = 0;
-    case Subscribe = 1;
-    case Subscribed = 2;
+    case Subscribe    = 1;
+    case Subscribed   = 2;
 }
