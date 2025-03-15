@@ -485,7 +485,7 @@ class UpdateModel extends BaseDatabaseModel
     }
 
     /**
-     * Get the latest version for the auto update
+     * Get the latest version for the automated update
      *
      * @return string|null
      *
