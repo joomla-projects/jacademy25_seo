@@ -592,8 +592,8 @@ class UpdateModel extends BaseDatabaseModel
         $params->set(
             'autoupdate_status',
             ($targetState === AutoupdateRegisterState::Subscribe)
-                    ? AutoupdateRegisterState::Subscribed
-                    : AutoupdateRegisterState::Unsubscribed
+                    ? AutoupdateRegisterState::Subscribed->value
+                    : AutoupdateRegisterState::Unsubscribed->value
         );
 
         $extension->params = $params->toString();
