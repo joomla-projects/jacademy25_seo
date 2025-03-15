@@ -65,6 +65,13 @@ const build = async () => {
         ],
       }),
     ],
+  });
+
+  await bundle.write({
+    format: 'es',
+    sourcemap: false,
+    dir: outputFolder,
+    chunkFileNames: '[name].js',
     manualChunks: {
       alert: ['build/media_source/vendor/bootstrap/js/alert.es6.js'],
       button: ['build/media_source/vendor/bootstrap/js/button.es6.js'],
@@ -84,13 +91,6 @@ const build = async () => {
         ...utilImports.map((file) => `node_modules/bootstrap/js/src/util/${file}`),
       ],
     },
-  });
-
-  await bundle.write({
-    format: 'es',
-    sourcemap: false,
-    dir: outputFolder,
-    chunkFileNames: '[name].js',
   });
 
   // closes the bundle
