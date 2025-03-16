@@ -613,7 +613,7 @@ class LocalAdapter implements AdapterInterface
         // Check if the filename contains any unsafe characters that would be removed or changed by makeSafe
         // This allows us to detect issues early and provide a clear error message before attempting any file operations
         if ($name !== $safeName) {
-            throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
+            throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE_SYMBOLS'));
         }
 
         if (is_dir($sourcePath)) {
