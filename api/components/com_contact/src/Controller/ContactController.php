@@ -172,7 +172,7 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
         $params = ComponentHelper::getParams('com_contact');
 
         if (!$params->get('custom_reply')) {
-            $sent=$this->_sendEmail($data, $contact, $params->get('show_email_copy', 0));
+            $sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy', 0));
         }
 
         if (!$sent) {
