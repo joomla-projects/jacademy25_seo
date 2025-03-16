@@ -612,8 +612,8 @@ class LocalAdapter implements AdapterInterface
 
         // Check for special characters that would be sanitized (except for case differences in extensions)
         $originalNameLower = strtolower($name);
-        $safeNameLower = strtolower($safeName);
-        
+        $safeNameLower     = strtolower($safeName);
+
         if ($originalNameLower !== $safeNameLower) {
             // There are differences other than case in the extension
             throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE_SYMBOLS'));
