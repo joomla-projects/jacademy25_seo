@@ -610,10 +610,18 @@ class LocalAdapter implements AdapterInterface
             throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
         }
 
-        // Check if the filename contains any unsafe characters that would be removed or changed by makeSafe
-        // This allows us to detect issues early and provide a clear error message before attempting any file operations
-        if ($name !== $safeName) {
-            throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE_SYMBOLS'));
+        // Check for special characters that would be sanitized (except for case differences in extensions)
+        $originalNameLower = strtolower($name);
+        $safeNameLower = strtolower($safeName);
+        
+        if ($originalNameLower !== $safeNameLower) {
+            // There are differences other than case in the extension
+            throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE'));
+        }
+
+        // If the safe name is different normalise the file name
+        if ($safeName != $name) {
+            $destinationPath = substr($destinationPath, 0, -\strlen($name)) . $safeName;
         }
 
         if (is_dir($sourcePath)) {
