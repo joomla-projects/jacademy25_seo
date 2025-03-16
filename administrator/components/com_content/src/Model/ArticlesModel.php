@@ -496,14 +496,16 @@ class ArticlesModel extends ListModel
         $modifiedStartDateTime = $this->getState('filter.modified_start');
 
         if (!empty($modifiedStartDateTime)) {
-            $query->where($db->quoteName('a.modified') . ' >= ' . $db->quote($modifiedStartDateTime));
+            $query->where($db->quoteName('a.modified') . ' >= :startDate')
+                ->bind(':startDate', $modifiedStartDateTime);
         }
 
         // Filter by date before modified date.
         $modifiedEndDateTime = $this->getState('filter.modified_end');
 
         if (!empty($modifiedEndDateTime)) {
-            $query->where($db->quoteName('a.modified') . ' <= ' . $db->quote($modifiedEndDateTime));
+            $query->where($db->quoteName('a.modified') . ' <= :endDate')
+                ->bind(':endDate', $modifiedEndDateTime);
         }
 
         // Add the list ordering clause.
