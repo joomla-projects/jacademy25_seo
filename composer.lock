@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ef202970cb84cf9e06fdd8d22087529f",
+    "content-hash": "7a5639f89fcc5a3c5f43792a91299aaf",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
-            "version": "dev-master",
+            "version": "v4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algo26-matthias/idna-convert.git",
@@ -33,7 +33,6 @@
                 "ext-intl": "Install ext/intl for better case folding",
                 "ext-mbstring": "Install ext/mbstring for using input / output other than UTF-8 or ISO-8859-1"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -60,7 +59,7 @@
             ],
             "support": {
                 "issues": "https://github.com/algo26-matthias/idna-convert/issues",
-                "source": "https://github.com/algo26-matthias/idna-convert/tree/master"
+                "source": "https://github.com/algo26-matthias/idna-convert/tree/v4.0.4"
             },
             "time": "2025-03-16T10:00:35+00:00"
         },
@@ -10163,7 +10162,6 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "algo26-matthias/idna-convert": 20,
         "tobscure/json-api": 20,
         "voku/portable-utf8": 20
     },
