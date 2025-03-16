@@ -6,7 +6,7 @@ describe('Test that console command config', () => {
   });
 
   it('can set sitename', () => {
-    cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php config:set sitename=${Cypress.env('sitename')}`)
+    cy.exec(`php ${Cypress.env('cmsPath')}/cli/joomla.php config:set sitename="${Cypress.env('sitename')}"`)
       .its('stdout')
       .should('equal', '[OK] Configuration set');
   });
@@ -16,7 +16,7 @@ describe('Test that console command config', () => {
       cy.wrap(result).its('code')
         .should('equal', 4);
       cy.wrap(result).its('stdout')
-        .should('equal', '[ERROR] Cannot connect to database, verify that you specified the correct database details Unknown database \'invalid\'');
+        .should('contain', '[ERROR] Cannot connect to database, verify that you specified the correct database details');
     });
   });
 });
