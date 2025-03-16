@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ebf1b8f344b8e7aa2b24103410c8a7bf",
+    "content-hash": "2a952b24d720b4741bc621c6328ac874",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1857,16 +1857,16 @@
         },
         {
             "name": "joomla/http",
-            "version": "3.0.1",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "3379b5a0c68524685b89d6997e5fec56c6ad3d43"
+                "reference": "157ceb1d386cb4a80292909f128f53f1b99f2597"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/3379b5a0c68524685b89d6997e5fec56c6ad3d43",
-                "reference": "3379b5a0c68524685b89d6997e5fec56c6ad3d43",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/157ceb1d386cb4a80292909f128f53f1b99f2597",
+                "reference": "157ceb1d386cb4a80292909f128f53f1b99f2597",
                 "shasum": ""
             },
             "require": {
@@ -1880,7 +1880,8 @@
             "require-dev": {
                 "joomla/test": "^3.0",
                 "phan/phan": "^5.4.2",
-                "phpstan/phpstan": "^1.10.7",
+                "phpstan/phpstan": "^2.0",
+                "phpstan/phpstan-deprecation-rules": "^2.0",
                 "phpunit/phpunit": "^9.5.28",
                 "squizlabs/php_codesniffer": "^3.7.2"
             },
@@ -1912,7 +1913,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/http/issues",
-                "source": "https://github.com/joomla-framework/http/tree/3.0.1"
+                "source": "https://github.com/joomla-framework/http/tree/3.1.0"
             },
             "funding": [
                 {
@@ -1924,7 +1925,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-11T18:42:37+00:00"
+            "time": "2025-03-05T11:15:59+00:00"
         },
         {
             "name": "joomla/input",
