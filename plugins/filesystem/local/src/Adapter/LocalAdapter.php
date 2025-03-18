@@ -616,7 +616,7 @@ class LocalAdapter implements AdapterInterface
 
         if ($originalNameLower !== $safeNameLower) {
             // There are differences other than case in the extension
-            throw new \Exception(Text::_('COM_MEDIA_ERROR_MAKESAFE_SYMBOLS'));
+            throw new \Exception(Text::_('JLIB_MEDIA_ERROR_WARNFILENAME'));
         }
 
         // If the safe name is different normalise the file name
