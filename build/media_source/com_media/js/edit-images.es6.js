@@ -162,7 +162,6 @@ class Edit {
     mediaLoader.className = 'media-loader';
 
     mediaLoader.style.top = '0';
-    mediaLoader.style.left = '0';
     mediaLoader.style.zIndex = '1000';
 
     this.baseContainer.insertAdjacentElement('beforebegin', mediaLoader);
