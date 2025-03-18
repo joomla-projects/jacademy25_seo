@@ -156,16 +156,34 @@ class Edit {
   Redo() { }
 
   // @TODO Create the progress bar
-  // eslint-disable-next-line class-methods-use-this
-  createProgressBar() { }
+  /**
+   * Creates a progress bar element and inserts it into the DOM
+   */
+  createProgressBar() {
+    const mediaLoader = document.createElement('div');
+    mediaLoader.id = 'media-edit-progress';
+    mediaLoader.className = 'media-loader';
+
+    mediaLoader.style.top = '0';
+    mediaLoader.style.left = '0';
+    mediaLoader.style.zIndex = '1000';
+
+    this.baseContainer.insertAdjacentElement('beforebegin', mediaLoader);
+  }
 
   // @TODO Update the progress bar
-  // eslint-disable-next-line class-methods-use-this
   updateProgressBar(/* position */) { }
 
   // @TODO Remove the progress bar
-  // eslint-disable-next-line class-methods-use-this
-  removeProgressBar() { }
+  /**
+   * Removes the progress bar element from the DOM
+   */
+  removeProgressBar() {
+    const mediaLoader = document.getElementById('media-edit-progress');
+    if (mediaLoader) {
+      mediaLoader.remove();
+    }
+  }
 
   /**
    * Uploads
