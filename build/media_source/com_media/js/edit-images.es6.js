@@ -155,10 +155,6 @@ class Edit {
   // eslint-disable-next-line class-methods-use-this
   Redo() { }
 
-  // @TODO Create the progress bar
-  /**
-   * Creates a progress bar element and inserts it into the DOM
-   */
   // eslint-disable-next-line class-methods-use-this
   createProgressBar() {
     const mediaLoader = document.createElement('div');
@@ -176,10 +172,6 @@ class Edit {
   // eslint-disable-next-line class-methods-use-this
   updateProgressBar(/* position */) { }
 
-  // @TODO Remove the progress bar
-  /**
-   * Removes the progress bar element from the DOM
-   */
   // eslint-disable-next-line class-methods-use-this
   removeProgressBar() {
     const mediaLoader = document.getElementById('media-edit-progress');
