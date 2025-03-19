@@ -10,6 +10,14 @@ environment:
   matrix:
   - php_ver_target: 8.1
 
+services:
+  - docker
+
+init:
+  - ps: |
+      Write-Host "Switching Docker to Linux mode..."
+      & 'C:\Program Files\Docker\DockerCli.exe' -SwitchLinuxEngine
+
 
 init:
   - SET PATH=C:\Tools\php;%PATH%
