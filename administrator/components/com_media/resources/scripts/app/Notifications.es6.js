@@ -23,7 +23,7 @@ const notifications = {
   /* Send a success notification */
   success: (message, options) => {
     notify(message, {
-      type: 'success', // @todo rename it to success
+      type: 'success', 
       dismiss: true,
       ...options,
     });
@@ -32,7 +32,7 @@ const notifications = {
   /* Send an error notification */
   error: (message, options) => {
     notify(message, {
-      type: 'danger', // @todo rename it to danger
+      type: 'error', // @todo rename it to danger
       dismiss: true,
       ...options,
     });

@@ -40,7 +40,6 @@ export const getContents = (context, payload) => {
     .catch((error) => {
       // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
-      //throw new Error(error);
       notifications.error('COM_MEDIA_GET_CONTENTS_ERROR', error.message);
     });
 };
@@ -60,7 +59,6 @@ export const getFullContents = (context, payload) => {
     .catch((error) => {
       // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
-      //throw new Error(error);
       notifications.error('COM_MEDIA_GET_CONTENTS_ERROR', error.message);
     });
 };
@@ -84,7 +82,7 @@ export const download = (context, payload) => {
       document.body.removeChild(a);
     })
     .catch((error) => {
-      throw new Error(error);
+      notifications.error('COM_MEDIA_DOWNLOAD_ERROR', error.message);
     });
 };
 
@@ -122,7 +120,6 @@ export const createDirectory = (context, payload) => {
     .catch((error) => {
       // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
-     // throw new Error(error);
       notifications.error('COM_MEDIA_CREATE_DIRECTORY_ERROR', error.message);
     });
 };
@@ -149,7 +146,6 @@ export const uploadFile = (context, payload) => {
       if (error.status === 409) {
         const userWantsToOverride = notifications.ask(translate.sprintf('COM_MEDIA_FILE_EXISTS_AND_OVERRIDE', payload.name), {});
         if (userWantsToOverride) {
-        if (notifications.ask(translate.sprintf('COM_MEDIA_FILE_EXISTS_AND_OVERRIDE', payload.name), {})) {
           payload.override = true;
           uploadFile(context, payload);
         }
@@ -157,7 +153,7 @@ export const uploadFile = (context, payload) => {
           notifications.error('COM_MEDIA_FILE_EXISTS', error.message);
         }
       }
-    }
+    
     });
 };
 
@@ -188,7 +184,6 @@ export const renameItem = (context, payload) => {
     .catch((error) => {
       // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
-     // throw new Error(error);
      notifications.error('COM_MEDIA_RENAME_ERROR', error.message);
     });
 };
@@ -220,7 +215,6 @@ export const deleteSelectedItems = (context) => {
         .catch((error) => {
           // @todo error handling
           context.commit(types.SET_IS_LOADING, false);
-          //throw new Error(error);
           notifications.error('COM_MEDIA_DELETE_ERROR', error.message);
         });
     });
