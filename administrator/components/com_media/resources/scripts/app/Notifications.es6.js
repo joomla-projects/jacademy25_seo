@@ -6,7 +6,7 @@
  */
 function notify(message, options) {
   let timer;
-  if (options.type === 'message') {
+  if (options.type === 'success') {
     timer = 3000;
   }
   Joomla.renderMessages(
@@ -23,7 +23,7 @@ const notifications = {
   /* Send a success notification */
   success: (message, options) => {
     notify(message, {
-      type: 'message', // @todo rename it to success
+      type: 'success', // @todo rename it to success
       dismiss: true,
       ...options,
     });
@@ -32,7 +32,7 @@ const notifications = {
   /* Send an error notification */
   error: (message, options) => {
     notify(message, {
-      type: 'error', // @todo rename it to danger
+      type: 'danger', // @todo rename it to danger
       dismiss: true,
       ...options,
     });
@@ -41,7 +41,7 @@ const notifications = {
   /* Send a general notification */
   notify: (message, options) => {
     notify(message, {
-      type: 'message',
+      type: 'success', 
       dismiss: true,
       ...options,
     });
