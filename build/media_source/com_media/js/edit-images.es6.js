@@ -155,27 +155,24 @@ class Edit {
   // eslint-disable-next-line class-methods-use-this
   Redo() { }
 
-  // eslint-disable-next-line class-methods-use-this
   createProgressBar() {
-    const mediaLoader = document.createElement('div');
-    mediaLoader.id = 'media-edit-progress';
-    mediaLoader.className = 'media-loader';
-
-    mediaLoader.style.top = '0';
-    mediaLoader.style.zIndex = '1000';
-
-    this.baseContainer.insertAdjacentElement('beforebegin', mediaLoader);
+    this.progress = document.getElementById('progress');
+    this.progressBar = document.querySelector('.progress-bar');
+    this.progress.classList.remove('visually-hidden');
   }
 
-  // @TODO Update the progress bar
-  // eslint-disable-next-line class-methods-use-this
-  updateProgressBar(/* position */) { }
+  updateProgressBar(position) {
+    if (this.progressBar) {
+      this.progressBar.style.width = `${position}%`;
+      this.progressBar.setAttribute('aria-valuenow', position);
+    }
+  }
 
-  // eslint-disable-next-line class-methods-use-this
   removeProgressBar() {
-    const mediaLoader = document.getElementById('media-edit-progress');
-    if (mediaLoader) {
-      mediaLoader.remove();
+    if (this.progress && this.progressBar) {
+      this.progress.classList.add('visually-hidden');
+      this.progressBar.style.width = '0';
+      this.progressBar.setAttribute('aria-valuenow', '0');
     }
   }
 

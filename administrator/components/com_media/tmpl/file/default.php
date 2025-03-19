@@ -58,10 +58,13 @@ $this->getDocument()->addScriptOptions('com_media', $config);
 $this->useCoreUI = true;
 ?>
 <?php if ($tmpl === 'component') : ?>
-<div class="subhead noshadow mb-3">
-    <?php echo $this->getDocument()->getToolbar('toolbar')->render(); ?>
-</div>
+    <div class="subhead noshadow mb-3">
+        <?php echo $this->getDocument()->getToolbar('toolbar')->render(); ?>
+    </div>
 <?php endif; ?>
+<div id="progress" class="progress visually-hidden">
+    <div id="progress-bar" class="progress-bar bg-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
 <form action="#" method="post" name="adminForm" id="media-form" class="form-validate main-card media-form mt-3">
     <?php $fieldSets = $form->getFieldsets(); ?>
     <?php if ($fieldSets) : ?>
