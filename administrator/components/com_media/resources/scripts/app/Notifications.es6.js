@@ -23,7 +23,7 @@ const notifications = {
   /* Send a success notification */
   success: (message, options) => {
     notify(message, {
-      type: 'success', 
+      type: 'success',
       dismiss: true,
       ...options,
     });
@@ -41,7 +41,7 @@ const notifications = {
   /* Send a general notification */
   notify: (message, options) => {
     notify(message, {
-      type: 'success', 
+      type: 'success',
       dismiss: true,
       ...options,
     });

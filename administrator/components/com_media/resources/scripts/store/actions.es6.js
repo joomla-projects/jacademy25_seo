@@ -148,12 +148,10 @@ export const uploadFile = (context, payload) => {
         if (userWantsToOverride) {
           payload.override = true;
           uploadFile(context, payload);
-        }
-        else{
+        } else {
           notifications.error('COM_MEDIA_FILE_EXISTS', error.message);
         }
       }
-    
     });
 };
 
@@ -184,7 +182,7 @@ export const renameItem = (context, payload) => {
     .catch((error) => {
       // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
-     notifications.error('COM_MEDIA_RENAME_ERROR', error.message);
+      notifications.error('COM_MEDIA_RENAME_ERROR', error.message);
     });
 };
 
