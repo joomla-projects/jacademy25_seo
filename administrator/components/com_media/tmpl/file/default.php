@@ -67,7 +67,19 @@ $this->useCoreUI = true;
     <?php if ($fieldSets) : ?>
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'attrib-' . reset($fieldSets)->name, 'breakpoint' => 768]); ?>
         <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
-        <?php echo '<div id="media-manager-edit-container" class="media-manager-edit"></div>'; ?>
+        
+        <!-- Modified: Display trimmed filename -->
+        <div id="media-manager-edit-container" class="media-manager-edit">
+            <?php
+            // Trim long filenames
+            $filename = htmlspecialchars($this->file->name, ENT_QUOTES, 'UTF-8');
+            $displayName = (strlen($filename) > 25) ? substr($filename, 0, 22) . '...' : $filename;
+            ?>
+            <span class="media-item-name" title="<?php echo $filename; ?>">
+                <?php echo $displayName; ?>
+            </span>
+        </div>
+        
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     <?php endif; ?>
     <input type="hidden" name="mediatypes" value="<?php echo $this->escape($mediaTypes); ?>">
