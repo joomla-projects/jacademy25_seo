@@ -596,7 +596,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function setDatabase(DatabaseInterface $db): void
     {
-        $this->_db = $db;
+        $this->_db                         = $db;
         $this->_databaseAwareTraitDatabase = $db;
     }
 
