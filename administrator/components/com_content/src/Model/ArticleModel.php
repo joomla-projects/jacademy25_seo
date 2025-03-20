@@ -107,7 +107,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      */
     public function __construct($config = [], ?MVCFactoryInterface $factory = null, ?FormFactoryInterface $formFactory = null)
     {
-        $config['events_map'] = $config['events_map'] ?? [];
+        $config['events_map'] ??= [];
 
         $config['events_map'] = array_merge(
             ['featured' => 'content'],
@@ -118,9 +118,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
         // Set the featured status change events
         $this->event_before_change_featured = $config['event_before_change_featured'] ?? $this->event_before_change_featured;
-        $this->event_before_change_featured = $this->event_before_change_featured ?? 'onContentBeforeChangeFeatured';
+        $this->event_before_change_featured ??= 'onContentBeforeChangeFeatured';
         $this->event_after_change_featured  = $config['event_after_change_featured'] ?? $this->event_after_change_featured;
-        $this->event_after_change_featured  = $this->event_after_change_featured ?? 'onContentAfterChangeFeatured';
+        $this->event_after_change_featured  ??= 'onContentAfterChangeFeatured';
 
         $this->setUpWorkflow('com_content.article');
     }
@@ -659,7 +659,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         $input  = $app->getInput();
         $filter = InputFilter::getInstance();
 
-        if (isset($data['metadata']) && isset($data['metadata']['author'])) {
+        if (isset($data['metadata']['author'])) {
             $data['metadata']['author'] = $filter->clean($data['metadata']['author'], 'TRIM');
         }
 
@@ -692,7 +692,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         if ($createCategory && $this->canCreateCategory()) {
             $category = [
                 // Remove #new# prefix, if exists.
-                'title'     => strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'],
+                'title'     => str_starts_with($data['catid'], '#new#') ? substr($data['catid'], 5) : $data['catid'],
                 'parent_id' => 1,
                 'extension' => 'com_content',
                 'language'  => $data['language'],
@@ -755,9 +755,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             }
 
             if ($data['title'] == $origTable->title) {
-                list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-                $data['title']       = $title;
-                $data['alias']       = $alias;
+                [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+                $data['title']   = $title;
+                $data['alias']   = $alias;
             } elseif ($data['alias'] == $origTable->alias) {
                 $data['alias'] = '';
             }
@@ -778,8 +778,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                     $msg = Text::_('COM_CONTENT_SAVE_WARNING');
                 }
 
-                list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
-                $data['alias']       = $alias;
+                [$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+                $data['alias']   = $alias;
 
                 if (isset($msg)) {
                     $app->enqueueMessage($msg, 'warning');
