@@ -152,6 +152,7 @@ trait DisplayTrait
                 if (isset($ugroups[$group])) {
                     $extraOptions  = $val;
                     $toolbarParams = (object) $toolbarParamsAll[$set];
+                    break 2;
                 }
             }
         }
