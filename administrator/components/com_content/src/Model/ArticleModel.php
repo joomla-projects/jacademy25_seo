@@ -14,6 +14,7 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
@@ -487,7 +488,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         if ($id == 0) {
             $field = $form->getField('state');
 
-            if ($field !== false && $field->type === 'List') {
+            if ($field instanceof ListField) {
                 $field->removeOption(-2);
             }
         }
