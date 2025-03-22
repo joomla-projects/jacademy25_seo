@@ -578,7 +578,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      * @since   __DEPLOY_VERSION__
      * @throws  DatabaseNotFoundException May be thrown if the database has not been set.
      *
-     * @note    This method will be removed in 6.0 and
+     * @note    This method will be removed in 7.0 and DatabaseAwareTrait will be used instead.
      */
     protected function getDatabase(): DatabaseInterface
     {
@@ -593,11 +593,13 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
+     *
+     * @note    This method will be removed in 7.0 and DatabaseAwareTrait will be used instead.
      */
     public function setDatabase(DatabaseInterface $db): void
     {
-        $this->_db                         = $db;
-        $this->_databaseAwareTraitDatabase = $db;
+        $this->_db                        = $db;
+        $this->databaseAwareTraitDatabase = $db;
     }
 
     /**
