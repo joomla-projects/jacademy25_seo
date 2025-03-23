@@ -1075,7 +1075,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function delete($pk = null)
     {
-        $db  = $this->getDatabase();
+        $db = $this->getDatabase();
 
         if (\is_null($pk)) {
             $pk = [];
