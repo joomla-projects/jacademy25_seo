@@ -766,7 +766,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function load($keys = null, $reset = true)
     {
-        $db  = $this->getDatabase();
+        $db = $this->getDatabase();
 
         // Pre-processing by observers
         $event = AbstractEvent::create(
