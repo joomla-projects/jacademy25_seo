@@ -544,7 +544,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      *
      * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
      *               Use getDatabase() instead
-     *               Example: $this->getDatabase($db);
+     *               Example: $this->getDatabase();
      */
     public function getDbo()
     {
