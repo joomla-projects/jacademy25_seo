@@ -465,7 +465,8 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function appendPrimaryKeys($query, $pk = null)
     {
-        $db  = $this->getDatabase();
+        $db = $this->getDatabase();
+
         if (\is_null($pk)) {
             foreach ($this->_tbl_keys as $k) {
                 $query->where($db->quoteName($k) . ' = ' . $db->quote($this->$k));
