@@ -238,8 +238,6 @@ class TemplateModel extends FormModel
         // Initialize the array variable to store core file list.
         $this->coreFileList = [];
 
-        $app = Factory::getApplication();
-
         foreach ($templates as $template) {
             $client  = ApplicationHelper::getClientInfo($template->client_id);
             $element = Path::clean($client->path . '/templates/' . $template->element . '/');
@@ -473,7 +471,6 @@ class TemplateModel extends FormModel
      */
     public function getCoreFile($file, $client_id)
     {
-        $app          = Factory::getApplication();
         $filePath     = Path::clean($file);
         $explodeArray = explode(DIRECTORY_SEPARATOR, $filePath);
 
@@ -701,7 +698,7 @@ class TemplateModel extends FormModel
             ->bind(':name', $name);
         $db->setQuery($query);
 
-        return ($db->loadResult() == 0);
+        return $db->loadResult() == 0;
     }
 
     /**
@@ -2002,15 +1999,17 @@ class TemplateModel extends FormModel
         }
 
         $user = $this->getCurrentUser();
-        unset($xml->languages);
-        unset($xml->media);
-        unset($xml->files);
-        unset($xml->parent);
-        unset($xml->inheritable);
 
         // Remove the update parts
-        unset($xml->update);
-        unset($xml->updateservers);
+        unset(
+            $xml->languages,
+            $xml->media,
+            $xml->files,
+            $xml->parent,
+            $xml->inheritable,
+            $xml->update,
+            $xml->updateservers
+        );
 
         if (isset($xml->creationDate)) {
             $xml->creationDate = (new Date('now'))->format('F Y');
