@@ -82,7 +82,7 @@ class RandomImageHelper
      */
     public static function getImages(&$params, $folder)
     {
-        $type = $params->get('type', 'jpg');
+        $type       = $params->get('type', 'jpg');
         $extensions = array_map('trim', explode(',', $type));
 
         // Normalize to lowercase and strip leading dots
@@ -96,7 +96,7 @@ class RandomImageHelper
         $dir = JPATH_BASE . '/' . $folder;
 
         // Check if directory exists
-        if (\is_dir($dir)) {
+        if (is_dir($dir)) {
             if ($handle = opendir($dir)) {
                 while (false !== ($file = readdir($handle))) {
                     if ($file !== '.' && $file !== '..' && $file !== 'CVS' && $file !== 'index.html') {
@@ -110,13 +110,13 @@ class RandomImageHelper
             $i = 0;
 
             foreach ($files as $img) {
-                if (\is_dir($dir . '/' . $img)) {
+                if (is_dir($dir . '/' . $img)) {
                     continue;
                 }
 
                 $ext = pathinfo($img, PATHINFO_EXTENSION);
                 if (\in_array(strtolower($ext), $extensions, true)) {
-                    $images[$i] = new \stdClass();
+                    $images[$i]         = new \stdClass();
                     $images[$i]->name   = $img;
                     $images[$i]->folder = $folder;
                     $i++;
