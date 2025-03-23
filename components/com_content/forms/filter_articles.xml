@@ -44,13 +44,14 @@
 		<field
 			name="author_id"
 			type="author"
-			label="JAUTHOR"
+			label="JAUTHOR1"
 			multiple="true"
 			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_AUTHOR"
 			onchange="this.form.submit();"
 			>
 			<option value="0">JNONE</option>
+			<option value="by_me">COM_CONTENT_FILTER_AUTHORS_BY_ME</option>
 		</field>
 
 		<field
