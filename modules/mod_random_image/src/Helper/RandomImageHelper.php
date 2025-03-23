@@ -113,7 +113,7 @@ class RandomImageHelper
                 if (\is_dir($dir . '/' . $img)) {
                     continue;
                 }
-    
+
                 $ext = pathinfo($img, PATHINFO_EXTENSION);
                 if (\in_array(strtolower($ext), $extensions, true)) {
                     $images[$i] = new \stdClass();
