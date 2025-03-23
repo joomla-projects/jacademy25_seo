@@ -443,7 +443,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
     protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         // For simple cases, parent to the asset root.
-        $assets = new Asset($this->getDbo(), $this->getDispatcher());
+        $assets = new Asset($this->getDatabase(), $this->getDispatcher());
         $rootId = $assets->getRootId();
 
         if (!empty($rootId)) {
@@ -947,7 +947,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
             $parentId = $this->_getAssetParentId();
             $name     = $this->_getAssetName();
             $title    = $this->_getAssetTitle();
-            $asset    = new Asset($this->getDbo(), $this->getDispatcher());
+            $asset    = new Asset($this->getDatabase(), $this->getDispatcher());
 
             $asset->loadByName($name);
 
@@ -1110,7 +1110,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         if ($this->_trackAssets) {
             // Get the asset name
             $name  = $this->_getAssetName();
-            $asset = new Asset($this->getDbo(), $this->getDispatcher());
+            $asset = new Asset($this->getDatabase(), $this->getDispatcher());
 
             if ($asset->loadByName($name)) {
                 if (!$asset->delete()) {
