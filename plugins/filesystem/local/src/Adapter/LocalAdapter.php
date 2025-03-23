@@ -611,10 +611,7 @@ class LocalAdapter implements AdapterInterface
         }
 
         // Check for special characters that would be sanitized (except for case differences in extensions)
-        $originalNameLower = strtolower($name);
-        $safeNameLower     = strtolower($safeName);
-
-        if ($originalNameLower !== $safeNameLower) {
+        if (strtolower($name) !== strtolower($safeName)) {
             // There are differences other than case in the extension
             throw new \Exception(Text::_('JLIB_MEDIA_ERROR_WARNFILENAME'));
         }
