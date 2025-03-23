@@ -1738,7 +1738,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function publish($pks = null, $state = 1, $userId = 0)
     {
-        $db  = $this->getDatabase();
+        $db = $this->getDatabase();
 
         // Sanitize input
         $userId = (int) $userId;
