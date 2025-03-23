@@ -1029,7 +1029,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
      */
     public function save($src, $orderingFilter = '', $ignore = '')
     {
-        $db  = $this->getDatabase();
+        $db = $this->getDatabase();
 
         // Attempt to bind the source to the instance.
         if (!$this->bind($src, $ignore)) {
