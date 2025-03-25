@@ -88,11 +88,11 @@
 				<field
 					name="decimals"
 					type="int"
+					label="PLG_FIELDS_NUMBER_PARAMS_DECIMALS_LABEL"
+					description="PLG_FIELDS_NUMBER_PARAMS_DECIMALS_DESC"
 					min="0"
 					max="10"
 					default="2"
-					label="PLG_FIELDS_NUMBER_PARAMS_DECIMALS_LABEL"
-					description="PLG_FIELDS_NUMBER_PARAMS_DECIMALS_DESC"
 					filter="int"
 					showon="currency:1"
 				/>

@@ -64,13 +64,13 @@
 			<field
 				name="decimals"
 				type="int"
-				min="0"
-				max="10"
-				default="2"
 				label="PLG_FIELDS_NUMBER_PARAMS_DECIMALS_LABEL"
 				description="PLG_FIELDS_NUMBER_PARAMS_DECIMALS_DESC"
+				default="2"
 				filter="integer"
 				showon="currency:1"
+				min="0"
+				max="10"
 			/>
 		</fieldset>
 	</fields>
