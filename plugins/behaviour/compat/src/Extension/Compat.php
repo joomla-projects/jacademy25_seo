@@ -87,6 +87,11 @@ final class Compat extends CMSPlugin implements SubscriberInterface
          * @deprecated 4.4.0 will be removed in 7.0
          */
         \defined('JPATH_PLATFORM') or \define('JPATH_PLATFORM', __DIR__);
+
+        /**
+         * Enable compatibility flag.
+         */
+        \define('JCOMPAT_ENABLED', true);
     }
 
     /**

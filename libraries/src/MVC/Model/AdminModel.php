@@ -18,6 +18,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Category;
@@ -1031,7 +1032,7 @@ abstract class AdminModel extends FormModel
 
         // Convert to \stdClass before adding other data
         $properties = get_object_vars($table);
-        $item       = ArrayHelper::toObject($properties);
+        $item       = ArrayHelper::toObject($properties, !\defined('JCOMPAT_ENABLED') ? \stdClass::class : CMSObject::class);
 
         if (property_exists($item, 'params')) {
             $registry     = new Registry($item->params);
