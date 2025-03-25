@@ -164,6 +164,7 @@ class MessageModel extends AdminModel implements UserFactoryAwareInterface
                         }
 
                         $this->item->user_id_to = $message->user_id_from;
+
                         $re = Text::_('COM_MESSAGES_RE');
 
                         if (stripos($message->subject, $re) !== 0) {
