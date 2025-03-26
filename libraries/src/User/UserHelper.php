@@ -563,24 +563,24 @@ abstract class UserHelper
             $minimumLowercase   = (int)$params->get('minimum_lowercase', 0);
         }
 
-        $pass_order = array();
-        $passWord = '';
+        $pass_order = [];
+        $passWord   = '';
 
         for ($i = 0; $i < $minimumUppercase; $i++) {
-            $pass_order[] = chr(rand(65, 90));
+            $pass_order[] = \chr(rand(65, 90));
         }
         for ($i = 0; $i < $minimumLowercase; $i++) {
-            $pass_order[] = chr(rand(97, 122));
+            $pass_order[] = \chr(rand(97, 122));
         }
         for ($i = 0; $i < $minimumIntegers; $i++) {
-            $pass_order[] = chr(rand(48, 57));
+            $pass_order[] = \chr(rand(48, 57));
         }
         for ($i = 0; $i < $minimumSymbols; $i++) {
-            $pass_order[] = chr(rand(33, 47));
+            $pass_order[] = \chr(rand(33, 47));
         }
 
-        if (sizeof($pass_order) < $minimumLength) {
-            $size       = $minimumLength - sizeof($pass_order);
+        if (\sizeof($pass_order) < $minimumLength) {
+            $size       = $minimumLength - \sizeof($pass_order);
             $fill       = self::genRandomPassword($size);
             $pass_order = array_merge($pass_order, str_split($fill));
         }
