@@ -549,7 +549,7 @@ abstract class UserHelper
         $minimumIntegers    = 0;
         $minimumSymbols     = 0;
         $minimumUppercase   = 0;
-        $minimumLowercase    == 0;
+        $minimumLowercase   = 0;
 
         // If we have parameters from com_users, use those.
         // Some of these may be empty for legacy reasons.
