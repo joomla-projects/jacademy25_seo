@@ -536,6 +536,63 @@ abstract class UserHelper
     }
 
     /**
+     * Generate a random strong password as defined in user configuration
+     *
+     * @return  string  Random Strong Password
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function genRandomStrongPassword()
+    {
+        $minimumLength		= 12;
+        $minimumIntegers	= 0;
+        $minimumSymbols		= 0;
+        $minimumUppercase	= 0;
+        $minimumLowercase	= 0;
+
+        // If we have parameters from com_users, use those.
+        // Some of these may be empty for legacy reasons.
+        $params = ComponentHelper::getParams('com_users');
+
+        if (!empty($params)) {
+            $minimumLength		= (int)$params->get('minimum_length', 12);
+            $minimumIntegers	= (int)$params->get('minimum_integers', 0);
+            $minimumSymbols		= (int)$params->get('minimum_symbols', 0);
+            $minimumUppercase	= (int)$params->get('minimum_uppercase', 0);
+            $minimumLowercase	= (int)$params->get('minimum_lowercase', 0);
+        }
+
+        $pass_order = array();
+        $passWord = '';
+
+        for ($i = 0; $i < $minimumUppercase; $i++) {
+            $pass_order[] = chr(rand(65, 90));
+        }
+        for ($i = 0; $i < $minimumLowercase; $i++) {
+            $pass_order[] = chr(rand(97, 122));
+        }
+        for ($i = 0; $i < $minimumIntegers; $i++) {
+            $pass_order[] = chr(rand(48, 57));
+        }
+        for ($i = 0; $i < $minimumSymbols; $i++) {
+            $pass_order[] = chr(rand(33, 47));
+        }
+
+        if (sizeof($pass_order) < $minimumLength) {
+            $size 		= $minimumLength - sizeof($pass_order);
+            $fill 		= self::genRandomPassword($size);
+            $pass_order	= array_merge($pass_order, str_split($fill));
+        }
+
+        //using shuffle() to shuffle the order
+        shuffle($pass_order);
+
+        $passWord = implode($pass_order);
+
+        return $passWord;
+    }
+
+    /**
      * Method to get a hashed user agent string that does not include browser version.
      * Used when frequent version changes cause problems.
      *

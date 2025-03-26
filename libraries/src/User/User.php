@@ -611,7 +611,7 @@ class User
         if (empty($this->id)) {
             // Check the password and create the crypted password
             if (empty($array['password'])) {
-                $array['password']  = UserHelper::genRandomPassword(32);
+                $array['password']  = UserHelper::genRandomStrongPassword();
                 $array['password2'] = $array['password'];
             }
 
