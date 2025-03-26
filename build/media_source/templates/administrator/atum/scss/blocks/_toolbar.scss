@@ -102,6 +102,11 @@
     }
 
     &.btn-primary {
+      --subhead-btn-accent: var(--template-link-color);
+    }
+
+    &.btn-secondary {
+      --subhead-btn-accent: var(--secondary-bg);
       --subhead-btn-icon: var(--atum-btn-primary-icon);
       --subhead-btn-icon-hover: var(--atum-btn-primary-icon-hvr);
       --subhead-btn-bg: var(--atum-btn-primary-bg);
