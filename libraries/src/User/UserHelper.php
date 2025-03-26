@@ -17,6 +17,7 @@ use Joomla\CMS\Authentication\Password\ChainedHandler;
 use Joomla\CMS\Authentication\Password\CheckIfRehashNeededHandlerInterface;
 use Joomla\CMS\Authentication\Password\MD5Handler;
 use Joomla\CMS\Authentication\Password\PHPassHandler;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -544,44 +545,44 @@ abstract class UserHelper
      */
     public static function genRandomStrongPassword()
     {
-        $minimumLength		= 12;
-        $minimumIntegers	= 0;
-        $minimumSymbols		= 0;
-        $minimumUppercase	= 0;
-        $minimumLowercase	= 0;
+        $minimumLength      = 12;
+        $minimumIntegers    = 0;
+        $minimumSymbols     = 0;
+        $minimumUppercase   = 0;
+        $minimumLowercase    == 0;
 
         // If we have parameters from com_users, use those.
         // Some of these may be empty for legacy reasons.
         $params = ComponentHelper::getParams('com_users');
 
         if (!empty($params)) {
-			$minimumLength		= (int)$params->get('minimum_length', 12);
-            $minimumIntegers	= (int)$params->get('minimum_integers', 0);
-            $minimumSymbols		= (int)$params->get('minimum_symbols', 0);
-            $minimumUppercase	= (int)$params->get('minimum_uppercase', 0);
-            $minimumLowercase	= (int)$params->get('minimum_lowercase', 0);
+            $minimumLength      = (int)$params->get('minimum_length', 12);
+            $minimumIntegers    = (int)$params->get('minimum_integers', 0);
+            $minimumSymbols     = (int)$params->get('minimum_symbols', 0);
+            $minimumUppercase   = (int)$params->get('minimum_uppercase', 0);
+            $minimumLowercase   = (int)$params->get('minimum_lowercase', 0);
         }
 
-        $pass_order = [];
-        $passWord 	= '';
+        $pass_order = array();
+        $passWord = '';
 
         for ($i = 0; $i < $minimumUppercase; $i++) {
-            $pass_order[] = \chr(rand(65, 90));
+            $pass_order[] = chr(rand(65, 90));
         }
         for ($i = 0; $i < $minimumLowercase; $i++) {
-            $pass_order[] = \chr(rand(97, 122));
+            $pass_order[] = chr(rand(97, 122));
         }
         for ($i = 0; $i < $minimumIntegers; $i++) {
-            $pass_order[] = \chr(rand(48, 57));
+            $pass_order[] = chr(rand(48, 57));
         }
         for ($i = 0; $i < $minimumSymbols; $i++) {
-            $pass_order[] = \chr(rand(33, 47));
+            $pass_order[] = chr(rand(33, 47));
         }
 
-        if (\sizeof($pass_order) < $minimumLength) {
-            $size 		= $minimumLength - \sizeof($pass_order);
-            $fill 		= self::genRandomPassword($size);
-            $pass_order	= array_merge($pass_order, str_split($fill));
+        if (sizeof($pass_order) < $minimumLength) {
+            $size       = $minimumLength - sizeof($pass_order);
+            $fill       = self::genRandomPassword($size);
+            $pass_order = array_merge($pass_order, str_split($fill));
         }
 
         //using shuffle() to shuffle the order
