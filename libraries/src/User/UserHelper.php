@@ -537,6 +537,24 @@ abstract class UserHelper
     }
 
     /**
+     * Generate a random character from salt
+     *
+     * @param   string   $salt
+     *
+     * @return  string  Single character from salt
+     *
+     * @since   __DEPLOY_VERSION__
+    */
+    public static function genRandomChar($salt)
+    {
+        $base     = \strlen($salt);
+        $random = Crypt::genRandomBytes(2);
+        $shift  = \ord($random[0]);
+        $char = $salt[($shift + \ord($random[1])) % $base];
+        return $char;
+    }
+
+    /**
      * Generate a random strong password as defined in user configuration
      *
      * @return  string  Random Strong Password
@@ -545,7 +563,12 @@ abstract class UserHelper
      */
     public static function genRandomStrongPassword()
     {
-        $minimumLength      = 12;
+        $saltLowercase  = 'abcdefghijklmnopqrstuvwxyz';
+        $saltUppercase  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $saltIntegers	= '0123456789';
+        $saltSymbols    = '`~!@#$%^&*()-_=+[{]};:\'"<,>.?/';
+
+        $minimumLength      = 32;
         $minimumIntegers    = 0;
         $minimumSymbols     = 0;
         $minimumUppercase   = 0;
@@ -567,16 +590,16 @@ abstract class UserHelper
         $passWord   = '';
 
         for ($i = 0; $i < $minimumUppercase; $i++) {
-            $pass_order[] = \chr(rand(65, 90));
+            $pass_order[] = self::genRandomChar($saltLowercase);
         }
         for ($i = 0; $i < $minimumLowercase; $i++) {
-            $pass_order[] = \chr(rand(97, 122));
+            $pass_order[] = self::genRandomChar($saltUppercase);
         }
         for ($i = 0; $i < $minimumIntegers; $i++) {
-            $pass_order[] = \chr(rand(48, 57));
+            $pass_order[] = self::genRandomChar($saltIntegers);
         }
         for ($i = 0; $i < $minimumSymbols; $i++) {
-            $pass_order[] = \chr(rand(33, 47));
+            $pass_order[] = self::genRandomChar($saltSymbols);
         }
 
         if (\sizeof($pass_order) < $minimumLength) {
