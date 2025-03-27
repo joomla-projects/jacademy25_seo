@@ -548,9 +548,9 @@ abstract class UserHelper
     public static function genRandomChar($salt)
     {
         $base     = \strlen($salt);
-        $random = Crypt::genRandomBytes(2);
-        $shift  = \ord($random[0]);
-        $char = $salt[($shift + \ord($random[1])) % $base];
+        $random   = Crypt::genRandomBytes(2);
+        $shift    = \ord($random[0]);
+        $char     = $salt[($shift + \ord($random[1])) % $base];
         return $char;
     }
 
@@ -565,7 +565,7 @@ abstract class UserHelper
     {
         $saltLowercase  = 'abcdefghijklmnopqrstuvwxyz';
         $saltUppercase  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $saltIntegers	= '0123456789';
+        $saltIntegers   = '0123456789';
         $saltSymbols    = '`~!@#$%^&*()-_=+[{]};:\'"<,>.?/';
 
         $minimumLength      = 32;
