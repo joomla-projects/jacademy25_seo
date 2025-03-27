@@ -27,31 +27,28 @@
 					name="label"
 					type="text"
 					label="PLG_FIELDS_NOTE_PARAMS_LABEL_LABEL"
-					description="PLG_FIELDS_NOTE_PARAMS_LABEL_DESC"
 				/>
 
 				<field
 					name="description"
 					type="editor"
 					label="PLG_FIELDS_NOTE_PARAMS_DESCRIPTION_LABEL"
-					description="PLG_FIELDS_NOTE_PARAMS_DESCRIPTION_DESC"
 				/>
 
 				<field
 					name="class"
 					type="text"
-					default="alert alert-info"
 					label="PLG_FIELDS_NOTE_PARAMS_CLASS_LABEL"
 					description="PLG_FIELDS_NOTE_PARAMS_CLASS_DESC"
+					default="alert alert-info"
 				/>
 
 				<field
 					name="heading"
 					type="list"
 					label="PLG_FIELDS_NOTE_PARAMS_HEADING_LABEL"
-					description="PLG_FIELDS_NOTE_PARAMS_HEADING_DESC"
 					default="h4"
-				>
+					>
 					<option value="h1">JH1</option>
 					<option value="h2">JH2</option>
 					<option value="h3">JH3</option>
