@@ -776,7 +776,7 @@ class TemplateModel extends FormModel
             }
 
             // Adjust to new template name
-            return (bool) $this->fixTemplateName();
+            return $this->fixTemplateName();
         }
 
         $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
