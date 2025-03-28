@@ -1363,7 +1363,7 @@ ENDDATA;
         }
 
         // Check if database schema version match CMS version
-        if $model->getSchemaVersion($coreExtensionInfo->extension_id) == $changeInformation['schema'];
+        return $model->getSchemaVersion($coreExtensionInfo->extension_id) == $changeInformation['schema'];
     }
 
     /**

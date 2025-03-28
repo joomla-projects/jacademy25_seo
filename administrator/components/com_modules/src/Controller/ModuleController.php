@@ -149,7 +149,7 @@ class ModuleController extends FormController
         }
 
         // Check edit on the record asset (explicit or inherited)
-        return (bool) ($this->app->getIdentity()->authorise('core.edit', 'com_modules.module.' . $recordId))
+        return (bool) ($this->app->getIdentity()->authorise('core.edit', 'com_modules.module.' . $recordId));
     }
 
     /**
