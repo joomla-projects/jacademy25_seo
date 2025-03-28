@@ -2061,13 +2061,11 @@ class TemplateModel extends FormModel
         }
 
         // Create an empty media folder structure
-        return ! (
-            !Folder::create($toPath . '/media')
-            || !Folder::create($toPath . '/media/css')
-            || !Folder::create($toPath . '/media/js')
-            || !Folder::create($toPath . '/media/images')
-            || !Folder::create($toPath . '/media/scss')
-        );
+        return Folder::create($toPath . '/media')
+            && Folder::create($toPath . '/media/css')
+            && Folder::create($toPath . '/media/js')
+            && Folder::create($toPath . '/media/images')
+            && Folder::create($toPath . '/media/scss');
     }
 
     /**
