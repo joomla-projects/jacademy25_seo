@@ -19,6 +19,10 @@ describe('Install Joomla', () => {
     cy.task('deleteRelativePath', 'configuration.php');
     cy.installJoomla(config);
 
+    // Disable compat plugin
+    // TODO: Uncomment below code line if filesystem class is migrated to framework in 6.0-dev
+    // cy.db_enableExtension(0, 'plg_behaviour_compat');
+
     cy.doAdministratorLogin(config.username, config.password, false);
     cy.cancelTour();
     cy.disableStatistics();
