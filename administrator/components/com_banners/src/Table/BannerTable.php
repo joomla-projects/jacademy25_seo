@@ -67,7 +67,7 @@ class BannerTable extends Table implements VersionableTableInterface
      */
     public function clicks()
     {
-        $id    = (int)$this->id;
+        $id    = (int) $this->id;
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->update($db->quoteName('#__banners'))
