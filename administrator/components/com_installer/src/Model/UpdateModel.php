@@ -529,7 +529,7 @@ class UpdateModel extends ListModel
     public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        Form::addFormPath(JPATH_COMPONENT . '/models/forms');
+        Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_installer/models/forms');
         Form::addFieldPath(JPATH_COMPONENT . '/models/fields');
         $form = Form::getInstance('com_installer.update', 'update', ['load_data' => $loadData]);
 
