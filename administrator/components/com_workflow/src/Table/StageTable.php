@@ -260,7 +260,7 @@ class StageTable extends Table
      */
     protected function _getAssetParentId(?Table $table = null, $id = null)
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $asset = new Asset($db, $this->getDispatcher());
 
         $workflow = new WorkflowTable($db, $this->getDispatcher());

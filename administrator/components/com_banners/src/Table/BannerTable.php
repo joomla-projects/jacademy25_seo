@@ -145,9 +145,10 @@ class BannerTable extends Table implements VersionableTableInterface
             $this->ordering = 0;
         } elseif (empty($this->ordering)) {
             // Set ordering to last if ordering was 0
-            $db = $this->getDatabase();
+            $db             = $this->getDatabase();
             $this->ordering = $this->getNextOrder(
-                $db->quoteName('catid') . ' = ' . ((int) $this->catid) . ' AND ' . $db->quoteName('state') . ' >= 0');
+                $db->quoteName('catid') . ' = ' . ((int)$this->catid) . ' AND ' . $db->quoteName('state') . ' >= 0'
+            );
         }
 
         // Set modified to created if not set
