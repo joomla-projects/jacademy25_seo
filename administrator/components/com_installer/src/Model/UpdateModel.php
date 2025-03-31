@@ -12,7 +12,6 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\Text;
