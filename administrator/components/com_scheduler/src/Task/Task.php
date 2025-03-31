@@ -124,22 +124,22 @@ class Task implements LoggerAwareInterface
         'NA'                => 'onTaskExecuteFailure',
     ];
 
-	/**
-	 * Constructor for {@see Task}.
-	 *
-	 * @param   object  $record  A task from {@see TaskTable}.
-	 *
-	 * @since 4.1.0
-	 * @throws \Exception
-	 */
-	public function __construct(object $record)
-	{
-		// Workaround because Registry dumps private properties otherwise.
-		$taskOption = $record->taskOption;
+    /**
+     * Constructor for {@see Task}.
+     *
+     * @param   object  $record  A task from {@see TaskTable}.
+     *
+     * @since 4.1.0
+     * @throws \Exception
+     */
+    public function __construct(object $record)
+    {
+        // Workaround because Registry dumps private properties otherwise.
+        $taskOption = $record->taskOption;
 
-		if (is_string($record->params)) {
-			$record->params = json_decode($record->params, true);
-		}
+        if (is_string($record->params)) {
+            $record->params = json_decode($record->params, true);
+        }
 
         $this->taskRegistry = new Registry($record);
 
@@ -439,8 +439,8 @@ class Task implements LoggerAwareInterface
         $db    = $this->db;
         $query = $db->getQuery(true);
 
-		$id       = $this->get('id');
-		$nextExec = $this->computeNextExecution(true, true);
+        $id       = $this->get('id');
+        $nextExec = $this->computeNextExecution(true, true);
 
         $query->update($db->quoteName('#__scheduler_tasks', 't'))
             ->set('t.next_execution = :nextExec')
@@ -561,44 +561,44 @@ class Task implements LoggerAwareInterface
             return false;
         }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Compute the next execution datetime for the task. This method is used once when a task is created or modified,
-	 * and each time a task is triggered.
-	 *
-	 * @param   boolean  $asString  If true, an SQL formatted string is returned.
-	 * @param   boolean  $basisNow  If true, the current date-time is used as the basis for projecting the next
-	 *                              execution.
-	 *
-	 * @return ?Date|string  Next due execution.
-	 *
-	 * @since  4.1.0
-	 * @throws \Exception
-	 */
-	public function computeNextExecution(bool $asString = true, bool $basisNow = false)
-	{
-		$expression = $this->get('cron_rules.exp');
+    /**
+     * Compute the next execution datetime for the task. This method is used once when a task is created or modified,
+     * and each time a task is triggered.
+     *
+     * @param   boolean  $asString  If true, an SQL formatted string is returned.
+     * @param   boolean  $basisNow  If true, the current date-time is used as the basis for projecting the next
+     *                              execution.
+     *
+     * @return ?Date|string  Next due execution.
+     *
+     * @since  4.1.0
+     * @throws \Exception
+     */
+    public function computeNextExecution(bool $asString = true, bool $basisNow = false)
+    {
+        $expression = $this->get('cron_rules.exp');
 
-		switch ($this->get('cron_rules.type'))
-		{
-			case 'interval':
-				$lastExec = Factory::getDate($basisNow ? 'now' : $this->get('last_execution'), 'UTC');
-				$interval = new \DateInterval($expression);
-				$nextExec = $lastExec->add($interval);
-				break;
-			case 'cron-expression':
-				$cronExpression     = new CronExpression($expression);
-				$nextExec = $cronExpression->getNextRunDate('now', 0, false, 'UTC');
-				break;
-			default:
-				// 'manual' execution is handled here.
-				$nextExec = null;
-		}
+        switch ($this->get('cron_rules.type'))
+        {
+            case 'interval':
+                $lastExec = Factory::getDate($basisNow ? 'now' : $this->get('last_execution'), 'UTC');
+                $interval = new \DateInterval($expression);
+                $nextExec = $lastExec->add($interval);
+                break;
+            case 'cron-expression':
+                $cronExpression     = new CronExpression($expression);
+                $nextExec = $cronExpression->getNextRunDate('now', 0, false, 'UTC');
+                break;
+            default:
+                // 'manual' execution is handled here.
+                $nextExec = null;
+        }
 
-		return ($asString && !empty($nextExec))
-			? $nextExec->format($this->db->getDateFormat())
-			: $nextExec;
-	}
+        return ($asString && !empty($nextExec))
+            ? $nextExec->format($this->db->getDateFormat())
+            : $nextExec;
+    }
 }
