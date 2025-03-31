@@ -137,7 +137,7 @@ class Task implements LoggerAwareInterface
         // Workaround because Registry dumps private properties otherwise.
         $taskOption = $record->taskOption;
 
-        if (is_string($record->params)) {
+        if (\is_string($record->params)) {
             $record->params = json_decode($record->params, true);
         }
 
@@ -581,16 +581,15 @@ class Task implements LoggerAwareInterface
     {
         $expression = $this->get('cron_rules.exp');
 
-        switch ($this->get('cron_rules.type'))
-        {
+        switch ($this->get('cron_rules.type')) {
             case 'interval':
                 $lastExec = Factory::getDate($basisNow ? 'now' : $this->get('last_execution'), 'UTC');
                 $interval = new \DateInterval($expression);
                 $nextExec = $lastExec->add($interval);
                 break;
             case 'cron-expression':
-                $cronExpression     = new CronExpression($expression);
-                $nextExec = $cronExpression->getNextRunDate('now', 0, false, 'UTC');
+                $cronExpression = new CronExpression($expression);
+                $nextExec       = $cronExpression->getNextRunDate('now', 0, false, 'UTC');
                 break;
             default:
                 // 'manual' execution is handled here.
