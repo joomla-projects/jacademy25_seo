@@ -37,6 +37,10 @@
       "type": "vcs",
       "url": "https://github.com/joomla-backports/portable-utf8.git",
       "no-api": true
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/laoneo/idna-convert.git"
     }
   ],
   "autoload": {
@@ -74,7 +78,7 @@
     "joomla/string": "^3.0.1",
     "joomla/uri": "~3.0",
     "joomla/utilities": "~3.0",
-    "algo26-matthias/idna-convert": "^4.0.4",
+    "algo26-matthias/idna-convert": "^3.x-dev",
     "defuse/php-encryption": "^2.4.0",
     "doctrine/inflector": "^1.4.4",
     "fig/link-util": "^1.2.0",
