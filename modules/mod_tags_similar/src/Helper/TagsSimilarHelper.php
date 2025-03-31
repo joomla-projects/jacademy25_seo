@@ -199,7 +199,7 @@ class TagsSimilarHelper implements DatabaseAwareInterface
 
         try {
             $results = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $results = [];
             $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
         }
