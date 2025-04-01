@@ -124,7 +124,7 @@ class Router
             // Check for a possible service from the container, otherwise manually instantiate the class if it exists
             if (Factory::getContainer()->has($classname)) {
                 self::$instances[$client] = Factory::getContainer()->get($classname);
-            } elseif class_exists($classname) {
+            } elseif (class_exists($classname)) {
                 self::$instances[$client] = new $classname();
             } else {
                 throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
