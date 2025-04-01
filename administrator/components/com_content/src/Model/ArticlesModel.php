@@ -424,7 +424,7 @@ class ArticlesModel extends ListModel
 
             $authorId = ArrayHelper::toInteger($authorId);
 
-            if (in_array(0, $authorId)) {
+            if (\in_array(0, $authorId)) {
                 // Remove 0 from array and handle deleted users with OR condition
                 $authorId = array_filter($authorId);
 
