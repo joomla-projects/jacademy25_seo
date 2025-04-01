@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "64c28182351516c1b66e68aa5a4c8902",
+    "content-hash": "79b78f23e0837f6afa0dd4c2782684b3",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
-            "version": "dev-feature/backport-4.2",
+            "version": "v3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algo26-matthias/idna-convert.git",
-                "reference": "b57b15cb7eea4affb6b805a796ae26d70f44d845"
+                "reference": "0cea987c75b981797cf3bc28b182c5da05c41252"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/b57b15cb7eea4affb6b805a796ae26d70f44d845",
-                "reference": "b57b15cb7eea4affb6b805a796ae26d70f44d845",
+                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/0cea987c75b981797cf3bc28b182c5da05c41252",
+                "reference": "0cea987c75b981797cf3bc28b182c5da05c41252",
                 "shasum": ""
             },
             "require": {
@@ -58,9 +58,9 @@
             ],
             "support": {
                 "issues": "https://github.com/algo26-matthias/idna-convert/issues",
-                "source": "https://github.com/algo26-matthias/idna-convert/tree/feature/backport-4.2"
+                "source": "https://github.com/algo26-matthias/idna-convert/tree/v3.2.0"
             },
-            "time": "2025-04-01T11:01:13+00:00"
+            "time": "2025-04-01T11:22:26+00:00"
         },
         {
             "name": "brick/math",
@@ -10162,7 +10162,6 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "algo26-matthias/idna-convert": 20,
         "tobscure/json-api": 20,
         "voku/portable-utf8": 20
     },
