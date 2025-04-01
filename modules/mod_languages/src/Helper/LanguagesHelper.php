@@ -62,8 +62,9 @@ class LanguagesHelper
         }
 
         // Load associations
-        $assoc  = Associations::isEnabled();
-        $option = $app->getInput()->get('option');
+        $assoc        = Associations::isEnabled();
+        $option       = $app->getInput()->get('option');
+        $associations = [];
 
         if ($assoc && $option) {
             if ($active) {
