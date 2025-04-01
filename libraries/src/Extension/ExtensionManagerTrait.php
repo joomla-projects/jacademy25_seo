@@ -42,7 +42,7 @@ trait ExtensionManagerTrait
     public function bootComponent($component): ComponentInterface
     {
         // Normalize the component name
-        $component = strtolower($component);
+        $component = strtolower((string) $component);
         $component = str_starts_with($component, 'com_') ? substr($component, 4) : $component;
 
         // Path to look for services

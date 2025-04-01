@@ -76,7 +76,7 @@ class LanguagesHelper
                 $cassociations = $component->getAssociationsExtension()->getAssociationsForItem();
             } else {
                 // Load component associations
-                $class = str_replace('com_', '', $option) . 'HelperAssociation';
+                $class = str_replace('com_', '', $option ?? '') . 'HelperAssociation';
                 \JLoader::register($class, JPATH_SITE . '/components/' . $option . '/helpers/association.php');
 
                 if (class_exists($class) && \is_callable([$class, 'getAssociations'])) {
