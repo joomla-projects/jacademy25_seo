@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "972b77446a362a3bc4d0b4be9b88ee92",
+    "content-hash": "64c28182351516c1b66e68aa5a4c8902",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
-            "version": "v3.x-dev",
+            "version": "dev-feature/backport-4.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laoneo/idna-convert.git",
-                "reference": "ccb422c22fd16d0d1a311d957808af5e28c4077d"
+                "url": "https://github.com/algo26-matthias/idna-convert.git",
+                "reference": "b57b15cb7eea4affb6b805a796ae26d70f44d845"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laoneo/idna-convert/zipball/ccb422c22fd16d0d1a311d957808af5e28c4077d",
-                "reference": "ccb422c22fd16d0d1a311d957808af5e28c4077d",
+                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/b57b15cb7eea4affb6b805a796ae26d70f44d845",
+                "reference": "b57b15cb7eea4affb6b805a796ae26d70f44d845",
                 "shasum": ""
             },
             "require": {
@@ -38,11 +38,7 @@
                     "Algo26\\IdnaConvert\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Algo26\\IdnaConvert\\Test\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "LGPL-2.1+"
             ],
@@ -56,14 +52,15 @@
             "description": "A library for encoding and decoding internationalized domain names",
             "homepage": "http://idnaconv.net/",
             "keywords": [
-                "IDN",
-                "IDNA",
-                "PHP"
+                "idn",
+                "idna",
+                "php"
             ],
             "support": {
-                "source": "https://github.com/laoneo/idna-convert/tree/v3.x"
+                "issues": "https://github.com/algo26-matthias/idna-convert/issues",
+                "source": "https://github.com/algo26-matthias/idna-convert/tree/feature/backport-4.2"
             },
-            "time": "2025-03-31T09:25:30+00:00"
+            "time": "2025-04-01T11:01:13+00:00"
         },
         {
             "name": "brick/math",
