@@ -88,7 +88,7 @@ final class ApiApplication extends CMSApplication
         // Set the root in the URI based on the application name
         $parts = explode('/', Uri::base(true));
         array_pop($parts);
-        Uri::root(null, implode('/', $parts));        
+        Uri::root(null, implode('/', $parts));
     }
 
     /**
