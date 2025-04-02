@@ -208,7 +208,7 @@ class Router extends RouterView
                     // We haven't found a matching category, but maybe we turned off IDs?
                     foreach ($category->getChildren() as $child) {
                         if ($child->id == (int) $segment) {
-                            $this->app->getRouter()->setTainted();
+                            $this->app->getAppRouter()->setTainted();
 
                             return $child->id;
                         }
@@ -217,7 +217,7 @@ class Router extends RouterView
                     foreach ($category->getChildren() as $child) {
                         if ($child->id == (int) $segment) {
                             if ($child->id . '-' . $child->alias != $segment) {
-                                $this->app->getRouter()->setTainted();
+                                $this->app->getAppRouter()->setTainted();
                             }
 
                             return $child->id;
@@ -274,7 +274,7 @@ class Router extends RouterView
                 return $id;
             }
 
-            $this->app->getRouter()->setTainted();
+            $this->app->getAppRouter()->setTainted();
         }
 
         $id = (int) $segment;
@@ -289,7 +289,7 @@ class Router extends RouterView
             $alias = $this->db->loadResult();
 
             if ($alias && $id . '-' . $alias != $segment) {
-                $this->app->getRouter()->setTainted();
+                $this->app->getAppRouter()->setTainted();
             }
         }
 

@@ -132,6 +132,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     protected $template = null;
 
     /**
+     * The router object
+     *
+     * @var    Router
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $router = null;
+
+    /**
      * The pathway object
      *
      * @var    Pathway
@@ -635,6 +643,31 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Returns the application router object.
+     *
+     * @return  Router
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getAppRouter()
+    {
+        if ($this->router === null) {
+            $resourceName = ucfirst($this->getName()) . 'Router';
+
+            if (!$this->getContainer()->has($resourceName)) {
+                throw new \RuntimeException(
+                    Text::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $this->getName()),
+                    500
+                );
+            }
+
+            $this->router = $this->getContainer()->get($resourceName);
+        }
+
+        return $this->router;
     }
 
     /**
