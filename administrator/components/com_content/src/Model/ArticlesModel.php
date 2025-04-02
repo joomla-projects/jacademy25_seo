@@ -476,20 +476,27 @@ class ArticlesModel extends ListModel
                 'INNER',
                 '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
                 $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-            );
+                );
+        } elseif ($tag === 'none') {
+            $subQuery = $db->getQuery(true)
+                ->select('DISTINCT ' . $db->quoteName('content_item_id'))
+                ->from($db->quoteName('#__contentitem_tag_map'))
+                ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
+
+            $query->where($db->quoteName('a.id') . ' NOT IN (' . $subQuery . ')');
         } elseif ($tag = (int) $tag) {
             $query->join(
                 'INNER',
                 $db->quoteName('#__contentitem_tag_map', 'tagmap'),
                 $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
             )
-                ->where(
-                    [
-                        $db->quoteName('tagmap.tag_id') . ' = :tag',
-                        $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article'),
-                    ]
-                )
-                ->bind(':tag', $tag, ParameterType::INTEGER);
+            ->where(
+                [
+                    $db->quoteName('tagmap.tag_id') . ' = :tag',
+                    $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article'),
+                ]
+            )
+            ->bind(':tag', $tag, ParameterType::INTEGER);
         }
 
         // Add the list ordering clause.

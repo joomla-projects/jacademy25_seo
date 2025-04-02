@@ -98,7 +98,10 @@
 			mode="nested"
 			custom="false"
 			class="js-select-submit-on-change"
-		/>
+			default=""
+			>
+			<option value="none">JNONE</option>
+		</field>
 
 		<field
 			name="level"
