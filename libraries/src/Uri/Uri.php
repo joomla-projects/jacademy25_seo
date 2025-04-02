@@ -185,12 +185,13 @@ class Uri extends \Joomla\Uri\Uri
         if (empty(static::$root)) {
             $uri                    = static::getInstance(static::base());
             static::$root['prefix'] = $uri->toString(['scheme', 'host', 'port']);
-            static::$root['path']   = rtrim($uri->toString(['path']), '/\\');
+            
+            // Dynamically compute the root path one level up from base
+            $parts = explode('/', Uri::base(true));
+            array_pop($parts);
 
-            // Remove '/administrator' from path if present at the end
-            if (str_ends_with(static::$root['path'], '/administrator')) {
-                static::$root['path'] = substr(static::$root['path'], 0, -13);
-            }
+            $cleanedPath = implode('/', $parts);
+            static::$root['path'] = $cleanedPath !== '' ? '/' . $cleanedPath : '';
         }
 
         // Get the scheme
