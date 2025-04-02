@@ -185,15 +185,7 @@ class Uri extends \Joomla\Uri\Uri
         if (empty(static::$root)) {
             $uri                    = static::getInstance(static::base());
             static::$root['prefix'] = $uri->toString(['scheme', 'host', 'port']);
-
-            // Dynamically compute the root path one level up from base
-            $parts = explode('/', trim(Uri::base(true), '/'));
-            if (\count($parts) > 1) {
-                array_pop($parts);
-            }
-
-            $cleanedPath          = implode('/', $parts);
-            static::$root['path'] = $cleanedPath !== '' ? '/' . $cleanedPath : '';
+            static::$root['path']   = rtrim($uri->toString(['path']), '/\\');
         }
 
         // Get the scheme
