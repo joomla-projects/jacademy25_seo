@@ -188,7 +188,7 @@ class Uri extends \Joomla\Uri\Uri
 
             // Dynamically compute the root path one level up from base
             $parts = explode('/', trim(Uri::base(true), '/'));
-            if (count($parts) > 1) {
+            if (\count($parts) > 1) {
                 array_pop($parts);
             }
 
