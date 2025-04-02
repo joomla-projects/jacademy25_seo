@@ -476,7 +476,7 @@ class ArticlesModel extends ListModel
                 'INNER',
                 '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
                 $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-                );
+            );
         } elseif ($tag === 'none') {
             $subQuery = $db->getQuery(true)
                 ->select('DISTINCT ' . $db->quoteName('content_item_id'))
