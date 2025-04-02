@@ -659,7 +659,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
             if (!$this->getContainer()->has($resourceName)) {
                 throw new \RuntimeException(
-                    Text::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $this->getName()),
+                    Text::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $this->getName()),
                     500
                 );
             }
