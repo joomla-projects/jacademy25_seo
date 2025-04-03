@@ -902,7 +902,7 @@ class TemplateModel extends FormModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      */
@@ -918,7 +918,7 @@ class TemplateModel extends FormModel
     /**
      * Method to get a single record.
      *
-     * @return  mixed  Object on success, false on failure.
+     * @return  object|false  Object on success, false on failure.
      *
      * @since   1.6
      */

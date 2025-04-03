@@ -269,7 +269,7 @@ class TaskModel extends AdminModel
      */
     protected function loadFormData()
     {
-        $data = $this->app->getUserState('com_scheduler.edit.task.data', []);
+        $data = $this->app->getUserState('com_scheduler.edit.task.data');
 
         // If the data from UserState is empty, we fetch it with getItem()
         if (empty($data)) {

@@ -242,7 +242,7 @@ class ContactModel extends AdminModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  mixed  The data for the form.
+     * @return  object  The data for the form.
      *
      * @since   1.6
      */
@@ -251,7 +251,7 @@ class ContactModel extends AdminModel
         $app = Factory::getApplication();
 
         // Check the session for previously entered form data.
-        $data = $app->getUserState('com_contact.edit.contact.data', []);
+        $data = $app->getUserState('com_contact.edit.contact.data');
 
         if (empty($data)) {
             $data = $this->getItem();
