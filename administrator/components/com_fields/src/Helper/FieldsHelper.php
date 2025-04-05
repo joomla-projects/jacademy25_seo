@@ -428,9 +428,8 @@ class FieldsHelper
             /** @var \DOMElement $fieldset */
             $fieldset = $fieldsNode->appendChild(new \DOMElement('fieldset'));
             $fieldset->setAttribute('name', 'fields-' . $group->id);
-            $fieldset->setAttribute('addfieldpath', '/administrator/components/' . $component . '/models/fields');
-            $fieldset->setAttribute('addrulepath', '/administrator/components/' . $component . '/models/rules');
-
+            $fieldset->setAttribute('addfieldpath', str_replace(JPATH_ROOT, '', JPATH_ADMINISTRATOR) . '/components/' . $component . '/models/fields');
+            $fieldset->setAttribute('addrulepath', str_replace(JPATH_ROOT, '', JPATH_ADMINISTRATOR) . '/components/' . $component . '/models/rules');
             $label       = $group->title;
             $description = $group->description;
 
