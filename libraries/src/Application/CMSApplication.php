@@ -788,7 +788,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $this->loadLanguage($lang);
 
         // Register the language object with Factory
-        Factory::$language = $this->getLanguage();
+        //Factory::$language = $this->getLanguage();
+        $this->getContainer()->set(LanguageInterface::class, $this->getLanguage());
+
 
         // Load the library language files
         $this->loadLibraryLanguage();

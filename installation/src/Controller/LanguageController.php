@@ -67,8 +67,10 @@ class LanguageController extends JSONController
         $model->storeOptions($return);
 
         // Setup language
-        Factory::$language = Language::getInstance($return['language']);
-
+        //Factory::$language = Language::getInstance($return['language']);
+        $language = Language::getInstance($return['language']);
+        $this->getContainer()->set(LanguageInterface::class, $language);
+        
         // Redirect to the page.
         $r->view = $this->input->getWord('view', 'setup');
 

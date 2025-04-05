@@ -127,7 +127,9 @@ final class CliInstallationApplication extends Application implements CMSApplica
 
         // Register the config to Factory.
         Factory::$config   = $this->config;
-        Factory::$language = $language;
+        //Factory::$language = $language;
+        $this->getContainer()->set(LanguageInterface::class, $language);
+
     }
 
     /**

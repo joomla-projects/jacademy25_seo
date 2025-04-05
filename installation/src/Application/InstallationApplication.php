@@ -461,7 +461,9 @@ final class InstallationApplication extends CMSApplication
         $this->loadLanguage($lang);
 
         // Register the language object with Factory
-        Factory::$language = $this->getLanguage();
+        //Factory::$language = $this->getLanguage();
+        $this->getContainer()->set(LanguageInterface::class, $this->getLanguage());
+
     }
 
     /**

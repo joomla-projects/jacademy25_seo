@@ -46,8 +46,9 @@ class InstalledController extends BaseController
             if ($model->getState('client_id') == 1) {
                 $language          = Factory::getLanguage();
                 $newLang           = Language::getInstance($cid);
-                Factory::$language = $newLang;
-                $this->app->loadLanguage($language = $newLang);
+               // Factory::$language = $newLang;
+               //Deprecated line removed; language is now mangaged via DI or application
+                $this->app->loadLanguage($newLang);
                 $newLang->load('com_languages', JPATH_ADMINISTRATOR);
             }
 
@@ -92,10 +93,10 @@ class InstalledController extends BaseController
         if ($model->switchAdminLanguage($cid)) {
             // Switching to the new language for the message
             $languageName      = $info['nativeName'];
-            $language          = Factory::getLanguage();
+            //$language          = Factory::getLanguage();
             $newLang           = Language::getInstance($cid);
-            Factory::$language = $newLang;
-            $this->app->loadLanguage($language = $newLang);
+            //Factory::$language = $newLang;
+            $this->app->loadLanguage($newLang);
             $newLang->load('com_languages', JPATH_ADMINISTRATOR);
 
             $msg  = Text::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $languageName);
