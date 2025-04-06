@@ -446,7 +446,7 @@ class LanguageHelper
             return [];
         }
 
-        $cacheFile = JPATH_CACHE . '/language/' . str_replace([JPATH_ROOT . '/', '/'], ['', '-'], $fileName) . '.' . filemtime($fileName) . '.php';
+        $cacheFile = JPATH_CACHE . '/language/' . ltrim(str_replace([JPATH_ROOT, '/'], ['', '-'], $fileName), '-') . '.' . filemtime($fileName) . '.php';
 
         if (is_file($cacheFile)) {
             return include $cacheFile;
