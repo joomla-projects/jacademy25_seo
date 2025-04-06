@@ -488,12 +488,12 @@ class LanguageHelper
 
         // Write cache
         try {
-            Folder::create(dirname($cacheFile));
+            Folder::create(\dirname($cacheFile));
 
             $data         = "<?php\ndefined('_JEXEC') or die;\nreturn " . var_export($strings, true) . ";\n";
             $bytesWritten = file_put_contents($cacheFile, $data);
 
-            if ($bytesWritten === false || $bytesWritten < strlen($data)) {
+            if ($bytesWritten === false || $bytesWritten < \strlen($data)) {
                 throw new FilesystemException('Unable to write cache file');
             }
         } catch (\FilesystemException $e) {
