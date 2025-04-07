@@ -466,7 +466,6 @@ class ArticlesModel extends ListModel
                 ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
 
             $query->where($db->quoteName('a.id') . ' NOT IN (' . $subQuery . ')');
-
         } elseif ($tag && \is_array($tag)) {
             $tag = ArrayHelper::toInteger($tag);
 
@@ -485,7 +484,6 @@ class ArticlesModel extends ListModel
                 '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
                 $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
             );
-
         } elseif ($tag = (int) $tag) {
             $query->join(
                 'INNER',
