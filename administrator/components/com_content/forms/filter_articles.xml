@@ -100,7 +100,7 @@
 			class="js-select-submit-on-change"
 			default=""
 			>
-			<option value="none">JNONE_FILTER</option>
+			<option value="0">JNONE_FILTER</option>
 		</field>
 
 		<field
