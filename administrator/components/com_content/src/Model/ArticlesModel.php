@@ -459,7 +459,15 @@ class ArticlesModel extends ListModel
             $tag = $tag[0];
         }
 
-        if ($tag && \is_array($tag)) {
+        if ($tag === '0') {
+            $subQuery = $db->getQuery(true)
+                ->select('DISTINCT ' . $db->quoteName('content_item_id'))
+                ->from($db->quoteName('#__contentitem_tag_map'))
+                ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
+
+            $query->where($db->quoteName('a.id') . ' NOT IN (' . $subQuery . ')');
+
+        } elseif ($tag && \is_array($tag)) {
             $tag = ArrayHelper::toInteger($tag);
 
             $subQuery = $db->getQuery(true)
@@ -477,13 +485,7 @@ class ArticlesModel extends ListModel
                 '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
                 $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
             );
-        } elseif ($tag === '0') {
-            $subQuery = $db->getQuery(true)
-                ->select('DISTINCT ' . $db->quoteName('content_item_id'))
-                ->from($db->quoteName('#__contentitem_tag_map'))
-                ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
 
-            $query->where($db->quoteName('a.id') . ' NOT IN (' . $subQuery . ')');
         } elseif ($tag = (int) $tag) {
             $query->join(
                 'INNER',
