@@ -129,7 +129,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $options['access']        ??= 'true';
         $options['published']     ??= 1;
         $options['countItems']    ??= 0;
-        $options['accessOnItems'] ??= in_array($options['extension'], ['com_contact', 'com_content', 'com_newsfeeds']);
+        $options['accessOnItems'] ??= \in_array($options['extension'], ['com_contact', 'com_content', 'com_newsfeeds']);
         $options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
 
         $this->_options = $options;
