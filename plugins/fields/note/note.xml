@@ -62,7 +62,6 @@
 					type="text"
 					label="PLG_FIELDS_NOTE_PARAMS_CLOSE_LABEL"
 					description="PLG_FIELDS_NOTE_PARAMS_CLOSE_DESC"
-					default=""
 				/>
 			</fieldset>
 		</fields>
