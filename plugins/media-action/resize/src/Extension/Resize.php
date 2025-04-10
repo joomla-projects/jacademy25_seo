@@ -77,11 +77,11 @@ final class Resize extends MediaActionPlugin implements SubscriberInterface
 
         $shouldResize = false;
 
-        if ($maxWidth > 0 && $imgObject->getWidth() > $maxWidth) {
+        if ($maxWidth && $imgObject->getWidth() > $maxWidth) {
             $shouldResize = true;
         }
 
-        if ($maxHeight > 0 && $imgObject->getHeight() > $maxHeight) {
+        if ($maxHeight && $imgObject->getHeight() > $maxHeight) {
             $shouldResize = true;
         }
 
