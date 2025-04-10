@@ -90,8 +90,8 @@ final class Resize extends MediaActionPlugin implements SubscriberInterface
         }
 
         $imgObject->resize(
-            $this->params->get('batch_width', 0),
-            $this->params->get('batch_height', 0),
+            $maxWidth,
+            $maxHeight,
             false,
             Image::SCALE_INSIDE
         );
