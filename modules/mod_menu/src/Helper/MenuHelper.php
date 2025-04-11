@@ -61,7 +61,7 @@ class MenuHelper
             $end            = (int) $params->get('endLevel', 0);
             $showAll        = $params->get('showAllChildren', 1);
             $items          = $menu->getItems('menutype', $params->get('menutype'));
-            $hidden_parents = array();
+            $hidden_parents = [];
             $lastitem       = 0;
 
             if ($items) {
@@ -125,7 +125,7 @@ class MenuHelper
                             break;
 
                         case 'url':
-                            if ((strpos($item->link, 'index.php?') === 0) && (strpos($item->link, 'Itemid=') === false)) {
+                            if ((str_starts_with($item->link, 'index.php?')) && (!str_contains($item->link, 'Itemid='))) {
                                 // If this is an internal Joomla link, ensure the Itemid is set.
                                 $item->flink = $item->link . '&Itemid=' . $item->id;
                             }
@@ -150,7 +150,7 @@ class MenuHelper
                             break;
                     }
 
-                    if ((strpos($item->flink, 'index.php?') !== false) && strcasecmp(substr($item->flink, 0, 4), 'http')) {
+                    if ((str_contains($item->flink, 'index.php?')) && strcasecmp(substr($item->flink, 0, 4), 'http')) {
                         $item->flink = Route::_($item->flink, true, $itemParams->get('secure'));
                     } else {
                         $item->flink = Route::_($item->flink);

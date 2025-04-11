@@ -13,7 +13,7 @@ use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -21,7 +21,7 @@ use Joomla\Event\DispatcherInterface;
  *
  * @since  4.0.0
  *
- * @todo  In 6.0 class will no longer extend DispatcherAwareInterface
+ * @todo  Starting from 7.0 the class will no longer extend DispatcherAwareInterface
  */
 interface PluginInterface extends DispatcherAwareInterface
 {
@@ -34,7 +34,7 @@ interface PluginInterface extends DispatcherAwareInterface
      *
      * @since   4.0.0
      *
-     * @todo  In 6.0 $dispatcher argument will no longer be nullable
+     * @todo  In 7.0 $dispatcher argument will no longer be nullable
      */
     public function registerListeners(?DispatcherInterface $dispatcher = null);
 }

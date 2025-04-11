@@ -15,7 +15,7 @@ use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -47,38 +47,49 @@ abstract class PluginHelper
      */
     public static function getLayoutPath($type, $name, $layout = 'default')
     {
-        $templateObj   = Factory::getApplication()->getTemplate(true);
+        $app = Factory::getApplication();
+
+        if ($app->isClient('site') || $app->isClient('administrator')) {
+            $templateObj = $app->getTemplate(true);
+        } else {
+            $templateObj = (object) [
+                'template' => '',
+                'parent'   => '',
+            ];
+        }
+
         $defaultLayout = $layout;
         $template      = $templateObj->template;
 
-        if (strpos($layout, ':') !== false) {
+        if (str_contains($layout, ':')) {
             // Get the template and file name from the string
-            $temp = explode(':', $layout);
-            $template = $temp[0] === '_' ? $templateObj->template : $temp[0];
-            $layout = $temp[1];
+            $temp          = explode(':', $layout);
+            $template      = $temp[0] === '_' ? $templateObj->template : $temp[0];
+            $layout        = $temp[1];
             $defaultLayout = $temp[1] ?: 'default';
         }
 
         // Build the template and base path for the layout
-        $tPath = JPATH_THEMES . '/' . $template . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
-        $iPath = JPATH_THEMES . '/' . $templateObj->parent . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
-        $bPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/' . $defaultLayout . '.php';
-        $dPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/default.php';
+        $layoutPaths = [];
 
-        // If the template has a layout override use it
-        if (is_file($tPath)) {
-            return $tPath;
+        if ($template) {
+            $layoutPaths[] = JPATH_THEMES . '/' . $template . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
         }
 
-        if (!empty($templateObj->parent) && is_file($iPath)) {
-            return $iPath;
+        if ($templateObj->parent) {
+            $layoutPaths[] = JPATH_THEMES . '/' . $templateObj->parent . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
         }
 
-        if (is_file($bPath)) {
-            return $bPath;
+        $layoutPaths[] = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/' . $defaultLayout . '.php';
+        $layoutPaths[] = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/default.php';
+
+        foreach ($layoutPaths as $path) {
+            if (is_file($path)) {
+                return $path;
+            }
         }
 
-        return $dPath;
+        return end($layoutPaths);
     }
 
     /**
@@ -94,7 +105,7 @@ abstract class PluginHelper
      */
     public static function getPlugin($type, $plugin = null)
     {
-        $result = [];
+        $result  = [];
         $plugins = static::load();
 
         // Find the correct plugin(s) to return.
@@ -142,12 +153,12 @@ abstract class PluginHelper
      * @param   string                $type        The plugin type, relates to the subdirectory in the plugins directory.
      * @param   ?string               $plugin      The plugin name to import a specific plugin or null to import all plugins in group.
      * @param   boolean               $autocreate  Whether to register listeners with the event dispatcher.
-     * @param   ?DispatcherInterface  $dispatcher  The event dispatcher. In 6.0 this will be required.
+     * @param   ?DispatcherInterface  $dispatcher  The event dispatcher. In 7.0 this will be required.
      *
      * @return  boolean  True on success.
      *
      * @since   1.5
-     * @todo    Arguments will not be optional in 6.0.
+     * @todo    Arguments will not be optional in 7.0.
      */
     public static function importPlugin($type, $plugin = null, $autocreate = true, ?DispatcherInterface $dispatcher = null)
     {
@@ -163,7 +174,7 @@ abstract class PluginHelper
         // Ensure we have a dispatcher now so we can correctly track the loaded plugins
         if ($dispatcher === null) {
             @trigger_error(
-                sprintf('Passing an instance of %1$s to %2$s() will be required in 6.0', DispatcherInterface::class, __METHOD__),
+                sprintf('Passing an instance of %1$s to %2$s() will be required in 7.0', DispatcherInterface::class, __METHOD__),
                 \E_USER_DEPRECATED
             );
 
@@ -188,9 +199,9 @@ abstract class PluginHelper
             $plugins = static::load();
 
             // Get the specified plugin(s).
-            for ($i = 0, $t = \count($plugins); $i < $t; $i++) {
-                if ($plugins[$i]->type === $type && ($plugin === null || $plugins[$i]->name === $plugin)) {
-                    static::import($plugins[$i], $autocreate, $dispatcher);
+            foreach ($plugins as $value) {
+                if ($value->type === $type && ($plugin === null || $value->name === $plugin)) {
+                    static::import($value, $autocreate, $dispatcher);
                     $results = true;
                 }
             }
@@ -211,12 +222,12 @@ abstract class PluginHelper
      *
      * @param   object                $plugin      The plugin.
      * @param   boolean               $autocreate  Whether to register listeners with the event dispatcher.
-     * @param   ?DispatcherInterface  $dispatcher  The event dispatcher. In 6.0 this will be required.
+     * @param   ?DispatcherInterface  $dispatcher  The event dispatcher. In 7.0 this will be required.
      *
      * @return  void
      *
      * @since   3.2
-     * @todo    Arguments will not be optional in 6.0.
+     * @todo    Arguments will not be optional in 7.0.
      */
     protected static function import($plugin, $autocreate = true, ?DispatcherInterface $dispatcher = null)
     {
@@ -224,7 +235,7 @@ abstract class PluginHelper
 
         if ($dispatcher === null) {
             @trigger_error(
-                sprintf('Passing an instance of %1$s to %2$s() will be required in 6.0', DispatcherInterface::class, __METHOD__),
+                sprintf('Passing an instance of %1$s to %2$s() will be required in 7.0', DispatcherInterface::class, __METHOD__),
                 \E_USER_DEPRECATED
             );
 
@@ -246,7 +257,7 @@ abstract class PluginHelper
 
         $plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
-        // @todo remove this in 6.0.
+        // @todo remove this in 7.0.
         if ($plugin instanceof DispatcherAwareInterface) {
             $plugin->setDispatcher($dispatcher);
         }
@@ -277,7 +288,7 @@ abstract class PluginHelper
         $cache = Factory::getCache('com_plugins', 'callback');
 
         $loader = function () use ($levels) {
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select(
                     $db->quoteName(
@@ -312,7 +323,7 @@ abstract class PluginHelper
 
         try {
             static::$plugins = $cache->get($loader, [], md5(implode(',', $levels)), false);
-        } catch (CacheExceptionInterface $cacheException) {
+        } catch (CacheExceptionInterface) {
             static::$plugins = $loader();
         }
 

@@ -10,11 +10,12 @@
 namespace Joomla\CMS\Versioning;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -34,7 +35,7 @@ trait VersionableModelTrait
      *
      * @since   4.0.0
      */
-    public function loadHistory($versionId, Table &$table)
+    public function loadHistory($versionId, Table $table)
     {
         // Only attempt to check the row in if it exists, otherwise do an early exit.
         if (!$versionId) {
@@ -42,7 +43,7 @@ trait VersionableModelTrait
         }
 
         // Get an instance of the row to checkout.
-        $historyTable = Table::getInstance('Contenthistory');
+        $historyTable = new ContentHistory($this->getDbo());
 
         if (!$historyTable->load($versionId)) {
             $this->setError($historyTable->getError());

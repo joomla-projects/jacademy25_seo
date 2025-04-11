@@ -81,12 +81,12 @@ class NewsfeedModel extends ItemModel
         $pk = (int) $pk ?: (int) $this->getState('newsfeed.id');
 
         if ($this->_item === null) {
-            $this->_item = array();
+            $this->_item = [];
         }
 
         if (!isset($this->_item[$pk])) {
             try {
-                $db = $this->getDatabase();
+                $db    = $this->getDatabase();
                 $query = $db->getQuery(true)
                     ->select(
                         [
@@ -171,7 +171,7 @@ class NewsfeedModel extends ItemModel
                 }
 
                 // Convert parameter fields to objects.
-                $registry = new Registry($data->params);
+                $registry     = new Registry($data->params);
                 $data->params = clone $this->getState('params');
                 $data->params->merge($registry);
 
@@ -179,14 +179,14 @@ class NewsfeedModel extends ItemModel
 
                 // Compute access permissions.
 
-                if ($access = $this->getState('filter.access')) {
+                if ($this->getState('filter.access')) {
                     // If the access filter has been set, we already know this user can view.
                     $data->params->set('access-view', true);
                 } else {
                     // If no access filter is set, the layout takes some responsibility for display of limited information.
                     $user   = $this->getCurrentUser();
                     $groups = $user->getAuthorisedViewLevels();
-                    $data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
+                    $data->params->set('access-view', \in_array($data->access, $groups) && \in_array($data->category_access, $groups));
                 }
 
                 $this->_item[$pk] = $data;
@@ -210,7 +210,7 @@ class NewsfeedModel extends ItemModel
      */
     public function hit($pk = 0)
     {
-        $input = Factory::getApplication()->getInput();
+        $input    = Factory::getApplication()->getInput();
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {

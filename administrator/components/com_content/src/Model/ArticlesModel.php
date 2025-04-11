@@ -14,11 +14,13 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Category;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -36,15 +38,16 @@ class ArticlesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array  $config  An optional associative array of configuration settings.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      * @see     \Joomla\CMS\MVC\Controller\BaseController
      */
-    public function __construct($config = array())
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'alias', 'a.alias',
@@ -72,15 +75,16 @@ class ArticlesModel extends ListModel
                 'tag',
                 'rating_count', 'rating',
                 'stage', 'wa.stage_id',
-                'ws.title'
-            );
+                'ws.title',
+                'fp.ordering',
+            ];
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
             }
         }
 
-        parent::__construct($config);
+        parent::__construct($config, $factory);
     }
 
     /**
@@ -93,7 +97,7 @@ class ArticlesModel extends ListModel
      *
      * @since   3.2
      */
-    public function getFilterForm($data = array(), $loadData = true)
+    public function getFilterForm($data = [], $loadData = true)
     {
         $form = parent::getFilterForm($data, $loadData);
 
@@ -101,11 +105,6 @@ class ArticlesModel extends ListModel
 
         if (!$params->get('workflow_enabled')) {
             $form->removeField('stage', 'filter');
-        } else {
-            $ordering = $form->getField('fullordering', 'list');
-
-            $ordering->addOption('JSTAGE_ASC', ['value' => 'ws.title ASC']);
-            $ordering->addOption('JSTAGE_DESC', ['value' => 'ws.title DESC']);
         }
 
         return $form;
@@ -140,42 +139,13 @@ class ArticlesModel extends ListModel
             $this->context .= '.' . $forcedLanguage;
         }
 
-        $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-        $this->setState('filter.search', $search);
-
-        $featured = $this->getUserStateFromRequest($this->context . '.filter.featured', 'filter_featured', '');
-        $this->setState('filter.featured', $featured);
-
-        $published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
-        $this->setState('filter.published', $published);
-
-        $level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
-        $this->setState('filter.level', $level);
-
-        $language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
-        $this->setState('filter.language', $language);
-
-        $formSubmitted = $input->post->get('form_submitted');
-
-        // Gets the value of a user state variable and sets it in the session
-        $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
-        $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
+        // Required content filters for the administrator menu
         $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
+        $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
+        $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
         $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
-
-        if ($formSubmitted) {
-            $access = $input->post->get('access');
-            $this->setState('filter.access', $access);
-
-            $authorId = $input->post->get('author_id');
-            $this->setState('filter.author_id', $authorId);
-
-            $categoryId = $input->post->get('category_id');
-            $this->setState('filter.category_id', $categoryId);
-
-            $tag = $input->post->get('tag');
-            $this->setState('filter.tag', $tag);
-        }
+        $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
+        $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 
         // List state information.
         parent::populateState($ordering, $direction);
@@ -206,6 +176,7 @@ class ArticlesModel extends ListModel
         $id .= ':' . $this->getState('filter.search');
         $id .= ':' . serialize($this->getState('filter.access'));
         $id .= ':' . $this->getState('filter.published');
+        $id .= ':' . $this->getState('filter.featured');
         $id .= ':' . serialize($this->getState('filter.category_id'));
         $id .= ':' . serialize($this->getState('filter.author_id'));
         $id .= ':' . $this->getState('filter.language');
@@ -217,7 +188,7 @@ class ArticlesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   1.6
      */
@@ -335,18 +306,28 @@ class ArticlesModel extends ListModel
             $access = (int) $access;
             $query->where($db->quoteName('a.access') . ' = :access')
                 ->bind(':access', $access, ParameterType::INTEGER);
-        } elseif (is_array($access)) {
+        } elseif (\is_array($access)) {
             $access = ArrayHelper::toInteger($access);
             $query->whereIn($db->quoteName('a.access'), $access);
         }
 
         // Filter by featured.
-        $featured = (string) $this->getState('filter.featured');
+        $featured = $this->getState('filter.featured');
 
-        if (\in_array($featured, ['0','1'])) {
+        $defaultOrdering = 'a.id';
+
+        if (is_numeric($featured) && \in_array($featured, [0, 1])) {
             $featured = (int) $featured;
             $query->where($db->quoteName('a.featured') . ' = :featured')
                 ->bind(':featured', $featured, ParameterType::INTEGER);
+
+            $query->where($db->quoteName('a.featured') . ' = :featured')
+                ->bind(':featured', $featured, ParameterType::INTEGER);
+
+            if ($featured) {
+                $query->select($db->quoteName('fp.ordering'));
+                $defaultOrdering = 'fp.ordering';
+            }
         }
 
         // Filter by access level on categories.
@@ -384,18 +365,18 @@ class ArticlesModel extends ListModel
         }
 
         // Filter by categories and by level
-        $categoryId = $this->getState('filter.category_id', array());
+        $categoryId = $this->getState('filter.category_id', []);
         $level      = (int) $this->getState('filter.level');
 
-        if (!is_array($categoryId)) {
-            $categoryId = $categoryId ? array($categoryId) : array();
+        if (!\is_array($categoryId)) {
+            $categoryId = $categoryId ? [$categoryId] : [];
         }
 
         // Case: Using both categories filter and by level filter
-        if (count($categoryId)) {
-            $categoryId = ArrayHelper::toInteger($categoryId);
-            $categoryTable = Table::getInstance('Category', 'JTable');
-            $subCatItemsWhere = array();
+        if (\count($categoryId)) {
+            $categoryId       = ArrayHelper::toInteger($categoryId);
+            $categoryTable    = new Category($db);
+            $subCatItemsWhere = [];
 
             foreach ($categoryId as $key => $filter_catid) {
                 $categoryTable->load($filter_catid);
@@ -431,13 +412,13 @@ class ArticlesModel extends ListModel
 
         if (is_numeric($authorId)) {
             $authorId = (int) $authorId;
-            $type = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
+            $type     = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
             $query->where($db->quoteName('a.created_by') . $type . ':authorId')
                 ->bind(':authorId', $authorId, ParameterType::INTEGER);
-        } elseif (is_array($authorId)) {
+        } elseif (\is_array($authorId)) {
             // Check to see if by_me is in the array
             if (\in_array('by_me', $authorId)) {
-            // Replace by_me with the current user id in the array
+                // Replace by_me with the current user id in the array
                 $authorId['by_me'] = $user->id;
             }
 
@@ -460,6 +441,11 @@ class ArticlesModel extends ListModel
             } elseif (stripos($search, 'content:') === 0) {
                 $search = '%' . substr($search, 8) . '%';
                 $query->where('(' . $db->quoteName('a.introtext') . ' LIKE :search1 OR ' . $db->quoteName('a.fulltext') . ' LIKE :search2)')
+                    ->bind([':search1', ':search2'], $search);
+            } elseif (stripos($search, 'checkedout:') === 0) {
+                $search = '%' . substr($search, 11) . '%';
+                $query->where('(' . $db->quoteName('uc.name') . ' LIKE :search1 OR ' . $db->quoteName('uc.username') . ' LIKE :search2)'
+                    . ' AND ' . $db->quoteName('a.checked_out') . ' IS NOT NULL')
                     ->bind([':search1', ':search2'], $search);
             } else {
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';
@@ -519,7 +505,7 @@ class ArticlesModel extends ListModel
         }
 
         // Add the list ordering clause.
-        $orderCol  = $this->state->get('list.ordering', 'a.id');
+        $orderCol  = $this->state->get('list.ordering', $defaultOrdering);
         $orderDirn = $this->state->get('list.direction', 'DESC');
 
         if ($orderCol === 'a.ordering' || $orderCol === 'category_title') {
@@ -570,10 +556,10 @@ class ArticlesModel extends ListModel
         $workflow_ids = ArrayHelper::toInteger($workflow_ids);
         $workflow_ids = array_values(array_unique(array_filter($workflow_ids)));
 
-        $this->cache[$store] = array();
+        $this->cache[$store] = [];
 
         try {
-            if (count($stage_ids) || count($workflow_ids)) {
+            if (\count($stage_ids) || \count($workflow_ids)) {
                 Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
 
                 $query = $db->getQuery(true);
@@ -604,11 +590,11 @@ class ArticlesModel extends ListModel
 
                 $where = [];
 
-                if (count($stage_ids)) {
+                if (\count($stage_ids)) {
                     $where[] = $db->quoteName('t.from_stage_id') . ' IN (' . implode(',', $query->bindArray($stage_ids)) . ')';
                 }
 
-                if (count($workflow_ids)) {
+                if (\count($workflow_ids)) {
                     $where[] = '(' . $db->quoteName('t.from_stage_id') . ' = -1 AND ' . $db->quoteName('t.workflow_id') . ' IN (' . implode(',', $query->bindArray($workflow_ids)) . '))';
                 }
 
@@ -651,7 +637,7 @@ class ArticlesModel extends ListModel
             $item->typeAlias = 'com_content.article';
 
             if (isset($item->metadata)) {
-                $registry = new Registry($item->metadata);
+                $registry       = new Registry($item->metadata);
                 $item->metadata = $registry->toArray();
             }
         }

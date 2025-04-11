@@ -14,10 +14,11 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Category;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -33,16 +34,16 @@ class AssociationsModel extends ListModel
     /**
      * Override parent constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id',
                 'title',
                 'ordering',
@@ -57,7 +58,7 @@ class AssociationsModel extends ListModel
                 'category_title',
                 'access',
                 'access_level',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -99,13 +100,6 @@ class AssociationsModel extends ListModel
 
         $this->setState('itemtype', $this->getUserStateFromRequest($this->context . '.itemtype', 'itemtype', '', 'string'));
         $this->setState('language', $this->getUserStateFromRequest($this->context . '.language', 'language', '', 'string'));
-
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-        $this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
-        $this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '', 'cmd'));
-        $this->setState('filter.menutype', $this->getUserStateFromRequest($this->context . '.filter.menutype', 'filter_menutype', '', 'string'));
-        $this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'string'));
-        $this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'cmd'));
 
         // List state information.
         parent::populateState($ordering, $direction);
@@ -152,7 +146,7 @@ class AssociationsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery|boolean
+     * @return  QueryInterface|boolean
      *
      * @since  3.7.0
      */
@@ -160,7 +154,7 @@ class AssociationsModel extends ListModel
     {
         $type         = null;
 
-        list($extensionName, $typeName) = explode('.', $this->state->get('itemtype'), 2);
+        [$extensionName, $typeName] = explode('.', $this->state->get('itemtype'), 2);
 
         $extension = AssociationsHelper::getSupportedExtension($extensionName);
         $types     = $extension->get('types');
@@ -244,14 +238,14 @@ class AssociationsModel extends ListModel
             ->bind(':context', $extensionNameItem);
 
         // Prepare the group by clause.
-        $groupby = array(
+        $groupby = [
             $fields['id'],
             $fields['title'],
             $fields['alias'],
             $fields['language'],
             'l.title',
             'l.image',
-        );
+        ];
 
         // Select author for ACL checks.
         if (!empty($fields['created_user_id'])) {
@@ -367,7 +361,7 @@ class AssociationsModel extends ListModel
                 ->bind(':extensionname', $extensionName);
         } elseif ($typeNameExploded = explode('.', $typeName)) {
             if (\count($typeNameExploded) > 1 && array_pop($typeNameExploded) === 'category') {
-                $section = implode('.', $typeNameExploded);
+                $section              = implode('.', $typeNameExploded);
                 $extensionNameSection = $extensionName . '.' . $section;
                 $query->where($db->quoteName('a.extension') . ' = :extensionsection')
                     ->bind(':extensionsection', $extensionNameSection);
@@ -395,7 +389,7 @@ class AssociationsModel extends ListModel
         $baselevel = 1;
 
         if ($categoryId = $this->getState('filter.category_id')) {
-            $categoryTable = Table::getInstance('Category', 'JTable');
+            $categoryTable = new Category($db);
             $categoryTable->load($categoryId);
             $baselevel = (int) $categoryTable->level;
 
@@ -486,7 +480,7 @@ class AssociationsModel extends ListModel
 
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             $app->enqueueMessage(Text::_('COM_ASSOCIATIONS_PURGE_FAILED'), 'error');
 
             return false;
@@ -549,7 +543,7 @@ class AssociationsModel extends ListModel
 
             try {
                 $db->execute();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 $app->enqueueMessage(Text::_('COM_ASSOCIATIONS_DELETE_ORPHANS_FAILED'), 'error');
 
                 return false;
