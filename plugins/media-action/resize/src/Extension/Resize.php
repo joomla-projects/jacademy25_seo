@@ -75,7 +75,7 @@ final class Resize extends MediaActionPlugin implements SubscriberInterface
         $maxWidth  = (int) $this->params->get('batch_width', 0);
         $maxHeight = (int) $this->params->get('batch_height', 0);
         if (
-            !(($maxWidth && $imgObject->getWidth() > $maxWidth) 
+            !(($maxWidth && $imgObject->getWidth() > $maxWidth)
             || ($maxHeight && $imgObject->getHeight() > $maxHeight))
         ) {
             return;
