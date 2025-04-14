@@ -2,7 +2,10 @@
   <transition name="infobar">
     <div v-if="showInfoBar && item" class="media-infobar">
       <div class="media-infobar-inner">
-        <span class="infobar-close" @click="hideInfoBar()">×</span>
+        <span
+          class="infobar-close"
+          @click="hideInfoBar()"
+        >×</span>
         <h2>{{ item.name }}</h2>
         <div v-if="item.path === '/'" class="text-center">
           <span class="icon-file placeholder-icon" />
