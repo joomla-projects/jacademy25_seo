@@ -115,11 +115,11 @@ abstract class CMSPlugin implements PluginInterface, LanguageAwareInterface
      *
      * @since   1.5
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if ($config instanceof DispatcherInterface) {
             @trigger_error(
-                sprintf(
+                \sprintf(
                     'Passing an instance of %1$s to %2$s() will not be supported in 7.0.',
                     DispatcherInterface::class,
                     __METHOD__
@@ -127,10 +127,10 @@ abstract class CMSPlugin implements PluginInterface, LanguageAwareInterface
                 \E_USER_DEPRECATED
             );
 
-             // Set the dispatcher we are to register our listeners with
+            // Set the dispatcher we are to register our listeners with
             $this->setDispatcher($config);
 
-            $config = func_num_args() > 1 ? func_get_arg(1) : [];
+            $config = \func_num_args() > 1 ? func_get_arg(1) : [];
         }
 
         // Get the parameters.
@@ -230,7 +230,7 @@ abstract class CMSPlugin implements PluginInterface, LanguageAwareInterface
         // Make sure we have a dispatcher.
         if ($dispatcher === null) {
             @trigger_error(
-                sprintf(
+                \sprintf(
                     'Passing an instance of %1$s to %2$s() will be required in 7.0.',
                     DispatcherInterface::class,
                     __METHOD__

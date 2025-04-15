@@ -480,11 +480,10 @@ class CMSPluginTest extends UnitTestCase
     public function testRegisterListenersDispatcherUsed()
     {
         $constructorDispatcher = new Dispatcher();
-        $setterDispatcher = new Dispatcher();
-        $interfaceDispatcher = new Dispatcher();
+        $setterDispatcher      = new Dispatcher();
+        $interfaceDispatcher   = new Dispatcher();
 
-        $plugin = new class ($constructorDispatcher, []) extends CMSPlugin
-        {
+        $plugin = new class ($constructorDispatcher, []) extends CMSPlugin {
             public function onLegacyEvent(stdClass $argument)
             {
             }
@@ -515,10 +514,9 @@ class CMSPluginTest extends UnitTestCase
     public function testSetterDispatcherUsed()
     {
         $constructorDispatcher = new Dispatcher();
-        $setterDispatcher = new Dispatcher();
+        $setterDispatcher      = new Dispatcher();
 
-        $plugin = new class ($constructorDispatcher, []) extends CMSPlugin
-        {
+        $plugin = new class ($constructorDispatcher, []) extends CMSPlugin {
             public function onLegacyEvent(stdClass $argument)
             {
             }
