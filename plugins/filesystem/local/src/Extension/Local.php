@@ -116,10 +116,10 @@ final class Local extends CMSPlugin implements ProviderInterface
         }
 
         $currentIdentity = $this->getApplication()->getIdentity();
-        $viewLevels = $currentIdentity ? $currentIdentity->getAuthorisedViewLevels() : [];
+        $viewLevels      = $currentIdentity ? $currentIdentity->getAuthorisedViewLevels() : [];
 
         foreach ($directories as $directoryEntity) {
-            if (!$directoryEntity->directory || (!empty($directoryEntity->access) && !in_array($directoryEntity->access, $viewLevels))) {
+            if (!$directoryEntity->directory || (!empty($directoryEntity->access) && !\in_array($directoryEntity->access, $viewLevels))) {
                 continue;
             }
 
