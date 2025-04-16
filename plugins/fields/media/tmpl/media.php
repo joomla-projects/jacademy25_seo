@@ -22,6 +22,11 @@ if (empty($field->value) || empty($field->value['imagefile'])) {
 }
 
 $fileUrl = MediaHelper::getCleanMediaFieldValue($field->value['imagefile']);
+$fileFullPath = JPATH_SITE.DIRECTORY_SEPARATOR.$fileUrl;
+if(!\is_file($fileFullPath))
+{
+    return;
+}
 $class = $fieldParams->get('image_class');
 $comMediaParams = ComponentHelper::getParams('com_media');
 
@@ -64,7 +69,7 @@ if ($class) {
     $options['class'] = $class;
 }
 
-if (MediaHelper::isImage($fileUrl) || MediaHelper::getMimeType($fileUrl) === 'image/svg+xml') {
+if (MediaHelper::isImage($fileUrl) || MediaHelper::getMimeType($fileFullPath) === 'image/svg+xml') {
     $options = [
         'src' => $field->value['imagefile'],
         'alt' => empty($field->value['alt_text']) && empty($field->value['alt_empty']) ? false : $field->value['alt_text'],
