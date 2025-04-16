@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "60e4d48409e43b54122c17a2d7deb237",
+    "content-hash": "eaed1dd43fbde27783010c42d6feed31",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1503,16 +1503,16 @@
         },
         {
             "name": "joomla/database",
-            "version": "3.3.1",
+            "version": "3.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "d13a7504471b4730a8107e3566c6fe6d476706fc"
+                "reference": "e283eb17a68b96c340cae397cb77e723b2ea50a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/d13a7504471b4730a8107e3566c6fe6d476706fc",
-                "reference": "d13a7504471b4730a8107e3566c6fe6d476706fc",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/e283eb17a68b96c340cae397cb77e723b2ea50a6",
+                "reference": "e283eb17a68b96c340cae397cb77e723b2ea50a6",
                 "shasum": ""
             },
             "require": {
@@ -1570,7 +1570,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/database/issues",
-                "source": "https://github.com/joomla-framework/database/tree/3.3.1"
+                "source": "https://github.com/joomla-framework/database/tree/3.4.1"
             },
             "funding": [
                 {
@@ -1582,7 +1582,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-26T13:22:09+00:00"
+            "time": "2025-04-06T13:57:03+00:00"
         },
         {
             "name": "joomla/di",
