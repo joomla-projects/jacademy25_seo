@@ -84,7 +84,7 @@ final class Compat6 extends CMSPlugin implements SubscriberInterface
 
         /**
          * Load the constant early as it is used in class files before the class itself is loaded.
-         * @deprecated 5.4.0 will be removed in 7.0
+         * @deprecated 4.4.0 will be removed in 7.0
          */
         \defined('JPATH_PLATFORM') or \define('JPATH_PLATFORM', __DIR__);
     }
