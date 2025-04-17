@@ -126,13 +126,13 @@ class RouteHelper
     /**
      * Method to set the extension into the helper
      *
-     * @param   ?string  $extension  Extension name like com_content
+     * @param   string  $extension  Extension name like com_content
      *
      * @return  self
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function setExtension($extension)
+    public function setExtension(string $extension)
     {
         $this->extension = $extension;
 
