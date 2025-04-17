@@ -13,6 +13,7 @@ namespace Joomla\Component\Finder\Administrator\Helper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper as CMSLanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
