@@ -733,7 +733,7 @@ class Query
      */
     protected function processString($input, $lang, $mode)
     {
-        $input = \trim($input ?? '');
+        $input = trim($input ?? '');
 
         if ($input === '') {
             return true;
