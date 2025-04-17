@@ -36,7 +36,7 @@ class RouteHelper
     protected static $lookup;
 
     /**
-     * @var    string  Option for the extension (such as com_content)
+     * @var    ?string  Option for the extension (such as com_content)
      * @since  3.1
      */
     protected $extension;
@@ -126,13 +126,13 @@ class RouteHelper
     /**
      * Method to set the extension into the helper
      *
-     * @param   string  $extension  Extension name like com_content
+     * @param   ?string  $extension  Extension name like com_content
      *
      * @return  self
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function setExtension(string $extension)
+    public function setExtension(?string $extension)
     {
         $this->extension = $extension;
 
@@ -297,7 +297,7 @@ class RouteHelper
      *
      * @since   3.2
      */
-    protected static function lookupItem($needles = [], $extension = null)
+    protected static function lookupItem($needles = [], ?string $extension = null)
     {
         $instance = new static();
 
