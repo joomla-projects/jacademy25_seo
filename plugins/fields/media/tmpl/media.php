@@ -16,14 +16,22 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Filesystem\File;
+use Joomla\Uri\Uri;
 
 if (empty($field->value) || empty($field->value['imagefile'])) {
     return;
 }
 
 $fileUrl = MediaHelper::getCleanMediaFieldValue($field->value['imagefile']);
-$fileFullPath = JPATH_SITE.DIRECTORY_SEPARATOR.$fileUrl;
-if(!\is_file($fileFullPath))
+// detect local file path
+$isLocalFile = false;
+if(empty((new Uri($fileUrl))->getHost()))
+{
+    $fileUrl = JPATH_SITE.DIRECTORY_SEPARATOR.$fileUrl;
+    $isLocalFile = true;
+}
+
+if($isLocalFile && !\is_file($fileUrl))
 {
     return;
 }
@@ -69,7 +77,7 @@ if ($class) {
     $options['class'] = $class;
 }
 
-if (MediaHelper::isImage($fileUrl) || MediaHelper::getMimeType($fileFullPath) === 'image/svg+xml') {
+if (MediaHelper::isImage($fileUrl) || ($isLocalFile && MediaHelper::getMimeType($fileUrl) === 'image/svg+xml')) {
     $options = [
         'src' => $field->value['imagefile'],
         'alt' => empty($field->value['alt_text']) && empty($field->value['alt_empty']) ? false : $field->value['alt_text'],
