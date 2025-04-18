@@ -649,17 +649,21 @@ class User
 
                 $array['password'] = UserHelper::hashPassword($array['password']);
 
-                // Reset the change password flag
-                $array['requireReset'] = 0;
+                // Reset the change password flag if it was set previously
+                if ($this->requireReset) {
+                    $array['requireReset'] = 0;
+                }
             } else {
                 $array['password'] = $this->password;
             }
 
             // Prevent updating internal fields
-            unset($array['registerDate']);
-            unset($array['lastvisitDate']);
-            unset($array['lastResetTime']);
-            unset($array['resetCount']);
+            unset(
+                $array['registerDate'],
+                $array['lastvisitDate'],
+                $array['lastResetTime'],
+                $array['resetCount']
+            );
         }
 
         if (\array_key_exists('params', $array)) {
@@ -765,6 +769,11 @@ class User
                         }
                     }
                 }
+            }
+
+            // Unset the activation token, if the mail address changes - that affects both, activation and PW resets
+            if ($this->email !== $oldUser->email && $this->id !== 0 && !empty($this->activation) && !$this->block) {
+                $table->activation = '';
             }
 
             // Fire the onUserBeforeSave event.
