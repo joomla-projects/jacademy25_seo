@@ -25,16 +25,13 @@ if (empty($field->value) || empty($field->value['imagefile'])) {
 $fileUrl = MediaHelper::getCleanMediaFieldValue($field->value['imagefile']);
 // detect local file path
 $isLocalFile = false;
-if(empty((new Uri($fileUrl))->getHost()))
-{
-    $fileUrl = JPATH_SITE.DIRECTORY_SEPARATOR.$fileUrl;
+if (empty((new Uri($fileUrl))->getHost())) {
+    $fileUrl     = JPATH_SITE.DIRECTORY_SEPARATOR . $fileUrl;
     $isLocalFile = true;
-}
-
-if($isLocalFile && !\is_file($fileUrl))
-{
+} 
+if ($isLocalFile && !\is_file($fileUrl)) {
     return;
-}
+} 
 $class = $fieldParams->get('image_class');
 $comMediaParams = ComponentHelper::getParams('com_media');
 
