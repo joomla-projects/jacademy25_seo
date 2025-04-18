@@ -590,9 +590,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
                 // Fix: If multiple categories are filtered, pick the first one to avoid loading all fields
                 $filteredCategories = $filters['category_id'] ?? null;
-                $selectedCatId = null;
+                $selectedCatId      = null;
 
-                if (is_array($filteredCategories)) {
+                if (\is_array($filteredCategories)) {
                     $selectedCatId = (int) reset($filteredCategories);
                 } elseif (!empty($filteredCategories)) {
                     $selectedCatId = (int) $filteredCategories;
