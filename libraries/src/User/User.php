@@ -783,7 +783,7 @@ class User
             $saveEvent = new BeforeSaveEvent('onUserBeforeSave', [
                 'subject' => ArrayHelper::fromObject($oldUser, false),
                 'isNew'   => $isNew,
-                'data'    => ArrayHelper::toObject($this, false),
+                'data'    => ArrayHelper::fromObject($this, false),
             ]);
             $dispatcher->dispatch('onUserBeforeSave', $saveEvent);
             $result = $saveEvent['result'] ?? [];
