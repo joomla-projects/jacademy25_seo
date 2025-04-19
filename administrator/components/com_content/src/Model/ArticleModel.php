@@ -588,7 +588,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                     )
                 );
 
-                // Fix: If multiple categories are filtered, pick the first one to avoid loading all fields
+                // If multiple categories are filtered, pick the first one to avoid loading all fields
                 $filteredCategories = $filters['category_id'] ?? null;
                 $selectedCatId      = null;
 
