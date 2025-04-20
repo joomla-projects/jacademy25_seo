@@ -185,16 +185,19 @@ class TableColumns {
 }
 
 if (window.innerWidth > 992) {
-  // Look for dataset name else page-title
-  [...document.querySelectorAll('table:not(.columns-order-ignore)')].forEach(($table) => {
-    const titleElement = document.querySelector('.page-title');
+  const tables = [...document.querySelectorAll('table:not(.columns-order-ignore)')];
+
+  tables.forEach(($table, index) => {
     let tableName = $table.dataset.name;
 
     if (!tableName) {
+      const titleElement = document.querySelector('.page-title');
+
       if (titleElement) {
-        tableName = titleElement.textContent.trim().replace(/[^a-z0-9]/gi, '-').toLowerCase();
+        const titleText = titleElement.textContent.trim().replace(/[^a-z0-9]/gi, '-').toLowerCase();
+        tableName = `${titleText}-table-${index}`;
       } else {
-        tableName = `default-table-${[...document.querySelectorAll('table')].indexOf($table)}`;
+        tableName = `default-table-${index}`;
       }
     }
 
