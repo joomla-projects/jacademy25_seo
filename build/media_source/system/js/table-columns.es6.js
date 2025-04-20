@@ -188,16 +188,14 @@ if (window.innerWidth > 992) {
   // Look for dataset name else page-title
   [...document.querySelectorAll('table:not(.columns-order-ignore)')].forEach(($table) => {
     const titleElement = document.querySelector('.page-title');
-    let tableName = 'default-table';
-    if ($table.dataset.name) {
-      tableName = $table.dataset.name;
-    } else if (titleElement) {
-      tableName = titleElement.textContent.trim().replace(/[^a-z0-9]/gi, '-').toLowerCase();
-    }
+    let tableName = $table.dataset.name;
 
-    // Skip unnamed table
     if (!tableName) {
-      return;
+      if (titleElement) {
+        tableName = titleElement.textContent.trim().replace(/[^a-z0-9]/gi, '-').toLowerCase();
+      } else {
+        tableName = `default-table-${[...document.querySelectorAll('table')].indexOf($table)}`;
+      }
     }
 
     /* eslint-disable-next-line no-new */
