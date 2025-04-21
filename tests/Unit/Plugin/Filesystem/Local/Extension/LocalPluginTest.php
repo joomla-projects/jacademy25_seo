@@ -128,6 +128,10 @@ class LocalPluginTest extends UnitTestCase
         $dispatcher = new Dispatcher();
 
         $plugin = new Local($dispatcher, ['params' => ['directories' => '[{"directory": "invalid"}]']], __DIR__);
+
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $plugin->setApplication($app);
+
         $plugin->getAdapters();
     }
 }
