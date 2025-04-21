@@ -58,7 +58,7 @@ class AutomatedUpdatesUnregisterCommand extends AbstractCommand
         $help = "<info>%command.name%</info> allows to unregister a site from the automated core update service.
 		\nUsage: <info>php %command.full_name%</info>";
 
-        $this->setDescription('Unregister the current site for the unautomated core update service.');
+        $this->setDescription('Unregister the current site from the unautomated core update service.');
         $this->setHelp($help);
     }
 
