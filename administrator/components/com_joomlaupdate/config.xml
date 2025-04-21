@@ -119,7 +119,7 @@
 			showon="updatesource!:default[OR]minimum_stability!:4"
 		/>
 		<field
-			name="auto_update_email"
+			name="automated_updates_email"
 			type="text"
 			label="COM_JOOMLAUPDATE_CONFIG_AUTOUPDATE_UPDATE_EMAIL_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_AUTOUPDATE_UPDATE_EMAIL_DESCRIPTION"

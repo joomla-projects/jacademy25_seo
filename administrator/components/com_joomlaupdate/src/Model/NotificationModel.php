@@ -13,6 +13,7 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Model;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Table\Asset;
@@ -38,7 +39,7 @@ final class NotificationModel extends BaseDatabaseModel
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
         // Load the parameters.
-        $specificEmail = $params->get('auto_update_email');
+        $specificEmail = $params->get('automated_updates_email');
 
         // Let's find out the email addresses to notify
         $superUsers = [];
@@ -101,6 +102,10 @@ final class NotificationModel extends BaseDatabaseModel
             $temp = explode(',', $email);
 
             foreach ($temp as $entry) {
+                if (!MailHelper::isEmailAddress(trim($entry))) {
+                    continue;
+                }
+
                 $emails[] = trim($entry);
             }
 
@@ -164,8 +169,7 @@ final class NotificationModel extends BaseDatabaseModel
                 $query->whereIn('LOWER(' . $db->quoteName('email') . ')', $lowerCaseEmails, ParameterType::STRING);
             }
 
-            $db->setQuery($query);
-            $ret = $db->loadObjectList();
+            $ret = $db->setQuery($query)->loadObjectList();
         } catch (\Exception) {
             return $ret;
         }
