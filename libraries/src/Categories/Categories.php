@@ -369,7 +369,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
             if ($this->_options['accessOnItems']) {
                 $subQuery->where(
                     $db->quoteName($db->escape('i.' . $this->_accessfield))
-                    . ' IN (' . implode(',', $query->bindArray($user->getAuthorisedViewLevels())).')'
+                    . ' IN (' . implode(',', $query->bindArray($user->getAuthorisedViewLevels())) . ')'
                 );
             }
 
