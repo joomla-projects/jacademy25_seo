@@ -92,11 +92,11 @@
 		<field
 			name="tag"
 			type="tag"
-			multiple="true"
 			label="JTAG"
-			hint="JOPTION_SELECT_TAG"
+			multiple="true"
 			mode="nested"
 			custom="false"
+			hint="JOPTION_SELECT_TAG"
 			class="js-select-submit-on-change"
 			default=""
 			>
