@@ -123,7 +123,7 @@ class UpdateController extends BaseController
         Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), Log::INFO, 'Update');
 
         $file = $this->app->getUserState('com_joomlaupdate.file', null);
-        $model->createRestorationFile($file);
+        $model->createUpdateFile($file);
 
         $this->display();
     }
@@ -155,6 +155,9 @@ class UpdateController extends BaseController
         } catch (\Throwable $e) {
             $model->collectError('finaliseUpgrade', $e);
         }
+
+        // Reset update source from "Joomla Next" to "Default"
+        $this->app->setUserState('com_joomlaupdate.update_channel_reset', $model->resetUpdateSource());
 
         // Check for update errors
         if ($model->getErrors()) {
@@ -372,7 +375,7 @@ class UpdateController extends BaseController
 
         try {
             Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $tempFile), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
