@@ -38,7 +38,6 @@ export const getContents = (context, payload) => {
       context.commit(types.SET_IS_LOADING, false);
     })
     .catch((error) => {
-      // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
       notifications.error('COM_MEDIA_GET_CONTENTS_ERROR', error.message);
     });
@@ -57,7 +56,6 @@ export const getFullContents = (context, payload) => {
       context.commit(types.SET_IS_LOADING, false);
     })
     .catch((error) => {
-      // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
       notifications.error('COM_MEDIA_GET_CONTENTS_ERROR', error.message);
     });
@@ -118,7 +116,6 @@ export const createDirectory = (context, payload) => {
       context.commit(types.SET_IS_LOADING, false);
     })
     .catch((error) => {
-      // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
       notifications.error('COM_MEDIA_CREATE_DIRECTORY_ERROR', error.message);
     });
@@ -180,7 +177,6 @@ export const renameItem = (context, payload) => {
       context.commit(types.SET_IS_LOADING, false);
     })
     .catch((error) => {
-      // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
       notifications.error('COM_MEDIA_RENAME_ERROR', error.message);
     });
@@ -211,7 +207,6 @@ export const deleteSelectedItems = (context) => {
           context.commit(types.SET_IS_LOADING, false);
         })
         .catch((error) => {
-          // @todo error handling
           context.commit(types.SET_IS_LOADING, false);
           notifications.error('COM_MEDIA_DELETE_ERROR', error.message);
         });
