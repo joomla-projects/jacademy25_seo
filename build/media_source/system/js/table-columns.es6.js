@@ -185,20 +185,26 @@ class TableColumns {
 }
 
 if (window.innerWidth > 992) {
-  const tables = [...document.querySelectorAll('table:not(.columns-order-ignore)')];
-
-  tables.forEach(($table, index) => {
+  // Look for dataset name else page-title
+  [...document.querySelectorAll('table:not(.columns-order-ignore)')].forEach(($table) => {
     let tableName = $table.dataset.name;
 
     if (!tableName) {
-      const titleElement = document.querySelector('.page-title');
-
-      if (titleElement) {
-        const titleText = titleElement.textContent.trim().replace(/[^a-z0-9]/gi, '-').toLowerCase();
-        tableName = `${titleText}-table-${index}`;
+      const pageTitle = document.querySelector('.page-title');
+      if (pageTitle) {
+        tableName = pageTitle.textContent.trim()
+          .replace(/[^a-z0-9]/gi, '-')
+          .toLowerCase();
       } else {
-        tableName = `default-table-${index}`;
+        const urlParams = new URLSearchParams(window.location.search);
+        const view = urlParams.get('view') || 'default';
+        const clientId = urlParams.get('client_id') || '';
+        tableName = clientId === '1' ? `${view}--administrator-` : view;
       }
+    }
+    // Skip unnamed table
+    if (!tableName) {
+      return;
     }
 
     /* eslint-disable-next-line no-new */
