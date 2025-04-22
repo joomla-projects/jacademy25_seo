@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aea460a15f0d9c656441f03d58683ed5",
+    "content-hash": "eb3960cfd09fb5b694e23c44a84eaf0a",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1503,16 +1503,16 @@
         },
         {
             "name": "joomla/database",
-            "version": "3.3.1",
+            "version": "3.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "d13a7504471b4730a8107e3566c6fe6d476706fc"
+                "reference": "e283eb17a68b96c340cae397cb77e723b2ea50a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/d13a7504471b4730a8107e3566c6fe6d476706fc",
-                "reference": "d13a7504471b4730a8107e3566c6fe6d476706fc",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/e283eb17a68b96c340cae397cb77e723b2ea50a6",
+                "reference": "e283eb17a68b96c340cae397cb77e723b2ea50a6",
                 "shasum": ""
             },
             "require": {
@@ -1570,7 +1570,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/database/issues",
-                "source": "https://github.com/joomla-framework/database/tree/3.3.1"
+                "source": "https://github.com/joomla-framework/database/tree/3.4.1"
             },
             "funding": [
                 {
@@ -1582,7 +1582,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-26T13:22:09+00:00"
+            "time": "2025-04-06T13:57:03+00:00"
         },
         {
             "name": "joomla/di",
@@ -5935,60 +5935,6 @@
             "time": "2025-03-21T09:49:11+00:00"
         },
         {
-            "name": "typo3/phar-stream-wrapper",
-            "version": "v4.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3/phar-stream-wrapper.git",
-                "reference": "ce4b6e9873d4dd7dce2a397511713bf14977fdf2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/ce4b6e9873d4dd7dce2a397511713bf14977fdf2",
-                "reference": "ce4b6e9873d4dd7dce2a397511713bf14977fdf2",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": "^7.1 || ^8.0"
-            },
-            "require-dev": {
-                "ext-xdebug": "*",
-                "phpunit/phpunit": "^7 || ^8 || ^9"
-            },
-            "suggest": {
-                "ext-fileinfo": "For PHP builtin file type guessing, otherwise uses internal processing"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "TYPO3\\PharStreamWrapper\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Interceptors for PHP's native phar:// stream handling",
-            "homepage": "https://typo3.org/",
-            "keywords": [
-                "phar",
-                "php",
-                "security",
-                "stream-wrapper"
-            ],
-            "support": {
-                "issues": "https://github.com/TYPO3/phar-stream-wrapper/issues",
-                "source": "https://github.com/TYPO3/phar-stream-wrapper/tree/v4.0.0"
-            },
-            "time": "2024-12-10T00:00:25+00:00"
-        },
-        {
             "name": "voku/portable-ascii",
             "version": "2.0.3",
             "source": {
@@ -10175,7 +10121,7 @@
         "ext-gd": "*",
         "ext-dom": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.1.0"
     },
