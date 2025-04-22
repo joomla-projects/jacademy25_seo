@@ -129,8 +129,11 @@ class LocalPluginTest extends UnitTestCase
 
         $plugin = new Local($dispatcher, ['params' => ['directories' => '[{"directory": "invalid"}]']], __DIR__);
 
+        $user = $this->createStub(User::class);
+        $user->method('getAuthorisedViewLevels')->willReturn([1]);
+
         $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getIdentity')->willReturn(new User());
+        $app->method('getIdentity')->willReturn($user);
 
         $plugin->setApplication($app);
 
