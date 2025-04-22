@@ -372,6 +372,7 @@ class ConfigurationModel extends BaseInstallationModel
         $registry->set('captcha', '0');
         $registry->set('list_limit', 20);
         $registry->set('access', 1);
+        $registry->set('frontediting', 1);
 
         // Debug settings.
         $registry->set('debug', false);
@@ -402,6 +403,12 @@ class ConfigurationModel extends BaseInstallationModel
 
         // Locale settings.
         $registry->set('offset', 'UTC');
+
+        // CORS settings.
+        $registry->set('cors', false);
+        $registry->set('cors_allow_origin', '*');
+        $registry->set('cors_allow_methods', '');
+        $registry->set('cors_allow_headers', 'Content-Type,X-Joomla-Token');
 
         // Mail settings.
         $registry->set('mailonline', true);
