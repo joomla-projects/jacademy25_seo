@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Installer;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -68,6 +69,15 @@ trait InstallerScriptTrait
      * @since  __DEPLOY_VERSION__
      */
     protected $deleteFolders = [];
+
+    /**
+     * The application object
+     *
+     * @var    CMSApplicationInterface
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    private $application;
 
     /**
      * Function called after the extension is installed.
@@ -250,6 +260,32 @@ trait InstallerScriptTrait
     }
 
     /**
+     * Returns the internal application or null when not set.
+     *
+     * @return  CMSApplicationInterface|null
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getApplication(): ?CMSApplicationInterface
+    {
+        return $this->application;
+    }
+
+    /**
+     * Sets the application to use.
+     *
+     * @param   CMSApplicationInterface  $application  The application
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setApplication(CMSApplicationInterface $application): void
+    {
+        $this->application = $application;
+    }
+
+    /**
      * Creates the dashboard menu module
      *
      * @param string $dashboard The name of the dashboard
@@ -262,7 +298,7 @@ trait InstallerScriptTrait
      */
     protected function addDashboardMenuModule(string $dashboard, string $preset)
     {
-        $model  = Factory::getApplication()->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
+        $model  = $this->getApplication()->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
         $module = [
             'id'         => 0,
             'asset_id'   => 0,
