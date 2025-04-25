@@ -142,6 +142,22 @@ trait InstallerScriptTrait
         if (!$this->checkDowngrade($type, $adapter)) {
             return false;
         }
+
+        return $this->customPreflight($type, $adapter);
+    }
+
+    /**
+     * Custom preflight method to be overridden by the extension developer
+     *
+     * @param   string            $type     The type of change (install or discover_install, update, uninstall)
+     * @param   InstallerAdapter  $adapter  The adapter calling this method
+     *
+     * @return  boolean  True on success
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function customPreflight(string $type, InstallerAdapter $adapter): bool
+    {
         return true;
     }
 
@@ -157,9 +173,23 @@ trait InstallerScriptTrait
      */
     public function postflight(string $type, InstallerAdapter $adapter): bool
     {
-
         $this->removeFiles();
 
+        return $this->customPostflight($type, $adapter);
+    }
+
+    /**
+     * Custom postflight method to be overridden by the extension developer
+     *
+     * @param   string            $type     The type of change (install or discover_install, update, uninstall)
+     * @param   InstallerAdapter  $adapter  The adapter calling this method
+     *
+     * @return  boolean  True on success
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function customPostflight(string $type, InstallerAdapter $adapter): bool
+    {
         return true;
     }
 
