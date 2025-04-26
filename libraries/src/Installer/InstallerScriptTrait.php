@@ -11,7 +11,6 @@ namespace Joomla\CMS\Installer;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\Filesystem\File;
@@ -26,7 +25,7 @@ trait InstallerScriptTrait
      * @var    string
      * @since  __DEPLOY_VERSION__
      */
-    protected $extension;
+    protected string $extension;
 
     /**
      * Minimum PHP version required to install the extension
@@ -34,7 +33,7 @@ trait InstallerScriptTrait
      * @var    string
      * @since  __DEPLOY_VERSION__
      */
-    protected $minimumPhp;
+    protected string $minimumPhp;
 
     /**
      * Minimum Joomla! version required to install the extension
@@ -42,7 +41,7 @@ trait InstallerScriptTrait
      * @var    string
      * @since  __DEPLOY_VERSION__
      */
-    protected $minimumJoomla;
+    protected string $minimumJoomla;
 
     /**
      * Allow downgrades of your extension
@@ -52,7 +51,7 @@ trait InstallerScriptTrait
      * @var    boolean
      * @since  __DEPLOY_VERSION__
      */
-    protected $allowDowngrades = false;
+    protected bool $allowDowngrades = false;
 
     /**
      * A list of files to be deleted
@@ -60,7 +59,7 @@ trait InstallerScriptTrait
      * @var    array
      * @since  __DEPLOY_VERSION__
      */
-    protected $deleteFiles = [];
+    protected array $deleteFiles = [];
 
     /**
      * A list of folders to be deleted
@@ -68,7 +67,7 @@ trait InstallerScriptTrait
      * @var    array
      * @since  __DEPLOY_VERSION__
      */
-    protected $deleteFolders = [];
+    protected array $deleteFolders = [];
 
     /**
      * The application object
@@ -77,7 +76,7 @@ trait InstallerScriptTrait
      *
      * @since  __DEPLOY_VERSION__
      */
-    private $application;
+    private CMSApplicationInterface $application;
 
     /**
      * Function called after the extension is installed.
@@ -143,21 +142,6 @@ trait InstallerScriptTrait
             return false;
         }
 
-        return $this->customPreflight($type, $adapter);
-    }
-
-    /**
-     * Custom preflight method to be overridden by the extension developer
-     *
-     * @param   string            $type     The type of change (install or discover_install, update, uninstall)
-     * @param   InstallerAdapter  $adapter  The adapter calling this method
-     *
-     * @return  boolean  True on success
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function customPreflight(string $type, InstallerAdapter $adapter): bool
-    {
         return true;
     }
 
@@ -174,23 +158,6 @@ trait InstallerScriptTrait
     public function postflight(string $type, InstallerAdapter $adapter): bool
     {
         $this->removeFiles();
-
-        return $this->customPostflight($type, $adapter);
-    }
-
-    /**
-     * Custom postflight method to be overridden by the extension developer
-     *
-     * @param   string            $type     The type of change (install or discover_install, update, uninstall)
-     * @param   InstallerAdapter  $adapter  The adapter calling this method
-     *
-     * @return  boolean  True on success
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function customPostflight(string $type, InstallerAdapter $adapter): bool
-    {
-        return true;
     }
 
     /**
@@ -254,7 +221,7 @@ trait InstallerScriptTrait
      */
     protected function getOldManifest(InstallerAdapter $adapter): ?\SimpleXMLElement
     {
-        $client = ApplicationHelper::getClientInfo(1);
+        $client = ApplicationHelper::getClientInfo('administrator', true);
 
         $pathname = 'extension_' . ($client ? $client->name : 'root');
 
@@ -348,7 +315,7 @@ trait InstallerScriptTrait
         $title            = Text::_($titleKey);
         $module['title']  = ($title === $titleKey) ? ucfirst($dashboard) . ' Dashboard' : $title;
 
-        $module['access'] = (int) Factory::getApplication()->get('access', 1);
+        $module['access'] = (int) $this->getApplication()->get('access', 1);
         $module['params'] = [
             'menutype' => '*',
             'preset'   => $preset,
@@ -356,7 +323,7 @@ trait InstallerScriptTrait
         ];
 
         if (!$model->save($module)) {
-            Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DASHBOARD', $model->getError()));
+            $this->getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DASHBOARD', $model->getError()));
         }
     }
 }
