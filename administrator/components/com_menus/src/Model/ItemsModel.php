@@ -326,7 +326,7 @@ class ItemsModel extends ListModel
             ->bind(':clientId', $clientId, ParameterType::INTEGER);
 
         // Filter on the published state.
-        $published = $this->getState('filter.published');
+        $published = $this->getState('filter.published', '');
 
         if (is_numeric($published)) {
             $published = (int) $published;
@@ -497,7 +497,7 @@ class ItemsModel extends ListModel
         if ($name == 'com_menus.items.filter') {
             $clientId = $this->getState('filter.client_id');
             $form->setFieldAttribute('menutype', 'clientid', $clientId);
-        } elseif (false !== strpos($name, 'com_menus.items.modal.')) {
+        } elseif (str_contains($name, 'com_menus.items.modal.')) {
             $form->removeField('client_id');
 
             $clientId = $this->getState('filter.client_id');

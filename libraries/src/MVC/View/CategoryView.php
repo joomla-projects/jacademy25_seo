@@ -40,7 +40,7 @@ class CategoryView extends HtmlView
      *
      * @var    \Joomla\Registry\Registry
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     public $params;
 
@@ -150,11 +150,11 @@ class CategoryView extends HtmlView
         $children    = $this->get('Children');
         $parent      = $this->get('Parent');
 
-        if ($category == false) {
+        if (!$category) {
             throw new \InvalidArgumentException(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
         }
 
-        if ($parent == false) {
+        if (!$parent) {
             throw new \InvalidArgumentException(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
         }
 

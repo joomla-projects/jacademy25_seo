@@ -28,6 +28,8 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
@@ -40,11 +42,12 @@ use Joomla\Registry\Registry;
  *
  * @since  5.0.0
  */
-final class Schemaorg extends CMSPlugin implements SubscriberInterface
+final class Schemaorg extends CMSPlugin implements SubscriberInterface, DispatcherAwareInterface
 {
     use DatabaseAwareTrait;
-    use SchemaorgPrepareImageTrait;
+    use DispatcherAwareTrait;
     use SchemaorgPrepareDateTrait;
+    use SchemaorgPrepareImageTrait;
     use UserFactoryAwareTrait;
 
     /**
@@ -537,14 +540,15 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.3
      */
     public function onContentAfterDelete(Model\AfterDeleteEvent $event)
     {
-        $context = $event->getContext();
-        $itemId  = $event->getItem()->id;
+        if (!$this->isSupported($event->getContext())) {
+            return;
+        }
 
-        $this->deleteSchemaOrg($itemId, $context);
+        $this->deleteSchemaOrg($event->getItem()->id, $event->getContext());
     }
 
     /**
@@ -555,7 +559,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.3
      */
     public function deleteSchemaOrg($itemId, $context)
     {
