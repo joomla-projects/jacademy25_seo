@@ -50,7 +50,6 @@ class BannersHelper
             $articleId = $input->getInt('id');
 
             if (\is_integer($articleId)) {
-
                 // Load the article model to get the keywords
                 $contentModel = $app->bootComponent('com_content')->getMVCFactory()->createModel('Article', 'Site', ['ignore_request' => true]);
 
