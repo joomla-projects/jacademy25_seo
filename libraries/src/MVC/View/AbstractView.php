@@ -139,7 +139,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      *
      * @since   3.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0.
+     * @deprecated 5.3.0 will be removed in 7.0.
      *              Retrieve the model with $model = $this->getModel(); and call the methods
      *              to the model directly, e.g. $model->getItems() instead of $this->get('Items').
      */
@@ -249,7 +249,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
                 $className = \get_class($this);
                 $viewPos   = strpos($className, 'View');
 
-                if ($viewPos != false) {
+                if ($viewPos !== false) {
                     $this->_name = strtolower(substr($className, $viewPos + 4));
                 }
             }
