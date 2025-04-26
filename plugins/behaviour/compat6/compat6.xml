@@ -11,7 +11,6 @@
 	<description>PLG_COMPAT6_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Behaviour\Compat6</namespace>
 	<files>
-		<folder>classes</folder>
 		<folder plugin="compat6">services</folder>
 		<folder>src</folder>
 	</files>
