@@ -47,7 +47,7 @@ class BannersHelper
 
         // Check if the current view is an article
         if ($input->getCmd('option') === 'com_content' && $input->getCmd('view') === 'article') {
-            $articleId = $input->getInt('id'); 
+            $articleId = $input->getInt('id');
 
             if (\is_integer($articleId)) {
 
