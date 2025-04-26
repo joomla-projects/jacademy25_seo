@@ -142,6 +142,7 @@ if (!$params->exists('show_publishing_options')) {
                 <?php endif; ?>
 
             <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
+
             <?php echo $this->form->renderControlFields(); ?>
         </fieldset>
         <div class="d-grid gap-2 d-sm-block mb-2">
