@@ -158,6 +158,8 @@ trait InstallerScriptTrait
     public function postflight(string $type, InstallerAdapter $adapter): bool
     {
         $this->removeFiles();
+        
+        return true;
     }
 
     /**
