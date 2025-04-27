@@ -73,9 +73,9 @@ class Usergroup extends Table
         // Check for a duplicate parent_id, title.
         // There is a unique index on the (parent_id, title) field in the table.
         $db       = $this->getDatabase();
-        $parentId = (int)$this->parent_id;
+        $parentId = (int) $this->parent_id;
         $title    = trim($this->title);
-        $id       = (int)$this->id;
+        $id       = (int) $this->id;
         $query    = $db->getQuery(true)
             ->select('COUNT(title)')
             ->from($this->_tbl)

@@ -153,7 +153,7 @@ class Nested extends Table
             ->select($select)
             ->from($this->_tbl . ' AS n, ' . $this->_tbl . ' AS p')
             ->where('n.lft BETWEEN p.lft AND p.rgt')
-            ->where('n.' . $k . ' = ' . (int)$pk)
+            ->where('n.' . $k . ' = ' . (int) $pk)
             ->order('p.lft');
 
         $db->setQuery($query);
@@ -326,7 +326,7 @@ class Nested extends Table
         $query = $db->getQuery(true)
             ->select($k)
             ->from($this->_tbl)
-            ->where('lft BETWEEN ' . (int)$node->lft . ' AND ' . (int)$node->rgt);
+            ->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt);
 
         $children = $db->setQuery($query)->loadColumn();
 
@@ -1323,7 +1323,7 @@ class Nested extends Table
             ->select('p.alias')
             ->from($this->_tbl . ' AS n, ' . $this->_tbl . ' AS p')
             ->where('n.lft BETWEEN p.lft AND p.rgt')
-            ->where('n.' . $this->_tbl_key . ' = ' . (int)$pk)
+            ->where('n.' . $this->_tbl_key . ' = ' . (int) $pk)
             ->order('p.lft');
         $db->setQuery($query);
 
@@ -1533,7 +1533,7 @@ class Nested extends Table
         $query = $db->getQuery(true)
             ->select($this->_tbl_key . ', parent_id, level, lft, rgt')
             ->from($this->_tbl)
-            ->where($k . ' = ' . (int)$id);
+            ->where($k . ' = ' . (int) $id);
 
         $query->setLimit(1);
         $row = $db->setQuery($query)->loadObject();
