@@ -413,7 +413,7 @@ abstract class AdminModel extends FormModel
      * @param   array    $pks       An array of row IDs.
      * @param   array    $contexts  An array of item contexts.
      *
-     * @return  array|false  An array of new IDs on success, boolean false on failure.
+     * @return  array|boolean  An array of new IDs on success, boolean false on failure.
      *
      * @since   1.7
      */
