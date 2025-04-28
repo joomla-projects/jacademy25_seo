@@ -4,32 +4,33 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a38a4283b189156423edcb9ee0f8c001",
+    "content-hash": "eb3960cfd09fb5b694e23c44a84eaf0a",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
-            "version": "v3.2.0",
+            "version": "v4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algo26-matthias/idna-convert.git",
-                "reference": "0cea987c75b981797cf3bc28b182c5da05c41252"
+                "reference": "87fcd0252e86bf8f881b83ebbacd26fede361356"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/0cea987c75b981797cf3bc28b182c5da05c41252",
-                "reference": "0cea987c75b981797cf3bc28b182c5da05c41252",
+                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/87fcd0252e86bf8f881b83ebbacd26fede361356",
+                "reference": "87fcd0252e86bf8f881b83ebbacd26fede361356",
                 "shasum": ""
             },
             "require": {
                 "ext-pcre": "*",
                 "jakeasmith/http_build_url": "^1",
-                "php": ">=7.2.0"
+                "php": ">=8.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "8.0"
+                "phpunit/phpunit": "^9 || ^10"
             },
             "suggest": {
                 "ext-iconv": "Install ext/iconv for using input / output other than UTF-8 or ISO-8859-1",
+                "ext-intl": "Install ext/intl for better case folding",
                 "ext-mbstring": "Install ext/mbstring for using input / output other than UTF-8 or ISO-8859-1"
             },
             "type": "library",
@@ -58,9 +59,9 @@
             ],
             "support": {
                 "issues": "https://github.com/algo26-matthias/idna-convert/issues",
-                "source": "https://github.com/algo26-matthias/idna-convert/tree/v3.2.0"
+                "source": "https://github.com/algo26-matthias/idna-convert/tree/v4.0.4"
             },
-            "time": "2025-04-01T11:22:26+00:00"
+            "time": "2025-03-16T10:00:35+00:00"
         },
         {
             "name": "brick/math",
@@ -5934,61 +5935,6 @@
             "time": "2025-03-21T09:49:11+00:00"
         },
         {
-            "name": "typo3/phar-stream-wrapper",
-            "version": "v3.1.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3/phar-stream-wrapper.git",
-                "reference": "a931b28f422a60052db85c0a84a05a366453b2c0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/a931b28f422a60052db85c0a84a05a366453b2c0",
-                "reference": "a931b28f422a60052db85c0a84a05a366453b2c0",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": "^7.0 || ~8.0 || ~8.1 || ~8.2 || ~8.3"
-            },
-            "require-dev": {
-                "ext-xdebug": "*",
-                "phpspec/prophecy": "^1.10",
-                "symfony/phpunit-bridge": "^5.1"
-            },
-            "suggest": {
-                "ext-fileinfo": "For PHP builtin file type guessing, otherwise uses internal processing"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "v3.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "TYPO3\\PharStreamWrapper\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Interceptors for PHP's native phar:// stream handling",
-            "homepage": "https://typo3.org/",
-            "keywords": [
-                "phar",
-                "php",
-                "security",
-                "stream-wrapper"
-            ],
-            "support": {
-                "issues": "https://github.com/TYPO3/phar-stream-wrapper/issues",
-                "source": "https://github.com/TYPO3/phar-stream-wrapper/tree/v3.1.8"
-            },
-            "time": "2024-12-09T23:06:33+00:00"
-        },
-        {
             "name": "voku/portable-ascii",
             "version": "2.0.3",
             "source": {
@@ -10175,7 +10121,7 @@
         "ext-gd": "*",
         "ext-dom": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.1.0"
     },
