@@ -18,15 +18,14 @@ use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Event\Application\AfterRouteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -72,7 +71,7 @@ final class SiteApplication extends CMSApplication
      * Class constructor.
      *
      * @param   ?Input      $input      An optional argument to provide dependency injection for the application's input
-     *                                  object.  If the argument is a JInput object that object will become the
+     *                                  object.  If the argument is a Input object that object will become the
      *                                  application's input object, otherwise a default input object is created.
      * @param   ?Registry   $config     An optional argument to provide dependency injection for the application's config
      *                                  object.  If the argument is a Registry object that object will become the
@@ -371,21 +370,6 @@ final class SiteApplication extends CMSApplication
         }
 
         return $params[$hash];
-    }
-
-    /**
-     * Return a reference to the Pathway object.
-     *
-     * @param   string  $name     The name of the application.
-     * @param   array   $options  An optional associative array of configuration settings.
-     *
-     * @return  Pathway  A Pathway object
-     *
-     * @since   3.2
-     */
-    public function getPathway($name = 'site', $options = [])
-    {
-        return parent::getPathway($name, $options);
     }
 
     /**
