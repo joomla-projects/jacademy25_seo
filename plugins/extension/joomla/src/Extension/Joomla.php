@@ -110,14 +110,16 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
 
             $db->setQuery($query);
 
-            // When there is an update site, update the location and return
-            if ($id = $db->loadResult()) {
+            $ids = $db->loadObjectList();
+
+            // When there is one existing update site, update the location and return
+            if (\count($ids) === 1) {
                 $query->clear()
                     ->update($db->quoteName('#__update_sites'))
                     ->set($db->quoteName('location') . ' = :location')
                     ->where($db->quoteName('update_site_id') . ' = :update_site_id')
                     ->bind(':location', $location)
-                    ->bind(':update_site_id', $id, ParameterType::INTEGER);
+                    ->bind(':update_site_id', $ids[0]->update_site_id, ParameterType::INTEGER);
 
                 $db->setQuery($query);
                 $db->execute();
