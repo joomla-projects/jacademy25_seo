@@ -1590,12 +1590,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laoneo/di.git",
-                "reference": "7ea7bcd7360ff41cd461525c555909adcafb8fac"
+                "reference": "6b33533e566e56455f0202867651e08905b0f5df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laoneo/di/zipball/7ea7bcd7360ff41cd461525c555909adcafb8fac",
-                "reference": "7ea7bcd7360ff41cd461525c555909adcafb8fac",
+                "url": "https://api.github.com/repos/laoneo/di/zipball/6b33533e566e56455f0202867651e08905b0f5df",
+                "reference": "6b33533e566e56455f0202867651e08905b0f5df",
                 "shasum": ""
             },
             "require": {
@@ -1644,7 +1644,7 @@
                 "ioc",
                 "joomla"
             ],
-            "time": "2025-04-25T12:28:19+00:00"
+            "time": "2025-04-28T08:52:13+00:00"
         },
         {
             "name": "joomla/event",
