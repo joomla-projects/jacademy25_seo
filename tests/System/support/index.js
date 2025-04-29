@@ -8,6 +8,6 @@ before(() => {
 
 afterEach(() => {
   cy.checkForPhpNoticesOrWarnings();
-  cy.task('cleanupDB');
   cy.task('checkForLogs');
+  cy.task('cleanupDB');
 });
