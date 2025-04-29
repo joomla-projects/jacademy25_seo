@@ -40,7 +40,10 @@ return new class () implements ServiceProviderInterface {
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
-            }
+            },
+            false,
+            false,
+            ContactCreator::class
         );
     }
 };
