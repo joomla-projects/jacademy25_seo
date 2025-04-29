@@ -91,8 +91,7 @@ class Application implements ServiceProviderInterface
 
                     return $app;
                 },
-                true,
-                AdministratorApplication::class
+                true
             );
 
         $container->alias(SiteApplication::class, 'JApplicationSite')
@@ -112,8 +111,7 @@ class Application implements ServiceProviderInterface
 
                     return $app;
                 },
-                true,
-                SiteApplication::class
+                true
             );
 
         $container->alias(ConsoleApplication::class, BaseConsoleApplication::class)
@@ -138,8 +136,7 @@ class Application implements ServiceProviderInterface
 
                     return $app;
                 },
-                true,
-                ConsoleApplication::class
+                true
             );
 
         $container->alias(WritableContainerLoader::class, LoaderInterface::class)
@@ -174,8 +171,7 @@ class Application implements ServiceProviderInterface
 
                     return new WritableContainerLoader($container, $mapping);
                 },
-                true,
-                WritableContainerLoader::class
+                true
             );
 
         $container->alias(ApiApplication::class, 'JApplicationApi')
@@ -193,8 +189,7 @@ class Application implements ServiceProviderInterface
 
                     return $app;
                 },
-                true,
-                ApiApplication::class
+                true
             );
     }
 }
