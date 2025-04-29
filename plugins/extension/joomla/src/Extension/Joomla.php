@@ -102,7 +102,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         $update_site_id = (int) $db->loadResult();
 
         // If it doesn't exist and there is an extension, use that site
-        if (!$update_site_id && $this->eid > 0 && $total === 1) {
+        if (!$update_site_id && $this->eid && $total === 1) {
             $query->clear();
             $query->select($db->quoteName('update_site_id'))
                 ->from($db->quoteName('#__update_sites_extensions'))
