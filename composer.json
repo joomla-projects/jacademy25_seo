@@ -32,11 +32,6 @@
       "type": "vcs",
       "url": "https://github.com/joomla-backports/php-tuf.git",
       "no-api": true
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/joomla-backports/portable-utf8.git",
-      "no-api": true
     }
   ],
   "autoload": {
