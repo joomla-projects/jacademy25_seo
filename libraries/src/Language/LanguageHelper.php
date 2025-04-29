@@ -15,7 +15,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Log\Log;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -229,7 +231,7 @@ class LanguageHelper
             if ($cache->contains('installedlanguages')) {
                 $installedLanguages = $cache->get('installedlanguages');
             } else {
-                $db = $db ?? Factory::getContainer()->get(DatabaseInterface::class);
+                $db ??= Factory::getContainer()->get(DatabaseInterface::class);
 
                 $query = $db->getQuery(true)
                     ->select(
@@ -281,7 +283,7 @@ class LanguageHelper
                 if ($processMetaData) {
                     try {
                         $lang->metadata = self::parseXMLLanguageFile($metafile);
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         // Not able to process xml language file. Fail silently.
                         Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
@@ -300,7 +302,7 @@ class LanguageHelper
                 if ($processManifest) {
                     try {
                         $lang->manifest = Installer::parseXMLInstallFile($metafile);
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         // Not able to process xml language file. Fail silently.
                         Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
@@ -444,6 +446,12 @@ class LanguageHelper
             return [];
         }
 
+        $cacheFile = JPATH_CACHE . '/language/' . ltrim(str_replace([JPATH_ROOT, '/'], ['', '-'], $fileName), '-') . '.' . filemtime($fileName) . '.php';
+
+        if (is_file($cacheFile)) {
+            return include $cacheFile;
+        }
+
         // This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
         // issue it is solving
         $disabledFunctions      = explode(',', \ini_get('disable_functions'));
@@ -471,10 +479,28 @@ class LanguageHelper
             restore_error_handler();
         }
 
+        if (!\is_array($strings)) {
+            $strings = [];
+        }
+
         // Ini files are processed in the "RAW" mode of parse_ini_string, leaving escaped quotes untouched - lets postprocess them
         $strings = str_replace('\"', '"', $strings);
 
-        return \is_array($strings) ? $strings : [];
+        // Write cache
+        try {
+            Folder::create(\dirname($cacheFile));
+
+            $data         = "<?php\ndefined('_JEXEC') or die;\nreturn " . var_export($strings, true) . ";\n";
+            $bytesWritten = file_put_contents($cacheFile, $data);
+
+            if ($bytesWritten === false || $bytesWritten < \strlen($data)) {
+                throw new FilesystemException('Unable to write cache file');
+            }
+        } catch (\FilesystemException $e) {
+            // We ignore the error, as the file is for caching only.
+        }
+
+        return $strings;
     }
 
     /**
@@ -626,7 +652,7 @@ class LanguageHelper
                     if ($metadata = self::parseXMLLanguageFile($file)) {
                         $languages = array_replace($languages, [$dirPathParts['filename'] => $metadata]);
                     }
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     // Ignore it
                 }
             }
