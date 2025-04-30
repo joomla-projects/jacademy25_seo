@@ -76,7 +76,7 @@ final class Compat6 extends CMSPlugin implements SubscriberInterface
         }
 
         /**
-         * Include classes which are removed in 7.0
+         * Include classes which will likely be removed in 7.0
          */
         if ($this->params->get('legacy_classes', '1')) {
             \JLoader::registerNamespace('\\Joomla\\CMS', JPATH_PLUGINS . '/behaviour/compat6/classes');
