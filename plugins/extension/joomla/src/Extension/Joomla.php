@@ -107,7 +107,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             $query->select($db->quoteName('update_site_id'))
                 ->from($db->quoteName('#__update_sites_extensions'))
                 ->where($db->quoteName('extension_id') . ' = :extension_id')
-                ->bind(':extension_id', $this->eid);
+                ->bind(':extension_id', $this->eid, ParameterType::INTEGER);
 
             $db->setQuery($query);
 
