@@ -2,6 +2,32 @@ import invalidTufMetadata from '../../fixtures/tuf/invalidMetadata.json';
 import validTufMetadata from '../../fixtures/tuf/validMetadata.json';
 
 /**
+ * Checks if the given table contains elements with the given where key value pairs.
+ *
+ * @param {string} table The table to check
+ * @param {Object} where The where key value pairs
+ *
+ * @returns Promise
+ */
+Cypress.Commands.add('db_shouldContain', (table, where) => {
+  cy.task('queryDB', `SELECT ${Object.keys(where).join(',')} FROM #__${table}`)
+    .then((data) => { cy.wrap(data).should('not.be.empty').and('deep.include', where); });
+});
+
+/**
+ * Checks if the given table does not contain elements with the given where key value pairs.
+ *
+ * @param {string} table The table to check
+ * @param {Object} where The where key value pairs
+ *
+ * @returns Promise
+ */
+Cypress.Commands.add('db_shouldNotContain', (table, where) => {
+  cy.task('queryDB', `SELECT ${Object.keys(where).join(',')} FROM #__${table}`)
+    .then((data) => cy.wrap(data).should('not.deep.include', where));
+});
+
+/**
  * The global cached default categories
  */
 globalThis.joomlaCategories = [];
