@@ -419,7 +419,7 @@ legend {
 
 #jform_db_prefix {
   text-align: left;
-  direction: ltr #{"/*rtl:ignore*/"};
+  direction: ltr/*rtl:ignore*/;
 }
 
 // Possibly temporary until Bootstrap support it themselves
