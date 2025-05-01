@@ -260,7 +260,7 @@ body {
 
   select {
     width: 100%;
-    margin-left: 0 !important;
+    margin-inline-start: 0 !important;
   }
 }
 
@@ -275,7 +275,7 @@ body {
 
   span {
     position: relative;
-    margin-right: 5px;
+    margin-inline-end: 5px;
     font-size: 1.2rem;
   }
 }
@@ -380,7 +380,7 @@ label {
 
   .control-label {
     padding-top: 5px;
-    padding-right: 5px;
+    padding-inline-end: 5px;
     text-align: left;
   }
 }
@@ -407,7 +407,7 @@ legend {
 
   .checkbox input {
     position: static;
-    margin-left: 0;
+    margin-inline-start: 0;
   }
 
 }
