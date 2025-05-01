@@ -55,7 +55,7 @@ class JConfig
 	public $secret = '';     // Use something very secure. For example on linux the following command `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${1:-16} | head -n 1`
 	public $gzip = false;
 	public $error_reporting = 'default';
-	public $helpurl = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
+	public $helpurl = 'https://help.joomla.org/proxy?keyref=Help50:{keyref}&lang={langcode}';
 	public $tmp_path = '/tmp';                // This path needs to be writable by Joomla!
 	public $log_path = '/administrator/logs'; // This path needs to be writable by Joomla!
 	public $live_site = '';                   // Optional, full URL to Joomla install eg https://www.example.com
