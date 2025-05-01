@@ -30,7 +30,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
             <h2><?php echo Text::_('INSTL_COMPLETE_TITLE'); ?></h2>
             <div class="mt-4 mb-3">
                 <button id="installAddFeatures" class="btn btn-primary w-100">
-                    <?php echo Text::_('INSTL_COMPLETE_ADD_EXTRA_LANGUAGE'); ?> <span class="icon-chevron<?php echo $direction; ?>" aria-hidden="true"></span>
+                    <?php echo Text::_('INSTL_COMPLETE_ADD_EXTRA_LANGUAGE'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span>
                 </button>
             </div>
         </div>
@@ -133,7 +133,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
             </tbody>
         </table>
         <button id="defaultLanguagesButton" class="btn btn-primary mt-2 mb-3 w-100">
-            <?php echo Text::_('INSTL_DEFAULTLANGUAGE_SET_DEFAULT_LANGUAGE'); ?> <span class="icon-chevron<?php echo $direction; ?>" aria-hidden="true"></span>
+            <?php echo Text::_('INSTL_DEFAULTLANGUAGE_SET_DEFAULT_LANGUAGE'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span>
         </button>
         <?php echo HTMLHelper::_('form.token'); ?>
         </div>

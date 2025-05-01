@@ -417,6 +417,11 @@ legend {
   margin-bottom: 0;
 }
 
+#jform_db_prefix {
+  text-align: left;
+  direction: ltr #{"/*rtl:ignore*/"};
+}
+
 // Possibly temporary until Bootstrap support it themselves
 .form-select[multiple] {
   height: auto;
