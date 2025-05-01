@@ -779,6 +779,14 @@
 		/>
 
 		<field
+			name="helpurl"
+			type="text"
+			label="COM_CONFIG_FIELD_HELPURL_LABEL"
+			description="COM_CONFIG_FIELD_HELPURL_DESC"
+			filter="string"
+		/>
+
+		<field
 			name="gzip"
 			type="radio"
 			label="COM_CONFIG_FIELD_GZIP_COMPRESSION_LABEL"

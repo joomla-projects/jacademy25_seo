@@ -137,51 +137,48 @@ class HelpModel extends BaseDatabaseModel
         $help_search = $this->getHelpSearch();
 
         // New style - Check for a TOC \JSON file
-        if (file_exists(JPATH_BASE . '/help/' . $lang_tag . '/toc.json')) {
+        if (!file_exists(JPATH_BASE . '/help/' . $lang_tag . '/toc.json')) {
+            // Load the language file as a text file.
+            $items = file_get_contents(JPATH_BASE . '/language/en-GB/com_admin.ini');
+
+            $lines = preg_split("/((\r?\n)|(\r\n?))/", $items);
+            $pattern = '/COM_ADMIN_HELP_(.*?)="(.*)"/';
+            $data = [];
+            foreach ($lines as $line) {
+                if (strpos($line, 'COM_ADMIN_HELP_') !== 0) {
+                    continue;
+                }
+                preg_match($pattern, $line, $matches);
+                // $matches[1] is the key, $matches[2] is the value
+                $key = str_replace('_', ' ', $matches[1]);
+                $key = str_replace(' ', '_', ucwords(strtolower($key)));
+                // List of words that should not be capitalised:
+                // of, or, for, is
+                // list of words that should be capitalised
+                // URL, CMS
+                $key = str_replace('_Who_Is_', '_Who\s_', $key);
+                $key = str_replace('_For_', '_for_', $key);
+                $key = str_replace('_Is_', '_is_', $key);
+                $key = str_replace('_Of_', '_of_', $key);
+                $key = str_replace('_Or_', '_or_', $key);
+                $key = str_replace('_Url', '_URL', $key);
+                $key = str_replace('_Cms', '_CMS', $key);
+
+                $data[$key] = $matches[1];
+            }
+
+            $json = json_encode($data);
+            file_put_contents(JPATH_BASE . '/help/' . $lang_tag . '/toc.json', $json);
+        } else {
             $data = json_decode(file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/toc.json'));
-
-            // Loop through the data array
-            foreach ($data as $key => $value) {
-                $this->toc[$key] = Text::_('COM_ADMIN_HELP_' . $value);
-            }
-
-            // Sort the Table of Contents
-            asort($this->toc);
-
-            return $this->toc;
         }
 
-        // Get Help files
-        $files = Folder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
-
-        foreach ($files as $file) {
-            $buffer = file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/' . $file);
-
-            if (!preg_match('#<title>(.*?)</title>#', $buffer, $m)) {
-                continue;
-            }
-
-            $title = trim($m[1]);
-
-            if (!$title) {
-                continue;
-            }
-
-            // Translate the page title
-            $title = Text::_($title);
-
-            // Strip the extension
-            $file = preg_replace('#\.xml$|\.html$#', '', $file);
-
-            if ($help_search && StringHelper::strpos(StringHelper::strtolower(strip_tags($buffer)), StringHelper::strtolower($help_search)) === false) {
-                continue;
-            }
-
-            // Add an item in the Table of Contents
-            $this->toc[$file] = $title;
+        // Loop through the data array
+        foreach ($data as $key => $value) {
+            $this->toc[$key] = Text::_('COM_ADMIN_HELP_' . $value);
         }
 
-        // Sort the Table of Contents
+        // Sort the Table of Contents for the selected language
         asort($this->toc);
 
         return $this->toc;
