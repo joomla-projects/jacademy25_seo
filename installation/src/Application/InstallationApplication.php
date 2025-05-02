@@ -443,7 +443,7 @@ final class InstallationApplication extends CMSApplication
         }
 
         // Set the official helpurl.
-        $options['helpurl'] = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
+        $options['helpurl'] = 'https://help.joomla.org/proxy?keyref=Help50:{keyref}&lang={langcode}';
 
         // Store helpurl in the session.
         $this->getSession()->set('setup.helpurl', $options['helpurl']);
