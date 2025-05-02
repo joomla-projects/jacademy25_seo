@@ -14,8 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\Filesystem\Folder;
-use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -59,14 +57,6 @@ class HelpModel extends BaseDatabaseModel
      * @since  1.6
      */
     protected $toc = [];
-
-    /**
-     * URL for the latest version check
-     *
-     * @var    string
-     * @since  1.6
-     */
-    protected $latest_version_check = null;
 
     /**
      * Method to get the help search string
@@ -141,9 +131,9 @@ class HelpModel extends BaseDatabaseModel
             // Load the language file as a text file.
             $items = file_get_contents(JPATH_BASE . '/language/en-GB/com_admin.ini');
 
-            $lines = preg_split("/((\r?\n)|(\r\n?))/", $items);
+            $lines   = preg_split("/((\r?\n)|(\r\n?))/", $items);
             $pattern = '/COM_ADMIN_HELP_(.*?)="(.*)"/';
-            $data = [];
+            $data    = [];
             foreach ($lines as $line) {
                 if (strpos($line, 'COM_ADMIN_HELP_') !== 0) {
                     continue;
