@@ -119,7 +119,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
                     <?php echo $this->form->getInput('db_old'); ?>
                 </div>
                 <div class="mt-4 mb-3">
-                    <button id="setupButton" class="btn btn-primary w-100"><?php echo Text::_('INSTL_INSTALL_JOOMLA'); ?> <span class="icon-chevron-<?php echo $direction; ?>"  aria-hidden="true"></span></button>
+                    <button id="setupButton" class="btn btn-primary w-100"><?php echo Text::_('INSTL_INSTALL_JOOMLA'); ?> <span class="icon-chevron-<?php echo $direction; ?>" aria-hidden="true"></span></button>
                 </div>
             </div>
         </fieldset>
