@@ -6,25 +6,14 @@ import { ensureDir } from 'fs-extra';
 import { transform as transformCss, Features } from 'lightningcss';
 import { compileAsync } from 'sass-embedded';
 
-const silenceDeprecationList = [
-  `media_source${sep}templates`,
-  `installation${sep}template`,
-  `media_source${sep}plg_installer_webinstaller`,
-  `vendor${sep}fontawesome-free`,
-  `media_source${sep}system${sep}scss${sep}joomla-fontawesome.scss`,
-  `media_source${sep}com_media`,
-  `media_source${sep}plg_system_guidedtours${sep}scss${sep}guidedtours.scss`,
-];
-const shouldSilenceDeprecation = (file) => silenceDeprecationList.some((path) => new RegExp(String.raw`${path}`, 'i').test(file));
 const getOutputFile = (file) => file.replace(`${sep}scss${sep}`, `${sep}css${sep}`).replace('.scss', '.css').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
 
 export const handleScssFile = async (file) => {
   let contents;
   const cssFile = getOutputFile(file);
-  const options = shouldSilenceDeprecation(file) ? { silenceDeprecations: ['mixed-decls', 'color-functions', 'import', 'global-builtin'] } : {};
 
   try {
-    const { css } = await compileAsync(file, options);
+    const { css } = await compileAsync(file);
     contents = css.toString();
   } catch (error) {
     throw new Error(error.formatted);
