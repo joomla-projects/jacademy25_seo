@@ -31,8 +31,8 @@ return new class () implements ServiceProviderInterface {
      */
     public function register(Container $container): void
     {
-        $container->set(
-            PluginInterface::class,
+        $container->lazy(
+            Fields::class,
             function (Container $container) {
                 $plugin     = new Fields(
                     $container->get(DispatcherInterface::class),
@@ -43,6 +43,6 @@ return new class () implements ServiceProviderInterface {
 
                 return $plugin;
             }
-        );
+        )->alias(PluginInterface::class, Fields::class);
     }
 };

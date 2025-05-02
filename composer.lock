@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "da17dab9a9e905242a03f65ebcc88e0a",
+    "content-hash": "4cccef7f94fd109c874a3fbb9c3fe422",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1586,16 +1586,16 @@
         },
         {
             "name": "joomla/di",
-            "version": "dev-lazy",
+            "version": "dev-arrow",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laoneo/di.git",
-                "reference": "6b33533e566e56455f0202867651e08905b0f5df"
+                "reference": "bcfc2b2550765cc2591fb4b220e119be9cf35bf0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laoneo/di/zipball/6b33533e566e56455f0202867651e08905b0f5df",
-                "reference": "6b33533e566e56455f0202867651e08905b0f5df",
+                "url": "https://api.github.com/repos/laoneo/di/zipball/bcfc2b2550765cc2591fb4b220e119be9cf35bf0",
+                "reference": "bcfc2b2550765cc2591fb4b220e119be9cf35bf0",
                 "shasum": ""
             },
             "require": {
@@ -1644,7 +1644,7 @@
                 "ioc",
                 "joomla"
             ],
-            "time": "2025-04-28T08:52:13+00:00"
+            "time": "2025-05-02T10:05:25+00:00"
         },
         {
             "name": "joomla/event",
