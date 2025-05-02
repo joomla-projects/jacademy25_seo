@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8eb0be0cb35e2f00732a2ef9f605ee41",
+    "content-hash": "8926c036624d4d07ccf674f0fbc2b14b",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1586,16 +1586,16 @@
         },
         {
             "name": "joomla/di",
-            "version": "dev-arrow",
+            "version": "dev-3.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laoneo/di.git",
-                "reference": "bcfc2b2550765cc2591fb4b220e119be9cf35bf0"
+                "url": "https://github.com/joomla-framework/di.git",
+                "reference": "ead38261a999edbf3efae56153930c0be42aaf07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laoneo/di/zipball/bcfc2b2550765cc2591fb4b220e119be9cf35bf0",
-                "reference": "bcfc2b2550765cc2591fb4b220e119be9cf35bf0",
+                "url": "https://api.github.com/repos/joomla-framework/di/zipball/ead38261a999edbf3efae56153930c0be42aaf07",
+                "reference": "ead38261a999edbf3efae56153930c0be42aaf07",
                 "shasum": ""
             },
             "require": {
@@ -1614,6 +1614,7 @@
                 "phpunit/phpunit": "^9.5.28",
                 "squizlabs/php_codesniffer": "~3.7.2"
             },
+            "default-branch": true,
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
@@ -1626,11 +1627,7 @@
                     "Joomla\\DI\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Joomla\\DI\\Tests\\": "Tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -1644,7 +1641,21 @@
                 "ioc",
                 "joomla"
             ],
-            "time": "2025-05-02T10:05:25+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/di/issues",
+                "source": "https://github.com/joomla-framework/di/tree/3.x-dev"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-05-02T09:48:59+00:00"
         },
         {
             "name": "joomla/event",

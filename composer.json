@@ -32,11 +32,6 @@
       "type": "vcs",
       "url": "https://github.com/joomla-backports/php-tuf.git",
       "no-api": true
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/laoneo/di.git",
-      "no-api": true
     }
   ],
   "autoload": {
@@ -59,7 +54,7 @@
     "joomla/crypt": "^3.0.1",
     "joomla/data": "^3.0.1",
     "joomla/database": "^3.4",
-    "joomla/di": "dev-arrow",
+    "joomla/di": "dev-3.x-dev",
     "joomla/event": "^3.0.1",
     "joomla/filter": "^3.0.2",
     "joomla/filesystem": "^3.1.0",
