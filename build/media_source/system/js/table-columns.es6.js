@@ -191,18 +191,30 @@ if (window.innerWidth > 992) {
 
     if (!tableName) {
       const pageTitle = document.querySelector('.page-title');
+
       if (pageTitle) {
         tableName = pageTitle.textContent.trim()
           .replace(/[^a-z0-9]/gi, '-')
           .toLowerCase();
       } else {
         const urlParams = new URLSearchParams(window.location.search);
+        const option = urlParams.get('option') || '';
         const view = urlParams.get('view') || 'default';
         const clientId = urlParams.get('client_id') || '';
-        tableName = clientId === '1' ? `${view}--administrator-` : view;
+        const component = option.replace('com_', '');
+
+        if (component) {
+          tableName = `${component}-${view}`;
+        } else {
+          tableName = view;
+        }
+
+        if (clientId === '1') {
+          tableName += '--administrator-';
+        }
       }
     }
-    // Skip unnamed table
+    // Skip unnamed table if !tableName
     if (!tableName) {
       return;
     }
