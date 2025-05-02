@@ -111,11 +111,11 @@ trait LegacyErrorHandlingTrait
      */
     public function setError($error)
     {
-        if ($this->useExceptions && is_string($error)) {
+        if ($this->useExceptions && \is_string($error)) {
             throw new \Exception($error, 500);
-        } else {
-            $this->_errors[] = $error;
         }
+
+        $this->_errors[] = $error;
     }
 
     /**
