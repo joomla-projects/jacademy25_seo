@@ -102,7 +102,8 @@ class ActionlogsController extends AdminController
 
             $csvDelimiter = ComponentHelper::getComponent('com_actionlogs')->getParams()->get('csv_delimiter', ',');
 
-            $this->app->setHeader('Content-Type', 'application/csv', true)
+            $this->app
+                ->setHeader('Content-Type', 'application/csv', true)
                 ->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '.csv"', true)
                 ->setHeader('Cache-Control', 'must-revalidate', true)
                 ->sendHeaders();
