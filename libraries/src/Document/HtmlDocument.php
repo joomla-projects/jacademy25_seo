@@ -453,7 +453,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     public function addHeadLink($href, $relation, $relType = 'rel', $attribs = [])
     {
         // add hreflang link to separate array
-        if (array_key_exists('hreflang', $attribs)) {
+        if (\array_key_exists('hreflang', $attribs)) {
             $this->_hreflangs[$href]['relation'] = $relation;
             $this->_hreflangs[$href]['relType']  = $relType;
             $this->_hreflangs[$href]['attribs']  = $attribs;
