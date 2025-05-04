@@ -211,8 +211,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
     {
         $app = $event->getApplication();
 
-        if (!$app->isClient('site'))
-        {
+        if (!$app->isClient('site')) {
             return;
         }
 
