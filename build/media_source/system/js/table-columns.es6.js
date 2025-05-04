@@ -191,33 +191,43 @@ if (window.innerWidth > 992) {
 
     if (!tableName) {
       const pageTitle = document.querySelector('.page-title');
+      const urlParams = new URLSearchParams(window.location.search);
+      const option = urlParams.get('option') || '';
+      const view = urlParams.get('view') || 'default';
+      const clientId = urlParams.get('client_id') || '';
+      const component = option.replace('com_', '');
+      const layout = urlParams.get('layout') || '';
+      const id = urlParams.get('id') || '';
 
       if (pageTitle) {
         tableName = pageTitle.textContent.trim()
           .replace(/[^a-z0-9]/gi, '-')
           .toLowerCase();
-      } else {
-        const urlParams = new URLSearchParams(window.location.search);
-        const option = urlParams.get('option') || '';
-        const view = urlParams.get('view') || 'default';
-        const clientId = urlParams.get('client_id') || '';
-        const component = option.replace('com_', '');
-
-        if (component) {
-          tableName = `${component}-${view}`;
-        } else {
-          tableName = view;
+      } else if (component) {
+        tableName = `${component}--${view}`;
+        if (layout) {
+          tableName += `--${layout}`;
         }
+        if (id) {
+          tableName += `--${id}`;
+        }
+        if (clientId === '1') {
+          tableName += '--administrator';
+        }
+      } else {
+        tableName = `view--${view}`;
 
         if (clientId === '1') {
-          tableName += '--administrator-';
+          tableName += '--administrator';
         }
       }
     }
-    // Skip unnamed table if !tableName
     if (!tableName) {
-      return;
+      const tables = document.querySelectorAll('table:not(.columns-order-ignore)');
+      const tableIndex = Array.from(tables).indexOf($table);
+      tableName = `default-table--${tableIndex}`;
     }
+
     /* eslint-disable-next-line no-new */
     new TableColumns($table, tableName);
   });
