@@ -121,6 +121,10 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      * @return  boolean  True if this application is of the given type client interface.
      *
      * @since   4.0.0
+     *
+     * @deprecated  5.4 will be removed in 7.0 without replacement
+     *              Use an instanceof check instead:
+     *              $app instanceof SiteApplication/AdministratorApplication
      */
     public function isClient($identifier);
 
