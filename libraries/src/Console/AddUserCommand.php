@@ -306,8 +306,8 @@ class AddUserCommand extends AbstractCommand
     }
 
     /**
-     * @param int $groupId
-     * @return int|null
+     * @param   int  $groupId
+     * @return  int|null
      */
     protected function getGroupIdById(int $groupId): ?int
     {
