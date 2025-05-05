@@ -204,7 +204,6 @@ class MetasRenderer extends DocumentRenderer
             $buffer .= '>' . $lnEnd;
         }
 
-
         return ltrim($buffer, $tab);
     }
 }
