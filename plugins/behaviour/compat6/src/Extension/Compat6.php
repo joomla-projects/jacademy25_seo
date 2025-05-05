@@ -68,7 +68,7 @@ final class Compat6 extends CMSPlugin implements SubscriberInterface
          */
 
         /**
-         * Load class names which are deprecated in joomla 5.0 and which will
+         * Load class names which are deprecated since joomla 4.0 and which will
          * likely be removed in Joomla 7.0
          */
         if ($this->params->get('classes_aliases', '1')) {
