@@ -47,7 +47,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * Array of Header `<link rel="alternate" hreflang=".....">` tags
      *
      * @var    array
-     * @since   __DEPLOY_VERSION__
+     * @since  __DEPLOY_VERSION__
      */
     public $_hreflangs = [];
 
