@@ -361,7 +361,7 @@ class UpdateModel extends ListModel
                     if ($update->preupdatemessage->type == 'error') {
                         return;
                     }
-				}
+                }
             }
 
             // Find and use extra_query from update_site if available
