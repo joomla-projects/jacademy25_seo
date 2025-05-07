@@ -82,7 +82,7 @@ class ContenthistoryHelper
                 if (!\is_null($value) && $subObject = json_decode($value)) {
                     $object->$name = $subObject;
                 }
-                
+
                 if (!empty($value) && \is_string($value)) {
                     foreach ($attributes as $attribute) {
                         if (strpos($value, $attribute) !== false) {
