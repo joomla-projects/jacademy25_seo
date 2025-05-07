@@ -357,7 +357,7 @@ class UpdateModel extends ListModel
                     $app->enqueueMessage($update->preupdatemessage->_data);
                 } else {
                     $app->enqueueMessage($update->preupdatemessage->_data, $update->preupdatemessage->type);
-                    if ($update->preupdatemessage->type == 'error') {
+                    if ($update->preupdatemessage->type === 'error') {
                         return;
                     }
                 }
