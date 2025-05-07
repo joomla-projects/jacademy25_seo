@@ -72,32 +72,31 @@ class ContenthistoryHelper
      * @since   3.2
      */
     public static function decodeFields($jsonString)
-	{
-		$object = json_decode($jsonString);
+    {
+        $object = json_decode($jsonString);
+        if (\is_object($object)) {
+            $attributes = ['href=', 'src='];
+            $protocols  = '[a-zA-Z0-9\-]+:';
 
-	    if (\is_object($object)) {
-			$attributes = ['href=', 'src='];
-			$protocols  = '[a-zA-Z0-9\-]+:';
+            foreach ($object as $name => $value) {
+                if (!\is_null($value) && $subObject = json_decode($value)) {
+                    $object->$name = $subObject;
+                }
+                
+                if (!empty($value) && \is_string($value)) {
+                    foreach ($attributes as $attribute) {
+                        if (strpos($value, $attribute) !== false) {
+                            $regex  = '#\s' . $attribute . '"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
+                            $value  = preg_replace($regex, ' ' . $attribute . '"' . Uri::root() . '$1"', $value);
+                        }
+                    }
+                    $object->$name = $value;
+                }
+            }
+        }
 
-			foreach ($object as $name => $value) {
-				if (!\is_null($value) && $subObject = json_decode($value)) {
-					$object->$name = $subObject;
-				}
-
-				if (!empty($value) && \is_string($value)) {
-					foreach ($attributes as $attribute) {
-						if (strpos($value, $attribute) !== false) {
-							$regex  = '#\s' . $attribute . '"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
-							$value  = preg_replace($regex, ' ' . $attribute . '"' . Uri::root() . '$1"', $value);
-						}
-					}
-					$object->$name = $value;
-				}
-			}
-		}
-
-		return $object;
-	}
+        return $object;
+    }
 
     /**
      * Method to get field labels for the fields in the JSON-encoded object.
