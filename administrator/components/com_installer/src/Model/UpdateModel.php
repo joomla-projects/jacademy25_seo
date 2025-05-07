@@ -353,10 +353,9 @@ class UpdateModel extends ListModel
 
             // Handle optional message from update server administrator
             if (!empty($update->preupdatemessage->_data)) {
-                if(empty($update->preupdatemessage->type)) {
+                if (empty($update->preupdatemessage->type)) {
                     $app->enqueueMessage($update->preupdatemessage->_data);
-                }
-                else {
+                } else {
                     $app->enqueueMessage($update->preupdatemessage->_data, $update->preupdatemessage->type);
                     if ($update->preupdatemessage->type == 'error') {
                         return;
