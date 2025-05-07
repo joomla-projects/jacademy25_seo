@@ -75,7 +75,7 @@ class ContenthistoryHelper
 	{
 		$object = json_decode($jsonString);
 
-		if (\is_object($object)) {
+	    if (\is_object($object)) {
 			$attributes = ['href=', 'src='];
 			$protocols  = '[a-zA-Z0-9\-]+:';
 
