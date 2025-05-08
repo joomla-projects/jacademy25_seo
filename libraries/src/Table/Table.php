@@ -815,7 +815,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
         // Initialise the query.
         $query = $db->getQuery(true)
             ->select('*')
-            ->from($this->_db->quoteName($this->_tbl));
+            ->from($db->quoteName($this->_tbl));
         $fields = array_keys(ArrayHelper::fromObject($this, false));
 
         foreach ($keys as $field => $value) {
