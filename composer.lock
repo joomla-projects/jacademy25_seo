@@ -1590,12 +1590,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/di.git",
-                "reference": "ead38261a999edbf3efae56153930c0be42aaf07"
+                "reference": "cef2a97b10223912fefb8bddd97509f022579e86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/di/zipball/ead38261a999edbf3efae56153930c0be42aaf07",
-                "reference": "ead38261a999edbf3efae56153930c0be42aaf07",
+                "url": "https://api.github.com/repos/joomla-framework/di/zipball/cef2a97b10223912fefb8bddd97509f022579e86",
+                "reference": "cef2a97b10223912fefb8bddd97509f022579e86",
                 "shasum": ""
             },
             "require": {
@@ -1655,7 +1655,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-05-02T09:48:59+00:00"
+            "time": "2025-05-09T06:58:54+00:00"
         },
         {
             "name": "joomla/event",
