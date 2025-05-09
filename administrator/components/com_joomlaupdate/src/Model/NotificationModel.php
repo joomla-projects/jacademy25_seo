@@ -176,5 +176,4 @@ final class NotificationModel extends BaseDatabaseModel
 
         return $ret;
     }
-
 }
