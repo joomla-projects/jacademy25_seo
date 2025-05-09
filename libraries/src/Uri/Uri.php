@@ -148,7 +148,7 @@ class Uri extends \Joomla\Uri\Uri
             } elseif (str_contains(PHP_SAPI, 'cli')) {
                 // In CLI mode, the site base path can not be derived from the script name; the static path has to be used
                 static::$base['prefix'] = $uri->toString(['scheme', 'host', 'port']);
-                static::$base['path'] = rtrim($uri->toString(['path']), '/\\');
+                static::$base['path']   = rtrim($uri->toString(['path']), '/\\');
 
                 return $pathonly === false ? static::$base['prefix'] . static::$base['path'] . '/' : static::$base['path'];
             } else {

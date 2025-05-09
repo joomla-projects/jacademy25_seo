@@ -94,7 +94,7 @@ final class NotificationModel extends BaseDatabaseModel
      */
     private function getSuperUsers($email = null): array
     {
-        $db = $this->getDatabase();
+        $db     = $this->getDatabase();
         $emails = [];
 
         // Convert the email list to an array
@@ -116,10 +116,10 @@ final class NotificationModel extends BaseDatabaseModel
         $ret = [];
 
         try {
-            $rootId = (new Asset($db))->getRootId();
-            $rules = Access::getAssetRules($rootId)->getData();
+            $rootId    = (new Asset($db))->getRootId();
+            $rules     = Access::getAssetRules($rootId)->getData();
             $rawGroups = $rules['core.admin']->getData();
-            $groups = [];
+            $groups    = [];
 
             if (empty($rawGroups)) {
                 return $ret;
