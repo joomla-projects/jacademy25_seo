@@ -454,9 +454,9 @@ class ManageModel extends InstallerModel
         ];
 
         foreach (array_keys($entries) as $name) {
-            $field = $changelog->get($name);
+            $field = $changelog->$name;
             if ($field) {
-                $entries[$name] = $changelog->get($name)->data;
+                $entries[$name] = $changelog->{$name}->data;
             }
         }
 
