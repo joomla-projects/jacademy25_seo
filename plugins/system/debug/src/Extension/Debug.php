@@ -21,6 +21,7 @@ use Joomla\CMS\Event\Application\AfterRespondEvent;
 use Joomla\CMS\Event\Application\BeforeCompileHeadEvent;
 use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Event\Plugin\AjaxEvent;
+use Joomla\CMS\Event\SubscriberRegistrationCheckerInterface;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger\InMemoryLogger;
@@ -57,7 +58,7 @@ use Joomla\Plugin\System\Debug\Storage\FileStorage;
  *
  * @since  1.5
  */
-final class Debug extends CMSPlugin implements SubscriberInterface
+final class Debug extends CMSPlugin implements SubscriberInterface, SubscriberRegistrationCheckerInterface
 {
     use DatabaseAwareTrait;
 
@@ -227,6 +228,20 @@ final class Debug extends CMSPlugin implements SubscriberInterface
                 );
             }
         }
+    }
+
+    /**
+     * Check whether the Subscriber should be registered.
+     *
+     * @return bool
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function shouldRegisterListeners(): bool
+    {
+        $app = $this->getApplication();
+
+        return $app->get('debug') || $app->get('debug_lang');
     }
 
     /**
