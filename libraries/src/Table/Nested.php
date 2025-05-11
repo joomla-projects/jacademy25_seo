@@ -531,6 +531,7 @@ class Nested extends Table
 
         // If tracking assets, remove the asset first.
         $db = $this->getDatabase();
+
         if ($this->_trackAssets) {
             $name  = $this->_getAssetName();
             $asset = new Asset($db, $this->getDispatcher());
@@ -738,6 +739,7 @@ class Nested extends Table
 
                 // We are inserting a node relative to the last root node.
                 $db = $this->getDatabase();
+
                 if ($this->_location_id == 0) {
                     // Get the last root node as the reference node.
                     $query = $db->getQuery(true)
@@ -1654,6 +1656,7 @@ class Nested extends Table
         $buffer = '';
 
         $db = $this->getDatabase();
+
         if ($showQuery) {
             $buffer .= "\n" . htmlspecialchars($db->getQuery(), ENT_QUOTES, 'UTF-8') . $sep;
         }

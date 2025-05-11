@@ -97,6 +97,7 @@ class Update extends Table
         $where = [];
 
         $db = $this->getDatabase();
+
         foreach ($options as $col => $val) {
             $where[] = $col . ' = ' . $db->quote($val);
         }

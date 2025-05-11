@@ -344,6 +344,7 @@ class User extends Table
 
         // Insert or update the object based on presence of a key value.
         $db = $this->getDatabase();
+
         if ($key) {
             // Already have a table key, update the row.
             $db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);

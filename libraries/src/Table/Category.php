@@ -109,6 +109,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
 
         // This is a category under a category.
         $db = $this->getDatabase();
+
         if ($this->parent_id > 1) {
             // Build the query to get the asset id for the parent category.
             $query = $db->getQuery(true)
