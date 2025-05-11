@@ -264,8 +264,8 @@ class NewsfeedsModel extends ListModel
         // Filter by a single or group of tags.
         $tag = $this->getState('filter.tag');
 
-         // Run simplified query when filtering by one tag.
-         if (\is_array($tag) && \count($tag) === 1) {
+        // Run simplified query when filtering by one tag.
+        if (\is_array($tag) && \count($tag) === 1) {
             $tag = $tag[0];
         }
 
