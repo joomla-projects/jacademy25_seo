@@ -331,7 +331,7 @@ class ContactsModel extends ListModel
                     ->from($db->quoteName('#__contentitem_tag_map'))
                     ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_contact.contact'));
 
-                // Only show articles without tags
+                // Only show contacts without tags
                 $query->join(
                     'LEFT',
                     '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
