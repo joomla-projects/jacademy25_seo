@@ -359,8 +359,7 @@ class UpdateModel extends ListModel
                 } else {
                     $app->enqueueMessage($preupdatemessage, $update->preupdatemessage->type);
                     if ($update->preupdatemessage->type === 'error') {
-                        if (empty($preupdatemessage))
-                        {
+                        if (empty($preupdatemessage)) {
                             $preupdatemessage = strip_tags(Text::sprintf('COM_INSTALLER_UPDATE_ERROR', $instance->name, '', ''));
                             $app->enqueueMessage($preupdatemessage, 'error');
                         }
