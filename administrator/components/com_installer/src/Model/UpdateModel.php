@@ -353,11 +353,17 @@ class UpdateModel extends ListModel
 
             // Handle optional message from update server administrator
             if (!empty($update->preupdatemessage->_data)) {
+                $preupdatemessage = strip_tags($update->preupdatemessage->_data);
                 if (empty($update->preupdatemessage->type)) {
-                    $app->enqueueMessage($update->preupdatemessage->_data);
+                    $app->enqueueMessage($preupdatemessage);
                 } else {
-                    $app->enqueueMessage($update->preupdatemessage->_data, $update->preupdatemessage->type);
+                    $app->enqueueMessage($preupdatemessage, $update->preupdatemessage->type);
                     if ($update->preupdatemessage->type === 'error') {
+                        if (empty($preupdatemessage))
+                        {
+                            $preupdatemessage = strip_tags(Text::sprintf('COM_INSTALLER_UPDATE_ERROR', $instance->name, '', ''));
+                            $app->enqueueMessage($preupdatemessage, 'error');
+                        }
                         return;
                     }
                 }
