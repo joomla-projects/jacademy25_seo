@@ -355,13 +355,14 @@ class CategoriesModel extends ListModel
                 $includeNone ? 'LEFT' : 'INNER',
                 '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
                 $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-            );
+            )
+            ->bind(':typeAlias', $typeAlias);
 
             if ($includeNone) {
                 $subQuery2 = $db->getQuery(true)
                     ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                     ->from($db->quoteName('#__contentitem_tag_map'))
-                    ->where($db->quoteName('type_alias') . ' = :typeAlias');
+                    ->where($db->quoteName('type_alias') . ' = :typeAlias2');
                 $query->join(
                     'LEFT',
                     '(' . $subQuery2 . ') AS ' . $db->quoteName('tagmap2'),
@@ -371,7 +372,7 @@ class CategoriesModel extends ListModel
                     '(' . $db->quoteName('tagmap.content_item_id') . ' IS NOT NULL OR '
                     . $db->quoteName('tagmap2.content_item_id') . ' IS NULL)'
                 )
-                ->bind(':typeAlias', $typeAlias);
+                ->bind(':typeAlias2', $typeAlias);
             }
         } elseif (is_numeric($tag)) {
             $tag = (int) $tag;
