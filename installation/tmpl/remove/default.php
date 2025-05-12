@@ -189,7 +189,7 @@ HTMLHelper::_('behavior.formvalidator');
             <?php endif; ?>
                 <?php if ($this->development) : ?>
                     <div id="removeInstallationTab" class="flex-column">
-                        <p><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></p>
+                        <p class="alert alert-info text-center"><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></p>
                         <button id="removeInstallationFolder" class="btn btn-danger w-100"><?php echo Text::sprintf('INSTL_COMPLETE_REMOVE_FOLDER', 'installation'); ?></button>
                     </div>
                 <?php endif; ?>
