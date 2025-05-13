@@ -127,7 +127,7 @@ class Autoupdate extends CMSPlugin implements SubscriberInterface
 
         $result[] = [
             [
-                'link'  => 'index.php?option=com_config&view=component&component=com_joomlaupdate',
+                'link'  => 'index.php?option=com_config&view=component&component=com_joomlaupdate#automated-updates',
                 'image' => 'icon-health',
                 'icon'  => '',
                 'text'  => Text::_('PLG_QUICKICON_AUTOUPDATE_CHECKING'),
