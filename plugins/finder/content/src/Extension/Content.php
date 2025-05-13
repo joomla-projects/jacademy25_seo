@@ -328,7 +328,6 @@ final class Content extends Adapter implements SubscriberInterface
             $item->addInstruction(Indexer::META_CONTEXT, 'created_by_alias');
         }
 
-
         // Translate the state. Articles should only be published if the category is published.
         $item->state = $this->translateState($item->state, $item->cat_state);
 
