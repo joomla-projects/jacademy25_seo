@@ -51,7 +51,7 @@ final class Joomlaupdate extends CMSPlugin implements SubscriberInterface
      */
     public function onBeforeApiRoute(BeforeApiRouteEvent $event): void
     {
-        $router  = $event->getRouter();
+        $router   = $event->getRouter();
         $defaults = ['component' => 'com_joomlaupdate', 'public' => true];
 
         $routes = [
