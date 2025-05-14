@@ -27,7 +27,7 @@ use Tobscure\JsonApi\Resource;
 class JsonapiView extends BaseApiView
 {
     /**
-     * Generates the health check output
+     * Sends the update result notification
      *
      * @return string  The rendered data
      *
