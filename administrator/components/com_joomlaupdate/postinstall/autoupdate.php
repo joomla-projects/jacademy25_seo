@@ -44,6 +44,7 @@ function com_joomlaupdate_postinstall_autoupdate_condition(): bool
 function com_joomlaupdate_postinstall_autoupdate_action(): void
 {
     $db = Factory::getContainer()->get(DatabaseInterface::class);
+
     // Get extension row
     $extension   = new Extension($db);
     $extensionId = $extension->find(['element' => 'com_joomlaupdate']);

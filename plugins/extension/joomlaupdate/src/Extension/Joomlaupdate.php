@@ -77,8 +77,8 @@ final class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 
         $data = new Registry($table->params);
 
-        $autoupdateStatus         = (int)$data->get('autoupdate');
-        $autoupdateRegisterStatus = (int)$data->get('autoupdate_status');
+        $autoupdateStatus         = (int) $data->get('autoupdate');
+        $autoupdateRegisterStatus = (int) $data->get('autoupdate_status');
 
         if ($data->get('updatesource') !== 'default' || $data->get('minimum_stability') !== '4') {
             // If we are not using Joomla Update Server or not using Stable Version disable the autoupdate

@@ -89,6 +89,15 @@ class JsonapiView extends BaseApiView
         return $this->getDocument()->render();
     }
 
+    /**
+     * Run the finalize update steps 
+     *
+     * @param string $fromVersion The from version
+     *
+     * @return string  The rendered data
+     *
+     * @since  __DEPLOY_VERSION__
+     */
     public function finalizeUpdate($fromVersion)
     {
         /**
