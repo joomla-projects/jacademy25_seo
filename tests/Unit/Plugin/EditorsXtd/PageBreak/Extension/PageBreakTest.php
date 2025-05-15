@@ -127,7 +127,7 @@ class PageBreakTest extends UnitTestCase
 
         $dispatcher = new Dispatcher();
         $plugin     = new PageBreak($dispatcher, ['name' => 'pagebreak', 'type' => 'editors-xtd', 'params' => []]);
-        $app        = $this->createStub(CMSWebApplicationInterface::class);
+        $app        = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($this->createStub(Language::class));
         $plugin->setApplication($app);
         $plugin->onEditorButtonsSetup($event);
