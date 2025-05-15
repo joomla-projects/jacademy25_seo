@@ -83,6 +83,15 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
     protected $autoloadLanguage = false;
 
     /**
+     * Internal flag for autoloadLanguage feature.
+     *
+     * @var   boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private $autoloadLanguageDone = false;
+
+    /**
      * Should I try to detect and register legacy event listeners, i.e. methods which accept unwrapped arguments? While
      * this maintains a great degree of backwards compatibility to Joomla! 3.x-style plugins it is much slower. You are
      * advised to implement your plugins using proper Listeners, methods accepting an AbstractEvent as their sole
@@ -157,11 +166,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
             $this->_type = $config['type'];
         }
 
-        // Load the language files if needed.
-        if ($this->autoloadLanguage) {
-            $this->autoloadLanguage();
-        }
-
         if (property_exists($this, 'app')) {
             @trigger_error('The application should be injected through setApplication() and requested through getApplication().', E_USER_DEPRECATED);
             $reflection  = new \ReflectionClass($this);
@@ -180,6 +184,12 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
             if ($dbProperty->isPrivate() === false && \is_null($this->db)) {
                 $this->db = Factory::getDbo();
             }
+        }
+
+        // Load the language files if needed.
+        // It is required Application to be set, so we trying it here and in CMSPlugin::setApplication()
+        if ($this->autoloadLanguage && $this->getApplication()) {
+            $this->autoloadLanguage();
         }
     }
 
@@ -231,13 +241,17 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      *
      * @return void
      *
-     * @internal  The method does not expect to be called outside the CMSPlugin::__contructor()
+     * @internal  The method does not expect to be called outside the CMSPlugin class.
      *
      * @since   __DEPLOY_VERSION__
      */
     final protected function autoloadLanguage(): void
     {
-        $app = $this->getApplication() ?: Factory::getApplication();
+        if ($this->autoloadLanguageDone) {
+            return;
+        }
+
+        $app = $this->getApplication();
 
         // Check whether language already initialised in the Application, otherwise wait for it
         if (!$app->getLanguage()) {
@@ -247,6 +261,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         } else {
             $this->loadLanguage();
         }
+
+        $this->autoloadLanguageDone = true;
     }
 
     /**
@@ -451,6 +467,11 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
         if ($application->getLanguage()) {
             $this->setLanguage($application->getLanguage());
+        }
+
+        // Try to load the language files if it were not loaded in the constructor already.
+        if ($this->autoloadLanguage) {
+            $this->autoloadLanguage();
         }
     }
 
