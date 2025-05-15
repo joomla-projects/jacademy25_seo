@@ -105,7 +105,9 @@
 		/>
 		<field
 			name="update_last_check"
-			type="text"
+			type="calendar"
+			showtime="true"
+			filter="user_utc"
 			label="COM_JOOMLAUPDATE_CONFIG_UPDATE_LAST_CHECK_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_UPDATE_LAST_CHECK_DESC"
 			readonly="true"
