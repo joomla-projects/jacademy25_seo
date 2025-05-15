@@ -90,7 +90,7 @@ class JsonapiView extends BaseApiView
     }
 
     /**
-     * Run the finalize update steps 
+     * Run the finalize update steps
      *
      * @param string $fromVersion The from version
      *
