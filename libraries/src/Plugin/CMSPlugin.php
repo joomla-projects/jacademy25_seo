@@ -157,6 +157,11 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
             $this->_type = $config['type'];
         }
 
+        // Load the language files if needed.
+        if ($this->autoloadLanguage) {
+            $this->autoloadLanguage();
+        }
+
         if (property_exists($this, 'app')) {
             @trigger_error('The application should be injected through setApplication() and requested through getApplication().', E_USER_DEPRECATED);
             $reflection  = new \ReflectionClass($this);
@@ -222,21 +227,16 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
     }
 
     /**
-     * Method to handle language autoload feature.
-     * Called by PluginHelper::import() while loading the plugin.
+     * Method to handle language autoload feature in safe way, only when the language is initialised.
      *
      * @return void
      *
-     * @internal  The method does not expect to be called outside the PluginHelper::import()
+     * @internal  The method does not expect to be called outside the CMSPlugin::__contructor()
      *
      * @since   __DEPLOY_VERSION__
      */
-    final public function autoloadLanguage(): void
+    final protected function autoloadLanguage(): void
     {
-        if (!$this->autoloadLanguage) {
-            return;
-        }
-
         $app = $this->getApplication() ?: Factory::getApplication();
 
         // Check whether language already initialised in the Application, otherwise wait for it
