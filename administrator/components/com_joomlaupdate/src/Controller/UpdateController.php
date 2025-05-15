@@ -18,6 +18,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Updater\Updater;
 use Joomla\Component\Joomlaupdate\Administrator\Enum\AutoupdateRegisterState;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 
@@ -754,11 +755,14 @@ class UpdateController extends BaseController
             $this->app->close();
         }
 
-        // Default case: connection already active, check date
+        // Default case: connection already configured, check update source and date
         $lastCheck = date_create_from_format('Y-m-d H:i:s', $params->get('update_last_check', ''));
 
         $result = [
-            'active'  => (int) $params->get('autoupdate'),
+            'active'  => ((int) $params->get('autoupdate')
+                && $params->get('updatesource', 'default') === 'default'
+                && (int) $params->get('minimum_stability', Updater::STABILITY_STABLE) === Updater::STABILITY_STABLE
+            ),
             'healthy' => $lastCheck !== false && $lastCheck->diff(new \DateTime())->days < 4,
         ];
 
