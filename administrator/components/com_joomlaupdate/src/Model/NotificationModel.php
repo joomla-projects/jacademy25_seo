@@ -35,9 +35,9 @@ use Joomla\Registry\Registry;
 final class NotificationModel extends BaseDatabaseModel
 {
     /**
-     * Sends the update notification to the specificly configured emails and superusers
+     * Sends the update notification to the specifically configured emails and superusers
      *
-     * @param  string  $type            The type of notification to send. This is the last key for the mail template
+     * @param  string  $type        The type of notification to send. This is the last key for the mail template
      * @param  string  $oldVersion  The old version from before the update
      *
      * @return  void
