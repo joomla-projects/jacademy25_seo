@@ -759,7 +759,7 @@ class UpdateController extends BaseController
         $lastCheck = date_create_from_format('Y-m-d H:i:s', $params->get('update_last_check', ''));
 
         $result = [
-            'active'  => (
+            'active' => (
                 (int) $params->get('autoupdate')
                 && $params->get('updatesource', 'default') === 'default'
                 && (int) $params->get('minimum_stability', Updater::STABILITY_STABLE) === Updater::STABILITY_STABLE
