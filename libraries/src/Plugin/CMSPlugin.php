@@ -204,7 +204,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         $lang      = $app->getLanguage();
 
         if (!$lang) {
-            // @TODO: Throw an exception in Joomla 6
+            // @TODO: Throw an exception in Joomla 7
             @trigger_error(
                 \sprintf(
                     'Trying to load language before Application is initialised is discouraged. This will throw an exception in 7.0. Plugin "%s/%s"',
