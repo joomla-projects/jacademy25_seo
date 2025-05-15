@@ -54,7 +54,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.3.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -458,7 +458,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
             $author['@type'] = 'Person';
             $author['name']  = $article->created_by_alias ?: $article->author;
 
-            if ($article->params->get('link_author') == true && !empty($article->contact_link)) {
+            if ($article->params->get('link_author') && !empty($article->contact_link)) {
                 $author['url'] = $article->contact_link;
             }
 
