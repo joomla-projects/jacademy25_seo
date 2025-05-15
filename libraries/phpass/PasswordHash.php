@@ -2,7 +2,7 @@
 #
 # Portable PHP password hashing framework.
 #
-# Version 0.5 / genuine.
+# Version 0.5.1 / Joomla Project.
 #
 # Written by Solar Designer <solar at openwall.com> in 2004-2006 and placed in
 # the public domain.  Revised in subsequent years, still public domain.
