@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::_('behavior.formvalidator');
+$this->getDocument()->getWebAssetManager()->useScript('form.validate');
 
 $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 
