@@ -6,10 +6,10 @@ describe('Test that contenthistory for content category API endpoint', () => {
 
   it('can get the history of an existing article category', () => {
     cy.api_post('/content/categories', {
-        title: 'automated test content category',
-        description: 'automated test content category description',
-        parent_id: 1,
-        extension: 'com_content',
+      title: 'automated test content category',
+      description: 'automated test content category description',
+      parent_id: 1,
+      extension: 'com_content',
     })
       .then((category) => cy.api_get(`/content/category/${category.body.data.attributes.id}/contenthistory`))
       .then((response) => {
