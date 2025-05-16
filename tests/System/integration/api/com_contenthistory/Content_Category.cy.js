@@ -23,18 +23,9 @@ describe('Test that contenthistory for content category API endpoint', () => {
         historyEntries.forEach((entry) => {
           const { attributes } = entry;
 
-          // Access top-level attributes
-          const historyId = entry.id;
-          const saveDate = attributes.save_date;
-          const { editor } = attributes;
-          const characterCount = attributes.character_count;
-
           // Access nested `version_data`
           const versionData = attributes.version_data;
           const categoryTitle = versionData.title;
-          const { alias } = versionData;
-          const createdTime = versionData.created_time;
-          const modifiedTime = versionData.modified_time;
 
           // Perform assertions
           expect(attributes).to.have.property('editor_user_id');
