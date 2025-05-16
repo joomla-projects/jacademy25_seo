@@ -1,5 +1,5 @@
 describe('Test that contenthistory for content category API endpoint', () => {
-  beforeEach(() => {
+  afterEach(() => {
     cy.task('queryDB', "DELETE FROM #__categories WHERE title = 'automated test content category'");
     cy.task('queryDB', 'DELETE FROM #__history');
   });
@@ -18,7 +18,6 @@ describe('Test that contenthistory for content category API endpoint', () => {
 
         // Extract the `data` array
         const historyEntries = response.body.data;
-        cy.log(`History Entries: ${historyEntries.length}`);
 
         // Iterate through each history entry
         historyEntries.forEach((entry) => {
@@ -37,16 +36,6 @@ describe('Test that contenthistory for content category API endpoint', () => {
           const createdTime = versionData.created_time;
           const modifiedTime = versionData.modified_time;
 
-          // Log details for debugging
-          cy.log(`History ID: ${historyId}`);
-          cy.log(`Save Date: ${saveDate}`);
-          cy.log(`Editor: ${editor}`);
-          cy.log(`Character Count: ${characterCount}`);
-          cy.log(`Category Title: ${categoryTitle}`);
-          cy.log(`Alias: ${alias}`);
-          cy.log(`Created Time: ${createdTime}`);
-          cy.log(`Modified Time: ${modifiedTime}`);
-
           // Perform assertions
           expect(attributes).to.have.property('editor_user_id');
           expect(versionData).to.have.property('title');
@@ -57,7 +46,6 @@ describe('Test that contenthistory for content category API endpoint', () => {
         // Check the total pages from metadata
         const totalPages = response.body.meta['total-pages'];
         expect(totalPages).to.eq(1);
-        cy.log(`Total Pages: ${totalPages}`);
       });
   });
 });
