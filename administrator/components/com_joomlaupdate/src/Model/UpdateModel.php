@@ -1162,7 +1162,7 @@ ENDDATA;
             // Check if the Joomla 6 backwards compatibility plugin is enabled
             $option         = new \stdClass();
             $option->label  = Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPAT_PLUGIN_NEXT_ENABLED_TITLE', $nextMajorVersion);
-            $option->state  = PluginHelper::isEnabled('behaviour', 'compat');
+            $option->state  = PluginHelper::isEnabled('behaviour', 'compat6');
             $option->notice = $option->state ? null : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPAT_PLUGIN_NEXT_ENABLED_NOTICE');
             $options[]      = $option;
         }
