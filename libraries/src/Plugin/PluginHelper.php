@@ -239,7 +239,7 @@ abstract class PluginHelper
             return;
         }
 
-        // @TODO: Starting from 7.0 it should use $dispatcher->addSubscriber($plugin);, for plugins which implements SubscriberInterface.
+        // @TODO: Starting from 7.0 it should use $dispatcher->addSubscriber($plugin); for plugins which implement SubscriberInterface.
         $plugin->registerListeners();
     }
 
