@@ -501,6 +501,24 @@ class UpdateModel extends BaseDatabaseModel
     }
 
     /**
+     * Check if the hard conditions for an update are met
+     *
+     * @return boolean
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function getAutoUpdateRequirementsState(): bool
+    {
+        foreach ($this->getPhpOptions() as $option) {
+            if ($option->state !== true) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Download file and request password/filesize information
      *
      * @param string $targetVersion

@@ -38,8 +38,6 @@ class JsonapiView extends BaseApiView
      */
     public function getUpdate()
     {
-        $params = ComponentHelper::getParams('com_joomlaupdate');
-
         /**
          * @var UpdateModel $model
          */
@@ -51,6 +49,14 @@ class JsonapiView extends BaseApiView
             $latestVersion = null;
         }
 
+        // Check pre-update states, unset update if not matched
+        $preUpdateState = $model->getAutoUpdateRequirementsState();
+
+        if (!$preUpdateState) {
+            $latestVersion = null;
+        }
+
+        // Prepare response
         $element = (new Resource((object) ['availableUpdate' => $latestVersion, 'id' => 'getUpdate'], $this->serializer))
             ->fields(['updates' => ['availableUpdate']]);
 

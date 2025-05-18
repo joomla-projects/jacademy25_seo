@@ -735,7 +735,7 @@ class UpdateController extends BaseController
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
         // Edge case: the current state requires the registration, i.e. because it's a new installation
-        $registrationState = AutoupdateRegisterState::tryFrom($params->get('autoupdate_status', ''));
+        $registrationState = AutoupdateRegisterState::tryFrom($params->get('autoupdate_status', 0));
 
         if (
             $this->app->getIdentity()->authorise('core.admin', 'com_joomlaupdate')

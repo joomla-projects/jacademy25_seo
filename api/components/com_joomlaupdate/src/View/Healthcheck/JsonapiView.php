@@ -13,6 +13,7 @@ namespace Joomla\Component\Joomlaupdate\Api\View\Healthcheck;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 use Joomla\Database\DatabaseInterface;
 use Tobscure\JsonApi\Resource;
 
@@ -41,7 +42,7 @@ class JsonapiView extends BaseApiView
         $data['id'] = 'healthcheck';
 
         $element = (new Resource((object) $data, $this->serializer))
-            ->fields(['healthcheck' => ['php_version', 'db_type', 'db_version', 'cms_version', 'server_os']]);
+            ->fields(['healthcheck' => ['php_version', 'db_type', 'db_version', 'cms_version', 'server_os', 'update_requirement_state']]);
 
         $this->getDocument()->setData($element);
         $this->getDocument()->addLink('self', Uri::current());
@@ -60,12 +61,17 @@ class JsonapiView extends BaseApiView
     {
         $db = Factory::getContainer()->get(DatabaseInterface::class);
 
+        /** @var UpdateModel $updateModel */
+        $updateModel = Factory::getApplication()->bootComponent('com_joomlaupdate')
+            ->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
+
         $data = [
-            'php_version' => PHP_VERSION,
-            'db_type'     => $db->name,
-            'db_version'  => $db->getVersion(),
-            'cms_version' => JVERSION,
-            'server_os'   => php_uname('s') . ' ' . php_uname('r'),
+            'php_version'              => PHP_VERSION,
+            'db_type'                  => $db->name,
+            'db_version'               => $db->getVersion(),
+            'cms_version'              => JVERSION,
+            'server_os'                => php_uname('s') . ' ' . php_uname('r'),
+            'update_requirement_state' => $updateModel->getAutoUpdateRequirementsState()
         ];
 
         // Check if we have a MariaDB version string and extract the proper version from it
