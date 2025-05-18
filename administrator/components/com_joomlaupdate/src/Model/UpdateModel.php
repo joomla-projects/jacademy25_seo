@@ -560,6 +560,9 @@ class UpdateModel extends BaseDatabaseModel
      */
     public function changeAutoUpdateRegistration(AutoupdateRegisterState $targetState)
     {
+        // Purge cache - this makes sure that the changed status will already be available if the health check is performed
+        $this->cleanCache('_system');
+
         // Prepare connection
         $http = HttpFactory::getHttp();
 
