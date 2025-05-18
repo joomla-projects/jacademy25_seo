@@ -40,7 +40,7 @@ describe('Test that contenthistory for content category API endpoint', () => {
       });
   });
 
-   it('can delete the history of an existing article category', () => {
+  it('can delete the history of an existing article category', () => {
     cy.api_post('/content/categories', {
       title: 'automated test content category',
       description: 'automated test content category description',
@@ -57,10 +57,10 @@ describe('Test that contenthistory for content category API endpoint', () => {
 
         // Iterate through each history entry
         historyEntries.forEach((entry) => {
-
           // Access top-level attributes
           cy.api_delete(`/content/category/${entry.id}/contenthistory`)
             .then((result) => cy.wrap(result).its('status').should('equal', 204));
         });
+      });
   });
 });
