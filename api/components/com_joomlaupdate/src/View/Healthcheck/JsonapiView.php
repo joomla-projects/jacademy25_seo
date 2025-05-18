@@ -71,7 +71,7 @@ class JsonapiView extends BaseApiView
             'db_version'               => $db->getVersion(),
             'cms_version'              => JVERSION,
             'server_os'                => php_uname('s') . ' ' . php_uname('r'),
-            'update_requirement_state' => $updateModel->getAutoUpdateRequirementsState()
+            'update_requirement_state' => $updateModel->getAutoUpdateRequirementsState(),
         ];
 
         // Check if we have a MariaDB version string and extract the proper version from it
