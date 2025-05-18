@@ -39,4 +39,28 @@ describe('Test that contenthistory for content category API endpoint', () => {
         expect(totalPages).to.eq(1);
       });
   });
+
+   it('can delete the history of an existing article category', () => {
+    cy.api_post('/content/categories', {
+      title: 'automated test content category',
+      description: 'automated test content category description',
+      parent_id: 1,
+      extension: 'com_content',
+    })
+      .then((category) => cy.api_get(`/content/category/${category.body.data.attributes.id}/contenthistory`))
+      .then((response) => {
+        // Assert response status
+        expect(response.status).to.eq(200);
+
+        // Extract the `data` array
+        const historyEntries = response.body.data;
+
+        // Iterate through each history entry
+        historyEntries.forEach((entry) => {
+
+          // Access top-level attributes
+          cy.api_delete(`/content/category/${entry.id}/contenthistory`)
+            .then((result) => cy.wrap(result).its('status').should('equal', 204));
+        });
+  });
 });
