@@ -125,7 +125,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
     {
         /** @var Task $task */
         $task = $event->getArgument('subject');
-        $data = $this->getDataFromTask($event->getArgument('subject'));
+        $data = $this->getDataFromTask($task);
         $this->saveLog($data);
 
         if (!(int) $task->get('params.notifications.failure_mail', 1)) {
@@ -166,7 +166,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         $this->loadLanguage();
         $groups = $task->get('params.notifications.notification_orphan_groups', [8]);
 
-        $data = $this->getDataFromTask($event->getArgument('subject'));
+        $data = $this->getDataFromTask($task);
         $this->sendMail('plg_system_tasknotification.orphan_mail', $data, '', $groups);
     }
 
@@ -184,7 +184,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
     {
         /** @var Task $task */
         $task = $event->getArgument('subject');
-        $data = $this->getDataFromTask($event->getArgument('subject'));
+        $data = $this->getDataFromTask($task);
         $this->saveLog($data);
 
         if (!(int) $task->get('params.notifications.success_mail', 0)) {
@@ -243,7 +243,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         $this->loadLanguage();
         $groups = $task->get('params.notifications.notification_fatal_groups', [8]);
 
-        $data = $this->getDataFromTask($event->getArgument('subject'));
+        $data = $this->getDataFromTask($task);
         $this->sendMail('plg_system_tasknotification.fatal_recovery_mail', $data, '', $groups);
     }
 
