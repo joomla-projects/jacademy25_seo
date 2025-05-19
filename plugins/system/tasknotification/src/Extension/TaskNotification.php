@@ -266,7 +266,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
             'EXEC_DATE_TIME' => $lockOrExecTime,
             'TASK_OUTPUT'    => $task->getContent()['output_body'] ?? '',
             'TASK_TIMES'     => $task->get('times_executed'),
-            'TASK_DURATION'  => $task->getContent()['duration'],
+            'TASK_DURATION'  => $task->getContent()['duration'] ?? 0,
         ];
     }
 
@@ -356,7 +356,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         $obj           = new \stdClass();
         $obj->tasktype = SchedulerHelper::getTaskOptions()->findOption($taskInfo->type)->title ?? '';
         $obj->taskname = $data['TASK_TITLE'];
-        $obj->duration = $data['TASK_DURATION'] ?? 0;
+        $obj->duration = $data['TASK_DURATION'];
         $obj->jobid    = $data['TASK_ID'];
         $obj->exitcode = $data['EXIT_CODE'];
         $obj->taskid   = $data['TASK_TIMES'];
