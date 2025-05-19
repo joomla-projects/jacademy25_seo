@@ -18,6 +18,7 @@ use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseModelInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\TableInterface;
@@ -515,7 +516,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
 
         $model = $component->getMVCFactory()->createModel($modelName, $this->getApplication()->getName(), ['ignore_request' => true]);
 
-        if (!$model instanceof DatabaseAwareInterface || !method_exists($model, 'featured')) {
+        if (!($model instanceof DatabaseModelInterface || $model instanceof DatabaseAwareInterface) || !method_exists($model, 'featured')) {
             return false;
         }
 
