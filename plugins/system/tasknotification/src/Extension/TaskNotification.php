@@ -137,7 +137,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         $groups = $task->get('params.notifications.notification_failure_groups', [8]);
 
         // @todo safety checks, multiple files [?]
-        $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
+        $outFile = $task->getContent()['output_file'] ?? '';
         $this->sendMail('plg_system_tasknotification.failure_mail', $data, $outFile, $groups);
     }
 
@@ -196,7 +196,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         $groups = $task->get('params.notifications.notification_success_groups', [8]);
 
         // @todo safety checks, multiple files [?]
-        $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
+        $outFile = $task->getContent()['output_file'] ?? '';
         $this->sendMail('plg_system_tasknotification.success_mail', $data, $outFile, $groups);
     }
 
