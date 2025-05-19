@@ -134,7 +134,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Load translations
         $this->loadLanguage();
-        $groups = $task->get('params.notifications.notification_failure_groups');
+        $groups = $task->get('params.notifications.notification_failure_groups', [8]);
 
         // @todo safety checks, multiple files [?]
         $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
@@ -164,7 +164,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Load translations
         $this->loadLanguage();
-        $groups = $task->get('params.notifications.notification_orphan_groups');
+        $groups = $task->get('params.notifications.notification_orphan_groups', [8]);
 
         $data = $this->getDataFromTask($event->getArgument('subject'));
         $this->sendMail('plg_system_tasknotification.orphan_mail', $data, '', $groups);
@@ -193,7 +193,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Load translations
         $this->loadLanguage();
-        $groups = $task->get('params.notifications.notification_success_groups');
+        $groups = $task->get('params.notifications.notification_success_groups', [8]);
 
         // @todo safety checks, multiple files [?]
         $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
@@ -241,7 +241,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Load translations
         $this->loadLanguage();
-        $groups = $task->get('params.notifications.notification_fatal_groups');
+        $groups = $task->get('params.notifications.notification_fatal_groups', [8]);
 
         $data = $this->getDataFromTask($event->getArgument('subject'));
         $this->sendMail('plg_system_tasknotification.fatal_recovery_mail', $data, '', $groups);
