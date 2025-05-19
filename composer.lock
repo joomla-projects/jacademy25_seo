@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "56639ab836a78d0113b90cd46650b674",
+    "content-hash": "d889c982e4d7216005effc6d5b6635e5",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1507,12 +1507,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/heelc29/joomla-framework-database.git",
-                "reference": "7d947a8bd6783e5609798e30032499afcaa1073c"
+                "reference": "e36197cc7deaf2f467946e9bf6cd41213f7a2dc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/heelc29/joomla-framework-database/zipball/7d947a8bd6783e5609798e30032499afcaa1073c",
-                "reference": "7d947a8bd6783e5609798e30032499afcaa1073c",
+                "url": "https://api.github.com/repos/heelc29/joomla-framework-database/zipball/e36197cc7deaf2f467946e9bf6cd41213f7a2dc8",
+                "reference": "e36197cc7deaf2f467946e9bf6cd41213f7a2dc8",
                 "shasum": ""
             },
             "require": {
@@ -1572,7 +1572,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2025-03-15T14:14:26+00:00"
+            "time": "2025-05-19T20:41:40+00:00"
         },
         {
             "name": "joomla/di",
