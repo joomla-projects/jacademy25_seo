@@ -289,9 +289,12 @@ class ArticleController extends FormController
             $append .= '&' . $urlVar . '=' . $recordId;
         }
 
-        $itemId = $this->input->getInt('Itemid');
         $return = $this->getReturnPage();
         $catId  = $this->input->getInt('catid');
+        $itemId = $this->input->getInt('Itemid');
+        if ($this->input->exists('return_itemid')) {
+            $itemId = $this->input->getInt('return_itemid');
+        }
 
         if ($itemId) {
             $append .= '&Itemid=' . $itemId;
