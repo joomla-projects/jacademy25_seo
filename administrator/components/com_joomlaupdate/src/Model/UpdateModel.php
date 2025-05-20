@@ -1141,14 +1141,29 @@ ENDDATA;
         $options[]         = $option;
         $updateInformation = $this->getUpdateInformation();
 
-        // Check if configured database is compatible with the next major version of Joomla
+        // Extra checks when updating to the next major version of Joomla
         $nextMajorVersion = Version::MAJOR_VERSION + 1;
 
         if (version_compare($updateInformation['latest'], (string) $nextMajorVersion, '>=')) {
+            // Check if configured database is compatible with the next major version of Joomla
             $option         = new \stdClass();
             $option->label  = Text::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
             $option->state  = $this->isDatabaseTypeSupported();
             $option->notice = null;
+            $options[]      = $option;
+
+            // Check if the Joomla 5 backwards compatibility plugin is disabled
+            $option         = new \stdClass();
+            $option->label  = Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPAT_PLUGIN_DISABLED_TITLE', Version::MAJOR_VERSION);
+            $option->state  = !PluginHelper::isEnabled('behaviour', 'compat');
+            $option->notice = $option->state ? null : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPAT_PLUGIN_DISABLED_NOTICE');
+            $options[]      = $option;
+
+            // Check if the Joomla 6 backwards compatibility plugin is enabled
+            $option         = new \stdClass();
+            $option->label  = Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPAT_PLUGIN_NEXT_ENABLED_TITLE', $nextMajorVersion);
+            $option->state  = PluginHelper::isEnabled('behaviour', 'compat6');
+            $option->notice = $option->state ? null : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPAT_PLUGIN_NEXT_ENABLED_NOTICE');
             $options[]      = $option;
         }
 
