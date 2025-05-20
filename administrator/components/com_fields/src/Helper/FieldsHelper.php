@@ -9,7 +9,7 @@
  */
 
 namespace Joomla\Component\Fields\Administrator\Helper;
-
+ 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Form\Form;
