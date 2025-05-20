@@ -292,7 +292,8 @@ class ArticleController extends FormController
         $return = $this->getReturnPage();
         $catId  = $this->input->getInt('catid');
         $itemId = $this->input->getInt('Itemid');
-        if ($this->input->exists('return_itemid')) {
+
+        if (\in_array($this->getTask(), ['save2copy', 'apply'], true) && $this->input->exists('return_itemid')) {
             $itemId = $this->input->getInt('return_itemid');
         }
 
