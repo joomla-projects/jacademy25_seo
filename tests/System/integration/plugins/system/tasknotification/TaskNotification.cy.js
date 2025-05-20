@@ -3,7 +3,7 @@ beforeEach(() => {
   cy.doAdministratorLogin();
 });
 
-describe('Test that the tasknotification system plugin', () => {
+describe('Test that the task notification system plugin', () => {
   it('can display notification form', () => {
     cy.visit('/administrator/index.php?option=com_scheduler&view=tasks');
     cy.clickToolbarButton('New');
