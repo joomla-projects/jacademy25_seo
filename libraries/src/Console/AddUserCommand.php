@@ -287,8 +287,11 @@ class AddUserCommand extends AbstractCommand
     }
 
     /**
-     * @param  string  $groupName
+     * @param   string  $groupName
+     *
      * @return  int|null
+     * 
+     * @since   6.0.0
      */
     protected function getGroupIdByName(string $groupName): ?int
     {
