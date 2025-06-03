@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade" version="6.0">
+    <name>PLG_SYSTEM_JACADEMYSEO_OPENGRAPH</name>
+    <author>JacademySEO Team</author>
+    <creationDate>2025-06</creationDate>
+    <copyright>(C) 2025 JacademySEO. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later</license>
+    <authorEmail>support@jacademyseo.com</authorEmail>
+    <authorUrl>https://jacademyseo.com</authorUrl>
+    <version>1.0.0</version>
+	<description>PLG_SYSTEM_JACADEMYSEO_OPENGRAPH_DESCRIPTION</description>
+
+    <namespace path="src">JacademySEO\Plugin\System\Jacademyseo_Opengraph</namespace>
+
+    <files>
+        <folder plugin="jacademyseo_opengraph">src</folder>
+        <filename plugin="jacademyseo_opengraph">jacademyseo_opengraph.php</filename>
+        <filename>jacademyseo_opengraph.xml</filename>
+    </files>
+
+    <languages>
+        <language tag="en-GB">language/en-GB/plg_system_jacademyseo_opengraph.ini</language>
+        <language tag="en-GB">language/en-GB/plg_system_jacademyseo_opengraph.sys.ini</language>
+    </languages>
+
+    <config>
+        <fields name="params">
+            <fieldset name="global_og_settings" label="Global OG Settings">
+                <field
+                    name="enable_og_generation"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="PLG_SYSTEM_JACADEMYSEO_OPENGRAPH_ENABLE_OG_GENERATION"
+                    description="PLG_SYSTEM_JACADEMYSEO_OPENGRAPH_ENABLE_OG_GENERATION_DESC"
+                >
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field
+                    name="global_og_title"
+                    type="text"
+                    label="PLG_SYSTEM_JACADEMYSEO_OPENGRAPH_GLOBAL_OG_TITLE"
+                    description="PLG_SYSTEM_JACADEMYSEO_OPENGRAPH_GLOBAL_OG_TITLE_DESC"
+                    size="50"
+                    maxlength="255"
+                />
+
+                <field
+                    name="global_og_description"
+                    type="textarea"
+                    label="PLG_SYSTEM_JACADEMYSEO_OPENGRAPH_GLOBAL_OG_DESCRIPTION"
+                    description="PLG_SYSTEM_JACADEMYSEO_OPENGRAPH_GLOBAL_OG_DESCRIPTION_DESC"
+                    rows="3"
+                    cols="50"
+                    maxlength="300"
+                />
+
+                <field
+                    name="global_og_image"
+                    type="media"
+                    label="PLG_SYSTEM_JACADEMYSEO_OPENGRAPH_GLOBAL_OG_IMAGE"
+                    description="PLG_SYSTEM_JACADEMYSEO_OPENGRAPH_GLOBAL_OG_IMAGE_DESC"
+                    directory="images"
+                />
+
+                <field
+                    name="global_og_type"
+                    type="list"
+                    default="website"
+                    label="PLG_SYSTEM_JACADEMYSEO_OPENGRAPH_GLOBAL_OG_TYPE"
+                    description="PLG_SYSTEM_JACADEMYSEO_OPENGRAPH_GLOBAL_OG_TYPE_DESC"
+                >
+                    <option value="website">website</option>
+                    <option value="article">article</option>
+                    <option value="blog">blog</option>
+                    <option value="profile">profile</option>
+                    <option value="video">video</option>
+                    <option value="music">music</option>
+                    <option value="book">book</option>
+                    <option value="product">product</option>
+                    <option value="event">event</option>
+                </field>
+            </fieldset>
+
+            <fieldset name="override_settings" label="Override Settings">
+                <field
+                    name="enable_article_override"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="PLG_SYSTEM_JACADEMYSEO_OPENGRAPH_ENABLE_ARTICLE_OVERRIDE"
+                    description="PLG_SYSTEM_JACADEMYSEO_OPENGRAPH_ENABLE_ARTICLE_OVERRIDE_DESC"
+                >
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field
+                    name="enable_category_override"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="PLG_SYSTEM_JACADEMYSEO_OPENGRAPH_ENABLE_CATEGORY_OVERRIDE"
+                    description="PLG_SYSTEM_JACADEMYSEO_OPENGRAPH_ENABLE_CATEGORY_OVERRIDE_DESC"
+                >
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field
+                    name="fallback_to_site_logo"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="PLG_SYSTEM_JACADEMYSEO_OPENGRAPH_FALLBACK_TO_SITE_LOGO"
+                    description="PLG_SYSTEM_JACADEMYSEO_OPENGRAPH_FALLBACK_TO_SITE_LOGO_DESC"
+                >
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+            </fieldset>
+
+
+        </fields>
+    </config>
+
+    <updateservers>
+        <server type="extension" priority="1" name="JacademySEO Open Graph Plugin Updates">
+            <![CDATA[https://updates.jacademyseo.com/plg_system_jacademyseo_opengraph.xml]]>
+        </server>
+    </updateservers>
+</extension>
