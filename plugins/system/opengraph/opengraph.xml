@@ -13,6 +13,7 @@
 
     <files>
         <folder plugin="opengraph">src</folder>
+        <folder>services</folder>
         <filename>opengraph.xml</filename>
     </files>
 

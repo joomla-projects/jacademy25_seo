@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="params">
+        <fieldset name="og_category_settings"
+                  label="PLG_SYSTEM_OPENGRAPH_FIELDSET_CATEGORY"
+                  description="PLG_SYSTEM_OPENGRAPH_FIELDSET_CATEGORY_DESC">
+
+            <field name="og_title"
+                   type="text"
+                   label="PLG_SYSTEM_OPENGRAPH_OG_TITLE_LABEL"
+                   description="PLG_SYSTEM_OPENGRAPH_CATEGORY_TITLE_DESC"
+                   size="50"
+                   maxlength="60"
+                   class="form-control og-title-field"
+                   hint="PLG_SYSTEM_OPENGRAPH_CATEGORY_TITLE_HINT" />
+
+            <field name="og_title_counter"
+                   type="note"
+                   class="og-character-counter og-title-counter"
+                   description="PLG_SYSTEM_OPENGRAPH_TITLE_COUNTER_DESC" />
+
+            <field name="og_description"
+                   type="textarea"
+                   label="PLG_SYSTEM_OPENGRAPH_OG_DESCRIPTION_LABEL"
+                   description="PLG_SYSTEM_OPENGRAPH_CATEGORY_DESCRIPTION_DESC"
+                   rows="3"
+                   cols="50"
+                   maxlength="160"
+                   class="form-control og-description-field"
+                   hint="PLG_SYSTEM_OPENGRAPH_CATEGORY_DESCRIPTION_HINT" />
+
+            <field name="og_description_counter"
+                   type="note"
+                   class="og-character-counter og-description-counter"
+                   description="PLG_SYSTEM_OPENGRAPH_DESCRIPTION_COUNTER_DESC" />
+
+            <field name="og_image"
+                   type="media"
+                   label="PLG_SYSTEM_OPENGRAPH_OG_IMAGE_LABEL"
+                   description="PLG_SYSTEM_OPENGRAPH_CATEGORY_IMAGE_DESC"
+                   directory="images"
+                   class="form-control og-image-field" />
+
+            <field name="og_image_alt"
+                   type="text"
+                   label="PLG_SYSTEM_OPENGRAPH_OG_IMAGE_ALT_LABEL"
+                   description="PLG_SYSTEM_OPENGRAPH_OG_IMAGE_ALT_DESC"
+                   size="50"
+                   maxlength="125"
+                   class="form-control" />
+
+            <field name="og_type"
+                   type="list"
+                   label="PLG_SYSTEM_OPENGRAPH_OG_TYPE_LABEL"
+                   description="PLG_SYSTEM_OPENGRAPH_CATEGORY_TYPE_DESC"
+                   class="form-select">
+                <option value="">PLG_SYSTEM_OPENGRAPH_USE_DEFAULT</option>
+                <option value="website">PLG_SYSTEM_OPENGRAPH_TYPE_WEBSITE</option>
+                <option value="blog">PLG_SYSTEM_OPENGRAPH_TYPE_BLOG</option>
+                <option value="article">PLG_SYSTEM_OPENGRAPH_TYPE_ARTICLE</option>
+                <option value="video">PLG_SYSTEM_OPENGRAPH_TYPE_VIDEO</option>
+                <option value="music">PLG_SYSTEM_OPENGRAPH_TYPE_MUSIC</option>
+                <option value="book">PLG_SYSTEM_OPENGRAPH_TYPE_BOOK</option>
+                <option value="profile">PLG_SYSTEM_OPENGRAPH_TYPE_PROFILE</option>
+                <option value="product">PLG_SYSTEM_OPENGRAPH_TYPE_PRODUCT</option>
+                <option value="event">PLG_SYSTEM_OPENGRAPH_TYPE_EVENT</option>
+            </field>
+
+            <field name="og_inherit_parent"
+                   type="radio"
+                   label="PLG_SYSTEM_OPENGRAPH_INHERIT_PARENT_LABEL"
+                   description="PLG_SYSTEM_OPENGRAPH_INHERIT_PARENT_DESC"
+                   class="btn-group btn-group-yesno"
+                   default="0">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <field name="og_default_for_articles"
+                   type="radio"
+                   label="PLG_SYSTEM_OPENGRAPH_DEFAULT_ARTICLES_LABEL"
+                   description="PLG_SYSTEM_OPENGRAPH_DEFAULT_ARTICLES_DESC"
+                   class="btn-group btn-group-yesno"
+                   default="1">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <field name="og_url"
+                   type="url"
+                   label="PLG_SYSTEM_OPENGRAPH_OG_URL_LABEL"
+                   description="PLG_SYSTEM_OPENGRAPH_CATEGORY_URL_DESC"
+                   size="50"
+                   class="form-control"
+                   hint="PLG_SYSTEM_OPENGRAPH_CATEGORY_URL_HINT" />
+
+            <field name="og_enabled"
+                   type="radio"
+                   label="PLG_SYSTEM_OPENGRAPH_ENABLE_LABEL"
+                   description="PLG_SYSTEM_OPENGRAPH_CATEGORY_ENABLE_DESC"
+                   class="btn-group btn-group-yesno"
+                   default="">
+                <option value="">PLG_SYSTEM_OPENGRAPH_USE_DEFAULT</option>
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <field name="og_category_separator"
+                   type="spacer"
+                   label="PLG_SYSTEM_OPENGRAPH_CATEGORY_SPECIFIC_LABEL"
+                   class="text-info"
+                   hr="true" />
+
+            <field name="og_show_category_in_articles"
+                   type="radio"
+                   label="PLG_SYSTEM_OPENGRAPH_SHOW_CATEGORY_LABEL"
+                   description="PLG_SYSTEM_OPENGRAPH_SHOW_CATEGORY_DESC"
+                   class="btn-group btn-group-yesno"
+                   default="1">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <field name="og_use_category_keywords"
+                   type="radio"
+                   label="PLG_SYSTEM_OPENGRAPH_USE_KEYWORDS_LABEL"
+                   description="PLG_SYSTEM_OPENGRAPH_USE_KEYWORDS_DESC"
+                   class="btn-group btn-group-yesno"
+                   default="0">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <field name="og_inheritance_note"
+                   type="note"
+                   label="PLG_SYSTEM_OPENGRAPH_INHERITANCE_NOTE_LABEL"
+                   description="PLG_SYSTEM_OPENGRAPH_INHERITANCE_NOTE_DESC"
+                   class="alert alert-info" />
+        </fieldset>
+    </fields>
+
+
+</form>
