@@ -71,15 +71,15 @@
                     label="PLG_SYSTEM_OPENGRAPH_GLOBAL_OG_TYPE"
                     description="PLG_SYSTEM_OPENGRAPH_GLOBAL_OG_TYPE_DESC"
                 >
-                    <option value="website">website</option>
-                    <option value="article">article</option>
-                    <option value="blog">blog</option>
-                    <option value="profile">profile</option>
-                    <option value="video">video</option>
-                    <option value="music">music</option>
-                    <option value="book">book</option>
-                    <option value="product">product</option>
-                    <option value="event">event</option>
+                    <option value="website">PLG_SYSTEM_OPENGRAPH_TYPE_WEBSITE</option>
+                    <option value="article">PLG_SYSTEM_OPENGRAPH_TYPE_ARTICLE</option>
+                    <option value="blog">PLG_SYSTEM_OPENGRAPH_TYPE_BLOG</option>
+                    <option value="profile">PLG_SYSTEM_OPENGRAPH_TYPE_PROFILE</option>
+                    <option value="video">PLG_SYSTEM_OPENGRAPH_TYPE_VIDEO</option>
+                    <option value="music">PLG_SYSTEM_OPENGRAPH_TYPE_MUSIC</option>
+                    <option value="book">PLG_SYSTEM_OPENGRAPH_TYPE_BOOK</option>
+                    <option value="product">PLG_SYSTEM_OPENGRAPH_TYPE_PRODUCT</option>
+                    <option value="event">PLG_SYSTEM_OPENGRAPH_TYPE_EVENT</option>
                 </field>
             </fieldset>
 

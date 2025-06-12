@@ -15,27 +15,22 @@ use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Document\HtmlDocument;
+use Joomla\CMS\Table\Table;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Uri\Uri;
 
-// phpcs:disable PSR1.Files.SideEffects
+
+
+
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
-
-
-/**
- * OpenGraph Metadata plugin.
- *
- * @since  __DEPLOY_VERSION__
- */
 
 final class Opengraph extends CMSPlugin implements SubscriberInterface
 {
-    /**
-     * Returns an array of events this subscriber will listen to.
-     *
-     * @return  array
-     *
-     * @since   __DEPLOY_VERSION__
-     */
+    protected $app;
+    protected $autoloadLanguage = true;
+
     public static function getSubscribedEvents(): array
     {
         return [
@@ -44,53 +39,43 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         ];
     }
 
-    /**
-     * Application object
-     *
-     * @var    CMSApplication
-     * @since  __DEPLOY_VERSION__
-     */
-    protected $app;
-
-    /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     * @since  __DEPLOY_VERSION__
-     */
-    protected $autoloadLanguage = true;
-
-    /**
-     * Method to handle the onBeforeCompileHead event
-     *
-     * @param   BeforeCompileHeadEvent  $event  The event object
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function onBeforeCompileHead(BeforeCompileHeadEvent $event)
+    public function onBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
         $app = $this->getApplication();
 
-        // Only run in frontend
         if (!$app->isClient('site')) {
             return;
         }
 
-        // Will add OpenGraph meta tags logic here in the future
-        // This method will be called to generate OpenGraph tags
+        $input = $app->input;
+        $option = $input->get('option', '', 'cmd');
+        $view = $input->get('view', '', 'cmd');
+        $id = $input->getInt('id');
+
+        if ($option !== 'com_content' || $view !== 'article' || !$id) {
+            return;
+        }
+
+        $table = Table::getInstance('Content');
+        if (!$table->load($id)) {
+            return;
+        }
+
+        $attribs = new Registry($table->attribs);
+
+        if ($attribs->get('og_enabled', '') === '0') {
+            return;
+        }
+
+        $document = $this->app->getDocument();
+
+        if (!$document instanceof HtmlDocument) {
+            return;
+        }
+
+        $this->injectOpenGraphData($document, $attribs);
     }
 
-    /**
-     * Method to add OpenGraph fields to content forms
-     *
-     * @param   PrepareFormEvent  $event  The event object.
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
     public function onContentPrepareForm(PrepareFormEvent $event): void
     {
         $app = $this->getApplication();
@@ -100,55 +85,61 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         }
 
         $form = $event->getForm();
-        $data = $event->getData();
-
         $name = $form->getName();
 
-
-
-        // Check if it's the article form
         if ($name === 'com_content.article') {
-            $xmlFile = __DIR__ . '/../Forms/Article/Article.xml';
-            if (file_exists($xmlFile)) {
-                $result = $form->loadFile($xmlFile, false);
-
-            }
-        }
-
-        // Check if it's the category form
-        if (strpos($name, 'com_categories.category') === 0) {
-            $extension = '';
-
-            // Extract extension from form name if it's concatenated
-            if ($name === 'com_categories.categorycom_content') {
-                $extension = 'com_content';
-            } else {
-                // Try to get extension from different sources
-                if (is_object($data) && isset($data->extension)) {
-                    $extension = $data->extension;
-                } elseif (is_array($data) && isset($data['extension'])) {
-                    $extension = $data['extension'];
-                } else {
-                    $extension = $form->getValue('extension');
-                }
-
-                // If still empty, try from request
-                if (empty($extension)) {
-                    $input = $this->getApplication()->input;
-                    $extension = $input->get('extension', '', 'cmd');
-                }
-            }
-
-
-
-            // Load form only for content categories
-            if ($extension === 'com_content') {
-                $xmlFile = __DIR__ . '/../Forms/Category/Category.xml';
-                if (file_exists($xmlFile)) {
-                    $result = $form->loadFile($xmlFile, false);
-
-                }
+            $xml = __DIR__ . '/../forms/opengraph.xml';
+            if (file_exists($xml)) {
+                $form->loadFile($xml, false);
             }
         }
     }
+
+    private function injectOpenGraphData(Document $document, Registry $params): void
+    {
+
+
+        $this->setMetaData($document, 'og:title', $params->get('og_title'), 'property');
+        $this->setMetaData($document, 'og:description', $params->get('og_description'), 'property');
+        $this->setMetaData($document, 'og:type', $params->get('og_type'), 'property');
+
+
+        $this->setMetaData($document, 'twitter:card', $params->get('twitter_card'), 'name');
+        $this->setMetaData($document, 'twitter:title', $params->get('twitter_title'), 'name');
+        $this->setMetaData($document, 'twitter:description', $params->get('twitter_description'), 'name');
+
+        $this->setMetaData($document, 'fb:app_id', $params->get('fb_app_id'), 'property');
+
+        $this->setOpenGraphImage(
+            $document,
+            $params->get('og_image'),
+            $params->get('og_image_alt'),
+            Uri::base()
+        );
+
+
+    }
+
+    private function setMetaData(Document $document, string $name, ?string $value, string $attributeType): void
+    {
+        if (!empty($value)) {
+            $document->setMetaData($name, $value, $attributeType);
+        }
+    }
+
+    private function setOpenGraphImage(Document $document, ?string $image, ?string $alt = '', ?string $baseUrl = ''): void
+    {
+        if (empty($image)) {
+            return;
+        }
+
+        $url = rtrim((string) $baseUrl, '/') . '/' . ltrim($image, '/');
+
+        $this->setMetaData($document, 'og:image', $url, 'property');
+        $this->setMetaData($document, 'og:image:alt', $alt, 'property');
+        $this->setMetaData($document, 'twitter:image', $url, 'name');
+        $this->setMetaData($document, 'twitter:image:alt', $alt, 'name');
+    }
+
+
 }

@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
     <fields name="attribs">
-        <fieldset name="ogsettings" label="PLG_SYSTEM_OPENGRAPH_FIELDSET_ARTICLE"
+        <fieldset name="ogsettings"
+                  label="PLG_SYSTEM_OPENGRAPH_FIELDSET_ARTICLE"
                   description="PLG_SYSTEM_OPENGRAPH_FIELDSET_ARTICLE_DESC">
+
+
+            <field name="og_override"
+                   type="radio"
+                   label="Override Title and Description?"
+                   description="Enable this to use custom OG title and description instead of the article's default title and meta description."
+                   class="btn-group btn-group-yesno"
+                   default="0">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
 
             <field name="og_title"
                    type="text"
                    label="PLG_SYSTEM_OPENGRAPH_OG_TITLE_LABEL"
                    description="PLG_SYSTEM_OPENGRAPH_OG_TITLE_DESC"
-                   size="50"
-                   maxlength="60"
-                   class="form-control og-title-field"
-                   hint="PLG_SYSTEM_OPENGRAPH_OG_TITLE_HINT" />
-
-            <field name="og_title_counter"
-                   type="note"
-                   class="og-character-counter"
-                   description="PLG_SYSTEM_OPENGRAPH_TITLE_COUNTER_DESC" />
+                   hint="PLG_SYSTEM_OPENGRAPH_OG_TITLE_HINT"
+                   class="form-control"
+                   showon="og_override:1" />
 
             <field name="og_description"
                    type="textarea"
                    label="PLG_SYSTEM_OPENGRAPH_OG_DESCRIPTION_LABEL"
                    description="PLG_SYSTEM_OPENGRAPH_OG_DESCRIPTION_DESC"
-                   rows="3"
-                   cols="50"
-                   maxlength="160"
-                   class="form-control og-description-field"
-                   hint="PLG_SYSTEM_OPENGRAPH_OG_DESCRIPTION_HINT" />
+                   hint="PLG_SYSTEM_OPENGRAPH_OG_DESCRIPTION_HINT"
+                   class="form-control"
+                   showon="og_override:1" />
 
-            <field name="og_description_counter"
-                   type="note"
-                   class="og-character-counter"
-                   description="PLG_SYSTEM_OPENGRAPH_DESCRIPTION_COUNTER_DESC" />
 
             <field name="og_image"
                    type="media"
@@ -44,9 +44,9 @@
                    type="text"
                    label="PLG_SYSTEM_OPENGRAPH_OG_IMAGE_ALT_LABEL"
                    description="PLG_SYSTEM_OPENGRAPH_OG_IMAGE_ALT_DESC"
-                   size="50"
-                   maxlength="125"
+		     hint="PLG_SYSTEM_OPENGRAPH_OG_IMAGE_ALT_HINT"
                    class="form-control" />
+
 
             <field name="og_type"
                    type="list"
@@ -66,21 +66,13 @@
                 <option value="event">PLG_SYSTEM_OPENGRAPH_TYPE_EVENT</option>
             </field>
 
-            <field name="og_article_section"
-                   type="text"
-                   label="PLG_SYSTEM_OPENGRAPH_ARTICLE_SECTION_LABEL"
-                   description="PLG_SYSTEM_OPENGRAPH_ARTICLE_SECTION_DESC"
-                   size="50"
-                   hint="PLG_SYSTEM_OPENGRAPH_ARTICLE_SECTION_HINT"
-                   class="form-control" />
-
             <field name="og_url"
                    type="url"
                    label="PLG_SYSTEM_OPENGRAPH_OG_URL_LABEL"
                    description="PLG_SYSTEM_OPENGRAPH_OG_URL_DESC"
-                   size="50"
-                   class="form-control"
-                   hint="PLG_SYSTEM_OPENGRAPH_OG_URL_HINT" />
+                   hint="PLG_SYSTEM_OPENGRAPH_OG_URL_HINT"
+                   class="form-control" />
+
 
             <field name="og_enabled"
                    type="radio"
@@ -93,11 +85,50 @@
                 <option value="0">JNO</option>
             </field>
 
-            <field name="og_priority_note"
-                   type="note"
-                   label="PLG_SYSTEM_OPENGRAPH_PRIORITY_NOTE_LABEL"
-                   description="PLG_SYSTEM_OPENGRAPH_PRIORITY_NOTE_DESC"
-                   class="alert alert-info" />
+
+            <field name="show_advanced"
+                   type="radio"
+                   label="PLG_SYSTEM_OPENGRAPH_SHOW_ADVANCED_LABEL"
+                   description="PLG_SYSTEM_OPENGRAPH_SHOW_ADVANCED_DESC"
+                   class="btn-group btn-group-yesno"
+                   default="0">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+
+            <field name="twitter_card"
+                   type="list"
+                   label="PLG_SYSTEM_OPENGRAPH_TWITTER_CARD_LABEL"
+                   showon="show_advanced:1">
+                <option value="summary">Summary</option>
+                <option value="summary_large_image">Large Image</option>
+            </field>
+
+            <field name="twitter_title"
+                   type="text"
+                   label="PLG_SYSTEM_OPENGRAPH_TWITTER_TITLE_LABEL"
+		     	hint="PLG_SYSTEM_OPENGRAPH_TWITTER_TITLE_HINT"
+                   showon="show_advanced:1" />
+
+            <field name="twitter_description"
+                   type="textarea"
+                   label="PLG_SYSTEM_OPENGRAPH_TWITTER_DESC_LABEL"
+                   hint="PLG_SYSTEM_OPENGRAPH_TWITTER_DESC_HINT"
+                   showon="show_advanced:1" />
+
+            <field name="twitter_image"
+                   type="media"
+                   label="PLG_SYSTEM_OPENGRAPH_TWITTER_IMAGE_LABEL"
+                   showon="show_advanced:1" />
+
+            <field name="fb_app_id"
+                   type="text"
+                   label="PLG_SYSTEM_OPENGRAPH_FB_APP_ID_LABEL"
+                   showon="show_advanced:1" />
+
+
+
 
         </fieldset>
     </fields>
