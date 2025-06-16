@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.Opengraph
@@ -24,13 +25,41 @@ use Joomla\CMS\Uri\Uri;
 
 
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
+/**
+ * OpenGraph Metadata plugin.
+ *
+ * @since  __DEPLOY_VERSION__
+ */
+
 
 final class Opengraph extends CMSPlugin implements SubscriberInterface
 {
+
+    /**
+     * The application object.
+     *
+     * @var CMSApplication
+     */
     protected $app;
+
+    /**
+     * Should the plugin autoload its language files.
+     *
+     * @var bool
+     */
     protected $autoloadLanguage = true;
 
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -38,7 +67,13 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             'onContentPrepareForm' => 'onContentPrepareForm',
         ];
     }
-
+    /**
+     * Handle the beforeCompileHead event.
+     *
+     * @param BeforeCompileHeadEvent $event
+     *
+     * @return void
+     */
     public function onBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
         $app = $this->getApplication();
@@ -51,6 +86,9 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $option = $input->get('option', '', 'cmd');
         $view = $input->get('view', '', 'cmd');
         $id = $input->getInt('id');
+
+
+        // @todo: will be changed in future to support other components
 
         if ($option !== 'com_content' || $view !== 'article' || !$id) {
             return;
@@ -76,6 +114,13 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $this->injectOpenGraphData($document, $attribs);
     }
 
+    /**
+     * Handle the onContentPrepareForm event.
+     *
+     * @param PrepareFormEvent $event
+     *
+     * @return void
+     */
     public function onContentPrepareForm(PrepareFormEvent $event): void
     {
         $app = $this->getApplication();
@@ -95,6 +140,14 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         }
     }
 
+    /**
+     * Inject the OpenGraph data into the document.
+     *
+     * @param Document $document
+     * @param Registry $params
+     *
+     * @return void
+     */
     private function injectOpenGraphData(Document $document, Registry $params): void
     {
 
@@ -116,10 +169,18 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             $params->get('og_image_alt'),
             Uri::base()
         );
-
-
     }
 
+    /**
+     * Set metadata tag in document.
+     *
+     * @param Document $document
+     * @param string $name
+     * @param string|null $value
+     * @param string $attributeType
+     *
+     * @return void
+     */
     private function setMetaData(Document $document, string $name, ?string $value, string $attributeType): void
     {
         if (!empty($value)) {
@@ -127,6 +188,16 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         }
     }
 
+    /**
+     * Set OpenGraph Image tag in document.
+     *
+     * @param Document $document
+     * @param string|null $image
+     * @param string|null $alt
+     * @param string|null $baseUrl
+     *
+     * @return void
+     */
     private function setOpenGraphImage(Document $document, ?string $image, ?string $alt = '', ?string $baseUrl = ''): void
     {
         if (empty($image)) {
@@ -140,6 +211,4 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $this->setMetaData($document, 'twitter:image', $url, 'name');
         $this->setMetaData($document, 'twitter:image:alt', $alt, 'name');
     }
-
-
 }
