@@ -132,11 +132,20 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $form = $event->getForm();
         $name = $form->getName();
 
-        if ($name === 'com_content.article') {
-            $xml = __DIR__ . '/../forms/opengraph.xml';
-            if (file_exists($xml)) {
-                $form->loadFile($xml, false);
-            }
+        //todo : replace with interface check
+        $supportedForms = [
+            'com_content.article',
+            'com_categories.categorycom_content',
+            'com_menus.item'
+        ];
+
+        if (!in_array($name, $supportedForms, true)) {
+            return;
+        }
+
+        $xml = __DIR__ . '/../forms/opengraph.xml';
+        if (file_exists($xml)) {
+            $form->loadFile($xml, false);
         }
     }
 

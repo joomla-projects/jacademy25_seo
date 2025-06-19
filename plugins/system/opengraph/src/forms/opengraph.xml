@@ -3,9 +3,10 @@
     <fieldset name="opengraph"
               label="PLG_SYSTEM_OPENGRAPH_FIELDSET_ARTICLE">
         <fieldset name="opengraph_field_mapping"
-                  label="PLG_SYSTEM_OPENGRAPH_FIELD_MAPPING_SECTION">
+                  label="PLG_SYSTEM_OPENGRAPH_FIELD_MAPPING_SECTION"
+                  addfieldprefix="Joomla\Plugin\System\Opengraph\Field">
             <field name="og_title_field"
-                   type="list"
+                   type="opengraph"
                    label="PLG_SYSTEM_OPENGRAPH_TITLE_FIELD_LABEL"
                    description="PLG_SYSTEM_OPENGRAPH_TITLE_FIELD_DESC"
                    class="form-select">

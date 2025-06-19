@@ -25,6 +25,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper as LibraryContentHelper;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Opengraph\OpengraphServiceInterface;
 use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
 use Joomla\CMS\Schemaorg\SchemaorgServiceTrait;
 use Joomla\CMS\Tag\TagServiceInterface;
@@ -53,7 +54,8 @@ class ContentComponent extends MVCComponent implements
     SchemaorgServiceInterface,
     WorkflowServiceInterface,
     RouterServiceInterface,
-    TagServiceInterface
+    TagServiceInterface,
+    OpengraphServiceInterface
 {
     use AssociationServiceTrait;
     use RouterServiceTrait;
@@ -204,6 +206,30 @@ class ContentComponent extends MVCComponent implements
         return $contexts;
     }
 
+
+    /**
+     * Returns valid contexts for opengraph
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getOpengraphFields(): array
+    {
+        Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+
+        $fields = [
+            'title' => Text::_('JGLOBAL_TITLE'),
+            'articletext' => Text::_('COM_CONTENT_FIELD_ARTICLETEXT_LABEL'),
+
+            // 'image_intro' => Text::_('COM_CONTENT_FIELD_INTRO_LABEL'),
+            // 'image_intro_alt' => Text::_('COM_CONTENT_FIELD_ARTICLETEXT_LABEL'),
+        ];
+
+        return $fields;
+    }
+
+
     /**
      * Returns valid contexts
      *
@@ -295,7 +321,6 @@ class ContentComponent extends MVCComponent implements
 
         return ucfirst($modelname);
     }
-
     /**
      * Method to filter transitions by given id of state.
      *
