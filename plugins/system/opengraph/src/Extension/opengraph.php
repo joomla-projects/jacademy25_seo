@@ -20,6 +20,7 @@ use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Opengraph\OpengraphServiceInterface;
 use Joomla\CMS\Uri\Uri;
 
 
@@ -131,15 +132,8 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
 
         $form = $event->getForm();
         $name = $form->getName();
-
-        //todo : replace with interface check
-        $supportedForms = [
-            'com_content.article',
-            'com_categories.categorycom_content',
-            'com_menus.item'
-        ];
-
-        if (!in_array($name, $supportedForms, true)) {
+        $component = $app->bootComponent('com_content');
+        if (!$component instanceof OpengraphServiceInterface) {
             return;
         }
 
