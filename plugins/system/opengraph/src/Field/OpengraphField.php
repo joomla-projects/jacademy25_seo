@@ -12,6 +12,7 @@ namespace Joomla\Plugin\System\Opengraph\Field;
 use Joomla\CMS\Extension\Component;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Opengraph\OpengraphServiceInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -56,13 +57,7 @@ class OpengraphField extends ListField
 
         $fields = $component->getOpengraphFields();
         foreach ($fields as $value => $text) {
-            $tmp = [
-                'value'    => $value,
-                'text'     => $text
-
-            ];
-            //todo : ordering of the fields
-            array_unshift($options, $tmp);
+            $options[] = HTMLHelper::_('select.option', $value, $text);
         }
 
         return $options;

@@ -13,21 +13,28 @@
                 <option value="">PLG_SYSTEM_OPENGRAPH_NO_FIELD_SELECTED</option>
             </field>
             <field name="og_description_field"
-                   type="list"
+                   type="opengraph"
                    label="PLG_SYSTEM_OPENGRAPH_DESCRIPTION_FIELD_LABEL"
                    description="PLG_SYSTEM_OPENGRAPH_DESCRIPTION_FIELD_DESC"
                    class="form-select">
                 <option value="">PLG_SYSTEM_OPENGRAPH_NO_FIELD_SELECTED</option>
             </field>
             <field name="og_image_field"
-                   type="list"
+                   type="opengraph"
                    label="PLG_SYSTEM_OPENGRAPH_IMAGE_FIELD_LABEL"
                    description="PLG_SYSTEM_OPENGRAPH_IMAGE_FIELD_DESC"
                    class="form-select">
                 <option value="">PLG_SYSTEM_OPENGRAPH_NO_FIELD_SELECTED</option>
             </field>
+            <field name="og_image_alt_field"
+                   type="opengraph"
+                   label="PLG_SYSTEM_OPENGRAPH_IMAGE_ALT_FIELD_LABEL"
+                   description="PLG_SYSTEM_OPENGRAPH_IMAGE_ALT_FIELD_DESC"
+                   class="form-select">
+                <option value="">PLG_SYSTEM_OPENGRAPH_NO_FIELD_SELECTED</option>
+            </field>
             <field name="og_type_field"
-                   type="list"
+                   type="opengraph"
                    label="PLG_SYSTEM_OPENGRAPH_TYPE_FIELD_LABEL"
                    description="PLG_SYSTEM_OPENGRAPH_TYPE_FIELD_DESC"
                    class="form-select">

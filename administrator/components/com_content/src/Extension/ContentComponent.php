@@ -219,11 +219,40 @@ class ContentComponent extends MVCComponent implements
         Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
         $fields = [
+            // Core Content Fields
             'title' => Text::_('JGLOBAL_TITLE'),
             'articletext' => Text::_('COM_CONTENT_FIELD_ARTICLETEXT_LABEL'),
+            'alias' => Text::_('JFIELD_ALIAS_LABEL'),
 
-            // 'image_intro' => Text::_('COM_CONTENT_FIELD_INTRO_LABEL'),
-            // 'image_intro_alt' => Text::_('COM_CONTENT_FIELD_ARTICLETEXT_LABEL'),
+            // Image Fields
+            'image_intro' => Text::_('COM_CONTENT_FIELD_INTRO_LABEL'),
+            'image_intro_alt' => Text::_('COM_CONTENT_FIELD_IMAGE_ALT_LABEL'),
+            'image_fulltext' => Text::_('COM_CONTENT_FIELD_FULL_LABEL'),
+            'image_fulltext_alt' => Text::_('COM_CONTENT_FIELD_IMAGE_ALT_LABEL'),
+
+            // Meta Fields for OpenGraph
+            'metadesc' => Text::_('JFIELD_META_DESCRIPTION_LABEL'),
+            'metakey' => Text::_('JFIELD_META_KEYWORDS_LABEL'),
+
+
+            // Date/Time Fields
+            'created' => Text::_('COM_CONTENT_FIELD_CREATED_LABEL'),
+            'modified' => Text::_('JGLOBAL_FIELD_MODIFIED_LABEL'),
+
+            // Author Fields
+            'created_by' => Text::_('COM_CONTENT_FIELD_CREATED_BY_LABEL'),
+            'created_by_alias' => Text::_('COM_CONTENT_FIELD_CREATED_BY_ALIAS_LABEL'),
+
+            // Category & Organization
+            'catid' => Text::_('JCATEGORY'),
+            'tags' => Text::_('JTAG'),
+
+            // Localization
+            'language' => Text::_('JFIELD_LANGUAGE_LABEL'),
+
+            // Publishing Fields
+            'publish_up' => Text::_('COM_CONTENT_FIELD_PUBLISH_UP_LABEL'),
+            'publish_down' => Text::_('COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL'),
         ];
 
         return $fields;
