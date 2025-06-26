@@ -9,7 +9,7 @@
 
 namespace Joomla\Plugin\System\Opengraph\Field;
 
-use Joomla\CMS\Extension\Component;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -46,20 +46,24 @@ class OpengraphField extends ListField
      */
     protected function getOptions()
     {
+        $app = Factory::getApplication();
+        $options = parent::getOptions();
 
-        $app =  Factory::getApplication();
-        $options   = parent::getOptions();
-        //todo : make this more modular or flexible
+
         $component = $app->bootComponent('com_content');
+
         if (!$component instanceof OpengraphServiceInterface) {
             return $options;
         }
 
         $fields = $component->getOpengraphFields();
-        foreach ($fields as $value => $text) {
-            $options[] = HTMLHelper::_('select.option', $value, $text);
-        }
+        $fieldType = $this->getAttribute('field-type');
 
+        if (isset($fields[$fieldType])) {
+            foreach ($fields[$fieldType] as $value => $text) {
+                $options[] = HTMLHelper::_('select.option', $value, $text);
+            }
+        }
         return $options;
     }
 }
