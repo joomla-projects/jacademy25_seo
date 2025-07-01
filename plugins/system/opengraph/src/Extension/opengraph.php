@@ -131,15 +131,24 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         }
 
         $form = $event->getForm();
-        $name = $form->getName();
+        $context = $form->getName();
         $component = $app->bootComponent('com_content');
         if (!$component instanceof OpengraphServiceInterface) {
             return;
         }
 
-        $xml = __DIR__ . '/../forms/opengraph.xml';
-        if (file_exists($xml)) {
-            $form->loadFile($xml, false);
+        // Check if this is a category context - load mappings form first for categories
+        if ($this->isCategoryContext($context)) {
+            $mappingsXml = __DIR__ . '/../forms/opengraphmappings.xml';
+            if (file_exists($mappingsXml)) {
+                $form->loadFile($mappingsXml, false);
+            }
+        }
+
+        // Load the main OpenGraph form for all supported contexts
+        $mainXml = __DIR__ . '/../forms/opengraph.xml';
+        if (file_exists($mainXml)) {
+            $form->loadFile($mainXml, false);
         }
     }
 
@@ -213,5 +222,25 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $this->setMetaData($document, 'og:image:alt', $alt, 'property');
         $this->setMetaData($document, 'twitter:image', $url, 'name');
         $this->setMetaData($document, 'twitter:image:alt', $alt, 'name');
+    }
+
+
+
+    /**
+     * Check if the context is a category context.
+     *
+     * @param string $context
+     *
+     * @return bool
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    private function isCategoryContext(string $context): bool
+    {
+        $categoryContexts = [
+            'com_categories.categorycom_content',
+        ];
+
+        return in_array($context, $categoryContexts, true);
     }
 }
