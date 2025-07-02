@@ -22,6 +22,7 @@ use Joomla\Registry\Registry;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Opengraph\OpengraphServiceInterface;
 use Joomla\CMS\Uri\Uri;
+use Exception;
 
 
 
@@ -124,33 +125,42 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      */
     public function onContentPrepareForm(PrepareFormEvent $event): void
     {
-        $app = $this->getApplication();
-
-        if (!$app->isClient('administrator')) {
-            return;
-        }
-
-        $form = $event->getForm();
+        $form    = $event->getForm();
         $context = $form->getName();
-        $component = $app->bootComponent('com_content');
-        if (!$component instanceof OpengraphServiceInterface) {
+        $app     = $this->getApplication();
+
+        if (!$app->isClient('administrator') || !$this->isSupported($context)) {
             return;
         }
 
-        // Check if this is a category context - load mappings form first for categories
-        if ($this->isCategoryContext($context)) {
+        $isCategory = $this->isCategoryContext($context);
+        $groupName  = $isCategory ? 'params' : 'attribs';
+
+        // Load and modify opengraphmappings.xml (only for categories)
+        if ($isCategory) {
             $mappingsXml = __DIR__ . '/../forms/opengraphmappings.xml';
             if (file_exists($mappingsXml)) {
-                $form->loadFile($mappingsXml, false);
+                try {
+                    $modifiedXml = $this->adjustFieldsGroup($mappingsXml, $groupName);
+                    $form->load($modifiedXml, false);
+                } catch (Exception $e) {
+                    error_log('OpenGraph Plugin: Failed to load mappings form: ' . $e->getMessage());
+                }
             }
         }
 
-        // Load the main OpenGraph form for all supported contexts
+        // Load and modify opengraph.xml
         $mainXml = __DIR__ . '/../forms/opengraph.xml';
         if (file_exists($mainXml)) {
-            $form->loadFile($mainXml, false);
+            try {
+                $modifiedXml = $this->adjustFieldsGroup($mainXml, $groupName);
+                $form->load($modifiedXml, false);
+            } catch (Exception $e) {
+                error_log('OpenGraph Plugin: Failed to load main form: ' . $e->getMessage());
+            }
         }
     }
+
 
     /**
      * Inject the OpenGraph data into the document.
@@ -225,6 +235,40 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
     }
 
 
+    /**
+     * Check if the current plugin should execute opengraph related activities
+     *
+     * @param   string  $context
+     *
+     * @return   boolean
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function isSupported($context): bool
+    {
+        // @todo: will be changed in future to support other components
+
+
+
+        $supportedContexts = [
+            'com_content.article',
+            'com_categories.categorycom_content',
+        ];
+
+        if (!in_array($context, $supportedContexts, true)) {
+            return false;
+        }
+
+        //todo : currently we have interface in com_content only but we need to have it in other components
+
+        // $parts = explode('.', $context, 2);
+
+        // $component = $this->getApplication()->bootComponent($parts[0]);
+
+        // return $component instanceof OpengraphServiceInterface;
+
+        return true;
+    }
 
     /**
      * Check if the context is a category context.
@@ -242,5 +286,22 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         ];
 
         return in_array($context, $categoryContexts, true);
+    }
+
+    private function adjustFieldsGroup(string $filePath, string $newGroup): string
+    {
+        $xmlContent = file_get_contents($filePath);
+        $xml = simplexml_load_string($xmlContent);
+
+        if ($xml === false) {
+            throw new Exception("Could not load XML file: {$filePath}");
+        }
+
+        // Adjust all <fields> nodes to use the desired group
+        foreach ($xml->xpath('//fields') as $fields) {
+            $fields['name'] = $newGroup;
+        }
+
+        return $xml->asXML();
     }
 }
