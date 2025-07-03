@@ -3,17 +3,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright  (C) 2025 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Opengraph\Field;
 
-
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Opengraph\OpengraphServiceInterface;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -26,7 +28,7 @@ use Joomla\CMS\Opengraph\OpengraphServiceInterface;
  * @since  1.7.0
  */
 
-class OpengraphField extends ListField
+class OpengraphField extends GroupedlistField
 {
     /**
      * The form field type.
@@ -44,16 +46,21 @@ class OpengraphField extends ListField
      *
      * @since   3.7.0
      */
-    protected function getOptions()
+    protected function getGroups()
     {
         $app = Factory::getApplication();
-        $options = parent::getOptions();
+        $groups = [];
+
+        $groups[''] = [
+            HTMLHelper::_('select.option', '', Text::_('PLG_SYSTEM_OPENGRAPH_NO_FIELD_SELECTED'))
+        ];
 
 
+        $ogOptions = [];
         $component = $app->bootComponent('com_content');
 
         if (!$component instanceof OpengraphServiceInterface) {
-            return $options;
+            return $groups;
         }
 
         $fields = $component->getOpengraphFields();
@@ -61,9 +68,36 @@ class OpengraphField extends ListField
 
         if (isset($fields[$fieldType])) {
             foreach ($fields[$fieldType] as $value => $text) {
-                $options[] = HTMLHelper::_('select.option', $value, $text);
+                $ogOptions[] = HTMLHelper::_('select.option', $value, $text);
             }
         }
-        return $options;
+
+        if (!empty($ogOptions)) {
+            $groups['Default Fields'] = $ogOptions;
+        }
+
+
+        if (!$component instanceof FieldsServiceInterface) {
+            return $groups;
+        }
+
+        $customOptions = [];
+
+
+        $customFields = FieldsHelper::getFields('com_content.article', null);
+
+        foreach ($customFields as $field) {
+            // todo : will be filtered by type or group in the future
+
+            $label = $field->title . ' (' . $field->name . ')';
+            $customOptions[] = HTMLHelper::_('select.option', $field->name, $label);
+        }
+
+
+        if (!empty($customOptions)) {
+            $groups['Custom Fields'] = $customOptions;
+        }
+
+        return $groups;
     }
 }
