@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="attribs">
+        <fieldset name="opengraph"
+                  label="PLG_SYSTEM_OPENGRAPH_FIELDSET_ARTICLE">
+            <fieldset name="opengraph_field_mapping"
+                      label="PLG_SYSTEM_OPENGRAPH_FIELD_MAPPING_SECTION"
+                      addfieldprefix="Joomla\Plugin\System\Opengraph\Field">
+                <field name="og_title_field"
+                       type="opengraph"
+                       label="PLG_SYSTEM_OPENGRAPH_TITLE_FIELD_LABEL"
+                       description="PLG_SYSTEM_OPENGRAPH_TITLE_FIELD_DESC"
+                       class="form-select"
+                       field-type="text-fields">
+                    <option value="">PLG_SYSTEM_OPENGRAPH_NO_FIELD_SELECTED</option>
+                </field>
+                <field name="og_description_field"
+                       type="opengraph"
+                       label="PLG_SYSTEM_OPENGRAPH_DESCRIPTION_FIELD_LABEL"
+                       description="PLG_SYSTEM_OPENGRAPH_DESCRIPTION_FIELD_DESC"
+                       class="form-select"
+                       field-type="text-fields">
+                    <option value="">PLG_SYSTEM_OPENGRAPH_NO_FIELD_SELECTED</option>
+                </field>
+                <field name="og_image_field"
+                       type="opengraph"
+                       label="PLG_SYSTEM_OPENGRAPH_IMAGE_FIELD_LABEL"
+                       description="PLG_SYSTEM_OPENGRAPH_IMAGE_FIELD_DESC"
+                       class="form-select"
+                       field-type="image-fields">
+                    <option value="">PLG_SYSTEM_OPENGRAPH_NO_FIELD_SELECTED</option>
+                </field>
+                <field name="og_image_alt_field"
+                       type="opengraph"
+                       label="PLG_SYSTEM_OPENGRAPH_IMAGE_ALT_FIELD_LABEL"
+                       description="PLG_SYSTEM_OPENGRAPH_IMAGE_ALT_FIELD_DESC"
+                       class="form-select"
+                       field-type="image-alt-fields">
+                    <option value="">PLG_SYSTEM_OPENGRAPH_NO_FIELD_SELECTED</option>
+                </field>
+            </fieldset>
+        </fieldset>
+    </fields>
+</form>
