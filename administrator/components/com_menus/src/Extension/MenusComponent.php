@@ -15,6 +15,7 @@ use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
+use Joomla\CMS\Opengraph\OpengraphServiceInterface;
 use Joomla\Component\Menus\Administrator\Service\HTML\Menus;
 use Psr\Container\ContainerInterface;
 
@@ -29,7 +30,8 @@ use Psr\Container\ContainerInterface;
  */
 class MenusComponent extends MVCComponent implements
     BootableExtensionInterface,
-    AssociationServiceInterface
+    AssociationServiceInterface,
+    OpengraphServiceInterface
 {
     use AssociationServiceTrait;
     use HTMLRegistryAwareTrait;
@@ -50,5 +52,21 @@ class MenusComponent extends MVCComponent implements
     public function boot(ContainerInterface $container)
     {
         $this->getRegistry()->register('menus', new Menus());
+    }
+
+
+    /**
+     * Returns valid contexts for opengraph
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getOpengraphFields(): array
+    {
+
+        $fields = [];
+
+        return $fields;
     }
 }
