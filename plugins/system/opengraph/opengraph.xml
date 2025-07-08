@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade" version="6.0">
+    <name>PLG_SYSTEM_OPENGRAPH</name>
+    <author>Joomla! Project</author>
+    <creationDate>2025-06</creationDate>
+    <copyright>(C) 2025 Open Source Matters, Inc.</copyright>
+    <license>GNU General Public License version 2 or later</license>
+    <authorEmail>support@joomla.org</authorEmail>
+    <authorUrl>https://joomla.org</authorUrl>
+    <version>__DEPLOY_VERSION__</version>
+	<description>PLG_SYSTEM_OPENGRAPH_DESCRIPTION</description>
+    <namespace path="src">Joomla\Plugin\System\Opengraph</namespace>
+
+    <files>
+        <folder plugin="opengraph">src</folder>
+        <folder>services</folder>
+        <filename>opengraph.xml</filename>
+    </files>
+
+    <languages>
+        <language tag="en-GB">language/en-GB/plg_system_opengraph.ini</language>
+        <language tag="en-GB">language/en-GB/plg_system_opengraph.sys.ini</language>
+    </languages>
+
+    <config>
+        <fields name="params">
+            <fieldset name="global_og_settings" label="Global OG Settings">
+                <field
+                    name="enable_og_generation"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="PLG_SYSTEM_OPENGRAPH_ENABLE_OG_GENERATION"
+                    description="PLG_SYSTEM_OPENGRAPH_ENABLE_OG_GENERATION_DESC"
+                >
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field
+                    name="global_og_title"
+                    type="text"
+                    label="PLG_SYSTEM_OPENGRAPH_GLOBAL_OG_TITLE"
+                    description="PLG_SYSTEM_OPENGRAPH_GLOBAL_OG_TITLE_DESC"
+                    size="50"
+                    maxlength="255"
+                />
+
+                <field
+                    name="global_og_description"
+                    type="textarea"
+                    label="PLG_SYSTEM_OPENGRAPH_GLOBAL_OG_DESCRIPTION"
+                    description="PLG_SYSTEM_OPENGRAPH_GLOBAL_OG_DESCRIPTION_DESC"
+                    rows="3"
+                    cols="50"
+                    maxlength="300"
+                />
+
+                <field
+                    name="global_og_image"
+                    type="media"
+                    label="PLG_SYSTEM_OPENGRAPH_GLOBAL_OG_IMAGE"
+                    description="PLG_SYSTEM_OPENGRAPH_GLOBAL_OG_IMAGE_DESC"
+                    directory="images"
+                />
+
+                <field
+                    name="global_og_type"
+                    type="list"
+                    default="website"
+                    label="PLG_SYSTEM_OPENGRAPH_GLOBAL_OG_TYPE"
+                    description="PLG_SYSTEM_OPENGRAPH_GLOBAL_OG_TYPE_DESC"
+                >
+                    <option value="website">PLG_SYSTEM_OPENGRAPH_TYPE_WEBSITE</option>
+                    <option value="article">PLG_SYSTEM_OPENGRAPH_TYPE_ARTICLE</option>
+                    <option value="blog">PLG_SYSTEM_OPENGRAPH_TYPE_BLOG</option>
+                    <option value="profile">PLG_SYSTEM_OPENGRAPH_TYPE_PROFILE</option>
+                    <option value="video">PLG_SYSTEM_OPENGRAPH_TYPE_VIDEO</option>
+                    <option value="music">PLG_SYSTEM_OPENGRAPH_TYPE_MUSIC</option>
+                    <option value="book">PLG_SYSTEM_OPENGRAPH_TYPE_BOOK</option>
+                    <option value="product">PLG_SYSTEM_OPENGRAPH_TYPE_PRODUCT</option>
+                    <option value="event">PLG_SYSTEM_OPENGRAPH_TYPE_EVENT</option>
+                </field>
+            </fieldset>
+
+            <fieldset name="override_settings" label="Override Settings">
+                <field
+                    name="enable_article_override"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="PLG_SYSTEM_OPENGRAPH_ENABLE_ARTICLE_OVERRIDE"
+                    description="PLG_SYSTEM_OPENGRAPH_ENABLE_ARTICLE_OVERRIDE_DESC"
+                >
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field
+                    name="enable_category_override"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="PLG_SYSTEM_OPENGRAPH_ENABLE_CATEGORY_OVERRIDE"
+                    description="PLG_SYSTEM_OPENGRAPH_ENABLE_CATEGORY_OVERRIDE_DESC"
+                >
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field
+                    name="fallback_to_site_logo"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="PLG_SYSTEM_OPENGRAPH_FALLBACK_TO_SITE_LOGO"
+                    description="PLG_SYSTEM_OPENGRAPH_FALLBACK_TO_SITE_LOGO_DESC"
+                >
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+            </fieldset>
+
+
+        </fields>
+    </config>
+
+</extension>

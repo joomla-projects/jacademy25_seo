@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="attribs">
+        <fieldset name="opengraph"
+                  label="PLG_SYSTEM_OPENGRAPH_FIELDSET_ARTICLE">
+            <fieldset name="opengraph_manual_override"
+                      label="PLG_SYSTEM_OPENGRAPH_MANUAL_OVERRIDE_SECTION">
+                <field name="og_title"
+                       type="text"
+                       label="PLG_SYSTEM_OPENGRAPH_OG_TITLE_LABEL"
+                       description="PLG_SYSTEM_OPENGRAPH_OG_TITLE_DESC"
+                       hint="PLG_SYSTEM_OPENGRAPH_OG_TITLE_HINT"
+                       size="50" />
+                <field name="og_description"
+                       type="textarea"
+                       label="PLG_SYSTEM_OPENGRAPH_OG_DESCRIPTION_LABEL"
+                       description="PLG_SYSTEM_OPENGRAPH_OG_DESCRIPTION_DESC"
+                       hint="PLG_SYSTEM_OPENGRAPH_OG_DESCRIPTION_HINT"
+                       rows="3"
+                       cols="50" />
+                <field name="og_image"
+                       type="media"
+                       label="PLG_SYSTEM_OPENGRAPH_OG_IMAGE_LABEL"
+                       description="PLG_SYSTEM_OPENGRAPH_OG_IMAGE_DESC" />
+                <field name="og_image_alt"
+                       type="text"
+                       label="PLG_SYSTEM_OPENGRAPH_OG_IMAGE_ALT_LABEL"
+                       description="PLG_SYSTEM_OPENGRAPH_OG_IMAGE_ALT_DESC"
+                       hint="PLG_SYSTEM_OPENGRAPH_OG_IMAGE_ALT_HINT" />
+                <field name="og_type"
+                       type="list"
+                       label="PLG_SYSTEM_OPENGRAPH_OG_TYPE_LABEL"
+                       description="PLG_SYSTEM_OPENGRAPH_OG_TYPE_DESC"
+                       default=""
+                       class="form-select">
+                    <option value="">PLG_SYSTEM_OPENGRAPH_USE_DEFAULT</option>
+                    <option value="article">PLG_SYSTEM_OPENGRAPH_TYPE_ARTICLE</option>
+                    <option value="website">PLG_SYSTEM_OPENGRAPH_TYPE_WEBSITE</option>
+                    <option value="blog">PLG_SYSTEM_OPENGRAPH_TYPE_BLOG</option>
+                    <option value="video">PLG_SYSTEM_OPENGRAPH_TYPE_VIDEO</option>
+                    <option value="music">PLG_SYSTEM_OPENGRAPH_TYPE_MUSIC</option>
+                    <option value="book">PLG_SYSTEM_OPENGRAPH_TYPE_BOOK</option>
+                    <option value="profile">PLG_SYSTEM_OPENGRAPH_TYPE_PROFILE</option>
+                    <option value="product">PLG_SYSTEM_OPENGRAPH_TYPE_PRODUCT</option>
+                    <option value="event">PLG_SYSTEM_OPENGRAPH_TYPE_EVENT</option>
+                </field>
+                <field name="og_url"
+                       type="url"
+                       label="PLG_SYSTEM_OPENGRAPH_OG_URL_LABEL"
+                       description="PLG_SYSTEM_OPENGRAPH_OG_URL_DESC"
+                       hint="PLG_SYSTEM_OPENGRAPH_OG_URL_HINT" />
+                <field name="enable_opengraph"
+                       type="radio"
+                       label="PLG_SYSTEM_OPENGRAPH_ENABLE_LABEL"
+                       description="PLG_SYSTEM_OPENGRAPH_ENABLE_DESC"
+                       default="1"
+                       layout="joomla.form.field.radio.switcher">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field name="show_advanced"
+                       type="radio"
+                       label="PLG_SYSTEM_OPENGRAPH_SHOW_ADVANCED_LABEL"
+                       description="PLG_SYSTEM_OPENGRAPH_SHOW_ADVANCED_DESC"
+                       class="btn-group btn-group-yesno"
+                       default="0">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="adv_spacer"
+                       type="spacer"
+                       label="PLG_SYSTEM_OPENGRAPH_ADVANCED_SECTION"
+                       showon="show_advanced:1" />
+                <field name="twitter_card"
+                       type="list"
+                       label="PLG_SYSTEM_OPENGRAPH_TWITTER_CARD_LABEL"
+                       showon="show_advanced:1">
+                    <option value="summary">Summary</option>
+                    <option value="summary_large_image">Large Image</option>
+                </field>
+                <field name="twitter_title"
+                       type="text"
+                       label="PLG_SYSTEM_OPENGRAPH_TWITTER_TITLE_LABEL"
+                       hint="PLG_SYSTEM_OPENGRAPH_TWITTER_TITLE_HINT"
+                       showon="show_advanced:1" />
+                <field name="twitter_description"
+                       type="textarea"
+                       label="PLG_SYSTEM_OPENGRAPH_TWITTER_DESC_LABEL"
+                       hint="PLG_SYSTEM_OPENGRAPH_TWITTER_DESC_HINT"
+                       showon="show_advanced:1" />
+                <field name="twitter_image"
+                       type="media"
+                       label="PLG_SYSTEM_OPENGRAPH_TWITTER_IMAGE_LABEL"
+                       showon="show_advanced:1" />
+                <field name="fb_app_id"
+                       type="text"
+                       label="PLG_SYSTEM_OPENGRAPH_FB_APP_ID_LABEL"
+                       showon="show_advanced:1" />
+            </fieldset>
+        </fieldset>
+    </fields>
+</form>
