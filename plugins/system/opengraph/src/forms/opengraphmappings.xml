@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fields name="attribs">
+    <fields name="params">
         <fieldset name="opengraph"
                   label="PLG_SYSTEM_OPENGRAPH_FIELDSET_ARTICLE">
             <fieldset name="opengraph_field_mapping"

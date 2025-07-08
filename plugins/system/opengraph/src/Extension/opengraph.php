@@ -128,28 +128,28 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $form    = $event->getForm();
         $context = $form->getName();
         $app     = $this->getApplication();
-
         if (!$app->isClient('administrator') || !$this->isSupported($context)) {
             return;
         }
 
-        $isCategory = $this->isCategoryContext($context);
-        $groupName  = $isCategory ? 'params' : 'attribs';
+        $isCategory = $context === 'com_categories.categorycom_content';
+        $isMenu = $context === 'com_menus.item';
 
-        // Load and modify opengraphmappings.xml (only for categories)
+        $groupName  =  $isMenu ? 'params' : 'attribs';
+
+        // Load opengraphmappings.xml for categories directly no need to adjust fields group
         if ($isCategory) {
-            $mappingsXml = __DIR__ . '/../forms/opengraphmappings.xml';
-            if (file_exists($mappingsXml)) {
-                try {
-                    $modifiedXml = $this->adjustFieldsGroup($mappingsXml, $groupName);
-                    $form->load($modifiedXml, false);
-                } catch (Exception $e) {
-                    error_log('OpenGraph Plugin: Failed to load mappings form: ' . $e->getMessage());
-                }
+            try {
+                $form::addFormPath(__DIR__ . '/../forms');
+                $form->loadFile('opengraphmappings', false);
+            } catch (Exception $e) {
+                error_log('OpenGraph Plugin: Failed to load mappings form: ' . $e->getMessage());
             }
+
+            return;
         }
 
-        // Load and modify opengraph.xml
+        // Load and modify opengraph.xml for articles and menus
         $mainXml = __DIR__ . '/../forms/opengraph.xml';
         if (file_exists($mainXml)) {
             try {
@@ -246,47 +246,32 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      */
     protected function isSupported($context): bool
     {
-        // @todo: will be changed in future to support other components
-
-
-
-        $supportedContexts = [
-            'com_content.article',
-            'com_categories.categorycom_content',
-        ];
-
-        if (!in_array($context, $supportedContexts, true)) {
+        $parts = explode('.', $context, 2);
+        if (empty($parts)) {
             return false;
         }
 
-        //todo : currently we have interface in com_content only but we need to have it in other components
+        if ($parts[0] === 'com_categories' && isset($parts[1])) {
+            // Extract true component name from com_categories context
+            if (preg_match('/com_[a-zA-Z0-9_]+$/', $parts[1], $matches)) {
+                $componentName = $matches[0];
+            } else {
+                return false;
+            }
+        } else {
+            $componentName = $parts[0];
+        }
 
-        // $parts = explode('.', $context, 2);
+        try {
+            $component = $this->getApplication()->bootComponent($componentName);
+        } catch (Exception $e) {
+            error_log('OpenGraph Plugin: Failed to boot component: ' . $e->getMessage());
+            return false;
+        }
 
-        // $component = $this->getApplication()->bootComponent($parts[0]);
-
-        // return $component instanceof OpengraphServiceInterface;
-
-        return true;
+        return $component instanceof OpengraphServiceInterface;
     }
 
-    /**
-     * Check if the context is a category context.
-     *
-     * @param string $context
-     *
-     * @return bool
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    private function isCategoryContext(string $context): bool
-    {
-        $categoryContexts = [
-            'com_categories.categorycom_content',
-        ];
-
-        return in_array($context, $categoryContexts, true);
-    }
 
     private function adjustFieldsGroup(string $filePath, string $newGroup): string
     {
