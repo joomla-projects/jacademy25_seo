@@ -25,7 +25,7 @@ use Joomla\CMS\Language\Text;
  * Form Field class for the Joomla Platform.
  * Supports a generic list of options.
  *
- * @since  1.7.0
+ * @since  __DEPLOY_VERSION__
  */
 
 class OpengraphField extends GroupedlistField
@@ -34,7 +34,7 @@ class OpengraphField extends GroupedlistField
      * The form field type.
      *
      * @var    string
-     * @since  1.7.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $type = 'Opengraph';
 
@@ -44,7 +44,7 @@ class OpengraphField extends GroupedlistField
      *
      * @return  object[]  The field option objects.
      *
-     * @since   3.7.0
+     * @since  __DEPLOY_VERSION__
      */
     protected function getGroups()
     {
@@ -81,18 +81,26 @@ class OpengraphField extends GroupedlistField
             return $groups;
         }
 
-        $customOptions = [];
+        // Allowed field types for each OpenGraph group
+        $allowedFieldTypes = [
+            'text-fields' => ['text', 'textarea'],
+            'image-fields' => ['media', 'imagelist'],
+            'image-alt-fields' => ['text'],
+        ];
 
+        $allowedTypes = $allowedFieldTypes[$fieldType] ?? [];
 
         $customFields = FieldsHelper::getFields('com_content.article', null);
+        $customOptions = [];
 
         foreach ($customFields as $field) {
-            // todo : will be filtered by type or group in the future
+            if (!in_array($field->type, $allowedTypes, true)) {
+                continue;
+            }
 
             $label = $field->title . ' (' . $field->name . ')';
-            $customOptions[] = HTMLHelper::_('select.option', $field->name, $label);
+            $customOptions[] = HTMLHelper::_('select.option', 'field.' . $field->name, $label);
         }
-
 
         if (!empty($customOptions)) {
             $groups['Custom Fields'] = $customOptions;
