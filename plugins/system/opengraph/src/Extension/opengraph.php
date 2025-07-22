@@ -23,10 +23,16 @@ use Joomla\CMS\Document\Document;
 use Joomla\CMS\Opengraph\OpengraphServiceInterface;
 use Joomla\CMS\Uri\Uri;
 use Exception;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Content;
 use Joomla\Database\DatabaseInterface;
 use Joomla\CMS\Menu\MenuItem;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Component\Content\Site\Model\ArticleModel;
+use Joomla\Component\Content\Site\Model\CategoryModel;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+
+
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -55,16 +61,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      * @var bool
      */
     protected $autoloadLanguage = true;
-
-    /**
-     * Database object
-     *
-     * The database is injected by parent constructor
-     *
-     * @var  DatabaseInterface
-     * @since  __DEPLOY_VERSION__
-     */
-    protected $db;
 
 
     /**
@@ -140,10 +136,12 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
     {
         $app = $this->app;
 
+
         if (!$app->isClient('site')) {
             return;
         }
 
+        /** @var HtmlDocument $document */
         $document = $app->getDocument();
 
         // Only process HTML documents
@@ -151,34 +149,50 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $input = $app->input;
-        $option = $input->get('option', '', 'cmd');
-        $view = $input->get('view', '', 'cmd');
-        $id = $input->getInt('id');
-
-        // Skip indexer and feed formats
-        if (($option . '.' . $view) === 'com_finder.indexer') {
+        $input  = $app->input;
+        if (
+            $input->getCmd('option') !== 'com_content'
+            || $input->getCmd('view')   !== 'article'
+            || ! $id = $input->getInt('id')
+        ) {
             return;
         }
-
-        if ($input->get('format', '', 'cmd') === 'feed') {
-            return;
-        }
-        // Check if plugin is enabled globally
+        // Plugin globally disabled?
         if (!$this->params->get('enable_og_generation', 1)) {
             return;
         }
-        $uniqueArticle = true;
-        if (is_array($input->get('id', 0, 'int'))) {
-            $uniqueArticle = false;
+
+        /** @var MVCComponent $component */
+        $component  = $app->bootComponent('com_content');
+
+        /** @var MVCFactoryInterface $mvcFactory */
+        $mvcFactory = $component->getMVCFactory();
+
+        $params = ComponentHelper::getParams('com_content');
+        // Fallback if for some reason it isn’t an object
+        if (! $params instanceof Registry) {
+            $params = new Registry;
         }
 
-        if ($uniqueArticle) {
-            $article = new Content($this->db);
-            $article->load($id);
-            $category = Table::getInstance('Category');
-            $category->load($article->catid);
+        /** @var ArticleModel $articleModel */
+        $articleModel = $mvcFactory->createModel('Article', 'Site', ['ignore_request' => true]);
+
+        $articleModel->setState('params', clone $params);
+        $articleModel->setState('article.id', $id);
+
+        $article = $articleModel->getItem($id);
+        if (! $article) {
+            return;
         }
+
+        /** @var CategoryModel $categoryModel */
+        $categoryModel = $mvcFactory->createModel(
+            'Category',
+            'Site',
+            ['ignore_request' => true]
+        );
+        $categoryModel->setState('category.id', $article->catid);
+        $category = $categoryModel->getCategory();
 
 
 
@@ -243,7 +257,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      * @param array $articleImages The array of article images.
      * @param array $ogTags The array of OG tags.
      */
-    private function getOgTagsFromCategoryMappings(Registry $categoryParams, Content $article, array $articleImages, array &$ogTags): void
+    private function getOgTagsFromCategoryMappings(Registry $categoryParams, object $article, array $articleImages, array &$ogTags): void
     {
 
         foreach ($categoryParams as $key => $fieldName) {
@@ -251,7 +265,8 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             if (strpos($key, 'og_') === 0 && str_ends_with($key, '_field')) {
                 $ogTagName = substr($key, 0, -6); // Remove "_field" from the end
 
-                $ogTags[$ogTagName] = $this->getFieldValue($article, $fieldName, $articleImages);
+                $value = $this->getFieldValue($article, $fieldName, $articleImages);
+                $ogTags[$ogTagName] = $value;
             }
         }
     }
@@ -267,7 +282,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      *
      * @return string
      */
-    private function getFieldValue(Content $article, string $fieldName, array $articleImages): string
+    private function getFieldValue(object $article, string $fieldName, array $articleImages): string
     {
         // Check if it's a custom field
         if (strpos($fieldName, 'field.') === 0) {
