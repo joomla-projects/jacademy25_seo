@@ -220,26 +220,26 @@ class ContentComponent extends MVCComponent implements
 
         $fields = [
             'text-fields' => [
-                'title' => Text::_('JGLOBAL_TITLE'),
+                'title'       => Text::_('JGLOBAL_TITLE'),
                 'articletext' => Text::_('COM_CONTENT_FIELD_ARTICLETEXT_LABEL'),
-                'alias' => Text::_('JFIELD_ALIAS_LABEL'),
-                'metadesc' => Text::_('JFIELD_META_DESCRIPTION_LABEL'),
+                'alias'       => Text::_('JFIELD_ALIAS_LABEL'),
+                'metadesc'    => Text::_('JFIELD_META_DESCRIPTION_LABEL'),
             ],
 
             'image-fields' => [
-                'image_intro' => Text::_('COM_CONTENT_FIELD_INTRO_LABEL'),
+                'image_intro'    => Text::_('COM_CONTENT_FIELD_INTRO_LABEL'),
                 'image_fulltext' => Text::_('COM_CONTENT_FIELD_FULL_LABEL'),
 
             ],
 
             'image-alt-fields' => [
-                'image_intro_alt' => Text::_('COM_CONTENT_FIELD_INTRO_LABEL') . ' - ' . Text::_('COM_CONTENT_FIELD_IMAGE_ALT_LABEL'),
+                'image_intro_alt'    => Text::_('COM_CONTENT_FIELD_INTRO_LABEL') . ' - ' . Text::_('COM_CONTENT_FIELD_IMAGE_ALT_LABEL'),
                 'image_fulltext_alt' => Text::_('COM_CONTENT_FIELD_FULL_LABEL') . ' - ' . Text::_('COM_CONTENT_FIELD_IMAGE_ALT_LABEL'),
             ],
 
             'meta-fields' => [
                 'metadesc' => Text::_('JFIELD_META_DESCRIPTION_LABEL'),
-                'metakey' => Text::_('JFIELD_META_KEYWORDS_LABEL'),
+                'metakey'  => Text::_('JFIELD_META_KEYWORDS_LABEL'),
             ],
 
 
@@ -248,15 +248,15 @@ class ContentComponent extends MVCComponent implements
             ],
 
             'author-fields' => [
-                'created_by' => Text::_('COM_CONTENT_FIELD_CREATED_BY_LABEL'),
+                'created_by'       => Text::_('COM_CONTENT_FIELD_CREATED_BY_LABEL'),
                 'created_by_alias' => Text::_('COM_CONTENT_FIELD_CREATED_BY_ALIAS_LABEL'),
-                'modified_by' => Text::_('JGLOBAL_FIELD_MODIFIED_BY_LABEL'),
+                'modified_by'      => Text::_('JGLOBAL_FIELD_MODIFIED_BY_LABEL'),
 
             ],
             'date-fields' => [
-                'created' => Text::_('COM_CONTENT_FIELD_CREATED_LABEL'),
-                'modified' => Text::_('JGLOBAL_FIELD_MODIFIED_LABEL'),
-                'publish_up' => Text::_('COM_CONTENT_FIELD_PUBLISH_UP_LABEL'),
+                'created'      => Text::_('COM_CONTENT_FIELD_CREATED_LABEL'),
+                'modified'     => Text::_('JGLOBAL_FIELD_MODIFIED_LABEL'),
+                'publish_up'   => Text::_('COM_CONTENT_FIELD_PUBLISH_UP_LABEL'),
                 'publish_down' => Text::_('COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL'),
             ],
 

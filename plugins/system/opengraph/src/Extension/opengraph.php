@@ -11,24 +11,21 @@
 namespace Joomla\Plugin\System\Opengraph\Extension;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Event\Application\BeforeCompileHeadEvent;
 use Joomla\CMS\Event\Model\PrepareFormEvent;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Event\SubscriberInterface;
-use Joomla\CMS\Document\HtmlDocument;
-use Joomla\Registry\Registry;
-use Joomla\CMS\Document\Document;
-use Joomla\CMS\Opengraph\OpengraphServiceInterface;
-use Joomla\CMS\Uri\Uri;
-use Exception;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Menu\MenuItem;
-use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Opengraph\OpengraphServiceInterface;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Model\ArticleModel;
 use Joomla\Component\Content\Site\Model\CategoryModel;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-
-
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Event\SubscriberInterface;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -43,7 +40,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 final class Opengraph extends CMSPlugin implements SubscriberInterface
 {
-
     /**
      * The application object.
      *
@@ -69,7 +65,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onBeforeCompileHead' => 'onBeforeCompileHead',
+            'onBeforeCompileHead'  => 'onBeforeCompileHead',
             'onContentPrepareForm' => 'onContentPrepareForm',
         ];
     }
@@ -92,7 +88,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         }
 
         $isCategory = $context === 'com_categories.categorycom_content';
-        $isMenu = $context === 'com_menus.item';
+        $isMenu     = $context === 'com_menus.item';
 
         $groupName  =  $isMenu ? 'params' : 'attribs';
 
@@ -101,7 +97,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             try {
                 $form::addFormPath(__DIR__ . '/../forms');
                 $form->loadFile('opengraphmappings', false);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 error_log('OpenGraph Plugin: Failed to load mappings form: ' . $e->getMessage());
             }
 
@@ -114,7 +110,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             try {
                 $modifiedXml = $this->adjustFieldsGroup($mainXml, $groupName);
                 $form->load($modifiedXml, false);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 error_log('OpenGraph Plugin: Failed to load main form: ' . $e->getMessage());
             }
         }
@@ -148,7 +144,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $input  = $app->input;
         if (
             $input->getCmd('option') !== 'com_content'
-            || $input->getCmd('view')   !== 'article'
+            || $input->getCmd('view') !== 'article'
             || ! $id = $input->getInt('id')
         ) {
             return;
@@ -167,7 +163,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $params = ComponentHelper::getParams('com_content');
         // Fallback if for some reason it isn’t an object
         if (! $params instanceof Registry) {
-            $params = new Registry;
+            $params = new Registry();
         }
 
         /** @var ArticleModel $articleModel */
@@ -194,29 +190,29 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
 
 
         // Get menu parameters
-        $menuParams = $this->getMenuParams();
+        $menuParams     = $this->getMenuParams();
         $articleAttribs = new Registry($article->attribs ?? '{}');
         $categoryParams = new Registry($category->params ?? '{}');
-        $articleImages = $this->getAllArticleImages(new Registry($article->images ?? '{}'));
+        $articleImages  = $this->getAllArticleImages(new Registry($article->images ?? '{}'));
 
 
 
         $ogTags = [
-            'og_title' => '',
-            'og_description' => '',
-            'og_image' => '',
-            'og_image_alt' => '',
-            'og_type' => '',
-            'og_url' => '',
-            'twitter_card' => '',
-            'twitter_title' => '',
+            'og_title'            => '',
+            'og_description'      => '',
+            'og_image'            => '',
+            'og_image_alt'        => '',
+            'og_type'             => '',
+            'og_url'              => '',
+            'twitter_card'        => '',
+            'twitter_title'       => '',
             'twitter_description' => '',
-            'twitter_image' => '',
-            'twitter_image_alt' => '',
-            'fb_app_id' => '',
-            'site_name' => '',
-            'url' => '',
-            'base_url' => ''
+            'twitter_image'       => '',
+            'twitter_image_alt'   => '',
+            'fb_app_id'           => '',
+            'site_name'           => '',
+            'url'                 => '',
+            'base_url'            => '',
         ];
 
         // Get Global settings
@@ -225,8 +221,8 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
 
         $ogTags['fb_app_id'] = $this->params->get('fb_app_id');
         $ogTags['site_name'] = $config->get('sitename');
-        $ogTags['base_url'] = Uri::base();
-        $ogTags['url'] = Uri::getInstance()->toString();
+        $ogTags['base_url']  = Uri::base();
+        $ogTags['url']       = Uri::getInstance()->toString();
 
         //  get OG tags from category mappings
         $this->getOgTagsFromCategoryMappings($categoryParams, $article, $articleImages, $ogTags);
@@ -261,7 +257,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             if (strpos($key, 'og_') === 0 && str_ends_with($key, '_field')) {
                 $ogTagName = substr($key, 0, -6); // Remove "_field" from the end
 
-                $value = $this->getFieldValue($article, $fieldName, $articleImages);
+                $value              = $this->getFieldValue($article, $fieldName, $articleImages);
                 $ogTags[$ogTagName] = $value;
             }
         }
@@ -360,7 +356,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      */
     private function getAllArticleImages(Registry $articleImages): array
     {
-        $image_intro = $image_intro_alt = '';
+        $image_intro    = $image_intro_alt = '';
         $image_fulltext = $image_fulltext_alt = '';
 
         // Handle image_intro
@@ -383,9 +379,9 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         }
 
         return [
-            'image_intro' => $image_intro,
-            'image_intro_alt' => $image_intro_alt,
-            'image_fulltext' => $image_fulltext,
+            'image_intro'        => $image_intro,
+            'image_intro_alt'    => $image_intro_alt,
+            'image_fulltext'     => $image_fulltext,
             'image_fulltext_alt' => $image_fulltext_alt,
         ];
     }
@@ -427,10 +423,10 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
     private function getTwitterOgTags(array &$ogTags): void
     {
         $twitterTags = [
-            'twitter_title' => $ogTags['twitter_title'],
+            'twitter_title'       => $ogTags['twitter_title'],
             'twitter_description' => $ogTags['twitter_description'],
-            'twitter_image' => $ogTags['twitter_image'],
-            'twitter_image_alt' => $ogTags['twitter_image_alt']
+            'twitter_image'       => $ogTags['twitter_image'],
+            'twitter_image_alt'   => $ogTags['twitter_image_alt'],
         ];
         foreach ($twitterTags as $key => $value) {
             // If the value is not set, use the OG value
@@ -497,10 +493,10 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         Document $document,
         array $ogTags
     ): void {
-        $image = $ogTags['og_image'];
-        $alt = $ogTags['og_image_alt'];
-        $baseUrl = $ogTags['base_url'];
-        $twitterImage = $ogTags['twitter_image'];
+        $image           = $ogTags['og_image'];
+        $alt             = $ogTags['og_image_alt'];
+        $baseUrl         = $ogTags['base_url'];
+        $twitterImage    = $ogTags['twitter_image'];
         $twitterImageAlt = $ogTags['twitter_image_alt'];
 
         if (empty($image) || !empty($document->getMetaData('og:image'))) {
@@ -564,7 +560,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
 
         try {
             $component = $this->getApplication()->bootComponent($componentName);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             error_log('OpenGraph Plugin: Failed to boot component: ' . $e->getMessage());
             return false;
         }
@@ -585,10 +581,10 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
     private function adjustFieldsGroup(string $filePath, string $newGroup): string
     {
         $xmlContent = file_get_contents($filePath);
-        $xml = simplexml_load_string($xmlContent);
+        $xml        = simplexml_load_string($xmlContent);
 
         if ($xml === false) {
-            throw new Exception("Could not load XML file: {$filePath}");
+            throw new \Exception("Could not load XML file: {$filePath}");
         }
 
         // Adjust all <fields> nodes to use the desired group

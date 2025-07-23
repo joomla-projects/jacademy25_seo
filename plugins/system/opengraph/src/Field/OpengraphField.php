@@ -13,9 +13,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Opengraph\OpengraphServiceInterface;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
-use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -48,11 +48,11 @@ class OpengraphField extends GroupedlistField
      */
     protected function getGroups()
     {
-        $app = Factory::getApplication();
+        $app    = Factory::getApplication();
         $groups = [];
 
         $groups[''] = [
-            HTMLHelper::_('select.option', '', Text::_('PLG_SYSTEM_OPENGRAPH_NO_FIELD_SELECTED'))
+            HTMLHelper::_('select.option', '', Text::_('PLG_SYSTEM_OPENGRAPH_NO_FIELD_SELECTED')),
         ];
 
 
@@ -63,7 +63,7 @@ class OpengraphField extends GroupedlistField
             return $groups;
         }
 
-        $fields = $component->getOpengraphFields();
+        $fields    = $component->getOpengraphFields();
         $fieldType = $this->getAttribute('field-type');
 
         if (isset($fields[$fieldType])) {
@@ -83,8 +83,8 @@ class OpengraphField extends GroupedlistField
 
         // Allowed field types for each OpenGraph group
         $allowedFieldTypes = [
-            'text-fields' => ['text', 'textarea'],
-            'image-fields' => ['media', 'imagelist'],
+            'text-fields'      => ['text', 'textarea'],
+            'image-fields'     => ['media', 'imagelist'],
             'image-alt-fields' => ['text'],
         ];
 
@@ -101,15 +101,15 @@ class OpengraphField extends GroupedlistField
         // Dummy item with catid so FieldsService filters by assignment
         $scopeItem = $catId ? (object) ['catid' => $catId] : null;
 
-        $customFields = FieldsHelper::getFields('com_content.article', $scopeItem);
+        $customFields  = FieldsHelper::getFields('com_content.article', $scopeItem);
         $customOptions = [];
 
         foreach ($customFields as $field) {
-            if (!in_array($field->type, $allowedTypes, true)) {
+            if (!\in_array($field->type, $allowedTypes, true)) {
                 continue;
             }
 
-            $label = $field->title . ' (' . $field->name . ')';
+            $label           = $field->title . ' (' . $field->name . ')';
             $customOptions[] = HTMLHelper::_('select.option', 'field.' . $field->name, $label);
         }
 
