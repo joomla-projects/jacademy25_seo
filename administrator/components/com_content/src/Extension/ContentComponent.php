@@ -25,6 +25,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper as LibraryContentHelper;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Opengraph\OpengraphServiceInterface;
 use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
 use Joomla\CMS\Schemaorg\SchemaorgServiceTrait;
 use Joomla\CMS\Tag\TagServiceInterface;
@@ -53,7 +54,8 @@ class ContentComponent extends MVCComponent implements
     SchemaorgServiceInterface,
     WorkflowServiceInterface,
     RouterServiceInterface,
-    TagServiceInterface
+    TagServiceInterface,
+    OpengraphServiceInterface
 {
     use AssociationServiceTrait;
     use RouterServiceTrait;
@@ -204,6 +206,69 @@ class ContentComponent extends MVCComponent implements
         return $contexts;
     }
 
+
+    /**
+     * Returns valid contexts for opengraph
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getOpengraphFields(): array
+    {
+        Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+
+        $fields = [
+            'text-fields' => [
+                'title'       => Text::_('JGLOBAL_TITLE'),
+                'articletext' => Text::_('COM_CONTENT_FIELD_ARTICLETEXT_LABEL'),
+                'alias'       => Text::_('JFIELD_ALIAS_LABEL'),
+                'metadesc'    => Text::_('JFIELD_META_DESCRIPTION_LABEL'),
+            ],
+
+            'image-fields' => [
+                'image_intro'    => Text::_('COM_CONTENT_FIELD_INTRO_LABEL'),
+                'image_fulltext' => Text::_('COM_CONTENT_FIELD_FULL_LABEL'),
+
+            ],
+
+            'image-alt-fields' => [
+                'image_intro_alt'    => Text::_('COM_CONTENT_FIELD_INTRO_LABEL') . ' - ' . Text::_('COM_CONTENT_FIELD_IMAGE_ALT_LABEL'),
+                'image_fulltext_alt' => Text::_('COM_CONTENT_FIELD_FULL_LABEL') . ' - ' . Text::_('COM_CONTENT_FIELD_IMAGE_ALT_LABEL'),
+            ],
+
+            'meta-fields' => [
+                'metadesc' => Text::_('JFIELD_META_DESCRIPTION_LABEL'),
+                'metakey'  => Text::_('JFIELD_META_KEYWORDS_LABEL'),
+            ],
+
+
+            'locale-fields' => [
+                'language' => Text::_('JFIELD_LANGUAGE_LABEL'),
+            ],
+
+            'author-fields' => [
+                'created_by'       => Text::_('COM_CONTENT_FIELD_CREATED_BY_LABEL'),
+                'created_by_alias' => Text::_('COM_CONTENT_FIELD_CREATED_BY_ALIAS_LABEL'),
+                'modified_by'      => Text::_('JGLOBAL_FIELD_MODIFIED_BY_LABEL'),
+
+            ],
+            'date-fields' => [
+                'created'      => Text::_('COM_CONTENT_FIELD_CREATED_LABEL'),
+                'modified'     => Text::_('JGLOBAL_FIELD_MODIFIED_LABEL'),
+                'publish_up'   => Text::_('COM_CONTENT_FIELD_PUBLISH_UP_LABEL'),
+                'publish_down' => Text::_('COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL'),
+            ],
+
+
+
+
+        ];
+
+        return $fields;
+    }
+
+
     /**
      * Returns valid contexts
      *
@@ -295,7 +360,6 @@ class ContentComponent extends MVCComponent implements
 
         return ucfirst($modelname);
     }
-
     /**
      * Method to filter transitions by given id of state.
      *

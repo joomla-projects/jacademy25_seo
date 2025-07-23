@@ -107,3 +107,5 @@ cypress.config.mjs
 
 # WebAuthn FIDO metadata cache
 /plugins/system/webauthn/fido.jwt
+administrator/language/en-GB/en-GB.plg_system_cccsocialmedia.ini
+administrator/language/en-GB/en-GB.plg_system_cccsocialmedia.sys.ini
