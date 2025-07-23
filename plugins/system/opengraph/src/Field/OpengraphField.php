@@ -90,7 +90,18 @@ class OpengraphField extends GroupedlistField
 
         $allowedTypes = $allowedFieldTypes[$fieldType] ?? [];
 
-        $customFields = FieldsHelper::getFields('com_content.article', null);
+
+
+        $catId = (int) $this->form->getValue('id');        // editing existing cat
+        if (!$catId) {
+            // Creating a new category: use the chosen parent so assignments still work
+            $catId = (int) $this->form->getValue('parent_id');
+        }
+
+        // Dummy item with catid so FieldsService filters by assignment
+        $scopeItem = $catId ? (object) ['catid' => $catId] : null;
+
+        $customFields = FieldsHelper::getFields('com_content.article', $scopeItem);
         $customOptions = [];
 
         foreach ($customFields as $field) {
