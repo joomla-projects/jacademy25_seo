@@ -283,9 +283,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             $customFields = FieldsHelper::getFields('com_content.article', $article, true);
 
             foreach ($customFields as $field) {
-
                 if ($field->name == $customFieldName) {
-
                     return $field->value ?? '';
                 }
             }
@@ -401,9 +399,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
 
 
         foreach (array_keys($ogTags) as $ogTagName) {
-
             if ($params->exists($ogTagName)) {
-
                 $value = $params->get($ogTagName);
 
 
