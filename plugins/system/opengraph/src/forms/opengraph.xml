@@ -75,8 +75,8 @@
                        type="list"
                        label="PLG_SYSTEM_OPENGRAPH_TWITTER_CARD_LABEL"
                        showon="show_advanced:1">
-                    <option value="summary">Summary</option>
-                    <option value="summary_large_image">Large Image</option>
+                    <option value="summary">PLG_SYSTEM_OPENGRAPH_TWITTER_CARD_SUMMARY</option>
+                    <option value="summary_large_image">PLG_SYSTEM_OPENGRAPH_TWITTER_CARD_SUMMARY_LARGE_IMAGE</option>
                 </field>
                 <field name="twitter_title"
                        type="text"

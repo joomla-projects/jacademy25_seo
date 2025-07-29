@@ -26,6 +26,8 @@ use Joomla\Component\Content\Site\Model\CategoryModel;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -77,6 +79,8 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      * @param PrepareFormEvent $event
      *
      * @return void
+     *
+     * @since  __DEPLOY_VERSION__
      */
     public function onContentPrepareForm(PrepareFormEvent $event): void
     {
@@ -123,6 +127,8 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      * @param BeforeCompileHeadEvent $event
      *
      * @return void
+     *
+     * @since  __DEPLOY_VERSION__
      */
     public function onBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
@@ -236,6 +242,9 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         //  get Twitter tags
         $this->getTwitterOgTags($ogTags);
 
+        //  sanitize OG tags
+        $this->sanitizeOgTags($ogTags);
+
         // Inject the OpenGraph data into the document
         $this->injectOpenGraphData($document, $ogTags);
     }
@@ -248,6 +257,10 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      * @param object $article The article object.
      * @param array $articleImages The array of article images.
      * @param array $ogTags The array of OG tags.
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
      */
     private function getOgTagsFromCategoryMappings(Registry $categoryParams, object $article, array $articleImages, array &$ogTags): void
     {
@@ -393,6 +406,8 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      * @param array &$ogTags Reference to the OG tags array to populate
      *
      * @return void
+     *
+     * @since  __DEPLOY_VERSION__
      */
     private function getOgTagsFromParams(Registry $params, array &$ogTags): void
     {
@@ -415,6 +430,8 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      * @param array &$ogTags
      *
      * @return void
+     *
+     * @since  __DEPLOY_VERSION__
      */
     private function getTwitterOgTags(array &$ogTags): void
     {
@@ -439,6 +456,8 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      * @param array $ogTags
      *
      * @return void
+     *
+     * @since  __DEPLOY_VERSION__
      */
     private function injectOpenGraphData(Document $document, array $ogTags): void
     {
@@ -468,6 +487,8 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      * @param string $attributeType
      *
      * @return void
+     *
+     * @since  __DEPLOY_VERSION__
      */
     private function setMetaData(Document $document, string $name, ?string $value, string $attributeType): void
     {
@@ -572,6 +593,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      * @param string $newGroup
      *
      * @return string
+     *
      * @since  __DEPLOY_VERSION__
      */
     private function adjustFieldsGroup(string $filePath, string $newGroup): string
@@ -596,6 +618,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      * Get the parameters associated with the active menu item
      *
      * @return Registry
+     *
      * @since  __DEPLOY_VERSION__
      */
     private function getMenuParams(): Registry
@@ -609,5 +632,63 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         }
 
         return $menu->getParams($active->id);
+    }
+
+    /**
+     * Clean up and normalise all OG / Twitter tag values.
+     *
+     * @param  array  &$ogTags  Reference to the tag array created earlier.
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    private function sanitizeOgTags(array &$ogTags): void
+    {
+        // TODO : will be configurable in the future from the plugin settings
+
+        $maxTitleLen   = $this->params->get('max_title_length', 60); // Facebook shows ~55–60 chars, Twitter ~70
+        $maxDescLen    = $this->params->get('max_description_length', 160); // Twitter summary cards truncate after ~160
+        $maxAltLen     = $this->params->get('max_alt_length', 125); // WCAG recommendation for alt text
+
+        foreach (['og_title', 'twitter_title'] as $key) {
+            $ogTags[$key] = $this->cleanText($ogTags[$key] ?? '', $maxTitleLen);
+        }
+
+        foreach (['og_description', 'twitter_description'] as $key) {
+            $ogTags[$key] = $this->cleanText($ogTags[$key] ?? '', $maxDescLen);
+        }
+
+        foreach (['og_image_alt', 'twitter_image_alt'] as $key) {
+            $ogTags[$key] = $this->cleanText($ogTags[$key] ?? '', $maxAltLen);
+        }
+
+        // Make sure og:url is absolute
+        if (!empty($ogTags['og_url']) && !preg_match('~^https?://~i', $ogTags['og_url'])) {
+            $ogTags['og_url'] = Uri::root() . ltrim($ogTags['og_url'], '/');
+        }
+    }
+
+
+    /**
+     * Helper: strip HTML, decode entities, collapse whitespace, then truncate on a word boundary and add an ellipsis if needed.
+     *
+     * @param string $text
+     * @param int $maxLen
+     *
+     * @return string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    private function cleanText(string $text, int $maxLen): string
+    {
+        // Remove tags and entities, normalise whitespace
+        $plain = OutputFilter::cleanText($text);
+
+        // Truncate the text on a word boundary and add an ellipsis if needed
+        $truncated = HTMLHelper::_('string.truncate', $plain, $maxLen, true, false);
+
+        // Replace the three-dot ellipsis with a single Unicode one
+        return preg_replace('/\.\.\.$/', '…', $truncated);
     }
 }
