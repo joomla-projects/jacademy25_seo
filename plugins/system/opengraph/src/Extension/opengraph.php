@@ -21,14 +21,14 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Opengraph\OpengraphServiceInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Component\Content\Site\Model\ArticleModel;
-use Joomla\Component\Content\Site\Model\CategoryModel;
+use Joomla\Component\Categories\Administrator\Model\CategoryModel;
+use Joomla\Component\Content\Administrator\Model\ArticleModel;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
-
+use Joomla\CMS\Language\Text;
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -118,6 +118,88 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
                 error_log('OpenGraph Plugin: Failed to load main form: ' . $e->getMessage());
             }
         }
+
+        // if the form is a menu item, we don't need to change placeholder values
+        if ($isMenu) {
+            return;
+        }
+
+        // Get the article id and category id
+        $input     = $app->input;
+        $articleId = (int) ($input->getInt('id') ?: $form->getValue('id'));
+        $categoryId = 0;
+
+        if ($articleId > 0) {
+            /** @var MVCComponent $articleComponent */
+            $articleComponent = $app->bootComponent('com_content');
+            /** @var MVCFactoryInterface $articleFactory */
+            $articleFactory   = $articleComponent->getMVCFactory();
+
+            /** @var ArticleModel $articleModel */
+            $articleModel = $articleFactory->createModel('Article', 'Administrator', ['ignore_request' => true]);
+            $article      = $articleModel->getItem($articleId);
+
+            if ($article && !empty($article->catid)) {
+                $categoryId = (int) $article->catid;
+            }
+        }
+
+        if ($categoryId > 0) {
+            /** @var MVCComponent $catComponent */
+            $catComponent = $app->bootComponent('com_categories');
+            /** @var MVCFactoryInterface $catFactory */
+            $catFactory   = $catComponent->getMVCFactory();
+
+            /** @var CategoryModel $catModel */
+            $catModel = $catFactory->createModel('Category', 'Administrator', ['ignore_request' => true]);
+            $catModel->setState('category.id', $categoryId);
+
+            $category  = $catModel->getItem($categoryId); // JTable row
+            $catParams = new Registry($category->params ?? '{}');
+        }
+
+
+        // Get the mappings from the category params
+        $mappings = [];
+        foreach ($catParams as $paramKey => $fieldName) {
+            if (str_starts_with($paramKey, 'og_') && str_ends_with($paramKey, '_field')) {
+                $ogTag = substr($paramKey, 0, -6);        // strip "_field"
+                $mappings[$ogTag] = $fieldName;
+            }
+        }
+
+
+        if (!$mappings) {
+            return;                     // category has no mappings
+        }
+
+        $maxTitleLen   = $this->params->get('max_title_length', 60);
+        $maxDescLen    = $this->params->get('max_description_length', 160);
+        $maxAltLen     = $this->params->get('max_alt_length', 125);
+        $mappings["maxTitleLen"] = $maxTitleLen;
+        $mappings["maxDescLen"] = $maxDescLen;
+        $mappings["maxAltLen"] = $maxAltLen;
+        $mappings['twitter_title']       = $mappings['og_title'] ?? '';
+        $mappings['twitter_description'] = $mappings['og_description'] ?? '';
+
+        $document = $app->getDocument();
+
+        $document->addScriptOptions('plgOgMappings', $mappings);
+
+        Text::script('PLG_SYSTEM_OPENGRAPH_INHERITED');
+
+        /** @var WebAssetManager $wa */
+        $wa  = $document->getWebAssetManager();
+
+        $wa->registerAndUseScript(
+            'plg.opengraph.placeholder',
+            'media/plg_system_opengraph/js/opengraph-placeholder.js',
+            [
+                'type' => 'module',
+                'version' => 'auto',
+                'dependencies' => ['core'],
+            ]
+        );
     }
 
 
@@ -190,7 +272,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             ['ignore_request' => true]
         );
         $categoryModel->setState('category.id', $article->catid);
-        $category = $categoryModel->getCategory();
+        $category = $categoryModel->getItem($article->catid);
 
 
 
@@ -412,7 +494,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
     private function getOgTagsFromParams(Registry $params, array &$ogTags): void
     {
 
-
         foreach (array_keys($ogTags) as $ogTagName) {
             if ($params->exists($ogTagName)) {
                 $value = $params->get($ogTagName);
@@ -612,7 +693,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
 
         return $xml->asXML();
     }
-
 
     /**
      * Get the parameters associated with the active menu item
