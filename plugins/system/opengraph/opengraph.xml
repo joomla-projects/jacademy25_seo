@@ -13,6 +13,11 @@
     <version>__DEPLOY_VERSION__</version>
     <description>PLG_SYSTEM_OPENGRAPH_DESCRIPTION</description>
     <namespace path="src">Joomla\Plugin\System\Opengraph</namespace>
+    <media destination="plg_system_opengraph"
+           folder="media">
+        <folder>js</folder>
+        <filename>joomla.asset.json</filename>
+    </media>
     <files>
         <folder plugin="opengraph">src</folder>
         <folder>services</folder>

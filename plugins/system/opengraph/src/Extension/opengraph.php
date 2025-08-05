@@ -191,15 +191,8 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         /** @var WebAssetManager $wa */
         $wa  = $document->getWebAssetManager();
 
-        $wa->registerAndUseScript(
-            'plg.opengraph.placeholder',
-            'media/plg_system_opengraph/js/opengraph-placeholder.js',
-            [
-                'type' => 'module',
-                'version' => 'auto',
-                'dependencies' => ['core'],
-            ]
-        );
+        $wa->getRegistry()->addExtensionRegistryFile('plg_system_opengraph');
+        $wa->useScript('plg_system_opengraph.opengraph-placeholder');
     }
 
 

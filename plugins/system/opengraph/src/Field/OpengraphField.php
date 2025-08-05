@@ -14,7 +14,10 @@ use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Opengraph\MappableFieldInterface;
+use Joomla\CMS\Opengraph\OpengraphGroup;
 use Joomla\CMS\Opengraph\OpengraphServiceInterface;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -83,12 +86,12 @@ class OpengraphField extends GroupedlistField
 
         // Allowed field types for each OpenGraph group
         $allowedFieldTypes = [
-            'text-fields'      => ['text', 'textarea'],
-            'image-fields'     => ['media', 'imagelist'],
-            'image-alt-fields' => ['text'],
+            OpengraphGroup::TEXT->value       => ['text', 'textarea'],
+            OpengraphGroup::IMAGE->value      => ['media', 'imagelist'],
+            OpengraphGroup::IMAGE_ALT->value  => ['text'],
         ];
 
-        $allowedTypes = $allowedFieldTypes[$fieldType] ?? [];
+        $nativeTypes = $allowedFieldTypes[$fieldType] ?? [];
 
 
 
@@ -105,9 +108,32 @@ class OpengraphField extends GroupedlistField
         $customOptions = [];
 
         foreach ($customFields as $field) {
-            if (!\in_array($field->type, $allowedTypes, true)) {
+            $accept = \in_array($field->type, $nativeTypes, true);
+
+
+            // If not native-allowed, see if the field’s plugin implements our interface
+            if (!$accept) {
+                // Class name convention: PlgFields{Type}
+                $class = 'PlgFields' . ucfirst($field->type);
+
+                // Ensure plugin autoloaded
+                PluginHelper::importPlugin('fields');
+
+                if (
+                    \class_exists($class)
+                    && \is_subclass_of($class, MappableFieldInterface::class)
+                    && $class::getOpengraphGroup()->value === $fieldType
+                ) {
+                    $accept = true;
+                }
+            }
+
+
+            if (!$accept) {
                 continue;
             }
+
+
 
             $label           = $field->title . ' (' . $field->name . ')';
             $customOptions[] = HTMLHelper::_('select.option', 'field.' . $field->name, $label);
