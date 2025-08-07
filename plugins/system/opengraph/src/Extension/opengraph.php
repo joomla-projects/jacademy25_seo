@@ -143,7 +143,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
                 $categoryId = (int) $article->catid;
             }
         }
-
+        $catParams = new Registry();
         if ($categoryId > 0) {
             /** @var MVCComponent $catComponent */
             $catComponent = $app->bootComponent('com_categories');
@@ -158,7 +158,9 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             $catParams = new Registry($category->params ?? '{}');
         }
 
-
+        if (!$catParams) {
+            return;
+        }
         // Get the mappings from the category params
         $mappings = [];
         foreach ($catParams as $paramKey => $fieldName) {
@@ -265,9 +267,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             ['ignore_request' => true]
         );
         $categoryModel->setState('category.id', $article->catid);
-        $category = $categoryModel->getItem($article->catid);
-
-
+        $category = $categoryModel->getCategory();
 
 
         // Get menu parameters
