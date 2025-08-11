@@ -15,6 +15,35 @@ namespace Joomla\CMS\Opengraph;
 
 
 /**
+ * Enumerates the logical OpenGraph groups that a custom field-type can
+ * register itself under.
+ *
+ * Third-party field-type plugins should return one of these cases from
+ * {@see MappableFieldInterface::getOpengraphGroup()} so the System – OpenGraph
+ * plugin knows how to categorise the field inside its mapping drop-down.
+ *
+ * @since  __DEPLOY_VERSION__
+ */
+enum OpengraphGroup: string
+{
+/** Standard textual content (e.g. single-line, multi-line). */
+    case TEXT       = 'text-fields';
+
+/** Image or media file (intro/full images, custom media fields, …). */
+    case IMAGE      = 'image-fields';
+
+/** Alternate-text associated with an image (accessibility / SEO). */
+    case IMAGE_ALT  = 'image-alt-fields';
+}
+
+
+
+
+
+
+
+
+/**
  * The Opengraph service.
  *
  * @since  __DEPLOY_VERSION__
