@@ -97,6 +97,80 @@ class OpengraphField extends GroupedlistField
         }
 
 
+        if (!$component instanceof FieldsServiceInterface) {
+            return $groups;
+        }
+
+        // Allowed field types for each OpenGraph group
+        $allowedFieldTypes = [
+            OpengraphGroup::TEXT->value       => ['text', 'textarea'],
+            OpengraphGroup::IMAGE->value      => ['media', 'imagelist'],
+            OpengraphGroup::IMAGE_ALT->value  => ['text'],
+        ];
+
+        $nativeTypes = $allowedFieldTypes[$fieldType] ?? [];
+
+
+
+        $catId = (int) $this->form->getValue('id');        // editing existing cat
+        if (!$catId) {
+            // Creating a new category: use the chosen parent so assignments still work
+            $catId = (int) $this->form->getValue('parent_id');
+        }
+
+        // Dummy item with catid so FieldsService filters by assignment
+        $scopeItem = $catId ? (object) ['catid' => $catId] : null;
+
+        $customFields  = FieldsHelper::getFields('com_content.article', $scopeItem);
+        $customOptions = [];
+
+        foreach ($customFields as $field) {
+            $accept = \in_array($field->type, $nativeTypes, true);
+
+
+            // If not native-allowed, see if the field’s plugin implements our interface
+            if (!$accept) {
+
+                // Ensure the specific fields plugin is loaded
+                PluginHelper::importPlugin('fields', $field->type);
+
+                $ucType = ucfirst((string) $field->type);
+
+                // Candidate class names in priority order (modern first, then legacy)
+                $candidates = [
+                    "Joomla\\Plugin\\Fields\\{$ucType}\\Extension\\{$ucType}", // J4/5 namespaced
+                    "Joomla\\Plugin\\Fields\\{$ucType}\\Field\\{$ucType}Field", // some third-party patterns
+                    "PlgFields{$ucType}",                                      // legacy non-namespaced
+                ];
+
+                $implements = false;
+
+                foreach ($candidates as $fqcn) {
+                    if (\class_exists($fqcn) && \is_subclass_of($fqcn, MappableFieldInterface::class)) {
+                        $implements = ($fqcn::getOpengraphGroup()->value === $fieldType);
+                        if ($implements) {
+                            $accept = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+
+            if (!$accept) {
+                continue;
+            }
+
+
+
+            $label           = $field->title . ' (' . $field->name . ')';
+            $customOptions[] = HTMLHelper::_('select.option', 'field.' . $field->name, $label);
+        }
+
+        if (!empty($customOptions)) {
+            $groups['Custom Fields'] = $customOptions;
+        }
+
         return $groups;
     }
 }

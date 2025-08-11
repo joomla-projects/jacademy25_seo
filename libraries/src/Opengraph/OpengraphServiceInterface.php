@@ -31,3 +31,18 @@ interface OpengraphServiceInterface
      */
     public function getOpengraphFields(): array;
 }
+
+
+
+
+interface MappableFieldInterface
+{
+    /**
+     * Returns the OpenGraph group this field should be listed under.
+     *
+     * @return  OpengraphGroup  One of the enum cases defined in {@see OpengraphGroup}.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getOpengraphGroup(): OpengraphGroup;
+}
