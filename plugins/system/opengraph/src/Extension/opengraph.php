@@ -314,6 +314,9 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         //  get OG tags from menu form
         $this->getOgTagsFromParams($menuParams, $ogTags);
 
+        // get Default OG tags
+        $this->getDefaultOgTags($ogTags);
+
         //  get Twitter tags
         $this->getTwitterOgTags($ogTags);
 
@@ -483,6 +486,38 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         }
     }
 
+
+
+    /**
+     * Get Global Default OG tags if not till not set
+     * @param array &$ogTags
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    private function getDefaultOgTags(array &$ogTags): void
+    {
+        // Get Global Default OG tags if not set
+        $defaultOgTags = [
+            'og_title'       => $this->params->get('default_og_title'),
+            'og_description' => $this->params->get('default_og_description'),
+            'og_image'       => $this->params->get('default_og_image'),
+            'og_image_alt'   => $this->params->get('default_og_image_alt'),
+            'site_name'  => $this->params->get('default_og_site_name'),
+            'fb_app_id'     => $this->params->get('fb_app_id'),
+        ];
+
+        foreach ($defaultOgTags as $key => $value) {
+            if ($ogTags[$key] === '') {
+                $ogTags[$key] = $value;
+            }
+        }
+    }
+
+
+
+
     /**
      * Get Twitter tags if not set use OG value
      * @param array &$ogTags
@@ -532,6 +567,8 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
 
         // Facebook App ID
         $this->setMetaData($document, 'fb:app_id', $ogTags['fb_app_id'], 'property');
+
+        $this->setMetaData($document, 'og:site_name', $ogTags['site_name'], 'property');
 
         $this->setOpenGraphImage($document, $ogTags);
     }
