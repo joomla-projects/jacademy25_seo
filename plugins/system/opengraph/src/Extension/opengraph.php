@@ -265,7 +265,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             ['ignore_request' => true]
         );
         $categoryModel->setState('category.id', $article->catid);
-        $category = $categoryModel->getItem($article->catid);
+        $category = $categoryModel->getCategory();
 
 
 

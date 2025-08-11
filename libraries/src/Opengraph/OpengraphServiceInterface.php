@@ -81,5 +81,5 @@ interface MappableFieldInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getOpengraphGroup(): OpengraphGroup;
+    public static function getOpengraphGroup(): OpengraphGroup;
 }

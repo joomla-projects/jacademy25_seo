@@ -113,18 +113,29 @@ class OpengraphField extends GroupedlistField
 
             // If not native-allowed, see if the field’s plugin implements our interface
             if (!$accept) {
-                // Class name convention: PlgFields{Type}
-                $class = 'PlgFields' . ucfirst($field->type);
 
-                // Ensure plugin autoloaded
-                PluginHelper::importPlugin('fields');
+                // Ensure the specific fields plugin is loaded
+                PluginHelper::importPlugin('fields', $field->type);
 
-                if (
-                    \class_exists($class)
-                    && \is_subclass_of($class, MappableFieldInterface::class)
-                    && $class::getOpengraphGroup()->value === $fieldType
-                ) {
-                    $accept = true;
+                $ucType = ucfirst((string) $field->type);
+
+                // Candidate class names in priority order (modern first, then legacy)
+                $candidates = [
+                    "Joomla\\Plugin\\Fields\\{$ucType}\\Extension\\{$ucType}", // J4/5 namespaced
+                    "Joomla\\Plugin\\Fields\\{$ucType}\\Field\\{$ucType}Field", // some third-party patterns
+                    "PlgFields{$ucType}",                                      // legacy non-namespaced
+                ];
+
+                $implements = false;
+
+                foreach ($candidates as $fqcn) {
+                    if (\class_exists($fqcn) && \is_subclass_of($fqcn, MappableFieldInterface::class)) {
+                        $implements = ($fqcn::getOpengraphGroup()->value === $fieldType);
+                        if ($implements) {
+                            $accept = true;
+                            break;
+                        }
+                    }
                 }
             }
 
