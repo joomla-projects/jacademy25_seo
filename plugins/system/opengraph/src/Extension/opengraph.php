@@ -143,7 +143,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
                 $categoryId = (int) $article->catid;
             }
         }
-
+        $catParams = new Registry();
         if ($categoryId > 0) {
             /** @var MVCComponent $catComponent */
             $catComponent = $app->bootComponent('com_categories');
@@ -158,7 +158,9 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             $catParams = new Registry($category->params ?? '{}');
         }
 
-
+        if (!$catParams) {
+            return;
+        }
         // Get the mappings from the category params
         $mappings = [];
         foreach ($catParams as $paramKey => $fieldName) {
@@ -269,7 +271,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
 
 
 
-
         // Get menu parameters
         $menuParams     = $this->getMenuParams();
         $articleAttribs = new Registry($article->attribs ?? '{}');
@@ -313,6 +314,9 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
 
         //  get OG tags from menu form
         $this->getOgTagsFromParams($menuParams, $ogTags);
+
+        // get Default OG tags
+        $this->getDefaultOgTags($ogTags);
 
         //  get Twitter tags
         $this->getTwitterOgTags($ogTags);
@@ -364,22 +368,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      */
     private function getFieldValue(object $article, string $fieldName, array $articleImages): string
     {
-        // Check if it's a custom field
-        if (strpos($fieldName, 'field.') === 0) {
-            $customFieldName = substr($fieldName, 6);
-            // Load custom fields for the article
-            $customFields = FieldsHelper::getFields('com_content.article', $article, true);
-
-            foreach ($customFields as $field) {
-                if ($field->name == $customFieldName) {
-                    return $field->value ?? '';
-                }
-            }
-
-            return '';
-        }
-
-        // Handle standard article fields
         $value = '';
 
         switch ($fieldName) {
@@ -499,6 +487,38 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         }
     }
 
+
+
+    /**
+     * Get Global Default OG tags if not till not set
+     * @param array &$ogTags
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    private function getDefaultOgTags(array &$ogTags): void
+    {
+        // Get Global Default OG tags if not set
+        $defaultOgTags = [
+            'og_title'       => $this->params->get('default_og_title'),
+            'og_description' => $this->params->get('default_og_description'),
+            'og_image'       => $this->params->get('default_og_image'),
+            'og_image_alt'   => $this->params->get('default_og_image_alt'),
+            'site_name'  => $this->params->get('default_og_site_name'),
+            'fb_app_id'     => $this->params->get('fb_app_id'),
+        ];
+
+        foreach ($defaultOgTags as $key => $value) {
+            if ($ogTags[$key] === '') {
+                $ogTags[$key] = $value;
+            }
+        }
+    }
+
+
+
+
     /**
      * Get Twitter tags if not set use OG value
      * @param array &$ogTags
@@ -548,6 +568,8 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
 
         // Facebook App ID
         $this->setMetaData($document, 'fb:app_id', $ogTags['fb_app_id'], 'property');
+
+        $this->setMetaData($document, 'og:site_name', $ogTags['site_name'], 'property');
 
         $this->setOpenGraphImage($document, $ogTags);
     }

@@ -29,22 +29,16 @@
     </languages>
     <config>
         <fields name="params">
-            <fieldset name="global_og_settings"
-                      label="PLG_SYSTEM_OPENGRAPH_GLOBAL_OG_SETTINGS"
-                      description="PLG_SYSTEM_OPENGRAPH_GLOBAL_DESC">
+            <fieldset name="basic">
                 <field name="enable_og_generation"
                        type="radio"
-                       class="btn-group btn-group-yesno"
+                       layout="joomla.form.field.radio.switcher"
                        default="1"
                        label="PLG_SYSTEM_OPENGRAPH_ENABLE_OG_GENERATION"
                        description="PLG_SYSTEM_OPENGRAPH_ENABLE_OG_GENERATION_DESC">
                     <option value="0">JNO</option>
                     <option value="1">JYES</option>
                 </field>
-                <field name="fb_app_id"
-                       type="text"
-                       label="PLG_SYSTEM_OPENGRAPH_FB_APP_ID_LABEL"
-                       description="PLG_SYSTEM_OPENGRAPH_FB_APP_ID_DESC" />
                 <field name="max_title_length"
                        type="number"
                        default="60"
@@ -67,23 +61,40 @@
                        min="50"
                        max="200" />
             </fieldset>
-            <fieldset name="overview_help"
-                      label="PLG_SYSTEM_OPENGRAPH_OVERVIEW">
-                <field name="about_note"
-                       type="note"
-                       class="alert alert-info"
-                       label="PLG_SYSTEM_OPENGRAPH_FEATURES_LABEL"
-                       description="PLG_SYSTEM_OPENGRAPH_FEATURES_DESC" />
-                <field name="quickstart_note"
-                       type="note"
-                       class="alert alert-primary"
-                       label="PLG_SYSTEM_OPENGRAPH_QUICKSTART_LABEL"
-                       description="PLG_SYSTEM_OPENGRAPH_QUICKSTART_DESC" />
-                <field name="tips_note"
-                       type="note"
-                       class="alert alert-info"
-                       label="PLG_SYSTEM_OPENGRAPH_TIPS_LABEL"
-                       description="PLG_SYSTEM_OPENGRAPH_TIPS_DESC" />
+            <fieldset name="global_defaults"
+                      label="PLG_SYSTEM_OPENGRAPH_FIELDSET_GLOBAL_DEFAULTS"
+                      description="PLG_SYSTEM_OPENGRAPH_FIELDSET_GLOBAL_DEFAULTS_DESC">
+                <field name="default_og_title"
+                       type="text"
+                       label="PLG_SYSTEM_OPENGRAPH_DEFAULT_TITLE_LABEL"
+                       description="PLG_SYSTEM_OPENGRAPH_DEFAULT_TITLE_DESC"
+                       default="" />
+                <field name="default_og_description"
+                       type="textarea"
+                       rows="3"
+                       label="PLG_SYSTEM_OPENGRAPH_DEFAULT_DESC_LABEL"
+                       description="PLG_SYSTEM_OPENGRAPH_DEFAULT_DESC_DESC"
+                       default="" />
+                <field name="default_og_image"
+                       type="media"
+                       preview="true"
+                       label="PLG_SYSTEM_OPENGRAPH_DEFAULT_IMAGE_LABEL"
+                       description="PLG_SYSTEM_OPENGRAPH_DEFAULT_IMAGE_DESC"
+                       default="" />
+                <field name="default_og_image_alt"
+                       type="text"
+                       label="PLG_SYSTEM_OPENGRAPH_DEFAULT_IMAGE_ALT_LABEL"
+                       description="PLG_SYSTEM_OPENGRAPH_DEFAULT_IMAGE_ALT_DESC"
+                       default="" />
+                <field name="default_og_site_name"
+                       type="text"
+                       label="PLG_SYSTEM_OPENGRAPH_DEFAULT_SITENAME_LABEL"
+                       description="PLG_SYSTEM_OPENGRAPH_DEFAULT_SITENAME_DESC"
+                       default="" />
+                <field name="fb_app_id"
+                       type="text"
+                       label="PLG_SYSTEM_OPENGRAPH_FB_APP_ID_LABEL"
+                       description="PLG_SYSTEM_OPENGRAPH_FB_APP_ID_DESC" />
             </fieldset>
         </fields>
     </config>
