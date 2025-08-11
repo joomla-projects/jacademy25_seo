@@ -368,6 +368,24 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      */
     private function getFieldValue(object $article, string $fieldName, array $articleImages): string
     {
+
+        // Check if it's a custom field
+        if (strpos($fieldName, 'field.') === 0) {
+            $customFieldName = substr($fieldName, 6);
+            // Load custom fields for the article
+            $customFields = FieldsHelper::getFields('com_content.article', $article, true);
+
+            foreach ($customFields as $field) {
+                if ($field->name == $customFieldName) {
+                    return $field->value ?? '';
+                }
+            }
+
+            return '';
+        }
+
+        // Handle standard article fields
+
         $value = '';
 
         switch ($fieldName) {
