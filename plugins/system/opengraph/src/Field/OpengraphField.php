@@ -103,7 +103,7 @@ class OpengraphField extends GroupedlistField
 
 
 
-        if (!$component instanceof FieldsServiceInterface) {
+        if (!$cmp instanceof FieldsServiceInterface) {
             return $groups;
         }
 
