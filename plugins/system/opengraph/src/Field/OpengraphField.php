@@ -59,14 +59,36 @@ class OpengraphField extends GroupedlistField
         ];
 
 
-        $ogOptions = [];
-        $component = $app->bootComponent('com_content');
-
-        if (!$component instanceof OpengraphServiceInterface) {
+        $component = '';
+        if ($this->form) {
+            $component = (string) ($this->form->getValue('extension')
+                ?: $this->form->getData()->get('extension'));
+        }
+        if (!$component) {
+            $context = (string) ($this->form ? $this->form->getName() : '');
+            $component = $context ? explode('.', $context, 2)[0] ?? '' : '';
+            if (!$component) {
+                $component = (string) $app->input->getCmd('option', '');
+            }
+        }
+        if (!$component) {
             return $groups;
         }
 
-        $fields    = $component->getOpengraphFields();
+        try {
+            $cmp = $app->bootComponent($component);
+        } catch (\Throwable $e) {
+            return $groups;
+        }
+
+        if (!$cmp instanceof OpengraphServiceInterface) {
+            return $groups;
+        }
+
+
+        $ogOptions = [];
+
+        $fields    = $cmp->getOpengraphFields();
         $fieldType = $this->getAttribute('field-type');
 
         if (isset($fields[$fieldType])) {
