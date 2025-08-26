@@ -65,7 +65,7 @@ class OpengraphField extends GroupedlistField
                 ?: $this->form->getData()->get('extension'));
         }
         if (!$component) {
-            $context = (string) ($this->form ? $this->form->getName() : '');
+            $context   = (string) ($this->form ? $this->form->getName() : '');
             $component = $context ? explode('.', $context, 2)[0] ?? '' : '';
             if (!$component) {
                 $component = (string) $app->input->getCmd('option', '');
@@ -109,9 +109,9 @@ class OpengraphField extends GroupedlistField
 
         // Allowed field types for each OpenGraph group
         $allowedFieldTypes = [
-            OpengraphGroup::TEXT->value       => ['text', 'textarea'],
-            OpengraphGroup::IMAGE->value      => ['media', 'imagelist'],
-            OpengraphGroup::IMAGE_ALT->value  => ['text'],
+            OpengraphGroup::TEXT->value      => ['text', 'textarea'],
+            OpengraphGroup::IMAGE->value     => ['media', 'imagelist'],
+            OpengraphGroup::IMAGE_ALT->value => ['text'],
         ];
 
         $nativeTypes = $allowedFieldTypes[$fieldType] ?? [];
@@ -136,7 +136,6 @@ class OpengraphField extends GroupedlistField
 
             // If not native-allowed, see if the field’s plugin implements our interface
             if (!$accept) {
-
                 // Ensure the specific fields plugin is loaded
                 PluginHelper::importPlugin('fields', $field->type);
 
@@ -152,7 +151,7 @@ class OpengraphField extends GroupedlistField
                 $implements = false;
 
                 foreach ($candidates as $fqcn) {
-                    if (\class_exists($fqcn) && \is_subclass_of($fqcn, MappableFieldInterface::class)) {
+                    if (class_exists($fqcn) && is_subclass_of($fqcn, MappableFieldInterface::class)) {
                         $implements = ($fqcn::getOpengraphGroup()->value === $fieldType);
                         if ($implements) {
                             $accept = true;
