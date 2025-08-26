@@ -108,4 +108,3 @@ cypress.config.mjs
 # WebAuthn FIDO metadata cache
 /plugins/system/webauthn/fido.jwt
 
-/plugins/fields/ogtest

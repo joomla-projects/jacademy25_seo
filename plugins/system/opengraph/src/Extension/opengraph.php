@@ -16,7 +16,9 @@ use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Event\Application\BeforeCompileHeadEvent;
 use Joomla\CMS\Event\Model\PrepareFormEvent;
-use Joomla\CMS\Menu\MenuItem;
+use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Opengraph\OpengraphServiceInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -26,9 +28,7 @@ use Joomla\Component\Content\Administrator\Model\ArticleModel;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Filter\OutputFilter;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -125,8 +125,8 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         }
 
         // Get the article id and category id
-        $input     = $app->input;
-        $articleId = (int) ($input->getInt('id') ?: $form->getValue('id'));
+        $input      = $app->input;
+        $articleId  = (int) ($input->getInt('id') ?: $form->getValue('id'));
         $categoryId = 0;
 
         if ($articleId > 0) {
@@ -165,7 +165,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $mappings = [];
         foreach ($catParams as $paramKey => $fieldName) {
             if (str_starts_with($paramKey, 'og_') && str_ends_with($paramKey, '_field')) {
-                $ogTag = substr($paramKey, 0, -6);        // strip "_field"
+                $ogTag            = substr($paramKey, 0, -6);        // strip "_field"
                 $mappings[$ogTag] = $fieldName;
             }
         }
@@ -175,12 +175,12 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             return;                     // category has no mappings
         }
 
-        $maxTitleLen   = $this->params->get('max_title_length', 60);
-        $maxDescLen    = $this->params->get('max_description_length', 160);
-        $maxAltLen     = $this->params->get('max_alt_length', 125);
-        $mappings["maxTitleLen"] = $maxTitleLen;
-        $mappings["maxDescLen"] = $maxDescLen;
-        $mappings["maxAltLen"] = $maxAltLen;
+        $maxTitleLen                     = $this->params->get('max_title_length', 60);
+        $maxDescLen                      = $this->params->get('max_description_length', 160);
+        $maxAltLen                       = $this->params->get('max_alt_length', 125);
+        $mappings["maxTitleLen"]         = $maxTitleLen;
+        $mappings["maxDescLen"]          = $maxDescLen;
+        $mappings["maxAltLen"]           = $maxAltLen;
         $mappings['twitter_title']       = $mappings['og_title'] ?? '';
         $mappings['twitter_description'] = $mappings['og_description'] ?? '';
 
@@ -225,27 +225,55 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         }
 
         $input  = $app->input;
-        if (
-            $input->getCmd('option') !== 'com_content'
-            || $input->getCmd('view') !== 'article'
-            || ! $id = $input->getInt('id')
-        ) {
+        $view   = $input->getCmd('view');
+        $id     = $input->getInt('id');
+        $option = $input->getCmd('option');
+
+        if ($option !== 'com_content') {
             return;
         }
-        // Plugin globally disabled?
+
+        // Plugin disabled?
         if (!$this->params->get('enable_og_generation', 1)) {
             return;
         }
 
+        $ogTags = $this->initializeOgTags();
+
+        if ($view === 'article' && $id > 0) {
+            $this->handleSingleArticle($document, $ogTags, $id, $option, $view);
+            return;
+        }
+        $this->handleMultipleArticleView($document, $ogTags, $option, $view, $id);
+    }
+
+
+
+
+    /**
+     * Handle Single Article
+     * Priority: Category Mappings → Article Form → Single Article Menu (if available)
+     *
+     * @param HtmlDocument $document
+     * @param array $ogTags
+     * @param int $id
+     * @param string $option
+     * @param string $view
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    private function handleSingleArticle(HtmlDocument $document, array $ogTags, int $id, string $option, string $view): void
+    {
         /** @var MVCComponent $component */
-        $component  = $app->bootComponent('com_content');
+        $component = $this->app->bootComponent('com_content');
 
         /** @var MVCFactoryInterface $mvcFactory */
         $mvcFactory = $component->getMVCFactory();
 
         $params = ComponentHelper::getParams('com_content');
-        // Fallback if for some reason it isn’t an object
-        if (! $params instanceof Registry) {
+        if (!$params instanceof Registry) {
             $params = new Registry();
         }
 
@@ -256,77 +284,197 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $articleModel->setState('article.id', $id);
 
         $article = $articleModel->getItem($id);
-        if (! $article) {
+        if (!$article) {
             return;
         }
 
         /** @var CategoryModel $categoryModel */
-        $categoryModel = $mvcFactory->createModel(
-            'Category',
-            'Site',
-            ['ignore_request' => true]
-        );
+        $categoryModel = $mvcFactory->createModel('Category', 'Site', ['ignore_request' => true]);
         $categoryModel->setState('category.id', $article->catid);
         $category = $categoryModel->getCategory();
 
-
-
-        // Get menu parameters
-        $menuParams     = $this->getMenuParams();
         $articleAttribs = new Registry($article->attribs ?? '{}');
         $categoryParams = new Registry($category->params ?? '{}');
         $articleImages  = $this->getAllArticleImages(new Registry($article->images ?? '{}'));
 
+        // Set article-specific properties
+        $ogTags['og_type'] = 'article';
 
-
-        $ogTags = [
-            'og_title'            => '',
-            'og_description'      => '',
-            'og_image'            => '',
-            'og_image_alt'        => '',
-            'og_type'             => '',
-            'og_url'              => '',
-            'twitter_card'        => '',
-            'twitter_title'       => '',
-            'twitter_description' => '',
-            'twitter_image'       => '',
-            'twitter_image_alt'   => '',
-            'fb_app_id'           => '',
-            'site_name'           => '',
-            'url'                 => '',
-            'base_url'            => '',
-        ];
-
-        // Get Global settings
-
-        $config = $this->app->getConfig();
-
-        $ogTags['fb_app_id'] = $this->params->get('fb_app_id');
-        $ogTags['site_name'] = $config->get('sitename');
-        $ogTags['base_url']  = Uri::base();
-        $ogTags['url']       = Uri::getInstance()->toString();
-
-        //  get OG tags from category mappings
+        // Step 1: Get OG tags from category mappings (Priority 1)
         $this->getOgTagsFromCategoryMappings($categoryParams, $article, $articleImages, $ogTags);
 
-        //  get OG tags from article form
+        // Step 2: Get OG tags from article form (Priority 2)
         $this->getOgTagsFromParams($articleAttribs, $ogTags);
 
-        //  get OG tags from menu form
-        $this->getOgTagsFromParams($menuParams, $ogTags);
+        // Step 3: Check if there's a single article menu item and override (Priority 3 - Highest)
+        $singleArticleMenuParams = $this->getSingleArticleMenuParams($option, $view, $id);
+        $this->getOgTagsFromParams($singleArticleMenuParams, $ogTags);
 
-        // get Default OG tags
+        // Get default OG tags for any missing values
         $this->getDefaultOgTags($ogTags);
 
-        //  get Twitter tags
+        // Get Twitter tags
         $this->getTwitterOgTags($ogTags);
 
-        //  sanitize OG tags
+        // Sanitize OG tags
         $this->sanitizeOgTags($ogTags);
 
         // Inject the OpenGraph data into the document
         $this->injectOpenGraphData($document, $ogTags);
     }
+
+    /**
+     * Handle Multiple Article Views (category, blog)
+     * Only check menu form
+     *
+     * @param HtmlDocument $document
+     * @param array $ogTags
+     * @param string $option
+     * @param string $view
+     * @param int|null $categoryId
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    private function handleMultipleArticleView(HtmlDocument $document, array $ogTags, string $option, string $view, int|null $categoryId): void
+    {
+
+
+        $menuParams = $this->getMultipleArticleMenuParams($option, $view, $categoryId);
+
+
+        if (!$menuParams->count()) {
+            return;
+        }
+
+        // Apply menu parameters only
+        $this->getOgTagsFromParams($menuParams, $ogTags);
+
+        // Get Twitter tags
+        $this->getTwitterOgTags($ogTags);
+
+        // Sanitize OG tags
+        $this->sanitizeOgTags($ogTags);
+
+        // Inject the OpenGraph data into the document
+        $this->injectOpenGraphData($document, $ogTags);
+    }
+
+    /**
+     * Get menu parameters only for single article menu items
+     *
+     * @param string $option
+     * @param string $view
+     * @param int $id
+     *
+     * @return Registry
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    private function getSingleArticleMenuParams(string $option, string $view, int $id): Registry
+    {
+        $menu   = $this->app->getMenu();
+        $active = $menu->getActive();
+
+        // Default empty params
+        $params = new Registry();
+
+        if (!$active || !isset($active->query['option']) || $active->query['option'] !== $option) {
+            return $params;
+        }
+
+        // Only return params if this is a direct single article menu item
+        if (
+            isset($active->query['view']) && $active->query['view'] === 'article' &&
+            isset($active->query['id']) && (int) $active->query['id'] === $id
+        ) {
+            return $active->getParams();
+        }
+
+        return $params;
+    }
+
+    /**
+     * Get menu parameters for multiple article views (category, blog, featured)
+     *
+     * @param string $option
+     * @param string $view
+     * @param int|null $categoryId
+     *
+     * @return Registry
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    private function getMultipleArticleMenuParams(string $option, string $view, ?int $categoryId = null): Registry
+    {
+        $menu   = $this->app->getMenu();
+        $active = $menu->getActive();
+
+        // Default empty params
+        $params = new Registry();
+
+        if (!$active || !isset($active->query['option']) || $active->query['option'] !== $option) {
+            return $params;
+        }
+
+        // Check for direct menu match based on view type
+        if (isset($active->query['view']) && $active->query['view'] === $view) {
+            // For category-based views with an ID parameter
+            if (\in_array($view, ['category', 'categoryblog'], true) && isset($active->query['id'])) {
+                if ($categoryId !== null && (int) $active->query['id'] === (int) $categoryId) {
+                    return $active->getParams();
+                }
+            }
+
+            // For featured view (no category ID)
+            elseif ($view === 'featured') {
+                return $active->getParams();
+            }
+
+            // For other multi-article views, just return menu params
+            else {
+                return $active->getParams();
+            }
+        }
+
+        return $params;
+    }
+
+
+    /**
+     * Initialize OG tags array
+     *
+     * @return array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    private function initializeOgTags(): array
+    {
+        $config = $this->app->getConfig();
+
+        return [
+            'og_title'            => '',
+            'og_description'      => '',
+            'og_image'            => '',
+            'og_image_alt'        => '',
+            'og_type'             => 'website',
+            'og_url'              => Uri::getInstance()->toString(),
+            'twitter_card'        => 'summary',
+            'twitter_title'       => '',
+            'twitter_description' => '',
+            'twitter_image'       => '',
+            'twitter_image_alt'   => '',
+            'fb_app_id'           => $this->params->get('fb_app_id', ''),
+            'site_name'           => $config->get('sitename'),
+            'url'                 => Uri::getInstance()->toString(),
+            'base_url'            => Uri::base(),
+        ];
+    }
+
+
+
+
 
 
     /**
@@ -365,6 +513,8 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      * @param array $articleImages
      *
      * @return string
+     *
+     * @since  __DEPLOY_VERSION__
      */
     private function getFieldValue(object $article, string $fieldName, array $articleImages): string
     {
@@ -444,6 +594,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      * @param   Registry  $articleImages
      *
      * @return array
+     *
      * @since  __DEPLOY_VERSION__
      */
     private function getAllArticleImages(Registry $articleImages): array
@@ -523,8 +674,8 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             'og_description' => $this->params->get('default_og_description'),
             'og_image'       => $this->params->get('default_og_image'),
             'og_image_alt'   => $this->params->get('default_og_image_alt'),
-            'site_name'  => $this->params->get('default_og_site_name'),
-            'fb_app_id'     => $this->params->get('fb_app_id'),
+            'site_name'      => $this->params->get('default_og_site_name'),
+            'fb_app_id'      => $this->params->get('fb_app_id'),
         ];
 
         foreach ($defaultOgTags as $key => $value) {
@@ -727,25 +878,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         return $xml->asXML();
     }
 
-    /**
-     * Get the parameters associated with the active menu item
-     *
-     * @return Registry
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    private function getMenuParams(): Registry
-    {
-        $menu = $this->app->getMenu();
-
-        $active = $menu?->getActive();
-
-        if (!$active instanceof MenuItem) {
-            return new Registry();
-        }
-
-        return $menu->getParams($active->id);
-    }
 
     /**
      * Clean up and normalise all OG / Twitter tag values.

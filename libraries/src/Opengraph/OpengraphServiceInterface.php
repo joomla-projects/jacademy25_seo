@@ -26,13 +26,13 @@ namespace Joomla\CMS\Opengraph;
  */
 enum OpengraphGroup: string
 {
-/** Standard textual content (e.g. single-line, multi-line). */
+    /** Standard textual content (e.g. single-line, multi-line). */
     case TEXT       = 'text-fields';
 
-/** Image or media file (intro/full images, custom media fields, …). */
+    /** Image or media file (intro/full images, custom media fields, …). */
     case IMAGE      = 'image-fields';
 
-/** Alternate-text associated with an image (accessibility / SEO). */
+    /** Alternate-text associated with an image (accessibility / SEO). */
     case IMAGE_ALT  = 'image-alt-fields';
 }
 
