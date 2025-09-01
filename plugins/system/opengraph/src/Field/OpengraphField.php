@@ -60,7 +60,7 @@ class OpengraphField extends GroupedlistField
                 ?: $this->form->getData()->get('extension'));
         }
         if (!$component) {
-            $context = (string) ($this->form ? $this->form->getName() : '');
+            $context   = (string) ($this->form ? $this->form->getName() : '');
             $component = $context ? explode('.', $context, 2)[0] ?? '' : '';
             if (!$component) {
                 $component = (string) $app->input->getCmd('option', '');

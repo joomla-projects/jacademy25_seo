@@ -25,7 +25,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\Component\Content\Administrator\Model\ArticleModel;
-use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
