@@ -51,6 +51,29 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
     use UserFactoryAwareTrait;
 
     /**
+     * Map of schema types to their role fields
+     *
+     * @var array
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    private const ROLE_CONTACT_MAP = [
+        'Article' => [
+            'author'
+        ],
+        'BlogPosting' => [
+            'author'
+        ],
+        'Book' => [
+            'illustrator'
+        ],
+        'Event' => [
+            'organizer',
+        ],
+
+    ];
+
+    /**
      * Returns an array of events this subscriber will listen to.
      *
      * @return  array
@@ -150,7 +173,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         // Load the form fields
         $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml');
 
-
         // The user should configure the plugin first
         if (!$this->params->get('baseType')) {
             $form->removeField('schemaType', 'schema');
@@ -181,6 +203,221 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
 
         PluginHelper::importPlugin('schemaorg', null, true, $dispatcher);
         $dispatcher->dispatch('onSchemaPrepareForm', $event);
+
+        // Inject contact fields into relevant roles
+        foreach (self::ROLE_CONTACT_MAP as $type => $roles) {
+            foreach ($roles as $role) {
+                $this->injectContactField($form, $type, $role);
+            }
+        }
+    }
+
+    /**
+     * Inject a Contact selector field into a role subform for a given Schema.org type.
+     *
+     * @param  \Joomla\CMS\Form\Form  $form  The active form being prepared.
+     * @param  string                 $type  Schema.org type name (e.g. "Article", "Book").
+     * @param  string                 $role  Role field name under that type (e.g. "author", "illustrator").
+     *
+     * @return void
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    private function injectContactField(\Joomla\CMS\Form\Form $form, string $type, string $role): void
+    {
+
+        $xml   = $form->getXml();
+        $nodes = $xml->xpath("//fieldset[@name='schema']/field[@name='{$type}']/form/field[@name='{$role}']");
+        if (!$nodes || !isset($nodes[0])) {
+            return; // no such role in this type
+        }
+
+        $roleField = $nodes[0];
+
+        $contact = new \SimpleXMLElement('<field/>');
+        $contact->addAttribute('name',  'contact');
+        $contact->addAttribute('type',  'modal_contact');
+        $contact->addAttribute('label', 'COM_CONTACT_SELECT_CONTACT_LABEL');
+        $contact->addAttribute('hiddenLabel', 'true');
+        $contact->addAttribute('select', 'true');
+        $contact->addAttribute('new',    'true');
+        $contact->addAttribute('edit',   'true');
+        $contact->addAttribute('clear',  'true');
+        $contact->addAttribute('addfieldprefix', 'Joomla\Component\Contact\Administrator\Field');
+
+        // Prepend into the role’s inner <form> so it’s the first control
+        $domForm    = dom_import_simplexml($roleField->form);
+        $domContact = $domForm->ownerDocument->importNode(dom_import_simplexml($contact), true);
+        $domForm->insertBefore($domContact, $domForm->firstChild);
+    }
+
+    /**
+     * Enrich top-level @graph entries for configured types/roles using com_contact data.
+     *
+     * @param array $graph
+     *
+     * @return void
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    private function enrichGraphContacts(array &$graph): void
+    {
+
+
+        foreach ($graph as &$entry) {
+            if (!is_array($entry) || empty($entry['@type'])) {
+                continue;
+            }
+
+            $type = $entry['@type'];
+
+            if (!isset(self::ROLE_CONTACT_MAP[$type])) {
+                continue;
+            }
+
+            foreach (self::ROLE_CONTACT_MAP[$type] as $role) {
+                if (!isset($entry[$role])) {
+                    continue;
+                }
+
+                // Normalize to list of role nodes by reference
+                $roleNodes = [];
+                $roleNodes = [&$entry[$role]];
+
+                // Enrich each role node when it has a contact id
+                foreach ($roleNodes as &$roleNode) {
+                    if (!isset($roleNode['contact']) || (int) $roleNode['contact'] <= 0) {
+                        continue;
+                    }
+                    $contact = $this->getContactById((int) $roleNode['contact']);
+
+                    if ($contact) {
+                        $this->fillNodeFromContact($roleNode, $contact);
+                        unset($roleNode['contact']);
+                    }
+                }
+            }
+        }
+    }
+
+
+
+    /**
+     * Fetch a com_contact record by its ID.
+     *
+     * @param int $id
+     *
+     * @return stdClass|null
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    private function getContactById(int $id)
+    {
+        try {
+            $app = $this->getApplication();
+
+            /** @var \Joomla\CMS\Extension\MVCComponent $component */
+            $component  = $app->bootComponent('com_contact');
+            $mvcFactory = $component->getMVCFactory();
+
+            /** @var \Joomla\Component\Contact\Site\Model\ContactModel $model */
+            $model = $mvcFactory->createModel('Contact', 'Site', ['ignore_request' => true]);
+
+            // Set state as com_contact does in front-end
+            $model->setState('params', $app->getParams());
+            $model->setState('contact.id', $id);
+
+            $contact = $model->getItem();
+
+            // Basic sanity check
+            if (!empty($contact) && (int) ($contact->id ?? 0) === $id) {
+                return $contact;
+            }
+        } catch (\Throwable $e) {
+        }
+
+        return null;
+    }
+
+    /**
+     * Copy contact details into the role node.
+     *
+     * @param array    $node     Role node array (passed by reference).
+     * @param stdClass $contact  com_contact record.
+     *
+     * @return void
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    private function fillNodeFromContact(array &$node, $contact): void
+    {
+        // Core fields (fill only if missing)
+        if (empty($node['name']) && !empty($contact->name)) {
+            $node['name'] = $contact->name;
+        }
+        if (empty($node['email']) && !empty($contact->email_to)) {
+            $node['email'] = $contact->email_to;
+        }
+        if (empty($node['url']) && !empty($contact->webpage)) {
+            $node['url'] = $contact->webpage;
+        }
+
+        // Build a PostalAddress object as "address"
+
+        if (isset($node['address']) && is_array($node['address'])) {
+            $addr = $node['address'];
+        } else {
+            $addr = [];
+        }
+
+        $addr['@type'] = 'PostalAddress';
+
+
+        // Only set if missing to avoid overriding manually filled values
+        if (empty($addr['addressLocality'])) {
+            if (!empty($node['addressLocality'])) {
+                $addr['addressLocality'] = $node['addressLocality'];
+            } elseif (!empty($contact->suburb)) {
+                $addr['addressLocality'] = $contact->suburb;
+            }
+        }
+
+        if (empty($addr['postalCode'])) {
+            if (!empty($node['postalCode'])) {
+                $addr['postalCode'] = $node['postalCode'];
+            } elseif (!empty($contact->postcode)) {
+                $addr['postalCode'] = $contact->postcode;
+            }
+        }
+
+        if (empty($addr['streetAddress'])) {
+            if (!empty($node['streetAddress'])) {
+                $addr['streetAddress'] = $node['streetAddress'];
+            } elseif (!empty($contact->street)) {
+                $addr['streetAddress'] = $contact->street;
+            } elseif (!empty($contact->address)) {
+                // As a fallback, use the flat address if street isn’t split out
+                $addr['streetAddress'] = $contact->address;
+            }
+        }
+
+        if (empty($addr['addressRegion'])) {
+            if (!empty($node['addressRegion'])) {
+                $addr['addressRegion'] = $node['addressRegion'];
+            } elseif (!empty($contact->state)) {
+                $addr['addressRegion'] = $contact->state;
+            }
+        }
+
+        if (empty($addr['addressCountry'])) {
+            if (!empty($node['addressCountry'])) {
+                $addr['addressCountry'] = $node['addressCountry'];
+            } elseif (!empty($contact->country)) {
+                $addr['addressCountry'] = $contact->country;
+            }
+        }
+
+        $node['address'] = $addr;
     }
 
     /**
@@ -428,7 +665,10 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         PluginHelper::importPlugin('schemaorg', null, true, $dispatcher);
         $dispatcher->dispatch('onSchemaBeforeCompileHead', $event);
 
-        $data = $schema->get('@graph');
+        $data = $schema->get('@graph') ?: [];
+
+        // Enrich contacts from com_contact
+        $this->enrichGraphContacts($data);
 
         foreach ($data as $key => $entry) {
             $data[$key] = $this->cleanupSchema($entry);

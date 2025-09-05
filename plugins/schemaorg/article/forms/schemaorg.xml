@@ -37,23 +37,6 @@
                                 <option value="person">PLG_SCHEMAORG_ARTICLE_FIELD_PERSON_LABEL</option>
                                 <option value="organization">PLG_SCHEMAORG_ARTICLE_FIELD_ORGANIZATION_LABEL</option>
                             </field>
-                            <field type="ModalSelect"
-                                   name="contact"
-                                   label="Contact"
-                                   select="true"
-                                   new="true"
-                                   edit="true"
-                                   clear="true"
-                                   iconSelect="fa fa-user"
-                                   titleSelect="Select a Contact"
-                                   urlSelect="index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component"
-                                   titleNew="New Contact"
-                                   urlNew="index.php?option=com_contact&amp;task=contact.add&amp;layout=modal&amp;tmpl=component"
-                                   titleEdit="Edit Contact"
-                                   urlEdit="index.php?option=com_contact&amp;task=contact.edit&amp;id={id}&amp;layout=modal&amp;tmpl=component"
-                                   sql_title_table="#__contact_details"
-                                   sql_title_column="name"
-                                   sql_title_key="id" />
                             <field name="name"
                                    type="text"
                                    label="PLG_SCHEMAORG_ARTICLE_FIELD_NAME_LABEL"
