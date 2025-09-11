@@ -74,6 +74,13 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
     ];
 
     /**
+     * Temporarily holds schema data between onContentPrepareData and onContentPrepareForm events.
+     *
+     * @var  ?array
+     * @since __DEPLOY_VERSION__
+     */
+    private ?array $preparedSchemaData = null;
+    /**
      * Returns an array of events this subscriber will listen to.
      *
      * @return  array
@@ -138,6 +145,8 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
             $schema = new Registry($results['schema']);
 
             $data->schema[$schemaType] = $schema->toArray();
+            // Store the loaded data for use in onContentPrepareForm
+            $this->preparedSchemaData = $data->schema;
         }
 
         $dispatcher = $this->getDispatcher();
@@ -210,6 +219,95 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                 $this->injectContactField($form, $type, $role);
             }
         }
+
+        // After injecting contact fields, load the JavaScript
+        if ($app->isClient('administrator') && $this->isSupported($context)) {
+            $contactId = 0;
+            if ($this->preparedSchemaData) {
+
+                foreach (self::ROLE_CONTACT_MAP as $type => $roles) {
+
+                    if (isset($this->preparedSchemaData[$type])) {
+                        foreach ($roles as $role) {
+                            if (!empty($this->preparedSchemaData[$type][$role]['contact'])) {
+                                $contactId = (int) $this->preparedSchemaData[$type][$role]['contact'];
+                                break 2;
+                            }
+                        }
+                    }
+                }
+            }
+
+            $this->loadContactFieldAssets($contactId);
+        }
+    }
+
+    /**
+     * Load JavaScript and CSS assets for contact field functionality
+     * and pass pre-loaded contact data if it exists.
+     *
+     * @param   int  $contactId  The ID of a pre-selected contact, or 0 if none.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function loadContactFieldAssets(int $contactId = 0): void
+    {
+
+        $app = $this->getApplication();
+        $doc = $app->getDocument();
+
+        if (!($doc instanceof \Joomla\CMS\Document\HtmlDocument)) {
+            return;
+        }
+
+        $initialContactData = null;
+        if ($contactId > 0) {
+
+            /** @var \Joomla\CMS\Extension\MVCComponent $component */
+            $component  = $app->bootComponent('com_contact');
+            $mvcFactory = $component->getMVCFactory();
+
+            /** @var ContactModel $contactModel */
+            $contactModel = $mvcFactory->createModel('Contact', 'Administrator', ['ignore_request' => true]);
+            $contact      = $contactModel->getItem($contactId);
+            if ($contact) {
+                $initialContactData = [
+                    'id'        => (int) ($contact->id ?? 0),
+                    'name'      => $contact->name ?? '',
+                    'email_to'  => $contact->email_to ?? '',
+                    'address'   => $contact->address ?? '',
+                    'street'    => $contact->street ?? '',
+                    'suburb'    => $contact->suburb ?? '',
+                    'state'     => $contact->state ?? '',
+                    'postcode'  => $contact->postcode ?? '',
+                    'country'   => $contact->country ?? '',
+                    'telephone' => $contact->telephone ?? '',
+                    'webpage'   => $contact->webpage ?? '',
+                ];
+            }
+        }
+        $wa = $doc->getWebAssetManager();
+
+        // Register the asset if not already registered
+        if (!$wa->assetExists('script', 'plg_system_schemaorg.contact')) {
+            $wa->registerScript(
+                'plg_system_schemaorg.contact',
+                'plg_system_schemaorg/schemaorg-contact.js',
+                ['version' => 'auto', 'relative' => true],
+                ['defer' => true],
+                ['core']
+            );
+        }
+
+        // // Use the assets
+        $wa->useScript('plg_system_schemaorg.contact');
+
+        // Add inline configuration
+        $doc->addScriptOptions('plg_system_schemaorg', [
+            'initialContact' => $initialContactData,
+        ]);
     }
 
     /**
@@ -419,6 +517,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
 
         $node['address'] = $addr;
     }
+
 
     /**
      * Saves form field data in the database

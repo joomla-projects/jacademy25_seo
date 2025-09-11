@@ -1,0 +1,19 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "plg_system_schemaorg",
+  "version": "1.0.0",
+  "description": "Schema.org System Plugin Assets",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "plg_system_schemaorg.contact",
+      "type": "script",
+      "uri": "plg_system_schemaorg/schemaorg-contact.js",
+      "dependencies": ["core"],
+      "attributes": {
+        "defer": true
+      },
+      "version": "1.0.0"
+    }
+  ]
+}
