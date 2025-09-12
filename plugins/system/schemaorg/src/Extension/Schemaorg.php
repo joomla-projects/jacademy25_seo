@@ -59,13 +59,13 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
      */
     private const ROLE_CONTACT_MAP = [
         'Article' => [
-            'author'
+            'author',
         ],
         'BlogPosting' => [
-            'author'
+            'author',
         ],
         'Book' => [
-            'illustrator'
+            'illustrator',
         ],
         'Event' => [
             'organizer',
@@ -264,7 +264,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         $defaultContactId = (int) $this->params->get('defaultContact', 0);
         $isDefaultContact = false;
         if ($contactId <= 0 && $defaultContactId > 0) {
-            $contactId = $defaultContactId;
+            $contactId        = $defaultContactId;
             $isDefaultContact = true;
         }
         $initialContactData = null;
@@ -279,17 +279,17 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
             $contact      = $contactModel->getItem($contactId);
             if ($contact) {
                 $initialContactData = [
-                    'id'        => (int) ($contact->id ?? 0),
-                    'name'      => $contact->name ?? '',
-                    'email_to'  => $contact->email_to ?? '',
-                    'address'   => $contact->address ?? '',
-                    'street'    => $contact->street ?? '',
-                    'suburb'    => $contact->suburb ?? '',
-                    'state'     => $contact->state ?? '',
-                    'postcode'  => $contact->postcode ?? '',
-                    'country'   => $contact->country ?? '',
-                    'telephone' => $contact->telephone ?? '',
-                    'webpage'   => $contact->webpage ?? '',
+                    'id'               => (int) ($contact->id ?? 0),
+                    'name'             => $contact->name ?? '',
+                    'email_to'         => $contact->email_to ?? '',
+                    'address'          => $contact->address ?? '',
+                    'street'           => $contact->street ?? '',
+                    'suburb'           => $contact->suburb ?? '',
+                    'state'            => $contact->state ?? '',
+                    'postcode'         => $contact->postcode ?? '',
+                    'country'          => $contact->country ?? '',
+                    'telephone'        => $contact->telephone ?? '',
+                    'webpage'          => $contact->webpage ?? '',
                     'isDefaultContact' => $isDefaultContact,
                 ];
             }
@@ -302,7 +302,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                 'plg_system_schemaorg.contact',
                 'plg_system_schemaorg/schemaorg-contact.js',
                 ['version' => 'auto', 'relative' => true],
-                ['defer' => true],
+                ['defer'   => true],
                 ['core']
             );
         }
@@ -339,14 +339,14 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         $roleField = $nodes[0];
 
         // Get current user and permission checks for com_contact
-        $user = $this->getApplication()->getIdentity();
+        $user      = $this->getApplication()->getIdentity();
         $canCreate = $user->authorise('core.create', 'com_contact');
         $canEdit   = $user->authorise('core.edit', 'com_contact');
         $canView   = $user->authorise('core.view', 'com_contact');
 
         $contact = new \SimpleXMLElement('<field/>');
-        $contact->addAttribute('name',  'contact');
-        $contact->addAttribute('type',  'modal_contact');
+        $contact->addAttribute('name', 'contact');
+        $contact->addAttribute('type', 'modal_contact');
         $contact->addAttribute('label', 'COM_CONTACT_SELECT_CONTACT_LABEL');
         $contact->addAttribute('hiddenLabel', 'true');
 
@@ -392,7 +392,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
 
 
         foreach ($graph as &$entry) {
-            if (!is_array($entry) || empty($entry['@type'])) {
+            if (!\is_array($entry) || empty($entry['@type'])) {
 
                 continue;
             }
@@ -505,7 +505,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
 
         // Build a PostalAddress object as "address"
 
-        if (isset($node['address']) && is_array($node['address'])) {
+        if (isset($node['address']) && \is_array($node['address'])) {
             $addr = $node['address'];
         } else {
             $addr = [];
