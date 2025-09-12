@@ -70,12 +70,21 @@
       const contactNameFields = form.querySelectorAll(
         "input.js-input-title[name*='[contact]']"
       );
-
+      let isPopulated = false;
       contactNameFields.forEach((field) => {
         if (field.value && field.value.trim() && this.initialContact) {
           this.populatePlaceholders(field, this.initialContact);
+          isPopulated = true;
         }
       });
+      if (!isPopulated) {
+        contactNameFields.forEach((field) => {
+          if (this.initialContact) {
+            this.populatePlaceholders(field, this.initialContact);
+            isPopulated = true;
+          }
+        });
+      }
     }
 
     populatePlaceholders(contactField, contactData) {
@@ -83,8 +92,12 @@
 
       // Normalize simple contact object and trim strings
       const contact = Object.assign({}, contactData);
+      let isDefaultContact = false;
       Object.keys(contact).forEach((k) => {
         if (typeof contact[k] === "string") contact[k] = contact[k].trim();
+        if (k === "isDefaultContact") {
+          isDefaultContact = Boolean(contact[k]);
+        }
       });
 
       // find the role container (use nearby grouping)
@@ -119,7 +132,6 @@
           }
 
           if (!value) return;
-
           const parentKey = this.nestedFields[schemaField] || null;
           const targetName = parentKey
             ? `${baseName}[${parentKey}][${schemaField}]`
@@ -130,9 +142,14 @@
           const targetField =
             roleContainer.querySelector(selector) ||
             document.querySelector(selector);
-
+          let newValue = value;
+          if (isDefaultContact) {
+            newValue += ` — Inherited from default contact "${contact.name}"`;
+          } else {
+            newValue += ` — Inherited from contact "${contact.name}"`;
+          }
           if (targetField) {
-            targetField.placeholder = value + " — Inherited from contact";
+            targetField.placeholder = newValue;
             targetField.classList.add("has-contact-placeholder");
           } else {
             // debug if not found

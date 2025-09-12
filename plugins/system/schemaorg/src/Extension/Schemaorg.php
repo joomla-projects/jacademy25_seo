@@ -261,7 +261,12 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         if (!($doc instanceof \Joomla\CMS\Document\HtmlDocument)) {
             return;
         }
-
+        $defaultContactId = (int) $this->params->get('defaultContact', 0);
+        $isDefaultContact = false;
+        if ($contactId <= 0 && $defaultContactId > 0) {
+            $contactId = $defaultContactId;
+            $isDefaultContact = true;
+        }
         $initialContactData = null;
         if ($contactId > 0) {
 
@@ -285,6 +290,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                     'country'   => $contact->country ?? '',
                     'telephone' => $contact->telephone ?? '',
                     'webpage'   => $contact->webpage ?? '',
+                    'isDefaultContact' => $isDefaultContact,
                 ];
             }
         }
@@ -332,15 +338,38 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
 
         $roleField = $nodes[0];
 
+        // Get current user and permission checks for com_contact
+        $user = $this->getApplication()->getIdentity();
+        $canCreate = $user->authorise('core.create', 'com_contact');
+        $canEdit   = $user->authorise('core.edit', 'com_contact');
+        $canView   = $user->authorise('core.view', 'com_contact');
+
         $contact = new \SimpleXMLElement('<field/>');
         $contact->addAttribute('name',  'contact');
         $contact->addAttribute('type',  'modal_contact');
         $contact->addAttribute('label', 'COM_CONTACT_SELECT_CONTACT_LABEL');
         $contact->addAttribute('hiddenLabel', 'true');
-        $contact->addAttribute('select', 'true');
-        $contact->addAttribute('new',    'true');
-        $contact->addAttribute('edit',   'true');
-        $contact->addAttribute('clear',  'true');
+
+        // Only show select if user can view contacts
+        if ($canView) {
+            $contact->addAttribute('select', 'true');
+        }
+
+        // Only allow creating a contact if user has create permission
+        if ($canCreate) {
+            $contact->addAttribute('new', 'true');
+        }
+
+        // Edit button shown only to users with edit permission
+        if ($canEdit) {
+            $contact->addAttribute('edit', 'true');
+        }
+
+        // Clear should be allowed if user can view (so they can clear their selection)
+        if ($canView) {
+            $contact->addAttribute('clear', 'true');
+        }
+
         $contact->addAttribute('addfieldprefix', 'Joomla\Component\Contact\Administrator\Field');
 
         // Prepend into the role’s inner <form> so it’s the first control
@@ -364,12 +393,14 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
 
         foreach ($graph as &$entry) {
             if (!is_array($entry) || empty($entry['@type'])) {
+
                 continue;
             }
 
             $type = $entry['@type'];
 
             if (!isset(self::ROLE_CONTACT_MAP[$type])) {
+
                 continue;
             }
 
@@ -382,16 +413,28 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                 $roleNodes = [];
                 $roleNodes = [&$entry[$role]];
 
+
                 // Enrich each role node when it has a contact id
+                $filledNodes = 0;
                 foreach ($roleNodes as &$roleNode) {
                     if (!isset($roleNode['contact']) || (int) $roleNode['contact'] <= 0) {
                         continue;
                     }
                     $contact = $this->getContactById((int) $roleNode['contact']);
-
                     if ($contact) {
                         $this->fillNodeFromContact($roleNode, $contact);
+                        $filledNodes++;
                         unset($roleNode['contact']);
+                    }
+                }
+
+                if ($filledNodes == 0) {
+                    $defaultContactId = (int) $this->params->get('defaultContact', 0);
+                    if ($defaultContactId > 0) {
+                        $contact = $this->getContactById($defaultContactId);
+                        if ($contact) {
+                            $this->fillNodeFromContact($roleNode, $contact);
+                        }
                     }
                 }
             }
