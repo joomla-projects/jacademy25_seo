@@ -216,7 +216,7 @@ class ContentComponent extends MVCComponent implements
      */
     public function getOpengraphFields(): array
     {
-        Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+        Factory::getApplication()->getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
         $fields = [
             'text-fields' => [

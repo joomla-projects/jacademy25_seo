@@ -425,15 +425,11 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
                 if ($categoryId !== null && (int) $active->query['id'] === (int) $categoryId) {
                     return $active->getParams();
                 }
-            }
-
-            // For featured view (no category ID)
-            elseif ($view === 'featured') {
+            } elseif ($view === 'featured') {
+                // For featured view (no category ID)
                 return $active->getParams();
-            }
-
-            // For other multi-article views, just return menu params
-            else {
+            } else {
+                // For other multi-article views, just return menu params
                 return $active->getParams();
             }
         }

@@ -13,20 +13,20 @@ namespace Joomla\CMS\Opengraph;
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
+
 /**
- * The Opengraph service.
+ * Interface for fields that can be mapped to OpenGraph groups.
  *
  * @since  __DEPLOY_VERSION__
  */
-interface OpengraphServiceInterface
+interface MappableFieldInterface
 {
     /**
-     * Returns valid contexts.
+     * Returns the OpenGraph group this field should be listed under.
      *
-     * @return  array
+     * @return  OpengraphGroup  One of the enum cases defined in {@see OpengraphGroup}.
      *
      * @since   __DEPLOY_VERSION__
-     *
      */
-    public function getOpengraphFields(): array;
+    public static function getOpengraphGroup(): OpengraphGroup;
 }
