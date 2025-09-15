@@ -431,6 +431,8 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             } else {
                 // For other multi-article views, just return menu params
                 return $active->getParams();
+            } else {
+                return $active->getParams();
             }
         }
 
@@ -531,7 +533,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         }
 
         // Handle standard article fields
-
         $value = '';
 
         switch ($fieldName) {

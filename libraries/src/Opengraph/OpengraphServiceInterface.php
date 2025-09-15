@@ -13,6 +13,7 @@ namespace Joomla\CMS\Opengraph;
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
+
 /**
  * The Opengraph service.
  *
