@@ -226,9 +226,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         if ($app->isClient('administrator') && $this->isSupported($context)) {
             $contactId = 0;
             if ($this->preparedSchemaData) {
-
                 foreach (self::ROLE_CONTACT_MAP as $type => $roles) {
-
                     if (isset($this->preparedSchemaData[$type])) {
                         foreach ($roles as $role) {
                             if (!empty($this->preparedSchemaData[$type][$role]['contact'])) {
@@ -395,14 +393,12 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
 
         foreach ($graph as &$entry) {
             if (!\is_array($entry) || empty($entry['@type'])) {
-
                 continue;
             }
 
             $type = $entry['@type'];
 
             if (!isset(self::ROLE_CONTACT_MAP[$type])) {
-
                 continue;
             }
 
