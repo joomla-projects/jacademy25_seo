@@ -19,10 +19,6 @@ use Joomla\CMS\Opengraph\OpengraphGroup;
 use Joomla\CMS\Opengraph\OpengraphServiceInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
-use Joomla\CMS\Form\Field\GroupedlistField;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Opengraph\OpengraphServiceInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
