@@ -93,10 +93,14 @@
       // Normalize simple contact object and trim strings
       const contact = Object.assign({}, contactData);
       let isDefaultContact = false;
+      let isAuthor = false;
       Object.keys(contact).forEach((k) => {
         if (typeof contact[k] === "string") contact[k] = contact[k].trim();
         if (k === "isDefaultContact") {
           isDefaultContact = Boolean(contact[k]);
+        }
+        if (k === "isAuthor") {
+          isAuthor = Boolean(contact[k]);
         }
       });
 
@@ -143,7 +147,9 @@
             roleContainer.querySelector(selector) ||
             document.querySelector(selector);
           let newValue = value;
-          if (isDefaultContact) {
+          if (isAuthor) {
+            newValue += ` — Inherited from author's contact "${contact.name}"`;
+          } else if (isDefaultContact) {
             newValue += ` — Inherited from default contact "${contact.name}"`;
           } else {
             newValue += ` — Inherited from contact "${contact.name}"`;
