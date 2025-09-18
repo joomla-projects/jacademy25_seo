@@ -16,8 +16,10 @@ use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareDataEvent;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareFormEvent;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareSaveEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -242,6 +244,84 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         }
     }
 
+
+    /**
+     * Resolve the contact ID linked to the author of a given article.
+     *
+     * This method loads the com_content Article model to fetch the
+     * article's `created_by` user. It then attempts to find a published contact
+     * linked to that user via com_contact.
+     *
+     * @param   int  $itemId  The content item (article) ID.
+     *
+     * @return  int  The resolved contact ID, or 0 if no match is found.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getContactIdFromArticle(int $itemId): int
+    {
+        $contactId = 0;
+        $app       = $this->getApplication();
+        try {
+            $component  = $app->bootComponent('com_content');
+            /** @var \Joomla\CMS\Extension\MVCComponent $component */
+            $mvcFactory = $component->getMVCFactory();
+            // Load com_content's Article model
+            /** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $articleModel */
+            $articleModel = $mvcFactory->createModel('Article', 'Administrator', ['ignore_request' => true]);
+            $article      = $articleModel->getItem($itemId);
+
+            if ($article && $article->created_by > 0) {
+                $createdBy = (int) $article->created_by;
+                // Single, parameter-bound DB query to find a published contact for that user
+
+                /** @var \Joomla\CMS\MVC\Factory\MVCFactoryInterface $mvcFactory */
+                $mvcFactory = Factory::getApplication()->bootComponent('com_contact')->getMVCFactory();
+
+                // Create the Contact table
+                $table     = $mvcFactory->createTable('Contact', 'Administrator');
+                $key       = $table->getKeyName();
+                $db        = $this->getDatabase();
+                $tableName = $table->getTableName();
+
+                $query = $db->getQuery(true)
+                    ->select($db->quoteName([$key, 'language', 'published']))
+                    ->from($db->quoteName($tableName))
+                    ->where($db->quoteName('user_id') . ' = :userid')
+                    ->bind(':userid', $createdBy, ParameterType::INTEGER)
+                    ->order($db->quoteName('published') . ' DESC, ' . $db->quoteName('language') . ' ASC');
+
+                $db->setQuery($query);
+                $contactItems = $db->loadObjectList();
+
+                if (empty($contactItems)) {
+                    return 0;
+                }
+                $chosen = $contactItems[0];
+
+                if (Multilanguage::isEnabled()) {
+                    // If any item has specific language (not '*'), prefer exact language match
+                    $currentLang = $app->getLanguage()->getTag();
+
+                    $matches = array_values(array_filter($contactItems, function ($it) use ($currentLang) {
+                        return $it->language === $currentLang;
+                    }));
+
+                    if (!empty($matches)) {
+                        $chosen = $matches[0];
+                    }
+                }
+                $contactId = isset($chosen->id) ? (int) $chosen->id : null;
+
+                return $contactId ?? 0;
+            }
+        } catch (\Throwable $e) {
+        }
+
+        return (int) $contactId;
+    }
+
+
     /**
      * Load JavaScript and CSS assets for contact field functionality
      * and pass pre-loaded contact data if it exists.
@@ -263,6 +343,16 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
         }
         $defaultContactId = (int) $this->params->get('defaultContact', 0);
         $isDefaultContact = false;
+        $isAuthor         = false;
+        if ($contactId <= 0 && $this->params->get('prefer_authors_contact', 1) == 1) {
+            $currentItemId   = (int) $app->input->getInt('id', 0);
+            $authorContactId = (int) $this->getContactIdFromArticle($currentItemId);
+
+            if ($authorContactId > 0) {
+                $contactId   = $authorContactId;
+                $isAuthor    = true;
+            }
+        }
         if ($contactId <= 0 && $defaultContactId > 0) {
             $contactId        = $defaultContactId;
             $isDefaultContact = true;
@@ -291,6 +381,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
                     'telephone'        => $contact->telephone ?? '',
                     'webpage'          => $contact->webpage ?? '',
                     'isDefaultContact' => $isDefaultContact,
+                    'isAuthor'         => $isAuthor,
                 ];
             }
         }
@@ -428,10 +519,19 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
 
                 if ($filledNodes == 0) {
                     $defaultContactId = (int) $this->params->get('defaultContact', 0);
-                    if ($defaultContactId > 0) {
-                        $contact = $this->getContactById($defaultContactId);
+                    $authorContactId  = $this->getContactIdFromArticle((int) $this->getApplication()->input->getInt('id', 0));
+                    // If no role nodes were filled, and we have a default contact or author contact, use that
+                    if ($authorContactId > 0 && $this->params->get('prefer_authors_contact', 1) == 1) {
+                        $contact = $this->getContactById($authorContactId);
                         if ($contact) {
                             $this->fillNodeFromContact($roleNode, $contact);
+                        }
+                    } else {
+                        if ($defaultContactId > 0) {
+                            $contact = $this->getContactById($defaultContactId);
+                            if ($contact) {
+                                $this->fillNodeFromContact($roleNode, $contact);
+                            }
                         }
                     }
                 }
