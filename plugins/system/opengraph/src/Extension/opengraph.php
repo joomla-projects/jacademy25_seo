@@ -229,7 +229,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $ogTags = $this->initializeOgTags();
 
         if ($view === 'article' && $id > 0) {
-            $this->handleSingleArticle($document, $ogTags, $id, $option, $view);
+            $this->handleSingleArticle($document, $ogTags, $id, $option, $view, $context);
             return;
         }
         $this->handleMultipleArticleView($document, $ogTags, $option, $view, $id);
