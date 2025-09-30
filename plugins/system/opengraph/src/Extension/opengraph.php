@@ -263,7 +263,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         /** @var MVCFactoryInterface $mvcFactory */
         $mvcFactory = $component->getMVCFactory();
 
-        $params = ComponentHelper::getParams('com_content');
+        $params = ComponentHelper::getParams($componentName);
         if (!$params instanceof Registry) {
             $params = new Registry();
         }
