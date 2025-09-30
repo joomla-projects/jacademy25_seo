@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\Opengraph\Extension;
 
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\HtmlDocument;
@@ -41,7 +40,6 @@ use Joomla\Registry\Registry;
 
 final class Opengraph extends CMSPlugin implements SubscriberInterface
 {
-
     /**
      * Should the plugin autoload its language files.
      *
@@ -83,9 +81,9 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $isCategory = $context === 'com_categories.categorycom_content';
-        $isMenu     = $context === 'com_menus.item';
-        $parts     = explode('.', $context, 2);
+        $isCategory    = $context === 'com_categories.categorycom_content';
+        $isMenu        = $context === 'com_menus.item';
+        $parts         = explode('.', $context, 2);
         $componentName = $parts[0];
 
 
@@ -171,14 +169,14 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             return;                     // category has no mappings
         }
 
-        $maxTitleLen                     = $this->params->get('max_title_length', 60);
-        $maxDescLen                      = $this->params->get('max_description_length', 160);
-        $maxAltLen                       = $this->params->get('max_alt_length', 125);
+        $maxTitleLen                        = $this->params->get('max_title_length', 60);
+        $maxDescLen                         = $this->params->get('max_description_length', 160);
+        $maxAltLen                          = $this->params->get('max_alt_length', 125);
         $mappings['maxTitleLength']         = $maxTitleLen;
         $mappings['maxDescLength']          = $maxDescLen;
         $mappings['maxAltLength']           = $maxAltLen;
-        $mappings['twitter_title']       = $mappings['og_title'] ?? '';
-        $mappings['twitter_description'] = $mappings['og_description'] ?? '';
+        $mappings['twitter_title']          = $mappings['og_title'] ?? '';
+        $mappings['twitter_description']    = $mappings['og_description'] ?? '';
 
         $document = $this->getApplication()->getDocument();
 
@@ -206,14 +204,14 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
     public function onBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
 
-        $app      = $event->getApplication();
+        $app           = $event->getApplication();
         $document      = $event->getDocument();
 
-        $input  = $app->getInput();
+        $input   = $app->getInput();
         $option  = $input->get('option');
         $view    = $input->get('view');
         $context = $option . '.' . $view;
-        $id     = $input->getInt('id');
+        $id      = $input->getInt('id');
 
 
         if (!$app->isClient('site') || !$this->isSupported($context)) {
@@ -257,7 +255,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      */
     private function handleSingleArticle(HtmlDocument $document, array $ogTags, int $id, string $option, string $view, string $context): void
     {
-        $parts     = explode('.', $context, 2);
+        $parts         = explode('.', $context, 2);
         $componentName = $parts[0];
         /** @var MVCComponent $component */
         $component = $this->getApplication()->bootComponent($componentName);

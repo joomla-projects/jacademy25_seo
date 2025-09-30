@@ -4,8 +4,6 @@
  * @since       __DEPLOY_VERSION__
  */
 
-
-
 ((document) => {
   'use strict';
 
