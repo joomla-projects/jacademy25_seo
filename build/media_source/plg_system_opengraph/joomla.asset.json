@@ -9,7 +9,9 @@
       "name": "plg_system_opengraph.opengraph-placeholder",
       "type": "script",
       "uri": "plg_system_opengraph/opengraph-placeholder.min.js",
-      "dependencies": ["core"],
+      "dependencies": [
+        "core"
+      ],
       "attributes": {
         "type": "module"
       }

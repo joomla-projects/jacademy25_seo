@@ -259,10 +259,6 @@ class ContentComponent extends MVCComponent implements
                 'publish_up'   => Text::_('COM_CONTENT_FIELD_PUBLISH_UP_LABEL'),
                 'publish_down' => Text::_('COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL'),
             ],
-
-
-
-
         ];
 
         return $fields;

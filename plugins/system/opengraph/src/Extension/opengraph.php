@@ -41,12 +41,6 @@ use Joomla\Registry\Registry;
 
 final class Opengraph extends CMSPlugin implements SubscriberInterface
 {
-    /**
-     * The application object.
-     *
-     * @var CMSApplication
-     */
-    protected $app;
 
     /**
      * Should the plugin autoload its language files.
@@ -85,13 +79,16 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
     {
         $form    = $event->getForm();
         $context = $form->getName();
-        $app     = $this->getApplication();
-        if (!$app->isClient('administrator') || !$this->isSupported($context)) {
+        if (!$this->getApplication()->isClient('administrator') || !$this->isSupported($context)) {
             return;
         }
 
         $isCategory = $context === 'com_categories.categorycom_content';
         $isMenu     = $context === 'com_menus.item';
+        $parts     = explode('.', $context, 2);
+        $componentName = $parts[0];
+
+
 
         $groupName  =  $isMenu ? 'params' : 'attribs';
 
@@ -124,13 +121,13 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         }
 
         // Get the article id and category id
-        $input      = $app->input;
+        $input      = $this->getApplication()->getInput();
         $articleId  = (int) ($input->getInt('id') ?: $form->getValue('id'));
         $categoryId = 0;
 
         if ($articleId > 0) {
             /** @var MVCComponent $articleComponent */
-            $articleComponent = $app->bootComponent('com_content');
+            $articleComponent = $this->getApplication()->bootComponent($componentName);
             /** @var MVCFactoryInterface $articleFactory */
             $articleFactory   = $articleComponent->getMVCFactory();
 
@@ -145,7 +142,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $catParams = new Registry();
         if ($categoryId > 0) {
             /** @var MVCComponent $catComponent */
-            $catComponent = $app->bootComponent('com_categories');
+            $catComponent = $this->getApplication()->bootComponent('com_categories');
             /** @var MVCFactoryInterface $catFactory */
             $catFactory   = $catComponent->getMVCFactory();
 
@@ -177,13 +174,13 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $maxTitleLen                     = $this->params->get('max_title_length', 60);
         $maxDescLen                      = $this->params->get('max_description_length', 160);
         $maxAltLen                       = $this->params->get('max_alt_length', 125);
-        $mappings["maxTitleLen"]         = $maxTitleLen;
-        $mappings["maxDescLen"]          = $maxDescLen;
-        $mappings["maxAltLen"]           = $maxAltLen;
+        $mappings['maxTitleLength']         = $maxTitleLen;
+        $mappings['maxDescLength']          = $maxDescLen;
+        $mappings['maxAltLength']           = $maxAltLen;
         $mappings['twitter_title']       = $mappings['og_title'] ?? '';
         $mappings['twitter_description'] = $mappings['og_description'] ?? '';
 
-        $document = $app->getDocument();
+        $document = $this->getApplication()->getDocument();
 
         $document->addScriptOptions('plgOgMappings', $mappings);
 
@@ -208,30 +205,24 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      */
     public function onBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
-        $app = $this->app;
+
+        $app      = $event->getApplication();
+        $document      = $event->getDocument();
+
+        $input  = $app->getInput();
+        $option  = $input->get('option');
+        $view    = $input->get('view');
+        $context = $option . '.' . $view;
+        $id     = $input->getInt('id');
 
 
-        if (!$app->isClient('site')) {
+        if (!$app->isClient('site') || !$this->isSupported($context)) {
             return;
         }
-
-        /** @var HtmlDocument $document */
-        $document = $app->getDocument();
-
         // Only process HTML documents
         if (!($document instanceof HtmlDocument)) {
             return;
         }
-
-        $input  = $app->input;
-        $view   = $input->getCmd('view');
-        $id     = $input->getInt('id');
-        $option = $input->getCmd('option');
-
-        if ($option !== 'com_content') {
-            return;
-        }
-
         // Plugin disabled?
         if (!$this->params->get('enable_og_generation', 1)) {
             return;
@@ -258,15 +249,18 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      * @param int $id
      * @param string $option
      * @param string $view
+     * @param string $context
      *
      * @return void
      *
      * @since  __DEPLOY_VERSION__
      */
-    private function handleSingleArticle(HtmlDocument $document, array $ogTags, int $id, string $option, string $view): void
+    private function handleSingleArticle(HtmlDocument $document, array $ogTags, int $id, string $option, string $view, string $context): void
     {
+        $parts     = explode('.', $context, 2);
+        $componentName = $parts[0];
         /** @var MVCComponent $component */
-        $component = $this->app->bootComponent('com_content');
+        $component = $this->getApplication()->bootComponent($componentName);
 
         /** @var MVCFactoryInterface $mvcFactory */
         $mvcFactory = $component->getMVCFactory();
@@ -373,7 +367,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      */
     private function getSingleArticleMenuParams(string $option, string $view, int $id): Registry
     {
-        $menu   = $this->app->getMenu();
+        $menu   = $this->getApplication()->getMenu();
         $active = $menu->getActive();
 
         // Default empty params
@@ -407,7 +401,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      */
     private function getMultipleArticleMenuParams(string $option, string $view, ?int $categoryId = null): Registry
     {
-        $menu   = $this->app->getMenu();
+        $menu   = $this->getApplication()->getMenu();
         $active = $menu->getActive();
 
         // Default empty params
@@ -444,7 +438,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      */
     private function initializeOgTags(): array
     {
-        $config = $this->app->getConfig();
+        $config = $this->getApplication()->getConfig();
 
         return [
             'og_title'            => '',
@@ -842,7 +836,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $xml        = simplexml_load_string($xmlContent);
 
         if ($xml === false) {
-            throw new \Exception("Could not load XML file: {$filePath}");
+            throw new \Exception('Could not load XML file: {$filePath}');
         }
 
         // Adjust all <fields> nodes to use the desired group
