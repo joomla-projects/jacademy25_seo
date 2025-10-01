@@ -117,12 +117,18 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
 
         if ($itemId > 0 && $categoryId === 0 && $componentName) {
             try {
-                $modelMap = [
-                    'com_contact' => ['contact' => 'Contact'],
-                ];
                 /** @var MVCComponent $cmp */
                 $cmp       = $this->getApplication()->bootComponent($componentName);
-                $modelName = method_exists($cmp, 'getModelName') ? $cmp->getModelName($context) : $modelMap[$componentName][$parts[1]] ?? null;
+                $modelName = null;
+                if (method_exists($cmp, 'getModelName')) {
+                    $modelName = $cmp->getModelName($context);
+                } else {
+                    // Fallback to plugin method
+                    $modelName = $this->getModelName($context);
+                }
+                if (!$modelName) {
+                    return;
+                }
                 /** @var MVCFactoryInterface $factory */
                 $factory = $cmp->getMVCFactory();
                 $model   = $factory->createModel($modelName, 'Administrator', ['ignore_request' => true]);
@@ -269,10 +275,16 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         /** @var MVCComponent $component */
         $component = $this->getApplication()->bootComponent($componentName);
 
-        $modelMap = [
-            'com_contact' => ['contact' => 'Contact'],
-        ];
-        $modelName = $component->getModelName($context) ?? $modelMap[$componentName][$parts[1]] ?? null;
+        $modelName = null;
+        if (method_exists($component, 'getModelName')) {
+            $modelName = $component->getModelName($context);
+        } else {
+            // Fallback to plugin method
+            $modelName = $this->getModelName($context);
+        }
+        if (!$modelName) {
+            return;
+        }
         /** @var MVCFactoryInterface $mvcFactory */
         $mvcFactory = $component->getMVCFactory();
 
@@ -896,5 +908,27 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
 
         // Replace the three-dot ellipsis with a single Unicode one
         return preg_replace('/\.\.\.$/', '…', $truncated);
+    }
+
+    /**
+     * Returns the model name, based on the context
+     *
+     * @param   string  $context  The context of the workflow
+     *
+     * @return boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getModelName($context): string
+    {
+        $parts = explode('.', $context);
+
+        if (\count($parts) < 2) {
+            return '';
+        }
+
+        array_shift($parts);
+
+        return ucfirst(array_shift($parts));
     }
 }
