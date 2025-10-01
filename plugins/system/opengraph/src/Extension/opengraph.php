@@ -47,7 +47,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      */
     protected $autoloadLanguage = true;
 
-
     /**
      * Returns an array of events this subscriber will listen to.
      *
@@ -81,15 +80,11 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $isCategory    = $context === 'com_categories.categorycom_content';
+        $isCategory    = str_starts_with($context, 'com_categories.category');
         $isMenu        = $context === 'com_menus.item';
         $parts         = explode('.', $context, 2);
         $componentName = $parts[0];
-
-
-
-        $groupName  =  $isMenu ? 'params' : 'attribs';
-
+        $groupName     =  $isMenu ? 'params' : 'attribs';
         // Load opengraphmappings.xml for categories directly no need to adjust fields group
         if ($isCategory) {
             try {
@@ -101,7 +96,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
 
             return;
         }
-
         // Load and modify opengraph.xml for articles and menus
         $mainXml = __DIR__ . '/../forms/opengraph.xml';
         if (file_exists($mainXml)) {
@@ -112,29 +106,33 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
                 error_log('OpenGraph Plugin: Failed to load main form: ' . $e->getMessage());
             }
         }
-
         // if the form is a menu item, we don't need to change placeholder values
         if ($isMenu) {
             return;
         }
-
         // Get the article id and category id
         $input      = $this->getApplication()->getInput();
-        $articleId  = (int) ($input->getInt('id') ?: $form->getValue('id'));
-        $categoryId = 0;
+        $itemId     = (int) ($input->getInt('id') ?: $form->getValue('id') ?: 0);
+        $categoryId = (int) ($form->getValue('catid') ?: 0);
 
-        if ($articleId > 0) {
-            /** @var MVCComponent $articleComponent */
-            $articleComponent = $this->getApplication()->bootComponent($componentName);
-            /** @var MVCFactoryInterface $articleFactory */
-            $articleFactory   = $articleComponent->getMVCFactory();
-
-            /** @var ArticleModel $articleModel */
-            $articleModel = $articleFactory->createModel('Article', 'Administrator', ['ignore_request' => true]);
-            $article      = $articleModel->getItem($articleId);
-
-            if ($article && !empty($article->catid)) {
-                $categoryId = (int) $article->catid;
+        if ($itemId > 0 && $categoryId === 0 && $componentName) {
+            try {
+                $modelMap = [
+                    'com_contact' => ['contact' => 'Contact'],
+                ];
+                /** @var MVCComponent $cmp */
+                $cmp       = $this->getApplication()->bootComponent($componentName);
+                $modelName = method_exists($cmp, 'getModelName') ? $cmp->getModelName($context) : $modelMap[$componentName][$parts[1]] ?? null;
+                /** @var MVCFactoryInterface $factory */
+                $factory = $cmp->getMVCFactory();
+                $model   = $factory->createModel($modelName, 'Administrator', ['ignore_request' => true]);
+                if (method_exists($model, 'getItem')) {
+                    $item = $model->getItem($itemId);
+                    if (\is_object($item) && isset($item->catid)) {
+                        $categoryId = (int) $item->catid;
+                    }
+                }
+            } catch (\Exception $e) {
             }
         }
         $catParams = new Registry();
@@ -151,7 +149,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             $category  = $catModel->getItem($categoryId); // JTable row
             $catParams = new Registry($category->params ?? '{}');
         }
-
         if (!$catParams) {
             return;
         }
@@ -163,12 +160,9 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
                 $mappings[$ogTag] = $fieldName;
             }
         }
-
-
         if (!$mappings) {
             return;                     // category has no mappings
         }
-
         $maxTitleLen                        = $this->params->get('max_title_length', 60);
         $maxDescLen                         = $this->params->get('max_description_length', 160);
         $maxAltLen                          = $this->params->get('max_alt_length', 125);
@@ -183,6 +177,21 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $document->addScriptOptions('plgOgMappings', $mappings);
 
         Text::script('PLG_SYSTEM_OPENGRAPH_INHERITED');
+        foreach (
+            [
+                'JGLOBAL_TITLE',
+                'JFIELD_ALIAS_LABEL',
+                'JFIELD_META_DESCRIPTION_LABEL',
+                'JFIELD_META_KEYWORDS_LABEL',
+                'COM_CONTENT_FIELD_ARTICLETEXT_LABEL',
+                'COM_CONTENT_FIELD_INTRO_LABEL',
+                'COM_CONTENT_FIELD_IMAGE_ALT_LABEL',
+                'COM_CONTENT_FIELD_FULL_LABEL',
+                'COM_CONTENT_FIELD_CREATED_BY_LABEL',
+            ] as $key
+        ) {
+            Text::script($key);
+        }
 
         /** @var WebAssetManager $wa */
         $wa  = $document->getWebAssetManager();
@@ -229,7 +238,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $ogTags = $this->initializeOgTags();
 
         if ($view === 'article' && $id > 0) {
-            $this->handleSingleArticle($document, $ogTags, $id, $option, $view, $context);
+            $this->handleSingleItem($document, $ogTags, $id, $option, $view, $context);
             return;
         }
         $this->handleMultipleArticleView($document, $ogTags, $option, $view, $id);
@@ -253,13 +262,17 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      *
      * @since  __DEPLOY_VERSION__
      */
-    private function handleSingleArticle(HtmlDocument $document, array $ogTags, int $id, string $option, string $view, string $context): void
+    private function handleSingleItem(HtmlDocument $document, array $ogTags, int $id, string $option, string $view, string $context): void
     {
         $parts         = explode('.', $context, 2);
         $componentName = $parts[0];
         /** @var MVCComponent $component */
         $component = $this->getApplication()->bootComponent($componentName);
 
+        $modelMap = [
+            'com_contact' => ['contact' => 'Contact'],
+        ];
+        $modelName = $component->getModelName($context) ?? $modelMap[$componentName][$parts[1]] ?? null;
         /** @var MVCFactoryInterface $mvcFactory */
         $mvcFactory = $component->getMVCFactory();
 
@@ -268,13 +281,13 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             $params = new Registry();
         }
 
-        /** @var ArticleModel $articleModel */
-        $articleModel = $mvcFactory->createModel('Article', 'Site', ['ignore_request' => true]);
+        /** @var ArticleModel $model */
+        $model = $mvcFactory->createModel($modelName, 'Site', ['ignore_request' => true]);
 
-        $articleModel->setState('params', clone $params);
-        $articleModel->setState('article.id', $id);
+        $model->setState('params', clone $params);
+        $model->setState('article.id', $id);
 
-        $article = $articleModel->getItem($id);
+        $article = $model->getItem($id);
         if (!$article) {
             return;
         }
@@ -457,11 +470,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         ];
     }
 
-
-
-
-
-
     /**
      * Generates OG metadata values based on category field mapping and article data.
      *
@@ -487,8 +495,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             }
         }
     }
-
-
 
     /**
      * Get value from article field or custom field
@@ -555,8 +561,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         return (string) $value;
     }
 
-
-
     /**
      * @param   Registry  $articleImages
      *
@@ -596,8 +600,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         ];
     }
 
-
-
     /**
      * Extract OG tags from a parameter source (article, menu)
      *
@@ -622,8 +624,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             }
         }
     }
-
-
 
     /**
      * Get Global Default OG tags if not till not set
@@ -651,9 +651,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             }
         }
     }
-
-
-
 
     /**
      * Get Twitter tags if not set use OG value
@@ -817,7 +814,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         return $component instanceof OpengraphServiceInterface;
     }
 
-
     /**
      * Adjust the fields group in the XML file
      *
@@ -844,7 +840,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
 
         return $xml->asXML();
     }
-
 
     /**
      * Clean up and normalise all OG / Twitter tag values.
@@ -880,7 +875,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
             $ogTags['og_url'] = Uri::root() . ltrim($ogTags['og_url'], '/');
         }
     }
-
 
     /**
      * Helper: strip HTML, decode entities, collapse whitespace, then truncate on a word boundary and add an ellipsis if needed.
