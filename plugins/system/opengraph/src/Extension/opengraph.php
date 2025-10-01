@@ -117,11 +117,11 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
 
         if ($itemId > 0 && $categoryId === 0 && $componentName) {
             try {
-                /** @var MVCComponent $cmp */
-                $cmp       = $this->getApplication()->bootComponent($componentName);
+                /** @var MVCComponent $component */
+                $component = $this->getApplication()->bootComponent($componentName);
                 $modelName = null;
-                if (method_exists($cmp, 'getModelName')) {
-                    $modelName = $cmp->getModelName($context);
+                if (method_exists($component, 'getModelName')) {
+                    $modelName = $component->getModelName($context);
                 } else {
                     // Fallback to plugin method
                     $modelName = $this->getModelName($context);
@@ -130,7 +130,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
                     return;
                 }
                 /** @var MVCFactoryInterface $factory */
-                $factory = $cmp->getMVCFactory();
+                $factory = $component->getMVCFactory();
                 $model   = $factory->createModel($modelName, 'Administrator', ['ignore_request' => true]);
                 if (method_exists($model, 'getItem')) {
                     $item = $model->getItem($itemId);
