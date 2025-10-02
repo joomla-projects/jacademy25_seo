@@ -22,7 +22,7 @@ namespace Joomla\CMS\Opengraph;
 interface OpengraphServiceInterface
 {
     /**
-     * Returns valid contexts.
+     * Returns a grouped list of mappable fields used by the OpengraphField.
      *
      * @return  array
      *

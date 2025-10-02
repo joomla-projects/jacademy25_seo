@@ -56,7 +56,7 @@ class MenusComponent extends MVCComponent implements
 
 
     /**
-     * Returns valid contexts for opengraph
+     * Returns a grouped list of mappable fields used by the OpengraphField.
      *
      * @return  array
      *

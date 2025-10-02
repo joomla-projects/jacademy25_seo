@@ -6,6 +6,7 @@
 
 const initOpengraphPlaceholder = () => {
   const maps = Joomla.getOptions("plgOgMappings", {});
+  const limits = Joomla.getOptions("plgOgLimits", {});
 
   const selectorFor = (token) => {
     if (token.startsWith("field.")) {
@@ -32,9 +33,9 @@ const initOpengraphPlaceholder = () => {
       t("COM_CONTENT_FIELD_INTRO_LABEL") +
       " - " +
       t("COM_CONTENT_FIELD_IMAGE_ALT_LABEL"),
-    image_fulltext: t("COM_CONTENT_FIELD_FULLTEXT_LABEL"),
+    image_fulltext: t("COM_CONTENT_FIELD_FULL_LABEL"),
     image_fulltext_alt:
-      t("COM_CONTENT_FIELD_FULLTEXT_LABEL") +
+      t("COM_CONTENT_FIELD_FULL_LABEL") +
       " - " +
       t("COM_CONTENT_FIELD_IMAGE_ALT_LABEL"),
     created_by_alias: t("COM_CONTENT_FIELD_CREATED_BY_LABEL"),
@@ -76,9 +77,9 @@ const initOpengraphPlaceholder = () => {
   };
 
   const maxLen = {
-    og_title: Number(maps.maxTitleLen) || 60,
-    og_description: Number(maps.maxDescLen) || 160,
-    og_image_alt: Number(maps.maxAltLen) || 125,
+    og_title: Number(limits.maxTitleLength) || 60,
+    og_description: Number(limits.maxDescLength) || 160,
+    og_image_alt: Number(limits.maxAltLength) || 125,
   };
 
   Object.entries(maps).forEach(([ogKey, token]) => {

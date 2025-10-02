@@ -169,18 +169,22 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         if (!$mappings) {
             return;                     // category has no mappings
         }
-        $maxTitleLen                        = $this->params->get('max_title_length', 60);
-        $maxDescLen                         = $this->params->get('max_description_length', 160);
-        $maxAltLen                          = $this->params->get('max_alt_length', 125);
-        $mappings['maxTitleLength']         = $maxTitleLen;
-        $mappings['maxDescLength']          = $maxDescLen;
-        $mappings['maxAltLength']           = $maxAltLen;
+        $maxTitleLength                        = $this->params->get('max_title_length', 60);
+        $maxDescLength                         = $this->params->get('max_description_length', 160);
+        $maxAltLength                          = $this->params->get('max_alt_length', 125);
+        $limits                                = [
+            'maxTitleLength' => $maxTitleLength,
+            'maxDescLength'  => $maxDescLength,
+            'maxAltLength'   => $maxAltLength,
+        ];
+
         $mappings['twitter_title']          = $mappings['og_title'] ?? '';
         $mappings['twitter_description']    = $mappings['og_description'] ?? '';
 
         $document = $this->getApplication()->getDocument();
 
         $document->addScriptOptions('plgOgMappings', $mappings);
+        $document->addScriptOptions('plgOgLimits', $limits);
 
         Text::script('PLG_SYSTEM_OPENGRAPH_INHERITED');
         foreach (
@@ -757,7 +761,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $twitterImage    = $ogTags['twitter_image'];
         $twitterImageAlt = $ogTags['twitter_image_alt'];
 
-        if (empty($image) || !empty($document->getMetaData('og:image'))) {
+        if (empty($image)) {
             return;
         }
 
@@ -773,9 +777,12 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $twitterImageUrl = empty($baseUrl) ? '' : rtrim($baseUrl, '/') . '/';
         $twitterImageUrl .= $twitterImage;
 
-        $this->setMetaData($document, 'og:image', $ogImageUrl, 'property');
-        $this->setMetaData($document, 'og:image:secure_url', $ogImageUrl, 'property');
+        if (empty($document->getMetaData('og:image'))) {
+            $this->setMetaData($document, 'og:image', $ogImageUrl, 'property');
+        }
+
         $this->setMetaData($document, 'og:image:alt', $alt, 'property');
+        $this->setMetaData($document, 'og:image:secure_url', $ogImageUrl, 'property');
         $this->setMetaData($document, 'twitter:image', $twitterImageUrl, 'name');
         $this->setMetaData($document, 'twitter:image:alt', $twitterImageAlt, 'name');
 
@@ -842,7 +849,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $xml        = simplexml_load_string($xmlContent);
 
         if ($xml === false) {
-            throw new \Exception('Could not load XML file: {$filePath}');
+            throw new \Exception("Could not load XML file: {$filePath}");
         }
 
         // Adjust all <fields> nodes to use the desired group
@@ -915,7 +922,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      *
      * @param   string  $context  The context of the workflow
      *
-     * @return boolean
+     * @return string
      *
      * @since   __DEPLOY_VERSION__
      */

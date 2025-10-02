@@ -54,36 +54,36 @@ class OpengraphField extends GroupedlistField
         ];
 
 
-        $component = '';
+        $componentName = '';
         if ($this->form) {
-            $component = (string) ($this->form->getValue('extension')
+            $componentName = (string) ($this->form->getValue('extension')
                 ?: $this->form->getData()->get('extension'));
         }
-        if (!$component) {
-            $context   = (string) ($this->form ? $this->form->getName() : '');
-            $component = $context ? explode('.', $context, 2)[0] ?? '' : '';
-            if (!$component) {
-                $component = (string) $app->input->getCmd('option', '');
+        if (!$componentName) {
+            $context       = (string) ($this->form ? $this->form->getName() : '');
+            $componentName = $context ? explode('.', $context, 2)[0] ?? '' : '';
+            if (!$componentName) {
+                $componentName = (string) $app->input->getCmd('option', '');
             }
         }
-        if (!$component) {
+        if (!$componentName) {
             return $groups;
         }
 
         try {
-            $cmp = $app->bootComponent($component);
+            $component = $app->bootComponent($componentName);
         } catch (\Throwable $e) {
             return $groups;
         }
 
-        if (!$cmp instanceof OpengraphServiceInterface) {
+        if (!$component instanceof OpengraphServiceInterface) {
             return $groups;
         }
 
 
         $ogOptions = [];
 
-        $fields    = $cmp->getOpengraphFields();
+        $fields    = $component->getOpengraphFields();
         $fieldType = $this->getAttribute('field-type');
 
         if (isset($fields[$fieldType])) {
@@ -93,7 +93,7 @@ class OpengraphField extends GroupedlistField
         }
 
         if (!empty($ogOptions)) {
-            $groups['Default Fields'] = $ogOptions;
+            $groups[Text::_('PLG_SYSTEM_OPENGRAPH_GROUP_DEFAULT_FIELDS')] = $ogOptions;
         }
 
 
