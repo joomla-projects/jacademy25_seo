@@ -69,4 +69,26 @@ class MenusComponent extends MVCComponent implements
 
         return $fields;
     }
+
+    /**
+     * Returns the model name, based on the context
+     *
+     * @param   string  $context
+     *
+     * @return string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getModelName($context): string
+    {
+        $parts = explode('.', $context);
+
+        if (\count($parts) < 2) {
+            return '';
+        }
+
+        array_shift($parts);
+
+        return ucfirst(array_shift($parts));
+    }
 }

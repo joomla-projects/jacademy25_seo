@@ -120,7 +120,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
                 /** @var MVCComponent $component */
                 $component = $this->getApplication()->bootComponent($componentName);
                 $modelName = null;
-                if (method_exists($component, 'getModelName')) {
+                if ($component instanceof OpengraphServiceInterface) {
                     $modelName = $component->getModelName($context);
                 }
                 if (!$modelName) {
@@ -277,7 +277,7 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $component = $this->getApplication()->bootComponent($componentName);
 
         $modelName = null;
-        if (method_exists($component, 'getModelName')) {
+        if ($component instanceof OpengraphServiceInterface) {
             $modelName = $component->getModelName($context);
         }
         if (!$modelName) {
