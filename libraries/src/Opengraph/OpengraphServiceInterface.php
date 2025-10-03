@@ -30,4 +30,13 @@ interface OpengraphServiceInterface
      *
      */
     public function getOpengraphFields(): array;
+
+    /**
+     * Returns the model name, based on the context
+     *
+     * @param   string
+     *
+     * @return boolean
+     */
+    public function getModelName($context): string;
 }

@@ -122,9 +122,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
                 $modelName = null;
                 if (method_exists($component, 'getModelName')) {
                     $modelName = $component->getModelName($context);
-                } else {
-                    // Fallback to plugin method
-                    $modelName = $this->getModelName($context);
                 }
                 if (!$modelName) {
                     return;
@@ -282,9 +279,6 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
         $modelName = null;
         if (method_exists($component, 'getModelName')) {
             $modelName = $component->getModelName($context);
-        } else {
-            // Fallback to plugin method
-            $modelName = $this->getModelName($context);
         }
         if (!$modelName) {
             return;
@@ -915,27 +909,5 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
 
         // Replace the three-dot ellipsis with a single Unicode one
         return preg_replace('/\.\.\.$/', '…', $truncated);
-    }
-
-    /**
-     * Returns the model name, based on the context
-     *
-     * @param   string  $context  The context of the workflow
-     *
-     * @return string
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function getModelName($context): string
-    {
-        $parts = explode('.', $context);
-
-        if (\count($parts) < 2) {
-            return '';
-        }
-
-        array_shift($parts);
-
-        return ucfirst(array_shift($parts));
     }
 }
