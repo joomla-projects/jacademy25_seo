@@ -24,6 +24,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\Component\Content\Administrator\Model\ArticleModel;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
@@ -440,8 +441,10 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
                     return $active->getParams();
                 }
             } elseif ($view === 'featured') {
+                // For featured view (no category ID)
                 return $active->getParams();
             } else {
+                // For other multi-article views, just return menu params
                 return $active->getParams();
             }
         }
@@ -519,6 +522,23 @@ final class Opengraph extends CMSPlugin implements SubscriberInterface
      */
     private function getFieldValue(object $article, string $fieldName, array $articleImages): string
     {
+
+        // Check if it's a custom field
+        if (strpos($fieldName, 'field.') === 0) {
+            $customFieldName = substr($fieldName, 6);
+            // Load custom fields for the article
+            $customFields = FieldsHelper::getFields('com_content.article', $article, true);
+
+            foreach ($customFields as $field) {
+                if ($field->name == $customFieldName) {
+                    return $field->value ?? '';
+                }
+            }
+
+            return '';
+        }
+
+        // Handle standard article fields
         $value = '';
 
         switch ($fieldName) {

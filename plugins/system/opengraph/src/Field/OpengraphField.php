@@ -10,10 +10,15 @@
 namespace Joomla\Plugin\System\Opengraph\Field;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Opengraph\MappableFieldInterface;
+use Joomla\CMS\Opengraph\OpengraphGroup;
 use Joomla\CMS\Opengraph\OpengraphServiceInterface;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -94,6 +99,81 @@ class OpengraphField extends GroupedlistField
 
         if (!empty($ogOptions)) {
             $groups[Text::_('PLG_SYSTEM_OPENGRAPH_GROUP_DEFAULT_FIELDS')] = $ogOptions;
+        }
+
+
+
+        if (!$cmp instanceof FieldsServiceInterface) {
+            return $groups;
+        }
+
+        // Allowed field types for each OpenGraph group
+        $allowedFieldTypes = [
+            OpengraphGroup::TEXT->value      => ['text', 'textarea'],
+            OpengraphGroup::IMAGE->value     => ['media', 'imagelist'],
+            OpengraphGroup::IMAGE_ALT->value => ['text'],
+        ];
+
+        $nativeTypes = $allowedFieldTypes[$fieldType] ?? [];
+
+
+
+        $catId = (int) $this->form->getValue('id');        // editing existing cat
+        if (!$catId) {
+            // Creating a new category: use the chosen parent so assignments still work
+            $catId = (int) $this->form->getValue('parent_id');
+        }
+
+        // Dummy item with catid so FieldsService filters by assignment
+        $scopeItem = $catId ? (object) ['catid' => $catId] : null;
+
+        $customFields  = FieldsHelper::getFields('com_content.article', $scopeItem);
+        $customOptions = [];
+
+        foreach ($customFields as $field) {
+            $accept = \in_array($field->type, $nativeTypes, true);
+
+
+            // If not native-allowed, see if the field’s plugin implements our interface
+            if (!$accept) {
+                // Ensure the specific fields plugin is loaded
+                PluginHelper::importPlugin('fields', $field->type);
+
+                $ucType = ucfirst((string) $field->type);
+
+                // Candidate class names in priority order (modern first, then legacy)
+                $candidates = [
+                    "Joomla\\Plugin\\Fields\\{$ucType}\\Extension\\{$ucType}", // J4/5 namespaced
+                    "Joomla\\Plugin\\Fields\\{$ucType}\\Field\\{$ucType}Field", // some third-party patterns
+                    "PlgFields{$ucType}",                                      // legacy non-namespaced
+                ];
+
+                $implements = false;
+
+                foreach ($candidates as $fqcn) {
+                    if (class_exists($fqcn) && is_subclass_of($fqcn, MappableFieldInterface::class)) {
+                        $implements = ($fqcn::getOpengraphGroup()->value === $fieldType);
+                        if ($implements) {
+                            $accept = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+
+            if (!$accept) {
+                continue;
+            }
+
+
+
+            $label           = $field->title . ' (' . $field->name . ')';
+            $customOptions[] = HTMLHelper::_('select.option', 'field.' . $field->name, $label);
+        }
+
+        if (!empty($customOptions)) {
+            $groups['Custom Fields'] = $customOptions;
         }
 
 
