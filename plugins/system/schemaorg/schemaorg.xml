@@ -20,8 +20,7 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="basic"
-				addfieldprefix="Joomla\Component\Contact\Administrator\Field">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Contact\Administrator\Field">
 				<field
 					name="baseType"
 					type="list"
@@ -42,6 +41,7 @@
 					showon="baseType:person"
 					default="0"
 				/>
+
 				<field
 					name="defaultContact"
 					type="modal_contact"
@@ -51,6 +51,7 @@
 					edit="true"
 					clear="true"
 				/>
+
 				<field
 					name="name"
 					type="text"

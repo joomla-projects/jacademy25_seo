@@ -307,7 +307,11 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface, Dispatch
             );
         }
 
-        // // Use the assets
+        // Load language strings
+        Text::script('PLG_SYSTEM_SCHEMAORG_INHERIT_DEFAULT_CONTACT');
+        Text::script('PLG_SYSTEM_SCHEMAORG_INHERIT_CONTACT');
+
+        // Use the assets
         $wa->useScript('plg_system_schemaorg.contact');
 
         // Add inline configuration

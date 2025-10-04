@@ -1,6 +1,10 @@
 /**
+ * @copyright   (C) 2025 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+/**
  * schemaorg-contact.js
- * Minimal: populate placeholders from injected initialContact by baseName.
+ * Populate placeholders from injected initialContact by baseName.
  */
 ((Joomla, document) => {
   "use strict";
@@ -143,10 +147,18 @@
             roleContainer.querySelector(selector) ||
             document.querySelector(selector);
           let newValue = value;
+          const defaultContactText = Joomla.Text._(
+            "PLG_SYSTEM_SCHEMAORG_INHERIT_DEFAULT_CONTACT"
+          );
+
+          const contactText = Joomla.Text._(
+            "PLG_SYSTEM_SCHEMAORG_INHERIT_CONTACT"
+          );
+
           if (isDefaultContact) {
-            newValue += ` — Inherited from default contact "${contact.name}"`;
+            newValue += ` — ${defaultContactText} "${contact.name}"`;
           } else {
-            newValue += ` — Inherited from contact "${contact.name}"`;
+            newValue += ` — ${contactText} "${contact.name}"`;
           }
           if (targetField) {
             targetField.placeholder = newValue;
